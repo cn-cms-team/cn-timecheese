@@ -1,3 +1,4 @@
+import { UserListView } from '@/components/pages/setting/user';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const UserSetting = () => {
-  return <div> UserSetting </div>;
+  return <UserListView />;
 };
 
 export default UserSetting;
