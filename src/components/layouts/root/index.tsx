@@ -10,7 +10,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
     <SessionProvider session={session}>
       <SidebarProvider>
         <AppSidebar />
-        <main>{children}</main>
+        <main className="w-full overflow-auto">{children}</main>
       </SidebarProvider>
     </SessionProvider>
   );
