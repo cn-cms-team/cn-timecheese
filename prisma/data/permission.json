@@ -1,0 +1,27 @@
+[
+  {
+    "code": "VIEW",
+    "name": "ดูรายละเอียด",
+    "order": 1
+  },
+  {
+    "code": "CREATE",
+    "name": "สร้าง",
+    "order": 2
+  },
+  {
+    "code": "EDIT",
+    "name": "แก้ไข",
+    "order": 3
+  },
+  {
+    "code": "DELETE",
+    "name": "ลบ",
+    "order": 4
+  },
+  {
+    "code": "EXPORT",
+    "name": "นำออกข้อมูล",
+    "order": 5
+  }
+]

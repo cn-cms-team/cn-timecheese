@@ -1,0 +1,26 @@
+[
+  {
+    "id": "8c5f2d9a-4e7b-4b1c-a6f3-0d92e7a81c54",
+    "name": "Junior Developer",
+    "description": "Entry-level position for developers.",
+    "position_id": "d47a1f9c-3b2e-4a8d-9f6e-5c0b7a21e864"
+  },
+  {
+    "id": "b2a1c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+    "name": "Mid-level Developer",
+    "description": "Developer with some experience.",
+    "position_id": "d47a1f9c-3b2e-4a8d-9f6e-5c0b7a21e864"
+  },
+  {
+    "id": "f3b2e1c4-6d5a-4e2b-9f7c-1a2b3c4d5e6f",
+    "name": "Senior Developer",
+    "description": "Experienced developer with advanced skills.",
+    "position_id": "d47a1f9c-3b2e-4a8d-9f6e-5c0b7a21e864"
+  },
+  {
+    "id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+    "name": "Lead Developer",
+    "description": "Leads development teams and projects.",
+    "position_id": "d47a1f9c-3b2e-4a8d-9f6e-5c0b7a21e864"
+  }
+]
