@@ -29,10 +29,6 @@ export type PositionLevelMinAggregateOutputType = {
   name: string | null
   description: string | null
   position_id: string | null
-  created_at: Date | null
-  created_by: string | null
-  updated_at: Date | null
-  updated_by: string | null
   is_enabled: boolean | null
 }
 
@@ -41,10 +37,6 @@ export type PositionLevelMaxAggregateOutputType = {
   name: string | null
   description: string | null
   position_id: string | null
-  created_at: Date | null
-  created_by: string | null
-  updated_at: Date | null
-  updated_by: string | null
   is_enabled: boolean | null
 }
 
@@ -53,10 +45,6 @@ export type PositionLevelCountAggregateOutputType = {
   name: number
   description: number
   position_id: number
-  created_at: number
-  created_by: number
-  updated_at: number
-  updated_by: number
   is_enabled: number
   _all: number
 }
@@ -67,10 +55,6 @@ export type PositionLevelMinAggregateInputType = {
   name?: true
   description?: true
   position_id?: true
-  created_at?: true
-  created_by?: true
-  updated_at?: true
-  updated_by?: true
   is_enabled?: true
 }
 
@@ -79,10 +63,6 @@ export type PositionLevelMaxAggregateInputType = {
   name?: true
   description?: true
   position_id?: true
-  created_at?: true
-  created_by?: true
-  updated_at?: true
-  updated_by?: true
   is_enabled?: true
 }
 
@@ -91,10 +71,6 @@ export type PositionLevelCountAggregateInputType = {
   name?: true
   description?: true
   position_id?: true
-  created_at?: true
-  created_by?: true
-  updated_at?: true
-  updated_by?: true
   is_enabled?: true
   _all?: true
 }
@@ -176,10 +152,6 @@ export type PositionLevelGroupByOutputType = {
   name: string
   description: string | null
   position_id: string
-  created_at: Date
-  created_by: string
-  updated_at: Date | null
-  updated_by: string | null
   is_enabled: boolean
   _count: PositionLevelCountAggregateOutputType | null
   _min: PositionLevelMinAggregateOutputType | null
@@ -209,14 +181,8 @@ export type PositionLevelWhereInput = {
   name?: Prisma.StringFilter<"PositionLevel"> | string
   description?: Prisma.StringNullableFilter<"PositionLevel"> | string | null
   position_id?: Prisma.StringFilter<"PositionLevel"> | string
-  created_at?: Prisma.DateTimeFilter<"PositionLevel"> | Date | string
-  created_by?: Prisma.StringFilter<"PositionLevel"> | string
-  updated_at?: Prisma.DateTimeNullableFilter<"PositionLevel"> | Date | string | null
-  updated_by?: Prisma.StringNullableFilter<"PositionLevel"> | string | null
   is_enabled?: Prisma.BoolFilter<"PositionLevel"> | boolean
   position?: Prisma.XOR<Prisma.PositionScalarRelationFilter, Prisma.PositionWhereInput>
-  createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   users?: Prisma.UserListRelationFilter
 }
 
@@ -225,14 +191,8 @@ export type PositionLevelOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   position_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
   position?: Prisma.PositionOrderByWithRelationInput
-  createdBy?: Prisma.UserOrderByWithRelationInput
-  updatedBy?: Prisma.UserOrderByWithRelationInput
   users?: Prisma.UserOrderByRelationAggregateInput
 }
 
@@ -244,14 +204,8 @@ export type PositionLevelWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"PositionLevel"> | string
   description?: Prisma.StringNullableFilter<"PositionLevel"> | string | null
   position_id?: Prisma.StringFilter<"PositionLevel"> | string
-  created_at?: Prisma.DateTimeFilter<"PositionLevel"> | Date | string
-  created_by?: Prisma.StringFilter<"PositionLevel"> | string
-  updated_at?: Prisma.DateTimeNullableFilter<"PositionLevel"> | Date | string | null
-  updated_by?: Prisma.StringNullableFilter<"PositionLevel"> | string | null
   is_enabled?: Prisma.BoolFilter<"PositionLevel"> | boolean
   position?: Prisma.XOR<Prisma.PositionScalarRelationFilter, Prisma.PositionWhereInput>
-  createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   users?: Prisma.UserListRelationFilter
 }, "id">
 
@@ -260,10 +214,6 @@ export type PositionLevelOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   position_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
   _count?: Prisma.PositionLevelCountOrderByAggregateInput
   _max?: Prisma.PositionLevelMaxOrderByAggregateInput
@@ -278,10 +228,6 @@ export type PositionLevelScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"PositionLevel"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"PositionLevel"> | string | null
   position_id?: Prisma.StringWithAggregatesFilter<"PositionLevel"> | string
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"PositionLevel"> | Date | string
-  created_by?: Prisma.StringWithAggregatesFilter<"PositionLevel"> | string
-  updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"PositionLevel"> | Date | string | null
-  updated_by?: Prisma.StringNullableWithAggregatesFilter<"PositionLevel"> | string | null
   is_enabled?: Prisma.BoolWithAggregatesFilter<"PositionLevel"> | boolean
 }
 
@@ -289,12 +235,8 @@ export type PositionLevelCreateInput = {
   id?: string
   name: string
   description?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
   is_enabled?: boolean
   position: Prisma.PositionCreateNestedOneWithoutPositionLevelsInput
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedByPositionLevelsInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByPositionLevelsInput
   users?: Prisma.UserCreateNestedManyWithoutPosition_levelInput
 }
 
@@ -303,10 +245,6 @@ export type PositionLevelUncheckedCreateInput = {
   name: string
   description?: string | null
   position_id: string
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  updated_by?: string | null
   is_enabled?: boolean
   users?: Prisma.UserUncheckedCreateNestedManyWithoutPosition_levelInput
 }
@@ -315,12 +253,8 @@ export type PositionLevelUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   position?: Prisma.PositionUpdateOneRequiredWithoutPositionLevelsNestedInput
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByPositionLevelsNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByPositionLevelsNestedInput
   users?: Prisma.UserUpdateManyWithoutPosition_levelNestedInput
 }
 
@@ -329,10 +263,6 @@ export type PositionLevelUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   position_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUncheckedUpdateManyWithoutPosition_levelNestedInput
 }
@@ -342,10 +272,6 @@ export type PositionLevelCreateManyInput = {
   name: string
   description?: string | null
   position_id: string
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  updated_by?: string | null
   is_enabled?: boolean
 }
 
@@ -353,8 +279,6 @@ export type PositionLevelUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -363,10 +287,6 @@ export type PositionLevelUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   position_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -390,10 +310,6 @@ export type PositionLevelCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   position_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  updated_by?: Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
 }
 
@@ -402,10 +318,6 @@ export type PositionLevelMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   position_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  updated_by?: Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
 }
 
@@ -414,10 +326,6 @@ export type PositionLevelMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   position_id?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  updated_by?: Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
 }
 
@@ -427,96 +335,12 @@ export type PositionLevelCreateNestedOneWithoutUsersInput = {
   connect?: Prisma.PositionLevelWhereUniqueInput
 }
 
-export type PositionLevelCreateNestedManyWithoutCreatedByInput = {
-  create?: Prisma.XOR<Prisma.PositionLevelCreateWithoutCreatedByInput, Prisma.PositionLevelUncheckedCreateWithoutCreatedByInput> | Prisma.PositionLevelCreateWithoutCreatedByInput[] | Prisma.PositionLevelUncheckedCreateWithoutCreatedByInput[]
-  connectOrCreate?: Prisma.PositionLevelCreateOrConnectWithoutCreatedByInput | Prisma.PositionLevelCreateOrConnectWithoutCreatedByInput[]
-  createMany?: Prisma.PositionLevelCreateManyCreatedByInputEnvelope
-  connect?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-}
-
-export type PositionLevelCreateNestedManyWithoutUpdatedByInput = {
-  create?: Prisma.XOR<Prisma.PositionLevelCreateWithoutUpdatedByInput, Prisma.PositionLevelUncheckedCreateWithoutUpdatedByInput> | Prisma.PositionLevelCreateWithoutUpdatedByInput[] | Prisma.PositionLevelUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.PositionLevelCreateOrConnectWithoutUpdatedByInput | Prisma.PositionLevelCreateOrConnectWithoutUpdatedByInput[]
-  createMany?: Prisma.PositionLevelCreateManyUpdatedByInputEnvelope
-  connect?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-}
-
-export type PositionLevelUncheckedCreateNestedManyWithoutCreatedByInput = {
-  create?: Prisma.XOR<Prisma.PositionLevelCreateWithoutCreatedByInput, Prisma.PositionLevelUncheckedCreateWithoutCreatedByInput> | Prisma.PositionLevelCreateWithoutCreatedByInput[] | Prisma.PositionLevelUncheckedCreateWithoutCreatedByInput[]
-  connectOrCreate?: Prisma.PositionLevelCreateOrConnectWithoutCreatedByInput | Prisma.PositionLevelCreateOrConnectWithoutCreatedByInput[]
-  createMany?: Prisma.PositionLevelCreateManyCreatedByInputEnvelope
-  connect?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-}
-
-export type PositionLevelUncheckedCreateNestedManyWithoutUpdatedByInput = {
-  create?: Prisma.XOR<Prisma.PositionLevelCreateWithoutUpdatedByInput, Prisma.PositionLevelUncheckedCreateWithoutUpdatedByInput> | Prisma.PositionLevelCreateWithoutUpdatedByInput[] | Prisma.PositionLevelUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.PositionLevelCreateOrConnectWithoutUpdatedByInput | Prisma.PositionLevelCreateOrConnectWithoutUpdatedByInput[]
-  createMany?: Prisma.PositionLevelCreateManyUpdatedByInputEnvelope
-  connect?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-}
-
 export type PositionLevelUpdateOneRequiredWithoutUsersNestedInput = {
   create?: Prisma.XOR<Prisma.PositionLevelCreateWithoutUsersInput, Prisma.PositionLevelUncheckedCreateWithoutUsersInput>
   connectOrCreate?: Prisma.PositionLevelCreateOrConnectWithoutUsersInput
   upsert?: Prisma.PositionLevelUpsertWithoutUsersInput
   connect?: Prisma.PositionLevelWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.PositionLevelUpdateToOneWithWhereWithoutUsersInput, Prisma.PositionLevelUpdateWithoutUsersInput>, Prisma.PositionLevelUncheckedUpdateWithoutUsersInput>
-}
-
-export type PositionLevelUpdateManyWithoutCreatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.PositionLevelCreateWithoutCreatedByInput, Prisma.PositionLevelUncheckedCreateWithoutCreatedByInput> | Prisma.PositionLevelCreateWithoutCreatedByInput[] | Prisma.PositionLevelUncheckedCreateWithoutCreatedByInput[]
-  connectOrCreate?: Prisma.PositionLevelCreateOrConnectWithoutCreatedByInput | Prisma.PositionLevelCreateOrConnectWithoutCreatedByInput[]
-  upsert?: Prisma.PositionLevelUpsertWithWhereUniqueWithoutCreatedByInput | Prisma.PositionLevelUpsertWithWhereUniqueWithoutCreatedByInput[]
-  createMany?: Prisma.PositionLevelCreateManyCreatedByInputEnvelope
-  set?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  disconnect?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  delete?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  connect?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  update?: Prisma.PositionLevelUpdateWithWhereUniqueWithoutCreatedByInput | Prisma.PositionLevelUpdateWithWhereUniqueWithoutCreatedByInput[]
-  updateMany?: Prisma.PositionLevelUpdateManyWithWhereWithoutCreatedByInput | Prisma.PositionLevelUpdateManyWithWhereWithoutCreatedByInput[]
-  deleteMany?: Prisma.PositionLevelScalarWhereInput | Prisma.PositionLevelScalarWhereInput[]
-}
-
-export type PositionLevelUpdateManyWithoutUpdatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.PositionLevelCreateWithoutUpdatedByInput, Prisma.PositionLevelUncheckedCreateWithoutUpdatedByInput> | Prisma.PositionLevelCreateWithoutUpdatedByInput[] | Prisma.PositionLevelUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.PositionLevelCreateOrConnectWithoutUpdatedByInput | Prisma.PositionLevelCreateOrConnectWithoutUpdatedByInput[]
-  upsert?: Prisma.PositionLevelUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.PositionLevelUpsertWithWhereUniqueWithoutUpdatedByInput[]
-  createMany?: Prisma.PositionLevelCreateManyUpdatedByInputEnvelope
-  set?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  disconnect?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  delete?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  connect?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  update?: Prisma.PositionLevelUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.PositionLevelUpdateWithWhereUniqueWithoutUpdatedByInput[]
-  updateMany?: Prisma.PositionLevelUpdateManyWithWhereWithoutUpdatedByInput | Prisma.PositionLevelUpdateManyWithWhereWithoutUpdatedByInput[]
-  deleteMany?: Prisma.PositionLevelScalarWhereInput | Prisma.PositionLevelScalarWhereInput[]
-}
-
-export type PositionLevelUncheckedUpdateManyWithoutCreatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.PositionLevelCreateWithoutCreatedByInput, Prisma.PositionLevelUncheckedCreateWithoutCreatedByInput> | Prisma.PositionLevelCreateWithoutCreatedByInput[] | Prisma.PositionLevelUncheckedCreateWithoutCreatedByInput[]
-  connectOrCreate?: Prisma.PositionLevelCreateOrConnectWithoutCreatedByInput | Prisma.PositionLevelCreateOrConnectWithoutCreatedByInput[]
-  upsert?: Prisma.PositionLevelUpsertWithWhereUniqueWithoutCreatedByInput | Prisma.PositionLevelUpsertWithWhereUniqueWithoutCreatedByInput[]
-  createMany?: Prisma.PositionLevelCreateManyCreatedByInputEnvelope
-  set?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  disconnect?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  delete?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  connect?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  update?: Prisma.PositionLevelUpdateWithWhereUniqueWithoutCreatedByInput | Prisma.PositionLevelUpdateWithWhereUniqueWithoutCreatedByInput[]
-  updateMany?: Prisma.PositionLevelUpdateManyWithWhereWithoutCreatedByInput | Prisma.PositionLevelUpdateManyWithWhereWithoutCreatedByInput[]
-  deleteMany?: Prisma.PositionLevelScalarWhereInput | Prisma.PositionLevelScalarWhereInput[]
-}
-
-export type PositionLevelUncheckedUpdateManyWithoutUpdatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.PositionLevelCreateWithoutUpdatedByInput, Prisma.PositionLevelUncheckedCreateWithoutUpdatedByInput> | Prisma.PositionLevelCreateWithoutUpdatedByInput[] | Prisma.PositionLevelUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.PositionLevelCreateOrConnectWithoutUpdatedByInput | Prisma.PositionLevelCreateOrConnectWithoutUpdatedByInput[]
-  upsert?: Prisma.PositionLevelUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.PositionLevelUpsertWithWhereUniqueWithoutUpdatedByInput[]
-  createMany?: Prisma.PositionLevelCreateManyUpdatedByInputEnvelope
-  set?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  disconnect?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  delete?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  connect?: Prisma.PositionLevelWhereUniqueInput | Prisma.PositionLevelWhereUniqueInput[]
-  update?: Prisma.PositionLevelUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.PositionLevelUpdateWithWhereUniqueWithoutUpdatedByInput[]
-  updateMany?: Prisma.PositionLevelUpdateManyWithWhereWithoutUpdatedByInput | Prisma.PositionLevelUpdateManyWithWhereWithoutUpdatedByInput[]
-  deleteMany?: Prisma.PositionLevelScalarWhereInput | Prisma.PositionLevelScalarWhereInput[]
 }
 
 export type PositionLevelCreateNestedManyWithoutPositionInput = {
@@ -565,12 +389,8 @@ export type PositionLevelCreateWithoutUsersInput = {
   id?: string
   name: string
   description?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
   is_enabled?: boolean
   position: Prisma.PositionCreateNestedOneWithoutPositionLevelsInput
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedByPositionLevelsInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByPositionLevelsInput
 }
 
 export type PositionLevelUncheckedCreateWithoutUsersInput = {
@@ -578,84 +398,12 @@ export type PositionLevelUncheckedCreateWithoutUsersInput = {
   name: string
   description?: string | null
   position_id: string
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  updated_by?: string | null
   is_enabled?: boolean
 }
 
 export type PositionLevelCreateOrConnectWithoutUsersInput = {
   where: Prisma.PositionLevelWhereUniqueInput
   create: Prisma.XOR<Prisma.PositionLevelCreateWithoutUsersInput, Prisma.PositionLevelUncheckedCreateWithoutUsersInput>
-}
-
-export type PositionLevelCreateWithoutCreatedByInput = {
-  id?: string
-  name: string
-  description?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  is_enabled?: boolean
-  position: Prisma.PositionCreateNestedOneWithoutPositionLevelsInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByPositionLevelsInput
-  users?: Prisma.UserCreateNestedManyWithoutPosition_levelInput
-}
-
-export type PositionLevelUncheckedCreateWithoutCreatedByInput = {
-  id?: string
-  name: string
-  description?: string | null
-  position_id: string
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  updated_by?: string | null
-  is_enabled?: boolean
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutPosition_levelInput
-}
-
-export type PositionLevelCreateOrConnectWithoutCreatedByInput = {
-  where: Prisma.PositionLevelWhereUniqueInput
-  create: Prisma.XOR<Prisma.PositionLevelCreateWithoutCreatedByInput, Prisma.PositionLevelUncheckedCreateWithoutCreatedByInput>
-}
-
-export type PositionLevelCreateManyCreatedByInputEnvelope = {
-  data: Prisma.PositionLevelCreateManyCreatedByInput | Prisma.PositionLevelCreateManyCreatedByInput[]
-  skipDuplicates?: boolean
-}
-
-export type PositionLevelCreateWithoutUpdatedByInput = {
-  id?: string
-  name: string
-  description?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  is_enabled?: boolean
-  position: Prisma.PositionCreateNestedOneWithoutPositionLevelsInput
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedByPositionLevelsInput
-  users?: Prisma.UserCreateNestedManyWithoutPosition_levelInput
-}
-
-export type PositionLevelUncheckedCreateWithoutUpdatedByInput = {
-  id?: string
-  name: string
-  description?: string | null
-  position_id: string
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  is_enabled?: boolean
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutPosition_levelInput
-}
-
-export type PositionLevelCreateOrConnectWithoutUpdatedByInput = {
-  where: Prisma.PositionLevelWhereUniqueInput
-  create: Prisma.XOR<Prisma.PositionLevelCreateWithoutUpdatedByInput, Prisma.PositionLevelUncheckedCreateWithoutUpdatedByInput>
-}
-
-export type PositionLevelCreateManyUpdatedByInputEnvelope = {
-  data: Prisma.PositionLevelCreateManyUpdatedByInput | Prisma.PositionLevelCreateManyUpdatedByInput[]
-  skipDuplicates?: boolean
 }
 
 export type PositionLevelUpsertWithoutUsersInput = {
@@ -673,12 +421,8 @@ export type PositionLevelUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   position?: Prisma.PositionUpdateOneRequiredWithoutPositionLevelsNestedInput
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByPositionLevelsNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByPositionLevelsNestedInput
 }
 
 export type PositionLevelUncheckedUpdateWithoutUsersInput = {
@@ -686,69 +430,14 @@ export type PositionLevelUncheckedUpdateWithoutUsersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   position_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-}
-
-export type PositionLevelUpsertWithWhereUniqueWithoutCreatedByInput = {
-  where: Prisma.PositionLevelWhereUniqueInput
-  update: Prisma.XOR<Prisma.PositionLevelUpdateWithoutCreatedByInput, Prisma.PositionLevelUncheckedUpdateWithoutCreatedByInput>
-  create: Prisma.XOR<Prisma.PositionLevelCreateWithoutCreatedByInput, Prisma.PositionLevelUncheckedCreateWithoutCreatedByInput>
-}
-
-export type PositionLevelUpdateWithWhereUniqueWithoutCreatedByInput = {
-  where: Prisma.PositionLevelWhereUniqueInput
-  data: Prisma.XOR<Prisma.PositionLevelUpdateWithoutCreatedByInput, Prisma.PositionLevelUncheckedUpdateWithoutCreatedByInput>
-}
-
-export type PositionLevelUpdateManyWithWhereWithoutCreatedByInput = {
-  where: Prisma.PositionLevelScalarWhereInput
-  data: Prisma.XOR<Prisma.PositionLevelUpdateManyMutationInput, Prisma.PositionLevelUncheckedUpdateManyWithoutCreatedByInput>
-}
-
-export type PositionLevelScalarWhereInput = {
-  AND?: Prisma.PositionLevelScalarWhereInput | Prisma.PositionLevelScalarWhereInput[]
-  OR?: Prisma.PositionLevelScalarWhereInput[]
-  NOT?: Prisma.PositionLevelScalarWhereInput | Prisma.PositionLevelScalarWhereInput[]
-  id?: Prisma.StringFilter<"PositionLevel"> | string
-  name?: Prisma.StringFilter<"PositionLevel"> | string
-  description?: Prisma.StringNullableFilter<"PositionLevel"> | string | null
-  position_id?: Prisma.StringFilter<"PositionLevel"> | string
-  created_at?: Prisma.DateTimeFilter<"PositionLevel"> | Date | string
-  created_by?: Prisma.StringFilter<"PositionLevel"> | string
-  updated_at?: Prisma.DateTimeNullableFilter<"PositionLevel"> | Date | string | null
-  updated_by?: Prisma.StringNullableFilter<"PositionLevel"> | string | null
-  is_enabled?: Prisma.BoolFilter<"PositionLevel"> | boolean
-}
-
-export type PositionLevelUpsertWithWhereUniqueWithoutUpdatedByInput = {
-  where: Prisma.PositionLevelWhereUniqueInput
-  update: Prisma.XOR<Prisma.PositionLevelUpdateWithoutUpdatedByInput, Prisma.PositionLevelUncheckedUpdateWithoutUpdatedByInput>
-  create: Prisma.XOR<Prisma.PositionLevelCreateWithoutUpdatedByInput, Prisma.PositionLevelUncheckedCreateWithoutUpdatedByInput>
-}
-
-export type PositionLevelUpdateWithWhereUniqueWithoutUpdatedByInput = {
-  where: Prisma.PositionLevelWhereUniqueInput
-  data: Prisma.XOR<Prisma.PositionLevelUpdateWithoutUpdatedByInput, Prisma.PositionLevelUncheckedUpdateWithoutUpdatedByInput>
-}
-
-export type PositionLevelUpdateManyWithWhereWithoutUpdatedByInput = {
-  where: Prisma.PositionLevelScalarWhereInput
-  data: Prisma.XOR<Prisma.PositionLevelUpdateManyMutationInput, Prisma.PositionLevelUncheckedUpdateManyWithoutUpdatedByInput>
 }
 
 export type PositionLevelCreateWithoutPositionInput = {
   id?: string
   name: string
   description?: string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
   is_enabled?: boolean
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedByPositionLevelsInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByPositionLevelsInput
   users?: Prisma.UserCreateNestedManyWithoutPosition_levelInput
 }
 
@@ -756,10 +445,6 @@ export type PositionLevelUncheckedCreateWithoutPositionInput = {
   id?: string
   name: string
   description?: string | null
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  updated_by?: string | null
   is_enabled?: boolean
   users?: Prisma.UserUncheckedCreateNestedManyWithoutPosition_levelInput
 }
@@ -790,106 +475,21 @@ export type PositionLevelUpdateManyWithWhereWithoutPositionInput = {
   data: Prisma.XOR<Prisma.PositionLevelUpdateManyMutationInput, Prisma.PositionLevelUncheckedUpdateManyWithoutPositionInput>
 }
 
-export type PositionLevelCreateManyCreatedByInput = {
-  id?: string
-  name: string
-  description?: string | null
-  position_id: string
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  updated_by?: string | null
-  is_enabled?: boolean
-}
-
-export type PositionLevelCreateManyUpdatedByInput = {
-  id?: string
-  name: string
-  description?: string | null
-  position_id: string
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  is_enabled?: boolean
-}
-
-export type PositionLevelUpdateWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position?: Prisma.PositionUpdateOneRequiredWithoutPositionLevelsNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByPositionLevelsNestedInput
-  users?: Prisma.UserUpdateManyWithoutPosition_levelNestedInput
-}
-
-export type PositionLevelUncheckedUpdateWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  position_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  users?: Prisma.UserUncheckedUpdateManyWithoutPosition_levelNestedInput
-}
-
-export type PositionLevelUncheckedUpdateManyWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  position_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-}
-
-export type PositionLevelUpdateWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position?: Prisma.PositionUpdateOneRequiredWithoutPositionLevelsNestedInput
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByPositionLevelsNestedInput
-  users?: Prisma.UserUpdateManyWithoutPosition_levelNestedInput
-}
-
-export type PositionLevelUncheckedUpdateWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  position_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  users?: Prisma.UserUncheckedUpdateManyWithoutPosition_levelNestedInput
-}
-
-export type PositionLevelUncheckedUpdateManyWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  position_id?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+export type PositionLevelScalarWhereInput = {
+  AND?: Prisma.PositionLevelScalarWhereInput | Prisma.PositionLevelScalarWhereInput[]
+  OR?: Prisma.PositionLevelScalarWhereInput[]
+  NOT?: Prisma.PositionLevelScalarWhereInput | Prisma.PositionLevelScalarWhereInput[]
+  id?: Prisma.StringFilter<"PositionLevel"> | string
+  name?: Prisma.StringFilter<"PositionLevel"> | string
+  description?: Prisma.StringNullableFilter<"PositionLevel"> | string | null
+  position_id?: Prisma.StringFilter<"PositionLevel"> | string
+  is_enabled?: Prisma.BoolFilter<"PositionLevel"> | boolean
 }
 
 export type PositionLevelCreateManyPositionInput = {
   id?: string
   name: string
   description?: string | null
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  updated_by?: string | null
   is_enabled?: boolean
 }
 
@@ -897,11 +497,7 @@ export type PositionLevelUpdateWithoutPositionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByPositionLevelsNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByPositionLevelsNestedInput
   users?: Prisma.UserUpdateManyWithoutPosition_levelNestedInput
 }
 
@@ -909,10 +505,6 @@ export type PositionLevelUncheckedUpdateWithoutPositionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUncheckedUpdateManyWithoutPosition_levelNestedInput
 }
@@ -921,10 +513,6 @@ export type PositionLevelUncheckedUpdateManyWithoutPositionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -964,14 +552,8 @@ export type PositionLevelSelect<ExtArgs extends runtime.Types.Extensions.Interna
   name?: boolean
   description?: boolean
   position_id?: boolean
-  created_at?: boolean
-  created_by?: boolean
-  updated_at?: boolean
-  updated_by?: boolean
   is_enabled?: boolean
   position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.PositionLevel$updatedByArgs<ExtArgs>
   users?: boolean | Prisma.PositionLevel$usersArgs<ExtArgs>
   _count?: boolean | Prisma.PositionLevelCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["positionLevel"]>
@@ -981,14 +563,8 @@ export type PositionLevelSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   name?: boolean
   description?: boolean
   position_id?: boolean
-  created_at?: boolean
-  created_by?: boolean
-  updated_at?: boolean
-  updated_by?: boolean
   is_enabled?: boolean
   position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.PositionLevel$updatedByArgs<ExtArgs>
 }, ExtArgs["result"]["positionLevel"]>
 
 export type PositionLevelSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -996,14 +572,8 @@ export type PositionLevelSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   name?: boolean
   description?: boolean
   position_id?: boolean
-  created_at?: boolean
-  created_by?: boolean
-  updated_at?: boolean
-  updated_by?: boolean
   is_enabled?: boolean
   position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.PositionLevel$updatedByArgs<ExtArgs>
 }, ExtArgs["result"]["positionLevel"]>
 
 export type PositionLevelSelectScalar = {
@@ -1011,38 +581,26 @@ export type PositionLevelSelectScalar = {
   name?: boolean
   description?: boolean
   position_id?: boolean
-  created_at?: boolean
-  created_by?: boolean
-  updated_at?: boolean
-  updated_by?: boolean
   is_enabled?: boolean
 }
 
-export type PositionLevelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "position_id" | "created_at" | "created_by" | "updated_at" | "updated_by" | "is_enabled", ExtArgs["result"]["positionLevel"]>
+export type PositionLevelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "position_id" | "is_enabled", ExtArgs["result"]["positionLevel"]>
 export type PositionLevelInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.PositionLevel$updatedByArgs<ExtArgs>
   users?: boolean | Prisma.PositionLevel$usersArgs<ExtArgs>
   _count?: boolean | Prisma.PositionLevelCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PositionLevelIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.PositionLevel$updatedByArgs<ExtArgs>
 }
 export type PositionLevelIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.PositionLevel$updatedByArgs<ExtArgs>
 }
 
 export type $PositionLevelPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PositionLevel"
   objects: {
     position: Prisma.$PositionPayload<ExtArgs>
-    createdBy: Prisma.$UserPayload<ExtArgs>
-    updatedBy: Prisma.$UserPayload<ExtArgs> | null
     users: Prisma.$UserPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1050,10 +608,6 @@ export type $PositionLevelPayload<ExtArgs extends runtime.Types.Extensions.Inter
     name: string
     description: string | null
     position_id: string
-    created_at: Date
-    created_by: string
-    updated_at: Date | null
-    updated_by: string | null
     is_enabled: boolean
   }, ExtArgs["result"]["positionLevel"]>
   composites: {}
@@ -1450,8 +1004,6 @@ readonly fields: PositionLevelFieldRefs;
 export interface Prisma__PositionLevelClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   position<T extends Prisma.PositionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PositionDefaultArgs<ExtArgs>>): Prisma.Prisma__PositionClient<runtime.Types.Result.GetResult<Prisma.$PositionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  updatedBy<T extends Prisma.PositionLevel$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PositionLevel$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   users<T extends Prisma.PositionLevel$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PositionLevel$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1486,10 +1038,6 @@ export interface PositionLevelFieldRefs {
   readonly name: Prisma.FieldRef<"PositionLevel", 'String'>
   readonly description: Prisma.FieldRef<"PositionLevel", 'String'>
   readonly position_id: Prisma.FieldRef<"PositionLevel", 'String'>
-  readonly created_at: Prisma.FieldRef<"PositionLevel", 'DateTime'>
-  readonly created_by: Prisma.FieldRef<"PositionLevel", 'String'>
-  readonly updated_at: Prisma.FieldRef<"PositionLevel", 'DateTime'>
-  readonly updated_by: Prisma.FieldRef<"PositionLevel", 'String'>
   readonly is_enabled: Prisma.FieldRef<"PositionLevel", 'Boolean'>
 }
     
@@ -1884,25 +1432,6 @@ export type PositionLevelDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many PositionLevels to delete.
    */
   limit?: number
-}
-
-/**
- * PositionLevel.updatedBy
- */
-export type PositionLevel$updatedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the User
-   */
-  select?: Prisma.UserSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the User
-   */
-  omit?: Prisma.UserOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  where?: Prisma.UserWhereInput
 }
 
 /**
