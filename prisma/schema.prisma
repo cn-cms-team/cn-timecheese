@@ -18,6 +18,7 @@ model User {
   start_date    DateTime?
   end_date      DateTime?
   last_login_at DateTime?
+  salary_range  String?   @db.VarChar(100)
 
   position_level_id String?        @db.Char(36)
   position_level    PositionLevel? @relation(fields: [position_level_id], references: [id])
@@ -205,13 +206,15 @@ enum TaskTypeCode {
 }
 
 model Project {
-  id          String        @id @default(uuid()) @db.Char(36)
-  name        String        @db.VarChar(255)
-  description String?       @db.VarChar(255)
-  value       Float?
-  start_date  DateTime?
-  end_date    DateTime?
-  status      ProjectStatus @default(IN_PROGRESS)
+  id                  String        @id @default(uuid()) @db.Char(36)
+  name                String        @db.VarChar(255)
+  description         String?       @db.VarChar(255)
+  value               Float?
+  people_cost_percent Float?
+  people_cost         Float?
+  start_date          DateTime?
+  end_date            DateTime?
+  status              ProjectStatus @default(IN_PROGRESS)
 
   created_at DateTime  @default(now())
   created_by String    @db.Char(36)
@@ -243,6 +246,7 @@ model ProjectMember {
   user_id    String    @db.Char(36)
   role       String    @db.VarChar(100)
   day_price  Float?
+  hour_price Float?
   work_hours Int
   start_date DateTime? @db.Date
   end_date   DateTime? @db.Date
@@ -266,19 +270,19 @@ model ProjectTaskType {
 }
 
 model TimeSheet {
-  id           String   @id @default(uuid()) @db.Char(36)
-  user_id      String   @db.Char(36)
-  user         User     @relation(fields: [user_id], references: [id])
-  project_id   String   @db.Char(36)
-  project      Project  @relation(fields: [project_id], references: [id])
-  task_type_id String   @db.Char(36)
-  task_type    TaskType @relation(fields: [task_type_id], references: [id])
-  stamp_date   DateTime @db.Date
-  start_date   DateTime
-  end_date     DateTime
-  total_hours  Float
-  detail       String?  @db.VarChar(500)
-  remark       String?  @db.VarChar(255)
+  id            String   @id @default(uuid()) @db.Char(36)
+  user_id       String   @db.Char(36)
+  user          User     @relation(fields: [user_id], references: [id])
+  project_id    String   @db.Char(36)
+  project       Project  @relation(fields: [project_id], references: [id])
+  task_type_id  String   @db.Char(36)
+  task_type     TaskType @relation(fields: [task_type_id], references: [id])
+  stamp_date    DateTime @db.Date
+  start_date    DateTime
+  end_date      DateTime
+  total_seconds Int
+  detail        String?  @db.VarChar(500)
+  remark        String?  @db.VarChar(255)
 
   created_at DateTime @default(now())
 
