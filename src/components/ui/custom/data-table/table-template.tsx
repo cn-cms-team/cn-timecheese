@@ -18,7 +18,7 @@ interface TableTemplateProps<TData, TValue> {
   isPagination?: boolean;
   loading?: boolean;
 }
-export default function DataTableTemplate<TData, TValue>({
+export default function DataTable<TData, TValue>({
   table,
   columns,
   isShowHeader = true,
@@ -27,7 +27,7 @@ export default function DataTableTemplate<TData, TValue>({
 }: TableTemplateProps<TData, TValue>) {
   return (
     <>
-      <div className="">
+      <div>
         <TableUI>
           {isShowHeader && (
             <TableHeader>
@@ -51,7 +51,15 @@ export default function DataTableTemplate<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="truncate min-w-[120px]">
+                    <TableCell
+                      key={cell.id}
+                      className="truncate"
+                      style={{
+                        width: cell.column.getSize(),
+                        maxWidth: cell.column.getSize(),
+                        minWidth: cell.column.getSize(),
+                      }}
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}

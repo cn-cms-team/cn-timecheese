@@ -66,9 +66,6 @@ export default function DataTablePagination<TData>({ table }: DataTablePaginatio
           >
             <SelectTrigger className="data-[size=default]:h-7 w-[75px]">
               <SelectValue placeholder={table.getState().pagination.pageSize} />
-              <div className={open ? 'rotate-180' : ''}>
-                <ChevronDownIcon />
-              </div>
             </SelectTrigger>
             <SelectContent side="top">
               {[10, 20, 50, 100].map((pageSize) => (
