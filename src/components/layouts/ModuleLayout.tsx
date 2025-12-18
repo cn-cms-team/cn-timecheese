@@ -1,3 +1,4 @@
+'use client';
 import { Card, CardContent, CardTitle } from '../ui/card';
 import { Header, HeaderTitle } from '../ui/custom/header';
 

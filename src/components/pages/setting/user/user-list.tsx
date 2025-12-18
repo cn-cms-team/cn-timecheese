@@ -29,7 +29,7 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function UserList<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'username', desc: false }]);
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'email', desc: false }]);
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState<{
     search: string;

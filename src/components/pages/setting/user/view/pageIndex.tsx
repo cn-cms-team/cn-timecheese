@@ -6,11 +6,16 @@ import { useEffect, useState } from 'react';
 import { IUser } from '@/types/setting/user';
 import { Button } from '@/components/ui/button';
 import { UserPlus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const UserButton = (): React.ReactNode => {
+  const router = useRouter();
   return (
     <div>
-      <Button className="btn btn-outline-primary font-bold" onClick={() => console.log('Add User')}>
+      <Button
+        className="btn btn-outline-primary font-bold"
+        onClick={() => router.push('/setting/user/create')}
+      >
         <UserPlus className="w-4 h-4" />
         เพิ่มผู้ใช้งาน
       </Button>
