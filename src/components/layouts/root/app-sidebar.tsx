@@ -73,12 +73,18 @@ const settingsMenu = [
 
 export function AppSidebar() {
   return (
-    <Sidebar className="noto-sans">
+    <Sidebar className="noto-sans" collapsible="icon">
       <SidebarHeader>
-        <div className="flex flex-nowrap gap-2 items-center px-2 pt-1">
-          <div className="font-bold text-xl">CMS Timesheet</div>
-          <CheeseIcon />
-        </div>
+        <SidebarMenu>
+          <SidebarMenuItem className="relative">
+            <div className="flex gap-2 items-center px-1 pt-1 overflow-hidden">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center">
+                <CheeseIcon />
+              </div>
+              <div className="font-bold text-lg text-nowrap">CMS Timesheet</div>
+            </div>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup className="text-md">

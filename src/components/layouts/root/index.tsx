@@ -1,4 +1,4 @@
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from './app-sidebar';
 import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth';
@@ -10,10 +10,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
     <SessionProvider session={session}>
       <SidebarProvider>
         <AppSidebar />
-        <main>
-          <SidebarTrigger />
-          {children}
-        </main>
+        <main>{children}</main>
       </SidebarProvider>
     </SessionProvider>
   );
