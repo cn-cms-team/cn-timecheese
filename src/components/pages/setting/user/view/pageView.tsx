@@ -2,11 +2,16 @@
 import ModuleLayout from '@/components/layouts/ModuleLayout';
 import { Button } from '@/components/ui/button';
 import UserViewDetail from '../user-view';
+import { useRouter } from 'next/navigation';
 
-const UserViewButton = (): React.ReactNode => {
+const UserViewButton = ({ id }: { id: string }): React.ReactNode => {
+  const router = useRouter();
   return (
-    <div className="flex align-middle gap-4">
-      <Button className="btn btn-outline-primary font-bold" onClick={() => console.log('Edit')}>
+    <div className="flex align-middle">
+      <Button
+        className="btn btn-outline-primary font-bold"
+        onClick={() => router.push(`/setting/user/${id}/edit`)}
+      >
         แก้ไข
       </Button>
       <Button
@@ -23,7 +28,7 @@ const UserView = ({ id }: { id: string }) => {
   return (
     <ModuleLayout
       headerTitle={'รายละเอียดผู้ใช้งาน'}
-      headerButton={<UserViewButton />}
+      headerButton={<UserViewButton id={id} />}
       content={<UserViewDetail />}
     ></ModuleLayout>
   );
