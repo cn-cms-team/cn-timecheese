@@ -4,3 +4,5 @@ export { default as TimeSheetHeader } from './timesheet-header';
 export { default as TimeSheetUserInfo } from './timesheet-user-info';
 export { default as TimeSheetCalendar } from './timesheet-calendar';
 export { default as TimeSheetTimeSummary } from './timesheet-time-summary';
+export { default as TimeSheetPeriodSelection } from './timesheet-period-selection';
+export { default as TimeSheetCalendarBody } from './timesheet-calendar-body';
