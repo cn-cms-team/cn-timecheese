@@ -1,0 +1,292 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String    @id @default(uuid()) @db.Char(36)
+  code          String    @unique @db.VarChar(50)
+  email         String    @unique @db.VarChar(255)
+  password      String    @db.VarChar(255)
+  first_name    String    @db.VarChar(100)
+  last_name     String    @db.VarChar(100)
+  nick_name     String?   @db.VarChar(100)
+  start_date    DateTime?
+  end_date      DateTime?
+  last_login_at DateTime?
+
+  position_level_id String        @db.Char(36)
+  position_level    PositionLevel @relation(fields: [position_level_id], references: [id])
+  team_id           String        @db.Char(36)
+  team              Team          @relation(fields: [team_id], references: [id])
+  role_id           String        @db.Char(36)
+  role              Role          @relation(fields: [role_id], references: [id])
+
+  created_at DateTime  @default(now())
+  created_by String    @db.Char(36)
+  updated_at DateTime?
+  updated_by String?   @db.Char(36)
+  createdBy  User      @relation("UserCreatedBy", fields: [created_by], references: [id])
+  updatedBy  User?     @relation("UserUpdatedBy", fields: [updated_by], references: [id])
+
+  is_active  Boolean @default(false)
+  is_enabled Boolean @default(true)
+
+  createdByUser           User[]          @relation("UserCreatedBy")
+  updatedByUser           User[]          @relation("UserUpdatedBy")
+  createdByRole           Role[]          @relation("RoleCreatedBy")
+  updatedByRole           Role[]          @relation("RoleUpdatedBy")
+  createdByTeams          Team[]          @relation("TeamCreatedBy")
+  updatedByTeams          Team[]          @relation("TeamUpdatedBy")
+  createdByPosition       Position[]      @relation("PositionCreatedBy")
+  updatedByPosition       Position[]      @relation("PositionUpdatedBy")
+  createdByPositionLevels PositionLevel[] @relation("PositionLevelCreatedBy")
+  updatedByPositionLevels PositionLevel[] @relation("PositionLevelUpdatedBy")
+  createdByTaskTypes      TaskType[]      @relation("TaskTypeCreatedBy")
+  updatedByTaskTypes      TaskType[]      @relation("TaskTypeUpdatedBy")
+  createdByProjects       Project[]       @relation("ProjectCreatedBy")
+  updatedByProjects       Project[]       @relation("ProjectUpdatedBy")
+  projectMembers          ProjectMember[]
+  timeSheets              TimeSheet[]
+
+  @@map("users")
+}
+
+model Role {
+  id          String  @id @default(uuid()) @db.Char(36)
+  name        String  @db.VarChar(100)
+  description String? @db.VarChar(255)
+
+  created_at DateTime  @default(now())
+  created_by String    @db.Char(36)
+  updated_at DateTime?
+  updated_by String?   @db.Char(36)
+  createdBy  User      @relation("RoleCreatedBy", fields: [created_by], references: [id])
+  updatedBy  User?     @relation("RoleUpdatedBy", fields: [updated_by], references: [id])
+
+  is_enabled Boolean @default(true)
+
+  rolePermission RolePermission[]
+  User           User[]
+
+  @@map("roles")
+}
+
+model RolePermission {
+  role_id     String @db.Char(36)
+  module_code String @db.VarChar(30)
+  pms_code    String @db.VarChar(10)
+
+  role       Role       @relation(fields: [role_id], references: [id])
+  permission Permission @relation(fields: [pms_code], references: [code])
+  module     Module     @relation(fields: [module_code], references: [code])
+
+  @@id([role_id, module_code, pms_code])
+  @@map("role_permissions")
+}
+
+model Permission {
+  code  String @id @db.VarChar(10)
+  name  String @db.VarChar(100)
+  order Int
+
+  rolePermission   RolePermission[]
+  modulePermission ModulePermission[]
+
+  @@map("m_permissions")
+}
+
+model Module {
+  code        String  @id @db.VarChar(30)
+  name        String  @db.VarChar(255)
+  parent_code String? @db.VarChar(30)
+  order       Int
+  is_active   Boolean @default(true)
+
+  rolePermission   RolePermission[]
+  modulePermission ModulePermission[]
+
+  @@map("m_modules")
+}
+
+model ModulePermission {
+  module_code String @db.VarChar(30)
+  pms_code    String @db.VarChar(10)
+  order       Int
+
+  permission Permission @relation(fields: [pms_code], references: [code])
+  module     Module     @relation(fields: [module_code], references: [code])
+
+  @@id([module_code, pms_code])
+  @@map("m_modules_permissions")
+}
+
+model Team {
+  id          String  @id @default(uuid()) @db.Char(36)
+  name        String  @db.VarChar(100)
+  description String? @db.VarChar(255)
+
+  created_at DateTime  @default(now())
+  created_by String    @db.Char(36)
+  updated_at DateTime?
+  updated_by String?   @db.Char(36)
+  createdBy  User      @relation("TeamCreatedBy", fields: [created_by], references: [id])
+  updatedBy  User?     @relation("TeamUpdatedBy", fields: [updated_by], references: [id])
+
+  is_enabled Boolean @default(true)
+  users      User[]
+
+  @@map("teams")
+}
+
+model Position {
+  id          String  @id @default(uuid()) @db.Char(36)
+  name        String  @db.VarChar(100)
+  description String? @db.VarChar(255)
+
+  created_at DateTime  @default(now())
+  created_by String    @db.Char(36)
+  updated_at DateTime?
+  updated_by String?   @db.Char(36)
+  createdBy  User      @relation("PositionCreatedBy", fields: [created_by], references: [id])
+  updatedBy  User?     @relation("PositionUpdatedBy", fields: [updated_by], references: [id])
+
+  is_enabled     Boolean         @default(true)
+  positionLevels PositionLevel[]
+
+  @@map("positions")
+}
+
+model PositionLevel {
+  id          String   @id @default(uuid()) @db.Char(36)
+  name        String   @db.VarChar(100)
+  description String?  @db.VarChar(255)
+  position_id String   @db.Char(36)
+  position    Position @relation(fields: [position_id], references: [id])
+
+  created_at DateTime  @default(now())
+  created_by String    @db.Char(36)
+  updated_at DateTime?
+  updated_by String?   @db.Char(36)
+  createdBy  User      @relation("PositionLevelCreatedBy", fields: [created_by], references: [id])
+  updatedBy  User?     @relation("PositionLevelUpdatedBy", fields: [updated_by], references: [id])
+
+  is_enabled Boolean @default(true)
+  users      User[]
+
+  @@map("position_levels")
+}
+
+model TaskType {
+  id          String       @id @default(uuid()) @db.Char(36)
+  type        TaskTypeCode
+  name        String       @db.VarChar(100)
+  description String?      @db.VarChar(255)
+  is_leave    Boolean      @default(false)
+  is_company  Boolean      @default(false)
+
+  created_at DateTime  @default(now())
+  created_by String    @db.Char(36)
+  updated_at DateTime?
+  updated_by String?   @db.Char(36)
+  createdBy  User      @relation("TaskTypeCreatedBy", fields: [created_by], references: [id])
+  updatedBy  User?     @relation("TaskTypeUpdatedBy", fields: [updated_by], references: [id])
+
+  is_enabled       Boolean           @default(true)
+  projectTaskTypes ProjectTaskType[]
+  timeSheets       TimeSheet[]
+
+  @@map("task_types")
+}
+
+enum TaskTypeCode {
+  DEVELOPMENT
+  BUSINESS
+  OPERATION
+  SALES
+  QA
+  IT
+  OTHER
+}
+
+model Project {
+  id          String        @id @default(uuid()) @db.Char(36)
+  name        String        @db.VarChar(255)
+  description String?       @db.VarChar(255)
+  value       Float?
+  start_date  DateTime?
+  end_date    DateTime?
+  status      ProjectStatus @default(IN_PROGRESS)
+
+  created_at DateTime  @default(now())
+  created_by String    @db.Char(36)
+  updated_at DateTime?
+  updated_by String?   @db.Char(36)
+  createdBy  User      @relation("ProjectCreatedBy", fields: [created_by], references: [id])
+  updatedBy  User?     @relation("ProjectUpdatedBy", fields: [updated_by], references: [id])
+
+  is_enabled       Boolean           @default(true)
+  projectMembers   ProjectMember[]
+  projectTaskTypes ProjectTaskType[]
+  timeSheets       TimeSheet[]
+
+  @@map("projects")
+}
+
+enum ProjectStatus {
+  PRE_SALE
+  PLANNING
+  IN_PROGRESS
+  MAINTENANCE
+  ON_HOLD
+  CANCELLED
+  TERMINATED
+}
+
+model ProjectMember {
+  project_id String @db.Char(36)
+  user_id    String @db.Char(36)
+  role       String @db.VarChar(100)
+  day_price  Float?
+
+  project Project @relation(fields: [project_id], references: [id])
+  user    User    @relation(fields: [user_id], references: [id])
+
+  @@id([project_id, user_id])
+  @@map("project_members")
+}
+
+model ProjectTaskType {
+  project_id   String @db.Char(36)
+  task_type_id String @db.Char(36)
+
+  project   Project  @relation(fields: [project_id], references: [id])
+  task_type TaskType @relation(fields: [task_type_id], references: [id])
+
+  @@id([project_id, task_type_id])
+  @@map("project_task_types")
+}
+
+model TimeSheet {
+  id           String   @id @default(uuid()) @db.Char(36)
+  user_id      String   @db.Char(36)
+  user         User     @relation(fields: [user_id], references: [id])
+  project_id   String   @db.Char(36)
+  project      Project  @relation(fields: [project_id], references: [id])
+  task_type_id String   @db.Char(36)
+  task_type    TaskType @relation(fields: [task_type_id], references: [id])
+  stamp_date   DateTime @db.Date
+  start_date   DateTime
+  end_date     DateTime
+  total_hours  Float
+  detail       String?  @db.VarChar(500)
+  remark       String?  @db.VarChar(255)
+
+  created_at DateTime @default(now())
+
+  @@map("time_sheets")
+}
