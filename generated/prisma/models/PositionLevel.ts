@@ -290,9 +290,9 @@ export type PositionLevelUncheckedUpdateManyInput = {
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
-export type PositionLevelScalarRelationFilter = {
-  is?: Prisma.PositionLevelWhereInput
-  isNot?: Prisma.PositionLevelWhereInput
+export type PositionLevelNullableScalarRelationFilter = {
+  is?: Prisma.PositionLevelWhereInput | null
+  isNot?: Prisma.PositionLevelWhereInput | null
 }
 
 export type PositionLevelListRelationFilter = {
@@ -335,10 +335,12 @@ export type PositionLevelCreateNestedOneWithoutUsersInput = {
   connect?: Prisma.PositionLevelWhereUniqueInput
 }
 
-export type PositionLevelUpdateOneRequiredWithoutUsersNestedInput = {
+export type PositionLevelUpdateOneWithoutUsersNestedInput = {
   create?: Prisma.XOR<Prisma.PositionLevelCreateWithoutUsersInput, Prisma.PositionLevelUncheckedCreateWithoutUsersInput>
   connectOrCreate?: Prisma.PositionLevelCreateOrConnectWithoutUsersInput
   upsert?: Prisma.PositionLevelUpsertWithoutUsersInput
+  disconnect?: Prisma.PositionLevelWhereInput | boolean
+  delete?: Prisma.PositionLevelWhereInput | boolean
   connect?: Prisma.PositionLevelWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.PositionLevelUpdateToOneWithWhereWithoutUsersInput, Prisma.PositionLevelUpdateWithoutUsersInput>, Prisma.PositionLevelUncheckedUpdateWithoutUsersInput>
 }

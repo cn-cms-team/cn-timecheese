@@ -242,9 +242,9 @@ export type UserGroupByOutputType = {
   start_date: Date | null
   end_date: Date | null
   last_login_at: Date | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id: string | null
+  team_id: string | null
+  role_id: string | null
   created_at: Date
   created_by: string
   updated_at: Date | null
@@ -285,18 +285,18 @@ export type UserWhereInput = {
   start_date?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   end_date?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   last_login_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  position_level_id?: Prisma.StringFilter<"User"> | string
-  team_id?: Prisma.StringFilter<"User"> | string
-  role_id?: Prisma.StringFilter<"User"> | string
+  position_level_id?: Prisma.StringNullableFilter<"User"> | string | null
+  team_id?: Prisma.StringNullableFilter<"User"> | string | null
+  role_id?: Prisma.StringNullableFilter<"User"> | string | null
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
   created_by?: Prisma.StringFilter<"User"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   updated_by?: Prisma.StringNullableFilter<"User"> | string | null
   is_active?: Prisma.BoolFilter<"User"> | boolean
   is_enabled?: Prisma.BoolFilter<"User"> | boolean
-  position_level?: Prisma.XOR<Prisma.PositionLevelScalarRelationFilter, Prisma.PositionLevelWhereInput>
-  team?: Prisma.XOR<Prisma.TeamScalarRelationFilter, Prisma.TeamWhereInput>
-  role?: Prisma.XOR<Prisma.RoleScalarRelationFilter, Prisma.RoleWhereInput>
+  position_level?: Prisma.XOR<Prisma.PositionLevelNullableScalarRelationFilter, Prisma.PositionLevelWhereInput> | null
+  team?: Prisma.XOR<Prisma.TeamNullableScalarRelationFilter, Prisma.TeamWhereInput> | null
+  role?: Prisma.XOR<Prisma.RoleNullableScalarRelationFilter, Prisma.RoleWhereInput> | null
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   createdByUser?: Prisma.UserListRelationFilter
@@ -326,9 +326,9 @@ export type UserOrderByWithRelationInput = {
   start_date?: Prisma.SortOrderInput | Prisma.SortOrder
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
   last_login_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  position_level_id?: Prisma.SortOrder
-  team_id?: Prisma.SortOrder
-  role_id?: Prisma.SortOrder
+  position_level_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  team_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  role_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -370,18 +370,18 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   start_date?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   end_date?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   last_login_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  position_level_id?: Prisma.StringFilter<"User"> | string
-  team_id?: Prisma.StringFilter<"User"> | string
-  role_id?: Prisma.StringFilter<"User"> | string
+  position_level_id?: Prisma.StringNullableFilter<"User"> | string | null
+  team_id?: Prisma.StringNullableFilter<"User"> | string | null
+  role_id?: Prisma.StringNullableFilter<"User"> | string | null
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
   created_by?: Prisma.StringFilter<"User"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   updated_by?: Prisma.StringNullableFilter<"User"> | string | null
   is_active?: Prisma.BoolFilter<"User"> | boolean
   is_enabled?: Prisma.BoolFilter<"User"> | boolean
-  position_level?: Prisma.XOR<Prisma.PositionLevelScalarRelationFilter, Prisma.PositionLevelWhereInput>
-  team?: Prisma.XOR<Prisma.TeamScalarRelationFilter, Prisma.TeamWhereInput>
-  role?: Prisma.XOR<Prisma.RoleScalarRelationFilter, Prisma.RoleWhereInput>
+  position_level?: Prisma.XOR<Prisma.PositionLevelNullableScalarRelationFilter, Prisma.PositionLevelWhereInput> | null
+  team?: Prisma.XOR<Prisma.TeamNullableScalarRelationFilter, Prisma.TeamWhereInput> | null
+  role?: Prisma.XOR<Prisma.RoleNullableScalarRelationFilter, Prisma.RoleWhereInput> | null
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   createdByUser?: Prisma.UserListRelationFilter
@@ -411,9 +411,9 @@ export type UserOrderByWithAggregationInput = {
   start_date?: Prisma.SortOrderInput | Prisma.SortOrder
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
   last_login_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  position_level_id?: Prisma.SortOrder
-  team_id?: Prisma.SortOrder
-  role_id?: Prisma.SortOrder
+  position_level_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  team_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  role_id?: Prisma.SortOrderInput | Prisma.SortOrder
   created_at?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -439,9 +439,9 @@ export type UserScalarWhereWithAggregatesInput = {
   start_date?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   end_date?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   last_login_at?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-  position_level_id?: Prisma.StringWithAggregatesFilter<"User"> | string
-  team_id?: Prisma.StringWithAggregatesFilter<"User"> | string
-  role_id?: Prisma.StringWithAggregatesFilter<"User"> | string
+  position_level_id?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  team_id?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  role_id?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   created_by?: Prisma.StringWithAggregatesFilter<"User"> | string
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -465,9 +465,9 @@ export type UserCreateInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -497,9 +497,9 @@ export type UserUncheckedCreateInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -537,9 +537,9 @@ export type UserUpdateInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -569,9 +569,9 @@ export type UserUncheckedUpdateInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -605,9 +605,9 @@ export type UserCreateManyInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -644,9 +644,9 @@ export type UserUncheckedUpdateManyInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1194,9 +1194,9 @@ export type UserCreateWithoutCreatedByUserInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   updatedByUser?: Prisma.UserCreateNestedManyWithoutUpdatedByInput
@@ -1225,9 +1225,9 @@ export type UserUncheckedCreateWithoutCreatedByUserInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -1269,9 +1269,9 @@ export type UserCreateWithoutUpdatedByUserInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -1300,9 +1300,9 @@ export type UserUncheckedCreateWithoutUpdatedByUserInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -1344,9 +1344,9 @@ export type UserCreateWithoutCreatedByInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
   updatedByUser?: Prisma.UserCreateNestedManyWithoutUpdatedByInput
@@ -1375,9 +1375,9 @@ export type UserUncheckedCreateWithoutCreatedByInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   updated_by?: string | null
@@ -1424,9 +1424,9 @@ export type UserCreateWithoutUpdatedByInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
   updatedByUser?: Prisma.UserCreateNestedManyWithoutUpdatedByInput
@@ -1455,9 +1455,9 @@ export type UserUncheckedCreateWithoutUpdatedByInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -1515,9 +1515,9 @@ export type UserUpdateWithoutCreatedByUserInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   updatedByUser?: Prisma.UserUpdateManyWithoutUpdatedByNestedInput
@@ -1546,9 +1546,9 @@ export type UserUncheckedUpdateWithoutCreatedByUserInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1596,9 +1596,9 @@ export type UserUpdateWithoutUpdatedByUserInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -1627,9 +1627,9 @@ export type UserUncheckedUpdateWithoutUpdatedByUserInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1681,9 +1681,9 @@ export type UserScalarWhereInput = {
   start_date?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   end_date?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   last_login_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  position_level_id?: Prisma.StringFilter<"User"> | string
-  team_id?: Prisma.StringFilter<"User"> | string
-  role_id?: Prisma.StringFilter<"User"> | string
+  position_level_id?: Prisma.StringNullableFilter<"User"> | string | null
+  team_id?: Prisma.StringNullableFilter<"User"> | string | null
+  role_id?: Prisma.StringNullableFilter<"User"> | string | null
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
   created_by?: Prisma.StringFilter<"User"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -1723,9 +1723,9 @@ export type UserCreateWithoutCreatedByRoleInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -1754,9 +1754,9 @@ export type UserUncheckedCreateWithoutCreatedByRoleInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -1798,9 +1798,9 @@ export type UserCreateWithoutUpdatedByRoleInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -1829,9 +1829,9 @@ export type UserUncheckedCreateWithoutUpdatedByRoleInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -1873,8 +1873,8 @@ export type UserCreateWithoutRoleInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -1904,8 +1904,8 @@ export type UserUncheckedCreateWithoutRoleInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
+  position_level_id?: string | null
+  team_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -1964,9 +1964,9 @@ export type UserUpdateWithoutCreatedByRoleInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -1995,9 +1995,9 @@ export type UserUncheckedUpdateWithoutCreatedByRoleInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2045,9 +2045,9 @@ export type UserUpdateWithoutUpdatedByRoleInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -2076,9 +2076,9 @@ export type UserUncheckedUpdateWithoutUpdatedByRoleInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2131,9 +2131,9 @@ export type UserCreateWithoutCreatedByTeamsInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -2162,9 +2162,9 @@ export type UserUncheckedCreateWithoutCreatedByTeamsInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -2206,9 +2206,9 @@ export type UserCreateWithoutUpdatedByTeamsInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -2237,9 +2237,9 @@ export type UserUncheckedCreateWithoutUpdatedByTeamsInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -2281,8 +2281,8 @@ export type UserCreateWithoutTeamInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -2312,8 +2312,8 @@ export type UserUncheckedCreateWithoutTeamInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  role_id: string
+  position_level_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -2372,9 +2372,9 @@ export type UserUpdateWithoutCreatedByTeamsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -2403,9 +2403,9 @@ export type UserUncheckedUpdateWithoutCreatedByTeamsInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2453,9 +2453,9 @@ export type UserUpdateWithoutUpdatedByTeamsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -2484,9 +2484,9 @@ export type UserUncheckedUpdateWithoutUpdatedByTeamsInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2539,9 +2539,9 @@ export type UserCreateWithoutCreatedByPositionInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -2570,9 +2570,9 @@ export type UserUncheckedCreateWithoutCreatedByPositionInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -2614,9 +2614,9 @@ export type UserCreateWithoutUpdatedByPositionInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -2645,9 +2645,9 @@ export type UserUncheckedCreateWithoutUpdatedByPositionInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -2700,9 +2700,9 @@ export type UserUpdateWithoutCreatedByPositionInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -2731,9 +2731,9 @@ export type UserUncheckedUpdateWithoutCreatedByPositionInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2781,9 +2781,9 @@ export type UserUpdateWithoutUpdatedByPositionInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -2812,9 +2812,9 @@ export type UserUncheckedUpdateWithoutUpdatedByPositionInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2851,8 +2851,8 @@ export type UserCreateWithoutPosition_levelInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -2882,8 +2882,8 @@ export type UserUncheckedCreateWithoutPosition_levelInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  team_id: string
-  role_id: string
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -2947,9 +2947,9 @@ export type UserCreateWithoutCreatedByTaskTypesInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -2978,9 +2978,9 @@ export type UserUncheckedCreateWithoutCreatedByTaskTypesInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -3022,9 +3022,9 @@ export type UserCreateWithoutUpdatedByTaskTypesInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -3053,9 +3053,9 @@ export type UserUncheckedCreateWithoutUpdatedByTaskTypesInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -3108,9 +3108,9 @@ export type UserUpdateWithoutCreatedByTaskTypesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -3139,9 +3139,9 @@ export type UserUncheckedUpdateWithoutCreatedByTaskTypesInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3189,9 +3189,9 @@ export type UserUpdateWithoutUpdatedByTaskTypesInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -3220,9 +3220,9 @@ export type UserUncheckedUpdateWithoutUpdatedByTaskTypesInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3259,9 +3259,9 @@ export type UserCreateWithoutCreatedByProjectsInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -3290,9 +3290,9 @@ export type UserUncheckedCreateWithoutCreatedByProjectsInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -3334,9 +3334,9 @@ export type UserCreateWithoutUpdatedByProjectsInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -3365,9 +3365,9 @@ export type UserUncheckedCreateWithoutUpdatedByProjectsInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -3420,9 +3420,9 @@ export type UserUpdateWithoutCreatedByProjectsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -3451,9 +3451,9 @@ export type UserUncheckedUpdateWithoutCreatedByProjectsInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3501,9 +3501,9 @@ export type UserUpdateWithoutUpdatedByProjectsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -3532,9 +3532,9 @@ export type UserUncheckedUpdateWithoutUpdatedByProjectsInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3571,9 +3571,9 @@ export type UserCreateWithoutProjectMembersInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -3602,9 +3602,9 @@ export type UserUncheckedCreateWithoutProjectMembersInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -3657,9 +3657,9 @@ export type UserUpdateWithoutProjectMembersInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -3688,9 +3688,9 @@ export type UserUncheckedUpdateWithoutProjectMembersInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3727,9 +3727,9 @@ export type UserCreateWithoutTimeSheetsInput = {
   updated_at?: Date | string | null
   is_active?: boolean
   is_enabled?: boolean
-  position_level: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role: Prisma.RoleCreateNestedOneWithoutUserInput
+  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
+  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
+  role?: Prisma.RoleCreateNestedOneWithoutUserInput
   createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
   createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
@@ -3758,9 +3758,9 @@ export type UserUncheckedCreateWithoutTimeSheetsInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -3813,9 +3813,9 @@ export type UserUpdateWithoutTimeSheetsInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -3844,9 +3844,9 @@ export type UserUncheckedUpdateWithoutTimeSheetsInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3879,9 +3879,9 @@ export type UserCreateManyCreatedByInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   updated_by?: string | null
@@ -3900,9 +3900,9 @@ export type UserCreateManyUpdatedByInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
-  role_id: string
+  position_level_id?: string | null
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -3925,9 +3925,9 @@ export type UserUpdateWithoutCreatedByInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
   updatedByUser?: Prisma.UserUpdateManyWithoutUpdatedByNestedInput
@@ -3956,9 +3956,9 @@ export type UserUncheckedUpdateWithoutCreatedByInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3991,9 +3991,9 @@ export type UserUncheckedUpdateManyWithoutCreatedByInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4016,9 +4016,9 @@ export type UserUpdateWithoutUpdatedByInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
   updatedByUser?: Prisma.UserUpdateManyWithoutUpdatedByNestedInput
@@ -4047,9 +4047,9 @@ export type UserUncheckedUpdateWithoutUpdatedByInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4082,9 +4082,9 @@ export type UserUncheckedUpdateManyWithoutUpdatedByInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4103,8 +4103,8 @@ export type UserCreateManyRoleInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  team_id: string
+  position_level_id?: string | null
+  team_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -4128,8 +4128,8 @@ export type UserUpdateWithoutRoleInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -4159,8 +4159,8 @@ export type UserUncheckedUpdateWithoutRoleInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4194,8 +4194,8 @@ export type UserUncheckedUpdateManyWithoutRoleInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4215,8 +4215,8 @@ export type UserCreateManyTeamInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  position_level_id: string
-  role_id: string
+  position_level_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -4240,8 +4240,8 @@ export type UserUpdateWithoutTeamInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -4271,8 +4271,8 @@ export type UserUncheckedUpdateWithoutTeamInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4306,8 +4306,8 @@ export type UserUncheckedUpdateManyWithoutTeamInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4327,8 +4327,8 @@ export type UserCreateManyPosition_levelInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   last_login_at?: Date | string | null
-  team_id: string
-  role_id: string
+  team_id?: string | null
+  role_id?: string | null
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -4352,8 +4352,8 @@ export type UserUpdateWithoutPosition_levelInput = {
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  team?: Prisma.TeamUpdateOneRequiredWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneRequiredWithoutUserNestedInput
+  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
+  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
   createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
@@ -4383,8 +4383,8 @@ export type UserUncheckedUpdateWithoutPosition_levelInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4418,8 +4418,8 @@ export type UserUncheckedUpdateManyWithoutPosition_levelInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  team_id?: Prisma.StringFieldUpdateOperationsInput | string
-  role_id?: Prisma.StringFieldUpdateOperationsInput | string
+  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4596,9 +4596,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updated_by?: boolean
   is_active?: boolean
   is_enabled?: boolean
-  position_level?: boolean | Prisma.PositionLevelDefaultArgs<ExtArgs>
-  team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  position_level?: boolean | Prisma.User$position_levelArgs<ExtArgs>
+  team?: boolean | Prisma.User$teamArgs<ExtArgs>
+  role?: boolean | Prisma.User$roleArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   updatedBy?: boolean | Prisma.User$updatedByArgs<ExtArgs>
   createdByUser?: boolean | Prisma.User$createdByUserArgs<ExtArgs>
@@ -4638,9 +4638,9 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   updated_by?: boolean
   is_active?: boolean
   is_enabled?: boolean
-  position_level?: boolean | Prisma.PositionLevelDefaultArgs<ExtArgs>
-  team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  position_level?: boolean | Prisma.User$position_levelArgs<ExtArgs>
+  team?: boolean | Prisma.User$teamArgs<ExtArgs>
+  role?: boolean | Prisma.User$roleArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   updatedBy?: boolean | Prisma.User$updatedByArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -4665,9 +4665,9 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   updated_by?: boolean
   is_active?: boolean
   is_enabled?: boolean
-  position_level?: boolean | Prisma.PositionLevelDefaultArgs<ExtArgs>
-  team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  position_level?: boolean | Prisma.User$position_levelArgs<ExtArgs>
+  team?: boolean | Prisma.User$teamArgs<ExtArgs>
+  role?: boolean | Prisma.User$roleArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   updatedBy?: boolean | Prisma.User$updatedByArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -4696,9 +4696,9 @@ export type UserSelectScalar = {
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "email" | "password" | "first_name" | "last_name" | "nick_name" | "start_date" | "end_date" | "last_login_at" | "position_level_id" | "team_id" | "role_id" | "created_at" | "created_by" | "updated_at" | "updated_by" | "is_active" | "is_enabled", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  position_level?: boolean | Prisma.PositionLevelDefaultArgs<ExtArgs>
-  team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  position_level?: boolean | Prisma.User$position_levelArgs<ExtArgs>
+  team?: boolean | Prisma.User$teamArgs<ExtArgs>
+  role?: boolean | Prisma.User$roleArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   updatedBy?: boolean | Prisma.User$updatedByArgs<ExtArgs>
   createdByUser?: boolean | Prisma.User$createdByUserArgs<ExtArgs>
@@ -4718,16 +4718,16 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  position_level?: boolean | Prisma.PositionLevelDefaultArgs<ExtArgs>
-  team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  position_level?: boolean | Prisma.User$position_levelArgs<ExtArgs>
+  team?: boolean | Prisma.User$teamArgs<ExtArgs>
+  role?: boolean | Prisma.User$roleArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   updatedBy?: boolean | Prisma.User$updatedByArgs<ExtArgs>
 }
 export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  position_level?: boolean | Prisma.PositionLevelDefaultArgs<ExtArgs>
-  team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
-  role?: boolean | Prisma.RoleDefaultArgs<ExtArgs>
+  position_level?: boolean | Prisma.User$position_levelArgs<ExtArgs>
+  team?: boolean | Prisma.User$teamArgs<ExtArgs>
+  role?: boolean | Prisma.User$roleArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   updatedBy?: boolean | Prisma.User$updatedByArgs<ExtArgs>
 }
@@ -4735,9 +4735,9 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    position_level: Prisma.$PositionLevelPayload<ExtArgs>
-    team: Prisma.$TeamPayload<ExtArgs>
-    role: Prisma.$RolePayload<ExtArgs>
+    position_level: Prisma.$PositionLevelPayload<ExtArgs> | null
+    team: Prisma.$TeamPayload<ExtArgs> | null
+    role: Prisma.$RolePayload<ExtArgs> | null
     createdBy: Prisma.$UserPayload<ExtArgs>
     updatedBy: Prisma.$UserPayload<ExtArgs> | null
     createdByUser: Prisma.$UserPayload<ExtArgs>[]
@@ -4766,9 +4766,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     start_date: Date | null
     end_date: Date | null
     last_login_at: Date | null
-    position_level_id: string
-    team_id: string
-    role_id: string
+    position_level_id: string | null
+    team_id: string | null
+    role_id: string | null
     created_at: Date
     created_by: string
     updated_at: Date | null
@@ -5169,9 +5169,9 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  position_level<T extends Prisma.PositionLevelDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PositionLevelDefaultArgs<ExtArgs>>): Prisma.Prisma__PositionLevelClient<runtime.Types.Result.GetResult<Prisma.$PositionLevelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  team<T extends Prisma.TeamDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TeamDefaultArgs<ExtArgs>>): Prisma.Prisma__TeamClient<runtime.Types.Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  role<T extends Prisma.RoleDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RoleDefaultArgs<ExtArgs>>): Prisma.Prisma__RoleClient<runtime.Types.Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  position_level<T extends Prisma.User$position_levelArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$position_levelArgs<ExtArgs>>): Prisma.Prisma__PositionLevelClient<runtime.Types.Result.GetResult<Prisma.$PositionLevelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  team<T extends Prisma.User$teamArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$teamArgs<ExtArgs>>): Prisma.Prisma__TeamClient<runtime.Types.Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  role<T extends Prisma.User$roleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$roleArgs<ExtArgs>>): Prisma.Prisma__RoleClient<runtime.Types.Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   updatedBy<T extends Prisma.User$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   createdByUser<T extends Prisma.User$createdByUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdByUserArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5629,6 +5629,63 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Users to delete.
    */
   limit?: number
+}
+
+/**
+ * User.position_level
+ */
+export type User$position_levelArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PositionLevel
+   */
+  select?: Prisma.PositionLevelSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PositionLevel
+   */
+  omit?: Prisma.PositionLevelOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PositionLevelInclude<ExtArgs> | null
+  where?: Prisma.PositionLevelWhereInput
+}
+
+/**
+ * User.team
+ */
+export type User$teamArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Team
+   */
+  select?: Prisma.TeamSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Team
+   */
+  omit?: Prisma.TeamOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeamInclude<ExtArgs> | null
+  where?: Prisma.TeamWhereInput
+}
+
+/**
+ * User.role
+ */
+export type User$roleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Role
+   */
+  select?: Prisma.RoleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Role
+   */
+  omit?: Prisma.RoleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RoleInclude<ExtArgs> | null
+  where?: Prisma.RoleWhereInput
 }
 
 /**

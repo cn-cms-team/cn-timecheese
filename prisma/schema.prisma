@@ -19,12 +19,12 @@ model User {
   end_date      DateTime?
   last_login_at DateTime?
 
-  position_level_id String        @db.Char(36)
-  position_level    PositionLevel @relation(fields: [position_level_id], references: [id])
-  team_id           String        @db.Char(36)
-  team              Team          @relation(fields: [team_id], references: [id])
-  role_id           String        @db.Char(36)
-  role              Role          @relation(fields: [role_id], references: [id])
+  position_level_id String?        @db.Char(36)
+  position_level    PositionLevel? @relation(fields: [position_level_id], references: [id])
+  team_id           String?        @db.Char(36)
+  team              Team?          @relation(fields: [team_id], references: [id])
+  role_id           String?        @db.Char(36)
+  role              Role?          @relation(fields: [role_id], references: [id])
 
   created_at DateTime  @default(now())
   created_by String    @db.Char(36)
