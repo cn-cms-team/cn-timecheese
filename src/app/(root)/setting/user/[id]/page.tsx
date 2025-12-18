@@ -6,8 +6,9 @@ export const metadata: Metadata = {
   description: 'CN Timesheet',
 };
 
-const UserSetting = () => {
-  return <UserView />;
+const UserViewSetting = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
+  return <UserView id={id} />;
 };
 
-export default UserSetting;
+export default UserViewSetting;

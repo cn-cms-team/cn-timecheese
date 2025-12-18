@@ -1,8 +1,9 @@
 'use client';
 import ModuleLayout from '@/components/layouts/ModuleLayout';
 import { Button } from '@/components/ui/button';
+import UserViewDetail from '../user-view';
 
-const UserCreateButton = (): React.ReactNode => {
+const UserViewButton = (): React.ReactNode => {
   return (
     <div className="flex align-middle gap-4">
       <Button className="btn btn-outline-primary font-bold" onClick={() => console.log('Edit')}>
@@ -18,12 +19,12 @@ const UserCreateButton = (): React.ReactNode => {
   );
 };
 
-const UserView = () => {
+const UserView = ({ id }: { id: string }) => {
   return (
     <ModuleLayout
       headerTitle={'รายละเอียดผู้ใช้งาน'}
-      headerButton={<UserCreateButton />}
-      content={<div>View</div>}
+      headerButton={<UserViewButton />}
+      content={<UserViewDetail />}
     ></ModuleLayout>
   );
 };

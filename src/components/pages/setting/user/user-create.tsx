@@ -50,11 +50,15 @@ const UserCreate = (): React.ReactNode => {
   };
 
   return (
-    <div className="flex flex-col gap-5">
-      <h3>ข้อมูลผู้ใช้งาน</h3>
-      <hr className="mt-2" />
+    <div className="flex flex-col px-5">
+      <h2 className="font-medium text-lg mb-0">ข้อมูลผู้ใช้งาน</h2>
+      <hr className="mt-2 mb-5" />
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-2 gap-x-6 gap-y-5">
+        <form
+          id="user-create-form"
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grid grid-cols-2 gap-x-6 gap-y-5 px-8"
+        >
           <FormField
             control={form.control}
             name="email"

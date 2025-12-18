@@ -19,6 +19,9 @@ export const authConfig: NextAuthConfig = {
           );
         }
       } else if (isLoggedIn) {
+        if (pathname.startsWith('/sign-in')) {
+          return Response.redirect(new URL('/', nextUrl));
+        }
         return isLoggedIn;
       } else {
         return true;

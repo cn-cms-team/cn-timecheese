@@ -7,7 +7,7 @@ import UserCreate from '../user-create';
 const UserCreateButton = (): React.ReactNode => {
   return (
     <div className="flex align-middle">
-      <Button className="btn btn-outline-primary font-bold" onClick={() => console.log('Add User')}>
+      <Button className="btn btn-outline-primary font-bold" type="submit" form="user-create-form">
         บันทึก
       </Button>
       <Button
@@ -20,7 +20,7 @@ const UserCreateButton = (): React.ReactNode => {
   );
 };
 
-const UserCreateView = () => {
+const UserCreateView = ({ id }: { id: string }) => {
   return (
     <ModuleLayout
       headerTitle={'เพิ่มผู้ใช้งาน'}

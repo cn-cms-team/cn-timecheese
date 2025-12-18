@@ -8,6 +8,7 @@ import {
   ButtonDelete,
 } from '@/components/ui/custom/data-table';
 import { IUser } from '@/types/setting/user';
+import LinkTable from '@/components/ui/custom/data-table/link';
 
 const nameColumn = SortColumn<IUser>('fullName', 'ชื่อ - นามสกุล');
 const nickNameColumn = SortColumn<IUser>('nickName', 'ชื่อเล่น');
@@ -31,7 +32,7 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
       header: 'ลำดับ',
       id: 'rowNumber',
       size: 40,
-      cell: ({ row }) => row.index + 1,
+      cell: ({ row }) => <div className="text-center">{row.index + 1}</div>,
     },
     {
       ...nameColumn,
@@ -39,7 +40,8 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
       cell: ({ row }) => {
         const { first_name, last_name, id } = row.original;
         const fullName = [first_name, last_name].join(' ').trim();
-        return <div>{fullName}</div>;
+        const viewLink = `/setting/user/${id}`;
+        return <LinkTable path={viewLink}>{fullName}</LinkTable>;
       },
     },
     {
