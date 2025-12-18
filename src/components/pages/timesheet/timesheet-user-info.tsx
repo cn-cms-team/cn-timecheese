@@ -14,9 +14,9 @@ const TimeSheetUserInfo = () => {
         <div className="flex  justify-center mx-4 lg:mb-0 mb-4">
           <UserProfileImage />
         </div>
-        <div className="flex flex-col w-full">
-          <div className="text-xl mb-4">พิชญากร ทรงบุญเขตกุล (โย)</div>
-          <div className="flex gap-4">
+        <div className="flex flex-col w-full ps-4">
+          <div className="text-xl text-center lg:text-start mb-4">พิชญากร ทรงบุญเขตกุล (โย)</div>
+          <div className="flex gap-4 items-center justify-center lg:justify-start ">
             <div className="flex flex-col ">
               <span className="text-sm text-gray-400">ทีม</span>
               <span className="text-base">CMS</span>
