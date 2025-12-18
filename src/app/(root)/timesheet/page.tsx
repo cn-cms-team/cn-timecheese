@@ -1,3 +1,4 @@
+import { TimeSheetView } from '@/components/pages/timesheet';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const TimeSheetPage = () => {
-  return <div>Time Sheet Page</div>;
+  return <TimeSheetView />;
 };
 
 export default TimeSheetPage;
