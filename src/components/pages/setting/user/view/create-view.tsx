@@ -26,6 +26,7 @@ const UserCreateView = ({ id }: { id?: string }) => {
   return (
     <ModuleLayout
       headerTitle={id ? 'แก้ไขผู้ใช้งาน' : 'เพิ่มผู้ใช้งาน'}
+      leaveUrl={'/setting/user'}
       headerButton={<UserCreateButton />}
       content={<UserCreate id={id} />}
     ></ModuleLayout>

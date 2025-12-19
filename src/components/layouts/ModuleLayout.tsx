@@ -4,16 +4,17 @@ import { Header, HeaderTitle } from '../ui/custom/header';
 
 interface LayoutProps {
   headerTitle: string;
+  leaveUrl?: string | undefined;
   headerButton: React.ReactNode;
   content: React.ReactNode;
 }
-const ModuleLayout: React.FC<LayoutProps> = ({ headerTitle, headerButton, content }) => {
+const ModuleLayout: React.FC<LayoutProps> = ({ headerTitle, leaveUrl, headerButton, content }) => {
   return (
     <div className="p-3">
       <Card className="w-full p-0">
         <CardTitle>
           <Header>
-            <HeaderTitle title={headerTitle} />
+            <HeaderTitle title={headerTitle} leaveUrl={leaveUrl} />
             {headerButton}
           </Header>
         </CardTitle>

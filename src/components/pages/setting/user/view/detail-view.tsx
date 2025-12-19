@@ -31,6 +31,7 @@ const UserView = ({ id }: { id: string }) => {
   return (
     <ModuleLayout
       headerTitle={'รายละเอียดผู้ใช้งาน'}
+      leaveUrl={'/setting/user'}
       headerButton={<UserViewButton id={id} />}
       content={<UserViewDetail id={id} />}
     ></ModuleLayout>
