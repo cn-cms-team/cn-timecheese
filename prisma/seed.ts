@@ -3,6 +3,16 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import 'dotenv/config';
 import bcrypt from 'bcrypt';
 
+import permissionData from './data/permission.json';
+import moduleData from './data/module.json';
+import roleData from './data/role.json';
+import positionData from './data/position.json';
+import positionLevelData from './data/positionLevel.json';
+import teamData from './data/team.json';
+import { rolePermissionMember, rolePermissionAdmin, rolePermissionPM } from './data/rolePermission';
+import { modulePermission } from './data/modulePermission';
+import userData from './data/user.json';
+
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
 });
@@ -12,153 +22,78 @@ const prisma = new PrismaClient({
 });
 
 export async function main() {
-  const ADMIN_ID = crypto.randomUUID();
-  const USER_ID = crypto.randomUUID();
+  const ADMIN_ID = '9e6a2d0b-7f84-4c1e-b539-18a5f3c72d94';
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
+  const hashedPassword = await bcrypt.hash(ADMIN_PASSWORD, 10);
 
-  const TEAM_ID = crypto.randomUUID();
-
-  const ROLE_ADMIN_ID = crypto.randomUUID();
-  const ROLE_USER_ID = crypto.randomUUID();
-
-  const POS_DEV_ID = crypto.randomUUID();
-  const POS_LEVEL_SENIOR_ID = crypto.randomUUID();
-  const POS_LEVEL_JUNIOR_ID = crypto.randomUUID();
-
-  // 2. Hash Password (use same for both for testing)
-  const passwordHash = await bcrypt.hash('password123', 10);
-  await prisma.$transaction(async (tx) => {
-    // --- POSTGRES MAGIC TRICK ---
-    // This disables foreign key checks for the current session.
-    // Note: This requires your DB user to have sufficient privileges (usually Superuser or Replication).
-    try {
-      await tx.$executeRawUnsafe(`SET session_replication_role = 'replica';`);
-    } catch (e) {
-      console.warn(
-        '⚠️  Could not set session_replication_role. If seeding fails, it is because of circular dependencies.'
-      );
-    }
-
-    // --- 1. Create Roles ---
-    await tx.role.upsert({
-      where: { id: ROLE_ADMIN_ID },
-      update: {},
-      create: {
-        id: ROLE_ADMIN_ID,
-        name: 'Admin',
-        description: 'System Administrator',
-        created_by: ADMIN_ID,
-      },
-    });
-
-    await tx.role.upsert({
-      where: { id: ROLE_USER_ID },
-      update: {},
-      create: {
-        id: ROLE_USER_ID,
-        name: 'Employee',
-        description: 'Standard User',
-        created_by: ADMIN_ID,
-      },
-    });
-
-    // --- 2. Create Team ---
-    await tx.team.upsert({
-      where: { id: TEAM_ID },
-      update: {},
-      create: {
-        id: TEAM_ID,
-        name: 'Development Team',
-        description: 'Core engineering team',
-        created_by: ADMIN_ID,
-      },
-    });
-
-    // --- 3. Create Position & Levels ---
-    await tx.position.upsert({
-      where: { id: POS_DEV_ID },
-      update: {},
-      create: {
-        id: POS_DEV_ID,
-        name: 'Software Developer',
-        created_by: ADMIN_ID,
-      },
-    });
-
-    await tx.positionLevel.upsert({
-      where: { id: POS_LEVEL_SENIOR_ID },
-      update: {},
-      create: {
-        id: POS_LEVEL_SENIOR_ID,
-        name: 'Senior',
-        position_id: POS_DEV_ID,
-        created_by: ADMIN_ID,
-      },
-    });
-
-    await tx.positionLevel.upsert({
-      where: { id: POS_LEVEL_JUNIOR_ID },
-      update: {},
-      create: {
-        id: POS_LEVEL_JUNIOR_ID,
-        name: 'Junior',
-        position_id: POS_DEV_ID,
-        created_by: ADMIN_ID,
-      },
-    });
-
-    // --- 4. Create Users ---
-
-    // Admin User
-    await tx.user.upsert({
-      where: { code: 'ADM-001' },
-      update: {},
-      create: {
-        id: ADMIN_ID,
-        code: 'ADM-001',
-        email: 'admin@company.com',
-        password: passwordHash,
-        first_name: 'Super',
-        last_name: 'Admin',
-        start_date: new Date(),
-        is_active: true,
-        // FKs
-        role_id: ROLE_ADMIN_ID,
-        team_id: TEAM_ID,
-        position_level_id: POS_LEVEL_SENIOR_ID,
-        created_by: ADMIN_ID, // Circular link to self
-      },
-    });
-
-    // Normal User
-    await tx.user.upsert({
-      where: { code: 'EMP-001' },
-      update: {},
-      create: {
-        id: USER_ID,
-        code: 'EMP-001',
-        email: 'john.doe@company.com',
-        password: passwordHash,
-        first_name: 'John',
-        last_name: 'Doe',
-        start_date: new Date(),
-        is_active: true,
-        // FKs
-        role_id: ROLE_USER_ID,
-        team_id: TEAM_ID,
-        position_level_id: POS_LEVEL_JUNIOR_ID,
-        created_by: ADMIN_ID,
-      },
-    });
-
-    // --- RE-ENABLE CONSTRAINTS ---
-    try {
-      await tx.$executeRawUnsafe(`SET session_replication_role = 'origin';`);
-    } catch (e) {
-      // ignore
-    }
-
-    console.log('✅ Seeding finished successfully.');
+  const adminUser = await prisma.user.createMany({
+    data: userData.map((user) => ({
+      ...user,
+      id: user.id === 'ADMIN_ID' ? ADMIN_ID : user.id,
+      created_by: ADMIN_ID,
+      password: hashedPassword,
+    })),
   });
+  console.log('Seeded admin user:', adminUser);
+
+  const permissions = await prisma.permission.createMany({
+    data: permissionData,
+  });
+  console.log('Seeded permissions:', permissions);
+
+  const modules = await prisma.module.createMany({
+    data: moduleData,
+  });
+  console.log('Seeded modules:', modules);
+
+  const modulePermissions = await prisma.modulePermission.createMany({
+    data: modulePermission,
+  });
+  console.log('Seeded module permissions:', modulePermissions);
+
+  const position = await prisma.position.createMany({
+    data: positionData.map((position) => ({
+      ...position,
+      created_by: ADMIN_ID,
+    })),
+  });
+  console.log('Seeded positions:', position);
+
+  const positionLevel = await prisma.positionLevel.createMany({
+    data: positionLevelData,
+  });
+  console.log('Seeded position levels:', positionLevel);
+
+  const roles = await prisma.role.createMany({
+    data: roleData.map((role) => ({
+      ...role,
+      created_by: ADMIN_ID,
+    })),
+  });
+  console.log('Seeded roles:', roles);
+
+  const rolePermissionsMember = await prisma.rolePermission.createMany({
+    data: rolePermissionMember,
+  });
+  console.log('Seeded role permissions for member:', rolePermissionsMember);
+
+  const rolePermissionsAdmin = await prisma.rolePermission.createMany({
+    data: rolePermissionAdmin,
+  });
+  console.log('Seeded role permissions for admin:', rolePermissionsAdmin);
+
+  const rolePermissionsPM = await prisma.rolePermission.createMany({
+    data: rolePermissionPM,
+  });
+  console.log('Seeded role permissions for PM:', rolePermissionsPM);
+
+  const teams = await prisma.team.createMany({
+    data: teamData.map((team) => ({
+      ...team,
+      created_by: ADMIN_ID,
+    })),
+  });
+  console.log('Seeded teams:', teams);
 }
 main()
   .catch((e) => {

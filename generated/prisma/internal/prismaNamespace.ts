@@ -1503,6 +1503,7 @@ export const UserScalarFieldEnum = {
   start_date: 'start_date',
   end_date: 'end_date',
   last_login_at: 'last_login_at',
+  salary_range: 'salary_range',
   position_level_id: 'position_level_id',
   team_id: 'team_id',
   role_id: 'role_id',
@@ -1602,10 +1603,6 @@ export const PositionLevelScalarFieldEnum = {
   name: 'name',
   description: 'description',
   position_id: 'position_id',
-  created_at: 'created_at',
-  created_by: 'created_by',
-  updated_at: 'updated_at',
-  updated_by: 'updated_by',
   is_enabled: 'is_enabled'
 } as const
 
@@ -1634,6 +1631,8 @@ export const ProjectScalarFieldEnum = {
   name: 'name',
   description: 'description',
   value: 'value',
+  people_cost_percent: 'people_cost_percent',
+  people_cost: 'people_cost',
   start_date: 'start_date',
   end_date: 'end_date',
   status: 'status',
@@ -1651,7 +1650,11 @@ export const ProjectMemberScalarFieldEnum = {
   project_id: 'project_id',
   user_id: 'user_id',
   role: 'role',
-  day_price: 'day_price'
+  day_price: 'day_price',
+  hour_price: 'hour_price',
+  work_hours: 'work_hours',
+  start_date: 'start_date',
+  end_date: 'end_date'
 } as const
 
 export type ProjectMemberScalarFieldEnum = (typeof ProjectMemberScalarFieldEnum)[keyof typeof ProjectMemberScalarFieldEnum]
@@ -1673,7 +1676,7 @@ export const TimeSheetScalarFieldEnum = {
   stamp_date: 'stamp_date',
   start_date: 'start_date',
   end_date: 'end_date',
-  total_hours: 'total_hours',
+  total_seconds: 'total_seconds',
   detail: 'detail',
   remark: 'remark',
   created_at: 'created_at'

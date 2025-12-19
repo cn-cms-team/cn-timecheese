@@ -349,9 +349,9 @@ export type TeamUncheckedUpdateManyInput = {
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
-export type TeamScalarRelationFilter = {
-  is?: Prisma.TeamWhereInput
-  isNot?: Prisma.TeamWhereInput
+export type TeamNullableScalarRelationFilter = {
+  is?: Prisma.TeamWhereInput | null
+  isNot?: Prisma.TeamWhereInput | null
 }
 
 export type TeamListRelationFilter = {
@@ -431,10 +431,12 @@ export type TeamUncheckedCreateNestedManyWithoutUpdatedByInput = {
   connect?: Prisma.TeamWhereUniqueInput | Prisma.TeamWhereUniqueInput[]
 }
 
-export type TeamUpdateOneRequiredWithoutUsersNestedInput = {
+export type TeamUpdateOneWithoutUsersNestedInput = {
   create?: Prisma.XOR<Prisma.TeamCreateWithoutUsersInput, Prisma.TeamUncheckedCreateWithoutUsersInput>
   connectOrCreate?: Prisma.TeamCreateOrConnectWithoutUsersInput
   upsert?: Prisma.TeamUpsertWithoutUsersInput
+  disconnect?: Prisma.TeamWhereInput | boolean
+  delete?: Prisma.TeamWhereInput | boolean
   connect?: Prisma.TeamWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TeamUpdateToOneWithWhereWithoutUsersInput, Prisma.TeamUpdateWithoutUsersInput>, Prisma.TeamUncheckedUpdateWithoutUsersInput>
 }

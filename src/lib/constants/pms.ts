@@ -4,5 +4,4 @@ export enum EPermissions {
   DELETE = 'DELETE',
   VIEW = 'VIEW',
   EXPORT = 'EXPORT',
-  APPROVE = 'APPROVE',
 }
