@@ -52,6 +52,7 @@ model User {
   updatedByProjects  Project[]       @relation("ProjectUpdatedBy")
   projectMembers     ProjectMember[]
   timeSheets         TimeSheet[]
+  teamLeaders        TeamLeader[]
 
   @@map("users")
 }
@@ -137,10 +138,22 @@ model Team {
   createdBy  User      @relation("TeamCreatedBy", fields: [created_by], references: [id])
   updatedBy  User?     @relation("TeamUpdatedBy", fields: [updated_by], references: [id])
 
-  is_enabled Boolean @default(true)
-  users      User[]
+  is_enabled  Boolean      @default(true)
+  users       User[]
+  teamLeaders TeamLeader[]
 
   @@map("teams")
+}
+
+model TeamLeader {
+  id      String @id @default(uuid()) @db.Char(36)
+  user_id String @db.Char(36)
+  team_id String @db.Char(36)
+
+  user User @relation(fields: [user_id], references: [id])
+  team Team @relation(fields: [team_id], references: [id])
+
+  @@map("team_leaders")
 }
 
 model Position {
