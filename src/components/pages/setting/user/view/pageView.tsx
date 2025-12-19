@@ -6,6 +6,12 @@ import { useRouter } from 'next/navigation';
 
 const UserViewButton = ({ id }: { id: string }): React.ReactNode => {
   const router = useRouter();
+  const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user/${id}`;
+  const deleteUser = async () => {
+    await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
+      router.push('/setting/user');
+    });
+  };
   return (
     <div className="flex align-middle">
       <Button
@@ -14,10 +20,7 @@ const UserViewButton = ({ id }: { id: string }): React.ReactNode => {
       >
         แก้ไข
       </Button>
-      <Button
-        className="btn btn-outline-secondary font-bold ml-2"
-        onClick={() => console.log('Delete')}
-      >
+      <Button className="btn btn-outline-secondary font-bold ml-2" onClick={() => deleteUser()}>
         ลบ
       </Button>
     </div>
@@ -29,7 +32,7 @@ const UserView = ({ id }: { id: string }) => {
     <ModuleLayout
       headerTitle={'รายละเอียดผู้ใช้งาน'}
       headerButton={<UserViewButton id={id} />}
-      content={<UserViewDetail />}
+      content={<UserViewDetail id={id} />}
     ></ModuleLayout>
   );
 };

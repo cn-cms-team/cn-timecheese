@@ -50,7 +50,7 @@ export async function GET() {
         permissions,
         last_login_at: user?.last_login_at || null,
         name: `${user?.first_name} ${user?.last_name}`,
-        position_level: user?.position_level.name,
+        position_level: user?.position_level?.name,
       },
       status: 200,
     });

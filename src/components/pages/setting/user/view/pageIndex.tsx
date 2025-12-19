@@ -24,6 +24,7 @@ const UserButton = (): React.ReactNode => {
 };
 
 const UserListView = () => {
+  const router = useRouter();
   const fetchUsersUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user`;
   const [userList, setUserList] = useState<IUser[]>([]);
   const getUsers = async () => {
@@ -34,22 +35,24 @@ const UserListView = () => {
 
   useEffect(() => {
     getUsers().then((data) => {
-      console.log('Fetched users:', data);
       setUserList(data);
     });
   }, []);
 
-  const handleOpenDialog = (
-    mode: 'edit' | 'delete',
-    isActive: boolean,
-    id: string,
-    data: { email: string }
-  ) => {
-    if (mode === 'edit') {
-      console.log('edit', id, data);
-    } else {
-      console.log('delete', id, data);
-    }
+  const deleteUser = async (id: string) => {
+    const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user/${id}`;
+    await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
+      router.push('/setting/user');
+    });
+  };
+  const handleOpenDialog = async (mode: 'edit' | 'delete', isActive: boolean, id: string) => {
+    try {
+      if (mode === 'edit') {
+        router.push(`setting/user/${id}`);
+      } else {
+        await deleteUser(id);
+      }
+    } catch (error) {}
   };
 
   const columns = createColumns({

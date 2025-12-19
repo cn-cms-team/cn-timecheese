@@ -18,13 +18,8 @@ export const authConfig: NextAuthConfig = {
             new URL(`/sign-in?callbackUrl=${encodeURIComponent(href)}`, nextUrl)
           );
         }
-      } else if (isLoggedIn) {
-        if (pathname.startsWith('/sign-in')) {
-          return Response.redirect(new URL('/', nextUrl));
-        }
-        return isLoggedIn;
       } else {
-        return true;
+        return !!auth;
       }
     },
   },
