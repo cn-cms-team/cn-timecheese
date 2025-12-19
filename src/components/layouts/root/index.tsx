@@ -4,7 +4,7 @@ import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth';
 import { AppProvider } from '@/components/context/app-context';
 
-export default async function Layout({ children }: { children: React.ReactNode }) {
+const MainLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth();
 
   return (
@@ -17,4 +17,6 @@ export default async function Layout({ children }: { children: React.ReactNode }
       </AppProvider>
     </SessionProvider>
   );
-}
+};
+
+export default MainLayout;

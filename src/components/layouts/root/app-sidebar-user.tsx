@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
-import { redirect } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
+import { handleSignout } from './actions';
 
 import {
   DropdownMenu,
@@ -23,6 +24,7 @@ export type AppSidebarUserProps = {
 };
 
 const AppSidebarUser = ({ user }: AppSidebarUserProps) => {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const handleClickResetPassword = () => {
     setOpen(false);
@@ -54,7 +56,10 @@ const AppSidebarUser = ({ user }: AppSidebarUserProps) => {
               เปลี่ยนรหัสผ่าน
             </DropdownMenuItem>
           </DropdownMenuContent>
-          <SidebarMenuButton className="flex items-center bg-red-200 hover:bg-red-200 hover:text-red-500 font-semibold hover:cursor-pointer">
+          <SidebarMenuButton
+            className="flex items-center bg-red-200 hover:bg-red-200 hover:text-red-500 font-semibold hover:cursor-pointer"
+            onClick={async () => handleSignout(user.id, pathname)}
+          >
             <div className="px-2">
               <LogOut width={20} height={20} />
             </div>
