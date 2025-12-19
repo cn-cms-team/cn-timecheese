@@ -139,6 +139,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 <FormLabel>อีเมล</FormLabel>
                 <FormControl>
                   <Input
+                    autoComplete="off"
                     placeholder="กรุณากรอกอีเมลของคุณ"
                     {...field}
                     onInput={(e) => {

@@ -15,7 +15,6 @@ const UserViewDetail = ({ id }: { id: string }): React.ReactNode => {
           const result = await response.json();
           const userData = result.data;
           setUserData(userData);
-          console.log('Fetched user data:', userData);
         }
       } catch (error) {
         console.error('Failed to fetch user data:', error);

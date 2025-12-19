@@ -48,7 +48,7 @@ const UserListView = () => {
   const handleOpenDialog = async (mode: 'edit' | 'delete', isActive: boolean, id: string) => {
     try {
       if (mode === 'edit') {
-        router.push(`setting/user/${id}`);
+        router.push(`/setting/user/${id}/edit`);
       } else {
         await deleteUser(id);
       }
