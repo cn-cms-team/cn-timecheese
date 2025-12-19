@@ -36,6 +36,7 @@ export type UserMinAggregateOutputType = {
   end_date: Date | null
   last_login_at: Date | null
   salary_range: string | null
+  reset_password_date: Date | null
   position_level_id: string | null
   team_id: string | null
   role_id: string | null
@@ -59,6 +60,7 @@ export type UserMaxAggregateOutputType = {
   end_date: Date | null
   last_login_at: Date | null
   salary_range: string | null
+  reset_password_date: Date | null
   position_level_id: string | null
   team_id: string | null
   role_id: string | null
@@ -82,6 +84,7 @@ export type UserCountAggregateOutputType = {
   end_date: number
   last_login_at: number
   salary_range: number
+  reset_password_date: number
   position_level_id: number
   team_id: number
   role_id: number
@@ -107,6 +110,7 @@ export type UserMinAggregateInputType = {
   end_date?: true
   last_login_at?: true
   salary_range?: true
+  reset_password_date?: true
   position_level_id?: true
   team_id?: true
   role_id?: true
@@ -130,6 +134,7 @@ export type UserMaxAggregateInputType = {
   end_date?: true
   last_login_at?: true
   salary_range?: true
+  reset_password_date?: true
   position_level_id?: true
   team_id?: true
   role_id?: true
@@ -153,6 +158,7 @@ export type UserCountAggregateInputType = {
   end_date?: true
   last_login_at?: true
   salary_range?: true
+  reset_password_date?: true
   position_level_id?: true
   team_id?: true
   role_id?: true
@@ -249,6 +255,7 @@ export type UserGroupByOutputType = {
   end_date: Date | null
   last_login_at: Date | null
   salary_range: string | null
+  reset_password_date: Date | null
   position_level_id: string | null
   team_id: string | null
   role_id: string | null
@@ -293,6 +300,7 @@ export type UserWhereInput = {
   end_date?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   last_login_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   salary_range?: Prisma.StringNullableFilter<"User"> | string | null
+  reset_password_date?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   position_level_id?: Prisma.StringNullableFilter<"User"> | string | null
   team_id?: Prisma.StringNullableFilter<"User"> | string | null
   role_id?: Prisma.StringNullableFilter<"User"> | string | null
@@ -335,6 +343,7 @@ export type UserOrderByWithRelationInput = {
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
   last_login_at?: Prisma.SortOrderInput | Prisma.SortOrder
   salary_range?: Prisma.SortOrderInput | Prisma.SortOrder
+  reset_password_date?: Prisma.SortOrderInput | Prisma.SortOrder
   position_level_id?: Prisma.SortOrderInput | Prisma.SortOrder
   team_id?: Prisma.SortOrderInput | Prisma.SortOrder
   role_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -380,6 +389,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   end_date?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   last_login_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   salary_range?: Prisma.StringNullableFilter<"User"> | string | null
+  reset_password_date?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   position_level_id?: Prisma.StringNullableFilter<"User"> | string | null
   team_id?: Prisma.StringNullableFilter<"User"> | string | null
   role_id?: Prisma.StringNullableFilter<"User"> | string | null
@@ -422,6 +432,7 @@ export type UserOrderByWithAggregationInput = {
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
   last_login_at?: Prisma.SortOrderInput | Prisma.SortOrder
   salary_range?: Prisma.SortOrderInput | Prisma.SortOrder
+  reset_password_date?: Prisma.SortOrderInput | Prisma.SortOrder
   position_level_id?: Prisma.SortOrderInput | Prisma.SortOrder
   team_id?: Prisma.SortOrderInput | Prisma.SortOrder
   role_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -451,6 +462,7 @@ export type UserScalarWhereWithAggregatesInput = {
   end_date?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   last_login_at?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   salary_range?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  reset_password_date?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   position_level_id?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   team_id?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role_id?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
@@ -474,6 +486,7 @@ export type UserCreateInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -511,6 +524,7 @@ export type UserUncheckedCreateInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -548,6 +562,7 @@ export type UserUpdateInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -585,6 +600,7 @@ export type UserUncheckedUpdateInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -622,6 +638,7 @@ export type UserCreateManyInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -645,6 +662,7 @@ export type UserUpdateManyMutationInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -663,6 +681,7 @@ export type UserUncheckedUpdateManyInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -706,6 +725,7 @@ export type UserCountOrderByAggregateInput = {
   end_date?: Prisma.SortOrder
   last_login_at?: Prisma.SortOrder
   salary_range?: Prisma.SortOrder
+  reset_password_date?: Prisma.SortOrder
   position_level_id?: Prisma.SortOrder
   team_id?: Prisma.SortOrder
   role_id?: Prisma.SortOrder
@@ -729,6 +749,7 @@ export type UserMaxOrderByAggregateInput = {
   end_date?: Prisma.SortOrder
   last_login_at?: Prisma.SortOrder
   salary_range?: Prisma.SortOrder
+  reset_password_date?: Prisma.SortOrder
   position_level_id?: Prisma.SortOrder
   team_id?: Prisma.SortOrder
   role_id?: Prisma.SortOrder
@@ -752,6 +773,7 @@ export type UserMinOrderByAggregateInput = {
   end_date?: Prisma.SortOrder
   last_login_at?: Prisma.SortOrder
   salary_range?: Prisma.SortOrder
+  reset_password_date?: Prisma.SortOrder
   position_level_id?: Prisma.SortOrder
   team_id?: Prisma.SortOrder
   role_id?: Prisma.SortOrder
@@ -1213,6 +1235,7 @@ export type UserCreateWithoutCreatedByUserInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -1249,6 +1272,7 @@ export type UserUncheckedCreateWithoutCreatedByUserInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -1290,6 +1314,7 @@ export type UserCreateWithoutUpdatedByUserInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -1326,6 +1351,7 @@ export type UserUncheckedCreateWithoutUpdatedByUserInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -1367,6 +1393,7 @@ export type UserCreateWithoutCreatedByInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -1403,6 +1430,7 @@ export type UserUncheckedCreateWithoutCreatedByInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -1449,6 +1477,7 @@ export type UserCreateWithoutUpdatedByInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -1485,6 +1514,7 @@ export type UserUncheckedCreateWithoutUpdatedByInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -1542,6 +1572,7 @@ export type UserUpdateWithoutCreatedByUserInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1578,6 +1609,7 @@ export type UserUncheckedUpdateWithoutCreatedByUserInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1625,6 +1657,7 @@ export type UserUpdateWithoutUpdatedByUserInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1661,6 +1694,7 @@ export type UserUncheckedUpdateWithoutUpdatedByUserInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1716,6 +1750,7 @@ export type UserScalarWhereInput = {
   end_date?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   last_login_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   salary_range?: Prisma.StringNullableFilter<"User"> | string | null
+  reset_password_date?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   position_level_id?: Prisma.StringNullableFilter<"User"> | string | null
   team_id?: Prisma.StringNullableFilter<"User"> | string | null
   role_id?: Prisma.StringNullableFilter<"User"> | string | null
@@ -1755,6 +1790,7 @@ export type UserCreateWithoutCreatedByRoleInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -1791,6 +1827,7 @@ export type UserUncheckedCreateWithoutCreatedByRoleInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -1832,6 +1869,7 @@ export type UserCreateWithoutUpdatedByRoleInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -1868,6 +1906,7 @@ export type UserUncheckedCreateWithoutUpdatedByRoleInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -1909,6 +1948,7 @@ export type UserCreateWithoutRoleInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -1945,6 +1985,7 @@ export type UserUncheckedCreateWithoutRoleInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   created_at?: Date | string
@@ -2002,6 +2043,7 @@ export type UserUpdateWithoutCreatedByRoleInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2038,6 +2080,7 @@ export type UserUncheckedUpdateWithoutCreatedByRoleInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2085,6 +2128,7 @@ export type UserUpdateWithoutUpdatedByRoleInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2121,6 +2165,7 @@ export type UserUncheckedUpdateWithoutUpdatedByRoleInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2173,6 +2218,7 @@ export type UserCreateWithoutCreatedByTeamsInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -2209,6 +2255,7 @@ export type UserUncheckedCreateWithoutCreatedByTeamsInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -2250,6 +2297,7 @@ export type UserCreateWithoutUpdatedByTeamsInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -2286,6 +2334,7 @@ export type UserUncheckedCreateWithoutUpdatedByTeamsInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -2327,6 +2376,7 @@ export type UserCreateWithoutTeamInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -2363,6 +2413,7 @@ export type UserUncheckedCreateWithoutTeamInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   role_id?: string | null
   created_at?: Date | string
@@ -2420,6 +2471,7 @@ export type UserUpdateWithoutCreatedByTeamsInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2456,6 +2508,7 @@ export type UserUncheckedUpdateWithoutCreatedByTeamsInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2503,6 +2556,7 @@ export type UserUpdateWithoutUpdatedByTeamsInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2539,6 +2593,7 @@ export type UserUncheckedUpdateWithoutUpdatedByTeamsInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2591,6 +2646,7 @@ export type UserCreateWithoutCreatedByPositionInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -2627,6 +2683,7 @@ export type UserUncheckedCreateWithoutCreatedByPositionInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -2668,6 +2725,7 @@ export type UserCreateWithoutUpdatedByPositionInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -2704,6 +2762,7 @@ export type UserUncheckedCreateWithoutUpdatedByPositionInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -2756,6 +2815,7 @@ export type UserUpdateWithoutCreatedByPositionInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2792,6 +2852,7 @@ export type UserUncheckedUpdateWithoutCreatedByPositionInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2839,6 +2900,7 @@ export type UserUpdateWithoutUpdatedByPositionInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2875,6 +2937,7 @@ export type UserUncheckedUpdateWithoutUpdatedByPositionInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2911,6 +2974,7 @@ export type UserCreateWithoutPosition_levelInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -2947,6 +3011,7 @@ export type UserUncheckedCreateWithoutPosition_levelInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   team_id?: string | null
   role_id?: string | null
   created_at?: Date | string
@@ -3009,6 +3074,7 @@ export type UserCreateWithoutCreatedByTaskTypesInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -3045,6 +3111,7 @@ export type UserUncheckedCreateWithoutCreatedByTaskTypesInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -3086,6 +3153,7 @@ export type UserCreateWithoutUpdatedByTaskTypesInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -3122,6 +3190,7 @@ export type UserUncheckedCreateWithoutUpdatedByTaskTypesInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -3174,6 +3243,7 @@ export type UserUpdateWithoutCreatedByTaskTypesInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -3210,6 +3280,7 @@ export type UserUncheckedUpdateWithoutCreatedByTaskTypesInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3257,6 +3328,7 @@ export type UserUpdateWithoutUpdatedByTaskTypesInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -3293,6 +3365,7 @@ export type UserUncheckedUpdateWithoutUpdatedByTaskTypesInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3329,6 +3402,7 @@ export type UserCreateWithoutCreatedByProjectsInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -3365,6 +3439,7 @@ export type UserUncheckedCreateWithoutCreatedByProjectsInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -3406,6 +3481,7 @@ export type UserCreateWithoutUpdatedByProjectsInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -3442,6 +3518,7 @@ export type UserUncheckedCreateWithoutUpdatedByProjectsInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -3494,6 +3571,7 @@ export type UserUpdateWithoutCreatedByProjectsInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -3530,6 +3608,7 @@ export type UserUncheckedUpdateWithoutCreatedByProjectsInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3577,6 +3656,7 @@ export type UserUpdateWithoutUpdatedByProjectsInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -3613,6 +3693,7 @@ export type UserUncheckedUpdateWithoutUpdatedByProjectsInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3649,6 +3730,7 @@ export type UserCreateWithoutProjectMembersInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -3685,6 +3767,7 @@ export type UserUncheckedCreateWithoutProjectMembersInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -3737,6 +3820,7 @@ export type UserUpdateWithoutProjectMembersInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -3773,6 +3857,7 @@ export type UserUncheckedUpdateWithoutProjectMembersInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3809,6 +3894,7 @@ export type UserCreateWithoutTimeSheetsInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   created_at?: Date | string
   updated_at?: Date | string | null
   is_active?: boolean
@@ -3845,6 +3931,7 @@ export type UserUncheckedCreateWithoutTimeSheetsInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -3897,6 +3984,7 @@ export type UserUpdateWithoutTimeSheetsInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -3933,6 +4021,7 @@ export type UserUncheckedUpdateWithoutTimeSheetsInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3969,6 +4058,7 @@ export type UserCreateManyCreatedByInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -3991,6 +4081,7 @@ export type UserCreateManyUpdatedByInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   role_id?: string | null
@@ -4013,6 +4104,7 @@ export type UserUpdateWithoutCreatedByInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -4049,6 +4141,7 @@ export type UserUncheckedUpdateWithoutCreatedByInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4085,6 +4178,7 @@ export type UserUncheckedUpdateManyWithoutCreatedByInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4107,6 +4201,7 @@ export type UserUpdateWithoutUpdatedByInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -4143,6 +4238,7 @@ export type UserUncheckedUpdateWithoutUpdatedByInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4179,6 +4275,7 @@ export type UserUncheckedUpdateManyWithoutUpdatedByInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4201,6 +4298,7 @@ export type UserCreateManyRoleInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   team_id?: string | null
   created_at?: Date | string
@@ -4223,6 +4321,7 @@ export type UserUpdateWithoutRoleInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -4259,6 +4358,7 @@ export type UserUncheckedUpdateWithoutRoleInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4295,6 +4395,7 @@ export type UserUncheckedUpdateManyWithoutRoleInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4317,6 +4418,7 @@ export type UserCreateManyTeamInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   position_level_id?: string | null
   role_id?: string | null
   created_at?: Date | string
@@ -4339,6 +4441,7 @@ export type UserUpdateWithoutTeamInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -4375,6 +4478,7 @@ export type UserUncheckedUpdateWithoutTeamInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4411,6 +4515,7 @@ export type UserUncheckedUpdateManyWithoutTeamInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4433,6 +4538,7 @@ export type UserCreateManyPosition_levelInput = {
   end_date?: Date | string | null
   last_login_at?: Date | string | null
   salary_range?: string | null
+  reset_password_date?: Date | string | null
   team_id?: string | null
   role_id?: string | null
   created_at?: Date | string
@@ -4455,6 +4561,7 @@ export type UserUpdateWithoutPosition_levelInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -4491,6 +4598,7 @@ export type UserUncheckedUpdateWithoutPosition_levelInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4527,6 +4635,7 @@ export type UserUncheckedUpdateManyWithoutPosition_levelInput = {
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4697,6 +4806,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   end_date?: boolean
   last_login_at?: boolean
   salary_range?: boolean
+  reset_password_date?: boolean
   position_level_id?: boolean
   team_id?: boolean
   role_id?: boolean
@@ -4740,6 +4850,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   end_date?: boolean
   last_login_at?: boolean
   salary_range?: boolean
+  reset_password_date?: boolean
   position_level_id?: boolean
   team_id?: boolean
   role_id?: boolean
@@ -4768,6 +4879,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   end_date?: boolean
   last_login_at?: boolean
   salary_range?: boolean
+  reset_password_date?: boolean
   position_level_id?: boolean
   team_id?: boolean
   role_id?: boolean
@@ -4796,6 +4908,7 @@ export type UserSelectScalar = {
   end_date?: boolean
   last_login_at?: boolean
   salary_range?: boolean
+  reset_password_date?: boolean
   position_level_id?: boolean
   team_id?: boolean
   role_id?: boolean
@@ -4807,7 +4920,7 @@ export type UserSelectScalar = {
   is_enabled?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "email" | "password" | "first_name" | "last_name" | "nick_name" | "start_date" | "end_date" | "last_login_at" | "salary_range" | "position_level_id" | "team_id" | "role_id" | "created_at" | "created_by" | "updated_at" | "updated_by" | "is_active" | "is_enabled", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "email" | "password" | "first_name" | "last_name" | "nick_name" | "start_date" | "end_date" | "last_login_at" | "salary_range" | "reset_password_date" | "position_level_id" | "team_id" | "role_id" | "created_at" | "created_by" | "updated_at" | "updated_by" | "is_active" | "is_enabled", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   position_level?: boolean | Prisma.User$position_levelArgs<ExtArgs>
   team?: boolean | Prisma.User$teamArgs<ExtArgs>
@@ -4880,6 +4993,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     end_date: Date | null
     last_login_at: Date | null
     salary_range: string | null
+    reset_password_date: Date | null
     position_level_id: string | null
     team_id: string | null
     role_id: string | null
@@ -5342,6 +5456,7 @@ export interface UserFieldRefs {
   readonly end_date: Prisma.FieldRef<"User", 'DateTime'>
   readonly last_login_at: Prisma.FieldRef<"User", 'DateTime'>
   readonly salary_range: Prisma.FieldRef<"User", 'String'>
+  readonly reset_password_date: Prisma.FieldRef<"User", 'DateTime'>
   readonly position_level_id: Prisma.FieldRef<"User", 'String'>
   readonly team_id: Prisma.FieldRef<"User", 'String'>
   readonly role_id: Prisma.FieldRef<"User", 'String'>

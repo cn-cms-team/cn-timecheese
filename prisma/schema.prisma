@@ -19,6 +19,7 @@ model User {
   end_date      DateTime?
   last_login_at DateTime?
   salary_range  String?   @db.VarChar(100)
+  reset_password_date    DateTime?
 
   position_level_id String?        @db.Char(36)
   position_level    PositionLevel? @relation(fields: [position_level_id], references: [id])

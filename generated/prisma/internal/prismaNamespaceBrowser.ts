@@ -95,6 +95,7 @@ export const UserScalarFieldEnum = {
   end_date: 'end_date',
   last_login_at: 'last_login_at',
   salary_range: 'salary_range',
+  reset_password_date: 'reset_password_date',
   position_level_id: 'position_level_id',
   team_id: 'team_id',
   role_id: 'role_id',
