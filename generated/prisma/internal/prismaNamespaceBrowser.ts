@@ -58,6 +58,7 @@ export const ModelName = {
   Module: 'Module',
   ModulePermission: 'ModulePermission',
   Team: 'Team',
+  TeamLeader: 'TeamLeader',
   Position: 'Position',
   PositionLevel: 'PositionLevel',
   TaskType: 'TaskType',
@@ -174,6 +175,15 @@ export const TeamScalarFieldEnum = {
 } as const
 
 export type TeamScalarFieldEnum = (typeof TeamScalarFieldEnum)[keyof typeof TeamScalarFieldEnum]
+
+
+export const TeamLeaderScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  team_id: 'team_id'
+} as const
+
+export type TeamLeaderScalarFieldEnum = (typeof TeamLeaderScalarFieldEnum)[keyof typeof TeamLeaderScalarFieldEnum]
 
 
 export const PositionScalarFieldEnum = {

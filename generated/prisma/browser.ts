@@ -53,6 +53,11 @@ export type ModulePermission = Prisma.ModulePermissionModel
  */
 export type Team = Prisma.TeamModel
 /**
+ * Model TeamLeader
+ * 
+ */
+export type TeamLeader = Prisma.TeamLeaderModel
+/**
  * Model Position
  * 
  */
