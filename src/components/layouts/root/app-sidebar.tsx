@@ -1,3 +1,6 @@
+'use client';
+import { useState } from 'react';
+
 import {
   BriefcaseBusiness,
   CalendarDays,
@@ -13,65 +16,29 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
+  SidebarRail,
 } from '@/components/ui/sidebar';
 import CheeseIcon from '@/components/ui/icons/cheese';
 import AppSidebarUser from './app-sidebar-user';
-
-// Menu items.
-const generalMenu = [
-  {
-    title: 'ภาพรวม',
-    url: '/dashboard',
-    icon: Home,
-  },
-  {
-    title: 'Time Sheet',
-    url: '/timesheet',
-    icon: CalendarDays,
-  },
-];
-
-const settingsMenu = [
-  {
-    title: 'ผู้ใช้งาน',
-    url: '/setting/users',
-    icon: User,
-  },
-  {
-    title: 'โครงการ',
-    url: '/setting/projects',
-    icon: Presentation,
-  },
-  {
-    title: 'ตำแหน่ง',
-    url: '/setting/positions',
-    icon: Network,
-  },
-  {
-    title: 'ทีม',
-    url: '/setting/teams',
-    icon: Users,
-  },
-  {
-    title: 'ประเภทงาน',
-    url: '/setting/work-types',
-    icon: BriefcaseBusiness,
-  },
-  {
-    title: 'สิทธิ์การใช้งาน',
-    url: '/setting/roles',
-    icon: ShieldUser,
-  },
-];
+import { AppSidebarNav } from './app-sidebar-nav';
+import { useAccount } from '@/components/context/app-context';
+import { useSession } from 'next-auth/react';
 
 export function AppSidebar() {
+  const { data: session } = useSession();
+  const { account } = useAccount();
+  const user = {
+    id: session?.user?.id ?? '',
+    username: session?.user?.name ?? '',
+    avatar: session?.user?.image ?? undefined,
+    permissions: account?.permissions ?? {},
+    name: account.name ?? '',
+    position_level: account.position_level ?? '',
+  };
+  const [openSidebar, setOpenSidebar] = useState(true);
   return (
     <Sidebar className="noto-sans" collapsible="icon">
       <SidebarHeader>
@@ -81,50 +48,18 @@ export function AppSidebar() {
               <div className="w-8 h-8 rounded-lg flex items-center justify-center">
                 <CheeseIcon />
               </div>
-              <div className="font-bold text-lg text-nowrap">CMS Timesheet</div>
+              <div className="font-bold text-lg text-nowrap">Timecheese</div>
             </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup className="text-md">
-          <SidebarGroupLabel>ทั่วไป</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {generalMenu.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span className="text-sm">{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup className="text-md">
-          <SidebarGroupLabel>ตั้งค่า</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {settingsMenu.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span className="text-sm">{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <AppSidebarNav openSidebar={openSidebar} />
       </SidebarContent>
       <SidebarFooter>
-        <AppSidebarUser />
+        <AppSidebarUser user={user} />
       </SidebarFooter>
+      <SidebarRail onOpenChange={setOpenSidebar} />
     </Sidebar>
   );
 }
