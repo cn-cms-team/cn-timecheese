@@ -25,35 +25,59 @@ export type AggregateProjectTaskType = {
 }
 
 export type ProjectTaskTypeMinAggregateOutputType = {
+  id: string | null
   project_id: string | null
   task_type_id: string | null
+  type: $Enums.TaskTypeCode | null
+  name: string | null
+  description: string | null
 }
 
 export type ProjectTaskTypeMaxAggregateOutputType = {
+  id: string | null
   project_id: string | null
   task_type_id: string | null
+  type: $Enums.TaskTypeCode | null
+  name: string | null
+  description: string | null
 }
 
 export type ProjectTaskTypeCountAggregateOutputType = {
+  id: number
   project_id: number
   task_type_id: number
+  type: number
+  name: number
+  description: number
   _all: number
 }
 
 
 export type ProjectTaskTypeMinAggregateInputType = {
+  id?: true
   project_id?: true
   task_type_id?: true
+  type?: true
+  name?: true
+  description?: true
 }
 
 export type ProjectTaskTypeMaxAggregateInputType = {
+  id?: true
   project_id?: true
   task_type_id?: true
+  type?: true
+  name?: true
+  description?: true
 }
 
 export type ProjectTaskTypeCountAggregateInputType = {
+  id?: true
   project_id?: true
   task_type_id?: true
+  type?: true
+  name?: true
+  description?: true
   _all?: true
 }
 
@@ -130,8 +154,12 @@ export type ProjectTaskTypeGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 export type ProjectTaskTypeGroupByOutputType = {
+  id: string
   project_id: string
-  task_type_id: string
+  task_type_id: string | null
+  type: $Enums.TaskTypeCode
+  name: string
+  description: string
   _count: ProjectTaskTypeCountAggregateOutputType | null
   _min: ProjectTaskTypeMinAggregateOutputType | null
   _max: ProjectTaskTypeMaxAggregateOutputType | null
@@ -156,33 +184,48 @@ export type ProjectTaskTypeWhereInput = {
   AND?: Prisma.ProjectTaskTypeWhereInput | Prisma.ProjectTaskTypeWhereInput[]
   OR?: Prisma.ProjectTaskTypeWhereInput[]
   NOT?: Prisma.ProjectTaskTypeWhereInput | Prisma.ProjectTaskTypeWhereInput[]
+  id?: Prisma.StringFilter<"ProjectTaskType"> | string
   project_id?: Prisma.StringFilter<"ProjectTaskType"> | string
-  task_type_id?: Prisma.StringFilter<"ProjectTaskType"> | string
+  task_type_id?: Prisma.StringNullableFilter<"ProjectTaskType"> | string | null
+  type?: Prisma.EnumTaskTypeCodeFilter<"ProjectTaskType"> | $Enums.TaskTypeCode
+  name?: Prisma.StringFilter<"ProjectTaskType"> | string
+  description?: Prisma.StringFilter<"ProjectTaskType"> | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
-  task_type?: Prisma.XOR<Prisma.TaskTypeScalarRelationFilter, Prisma.TaskTypeWhereInput>
+  task_type?: Prisma.XOR<Prisma.TaskTypeNullableScalarRelationFilter, Prisma.TaskTypeWhereInput> | null
 }
 
 export type ProjectTaskTypeOrderByWithRelationInput = {
+  id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
-  task_type_id?: Prisma.SortOrder
+  task_type_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
   task_type?: Prisma.TaskTypeOrderByWithRelationInput
 }
 
 export type ProjectTaskTypeWhereUniqueInput = Prisma.AtLeast<{
-  project_id_task_type_id?: Prisma.ProjectTaskTypeProject_idTask_type_idCompoundUniqueInput
+  id?: string
   AND?: Prisma.ProjectTaskTypeWhereInput | Prisma.ProjectTaskTypeWhereInput[]
   OR?: Prisma.ProjectTaskTypeWhereInput[]
   NOT?: Prisma.ProjectTaskTypeWhereInput | Prisma.ProjectTaskTypeWhereInput[]
   project_id?: Prisma.StringFilter<"ProjectTaskType"> | string
-  task_type_id?: Prisma.StringFilter<"ProjectTaskType"> | string
+  task_type_id?: Prisma.StringNullableFilter<"ProjectTaskType"> | string | null
+  type?: Prisma.EnumTaskTypeCodeFilter<"ProjectTaskType"> | $Enums.TaskTypeCode
+  name?: Prisma.StringFilter<"ProjectTaskType"> | string
+  description?: Prisma.StringFilter<"ProjectTaskType"> | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
-  task_type?: Prisma.XOR<Prisma.TaskTypeScalarRelationFilter, Prisma.TaskTypeWhereInput>
-}, "project_id_task_type_id">
+  task_type?: Prisma.XOR<Prisma.TaskTypeNullableScalarRelationFilter, Prisma.TaskTypeWhereInput> | null
+}, "id">
 
 export type ProjectTaskTypeOrderByWithAggregationInput = {
+  id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
-  task_type_id?: Prisma.SortOrder
+  task_type_id?: Prisma.SortOrderInput | Prisma.SortOrder
+  type?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   _count?: Prisma.ProjectTaskTypeCountOrderByAggregateInput
   _max?: Prisma.ProjectTaskTypeMaxOrderByAggregateInput
   _min?: Prisma.ProjectTaskTypeMinOrderByAggregateInput
@@ -192,42 +235,73 @@ export type ProjectTaskTypeScalarWhereWithAggregatesInput = {
   AND?: Prisma.ProjectTaskTypeScalarWhereWithAggregatesInput | Prisma.ProjectTaskTypeScalarWhereWithAggregatesInput[]
   OR?: Prisma.ProjectTaskTypeScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ProjectTaskTypeScalarWhereWithAggregatesInput | Prisma.ProjectTaskTypeScalarWhereWithAggregatesInput[]
+  id?: Prisma.StringWithAggregatesFilter<"ProjectTaskType"> | string
   project_id?: Prisma.StringWithAggregatesFilter<"ProjectTaskType"> | string
-  task_type_id?: Prisma.StringWithAggregatesFilter<"ProjectTaskType"> | string
+  task_type_id?: Prisma.StringNullableWithAggregatesFilter<"ProjectTaskType"> | string | null
+  type?: Prisma.EnumTaskTypeCodeWithAggregatesFilter<"ProjectTaskType"> | $Enums.TaskTypeCode
+  name?: Prisma.StringWithAggregatesFilter<"ProjectTaskType"> | string
+  description?: Prisma.StringWithAggregatesFilter<"ProjectTaskType"> | string
 }
 
 export type ProjectTaskTypeCreateInput = {
+  id?: string
+  type: $Enums.TaskTypeCode
+  name: string
+  description: string
   project: Prisma.ProjectCreateNestedOneWithoutProjectTaskTypesInput
-  task_type: Prisma.TaskTypeCreateNestedOneWithoutProjectTaskTypesInput
+  task_type?: Prisma.TaskTypeCreateNestedOneWithoutProjectTaskTypesInput
 }
 
 export type ProjectTaskTypeUncheckedCreateInput = {
+  id?: string
   project_id: string
-  task_type_id: string
+  task_type_id?: string | null
+  type: $Enums.TaskTypeCode
+  name: string
+  description: string
 }
 
 export type ProjectTaskTypeUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutProjectTaskTypesNestedInput
-  task_type?: Prisma.TaskTypeUpdateOneRequiredWithoutProjectTaskTypesNestedInput
+  task_type?: Prisma.TaskTypeUpdateOneWithoutProjectTaskTypesNestedInput
 }
 
 export type ProjectTaskTypeUncheckedUpdateInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   project_id?: Prisma.StringFieldUpdateOperationsInput | string
-  task_type_id?: Prisma.StringFieldUpdateOperationsInput | string
+  task_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProjectTaskTypeCreateManyInput = {
+  id?: string
   project_id: string
-  task_type_id: string
+  task_type_id?: string | null
+  type: $Enums.TaskTypeCode
+  name: string
+  description: string
 }
 
 export type ProjectTaskTypeUpdateManyMutationInput = {
-
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProjectTaskTypeUncheckedUpdateManyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   project_id?: Prisma.StringFieldUpdateOperationsInput | string
-  task_type_id?: Prisma.StringFieldUpdateOperationsInput | string
+  task_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProjectTaskTypeListRelationFilter = {
@@ -240,24 +314,31 @@ export type ProjectTaskTypeOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type ProjectTaskTypeProject_idTask_type_idCompoundUniqueInput = {
-  project_id: string
-  task_type_id: string
-}
-
 export type ProjectTaskTypeCountOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
   task_type_id?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  description?: Prisma.SortOrder
 }
 
 export type ProjectTaskTypeMaxOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
   task_type_id?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  description?: Prisma.SortOrder
 }
 
 export type ProjectTaskTypeMinOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
   task_type_id?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  name?: Prisma.SortOrder
+  description?: Prisma.SortOrder
 }
 
 export type ProjectTaskTypeCreateNestedManyWithoutTask_typeInput = {
@@ -345,11 +426,19 @@ export type ProjectTaskTypeUncheckedUpdateManyWithoutProjectNestedInput = {
 }
 
 export type ProjectTaskTypeCreateWithoutTask_typeInput = {
+  id?: string
+  type: $Enums.TaskTypeCode
+  name: string
+  description: string
   project: Prisma.ProjectCreateNestedOneWithoutProjectTaskTypesInput
 }
 
 export type ProjectTaskTypeUncheckedCreateWithoutTask_typeInput = {
+  id?: string
   project_id: string
+  type: $Enums.TaskTypeCode
+  name: string
+  description: string
 }
 
 export type ProjectTaskTypeCreateOrConnectWithoutTask_typeInput = {
@@ -382,16 +471,28 @@ export type ProjectTaskTypeScalarWhereInput = {
   AND?: Prisma.ProjectTaskTypeScalarWhereInput | Prisma.ProjectTaskTypeScalarWhereInput[]
   OR?: Prisma.ProjectTaskTypeScalarWhereInput[]
   NOT?: Prisma.ProjectTaskTypeScalarWhereInput | Prisma.ProjectTaskTypeScalarWhereInput[]
+  id?: Prisma.StringFilter<"ProjectTaskType"> | string
   project_id?: Prisma.StringFilter<"ProjectTaskType"> | string
-  task_type_id?: Prisma.StringFilter<"ProjectTaskType"> | string
+  task_type_id?: Prisma.StringNullableFilter<"ProjectTaskType"> | string | null
+  type?: Prisma.EnumTaskTypeCodeFilter<"ProjectTaskType"> | $Enums.TaskTypeCode
+  name?: Prisma.StringFilter<"ProjectTaskType"> | string
+  description?: Prisma.StringFilter<"ProjectTaskType"> | string
 }
 
 export type ProjectTaskTypeCreateWithoutProjectInput = {
-  task_type: Prisma.TaskTypeCreateNestedOneWithoutProjectTaskTypesInput
+  id?: string
+  type: $Enums.TaskTypeCode
+  name: string
+  description: string
+  task_type?: Prisma.TaskTypeCreateNestedOneWithoutProjectTaskTypesInput
 }
 
 export type ProjectTaskTypeUncheckedCreateWithoutProjectInput = {
-  task_type_id: string
+  id?: string
+  task_type_id?: string | null
+  type: $Enums.TaskTypeCode
+  name: string
+  description: string
 }
 
 export type ProjectTaskTypeCreateOrConnectWithoutProjectInput = {
@@ -421,88 +522,140 @@ export type ProjectTaskTypeUpdateManyWithWhereWithoutProjectInput = {
 }
 
 export type ProjectTaskTypeCreateManyTask_typeInput = {
+  id?: string
   project_id: string
+  type: $Enums.TaskTypeCode
+  name: string
+  description: string
 }
 
 export type ProjectTaskTypeUpdateWithoutTask_typeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutProjectTaskTypesNestedInput
 }
 
 export type ProjectTaskTypeUncheckedUpdateWithoutTask_typeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   project_id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProjectTaskTypeUncheckedUpdateManyWithoutTask_typeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
   project_id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProjectTaskTypeCreateManyProjectInput = {
-  task_type_id: string
+  id?: string
+  task_type_id?: string | null
+  type: $Enums.TaskTypeCode
+  name: string
+  description: string
 }
 
 export type ProjectTaskTypeUpdateWithoutProjectInput = {
-  task_type?: Prisma.TaskTypeUpdateOneRequiredWithoutProjectTaskTypesNestedInput
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  task_type?: Prisma.TaskTypeUpdateOneWithoutProjectTaskTypesNestedInput
 }
 
 export type ProjectTaskTypeUncheckedUpdateWithoutProjectInput = {
-  task_type_id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  task_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type ProjectTaskTypeUncheckedUpdateManyWithoutProjectInput = {
-  task_type_id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  task_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
 
 export type ProjectTaskTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   project_id?: boolean
   task_type_id?: boolean
+  type?: boolean
+  name?: boolean
+  description?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  task_type?: boolean | Prisma.TaskTypeDefaultArgs<ExtArgs>
+  task_type?: boolean | Prisma.ProjectTaskType$task_typeArgs<ExtArgs>
 }, ExtArgs["result"]["projectTaskType"]>
 
 export type ProjectTaskTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   project_id?: boolean
   task_type_id?: boolean
+  type?: boolean
+  name?: boolean
+  description?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  task_type?: boolean | Prisma.TaskTypeDefaultArgs<ExtArgs>
+  task_type?: boolean | Prisma.ProjectTaskType$task_typeArgs<ExtArgs>
 }, ExtArgs["result"]["projectTaskType"]>
 
 export type ProjectTaskTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
   project_id?: boolean
   task_type_id?: boolean
+  type?: boolean
+  name?: boolean
+  description?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  task_type?: boolean | Prisma.TaskTypeDefaultArgs<ExtArgs>
+  task_type?: boolean | Prisma.ProjectTaskType$task_typeArgs<ExtArgs>
 }, ExtArgs["result"]["projectTaskType"]>
 
 export type ProjectTaskTypeSelectScalar = {
+  id?: boolean
   project_id?: boolean
   task_type_id?: boolean
+  type?: boolean
+  name?: boolean
+  description?: boolean
 }
 
-export type ProjectTaskTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"project_id" | "task_type_id", ExtArgs["result"]["projectTaskType"]>
+export type ProjectTaskTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "project_id" | "task_type_id" | "type" | "name" | "description", ExtArgs["result"]["projectTaskType"]>
 export type ProjectTaskTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  task_type?: boolean | Prisma.TaskTypeDefaultArgs<ExtArgs>
+  task_type?: boolean | Prisma.ProjectTaskType$task_typeArgs<ExtArgs>
 }
 export type ProjectTaskTypeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  task_type?: boolean | Prisma.TaskTypeDefaultArgs<ExtArgs>
+  task_type?: boolean | Prisma.ProjectTaskType$task_typeArgs<ExtArgs>
 }
 export type ProjectTaskTypeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  task_type?: boolean | Prisma.TaskTypeDefaultArgs<ExtArgs>
+  task_type?: boolean | Prisma.ProjectTaskType$task_typeArgs<ExtArgs>
 }
 
 export type $ProjectTaskTypePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ProjectTaskType"
   objects: {
     project: Prisma.$ProjectPayload<ExtArgs>
-    task_type: Prisma.$TaskTypePayload<ExtArgs>
+    task_type: Prisma.$TaskTypePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
+    id: string
     project_id: string
-    task_type_id: string
+    task_type_id: string | null
+    type: $Enums.TaskTypeCode
+    name: string
+    description: string
   }, ExtArgs["result"]["projectTaskType"]>
   composites: {}
 }
@@ -586,8 +739,8 @@ export interface ProjectTaskTypeDelegate<ExtArgs extends runtime.Types.Extension
    * // Get first 10 ProjectTaskTypes
    * const projectTaskTypes = await prisma.projectTaskType.findMany({ take: 10 })
    * 
-   * // Only select the `project_id`
-   * const projectTaskTypeWithProject_idOnly = await prisma.projectTaskType.findMany({ select: { project_id: true } })
+   * // Only select the `id`
+   * const projectTaskTypeWithIdOnly = await prisma.projectTaskType.findMany({ select: { id: true } })
    * 
    */
   findMany<T extends ProjectTaskTypeFindManyArgs>(args?: Prisma.SelectSubset<T, ProjectTaskTypeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectTaskTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -631,9 +784,9 @@ export interface ProjectTaskTypeDelegate<ExtArgs extends runtime.Types.Extension
    *   ]
    * })
    * 
-   * // Create many ProjectTaskTypes and only return the `project_id`
-   * const projectTaskTypeWithProject_idOnly = await prisma.projectTaskType.createManyAndReturn({
-   *   select: { project_id: true },
+   * // Create many ProjectTaskTypes and only return the `id`
+   * const projectTaskTypeWithIdOnly = await prisma.projectTaskType.createManyAndReturn({
+   *   select: { id: true },
    *   data: [
    *     // ... provide data here
    *   ]
@@ -722,9 +875,9 @@ export interface ProjectTaskTypeDelegate<ExtArgs extends runtime.Types.Extension
    *   ]
    * })
    * 
-   * // Update zero or more ProjectTaskTypes and only return the `project_id`
-   * const projectTaskTypeWithProject_idOnly = await prisma.projectTaskType.updateManyAndReturn({
-   *   select: { project_id: true },
+   * // Update zero or more ProjectTaskTypes and only return the `id`
+   * const projectTaskTypeWithIdOnly = await prisma.projectTaskType.updateManyAndReturn({
+   *   select: { id: true },
    *   where: {
    *     // ... provide filter here
    *   },
@@ -898,7 +1051,7 @@ readonly fields: ProjectTaskTypeFieldRefs;
 export interface Prisma__ProjectTaskTypeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   project<T extends Prisma.ProjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectDefaultArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  task_type<T extends Prisma.TaskTypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaskTypeDefaultArgs<ExtArgs>>): Prisma.Prisma__TaskTypeClient<runtime.Types.Result.GetResult<Prisma.$TaskTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  task_type<T extends Prisma.ProjectTaskType$task_typeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectTaskType$task_typeArgs<ExtArgs>>): Prisma.Prisma__TaskTypeClient<runtime.Types.Result.GetResult<Prisma.$TaskTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -928,8 +1081,12 @@ export interface Prisma__ProjectTaskTypeClient<T, Null = never, ExtArgs extends 
  * Fields of the ProjectTaskType model
  */
 export interface ProjectTaskTypeFieldRefs {
+  readonly id: Prisma.FieldRef<"ProjectTaskType", 'String'>
   readonly project_id: Prisma.FieldRef<"ProjectTaskType", 'String'>
   readonly task_type_id: Prisma.FieldRef<"ProjectTaskType", 'String'>
+  readonly type: Prisma.FieldRef<"ProjectTaskType", 'TaskTypeCode'>
+  readonly name: Prisma.FieldRef<"ProjectTaskType", 'String'>
+  readonly description: Prisma.FieldRef<"ProjectTaskType", 'String'>
 }
     
 
@@ -1323,6 +1480,25 @@ export type ProjectTaskTypeDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many ProjectTaskTypes to delete.
    */
   limit?: number
+}
+
+/**
+ * ProjectTaskType.task_type
+ */
+export type ProjectTaskType$task_typeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TaskType
+   */
+  select?: Prisma.TaskTypeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TaskType
+   */
+  omit?: Prisma.TaskTypeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaskTypeInclude<ExtArgs> | null
+  where?: Prisma.TaskTypeWhereInput
 }
 
 /**

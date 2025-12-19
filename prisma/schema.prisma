@@ -8,18 +8,18 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid()) @db.Char(36)
-  code          String    @unique @db.VarChar(50)
-  email         String    @unique @db.VarChar(255)
-  password      String    @db.VarChar(255)
-  first_name    String    @db.VarChar(100)
-  last_name     String    @db.VarChar(100)
-  nick_name     String?   @db.VarChar(100)
-  start_date    DateTime?
-  end_date      DateTime?
-  last_login_at DateTime?
-  salary_range  String?   @db.VarChar(100)
-  reset_password_date    DateTime?
+  id                  String    @id @default(uuid()) @db.Char(36)
+  code                String    @unique @db.VarChar(50)
+  email               String    @unique @db.VarChar(255)
+  password            String    @db.VarChar(255)
+  first_name          String    @db.VarChar(100)
+  last_name           String    @db.VarChar(100)
+  nick_name           String?   @db.VarChar(100)
+  start_date          DateTime?
+  end_date            DateTime?
+  last_login_at       DateTime?
+  salary_range        String?   @db.VarChar(100)
+  reset_password_date DateTime?
 
   position_level_id String?        @db.Char(36)
   position_level    PositionLevel? @relation(fields: [position_level_id], references: [id])
@@ -260,13 +260,16 @@ model ProjectMember {
 }
 
 model ProjectTaskType {
-  project_id   String @db.Char(36)
-  task_type_id String @db.Char(36)
+  id           String       @id @default(uuid()) @db.Char(36)
+  project_id   String       @db.Char(36)
+  task_type_id String?      @db.Char(36)
+  type         TaskTypeCode
+  name         String       @db.VarChar(100)
+  description  String       @db.VarChar(255)
 
-  project   Project  @relation(fields: [project_id], references: [id])
-  task_type TaskType @relation(fields: [task_type_id], references: [id])
+  project   Project   @relation(fields: [project_id], references: [id])
+  task_type TaskType? @relation(fields: [task_type_id], references: [id])
 
-  @@id([project_id, task_type_id])
   @@map("project_task_types")
 }
 
