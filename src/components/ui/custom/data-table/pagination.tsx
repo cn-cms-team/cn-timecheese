@@ -97,7 +97,7 @@ export default function DataTablePagination<TData>({ table }: DataTablePaginatio
       </div>
       <div className="flex items-center space-x-2 lg:ms-auto">
         <Button
-          variant="ghost"
+          variant="outline"
           className="h-7 w-7 p-0 border-1"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
