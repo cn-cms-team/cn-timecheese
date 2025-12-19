@@ -126,7 +126,6 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       });
       if (response.ok) {
         const result = await response.json();
-        console.log('Create Successful', result);
         router.push('/setting/user');
       }
     } catch {

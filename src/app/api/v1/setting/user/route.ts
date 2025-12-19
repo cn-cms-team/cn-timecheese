@@ -43,7 +43,6 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    console.log(body.data);
 
     const result = await prisma.user.create({
       data: { ...body.data },
@@ -57,7 +56,6 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.log('error', error);
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
