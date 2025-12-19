@@ -4,3 +4,10 @@ export type SvgIconProps = {
   children: React.ReactNode;
   className?: string;
 };
+
+export type IconProps = {
+  width?: number | string;
+  height?: number | string;
+  color?: string;
+  className?: string;
+};
