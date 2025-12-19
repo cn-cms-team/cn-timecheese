@@ -28,38 +28,38 @@ export const menuItems: IMenu[] = [
   },
   {
     name: 'ตั้งค่า',
-    url: '/admin',
+    url: '/setting',
     icon: Settings2,
     items: [
       {
         menuId: 'ADMIN_USER',
         name: 'ผู้ใช้งาน',
-        url: '/admin/user',
+        url: '/setting/user',
       },
       {
         menuId: 'ADMIN_ROLE',
         name: 'สิทธิ์การใช้งาน',
-        url: '/admin/role',
+        url: '/setting/role',
       },
       {
         menuId: 'ADMIN_PROJECT',
         name: 'โครงการ',
-        url: '/admin/project',
+        url: '/setting/project',
       },
       {
         menuId: 'ADMIN_TASK_TYPE',
         name: 'ประเภทงาน',
-        url: '/admin/task-type',
+        url: '/setting/task-type',
       },
       {
         menuId: 'ADMIN_TEAM',
         name: 'ทีม',
-        url: '/admin/team',
+        url: '/setting/team',
       },
       {
         menuId: 'ADMIN_POSITION',
         name: 'ตำแหน่งงาน',
-        url: '/admin/position',
+        url: '/setting/position',
       },
     ],
   },
