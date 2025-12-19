@@ -1,6 +1,7 @@
 'use client';
 
 import LabelGroup from '@/components/ui/custom/form/label-group';
+import { formatDate } from '@/lib/functions/date-format';
 import { getIsActive } from '@/lib/functions/enum-mapping';
 import { IUser } from '@/types/setting/user';
 import { useEffect, useState } from 'react';
@@ -37,8 +38,8 @@ const UserViewDetail = ({ id }: { id: string }): React.ReactNode => {
           <LabelGroup label="ชื่อเล่น" value={userData?.nick_name} />
           <LabelGroup label="ทีม" value={userData?.team.name} />
           <LabelGroup label="ตำแหน่ง" value={userData?.position_level?.name} />
-          <LabelGroup label="วันที่เริ่มงาน" value={userData?.start_date?.toString() || '-'} />
-          <LabelGroup label="วันที่สิ้นสุด" value={userData?.end_date?.toString() || '-'} />
+          <LabelGroup label="วันที่เริ่มงาน" value={formatDate(userData?.start_date) || '-'} />
+          <LabelGroup label="วันที่สิ้นสุด" value={formatDate(userData?.end_date) || '-'} />
           <LabelGroup label="สิทธิ์การใช้งาน" value={userData?.role?.name} />
           <LabelGroup label="สถานะการใช้งาน" value={getIsActive(userData?.isActive || false)} />
         </div>
