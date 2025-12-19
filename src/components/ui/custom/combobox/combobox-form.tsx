@@ -45,7 +45,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger asChild disabled={disabled}>
         <div className="relative">
           <Button
             type="button"

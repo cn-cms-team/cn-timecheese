@@ -5,12 +5,13 @@ const baseSchema = {
   nick_name: z.string().min(2, 'ชื่อเล่นต้องมีความยาวอย่างน้อย 2 ตัวอักษร'),
   first_name: z.string().nonempty('กรุณากรอกชื่อของคุณ'),
   last_name: z.string().nonempty('กรุณากรอกนามสกุลของคุณ'),
+  code: z.string().nonempty('กรุณากรอกรหัสพนักงานของคุณ'),
   team_id: z.string().nonempty('กรุณาเลือกทีม'),
   position_id: z.string().optional(),
   position_level_id: z.string().nonempty('กรุณาเลือกระดับตำแหน่ง'),
   role_id: z.string().nonempty('กรุณาเลือกสิทธิ์การใช้งาน'),
   start_date: z.date('กรุณาเลือกวันที่เริ่มต้น'),
-  end_date: z.date().nullable(),
+  end_date: z.date().nullable().optional(),
   is_active: z.boolean().optional(),
 };
 const createUserSchema = z

@@ -27,7 +27,6 @@ import { fetcher } from '@/lib/fetcher';
 import { IOptions } from '@/types/dropdown';
 import { DatePickerInput } from '@/components/ui/custom/input/date-picker';
 import { useSession } from 'next-auth/react';
-import bcrypt from 'bcrypt';
 
 const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
   const { data: session } = useSession();
@@ -48,6 +47,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       confirm_password: '',
       first_name: '',
       last_name: '',
+      code: '',
       team_id: '',
       position_level_id: '',
       role_id: '',
@@ -113,8 +113,8 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
         role_id: values.role_id,
         start_date: values.start_date,
         end_date: values.end_date,
-        is_active: true,
-        code: 'CMS-99',
+        is_active: values.is_active,
+        code: values.code,
         created_by: session?.user?.id,
       };
       const response = await fetch(fetchUrl, {
@@ -168,13 +168,13 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
           />
           <FormField
             control={form.control}
-            name="nick_name"
+            name="code"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>ชื่อเล่น</FormLabel>
+                <FormLabel>รหัสพนักงาน</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="กรุณากรอกชื่อเล่นของคุณ"
+                    placeholder="กรุณากรอกรหัสพนักงาน"
                     {...field}
                     onInput={(e) => {
                       field.onChange(e);
@@ -197,7 +197,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                       <Input
                         type="password"
                         autoComplete="new-password"
-                        placeholder="กรุณากรอกรหัสผ่านของคุณ"
+                        placeholder="กรุณากรอกรหัสผ่าน"
                         {...field}
                         onInput={(e) => {
                           field.onChange(e);
@@ -218,7 +218,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                       <Input
                         type="password"
                         autoComplete="new-password"
-                        placeholder="กรุณากรอกยืนยันรหัสผ่านของคุณ"
+                        placeholder="กรุณากรอกยืนยันรหัสผ่าน"
                         {...field}
                         onInput={(e) => {
                           field.onChange(e);
@@ -239,7 +239,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 <FormLabel>ชื่อ</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="กรุณากรอกชื่อของคุณ"
+                    placeholder="กรุณากรอกชื่อ"
                     {...field}
                     onInput={(e) => {
                       field.onChange(e);
@@ -258,7 +258,26 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 <FormLabel>นามสกุล</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="กรุณากรอกนามสกุลของคุณ"
+                    placeholder="กรุณากรอกนามสกุล"
+                    {...field}
+                    onInput={(e) => {
+                      field.onChange(e);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="nick_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>ชื่อเล่น</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="กรุณากรอกชื่อเล่น"
                     {...field}
                     onInput={(e) => {
                       field.onChange(e);
@@ -277,7 +296,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 <FormLabel>ทีม</FormLabel>
                 <FormControl>
                   <ComboboxForm
-                    placeholder="เลือกทีมของคุณ"
+                    placeholder="เลือกทีม"
                     options={teamOptions}
                     field={field}
                     onSelect={(value) => field.onChange(value)}
@@ -296,10 +315,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 <FormLabel>ตำแหน่ง</FormLabel>
                 <FormControl>
                   <ComboboxForm
-                    placeholder="เลือกตำแหน่งของคุณ"
+                    placeholder="เลือกตำแหน่ง"
                     options={postitionOptions}
                     field={field}
-                    onSelect={(value) => field.onChange(value)}
+                    onSelect={() => {}}
                     disabled
                   />
                 </FormControl>
@@ -315,7 +334,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 <FormLabel>ระดับตำแหน่ง</FormLabel>
                 <FormControl>
                   <ComboboxForm
-                    placeholder="เลือกระดับตำแหน่งของคุณ"
+                    placeholder="เลือกระดับตำแหน่ง"
                     options={positionLevelOptions}
                     field={field}
                     onSelect={(value) => {
@@ -339,7 +358,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 <FormLabel>สิทธิ์การใช้งาน</FormLabel>
                 <FormControl>
                   <ComboboxForm
-                    placeholder="เลือกสิทธิ์การใช้งานของคุณ"
+                    placeholder="เลือกสิทธิ์การใช้งาน"
                     options={roleOptions}
                     field={field}
                     onSelect={(value) => field.onChange(value)}
@@ -376,7 +395,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 <FormLabel>วันที่สิ้นสุด</FormLabel>
                 <FormControl>
                   <DatePickerInput
-                    value={field.value!}
+                    value={field.value || undefined}
                     placeholder="กรุณาเลือกวันที่สิ้นสุดของคุณ"
                     onChange={field.onChange}
                   />
