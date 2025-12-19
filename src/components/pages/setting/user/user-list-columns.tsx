@@ -29,12 +29,6 @@ type createColumnsProps = {
 export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<IUser>[] => {
   const baseColumns: ColumnDef<IUser>[] = [
     {
-      header: 'ลำดับ',
-      id: 'rowNumber',
-      size: 40,
-      cell: ({ row }) => <div className="text-center">{row.index + 1}</div>,
-    },
-    {
       ...nameColumn,
       size: 200,
       cell: ({ row }) => {

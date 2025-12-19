@@ -7,7 +7,6 @@ const baseSchema = {
   last_name: z.string().nonempty('กรุณากรอกนามสกุลของคุณ'),
   code: z.string().nonempty('กรุณากรอกรหัสพนักงานของคุณ'),
   team_id: z.string().nonempty('กรุณาเลือกทีม'),
-  position_id: z.string().optional(),
   position_level_id: z.string().nonempty('กรุณาเลือกระดับตำแหน่ง'),
   role_id: z.string().nonempty('กรุณาเลือกสิทธิ์การใช้งาน'),
   start_date: z.date('กรุณาเลือกวันที่เริ่มต้น'),
@@ -22,7 +21,7 @@ const createUserSchema = z
   })
   .refine((data) => data.password === data.confirm_password, {
     message: 'รหัสผ่านไม่ตรงกัน',
-    path: ['password', 'confirm_password'],
+    path: ['confirm_password'],
   });
 const editUserSchema = z.object({
   ...baseSchema,

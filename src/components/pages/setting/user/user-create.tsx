@@ -33,7 +33,6 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
 
   const [teamOptions, setTeamOptions] = useState<IOptions[]>([]);
-  const [postitionOptions, setPostitionOptions] = useState<IOptions[]>([]);
   const [positionLevelOptions, setPostitionLevelOptions] = useState<IOptions[]>([]);
   const [roleOptions, setRoleOptions] = useState<IOptions[]>([]);
 
@@ -60,14 +59,12 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
     const fetchOptions = async () => {
       try {
         const prefix = process.env.NEXT_PUBLIC_APP_URL;
-        const [team, position, positionLevel, role] = await Promise.all([
+        const [team, positionLevel, role] = await Promise.all([
           fetcher<IOptions[]>(`${prefix}/api/v1/master/team`),
-          fetcher<IOptions[]>(`${prefix}/api/v1/master/position`),
           fetcher<IOptions[]>(`${prefix}/api/v1/master/position-level`),
           fetcher<IOptions[]>(`${prefix}/api/v1/master/role`),
         ]);
         setTeamOptions(team);
-        setPostitionOptions(position);
         setPostitionLevelOptions(positionLevel);
         setRoleOptions(role);
       } catch (error) {
@@ -143,54 +140,56 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
         <form
           id="user-create-form"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-2 gap-x-6 gap-y-5 px-8"
+          className="grid grid-cols-1 gap-x-6 gap-y-5 px-8"
         >
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>อีเมล</FormLabel>
-                <FormControl>
-                  <Input
-                    autoComplete="off"
-                    placeholder="กรุณากรอกอีเมลของคุณ"
-                    {...field}
-                    onInput={(e) => {
-                      field.onChange(e);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="code"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>รหัสพนักงาน</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="กรุณากรอกรหัสพนักงาน"
-                    {...field}
-                    onInput={(e) => {
-                      field.onChange(e);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="flex flex-wrap items-baseline">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-1/2">
+                  <FormLabel>อีเมล</FormLabel>
+                  <FormControl>
+                    <Input
+                      autoComplete="off"
+                      placeholder="กรุณากรอกอีเมลของคุณ"
+                      {...field}
+                      onInput={(e) => {
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="code"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-1/2">
+                  <FormLabel>รหัสพนักงาน</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="กรุณากรอกรหัสพนักงาน"
+                      {...field}
+                      onInput={(e) => {
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           {!id && (
-            <>
+            <div className="flex flex-wrap items-baseline">
               <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="w-full md:w-1/2">
                     <FormLabel>รหัสผ่าน</FormLabel>
                     <FormControl>
                       <Input
@@ -211,7 +210,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 control={form.control}
                 name="confirm_password"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="w-full md:w-1/2">
                     <FormLabel>ยืนยันรหัสผ่าน</FormLabel>
                     <FormControl>
                       <Input
@@ -228,202 +227,190 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                   </FormItem>
                 )}
               />
-            </>
+            </div>
           )}
-          <FormField
-            control={form.control}
-            name="first_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>ชื่อ</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="กรุณากรอกชื่อ"
-                    {...field}
-                    onInput={(e) => {
-                      field.onChange(e);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="last_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>นามสกุล</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="กรุณากรอกนามสกุล"
-                    {...field}
-                    onInput={(e) => {
-                      field.onChange(e);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="nick_name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>ชื่อเล่น</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="กรุณากรอกชื่อเล่น"
-                    {...field}
-                    onInput={(e) => {
-                      field.onChange(e);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="team_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>ทีม</FormLabel>
-                <FormControl>
-                  <ComboboxForm
-                    placeholder="เลือกทีม"
-                    options={teamOptions}
-                    field={field}
-                    onSelect={(value) => field.onChange(value)}
-                    isError={form.formState.errors.team_id ? true : false}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="position_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>ตำแหน่ง</FormLabel>
-                <FormControl>
-                  <ComboboxForm
-                    placeholder="เลือกตำแหน่ง"
-                    options={postitionOptions}
-                    field={field}
-                    onSelect={() => {}}
-                    disabled
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="position_level_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>ระดับตำแหน่ง</FormLabel>
-                <FormControl>
-                  <ComboboxForm
-                    placeholder="เลือกระดับตำแหน่ง"
-                    options={positionLevelOptions}
-                    field={field}
-                    onSelect={(value) => {
-                      field.onChange(value);
-                      const positionId = positionLevelOptions.find((e) => (e.value = value))
-                        ?.position.id;
-                      if (positionId) form.setValue('position_id', positionId);
-                    }}
-                    isError={form.formState.errors.position_level_id ? true : false}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="role_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>สิทธิ์การใช้งาน</FormLabel>
-                <FormControl>
-                  <ComboboxForm
-                    placeholder="เลือกสิทธิ์การใช้งาน"
-                    options={roleOptions}
-                    field={field}
-                    onSelect={(value) => field.onChange(value)}
-                    isError={form.formState.errors.role_id ? true : false}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="start_date"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>วันที่เริ่มต้น</FormLabel>
-                <FormControl>
-                  <DatePickerInput
-                    value={field.value}
-                    placeholder="กรุณาเลือกวันที่เริ่มต้นของคุณ"
-                    isError={form.formState.errors.start_date ? true : false}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="end_date"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>วันที่สิ้นสุด</FormLabel>
-                <FormControl>
-                  <DatePickerInput
-                    value={field.value || undefined}
-                    placeholder="กรุณาเลือกวันที่สิ้นสุดของคุณ"
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="is_active"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>สถานะการใช้งาน</FormLabel>
-                <FormControl>
-                  <div className="flex items-center space-x-2 mt-2">
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      aria-readonly
-                      id="is-active"
+          <div className="flex flex-wrap items-baseline">
+            <FormField
+              control={form.control}
+              name="first_name"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-1/2">
+                  <FormLabel>ชื่อ</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="กรุณากรอกชื่อ"
+                      {...field}
+                      onInput={(e) => {
+                        field.onChange(e);
+                      }}
                     />
-                    <Label htmlFor="is-active">{getIsActive(isActiveWatch as boolean)}</Label>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="last_name"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-1/2">
+                  <FormLabel>นามสกุล</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="กรุณากรอกนามสกุล"
+                      {...field}
+                      onInput={(e) => {
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex flex-wrap items-baseline">
+            <FormField
+              control={form.control}
+              name="nick_name"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-1/2">
+                  <FormLabel>ชื่อเล่น</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="กรุณากรอกชื่อเล่น"
+                      {...field}
+                      onInput={(e) => {
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="team_id"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-1/2">
+                  <FormLabel>ทีม</FormLabel>
+                  <FormControl>
+                    <ComboboxForm
+                      placeholder="เลือกทีม"
+                      options={teamOptions}
+                      field={field}
+                      onSelect={(value) => field.onChange(value)}
+                      isError={form.formState.errors.team_id ? true : false}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex flex-wrap items-baseline">
+            <FormField
+              control={form.control}
+              name="position_level_id"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-1/2">
+                  <FormLabel>ระดับตำแหน่ง</FormLabel>
+                  <FormControl>
+                    <ComboboxForm
+                      placeholder="เลือกระดับตำแหน่ง"
+                      options={positionLevelOptions}
+                      field={field}
+                      onSelect={(value) => {
+                        field.onChange(value);
+                      }}
+                      isError={form.formState.errors.position_level_id ? true : false}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="role_id"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-1/2">
+                  <FormLabel>สิทธิ์การใช้งาน</FormLabel>
+                  <FormControl>
+                    <ComboboxForm
+                      placeholder="เลือกสิทธิ์การใช้งาน"
+                      options={roleOptions}
+                      field={field}
+                      onSelect={(value) => field.onChange(value)}
+                      isError={form.formState.errors.role_id ? true : false}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex flex-wrap items-baseline">
+            <FormField
+              control={form.control}
+              name="start_date"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-1/2">
+                  <FormLabel>วันที่เริ่มต้น</FormLabel>
+                  <FormControl>
+                    <DatePickerInput
+                      value={field.value}
+                      placeholder="กรุณาเลือกวันที่เริ่มต้นของคุณ"
+                      isError={form.formState.errors.start_date ? true : false}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="end_date"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-1/2">
+                  <FormLabel>วันที่สิ้นสุด</FormLabel>
+                  <FormControl>
+                    <DatePickerInput
+                      value={field.value || undefined}
+                      placeholder="กรุณาเลือกวันที่สิ้นสุดของคุณ"
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex flex-wrap items-baseline">
+            <FormField
+              control={form.control}
+              name="is_active"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-1/2">
+                  <FormLabel>สถานะการใช้งาน</FormLabel>
+                  <FormControl>
+                    <div className="flex items-center space-x-2 mt-2">
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        aria-readonly
+                        id="is-active"
+                      />
+                      <Label htmlFor="is-active">{getIsActive(isActiveWatch as boolean)}</Label>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </form>
       </Form>
     </div>
