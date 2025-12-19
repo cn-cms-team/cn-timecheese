@@ -89,10 +89,10 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
             <CommandEmpty className="opacity-50 p-3 text-sm">ไม่พบข้อมูล</CommandEmpty>
             <CommandGroup>
               {options && options.length > 0 ? (
-                options?.map((item) => (
+                options?.map((item, index) => (
                   <CommandItem
                     value={item.label}
-                    key={item.value}
+                    key={`${item.value}-${index}`}
                     className={`ems-dropdown-item ${item.value === field.value ? 'active' : ''}`}
                     onSelect={() => {
                       onSelect(item.value as string);

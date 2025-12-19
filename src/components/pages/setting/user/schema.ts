@@ -6,11 +6,11 @@ const baseSchema = {
   first_name: z.string().nonempty('กรุณากรอกชื่อของคุณ'),
   last_name: z.string().nonempty('กรุณากรอกนามสกุลของคุณ'),
   team_id: z.string().nonempty('กรุณาเลือกทีม'),
-  position_id: z.string().nonempty('กรุณาเลือกตำแหน่ง'),
+  position_id: z.string().optional(),
   position_level_id: z.string().nonempty('กรุณาเลือกระดับตำแหน่ง'),
   role_id: z.string().nonempty('กรุณาเลือกสิทธิ์การใช้งาน'),
   start_date: z.date('กรุณาเลือกวันที่เริ่มต้น'),
-  end_date: z.date().optional(),
+  end_date: z.date().nullable(),
   is_active: z.boolean().optional(),
 };
 const createUserSchema = z

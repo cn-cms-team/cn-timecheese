@@ -7,12 +7,22 @@ export async function GET() {
       select: {
         id: true,
         name: true,
+        position: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
       orderBy: { name: 'asc' },
     });
     const options = result.map((item) => ({
-      label: item.name,
+      label: `${item.position.name} - ${item.name}`,
       value: String(item.id),
+      position: {
+        id: item.position.id,
+        name: item.position.name,
+      },
     }));
 
     return Response.json({ data: options, status: 200 });

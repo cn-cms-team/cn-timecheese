@@ -27,6 +27,7 @@ import { fetcher } from '@/lib/fetcher';
 import { IOptions } from '@/types/dropdown';
 import { DatePickerInput } from '@/components/ui/custom/input/date-picker';
 import { useSession } from 'next-auth/react';
+import bcrypt from 'bcrypt';
 
 const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
   const { data: session } = useSession();
@@ -48,7 +49,6 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       first_name: '',
       last_name: '',
       team_id: '',
-      position_id: '',
       position_level_id: '',
       role_id: '',
       is_active: true,
@@ -101,7 +101,22 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       if (id) {
         fetchUrl = `/api/v1/setting/user/${id}`;
       }
-      const data = { ...values, code: 'B-1', created_by: session?.user?.id };
+      const data = {
+        id: id,
+        email: values.email,
+        nick_name: values.nick_name,
+        password: values.password,
+        first_name: values.first_name,
+        last_name: values.last_name,
+        team_id: values.team_id,
+        position_level_id: values.position_level_id,
+        role_id: values.role_id,
+        start_date: values.start_date,
+        end_date: values.end_date,
+        is_active: true,
+        code: 'CMS-99',
+        created_by: session?.user?.id,
+      };
       const response = await fetch(fetchUrl, {
         method: 'POST',
         headers: {
@@ -285,7 +300,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                     options={postitionOptions}
                     field={field}
                     onSelect={(value) => field.onChange(value)}
-                    isError={form.formState.errors.position_id ? true : false}
+                    disabled
                   />
                 </FormControl>
                 <FormMessage />
@@ -303,7 +318,12 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                     placeholder="เลือกระดับตำแหน่งของคุณ"
                     options={positionLevelOptions}
                     field={field}
-                    onSelect={(value) => field.onChange(value)}
+                    onSelect={(value) => {
+                      field.onChange(value);
+                      const positionId = positionLevelOptions.find((e) => (e.value = value))
+                        ?.position.id;
+                      if (positionId) form.setValue('position_id', positionId);
+                    }}
                     isError={form.formState.errors.position_level_id ? true : false}
                   />
                 </FormControl>
@@ -356,7 +376,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 <FormLabel>วันที่สิ้นสุด</FormLabel>
                 <FormControl>
                   <DatePickerInput
-                    value={field.value}
+                    value={field.value!}
                     placeholder="กรุณาเลือกวันที่สิ้นสุดของคุณ"
                     onChange={field.onChange}
                   />

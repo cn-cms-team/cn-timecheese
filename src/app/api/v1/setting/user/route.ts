@@ -1,5 +1,4 @@
 import prisma from '@/lib/prisma';
-import { NextRequest } from 'next/server';
 
 export async function GET() {
   try {
@@ -58,6 +57,7 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   } catch (error) {
+    console.log('error', error);
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
