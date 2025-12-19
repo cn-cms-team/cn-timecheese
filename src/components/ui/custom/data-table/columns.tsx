@@ -31,7 +31,7 @@ export function SortColumn<TData>(
   accessorKey: string,
   columnName: string,
   align: string = 'left',
-  sortable: boolean = true,
+  sortable: boolean = false,
   size = 100,
   sortingFn: SortingFnOption<TData> = 'customSort' as SortingFnOption<TData>
 ): ColumnDef<TData> {

@@ -1,4 +1,4 @@
-import { UserListView } from '@/components/pages/setting/user';
+import { UserListView } from '@/components/pages/setting/user/view';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
