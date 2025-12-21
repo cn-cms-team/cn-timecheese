@@ -10,7 +10,7 @@ interface IProps {
   popoverContent: (close: () => void) => React.ReactNode;
 }
 
-const TimeSheetFormPopover = ({
+const TimeSheetPopover = ({
   align = 'center',
   className = '',
   triggerContent,
@@ -29,4 +29,4 @@ const TimeSheetFormPopover = ({
   );
 };
 
-export default TimeSheetFormPopover;
+export default TimeSheetPopover;

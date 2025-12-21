@@ -8,4 +8,5 @@ export { default as TimeSheetPeriodSelection } from './timesheet-period-selectio
 export { default as TimeSheetCalendarBody } from './timesheet-calendar-body';
 export { default as TimeSheetColorLegend } from './timesheet-color-legend';
 export { default as TimeSheetDailyCalendar } from './timesheet-daily-calendar';
-export { default as TimeSheetFormPopover } from './timesheet-form-popover';
+export { default as TimeSheetPopover } from './timesheet-popover';
+export { default as TimeSheetForm } from './timesheet-form';
