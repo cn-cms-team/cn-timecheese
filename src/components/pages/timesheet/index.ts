@@ -7,3 +7,5 @@ export { default as TimeSheetTimeSummary } from './timesheet-time-summary';
 export { default as TimeSheetPeriodSelection } from './timesheet-period-selection';
 export { default as TimeSheetCalendarBody } from './timesheet-calendar-body';
 export { default as TimeSheetColorLegend } from './timesheet-color-legend';
+export { default as TimeSheetDailyCalendar } from './timesheet-daily-calendar';
+export { default as TimeSheetFormPopover } from './timesheet-form-popover';
