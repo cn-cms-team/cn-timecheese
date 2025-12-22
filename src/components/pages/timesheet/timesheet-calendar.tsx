@@ -1,6 +1,6 @@
 'use client';
 
-import MonthPicker from '@/components/ui/custom/input/month-picker';
+import MonthPicker from '@/components/pages/timesheet/timesheet-month-picker';
 
 const TimeSheetCalendar = () => {
   return (
