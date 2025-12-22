@@ -16,6 +16,7 @@ export async function GET() {
         last_login_at: true,
         first_name: true,
         last_name: true,
+        reset_password_date: true,
         position_level: {
           select: {
             name: true,
@@ -51,6 +52,7 @@ export async function GET() {
         last_login_at: user?.last_login_at || null,
         name: `${user?.first_name} ${user?.last_name}`,
         position_level: user?.position_level?.name,
+        reset_password_date: user?.reset_password_date || null,
       },
       status: 200,
     });

@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 const UserCreateButton = (): React.ReactNode => {
   const router = useRouter();
   return (
-    <div className="flex align-middle gap-2">
+    <div className="flex items-middle gap-2">
       <Button
         className="btn btn-outline font-bold"
         variant={'outline'}

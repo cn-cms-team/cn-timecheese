@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-
 import { ResetPasswordView } from '@/components/pages/setting/user/view';
 
 export const metadata: Metadata = {
@@ -7,8 +6,9 @@ export const metadata: Metadata = {
   description: 'Time cheese',
 };
 
-const UserResetPasswordPage = async () => {
-  return <ResetPasswordView />;
+const UserResetPasswordPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
+  return <ResetPasswordView id={id} />;
 };
 
 export default UserResetPasswordPage;

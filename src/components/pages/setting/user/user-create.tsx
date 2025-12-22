@@ -139,9 +139,9 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       <hr className="mt-2 mb-5" />
       <Form {...form}>
         <form
-          id="user-create-form"
+          id="user-reset-password-form"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 gap-x-6 gap-y-5 px-8"
+          className="gap-x-6 gap-y-5 px-8"
         >
           <div className="flex flex-wrap items-baseline">
             <FormField

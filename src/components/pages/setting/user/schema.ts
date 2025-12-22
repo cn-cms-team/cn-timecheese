@@ -55,13 +55,10 @@ const editUserSchema = z.object({
   password: z.string().optional(),
   confirm_password: z.string().optional(),
 });
-type CreateUserSchemaType = z.infer<typeof createUserSchema>;
-
-type EditUserSchemaType = z.infer<typeof editUserSchema>;
 
 const resetPasswordSchema = z
   .object({
-    id: z.string().uuid(),
+    id: z.string(),
     password: z
       .string('กรุณากรอกรหัสผ่าน')
       .min(PASSWORD_MIN_LENGTH, {
@@ -92,7 +89,10 @@ const resetPasswordSchema = z
     message: 'รหัสผ่าน และรหัสผ่านยืนยันไม่ตรงกัน กรุณาตรวจสอบและดำเนินการใหม่อีกครั้ง',
   });
 
+type CreateUserSchemaType = z.infer<typeof createUserSchema>;
+type EditUserSchemaType = z.infer<typeof editUserSchema>;
 type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>;
+
 export {
   createUserSchema,
   editUserSchema,

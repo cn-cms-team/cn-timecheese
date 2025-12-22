@@ -34,29 +34,24 @@ export async function handleResetPasswordUser(id: string, formData: ResetPasswor
   return ExecuteAction({
     actionFn: async () => {
       const validatedData = resetPasswordSchema.parse(formData);
-      const salt = await bcrypt.genSalt(10);
-      const password = await bcrypt.hash(validatedData.password as string, salt);
+      const password = await bcrypt.hash(validatedData.password as string, 10);
       const payload = {
-        id,
+        id: validatedData.id,
         password,
         updated_at: new Date(),
         updated_by: session.user.id as string,
         reset_password_date: new Date(),
       };
-      const fetchUrl = `/api/v1/setting/user/${id}`;
+      const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user/${id}`;
       const response = await fetch(fetchUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ payload }),
+        body: JSON.stringify({ data: { ...payload } }),
       });
-      if (response.ok) {
-        const result = await response.json();
-        return { id: result.id };
-      } else {
-        return { id: null };
-      }
+      const result = await response.json();
+      return result;
     },
     successMessage: 'รีเซ็ตรหัสผ่านผู้ใช้งานสำเร็จ',
   });
