@@ -13,7 +13,34 @@ export async function GET(request: Request) {
       orderBy: { stamp_date: 'asc' },
     });
 
-    return Response.json({ data: timeSheets }, { status: 200 });
+    const projects = await prisma.project.findMany({
+      where: { id: { in: timeSheets.map((ts) => ts.project_id) } },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    const taskType = await prisma.taskType.findMany({
+      where: { id: { in: timeSheets.map((ts) => ts.task_type_id) } },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    const result = timeSheets.map((ts) => {
+      const project = projects.find((p) => p.id === ts.project_id);
+      const task = taskType.find((t) => t.id === ts.task_type_id);
+
+      return {
+        ...ts,
+        project_name: project ? project.name : null,
+        task_type_name: task ? task.name : null,
+      };
+    });
+
+    return Response.json({ data: result }, { status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
