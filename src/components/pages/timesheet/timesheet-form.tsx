@@ -20,7 +20,7 @@ const TimeSheetForm = ({ close = () => {} }: IProps) => {
     <div className="grid grid-cols-1 p-3 w-full">
       <header className="w-full text-end">
         <Button
-          className="bg-transparent border-transparent hover:bg-transparent cursor-pointer p-2"
+          className="bg-transparent border-transparent hover:bg-transparent cursor-pointer p-2 focus:border-none"
           onClick={close}
         >
           <X width={14} stroke="#000" />

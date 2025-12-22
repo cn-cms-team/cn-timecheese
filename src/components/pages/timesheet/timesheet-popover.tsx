@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 interface IProps {
   align?: 'start' | 'center' | 'end' | undefined;
+  side?: 'top' | 'right' | 'bottom' | 'left' | undefined;
   className?: string;
   triggerContent: React.ReactNode;
   popoverContent: (close: () => void) => React.ReactNode;
@@ -13,6 +14,7 @@ interface IProps {
 const TimeSheetPopover = ({
   align = 'center',
   className = '',
+  side = 'bottom',
   triggerContent,
   popoverContent,
 }: IProps) => {
@@ -22,7 +24,7 @@ const TimeSheetPopover = ({
       <PopoverTrigger asChild onClick={() => setOpen(true)}>
         {triggerContent}
       </PopoverTrigger>
-      <PopoverContent align={align} className={className}>
+      <PopoverContent align={align} side={side} className={className}>
         {popoverContent(() => setOpen(false))}
       </PopoverContent>
     </Popover>

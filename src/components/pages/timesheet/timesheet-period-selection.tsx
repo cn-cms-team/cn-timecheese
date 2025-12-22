@@ -10,15 +10,15 @@ import PeriodInput from '@/components/ui/custom/input/period-input';
 
 const options = [
   { label: 'วัน', value: PERIODCALENDAR.DATE },
+  { label: 'สัปดาห์', value: PERIODCALENDAR.WEEK },
   { label: 'เดือน', value: PERIODCALENDAR.MONTH },
-  { label: 'ปี', value: PERIODCALENDAR.YEAR },
 ];
 
 const TimeSheetPeriodSelection = () => {
   const { period, setPeriod } = useTimeSheetContext();
 
   return (
-    <div className="p-4 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.2)] z-10 ">
+    <div className="p-4 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.2)] z-50 ">
       <div className=" flex lg:flex-row flex-col gap-4 justify-between">
         <PeriodInput
           value={period}
