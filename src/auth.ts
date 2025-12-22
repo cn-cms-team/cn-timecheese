@@ -3,9 +3,9 @@ import Credentials from 'next-auth/providers/credentials';
 import { authConfig } from './auth.config';
 import { z } from 'zod';
 import bcrypt from 'bcrypt';
-import { User } from '../generated/prisma/client';
 import prisma from '@/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
+import { User } from '../generated/prisma/client';
 
 export const UPDATE_AGE = parseInt(process.env.JWT_UPDATE_AGE_IN_SECONDS || '3600'); // default 1 hour
 export const MAX_AGE = parseInt(process.env.JWT_MAX_AGE_IN_SECONDS || '86400'); // default 24 hours
@@ -67,13 +67,19 @@ export const { auth, signIn, signOut } = NextAuth({
     },
     jwt: async ({ token, user }) => {
       if (user) {
-        token.id = user.id;
+        token.id = user.id as string;
+        token.name = user.name;
+        token.refreshToken = user.refreshToken || '';
+        token.resetPasswordDate = user.resetPasswordDate || '';
+        token.lastLoginAt = user.lastLoginAt || '';
       }
       return token;
     },
     session: async ({ session, token }) => {
       if (session.user) {
         session.user.id = token.id as string;
+        session.user.resetPasswordDate = token.resetPasswordDate as Date | null;
+        session.user.lastLoginAt = token.lastLoginAt as Date | null;
       }
       return session;
     },

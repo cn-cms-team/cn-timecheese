@@ -13,6 +13,7 @@ export type Account = {
   user_id: string | null;
   permissions: Record<IMenuId, IPermissionId[]> | null;
   name?: string | null;
+  reset_password_date?: Date | null;
   last_login_at?: Date | null;
   position_level?: string | null;
 };
@@ -33,8 +34,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [account, setAccount] = useState<Account>({
     user_id: null,
     permissions: null,
+    reset_password_date: null,
     name: null,
     position_level: null,
+    last_login_at: null,
   });
 
   useEffect(() => {
@@ -42,8 +45,13 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       const result = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/v1/account`);
       if (result.ok) {
         const data: ApiResponse<Account> = await result.json();
-        const { user_id, permissions, name, position_level } = data.data;
-
+        const { user_id, permissions, reset_password_date, name, position_level, last_login_at } =
+          data.data;
+        const resetPasswordDateSession = session?.user?.resetPasswordDate || '';
+        const resetPasswordDateAccount = reset_password_date || '';
+        if (!user_id || resetPasswordDateSession !== resetPasswordDateAccount) {
+          signOut();
+        }
         if (user_id && permissions) {
           setAccount({
             user_id,
@@ -51,6 +59,18 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
             name,
             position_level,
           });
+        }
+
+        if (
+          (resetPasswordDateSession == null || resetPasswordDateSession == '') &&
+          !pathname.includes('reset-password')
+        ) {
+          // redirect to change password page
+          window.location.href = `/setting/user/${session?.user?.id}/reset-password`;
+        }
+        const lastLoginAt = session?.user?.lastLoginAt || '';
+        if (lastLoginAt && lastLoginAt !== last_login_at) {
+          signOut();
         }
       }
     };
