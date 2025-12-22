@@ -1,4 +1,5 @@
-import { format, parseISO } from 'date-fns';
+import { FilterPeriod } from '@/types/period';
+import { differenceInDays, format, parseISO } from 'date-fns';
 import { th } from 'date-fns/locale';
 
 export function formatDateAndTime(dateString: string): string {
@@ -200,6 +201,42 @@ export const convertDateRangeToBudgetYear = (range: {
   return { from: fromDate, to: toDate };
 };
 
+// get default value of period report
+export const defaultPeriodReportValue = (type: FilterPeriod) => {
+  const today = new Date();
+  let from: Date;
+  let to: Date = new Date(today);
+
+  switch (type) {
+    case FilterPeriod.DAILY: {
+      from = new Date(today);
+      from.setDate(from.getDate() - 30);
+      break;
+    }
+    case FilterPeriod.MONTHLY: {
+      from = new Date(today.getFullYear(), today.getMonth(), 1);
+      break;
+    }
+    case FilterPeriod.YEARLY: {
+      const currentYear = today.getFullYear();
+      const currentMonth = today.getMonth();
+
+      if (currentMonth >= 9) {
+        from = new Date(currentYear + 1, 9, 1);
+      } else {
+        from = new Date(currentYear, 9, 1);
+      }
+
+      to = null!;
+      break;
+    }
+    default:
+      throw new Error(`Unknown filter period: ${type}`);
+  }
+
+  return { from, to };
+};
+
 export function daysUntilExpireMinus30(expireDate: Date) {
   const expire = new Date(expireDate);
   const targetDate = new Date(expire);
@@ -282,20 +319,4 @@ export function secondsToFormatUnit(sec: number) {
   } else {
     return `${seconds} วินาที`;
   }
-}
-
-export function getFromToForMonthUTC(year: number, month: number) {
-  // month: 1-12
-  const y = year;
-  const m = month - 1;
-
-  // from = วันแรกของเดือน เวลา 00:00 UTC+7 → UTC-0
-  const from = new Date(Date.UTC(y, m, 1, 0, 0, 0, 0)); // จะเป็น 2025-10-01T00:00:00Z
-  from.setUTCHours(from.getUTCHours() - 7); // เลื่อนกลับ 7 ชั่วโมง → 2025-09-30T17:00:00Z
-
-  // to = วันสุดท้ายของเดือน เวลา 23:59:59.999 UTC+7 → UTC-0
-  const lastDay = new Date(Date.UTC(y, m + 1, 0, 23, 59, 59, 999));
-  lastDay.setUTCHours(lastDay.getUTCHours() - 7); // เลื่อนกลับ 7 ชั่วโมง
-
-  return { from, to: lastDay };
 }

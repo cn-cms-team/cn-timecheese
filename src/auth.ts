@@ -7,6 +7,9 @@ import { User } from '../generated/prisma/client';
 import prisma from '@/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 
+export const UPDATE_AGE = parseInt(process.env.JWT_UPDATE_AGE_IN_SECONDS || '3600'); // default 1 hour
+export const MAX_AGE = parseInt(process.env.JWT_MAX_AGE_IN_SECONDS || '86400'); // default 24 hours
+
 const getUser = async (email: string): Promise<User> => {
   try {
     const user = await prisma.user.findFirst({
@@ -54,6 +57,8 @@ export const { auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: 'jwt',
+    maxAge: MAX_AGE,
+    updateAge: UPDATE_AGE,
   },
   callbacks: {
     redirect({ url, baseUrl }) {

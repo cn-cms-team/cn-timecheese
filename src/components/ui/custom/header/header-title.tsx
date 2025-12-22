@@ -20,7 +20,7 @@ const HeaderTitle = ({ title, leaveUrl }: HeaderTitleProps) => {
       {!!leaveUrl && (
         <Button
           variant={'default'}
-          className="bg-primary-subtle rounded-[6px] text-primary hover:bg-primary-foreground h-8 w-8"
+          className="bg-primary rounded-[6px] h-8 w-8"
           onClick={handleCancel}
         >
           <ChevronLeft />

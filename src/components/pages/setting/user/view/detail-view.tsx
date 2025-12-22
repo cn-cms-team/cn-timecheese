@@ -1,0 +1,40 @@
+'use client';
+import ModuleLayout from '@/components/layouts/ModuleLayout';
+import { Button } from '@/components/ui/button';
+import UserViewDetail from '../user-view';
+import { useRouter } from 'next/navigation';
+
+const UserViewButton = ({ id }: { id: string }): React.ReactNode => {
+  const router = useRouter();
+  const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user/${id}`;
+  const deleteUser = async () => {
+    await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
+      router.push('/setting/user');
+    });
+  };
+  return (
+    <div className="flex align-middle">
+      <Button
+        className="btn btn-outline-primary font-bold"
+        onClick={() => router.push(`/setting/user/${id}/edit`)}
+      >
+        แก้ไข
+      </Button>
+      <Button className="btn btn-outline-secondary font-bold ml-2" onClick={() => deleteUser()}>
+        ลบ
+      </Button>
+    </div>
+  );
+};
+
+const UserView = ({ id }: { id: string }) => {
+  return (
+    <ModuleLayout
+      headerTitle={'รายละเอียดผู้ใช้งาน'}
+      leaveUrl={'/setting/user'}
+      headerButton={<UserViewButton id={id} />}
+      content={<UserViewDetail id={id} />}
+    ></ModuleLayout>
+  );
+};
+export default UserView;

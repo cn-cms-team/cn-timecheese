@@ -1,0 +1,12 @@
+[
+  {
+    "id": "ADMIN_ID",
+    "code": "DEV",
+    "email": "timecheese@clicknext.co.th",
+    "first_name": "system",
+    "last_name": "admin",
+    "nick_name": "admin",
+    "is_active": true,
+    "created_by": "ADMIN_ID"
+  }
+]

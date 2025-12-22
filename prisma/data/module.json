@@ -1,0 +1,86 @@
+[
+  {
+    "code": "DASHBOARD",
+    "name": "Dashboard",
+    "parent_code": null,
+    "order": 1,
+    "is_active": true
+  },
+  {
+    "code": "TIME_SHEET",
+    "name": "บันทึกเวลา",
+    "parent_code": null,
+    "order": 2,
+    "is_active": true
+  },
+  {
+    "code": "REPORT",
+    "name": "รายงาน",
+    "parent_code": null,
+    "order": 3,
+    "is_active": true
+  },
+  {
+    "code": "REPORT_PROJECT_STATUS",
+    "name": "สถานะโครงการ",
+    "parent_code": "REPORT",
+    "order": 1,
+    "is_active": true
+  },
+  {
+    "code": "ADMIN",
+    "name": "ตั้งค่า",
+    "parent_code": null,
+    "order": 4,
+    "is_active": true
+  },
+  {
+    "code": "ADMIN_USER",
+    "name": "ผู้ใช้งาน",
+    "parent_code": "ADMIN",
+    "order": 1,
+    "is_active": true
+  },
+  {
+    "code": "ADMIN_ROLE",
+    "name": "สิทธิ์การใช้งาน",
+    "parent_code": "ADMIN",
+    "order": 2,
+    "is_active": true
+  },
+  {
+    "code": "ADMIN_PROJECT",
+    "name": "โครงการ",
+    "parent_code": "ADMIN",
+    "order": 3,
+    "is_active": true
+  },
+  {
+    "code": "ADMIN_TASK_TYPE",
+    "name": "ประเภทงาน",
+    "parent_code": "ADMIN",
+    "order": 4,
+    "is_active": true
+  },
+  {
+    "code": "ADMIN_TEAM",
+    "name": "ทีม",
+    "parent_code": "ADMIN",
+    "order": 5,
+    "is_active": true
+  },
+  {
+    "code": "ADMIN_POSITION",
+    "name": "ตำแหน่งงาน",
+    "parent_code": "ADMIN",
+    "order": 6,
+    "is_active": true
+  },
+  {
+    "code": "ADMIN_ACTIVITY_LOG",
+    "name": "ประวัติการใช้งาน",
+    "parent_code": "ADMIN",
+    "order": 7,
+    "is_active": true
+  }
+]

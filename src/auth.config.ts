@@ -18,10 +18,8 @@ export const authConfig: NextAuthConfig = {
             new URL(`/sign-in?callbackUrl=${encodeURIComponent(href)}`, nextUrl)
           );
         }
-      } else if (isLoggedIn) {
-        return isLoggedIn;
       } else {
-        return true;
+        return !!auth;
       }
     },
   },

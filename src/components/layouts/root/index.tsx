@@ -1,20 +1,22 @@
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from './app-sidebar';
 import { SessionProvider } from 'next-auth/react';
 import { auth } from '@/auth';
+import { AppProvider } from '@/components/context/app-context';
 
-export default async function Layout({ children }: { children: React.ReactNode }) {
+const MainLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth();
 
   return (
     <SessionProvider session={session}>
-      <SidebarProvider>
-        <AppSidebar />
-        <main className="w-full">
-          <SidebarTrigger />
-          {children}
-        </main>
-      </SidebarProvider>
+      <AppProvider>
+        <SidebarProvider>
+          <AppSidebar />
+          <main className="w-full overflow-auto">{children}</main>
+        </SidebarProvider>
+      </AppProvider>
     </SessionProvider>
   );
-}
+};
+
+export default MainLayout;

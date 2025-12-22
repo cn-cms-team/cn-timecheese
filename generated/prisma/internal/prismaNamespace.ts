@@ -391,6 +391,7 @@ export const ModelName = {
   Module: 'Module',
   ModulePermission: 'ModulePermission',
   Team: 'Team',
+  TeamLeader: 'TeamLeader',
   Position: 'Position',
   PositionLevel: 'PositionLevel',
   TaskType: 'TaskType',
@@ -413,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "role" | "rolePermission" | "permission" | "module" | "modulePermission" | "team" | "position" | "positionLevel" | "taskType" | "project" | "projectMember" | "projectTaskType" | "timeSheet"
+    modelProps: "user" | "role" | "rolePermission" | "permission" | "module" | "modulePermission" | "team" | "teamLeader" | "position" | "positionLevel" | "taskType" | "project" | "projectMember" | "projectTaskType" | "timeSheet"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -932,6 +933,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TeamCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TeamCountAggregateOutputType> | number
+        }
+      }
+    }
+    TeamLeader: {
+      payload: Prisma.$TeamLeaderPayload<ExtArgs>
+      fields: Prisma.TeamLeaderFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TeamLeaderFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamLeaderPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TeamLeaderFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamLeaderPayload>
+        }
+        findFirst: {
+          args: Prisma.TeamLeaderFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamLeaderPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TeamLeaderFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamLeaderPayload>
+        }
+        findMany: {
+          args: Prisma.TeamLeaderFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamLeaderPayload>[]
+        }
+        create: {
+          args: Prisma.TeamLeaderCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamLeaderPayload>
+        }
+        createMany: {
+          args: Prisma.TeamLeaderCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TeamLeaderCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamLeaderPayload>[]
+        }
+        delete: {
+          args: Prisma.TeamLeaderDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamLeaderPayload>
+        }
+        update: {
+          args: Prisma.TeamLeaderUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamLeaderPayload>
+        }
+        deleteMany: {
+          args: Prisma.TeamLeaderDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TeamLeaderUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TeamLeaderUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamLeaderPayload>[]
+        }
+        upsert: {
+          args: Prisma.TeamLeaderUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TeamLeaderPayload>
+        }
+        aggregate: {
+          args: Prisma.TeamLeaderAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTeamLeader>
+        }
+        groupBy: {
+          args: Prisma.TeamLeaderGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TeamLeaderGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TeamLeaderCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TeamLeaderCountAggregateOutputType> | number
         }
       }
     }
@@ -1503,6 +1578,8 @@ export const UserScalarFieldEnum = {
   start_date: 'start_date',
   end_date: 'end_date',
   last_login_at: 'last_login_at',
+  salary_range: 'salary_range',
+  reset_password_date: 'reset_password_date',
   position_level_id: 'position_level_id',
   team_id: 'team_id',
   role_id: 'role_id',
@@ -1583,6 +1660,15 @@ export const TeamScalarFieldEnum = {
 export type TeamScalarFieldEnum = (typeof TeamScalarFieldEnum)[keyof typeof TeamScalarFieldEnum]
 
 
+export const TeamLeaderScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  team_id: 'team_id'
+} as const
+
+export type TeamLeaderScalarFieldEnum = (typeof TeamLeaderScalarFieldEnum)[keyof typeof TeamLeaderScalarFieldEnum]
+
+
 export const PositionScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -1602,10 +1688,6 @@ export const PositionLevelScalarFieldEnum = {
   name: 'name',
   description: 'description',
   position_id: 'position_id',
-  created_at: 'created_at',
-  created_by: 'created_by',
-  updated_at: 'updated_at',
-  updated_by: 'updated_by',
   is_enabled: 'is_enabled'
 } as const
 
@@ -1634,6 +1716,8 @@ export const ProjectScalarFieldEnum = {
   name: 'name',
   description: 'description',
   value: 'value',
+  people_cost_percent: 'people_cost_percent',
+  people_cost: 'people_cost',
   start_date: 'start_date',
   end_date: 'end_date',
   status: 'status',
@@ -1651,15 +1735,23 @@ export const ProjectMemberScalarFieldEnum = {
   project_id: 'project_id',
   user_id: 'user_id',
   role: 'role',
-  day_price: 'day_price'
+  day_price: 'day_price',
+  hour_price: 'hour_price',
+  work_hours: 'work_hours',
+  start_date: 'start_date',
+  end_date: 'end_date'
 } as const
 
 export type ProjectMemberScalarFieldEnum = (typeof ProjectMemberScalarFieldEnum)[keyof typeof ProjectMemberScalarFieldEnum]
 
 
 export const ProjectTaskTypeScalarFieldEnum = {
+  id: 'id',
   project_id: 'project_id',
-  task_type_id: 'task_type_id'
+  task_type_id: 'task_type_id',
+  type: 'type',
+  name: 'name',
+  description: 'description'
 } as const
 
 export type ProjectTaskTypeScalarFieldEnum = (typeof ProjectTaskTypeScalarFieldEnum)[keyof typeof ProjectTaskTypeScalarFieldEnum]
@@ -1673,7 +1765,7 @@ export const TimeSheetScalarFieldEnum = {
   stamp_date: 'stamp_date',
   start_date: 'start_date',
   end_date: 'end_date',
-  total_hours: 'total_hours',
+  total_seconds: 'total_seconds',
   detail: 'detail',
   remark: 'remark',
   created_at: 'created_at'
@@ -1904,6 +1996,7 @@ export type GlobalOmitConfig = {
   module?: Prisma.ModuleOmit
   modulePermission?: Prisma.ModulePermissionOmit
   team?: Prisma.TeamOmit
+  teamLeader?: Prisma.TeamLeaderOmit
   position?: Prisma.PositionOmit
   positionLevel?: Prisma.PositionLevelOmit
   taskType?: Prisma.TaskTypeOmit
