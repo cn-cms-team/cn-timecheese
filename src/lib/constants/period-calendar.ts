@@ -1,5 +1,5 @@
 export enum PERIODCALENDAR {
   DATE = 1,
-  MONTH = 2,
-  YEAR = 3,
+  WEEK = 2,
+  MONTH = 3,
 }
