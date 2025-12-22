@@ -12,4 +12,5 @@ export { default as TimeSheetWeekCalendar } from './period-calendar/timesheet-we
 export { default as TimeSheetMonthCalendar } from './period-calendar/timesheet-month-calendar';
 export { default as TimeSheetPopover } from './timesheet-popover';
 export { default as TimeSheetForm } from './timesheet-form';
+export { default as TimeSheetdataDetail } from './timesheet-task-detail';
 export { default as TimeSheetEventCard } from './timesheet-event-card';
