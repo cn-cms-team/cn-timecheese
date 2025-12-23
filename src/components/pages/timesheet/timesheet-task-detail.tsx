@@ -13,7 +13,7 @@ interface IProps {
 
 const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
   return (
-    <div className="grid grid-cols-1 p-4">
+    <div className="grid grid-cols-1">
       <header className="flex items-center justify-between">
         <div className="truncate">
           <h3 className="font-bold text-lg">{data.project_name}</h3>
