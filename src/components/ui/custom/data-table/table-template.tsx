@@ -51,15 +51,7 @@ export default function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className="truncate"
-                      style={{
-                        width: cell.column.getSize(),
-                        maxWidth: cell.column.getSize(),
-                        minWidth: cell.column.getSize(),
-                      }}
-                    >
+                    <TableCell key={cell.id} className="truncate">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}

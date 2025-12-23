@@ -11,6 +11,7 @@ export async function GET() {
         first_name: true,
         last_name: true,
         nick_name: true,
+        is_active: true,
         team: {
           select: {
             id: true,

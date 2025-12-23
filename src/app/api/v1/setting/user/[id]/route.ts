@@ -91,8 +91,11 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
       return Response.json({ error: 'User ID is required' }, { status: 400 });
     }
 
-    const result = await prisma.user.delete({
+    const result = await prisma.user.update({
       where: { id },
+      data: {
+        is_enabled: false,
+      },
     });
 
     return Response.json(
