@@ -13,7 +13,7 @@ const TimeSheetEventCard = ({ data = undefined, height }: IProps) => {
   return (
     <div className="w-full min-h-full px-4 py-3 rounded-lg bg-primary shadow-lg cursor-pointer">
       <header>
-        <h3 className="font-bold text-lg">{data.project_name}</h3>
+        <h3 className="font-bold text-lg truncate">{data.project_name}</h3>
         <p className="font-semibold text-wrap overflow-hidden truncate">{data.task_type_name}</p>
       </header>
       <main>

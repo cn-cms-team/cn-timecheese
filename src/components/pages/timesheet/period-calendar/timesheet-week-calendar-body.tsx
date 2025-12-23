@@ -12,10 +12,13 @@ import TimeSheetEventCard from '../timesheet-event-card';
 import TimeSheetdataDetail from '../timesheet-task-detail';
 import { useTimeSheetContext } from '../view/timesheet-context';
 
-const TimeSheetWeekCalendarBody = () => {
+interface IProps {
+  weekDays: Date[];
+}
+
+const TimeSheetWeekCalendarBody = ({ weekDays }: IProps) => {
   const currentDate = new Date();
-  const { tasks, selectedCalendar, isPopoverEdit, setSelectedCalendar, setIsPopoverEdit } =
-    useTimeSheetContext();
+  const { tasks, isPopoverEdit, setIsPopoverEdit } = useTimeSheetContext();
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
   const [selectHr, setSelectHr] = useState<{ start: number; end: number } | null>(null);
 
@@ -25,28 +28,14 @@ const TimeSheetWeekCalendarBody = () => {
   const end = selectedDay && selectHr ? new Date(selectedDay) : undefined;
   end?.setHours(selectHr!.end, 0, 0, 0);
 
-  const getStartOfWeek = (date: Date): Date => {
-    const d = new Date(date);
-    const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-    return new Date(d.setDate(diff));
-  };
-
-  const startOfWeek = getStartOfWeek(currentDate);
-
-  const weekDays = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(startOfWeek);
-    d.setDate(d.getDate() + i);
-    return d;
-  });
-
   const hoursInDay = eachHourOfInterval({
     start: startOfDay(currentDate),
     end: addHours(startOfDay(currentDate), 23),
   });
+
   return (
     <div className="flex min-h-[600px] relative">
-      <div className="w-[55px] shrink-0 bg-transparent border-r border-neutral-300 text-xs text-neutral-500 font-mono text-center  sticky left-0 z-50">
+      <div className="w-[55px] shrink-0 bg-transparent border-r border-neutral-300 text-xs text-neutral-500 font-mono text-center sticky left-0 z-50">
         {hoursInDay.map((hour, index) => (
           <div
             key={index}
@@ -64,14 +53,18 @@ const TimeSheetWeekCalendarBody = () => {
               'flex-1 border-l border-neutral-300 relative min-w-[100px] hover:bg-neutral-800/10',
               index === 0 ? 'border-0' : ''
             )}
-            onClick={(e) => setSelectedDay(day)}
+            onClick={() => setSelectedDay(day)}
           >
             {hoursInDay.map((hr, hrIndex) => {
               const hasTask = tasks.some((task) => {
                 const taskStart = new Date(task.start_date);
                 const taskEnd = new Date(task.end_date);
 
-                return taskStart.getHours() <= hr.getHours() && taskEnd.getHours() > hr.getHours();
+                return (
+                  taskStart.getHours() < hr.getHours() &&
+                  taskEnd.getHours() > hr.getHours() &&
+                  taskStart.getDate() === day.getDate()
+                );
               });
 
               if (hasTask) {

@@ -25,7 +25,12 @@ const TimeSheetForm = ({
   endTime = undefined,
   close = () => {},
 }: IProps) => {
-  const dayNameTH = startTime?.toLocaleDateString('th-TH', {
+  const selectedDate = startTime
+    ? startTime
+    : data?.start_date
+    ? new Date(data.start_date)
+    : undefined;
+  const dayNameTH = selectedDate?.toLocaleDateString('th-TH', {
     weekday: 'long',
   });
 
@@ -80,7 +85,7 @@ const TimeSheetForm = ({
             <div className="flex items-center px-0">
               <Calendar width={25} strokeWidth={1} />
               <span className="ml-2 font-semibold">{`${dayNameTH} ${buddhistFormatDate(
-                startTime,
+                data ? data.start_date : startTime,
                 'dd mmmm yyyy'
               )}`}</span>
             </div>

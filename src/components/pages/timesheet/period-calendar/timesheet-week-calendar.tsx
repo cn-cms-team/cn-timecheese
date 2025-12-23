@@ -10,8 +10,9 @@ const TimeSheetWeekCalendar = () => {
   const getStartOfWeek = (date: Date): Date => {
     const d = new Date(date);
     const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-    return new Date(d.setDate(diff));
+    d.setDate(d.getDate() - day);
+    d.setHours(0, 0, 0, 0);
+    return d;
   };
 
   const startOfWeek = getStartOfWeek(currentDate);
@@ -22,7 +23,7 @@ const TimeSheetWeekCalendar = () => {
   });
 
   return (
-    <div className="flex flex-col h-full overflow-hidden bg-[#F5F6F8]">
+    <div className="flex flex-col h-full bg-[#F5F6F8] overflow-hidden">
       <div className="flex border-b border-neutral-300 ml-13.5 bg-[#F5F6F8]">
         {weekDays.map((day, idx) => (
           <div
@@ -51,7 +52,7 @@ const TimeSheetWeekCalendar = () => {
         ))}
       </div>
       <div className="flex-1 relative  bg-[#F5F6F8]">
-        <TimeSheetWeekCalendarBody />
+        <TimeSheetWeekCalendarBody weekDays={weekDays} />
       </div>
     </div>
   );
