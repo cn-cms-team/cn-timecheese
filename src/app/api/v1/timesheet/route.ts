@@ -56,6 +56,10 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
+  const start = new Date(body.data.start_date);
+  const end = new Date(body.data.end_date);
+
+  const total_seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
 
   try {
     const result = await prisma.timeSheet.create({
@@ -68,18 +72,19 @@ export async function POST(request: Request) {
         end_date: body.data.end_date,
         detail: body.data.detail as string,
         remark: body.data.remark as string | null,
-        total_seconds: body.data.total_seconds as number,
+        total_seconds: total_seconds as number,
       },
     });
 
     return Response.json(
       {
-        message: 'Create successfully',
+        message: 'Create Task successfully',
         data: { id: result.id },
       },
       { status: 201 }
     );
   } catch (error) {
+    console.log(error);
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
