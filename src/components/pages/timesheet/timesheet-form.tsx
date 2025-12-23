@@ -5,12 +5,16 @@ import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { buddhistFormatDate } from '@/lib/functions/date-format';
+import { buddhistFormatDate, formatDate } from '@/lib/functions/date-format';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Calendar, Clock, X } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { timesheetCreateEditSchema } from './schema';
-import { ITimeSheetResponse } from '@/types/timesheet';
+import { TimesheetCreateEditSchema, timesheetCreateEditSchema } from './schema';
+import { ITimeSheetRequest, ITimeSheetResponse } from '@/types/timesheet';
+import { toast } from 'sonner';
+import { useEffect, useState } from 'react';
+import { IOptions } from '@/types/dropdown';
+import { fetcher } from '@/lib/fetcher';
 
 interface IProps {
   close?: () => void;
@@ -25,19 +29,27 @@ const TimeSheetForm = ({
   endTime = undefined,
   close = () => {},
 }: IProps) => {
+  const [projectOptions, setProjectOptions] = useState<IOptions[]>([]);
+  const [taskTypeOptions, setTaskTypeOptions] = useState<IOptions[]>([]);
   const selectedDate = startTime
     ? startTime
     : data?.start_date
     ? new Date(data.start_date)
     : undefined;
+
   const dayNameTH = selectedDate?.toLocaleDateString('th-TH', {
     weekday: 'long',
   });
 
+  const prefix = process.env.NEXT_PUBLIC_APP_URL;
+  const baseUrl = `${prefix}/api/v1`;
+
   const form = useForm({
     resolver: zodResolver(timesheetCreateEditSchema),
     defaultValues: {
+      id: data ? data.id : undefined,
       task_type_id: data ? data.task_type_id : undefined,
+      stamp_date: data && data?.stamp_date ? new Date(data?.stamp_date) : new Date(),
       start_date: data && data.start_date ? new Date(data.start_date) : startTime,
       end_date: data && data.end_date ? new Date(data.end_date) : endTime,
       detail: data ? data?.detail : '',
@@ -45,14 +57,67 @@ const TimeSheetForm = ({
     },
   });
 
+  const onSubmit = async (value: TimesheetCreateEditSchema) => {
+    try {
+      const taskId = data ? data.id : null;
+      const url = `${baseUrl}/timesheet${taskId ? `/${taskId}` : ''}`;
+
+      const params: ITimeSheetRequest = {
+        id: taskId ?? undefined,
+        project_id: value.project_id,
+        task_type_id: value.task_type_id,
+        stamp_date: new Date(value.start_date).toISOString(),
+        start_date: new Date(value.start_date).toISOString(),
+        end_date: new Date(value.end_date).toISOString(),
+        detail: value.detail,
+        remark: value.remark ?? '',
+      };
+
+      const response = await fetch(url, {
+        method: taskId ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: params }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        toast(result.message);
+      }
+    } catch (error) {
+      console.error('Error fetching options: ', error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const prefix = process.env.NEXT_PUBLIC_APP_URL;
+        const [projectOptions, taskTypeOptions] = await Promise.all([
+          fetcher<IOptions[]>(`${prefix}/api/v1/master/project`),
+          fetcher<IOptions[]>(`${prefix}/api/v1/master/task-type`),
+        ]);
+        setProjectOptions(projectOptions);
+        setTaskTypeOptions(taskTypeOptions);
+      } catch (error) {
+        console.error('Error fetching options:', error);
+      }
+    };
+    fetchOptions();
+  }, []);
+
+  useEffect(() => {
+    console.log(form.watch());
+  }, [form]);
+
   return (
     <div className="flex flex-col w-full p-4 space-y-4">
       <main className="w-full space-y-4">
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit((data) => {
-              console.log(data);
-            })}
+            id="timesheet-create-form"
+            onSubmit={form.handleSubmit(onSubmit)}
             className="grid grid-cols-1 space-y-4 w-full"
           >
             <div className="flex items-center">
@@ -65,8 +130,8 @@ const TimeSheetForm = ({
                       <ComboboxForm
                         field={field}
                         placeholder="เลือกประโปรเจค"
-                        options={[]}
-                        onSelect={() => {}}
+                        options={projectOptions}
+                        onSelect={field.onChange}
                         isError={form.formState.errors.task_type_id ? true : false}
                       />
                     </FormControl>
@@ -156,8 +221,8 @@ const TimeSheetForm = ({
                     <ComboboxForm
                       field={field}
                       placeholder="เลือกประเภทงาน"
-                      options={[]}
-                      onSelect={() => {}}
+                      options={taskTypeOptions}
+                      onSelect={field.onChange}
                       isError={form.formState.errors.task_type_id ? true : false}
                     />
                   </FormControl>
