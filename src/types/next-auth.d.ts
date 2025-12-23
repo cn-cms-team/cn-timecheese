@@ -1,6 +1,4 @@
-// types/next-auth.d.ts
-
-import 'next-auth';
+import NextAuth, { DefaultSession } from 'next-auth';
 
 declare module 'next-auth' {
   interface User {
@@ -10,7 +8,7 @@ declare module 'next-auth' {
     lastLoginAt?: Date | null;
   }
   interface Session {
-    user: User;
+    user: User & DefaultSession['user'];
   }
 }
 
