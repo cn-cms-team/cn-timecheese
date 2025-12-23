@@ -39,7 +39,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 import useDialogConfirm from '@/hooks/use-dialog-confirm';
-import { ProjectStatus } from '../../../../../generated/prisma/client';
+import { ProjectStatus } from '@generated/prisma/enums';
 
 const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   const { data: session } = useSession();
