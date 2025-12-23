@@ -4,7 +4,7 @@ const TimeSheetColorLegend = () => {
   const legends = [
     {
       label: 'วันปัจจุบัน',
-      color: '#FDC800',
+      color: '#000',
     },
     {
       label: 'ลงเวลาไม่ครบ',
