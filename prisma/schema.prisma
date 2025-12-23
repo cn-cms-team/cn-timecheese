@@ -139,6 +139,7 @@ model Team {
   updatedBy  User?     @relation("TeamUpdatedBy", fields: [updated_by], references: [id])
 
   is_enabled  Boolean      @default(true)
+  is_active   Boolean      @default(true)
   users       User[]
   teamLeaders TeamLeader[]
 
