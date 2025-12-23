@@ -139,7 +139,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       <hr className="mt-2 mb-5" />
       <Form {...form}>
         <form
-          id="user-reset-password-form"
+          id="user-create-form"
           onSubmit={form.handleSubmit(onSubmit)}
           className="gap-x-6 gap-y-5 px-8"
         >
