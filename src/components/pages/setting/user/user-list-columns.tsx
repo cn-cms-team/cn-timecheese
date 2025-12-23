@@ -16,6 +16,7 @@ const nickNameColumn = SortColumn<IUser>('nickName', 'ชื่อเล่น')
 const teamColumn = SortColumn<IUser>('team', 'ทีม');
 const positionColumn = SortColumn<IUser>('role', 'ตำแหน่ง');
 const emailColumn = SortColumn<IUser>('email', 'อีเมล');
+const salaryColumn = SortColumn<IUser>('salary_range', 'ช่วงเงินเดือน');
 const activeColumn = SortColumn<IUser>('is_active', 'สถานะ');
 const actionColumn = ActionColumn<IUser>('actions', 'จัดการ');
 
@@ -67,10 +68,16 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
       ...emailColumn,
       cell: ({ row }) => {
         const { email } = row.original;
-        return <div className="w-full">{email || '-'}</div>;
+        return <div>{email || '-'}</div>;
       },
     },
-
+    {
+      ...salaryColumn,
+      cell: ({ row }) => {
+        const { salary_range } = row.original;
+        return <div>{salary_range || '-'}</div>;
+      },
+    },
     {
       ...activeColumn,
       cell: ({ row }) => {
