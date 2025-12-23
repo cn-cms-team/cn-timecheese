@@ -7,7 +7,7 @@ export interface ITimeSheetResponse {
   start_date: string;
   end_date: string;
   detail: string;
-  remark?: string;
+  remark: string;
   created_at: string;
 }
 
@@ -17,5 +17,5 @@ export interface ITimeSheetRequest {
   start_date: string;
   end_date: string;
   detail: string;
-  remark?: string;
+  remark: string;
 }
