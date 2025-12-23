@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Dashboard - CN Timesheet',
-  description: 'CN Timesheet',
+  title: 'Dashboard - Time Cheese',
+  description: 'Time Cheese',
 };
 
 const Dashboard = () => {

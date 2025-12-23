@@ -63,7 +63,7 @@ export function AppSidebarNav({ openSidebar }: { openSidebar?: boolean }) {
                   <Link href={item.url}>
                     {item.icon && (
                       <item.icon
-                        color={isMenubarActive(item.url, pathname) ? '#fff' : '#045037'}
+                        color={isMenubarActive(item.url, pathname) ? '#fff' : '#000'}
                         width={28}
                         height={28}
                       />
@@ -98,14 +98,14 @@ export function AppSidebarNav({ openSidebar }: { openSidebar?: boolean }) {
                         >
                           {item.icon && (
                             <item.icon
-                              color={isMenubarActive(item.url, pathname) ? '#fff' : '#045037'}
+                              color={isMenubarActive(item.url, pathname) ? '#fff' : '#000'}
                               width={28}
                               height={28}
                             />
                           )}
                           <span>{item.name}</span>
                           <ChevronRight
-                            color={isMenubarActive(item.url, pathname) ? '#fff' : '#045037'}
+                            color={isMenubarActive(item.url, pathname) ? '#fff' : '#000'}
                             className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
                           />
                         </SidebarMenuButton>

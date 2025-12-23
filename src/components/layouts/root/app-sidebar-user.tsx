@@ -36,14 +36,16 @@ const AppSidebarUser = ({ user }: AppSidebarUserProps) => {
         <DropdownMenu open={open} onOpenChange={setOpen}>
           <DropdownMenuTrigger className="mb-2" asChild>
             <SidebarMenuButton
-              size="lg"
-              className="flex items-center bg-gray-100 hover:bg-gray-200 hover:text-black font-semibold hover:cursor-pointer"
+              size={null}
+              className="flex items-center bg-gray-100 hover:bg-gray-200 hover:text-black font-semibold hover:cursor-pointer focus-visible:ring-0"
             >
               <div className="px-2">
                 <CircleUserRound width={20} height={20} />
               </div>
-              <div className="grid flex-1 text-left text-sm">
-                <span className="truncate font-semibold leading-tight">{user.name}</span>
+              <div className="grid flex-1 text-left">
+                <span className="truncate text-sm font-semibold leading-tight py-1">
+                  {user.name}
+                </span>
                 <span className="truncate text-xs text-gray-500 py-0.5">{user.position_level}</span>
               </div>
             </SidebarMenuButton>

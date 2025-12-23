@@ -40,7 +40,7 @@ export function AppSidebar() {
   };
   const [openSidebar, setOpenSidebar] = useState(true);
   return (
-    <Sidebar className="noto-sans" collapsible="icon">
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem className="relative">

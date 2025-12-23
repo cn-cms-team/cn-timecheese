@@ -8,15 +8,16 @@ import { useRouter } from 'next/navigation';
 const UserCreateButton = (): React.ReactNode => {
   const router = useRouter();
   return (
-    <div className="flex align-middle">
-      <Button className="btn btn-outline-primary font-bold" type="submit" form="user-create-form">
-        บันทึก
-      </Button>
+    <div className="flex items-middle gap-2">
       <Button
-        className="btn btn-outline-secondary font-bold ml-2"
+        className="btn btn-outline font-bold"
+        variant={'outline'}
         onClick={() => router.push('/setting/user')}
       >
         ยกเลิก
+      </Button>
+      <Button className="btn btn-outline-primary font-bold" type="submit" form="user-create-form">
+        บันทึก
       </Button>
     </div>
   );

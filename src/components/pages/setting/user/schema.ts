@@ -1,4 +1,9 @@
 import z from 'zod';
+import { MAX_LENGTH_100, MIN_LENGTH_6 } from '@/lib/constants/validation';
+
+const PASSWORD_MIN_LENGTH = MIN_LENGTH_6;
+const PASSWORD_MAX_LENGTH = MAX_LENGTH_100;
+const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#?]).+$/;
 
 const baseSchema = {
   email: z.email('กรุณาตรวจสอบความถูกต้องของอีเมล').nonempty('กรุณากรอกอีเมล'),
@@ -16,25 +21,83 @@ const baseSchema = {
 const createUserSchema = z
   .object({
     ...baseSchema,
-    password: z.string().min(6, 'รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร'),
-    confirm_password: z.string().min(6, 'รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร'),
+    password: z
+      .string('กรุณากรอกรหัสผ่าน')
+      .min(PASSWORD_MIN_LENGTH, {
+        message: `รหัสผ่านต้องมีความยาวอย่างน้อย ${PASSWORD_MIN_LENGTH} ตัวอักษร`,
+      })
+      .max(PASSWORD_MAX_LENGTH, {
+        message: `รหัสผ่านต้องมีความยาวไม่เกิน ${PASSWORD_MAX_LENGTH} ตัวอักษร`,
+      })
+      .regex(PASSWORD_REGEX, {
+        message:
+          'รหัสผ่านต้องประกอบด้วยตัวอักษรภาษาอังกฤษตัวพิมพ์ใหญ่ (A-Z) ตัวพิมพ์เล็ก (a-z) ตัวเลข (0-9) และอักขระพิเศษ (@, $, !, ?, #)',
+      }),
+    confirm_password: z
+      .string('กรุณากรอกยืนยันรหัสผ่าน')
+      .min(PASSWORD_MIN_LENGTH, {
+        message: `ยืนยันรหัสผ่านต้องมีความยาวอย่างน้อย ${PASSWORD_MIN_LENGTH} ตัวอักษร`,
+      })
+      .max(PASSWORD_MAX_LENGTH, {
+        message: `ยืนยันรหัสผ่านต้องมีความยาวไม่เกิน ${PASSWORD_MAX_LENGTH} ตัวอักษร`,
+      })
+      .regex(PASSWORD_REGEX, {
+        message:
+          'รหัสผ่านต้องประกอบด้วยตัวอักษรภาษาอังกฤษตัวพิมพ์ใหญ่ (A-Z) ตัวพิมพ์เล็ก (a-z) ตัวเลข (0-9) และอักขระพิเศษ (@, $, !, ?, #)',
+      }),
   })
   .refine((data) => data.password === data.confirm_password, {
-    message: 'รหัสผ่านไม่ตรงกัน',
     path: ['confirm_password'],
+    message: 'รหัสผ่าน และรหัสผ่านยืนยันไม่ตรงกัน กรุณาตรวจสอบและดำเนินการใหม่อีกครั้ง',
   });
 const editUserSchema = z.object({
   ...baseSchema,
   password: z.string().optional(),
   confirm_password: z.string().optional(),
 });
-type CreateUserSchema = z.infer<typeof createUserSchema>;
 
-type EditUserSchema = z.infer<typeof editUserSchema>;
+const resetPasswordSchema = z
+  .object({
+    id: z.string(),
+    password: z
+      .string('กรุณากรอกรหัสผ่าน')
+      .min(PASSWORD_MIN_LENGTH, {
+        message: `รหัสผ่านต้องมีความยาวอย่างน้อย ${PASSWORD_MIN_LENGTH} ตัวอักษร`,
+      })
+      .max(PASSWORD_MAX_LENGTH, {
+        message: `รหัสผ่านต้องมีความยาวไม่เกิน ${PASSWORD_MAX_LENGTH} ตัวอักษร`,
+      })
+      .regex(PASSWORD_REGEX, {
+        message:
+          'รหัสผ่านต้องประกอบด้วยตัวอักษรภาษาอังกฤษตัวพิมพ์ใหญ่ (A-Z) ตัวพิมพ์เล็ก (a-z) ตัวเลข (0-9) และอักขระพิเศษ (@, $, !, ?, #)',
+      }),
+    confirm_password: z
+      .string('กรุณากรอกยืนยันรหัสผ่าน')
+      .min(PASSWORD_MIN_LENGTH, {
+        message: `ยืนยันรหัสผ่านต้องมีความยาวอย่างน้อย ${PASSWORD_MIN_LENGTH} ตัวอักษร`,
+      })
+      .max(PASSWORD_MAX_LENGTH, {
+        message: `ยืนยันรหัสผ่านต้องมีความยาวไม่เกิน ${PASSWORD_MAX_LENGTH} ตัวอักษร`,
+      })
+      .regex(PASSWORD_REGEX, {
+        message:
+          'รหัสผ่านต้องประกอบด้วยตัวอักษรภาษาอังกฤษตัวพิมพ์ใหญ่ (A-Z) ตัวพิมพ์เล็ก (a-z) ตัวเลข (0-9) และอักขระพิเศษ (@, $, !, ?, #)',
+      }),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    path: ['confirm_password'],
+    message: 'รหัสผ่าน และรหัสผ่านยืนยันไม่ตรงกัน กรุณาตรวจสอบและดำเนินการใหม่อีกครั้ง',
+  });
+
+type CreateUserSchemaType = z.infer<typeof createUserSchema>;
+type EditUserSchemaType = z.infer<typeof editUserSchema>;
+type ResetPasswordSchemaType = z.infer<typeof resetPasswordSchema>;
 
 export {
   createUserSchema,
   editUserSchema,
-  type CreateUserSchema as CreateUserSchemaType,
-  type EditUserSchema as EditUserSchemaType,
+  resetPasswordSchema,
+  type CreateUserSchemaType,
+  type EditUserSchemaType,
+  type ResetPasswordSchemaType,
 };

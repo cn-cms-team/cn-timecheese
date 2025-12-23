@@ -1,8 +1,14 @@
 'use server';
 
-import { signIn } from '@/auth';
+import { auth, signIn } from '@/auth';
+import bcrypt from 'bcrypt';
+import {
+  resetPasswordSchema,
+  ResetPasswordSchemaType,
+} from '@/components/pages/setting/user/schema';
 import { SigninSchemaType } from '@/components/pages/sign-in/schema';
 import { AuthError } from 'next-auth';
+import { ExecuteAction } from './execute-actions';
 
 export async function authenticate(prevState: string | undefined, formData: SigninSchemaType) {
   try {
@@ -18,4 +24,35 @@ export async function authenticate(prevState: string | undefined, formData: Sign
     }
     throw error;
   }
+}
+
+export async function handleResetPasswordUser(id: string, formData: ResetPasswordSchemaType) {
+  const session = await auth();
+  if (!session) {
+    throw new Error('Unauthorized');
+  }
+  return ExecuteAction({
+    actionFn: async () => {
+      const validatedData = resetPasswordSchema.parse(formData);
+      const password = await bcrypt.hash(validatedData.password as string, 10);
+      const payload = {
+        id: validatedData.id,
+        password,
+        updated_at: new Date(),
+        updated_by: session.user.id as string,
+        reset_password_date: new Date(),
+      };
+      const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user/${id}`;
+      const response = await fetch(fetchUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: { ...payload } }),
+      });
+      const result = await response.json();
+      return result;
+    },
+    successMessage: 'รีเซ็ตรหัสผ่านผู้ใช้งานสำเร็จ',
+  });
 }
