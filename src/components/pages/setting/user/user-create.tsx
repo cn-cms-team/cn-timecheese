@@ -141,7 +141,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
         <form
           id="user-create-form"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="gap-x-6 gap-y-5 px-8"
+          className="space-x-6 space-y-5 px-8"
         >
           <div className="flex flex-wrap items-baseline">
             <FormField
