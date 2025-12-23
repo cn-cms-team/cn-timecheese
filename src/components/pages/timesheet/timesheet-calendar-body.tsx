@@ -1,12 +1,18 @@
 'use client';
+import { useEffect } from 'react';
 
 import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
+
 import { useTimeSheetContext } from './view/timesheet-context';
 import TimeSheetWeekCalendar from './period-calendar/timesheet-week-calendar';
 import TimeSheetMonthCalendar from './period-calendar/timesheet-month-calendar';
 
 const TimeSheetCalendarBody = () => {
-  const { period } = useTimeSheetContext();
+  const { period, fetchOptions } = useTimeSheetContext();
+
+  useEffect(() => {
+    fetchOptions();
+  }, []);
 
   const renderCalendar = () => {
     switch (period) {

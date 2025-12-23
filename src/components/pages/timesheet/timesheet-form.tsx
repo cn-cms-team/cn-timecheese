@@ -16,6 +16,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { TimesheetCreateEditSchema, timesheetCreateEditSchema } from './schema';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { useTimeSheetContext } from './view/timesheet-context';
 
 interface IProps {
   close?: () => void;
@@ -30,8 +31,8 @@ const TimeSheetForm = ({
   endTime = undefined,
   close = () => {},
 }: IProps) => {
-  const [projectOptions, setProjectOptions] = useState<IOptions[]>([]);
-  const [taskTypeOptions, setTaskTypeOptions] = useState<IOptions[]>([]);
+  const { projectOptions, taskTypeOptions } = useTimeSheetContext();
+
   const selectedDate = startTime
     ? startTime
     : data?.start_date
@@ -85,32 +86,12 @@ const TimeSheetForm = ({
       if (response.ok) {
         const result = await response.json();
         toast(result.message);
+        close()
       }
     } catch (error) {
       console.error('Error fetching options: ', error);
     }
   };
-
-  useEffect(() => {
-    const fetchOptions = async () => {
-      try {
-        const prefix = process.env.NEXT_PUBLIC_APP_URL;
-        const [projectOptions, taskTypeOptions] = await Promise.all([
-          fetcher<IOptions[]>(`${prefix}/api/v1/master/project`),
-          fetcher<IOptions[]>(`${prefix}/api/v1/master/task-type`),
-        ]);
-        setProjectOptions(projectOptions);
-        setTaskTypeOptions(taskTypeOptions);
-      } catch (error) {
-        console.error('Error fetching options:', error);
-      }
-    };
-    fetchOptions();
-  }, []);
-
-  useEffect(() => {
-    console.log(form.watch());
-  }, [form]);
 
   return (
     <div className="flex flex-col w-full p-4 space-y-4">

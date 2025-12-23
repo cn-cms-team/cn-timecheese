@@ -1,5 +1,7 @@
 'use client';
 import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
+import { fetcher } from '@/lib/fetcher';
+import { IOptions } from '@/types/dropdown';
 import { ITimeSheetResponse } from '@/types/timesheet';
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 
@@ -11,6 +13,8 @@ interface ITimeSheetContextType {
   isPopoverEdit: boolean;
   selectedMonth: Date;
   selectedYear: number;
+  projectOptions: IOptions[];
+  taskTypeOptions: IOptions[];
   setLoading: (isLoading: boolean) => void;
   setPeriod: (value: PERIODCALENDAR) => void;
   setSelectedCalendar: Dispatch<SetStateAction<Date | null>>;
@@ -18,6 +22,7 @@ interface ITimeSheetContextType {
   resetSelectCaledar: () => void;
   setSelectedMonth: Dispatch<SetStateAction<Date>>;
   setSelectedYear: Dispatch<SetStateAction<number>>;
+  fetchOptions: () => void;
 }
 
 interface ITimeSheetProviderProps {
@@ -60,9 +65,25 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   const [isPopoverEdit, setIsPopoverEdit] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
+  const [projectOptions, setProjectOptions] = useState<IOptions[]>([]);
+  const [taskTypeOptions, setTaskTypeOptions] = useState<IOptions[]>([]);
 
   const resetSelectCaledar = () => {
     setSelectedCalendar(null);
+  };
+
+  const fetchOptions = async () => {
+    try {
+      const prefix = process.env.NEXT_PUBLIC_APP_URL;
+      const [projectOptions, taskTypeOptions] = await Promise.all([
+        fetcher<IOptions[]>(`${prefix}/api/v1/master/project`),
+        fetcher<IOptions[]>(`${prefix}/api/v1/master/task-type`),
+      ]);
+      setProjectOptions(projectOptions);
+      setTaskTypeOptions(taskTypeOptions);
+    } catch (error) {
+      console.error('Error fetching options:', error);
+    }
   };
 
   return (
@@ -75,6 +96,8 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         isPopoverEdit,
         selectedMonth,
         selectedYear,
+        projectOptions,
+        taskTypeOptions,
         setIsPopoverEdit,
         setLoading,
         setPeriod,
@@ -82,6 +105,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         resetSelectCaledar,
         setSelectedMonth,
         setSelectedYear,
+        fetchOptions,
       }}
     >
       {children}
