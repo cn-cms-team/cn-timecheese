@@ -2,7 +2,6 @@
 
 import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
 import { useTimeSheetContext } from './view/timesheet-context';
-import TimeSheetDailyCalendar from './period-calendar/timesheet-daily-calendar';
 import TimeSheetWeekCalendar from './period-calendar/timesheet-week-calendar';
 import TimeSheetMonthCalendar from './period-calendar/timesheet-month-calendar';
 
@@ -11,8 +10,6 @@ const TimeSheetCalendarBody = () => {
 
   const renderCalendar = () => {
     switch (period) {
-      case PERIODCALENDAR.DATE:
-        return <TimeSheetDailyCalendar />;
       case PERIODCALENDAR.WEEK:
         return <TimeSheetWeekCalendar />;
       case PERIODCALENDAR.MONTH:
