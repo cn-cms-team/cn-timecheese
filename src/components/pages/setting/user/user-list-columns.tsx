@@ -30,7 +30,7 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
   const baseColumns: ColumnDef<IUser>[] = [
     {
       ...nameColumn,
-      size: 200,
+      size: 150,
       cell: ({ row }) => {
         const { first_name, last_name, id } = row.original;
         const fullName = [first_name, last_name].join(' ').trim();
@@ -40,7 +40,7 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
     },
     {
       ...nickNameColumn,
-      size: 200,
+
       cell: ({ row }) => {
         const { nick_name } = row.original;
         return <div>{nick_name || '-'}</div>;
@@ -48,7 +48,7 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
     },
     {
       ...teamColumn,
-      size: 200,
+
       cell: ({ row }) => {
         const { team } = row.original;
         return <div>{team?.name || '-'}</div>;
@@ -56,7 +56,7 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
     },
     {
       ...positionColumn,
-      size: 200,
+
       cell: ({ row }) => {
         const { position_level } = row.original;
         return <div>{position_level?.name || '-'}</div>;
@@ -64,7 +64,7 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
     },
     {
       ...emailColumn,
-      size: 200,
+
       cell: ({ row }) => {
         const { email } = row.original;
         return <div>{email || '-'}</div>;
@@ -76,7 +76,7 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
         const { id, email, isActive } = row.original;
 
         return (
-          <div className="flex justify-center space-x-1">
+          <div className="flex justify-center gap-2">
             <ButtonEdit onClick={() => onOpenDialog('edit', isActive, id, { email })} />
             <ButtonDelete
               onOpenDialog={() => onOpenDialog('delete', isActive, id, { email })}
