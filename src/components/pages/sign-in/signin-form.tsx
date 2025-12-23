@@ -48,7 +48,7 @@ export default function LoginForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 flex flex-col px-12 px-sm-6"
         >
-          <h1 className={`mb-12 text-5xl font-bold text-center`}>Timecheese</h1>
+          <h1 className={`mb-12 text-5xl font-bold text-center text-primary`}>Timecheese</h1>
           <FormField
             control={form.control}
             name="email"
@@ -74,7 +74,7 @@ export default function LoginForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>รหัสผ่่าน</FormLabel>
+                <FormLabel>รหัสผ่าน</FormLabel>
                 <FormControl>
                   <Input
                     type="password"
