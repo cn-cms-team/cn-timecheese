@@ -13,17 +13,16 @@ interface IProps {
 
 const TimeSheetPopover = ({
   align = 'center',
-  className = '',
   side = 'bottom',
+  className = '',
   triggerContent,
   popoverContent,
 }: IProps) => {
   const [open, setOpen] = useState(false);
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild onClick={() => setOpen(true)}>
-        {triggerContent}
-      </PopoverTrigger>
+      <PopoverTrigger asChild>{triggerContent}</PopoverTrigger>
       <PopoverContent align={align} side={side} className={className}>
         {popoverContent(() => setOpen(false))}
       </PopoverContent>
