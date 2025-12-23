@@ -47,41 +47,42 @@ const TimeSheetForm = ({
 
   return (
     <div className="flex flex-col w-full p-4 space-y-4">
-      <header className="w-full text-end">
-        <Button
-          className="bg-transparent border-transparent focus-visible:hidden hover:bg-transparent cursor-pointer p-0 focus:border-none"
-          onClick={close}
-        >
-          <X width={14} stroke="#000" />
-        </Button>
-      </header>
       <main className="w-full space-y-4">
         <Form {...form}>
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              form.handleSubmit(() => {});
-            }}
+            onSubmit={form.handleSubmit((data) => {
+              console.log(data)
+            })}
             className="grid grid-cols-1 space-y-4 w-full"
           >
-            <FormField
-              control={form.control}
-              name="project_id"
-              render={({ field }) => (
-                <FormItem className="px-0">
-                  <FormControl>
-                    <ComboboxForm
-                      field={field}
-                      placeholder="เลือกประโปรเจค"
-                      options={[]}
-                      onSelect={() => {}}
-                      isError={form.formState.errors.task_type_id ? true : false}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex items-center">
+              <FormField
+                control={form.control}
+                name="project_id"
+                render={({ field }) => (
+                  <FormItem className="px-0 w-full">
+                    <FormControl>
+                      <ComboboxForm
+                        field={field}
+                        placeholder="เลือกประโปรเจค"
+                        options={[]}
+                        onSelect={() => {}}
+                        isError={form.formState.errors.task_type_id ? true : false}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className=" text-end">
+                <Button
+                  className="bg-transparent border-transparent focus-visible:hidden hover:bg-transparent cursor-pointer focus:border-none"
+                  onClick={close}
+                >
+                  <X width={14} stroke="#000" />
+                </Button>
+              </div>
+            </div>
             <div className="flex items-center px-0">
               <Calendar width={25} strokeWidth={1} />
               <span className="ml-2 font-semibold">{`${dayNameTH} ${buddhistFormatDate(
@@ -197,7 +198,7 @@ const TimeSheetForm = ({
                 </FormItem>
               )}
             />
-            <footer className="flex  items-center mt-4 space-x-2">
+            <footer className="flex justify-center items-center mt-4 space-x-2">
               <Button
                 className="w-40 bg-transparent border-neutral-500 text-black hover:bg-neutral-200 cursor-pointer"
                 onClick={close}

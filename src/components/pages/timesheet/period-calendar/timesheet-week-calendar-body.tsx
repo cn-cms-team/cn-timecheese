@@ -119,6 +119,7 @@ const TimeSheetWeekCalendarBody = ({ weekDays }: IProps) => {
                     align="center"
                     side="right"
                     className="w-full"
+                    setIsEdit={setIsPopoverEdit}
                     triggerContent={
                       <div
                         className="absolute left-[5%] w-[90%]"
