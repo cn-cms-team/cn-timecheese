@@ -1654,7 +1654,8 @@ export const TeamScalarFieldEnum = {
   created_by: 'created_by',
   updated_at: 'updated_at',
   updated_by: 'updated_by',
-  is_enabled: 'is_enabled'
+  is_enabled: 'is_enabled',
+  is_active: 'is_active'
 } as const
 
 export type TeamScalarFieldEnum = (typeof TeamScalarFieldEnum)[keyof typeof TeamScalarFieldEnum]
