@@ -3,6 +3,8 @@ import { buddhistFormatDate } from '@/lib/functions/date-format';
 import { cn } from '@/lib/utils';
 import { addYears, subYears } from 'date-fns';
 import { useState } from 'react';
+import { useTimeSheetContext } from './view/timesheet-context';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface IProps {
   current?: number;
@@ -13,13 +15,13 @@ interface IProps {
 }
 
 const MonthPicker = ({ current, minYear, maxYear, className, onSelect }: IProps) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const { selectedMonth, selectedYear, setSelectedMonth, setSelectedYear } = useTimeSheetContext();
   const [showYearPicker, setShowYearPicker] = useState(false);
 
   const handleMonthSelect = (month: number) => {
-    const newDate = new Date(selectedDate);
+    const newDate = new Date(selectedMonth);
     newDate.setMonth(month);
-    setSelectedDate(newDate);
+    setSelectedMonth(newDate);
 
     if (onSelect) {
       onSelect(month);
@@ -27,23 +29,24 @@ const MonthPicker = ({ current, minYear, maxYear, className, onSelect }: IProps)
   };
 
   const handleYearChange = (year: number) => {
-    const newDate = new Date(selectedDate);
+    const newDate = new Date(selectedMonth);
     newDate.setFullYear(year);
-    setSelectedDate(newDate);
+    setSelectedMonth(newDate);
+    setSelectedYear(newDate.getFullYear());
     setShowYearPicker(false);
   };
 
-  const currentYear = selectedDate.getFullYear();
-  const currentMonth = current ? current : selectedDate.getMonth() - 1;
+  const currentYear = selectedYear;
+  const currentMonth = current ? current : selectedMonth.getMonth() - 1;
 
   return (
     <div className={cn('w-full h-full p-2 bg-white rounded-lg', className)}>
       <div className="flex justify-center gap-x-4 items-center w-full">
         <button
           className="cursor-pointer font-bold"
-          onClick={() => setSelectedDate(subYears(selectedDate, 1))}
+          onClick={() => setSelectedMonth(subYears(selectedMonth, 1))}
         >
-          {'<'}
+          <ChevronLeft width={14} strokeWidth={4} />
         </button>
         <button
           className="text-lg font-semibold cursor-pointer py-1 px-2 rounded-lg flex items-center justify-center border border-transparent hover:border-gray-400 hover:scale-105 transition-all"
@@ -53,9 +56,9 @@ const MonthPicker = ({ current, minYear, maxYear, className, onSelect }: IProps)
         </button>
         <button
           className="cursor-pointer font-bold"
-          onClick={() => setSelectedDate(addYears(selectedDate, 1))}
+          onClick={() => setSelectedMonth(addYears(selectedMonth, 1))}
         >
-          {'>'}
+          <ChevronRight width={14} strokeWidth={4} />
         </button>
       </div>
       {(() => {
@@ -86,7 +89,7 @@ const MonthPicker = ({ current, minYear, maxYear, className, onSelect }: IProps)
                 <button
                   key={index}
                   className={`py-1 text-center text-sm rounded-md cursor-pointer hover:bg-yellow-200 font-semibold ${
-                    index === selectedDate.getMonth()
+                    index === selectedMonth.getMonth()
                       ? 'bg-primary text-black hover:text-black'
                       : ''
                   } `}

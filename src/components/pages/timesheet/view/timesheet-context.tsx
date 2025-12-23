@@ -6,14 +6,18 @@ import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useStat
 interface ITimeSheetContextType {
   loading: boolean;
   period: PERIODCALENDAR;
-  selectedCalendar: number | null;
+  selectedCalendar: Date | null;
   tasks: ITimeSheetResponse[];
   isPopoverEdit: boolean;
+  selectedMonth: Date;
+  selectedYear: number;
   setLoading: (isLoading: boolean) => void;
   setPeriod: (value: PERIODCALENDAR) => void;
-  setSelectedCalendar: Dispatch<SetStateAction<number | null>>;
+  setSelectedCalendar: Dispatch<SetStateAction<Date | null>>;
   setIsPopoverEdit: Dispatch<SetStateAction<boolean>>;
   resetSelectCaledar: () => void;
+  setSelectedMonth: Dispatch<SetStateAction<Date>>;
+  setSelectedYear: Dispatch<SetStateAction<number>>;
 }
 
 interface ITimeSheetProviderProps {
@@ -51,9 +55,11 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   ];
   const [loading, setLoading] = useState(false);
   const [period, setPeriod] = useState(PERIODCALENDAR.WEEK);
-  const [selectedCalendar, setSelectedCalendar] = useState<number | null>(null);
+  const [selectedCalendar, setSelectedCalendar] = useState<Date | null>(null);
   const [tasks, setTasks] = useState<ITimeSheetResponse[]>(mockTimeSheetResponse);
   const [isPopoverEdit, setIsPopoverEdit] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState(new Date());
+  const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
 
   const resetSelectCaledar = () => {
     setSelectedCalendar(null);
@@ -67,11 +73,15 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         period,
         tasks,
         isPopoverEdit,
+        selectedMonth,
+        selectedYear,
         setIsPopoverEdit,
         setLoading,
         setPeriod,
         setSelectedCalendar,
         resetSelectCaledar,
+        setSelectedMonth,
+        setSelectedYear,
       }}
     >
       {children}
