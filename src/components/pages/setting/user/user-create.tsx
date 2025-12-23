@@ -28,6 +28,7 @@ import { IOptions } from '@/types/dropdown';
 import { DatePickerInput } from '@/components/ui/custom/input/date-picker';
 import { useSession } from 'next-auth/react';
 import { Required } from '@/components/ui/custom/form';
+import { MAX_LENGTH_100, MAX_LENGTH_255, MAX_LENGTH_50 } from '@/lib/constants/validation';
 
 const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
   const { data: session } = useSession();
@@ -158,6 +159,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                       autoComplete="off"
                       placeholder="กรุณากรอกอีเมลของคุณ"
                       {...field}
+                      maxLength={MAX_LENGTH_255}
                       onInput={(e) => {
                         field.onChange(e);
                       }}
@@ -180,6 +182,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                     <Input
                       placeholder="กรุณากรอกรหัสพนักงาน"
                       {...field}
+                      maxLength={MAX_LENGTH_50}
                       onInput={(e) => {
                         field.onChange(e);
                       }}
@@ -206,6 +209,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                         type="password"
                         autoComplete="new-password"
                         placeholder="กรุณากรอกรหัสผ่าน"
+                        maxLength={MAX_LENGTH_255}
                         {...field}
                         onInput={(e) => {
                           field.onChange(e);
@@ -230,6 +234,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                         type="password"
                         autoComplete="new-password"
                         placeholder="กรุณากรอกยืนยันรหัสผ่าน"
+                        maxLength={MAX_LENGTH_255}
                         {...field}
                         onInput={(e) => {
                           field.onChange(e);
@@ -256,6 +261,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                     <Input
                       placeholder="กรุณากรอกชื่อ"
                       {...field}
+                      maxLength={MAX_LENGTH_100}
                       onInput={(e) => {
                         field.onChange(e);
                       }}
@@ -278,6 +284,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                     <Input
                       placeholder="กรุณากรอกนามสกุล"
                       {...field}
+                      maxLength={MAX_LENGTH_100}
                       onInput={(e) => {
                         field.onChange(e);
                       }}
@@ -302,6 +309,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                     <Input
                       placeholder="กรุณากรอกชื่อเล่น"
                       {...field}
+                      maxLength={MAX_LENGTH_100}
                       onInput={(e) => {
                         field.onChange(e);
                       }}

@@ -12,6 +12,7 @@ export async function GET() {
         last_name: true,
         nick_name: true,
         is_active: true,
+        salary_range: true,
         team: {
           select: {
             id: true,

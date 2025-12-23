@@ -13,7 +13,7 @@ export type IUser = {
   start_date?: Date;
   end_date?: Date;
   lastLoginAt?: Date;
-
+  salary_range?: string;
   position_level_id: string;
   position_level: IPositionLevel;
   team_id: string;

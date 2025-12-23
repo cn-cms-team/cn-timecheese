@@ -15,6 +15,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { signinSchema, SigninSchemaType } from './schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { MAX_LENGTH_255 } from '@/lib/constants/validation';
 
 export default function LoginForm() {
   const [disabled, setDisabled] = useState(false);
@@ -63,6 +64,7 @@ export default function LoginForm() {
                 <FormControl>
                   <Input
                     placeholder="กรุณาใส่อีเมลของคุณ"
+                    maxLength={MAX_LENGTH_255}
                     {...field}
                     disabled={disabled || isPending}
                     onInput={() => {
@@ -85,6 +87,7 @@ export default function LoginForm() {
                     type="password"
                     autoComplete="new-password"
                     placeholder="กรุณาใส่รหัสผ่านของคุณ"
+                    maxLength={MAX_LENGTH_255}
                     {...field}
                     disabled={disabled || isPending}
                     onInput={() => {

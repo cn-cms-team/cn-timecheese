@@ -1,6 +1,6 @@
 'use client';
 import { useLoading } from '@/components/context/app-context';
-import { MAX_LENGTH_100 } from '@/lib/constants/validation';
+import { MAX_LENGTH_255 } from '@/lib/constants/validation';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -89,7 +89,7 @@ const ResetPasswordForm = ({ userData }: ResetPasswordFormProps) => {
                       <Input
                         type="password"
                         autoComplete="new-password"
-                        maxLength={MAX_LENGTH_100}
+                        maxLength={MAX_LENGTH_255}
                         disabled={isLoading}
                         {...field}
                       />
@@ -111,7 +111,7 @@ const ResetPasswordForm = ({ userData }: ResetPasswordFormProps) => {
                       <Input
                         type="password"
                         autoComplete="new-password"
-                        maxLength={MAX_LENGTH_100}
+                        maxLength={MAX_LENGTH_255}
                         disabled={isLoading}
                         {...field}
                       />
