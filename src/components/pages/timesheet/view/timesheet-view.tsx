@@ -1,10 +1,10 @@
 'use client';
 
-import TimeSheetHeader from '../timesheet-header';
+import TimeSheetHeader from '../header/timesheet-header';
 import TimeSheetProvider from './timesheet-context';
 import TimeSheetCalendarBody from '../timesheet-calendar-body';
 import { Header, HeaderTitle } from '@/components/ui/custom/header';
-import TimeSheetPeriodSelection from '../timesheet-period-selection';
+import TimeSheetPeriodSelection from '../header/timesheet-period-selection';
 
 const TimeSheetView = () => {
   return (

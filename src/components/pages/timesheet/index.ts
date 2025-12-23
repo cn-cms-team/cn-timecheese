@@ -1,12 +1,12 @@
 export { default as TimeSheetView } from './view/timesheet-view';
 export { default as TimeSheetProvider } from './view/timesheet-context';
-export { default as TimeSheetHeader } from './timesheet-header';
+export { default as TimeSheetHeader } from './header/timesheet-header';
 export { default as TimeSheetUserInfo } from './timesheet-user-info';
-export { default as TimeSheetCalendar } from './timesheet-calendar';
-export { default as TimeSheetTimeSummary } from './timesheet-time-summary';
-export { default as TimeSheetPeriodSelection } from './timesheet-period-selection';
+export { default as TimeSheetCalendar } from './header/timesheet-calendar';
+export { default as TimeSheetTimeSummary } from './header/timesheet-time-summary';
+export { default as TimeSheetPeriodSelection } from './header/timesheet-period-selection';
 export { default as TimeSheetCalendarBody } from './timesheet-calendar-body';
-export { default as TimeSheetColorLegend } from './timesheet-color-legend';
+export { default as TimeSheetColorLegend } from './header/timesheet-color-legend';
 export { default as TimeSheetWeekCalendar } from './period-calendar/timesheet-week-calendar';
 export { default as TimeSheetMonthCalendar } from './period-calendar/timesheet-month-calendar';
 export { default as TimeSheetPopover } from './timesheet-popover';

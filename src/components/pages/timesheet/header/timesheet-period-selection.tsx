@@ -4,9 +4,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
 
-import TimeSheetColorLegend from './timesheet-color-legend';
-import { useTimeSheetContext } from './view/timesheet-context';
+import { useTimeSheetContext } from '../view/timesheet-context';
 import PeriodInput from '@/components/ui/custom/input/period-input';
+import TimeSheetColorLegend from './timesheet-color-legend';
 
 const options = [
   { label: 'สัปดาห์', value: PERIODCALENDAR.WEEK },
