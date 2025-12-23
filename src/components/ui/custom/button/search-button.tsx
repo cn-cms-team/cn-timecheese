@@ -17,16 +17,7 @@ const SearchButton = ({
   onClick = () => {},
 }: IProps) => {
   return (
-    <Button
-      type="button"
-      size={size}
-      variant="outline"
-      className={cn(
-        'bg-transparent border-primary text-primary flex items-center text-nowrap hover:bg-primary hover:text-white',
-        className
-      )}
-      onClick={onClick}
-    >
+    <Button type="button" size={size} variant="default" onClick={onClick}>
       <Search />
       {title}
     </Button>

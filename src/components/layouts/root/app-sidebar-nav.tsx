@@ -61,13 +61,7 @@ export function AppSidebarNav({ openSidebar }: { openSidebar?: boolean }) {
                   className={isMenubarActive(item.url, pathname) ? 'side_parent_active' : ''}
                 >
                   <Link href={item.url}>
-                    {item.icon && (
-                      <item.icon
-                        color={isMenubarActive(item.url, pathname) ? '#fff' : '#000'}
-                        width={28}
-                        height={28}
-                      />
-                    )}
+                    {item.icon && <item.icon width={28} height={28} />}
                     <span className="">{item.name}</span>
                   </Link>
                 </SidebarMenuButton>
@@ -96,18 +90,9 @@ export function AppSidebarNav({ openSidebar }: { openSidebar?: boolean }) {
                             isMenubarActive(item.url, pathname) ? 'side_parent_active' : ''
                           }
                         >
-                          {item.icon && (
-                            <item.icon
-                              color={isMenubarActive(item.url, pathname) ? '#fff' : '#000'}
-                              width={28}
-                              height={28}
-                            />
-                          )}
+                          {item.icon && <item.icon width={28} height={28} />}
                           <span>{item.name}</span>
-                          <ChevronRight
-                            color={isMenubarActive(item.url, pathname) ? '#fff' : '#000'}
-                            className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
-                          />
+                          <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                         </SidebarMenuButton>
                       </CollapsibleTrigger>
                     </DropdownMenuTrigger>

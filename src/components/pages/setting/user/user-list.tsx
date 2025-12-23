@@ -20,7 +20,6 @@ import {
 import { Label } from '@/components/ui/label';
 import DataTable from '@/components/ui/custom/data-table/table-template';
 import InputSearch from '@/components/ui/custom/data-table/input/input-search';
-import SearchButton from '@/components/ui/custom/button/search-button';
 import { IUser } from '@/types/setting/user';
 
 interface DataTableProps<TData, TValue> {
@@ -104,9 +103,6 @@ export function UserList<TData, TValue>({ columns, data }: DataTableProps<TData,
             }
             onEnter={handleSearch}
           />
-        </div>
-        <div className="flex items-center gap-2">
-          <SearchButton onClick={handleSearch} />
         </div>
       </div>
       <DataTable table={table} columns={columns} />
