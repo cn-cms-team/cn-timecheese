@@ -3,6 +3,7 @@ import ModuleLayout from '@/components/layouts/ModuleLayout';
 import { Button } from '@/components/ui/button';
 import UserViewDetail from '../user-view';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const UserViewButton = ({ id }: { id: string }): React.ReactNode => {
   const router = useRouter();
@@ -13,7 +14,12 @@ const UserViewButton = ({ id }: { id: string }): React.ReactNode => {
     });
   };
   return (
-    <div className="flex align-middle">
+    <div className="flex items-middle">
+      <Link href={`/setting/user/${id}/reset-password`} className="me-2">
+        <Button variant={'outline'} className="bg-transparent">
+          รีเซ็ตรหัสผ่าน
+        </Button>
+      </Link>
       <Button
         className="btn btn-outline-primary font-bold"
         onClick={() => router.push(`/setting/user/${id}/edit`)}

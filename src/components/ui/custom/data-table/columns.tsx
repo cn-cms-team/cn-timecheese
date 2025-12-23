@@ -32,7 +32,7 @@ export function SortColumn<TData>(
   columnName: string,
   align: string = 'left',
   sortable: boolean = false,
-  size = 100,
+  size?: number,
   sortingFn: SortingFnOption<TData> = 'customSort' as SortingFnOption<TData>
 ): ColumnDef<TData> {
   return {
@@ -79,7 +79,7 @@ export function SortColumn<TData>(
     },
     size,
     minSize: 100,
-    maxSize: 200,
+    maxSize: 300,
   };
 }
 

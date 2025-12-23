@@ -62,9 +62,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         }
 
         if (
-          resetPasswordDateSession == null &&
-          resetPasswordDateSession == '' &&
-          !pathname.includes('reset-password')
+          resetPasswordDateSession == null ||
+          (resetPasswordDateSession == '' && !pathname.includes('reset-password'))
         ) {
           // redirect to change password page
           window.location.href = `/setting/user/${user_id}/reset-password`;

@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt';
 import prisma from '@/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { User } from '../generated/prisma/client';
+import { AUTH_ERROR_CODES } from './types/constants/auth';
 
 export const UPDATE_AGE = parseInt(process.env.JWT_UPDATE_AGE_IN_SECONDS || '3600'); // default 1 hour
 export const MAX_AGE = parseInt(process.env.JWT_MAX_AGE_IN_SECONDS || '86400'); // default 24 hours
@@ -29,8 +30,7 @@ const getUser = async (email: string): Promise<User> => {
     });
     return user as User;
   } catch (error) {
-    console.error('Failed to fetch user:', error);
-    throw new Error('Failed to fetch user.');
+    throw new Error(AUTH_ERROR_CODES.ERROR);
   }
 };
 
@@ -52,7 +52,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const { email, password } = parsedCredentials.data;
         const user = await getUser(email);
 
-        if (!user) return null;
+        if (!user) throw new Error(AUTH_ERROR_CODES.NOTFOUND);
 
         let userDetail = {
           id: user.id,
@@ -73,8 +73,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               data: { last_login_at: lastLogin },
             });
           } catch (error) {
-            console.error('Error updating last login:', error);
+            throw new Error(AUTH_ERROR_CODES.ERROR);
           }
+        } else if (!passwordsMatch) {
+          throw new Error(AUTH_ERROR_CODES.INVALID);
         }
 
         return userDetail;

@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { CircleUserRound, LogOut } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 export type AppSidebarUserProps = {
   user: {
@@ -25,10 +26,11 @@ export type AppSidebarUserProps = {
 
 const AppSidebarUser = ({ user }: AppSidebarUserProps) => {
   const pathname = usePathname();
+  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const handleClickResetPassword = () => {
     setOpen(false);
-    redirect('/change-password');
+    redirect(`/setting/user/${session?.user.id}/reset-password`);
   };
   return (
     <SidebarMenu>
