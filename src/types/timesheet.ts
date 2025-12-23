@@ -4,6 +4,7 @@ export interface ITimeSheetResponse {
   project_name: string;
   task_type_id: string;
   task_type_name: string;
+  stamp_date: string;
   start_date: string;
   end_date: string;
   detail: string;
@@ -12,8 +13,10 @@ export interface ITimeSheetResponse {
 }
 
 export interface ITimeSheetRequest {
+  id?: string
   project_id: string;
   task_type_id: string;
+  stamp_date: string;
   start_date: string;
   end_date: string;
   detail: string;
