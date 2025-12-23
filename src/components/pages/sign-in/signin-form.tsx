@@ -46,9 +46,14 @@ export default function LoginForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 flex flex-col px-12 px-sm-6"
+          className="space-y-8 flex flex-col px-6 md:px-3"
         >
-          <h1 className={`mb-12 text-5xl font-bold text-center text-primary`}>Timecheese</h1>
+          <div className="flex flex-row justify-center items-center gap-2">
+            <img src="/img/sign-in/logo-cheese.png" alt="Time Cheese Logo" className="h-20 w-20" />
+            <h1 className={`text-4xl xl:text-5xl text-center text-nature-600 font-normal`}>
+              TimeCheese
+            </h1>
+          </div>
           <FormField
             control={form.control}
             name="email"

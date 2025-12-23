@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 
 const SigninInView = () => {
   return (
-    <main className="h-full w-ful flex items-center justify-center bg-white">
+    <main className="h-full w-full flex items-center justify-center bg-gray-100">
       <div className="container">
         <div className="flex gap-12">
           <div className="relative justify-center w-3/5 hidden md:flex">
