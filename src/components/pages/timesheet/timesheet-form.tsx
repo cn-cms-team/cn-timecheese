@@ -51,7 +51,7 @@ const TimeSheetForm = ({
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit((data) => {
-              console.log(data)
+              console.log(data);
             })}
             className="grid grid-cols-1 space-y-4 w-full"
           >
@@ -77,6 +77,7 @@ const TimeSheetForm = ({
               <div className=" text-end">
                 <Button
                   className="bg-transparent border-transparent focus-visible:hidden hover:bg-transparent cursor-pointer focus:border-none"
+                  type="button"
                   onClick={close}
                 >
                   <X width={14} stroke="#000" />
@@ -201,6 +202,7 @@ const TimeSheetForm = ({
             <footer className="flex justify-center items-center mt-4 space-x-2">
               <Button
                 className="w-40 bg-transparent border-neutral-500 text-black hover:bg-neutral-200 cursor-pointer"
+                type="button"
                 onClick={close}
               >
                 ยกเลิก
