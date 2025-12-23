@@ -28,8 +28,8 @@ export type IUser = {
   createdByUser: IUser;
   updatedByUser?: IUser;
 
-  isActive: boolean;
-  isEnabled: boolean;
+  is_active: boolean;
+  is_enabled: boolean;
 
   projectMembers: [];
   timeSheets: [];

@@ -2,8 +2,8 @@ import { UserCreateView } from '@/components/pages/setting/user/view';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Edit User - CN Timesheet',
-  description: 'CN Timesheet',
+  title: 'Edit User - Time Cheese',
+  description: 'Time Cheese',
 };
 
 const UserEditSetting = async ({ params }: { params: Promise<{ id: string }> }) => {

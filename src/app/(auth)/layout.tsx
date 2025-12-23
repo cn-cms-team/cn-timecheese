@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import AuthLayout from '@/components/layouts/auth';
 
 export const metadata: Metadata = {
-  title: 'CN Timesheet',
-  description: 'CN Timesheet',
+  title: 'Time Cheese',
+  description: 'Time Cheese',
 };
 
 export default function Auth({

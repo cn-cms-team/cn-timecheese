@@ -27,6 +27,7 @@ import { fetcher } from '@/lib/fetcher';
 import { IOptions } from '@/types/dropdown';
 import { DatePickerInput } from '@/components/ui/custom/input/date-picker';
 import { useSession } from 'next-auth/react';
+import { Required } from '@/components/ui/custom/form';
 
 const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
   const { data: session } = useSession();
@@ -140,7 +141,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
         <form
           id="user-create-form"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 gap-x-6 gap-y-5 px-8"
+          className="space-x-6 space-y-5 px-8"
         >
           <div className="flex flex-wrap items-baseline">
             <FormField
@@ -148,7 +149,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="email"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>อีเมล</FormLabel>
+                  <FormLabel>
+                    อีเมล
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       autoComplete="off"
@@ -168,7 +172,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="code"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>รหัสพนักงาน</FormLabel>
+                  <FormLabel>
+                    รหัสพนักงาน
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="กรุณากรอกรหัสพนักงาน"
@@ -190,7 +197,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 name="password"
                 render={({ field }) => (
                   <FormItem className="w-full md:w-1/2">
-                    <FormLabel>รหัสผ่าน</FormLabel>
+                    <FormLabel>
+                      รหัสผ่าน
+                      <Required />
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
@@ -211,7 +221,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 name="confirm_password"
                 render={({ field }) => (
                   <FormItem className="w-full md:w-1/2">
-                    <FormLabel>ยืนยันรหัสผ่าน</FormLabel>
+                    <FormLabel>
+                      ยืนยันรหัสผ่าน
+                      <Required />
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
@@ -235,7 +248,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="first_name"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>ชื่อ</FormLabel>
+                  <FormLabel>
+                    ชื่อ
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="กรุณากรอกชื่อ"
@@ -254,7 +270,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="last_name"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>นามสกุล</FormLabel>
+                  <FormLabel>
+                    นามสกุล
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="กรุณากรอกนามสกุล"
@@ -275,7 +294,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="nick_name"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>ชื่อเล่น</FormLabel>
+                  <FormLabel>
+                    ชื่อเล่น
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="กรุณากรอกชื่อเล่น"
@@ -294,7 +316,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="team_id"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>ทีม</FormLabel>
+                  <FormLabel>
+                    ทีม
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <ComboboxForm
                       placeholder="เลือกทีม"
@@ -315,7 +340,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="position_level_id"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>ระดับตำแหน่ง</FormLabel>
+                  <FormLabel>
+                    ระดับตำแหน่ง
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <ComboboxForm
                       placeholder="เลือกระดับตำแหน่ง"
@@ -336,7 +364,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="role_id"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>สิทธิ์การใช้งาน</FormLabel>
+                  <FormLabel>
+                    สิทธิ์การใช้งาน
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <ComboboxForm
                       placeholder="เลือกสิทธิ์การใช้งาน"
@@ -357,7 +388,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="start_date"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>วันที่เริ่มต้น</FormLabel>
+                  <FormLabel>
+                    วันที่เริ่มต้น
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <DatePickerInput
                       value={field.value}

@@ -10,7 +10,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { CircleUserRound, LogOut } from 'lucide-react';
+import { LogOut } from 'lucide-react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 export type AppSidebarUserProps = {
   user: {
@@ -40,7 +41,11 @@ const AppSidebarUser = ({ user }: AppSidebarUserProps) => {
               className="flex items-center bg-gray-100 hover:bg-gray-200 hover:text-black font-semibold hover:cursor-pointer focus-visible:ring-0"
             >
               <div className="px-2">
-                <CircleUserRound width={20} height={20} />
+                <Avatar>
+                  <AvatarFallback className="bg-primary text-primary-foreground">
+                    {user.name.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
               </div>
               <div className="grid flex-1 text-left">
                 <span className="truncate text-sm font-semibold leading-tight py-1">
@@ -59,7 +64,7 @@ const AppSidebarUser = ({ user }: AppSidebarUserProps) => {
             </DropdownMenuItem>
           </DropdownMenuContent>
           <SidebarMenuButton
-            className="flex items-center bg-red-200 hover:bg-red-200 hover:text-red-500 font-semibold hover:cursor-pointer"
+            className="flex items-center font-semibold hover:cursor-pointer"
             onClick={async () => handleSignout(user.id, pathname)}
           >
             <div className="px-2">

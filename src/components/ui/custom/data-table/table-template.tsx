@@ -30,7 +30,7 @@ export default function DataTable<TData, TValue>({
       <div>
         <TableUI>
           {isShowHeader && (
-            <TableHeader>
+            <TableHeader className="bg-neutral-100">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
