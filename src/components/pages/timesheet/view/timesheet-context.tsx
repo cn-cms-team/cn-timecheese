@@ -3,7 +3,15 @@ import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
 import { fetcher } from '@/lib/fetcher';
 import { IOptions } from '@/types/dropdown';
 import { ITimeSheetResponse, IUserResponse } from '@/types/timesheet';
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 interface ITimeSheetContextType {
   loading: boolean;
@@ -27,6 +35,7 @@ interface ITimeSheetContextType {
   fetchOptions: () => void;
   buildTimesheetQuery: () => string;
   getTask: () => Promise<void>;
+  deleteTask: (taskId: string) => Promise<void>;
 }
 
 interface ITimeSheetProviderProps {
@@ -42,8 +51,8 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   const [selectedCalendar, setSelectedCalendar] = useState<Date>(now);
   const [tasks, setTasks] = useState<ITimeSheetResponse[]>([]);
   const [isPopoverEdit, setIsPopoverEdit] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState(now);
-  const [selectedYear, setSelectedYear] = useState<number>(now.getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(selectedCalendar);
+  const [selectedYear, setSelectedYear] = useState<number>(selectedCalendar.getFullYear());
   const [projectOptions, setProjectOptions] = useState<IOptions[]>([]);
   const [taskTypeOptions, setTaskTypeOptions] = useState<IOptions[]>([]);
   const [userInfo, setUserInfo] = useState<IUserResponse | null>(null);
@@ -67,7 +76,6 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   };
 
   const buildTimesheetQuery = () => {
-    setSelectedCalendar(now);
     const params = new URLSearchParams();
 
     params.set('period', period);
@@ -102,6 +110,24 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
     }
   };
 
+  const deleteTask = async (taskId: string) => {
+    const prefix = process.env.NEXT_PUBLIC_APP_URL;
+
+    const res = await fetch(`${prefix}/api/v1/timesheet/${taskId}`, {
+      method: 'DELETE',
+    });
+
+    if (!res.ok) {
+      throw new Error('Failed to delete task');
+    }
+
+    await getTask();
+  };
+
+  useEffect(() => {
+    getTask();
+  }, [period, selectedCalendar, selectedMonth, selectedYear]);
+
   return (
     <TimeSheetContext.Provider
       value={{
@@ -126,6 +152,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         fetchOptions,
         buildTimesheetQuery,
         getTask,
+        deleteTask,
       }}
     >
       {children}

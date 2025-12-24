@@ -3,7 +3,9 @@
 import { Button } from '@/components/ui/button';
 import { buddhistFormatDate } from '@/lib/functions/date-format';
 import { ITimeSheetResponse } from '@/types/timesheet';
-import { SquarePen, X } from 'lucide-react';
+import { SquarePen, Trash2, X } from 'lucide-react';
+import { useTimeSheetContext } from './view/timesheet-context';
+import useDialogConfirm from '@/hooks/use-dialog-confirm';
 
 interface IProps {
   data: ITimeSheetResponse;
@@ -12,6 +14,21 @@ interface IProps {
 }
 
 const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
+  const { deleteTask } = useTimeSheetContext();
+  const [getConfirmation, Confirmation] = useDialogConfirm();
+
+  const onDeleteTask = async (task: ITimeSheetResponse) => {
+    const isConfirmed = await getConfirmation({
+      title: 'ลบรายการงาน',
+      message: `คุณต้องการลบ "${task.task_type_name}" ใช่หรือไม่?`,
+    });
+
+    if (isConfirmed) {
+      await deleteTask(task.id);
+      close();
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 p-4 max-w-[320px]">
       <header className="flex items-center justify-between w-full gap-2">
@@ -24,6 +41,12 @@ const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
             onClick={() => setIsPopoverEdit(true)}
           >
             <SquarePen stroke="#000" strokeWidth={2} width={16} />
+          </button>
+          <button
+            className="bg-transparent border-transparent hover:bg-transparent cursor-pointer pe-0 focus:border-none"
+            onClick={() => onDeleteTask(data)}
+          >
+            <Trash2 stroke="#ff0000" strokeWidth={2} width={16} />
           </button>
           <button
             className="bg-transparent border-transparent hover:bg-transparent cursor-pointer p-0 focus:border-none"
@@ -54,6 +77,7 @@ const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
           <p className="text-sm text-neutral-800 whitespace-pre-wrap ps-1">{data.remark || '-'}</p>
         </div>
       </main>
+      <Confirmation />
     </div>
   );
 };

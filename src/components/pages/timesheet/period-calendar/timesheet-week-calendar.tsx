@@ -1,56 +1,112 @@
 'use client';
+import { useEffect, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
 import TimeSheetWeekCalendarBody from './timesheet-week-calendar-body';
+import { addDays, addWeeks, format, startOfWeek } from 'date-fns';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { formatDate } from '@/lib/functions/date-format';
+import { th } from 'date-fns/locale';
+import { useTimeSheetContext } from '../view/timesheet-context';
 
 const TimeSheetWeekCalendar = () => {
-  const currentDate = new Date();
+  const {
+    selectedMonth,
+    selectedYear,
+    getTask,
+    setSelectedCalendar,
+    setSelectedMonth,
+    setSelectedYear,
+  } = useTimeSheetContext();
+  const [weekAnchorDate, setWeekAnchorDate] = useState<Date>(() => {
+    const today = new Date();
+    return new Date(selectedYear, selectedMonth.getMonth(), today.getDate());
+  });
 
-  const getStartOfWeek = (date: Date): Date => {
-    const d = new Date(date);
-    const day = d.getDay();
-    d.setDate(d.getDate() - day);
-    d.setHours(0, 0, 0, 0);
-    return d;
+  const start = startOfWeek(weekAnchorDate, { weekStartsOn: 0 });
+
+  const weekDays = Array.from({ length: 7 }, (_, i) => addDays(start, i));
+
+  const handlePrevWeek = () => {
+    setWeekAnchorDate((prev) => {
+      const next = addWeeks(prev, -1);
+
+      setSelectedCalendar(next);
+      setSelectedMonth(next);
+      setSelectedYear(next.getFullYear());
+
+      return next;
+    });
   };
 
-  const startOfWeek = getStartOfWeek(currentDate);
-  const weekDays = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(startOfWeek);
-    d.setDate(d.getDate() + i);
-    return d;
-  });
+  const handleNextWeek = () => {
+    setWeekAnchorDate((prev) => {
+      const next = addWeeks(prev, 1);
+
+      setSelectedCalendar(next);
+      setSelectedMonth(next);
+      setSelectedYear(next.getFullYear());
+
+      return next;
+    });
+  };
+
+  useEffect(() => {
+    setWeekAnchorDate((prev) => {
+      const day = prev.getDate();
+
+      return new Date(selectedYear, selectedMonth.getMonth(), day);
+    });
+  }, [selectedMonth, selectedYear]);
 
   return (
     <div className="flex flex-col h-full bg-[#F5F6F8] overflow-hidden">
-      <div className="flex border-b border-neutral-300 ml-13.5 bg-[#F5F6F8]">
-        {weekDays.map((day, idx) => (
-          <div
-            key={idx}
-            className={`flex-1 p-2 text-center border-l border-neutral-300  min-w-[100px] ${
-              currentDate.getDate() === day.getDate() ? 'bg-black ' : ''
-            }`}
-          >
-            <div
-              className={cn(
-                'text-neutral-500 text-xs uppercase',
-                currentDate.getDate() === day.getDate() ? ' text-white' : ''
-              )}
-            >
-              {day.toLocaleDateString('th', { weekday: 'narrow' })}
-            </div>
-            <div
-              className={cn(
-                'text-neutral-600 font-bold text-lg',
-                currentDate.getDate() === day.getDate() ? ' text-white' : ''
-              )}
-            >
-              {day.getDate()}
-            </div>
-          </div>
-        ))}
+      <div className="flex items-center border-b border-neutral-300 bg-[#F5F6F8] relative">
+        <button
+          onClick={handlePrevWeek}
+          className="px-3 absolute left-13 h-full flex items-center min-w-[54px] cursor-pointer"
+        >
+          <ChevronLeft />
+        </button>
+
+        <div className="flex flex-1 ms-13.5">
+          {weekDays.map((day, idx) => {
+            const isToday = format(day, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
+
+            return (
+              <div
+                key={idx}
+                className={cn(
+                  'flex-1 p-2 text-center border-l border-neutral-300 ',
+                  isToday && 'bg-black',
+                  idx === weekDays.length - 1 && 'border-r border-neutral-300'
+                )}
+              >
+                <div
+                  className={cn('text-xs uppercase', isToday ? 'text-white' : 'text-neutral-500')}
+                >
+                  {format(day, 'EEE', { locale: th })}
+                </div>
+                <div
+                  className={cn('font-bold text-lg', isToday ? 'text-white' : 'text-neutral-600')}
+                >
+                  {formatDate(day, 'd')}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Next */}
+        <button
+          onClick={handleNextWeek}
+          className="px-3 absolute -right-3 h-full flex items-center min-w-[54px] cursor-pointer"
+        >
+          <ChevronRight />
+        </button>
       </div>
+
       <div className="flex-1 relative  bg-[#F5F6F8]">
         <TimeSheetWeekCalendarBody weekDays={weekDays} />
       </div>

@@ -23,8 +23,8 @@ const TimeSheetPeriodSelection = () => {
   const onSelectPeriod = (period: PERIODCALENDAR) => {
     setPeriod(period);
     resetSelectCaledar();
-    router.replace(`/timesheet?period=${period}`);
     getTask();
+    router.replace(`/timesheet?period=${period}`);
   };
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const TimeSheetPeriodSelection = () => {
     }
   }, []);
   return (
-    <div className="p-4 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.2)] z-50 ">
+    <div className="p-4 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.2)] z-50 bg-white">
       <div className=" flex lg:flex-row flex-col gap-4 justify-between">
         <PeriodInput
           value={period}

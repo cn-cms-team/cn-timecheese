@@ -46,12 +46,14 @@ const TimeSheetWeekCalendarBody = ({ weekDays }: IProps) => {
         ))}
       </div>
       {weekDays.map((day, index) => {
+        const isSaturday = day.getDay() === 6;
         return (
           <div
             key={index}
             className={cn(
               'flex-1 border-l border-neutral-300 relative min-w-[100px]',
-              index === 0 ? 'border-0' : ''
+              index === 0 ? 'border-0' : '',
+              isSaturday && 'border-r border-neutral-300'
             )}
             onClick={() => setSelectedDay(day)}
           >
@@ -118,7 +120,13 @@ const TimeSheetWeekCalendarBody = ({ weekDays }: IProps) => {
 
               const top = start.getHours() * 80 + (start.getMinutes() / 60) * 80;
 
-              if (new Date(task.start_date).getDate() !== day.getDate()) return null;
+              if (
+                start.getDate() !== day.getDate() ||
+                start.getMonth() !== day.getMonth() ||
+                start.getFullYear() !== day.getFullYear()
+              ) {
+                return null;
+              }
 
               return (
                 <TimeSheetPopover

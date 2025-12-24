@@ -21,6 +21,9 @@ const TimeSheetMonthCalendar = () => {
   const blanks = Array(startOffset).fill(null);
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   const totalSlots = [...blanks, ...days];
+  while (totalSlots.length % 7 !== 0) {
+    totalSlots.push(null);
+  }
   const [isEdit, setIsEdit] = useState(false);
 
   const checkIsNotToday = (dateToCompare: Date, day: number) => {
@@ -43,6 +46,17 @@ const TimeSheetMonthCalendar = () => {
           </div>
         ))}
         {totalSlots.map((day, index) => {
+          const isBlank = !day;
+
+          if (isBlank) {
+            return (
+              <div
+                key={index}
+                className={cn('min-h-[140px] border-t border-r border-neutral-400 bg-[#F5F6F8]')}
+              />
+            );
+          }
+
           const dayTasks = tasks.filter((task) => !checkIsNotToday(new Date(task.start_date), day));
 
           const visibleTasks = dayTasks.slice(0, 3);
