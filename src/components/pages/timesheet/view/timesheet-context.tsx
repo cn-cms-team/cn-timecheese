@@ -2,7 +2,7 @@
 import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
 import { fetcher } from '@/lib/fetcher';
 import { IOptions } from '@/types/dropdown';
-import { ITimeSheetResponse } from '@/types/timesheet';
+import { ITimeSheetResponse, IUserResponse } from '@/types/timesheet';
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from 'react';
 
 interface ITimeSheetContextType {
@@ -15,6 +15,7 @@ interface ITimeSheetContextType {
   selectedYear: number;
   projectOptions: IOptions[];
   taskTypeOptions: IOptions[];
+  userInfo: IUserResponse | null;
   setLoading: (isLoading: boolean) => void;
   setPeriod: (value: PERIODCALENDAR) => void;
   setSelectedCalendar: Dispatch<SetStateAction<Date>>;
@@ -45,6 +46,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   const [selectedYear, setSelectedYear] = useState<number>(now.getFullYear());
   const [projectOptions, setProjectOptions] = useState<IOptions[]>([]);
   const [taskTypeOptions, setTaskTypeOptions] = useState<IOptions[]>([]);
+  const [userInfo, setUserInfo] = useState<IUserResponse | null>(null);
 
   const resetSelectCaledar = () => {
     setSelectedCalendar(now);
@@ -95,6 +97,9 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
     }
 
     setTasks(data);
+    if (!userInfo) {
+      setUserInfo(json.user as IUserResponse);
+    }
   };
 
   return (
@@ -109,6 +114,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         selectedYear,
         projectOptions,
         taskTypeOptions,
+        userInfo,
         setIsPopoverEdit,
         setLoading,
         setPeriod,

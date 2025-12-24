@@ -13,7 +13,7 @@ export interface ITimeSheetResponse {
 }
 
 export interface ITimeSheetRequest {
-  id?: string
+  id?: string;
   project_id: string;
   task_type_id: string;
   stamp_date: string;
@@ -21,4 +21,12 @@ export interface ITimeSheetRequest {
   end_date: string;
   detail: string;
   remark: string;
+}
+
+export interface IUserResponse {
+  full_name: string;
+  nick_name: string;
+  position_level: string;
+  team: string;
+  start_date: string;
 }

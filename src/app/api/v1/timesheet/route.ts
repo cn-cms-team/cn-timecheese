@@ -61,7 +61,7 @@ export async function GET(request: Request) {
     const projectIds = [...new Set(timeSheets.map((t) => t.project_id))];
     const taskTypeIds = [...new Set(timeSheets.map((t) => t.task_type_id))];
 
-    const [projects, taskTypes] = await Promise.all([
+    const [projects, taskTypes, userData] = await Promise.all([
       prisma.project.findMany({
         where: { id: { in: projectIds } },
         select: { id: true, name: true },
@@ -70,7 +70,30 @@ export async function GET(request: Request) {
         where: { id: { in: taskTypeIds } },
         select: { id: true, name: true },
       }),
+      prisma.user.findUnique({
+        where: { id: session.user?.id },
+        select: {
+          first_name: true,
+          last_name: true,
+          nick_name: true,
+          position_level: {
+            select: { name: true },
+          },
+          team: {
+            select: { name: true },
+          },
+          start_date: true,
+        },
+      }),
     ]);
+
+    const userInfo = {
+      full_name: [userData?.first_name ?? '', userData?.last_name ?? ''].join(' ').trim() ?? null,
+      nick_name: userData?.nick_name ?? null,
+      position_level: userData?.position_level?.name ?? null,
+      team: userData?.team?.name ?? null,
+      start_date: userData?.start_date ?? null,
+    };
 
     const result = timeSheets.map((ts) => ({
       ...ts,
@@ -78,7 +101,7 @@ export async function GET(request: Request) {
       task_type_name: taskTypes.find((t) => t.id === ts.task_type_id)?.name ?? null,
     }));
 
-    return Response.json({ data: result }, { status: 200 });
+    return Response.json({ data: result, user: userInfo }, { status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
@@ -122,7 +145,6 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (error) {
-    console.log(error);
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }

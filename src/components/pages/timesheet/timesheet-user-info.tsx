@@ -1,11 +1,11 @@
 'use client';
+import { buddhistFormatDate } from '@/lib/functions/date-format';
 
 import UserProfileImage from '@/components/ui/icons/user-profile-img';
-import { buddhistFormatDate } from '@/lib/functions/date-format';
-import { useState } from 'react';
+import { useTimeSheetContext } from './view/timesheet-context';
 
 const TimeSheetUserInfo = () => {
-  const [] = useState();
+  const { userInfo } = useTimeSheetContext();
 
   return (
     <div className="lg:col-span-2 bg-white p-4 rounded-lg">
@@ -15,20 +15,24 @@ const TimeSheetUserInfo = () => {
           <UserProfileImage />
         </div>
         <div className="flex flex-col w-full ps-4">
-          <div className="text-xl text-center lg:text-start mb-4">พิชญากร ทรงบุญเขตกุล (โย)</div>
+          <div className="text-xl text-center lg:text-start mb-4">
+            {userInfo?.full_name || '-'} ({userInfo?.nick_name || '-'})
+          </div>
           <div className="flex gap-4 items-center justify-center lg:justify-start ">
             <div className="flex flex-col ">
               <span className="text-sm text-gray-400">ทีม</span>
-              <span className="text-base">CMS</span>
+              <span className="text-base">{userInfo?.team || '-'}</span>
             </div>
             <div className="flex flex-col ">
               <span className="text-sm text-gray-400">ตำแหน่ง</span>
-              <span className="text-sm">Full-Stack Developer</span>
+              <span className="text-sm">{userInfo?.position_level}</span>
             </div>
 
             <div className="flex flex-col ">
               <span className="text-sm text-gray-400">วันที่เริ่มงาน</span>
-              <span className="text-sm">{buddhistFormatDate('2025-01-06', 'dd mmmm yyyy')}</span>
+              <span className="text-sm">
+                {buddhistFormatDate(userInfo?.start_date, 'dd mmmm yyyy')}
+              </span>
             </div>
           </div>
         </div>
