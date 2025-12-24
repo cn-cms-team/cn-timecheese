@@ -29,13 +29,7 @@ export type TaskTypeMinAggregateOutputType = {
   type: $Enums.TaskTypeCode | null
   name: string | null
   description: string | null
-  is_leave: boolean | null
-  is_company: boolean | null
-  created_at: Date | null
-  created_by: string | null
-  updated_at: Date | null
-  updated_by: string | null
-  is_enabled: boolean | null
+  is_active: boolean | null
 }
 
 export type TaskTypeMaxAggregateOutputType = {
@@ -43,13 +37,7 @@ export type TaskTypeMaxAggregateOutputType = {
   type: $Enums.TaskTypeCode | null
   name: string | null
   description: string | null
-  is_leave: boolean | null
-  is_company: boolean | null
-  created_at: Date | null
-  created_by: string | null
-  updated_at: Date | null
-  updated_by: string | null
-  is_enabled: boolean | null
+  is_active: boolean | null
 }
 
 export type TaskTypeCountAggregateOutputType = {
@@ -57,13 +45,7 @@ export type TaskTypeCountAggregateOutputType = {
   type: number
   name: number
   description: number
-  is_leave: number
-  is_company: number
-  created_at: number
-  created_by: number
-  updated_at: number
-  updated_by: number
-  is_enabled: number
+  is_active: number
   _all: number
 }
 
@@ -73,13 +55,7 @@ export type TaskTypeMinAggregateInputType = {
   type?: true
   name?: true
   description?: true
-  is_leave?: true
-  is_company?: true
-  created_at?: true
-  created_by?: true
-  updated_at?: true
-  updated_by?: true
-  is_enabled?: true
+  is_active?: true
 }
 
 export type TaskTypeMaxAggregateInputType = {
@@ -87,13 +63,7 @@ export type TaskTypeMaxAggregateInputType = {
   type?: true
   name?: true
   description?: true
-  is_leave?: true
-  is_company?: true
-  created_at?: true
-  created_by?: true
-  updated_at?: true
-  updated_by?: true
-  is_enabled?: true
+  is_active?: true
 }
 
 export type TaskTypeCountAggregateInputType = {
@@ -101,13 +71,7 @@ export type TaskTypeCountAggregateInputType = {
   type?: true
   name?: true
   description?: true
-  is_leave?: true
-  is_company?: true
-  created_at?: true
-  created_by?: true
-  updated_at?: true
-  updated_by?: true
-  is_enabled?: true
+  is_active?: true
   _all?: true
 }
 
@@ -188,13 +152,7 @@ export type TaskTypeGroupByOutputType = {
   type: $Enums.TaskTypeCode
   name: string
   description: string | null
-  is_leave: boolean
-  is_company: boolean
-  created_at: Date
-  created_by: string
-  updated_at: Date | null
-  updated_by: string | null
-  is_enabled: boolean
+  is_active: boolean
   _count: TaskTypeCountAggregateOutputType | null
   _min: TaskTypeMinAggregateOutputType | null
   _max: TaskTypeMaxAggregateOutputType | null
@@ -223,15 +181,7 @@ export type TaskTypeWhereInput = {
   type?: Prisma.EnumTaskTypeCodeFilter<"TaskType"> | $Enums.TaskTypeCode
   name?: Prisma.StringFilter<"TaskType"> | string
   description?: Prisma.StringNullableFilter<"TaskType"> | string | null
-  is_leave?: Prisma.BoolFilter<"TaskType"> | boolean
-  is_company?: Prisma.BoolFilter<"TaskType"> | boolean
-  created_at?: Prisma.DateTimeFilter<"TaskType"> | Date | string
-  created_by?: Prisma.StringFilter<"TaskType"> | string
-  updated_at?: Prisma.DateTimeNullableFilter<"TaskType"> | Date | string | null
-  updated_by?: Prisma.StringNullableFilter<"TaskType"> | string | null
-  is_enabled?: Prisma.BoolFilter<"TaskType"> | boolean
-  createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  is_active?: Prisma.BoolFilter<"TaskType"> | boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeListRelationFilter
   timeSheets?: Prisma.TimeSheetListRelationFilter
 }
@@ -241,15 +191,7 @@ export type TaskTypeOrderByWithRelationInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  is_leave?: Prisma.SortOrder
-  is_company?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
-  is_enabled?: Prisma.SortOrder
-  createdBy?: Prisma.UserOrderByWithRelationInput
-  updatedBy?: Prisma.UserOrderByWithRelationInput
+  is_active?: Prisma.SortOrder
   projectTaskTypes?: Prisma.ProjectTaskTypeOrderByRelationAggregateInput
   timeSheets?: Prisma.TimeSheetOrderByRelationAggregateInput
 }
@@ -262,15 +204,7 @@ export type TaskTypeWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.EnumTaskTypeCodeFilter<"TaskType"> | $Enums.TaskTypeCode
   name?: Prisma.StringFilter<"TaskType"> | string
   description?: Prisma.StringNullableFilter<"TaskType"> | string | null
-  is_leave?: Prisma.BoolFilter<"TaskType"> | boolean
-  is_company?: Prisma.BoolFilter<"TaskType"> | boolean
-  created_at?: Prisma.DateTimeFilter<"TaskType"> | Date | string
-  created_by?: Prisma.StringFilter<"TaskType"> | string
-  updated_at?: Prisma.DateTimeNullableFilter<"TaskType"> | Date | string | null
-  updated_by?: Prisma.StringNullableFilter<"TaskType"> | string | null
-  is_enabled?: Prisma.BoolFilter<"TaskType"> | boolean
-  createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  is_active?: Prisma.BoolFilter<"TaskType"> | boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeListRelationFilter
   timeSheets?: Prisma.TimeSheetListRelationFilter
 }, "id">
@@ -280,13 +214,7 @@ export type TaskTypeOrderByWithAggregationInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  is_leave?: Prisma.SortOrder
-  is_company?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
-  updated_by?: Prisma.SortOrderInput | Prisma.SortOrder
-  is_enabled?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
   _count?: Prisma.TaskTypeCountOrderByAggregateInput
   _max?: Prisma.TaskTypeMaxOrderByAggregateInput
   _min?: Prisma.TaskTypeMinOrderByAggregateInput
@@ -300,13 +228,7 @@ export type TaskTypeScalarWhereWithAggregatesInput = {
   type?: Prisma.EnumTaskTypeCodeWithAggregatesFilter<"TaskType"> | $Enums.TaskTypeCode
   name?: Prisma.StringWithAggregatesFilter<"TaskType"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"TaskType"> | string | null
-  is_leave?: Prisma.BoolWithAggregatesFilter<"TaskType"> | boolean
-  is_company?: Prisma.BoolWithAggregatesFilter<"TaskType"> | boolean
-  created_at?: Prisma.DateTimeWithAggregatesFilter<"TaskType"> | Date | string
-  created_by?: Prisma.StringWithAggregatesFilter<"TaskType"> | string
-  updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"TaskType"> | Date | string | null
-  updated_by?: Prisma.StringNullableWithAggregatesFilter<"TaskType"> | string | null
-  is_enabled?: Prisma.BoolWithAggregatesFilter<"TaskType"> | boolean
+  is_active?: Prisma.BoolWithAggregatesFilter<"TaskType"> | boolean
 }
 
 export type TaskTypeCreateInput = {
@@ -314,13 +236,7 @@ export type TaskTypeCreateInput = {
   type: $Enums.TaskTypeCode
   name: string
   description?: string | null
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  is_enabled?: boolean
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedByTaskTypesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByTaskTypesInput
+  is_active?: boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeCreateNestedManyWithoutTask_typeInput
   timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutTask_typeInput
 }
@@ -330,13 +246,7 @@ export type TaskTypeUncheckedCreateInput = {
   type: $Enums.TaskTypeCode
   name: string
   description?: string | null
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  updated_by?: string | null
-  is_enabled?: boolean
+  is_active?: boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedCreateNestedManyWithoutTask_typeInput
   timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutTask_typeInput
 }
@@ -346,13 +256,7 @@ export type TaskTypeUpdateInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_leave?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_company?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByTaskTypesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByTaskTypesNestedInput
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeUpdateManyWithoutTask_typeNestedInput
   timeSheets?: Prisma.TimeSheetUpdateManyWithoutTask_typeNestedInput
 }
@@ -362,13 +266,7 @@ export type TaskTypeUncheckedUpdateInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_leave?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_company?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedUpdateManyWithoutTask_typeNestedInput
   timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutTask_typeNestedInput
 }
@@ -378,13 +276,7 @@ export type TaskTypeCreateManyInput = {
   type: $Enums.TaskTypeCode
   name: string
   description?: string | null
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  updated_by?: string | null
-  is_enabled?: boolean
+  is_active?: boolean
 }
 
 export type TaskTypeUpdateManyMutationInput = {
@@ -392,11 +284,7 @@ export type TaskTypeUpdateManyMutationInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_leave?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_company?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type TaskTypeUncheckedUpdateManyInput = {
@@ -404,23 +292,7 @@ export type TaskTypeUncheckedUpdateManyInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_leave?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_company?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-}
-
-export type TaskTypeListRelationFilter = {
-  every?: Prisma.TaskTypeWhereInput
-  some?: Prisma.TaskTypeWhereInput
-  none?: Prisma.TaskTypeWhereInput
-}
-
-export type TaskTypeOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type TaskTypeCountOrderByAggregateInput = {
@@ -428,13 +300,7 @@ export type TaskTypeCountOrderByAggregateInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  is_leave?: Prisma.SortOrder
-  is_company?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  updated_by?: Prisma.SortOrder
-  is_enabled?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
 }
 
 export type TaskTypeMaxOrderByAggregateInput = {
@@ -442,13 +308,7 @@ export type TaskTypeMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  is_leave?: Prisma.SortOrder
-  is_company?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  updated_by?: Prisma.SortOrder
-  is_enabled?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
 }
 
 export type TaskTypeMinOrderByAggregateInput = {
@@ -456,13 +316,7 @@ export type TaskTypeMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  is_leave?: Prisma.SortOrder
-  is_company?: Prisma.SortOrder
-  created_at?: Prisma.SortOrder
-  created_by?: Prisma.SortOrder
-  updated_at?: Prisma.SortOrder
-  updated_by?: Prisma.SortOrder
-  is_enabled?: Prisma.SortOrder
+  is_active?: Prisma.SortOrder
 }
 
 export type TaskTypeNullableScalarRelationFilter = {
@@ -473,90 +327,6 @@ export type TaskTypeNullableScalarRelationFilter = {
 export type TaskTypeScalarRelationFilter = {
   is?: Prisma.TaskTypeWhereInput
   isNot?: Prisma.TaskTypeWhereInput
-}
-
-export type TaskTypeCreateNestedManyWithoutCreatedByInput = {
-  create?: Prisma.XOR<Prisma.TaskTypeCreateWithoutCreatedByInput, Prisma.TaskTypeUncheckedCreateWithoutCreatedByInput> | Prisma.TaskTypeCreateWithoutCreatedByInput[] | Prisma.TaskTypeUncheckedCreateWithoutCreatedByInput[]
-  connectOrCreate?: Prisma.TaskTypeCreateOrConnectWithoutCreatedByInput | Prisma.TaskTypeCreateOrConnectWithoutCreatedByInput[]
-  createMany?: Prisma.TaskTypeCreateManyCreatedByInputEnvelope
-  connect?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-}
-
-export type TaskTypeCreateNestedManyWithoutUpdatedByInput = {
-  create?: Prisma.XOR<Prisma.TaskTypeCreateWithoutUpdatedByInput, Prisma.TaskTypeUncheckedCreateWithoutUpdatedByInput> | Prisma.TaskTypeCreateWithoutUpdatedByInput[] | Prisma.TaskTypeUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.TaskTypeCreateOrConnectWithoutUpdatedByInput | Prisma.TaskTypeCreateOrConnectWithoutUpdatedByInput[]
-  createMany?: Prisma.TaskTypeCreateManyUpdatedByInputEnvelope
-  connect?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-}
-
-export type TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput = {
-  create?: Prisma.XOR<Prisma.TaskTypeCreateWithoutCreatedByInput, Prisma.TaskTypeUncheckedCreateWithoutCreatedByInput> | Prisma.TaskTypeCreateWithoutCreatedByInput[] | Prisma.TaskTypeUncheckedCreateWithoutCreatedByInput[]
-  connectOrCreate?: Prisma.TaskTypeCreateOrConnectWithoutCreatedByInput | Prisma.TaskTypeCreateOrConnectWithoutCreatedByInput[]
-  createMany?: Prisma.TaskTypeCreateManyCreatedByInputEnvelope
-  connect?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-}
-
-export type TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput = {
-  create?: Prisma.XOR<Prisma.TaskTypeCreateWithoutUpdatedByInput, Prisma.TaskTypeUncheckedCreateWithoutUpdatedByInput> | Prisma.TaskTypeCreateWithoutUpdatedByInput[] | Prisma.TaskTypeUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.TaskTypeCreateOrConnectWithoutUpdatedByInput | Prisma.TaskTypeCreateOrConnectWithoutUpdatedByInput[]
-  createMany?: Prisma.TaskTypeCreateManyUpdatedByInputEnvelope
-  connect?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-}
-
-export type TaskTypeUpdateManyWithoutCreatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.TaskTypeCreateWithoutCreatedByInput, Prisma.TaskTypeUncheckedCreateWithoutCreatedByInput> | Prisma.TaskTypeCreateWithoutCreatedByInput[] | Prisma.TaskTypeUncheckedCreateWithoutCreatedByInput[]
-  connectOrCreate?: Prisma.TaskTypeCreateOrConnectWithoutCreatedByInput | Prisma.TaskTypeCreateOrConnectWithoutCreatedByInput[]
-  upsert?: Prisma.TaskTypeUpsertWithWhereUniqueWithoutCreatedByInput | Prisma.TaskTypeUpsertWithWhereUniqueWithoutCreatedByInput[]
-  createMany?: Prisma.TaskTypeCreateManyCreatedByInputEnvelope
-  set?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  disconnect?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  delete?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  connect?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  update?: Prisma.TaskTypeUpdateWithWhereUniqueWithoutCreatedByInput | Prisma.TaskTypeUpdateWithWhereUniqueWithoutCreatedByInput[]
-  updateMany?: Prisma.TaskTypeUpdateManyWithWhereWithoutCreatedByInput | Prisma.TaskTypeUpdateManyWithWhereWithoutCreatedByInput[]
-  deleteMany?: Prisma.TaskTypeScalarWhereInput | Prisma.TaskTypeScalarWhereInput[]
-}
-
-export type TaskTypeUpdateManyWithoutUpdatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.TaskTypeCreateWithoutUpdatedByInput, Prisma.TaskTypeUncheckedCreateWithoutUpdatedByInput> | Prisma.TaskTypeCreateWithoutUpdatedByInput[] | Prisma.TaskTypeUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.TaskTypeCreateOrConnectWithoutUpdatedByInput | Prisma.TaskTypeCreateOrConnectWithoutUpdatedByInput[]
-  upsert?: Prisma.TaskTypeUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.TaskTypeUpsertWithWhereUniqueWithoutUpdatedByInput[]
-  createMany?: Prisma.TaskTypeCreateManyUpdatedByInputEnvelope
-  set?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  disconnect?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  delete?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  connect?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  update?: Prisma.TaskTypeUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.TaskTypeUpdateWithWhereUniqueWithoutUpdatedByInput[]
-  updateMany?: Prisma.TaskTypeUpdateManyWithWhereWithoutUpdatedByInput | Prisma.TaskTypeUpdateManyWithWhereWithoutUpdatedByInput[]
-  deleteMany?: Prisma.TaskTypeScalarWhereInput | Prisma.TaskTypeScalarWhereInput[]
-}
-
-export type TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.TaskTypeCreateWithoutCreatedByInput, Prisma.TaskTypeUncheckedCreateWithoutCreatedByInput> | Prisma.TaskTypeCreateWithoutCreatedByInput[] | Prisma.TaskTypeUncheckedCreateWithoutCreatedByInput[]
-  connectOrCreate?: Prisma.TaskTypeCreateOrConnectWithoutCreatedByInput | Prisma.TaskTypeCreateOrConnectWithoutCreatedByInput[]
-  upsert?: Prisma.TaskTypeUpsertWithWhereUniqueWithoutCreatedByInput | Prisma.TaskTypeUpsertWithWhereUniqueWithoutCreatedByInput[]
-  createMany?: Prisma.TaskTypeCreateManyCreatedByInputEnvelope
-  set?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  disconnect?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  delete?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  connect?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  update?: Prisma.TaskTypeUpdateWithWhereUniqueWithoutCreatedByInput | Prisma.TaskTypeUpdateWithWhereUniqueWithoutCreatedByInput[]
-  updateMany?: Prisma.TaskTypeUpdateManyWithWhereWithoutCreatedByInput | Prisma.TaskTypeUpdateManyWithWhereWithoutCreatedByInput[]
-  deleteMany?: Prisma.TaskTypeScalarWhereInput | Prisma.TaskTypeScalarWhereInput[]
-}
-
-export type TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput = {
-  create?: Prisma.XOR<Prisma.TaskTypeCreateWithoutUpdatedByInput, Prisma.TaskTypeUncheckedCreateWithoutUpdatedByInput> | Prisma.TaskTypeCreateWithoutUpdatedByInput[] | Prisma.TaskTypeUncheckedCreateWithoutUpdatedByInput[]
-  connectOrCreate?: Prisma.TaskTypeCreateOrConnectWithoutUpdatedByInput | Prisma.TaskTypeCreateOrConnectWithoutUpdatedByInput[]
-  upsert?: Prisma.TaskTypeUpsertWithWhereUniqueWithoutUpdatedByInput | Prisma.TaskTypeUpsertWithWhereUniqueWithoutUpdatedByInput[]
-  createMany?: Prisma.TaskTypeCreateManyUpdatedByInputEnvelope
-  set?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  disconnect?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  delete?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  connect?: Prisma.TaskTypeWhereUniqueInput | Prisma.TaskTypeWhereUniqueInput[]
-  update?: Prisma.TaskTypeUpdateWithWhereUniqueWithoutUpdatedByInput | Prisma.TaskTypeUpdateWithWhereUniqueWithoutUpdatedByInput[]
-  updateMany?: Prisma.TaskTypeUpdateManyWithWhereWithoutUpdatedByInput | Prisma.TaskTypeUpdateManyWithWhereWithoutUpdatedByInput[]
-  deleteMany?: Prisma.TaskTypeScalarWhereInput | Prisma.TaskTypeScalarWhereInput[]
 }
 
 export type EnumTaskTypeCodeFieldUpdateOperationsInput = {
@@ -593,147 +363,12 @@ export type TaskTypeUpdateOneRequiredWithoutTimeSheetsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TaskTypeUpdateToOneWithWhereWithoutTimeSheetsInput, Prisma.TaskTypeUpdateWithoutTimeSheetsInput>, Prisma.TaskTypeUncheckedUpdateWithoutTimeSheetsInput>
 }
 
-export type TaskTypeCreateWithoutCreatedByInput = {
-  id?: string
-  type: $Enums.TaskTypeCode
-  name: string
-  description?: string | null
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  is_enabled?: boolean
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByTaskTypesInput
-  projectTaskTypes?: Prisma.ProjectTaskTypeCreateNestedManyWithoutTask_typeInput
-  timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutTask_typeInput
-}
-
-export type TaskTypeUncheckedCreateWithoutCreatedByInput = {
-  id?: string
-  type: $Enums.TaskTypeCode
-  name: string
-  description?: string | null
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  updated_by?: string | null
-  is_enabled?: boolean
-  projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedCreateNestedManyWithoutTask_typeInput
-  timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutTask_typeInput
-}
-
-export type TaskTypeCreateOrConnectWithoutCreatedByInput = {
-  where: Prisma.TaskTypeWhereUniqueInput
-  create: Prisma.XOR<Prisma.TaskTypeCreateWithoutCreatedByInput, Prisma.TaskTypeUncheckedCreateWithoutCreatedByInput>
-}
-
-export type TaskTypeCreateManyCreatedByInputEnvelope = {
-  data: Prisma.TaskTypeCreateManyCreatedByInput | Prisma.TaskTypeCreateManyCreatedByInput[]
-  skipDuplicates?: boolean
-}
-
-export type TaskTypeCreateWithoutUpdatedByInput = {
-  id?: string
-  type: $Enums.TaskTypeCode
-  name: string
-  description?: string | null
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  is_enabled?: boolean
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedByTaskTypesInput
-  projectTaskTypes?: Prisma.ProjectTaskTypeCreateNestedManyWithoutTask_typeInput
-  timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutTask_typeInput
-}
-
-export type TaskTypeUncheckedCreateWithoutUpdatedByInput = {
-  id?: string
-  type: $Enums.TaskTypeCode
-  name: string
-  description?: string | null
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  is_enabled?: boolean
-  projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedCreateNestedManyWithoutTask_typeInput
-  timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutTask_typeInput
-}
-
-export type TaskTypeCreateOrConnectWithoutUpdatedByInput = {
-  where: Prisma.TaskTypeWhereUniqueInput
-  create: Prisma.XOR<Prisma.TaskTypeCreateWithoutUpdatedByInput, Prisma.TaskTypeUncheckedCreateWithoutUpdatedByInput>
-}
-
-export type TaskTypeCreateManyUpdatedByInputEnvelope = {
-  data: Prisma.TaskTypeCreateManyUpdatedByInput | Prisma.TaskTypeCreateManyUpdatedByInput[]
-  skipDuplicates?: boolean
-}
-
-export type TaskTypeUpsertWithWhereUniqueWithoutCreatedByInput = {
-  where: Prisma.TaskTypeWhereUniqueInput
-  update: Prisma.XOR<Prisma.TaskTypeUpdateWithoutCreatedByInput, Prisma.TaskTypeUncheckedUpdateWithoutCreatedByInput>
-  create: Prisma.XOR<Prisma.TaskTypeCreateWithoutCreatedByInput, Prisma.TaskTypeUncheckedCreateWithoutCreatedByInput>
-}
-
-export type TaskTypeUpdateWithWhereUniqueWithoutCreatedByInput = {
-  where: Prisma.TaskTypeWhereUniqueInput
-  data: Prisma.XOR<Prisma.TaskTypeUpdateWithoutCreatedByInput, Prisma.TaskTypeUncheckedUpdateWithoutCreatedByInput>
-}
-
-export type TaskTypeUpdateManyWithWhereWithoutCreatedByInput = {
-  where: Prisma.TaskTypeScalarWhereInput
-  data: Prisma.XOR<Prisma.TaskTypeUpdateManyMutationInput, Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByInput>
-}
-
-export type TaskTypeScalarWhereInput = {
-  AND?: Prisma.TaskTypeScalarWhereInput | Prisma.TaskTypeScalarWhereInput[]
-  OR?: Prisma.TaskTypeScalarWhereInput[]
-  NOT?: Prisma.TaskTypeScalarWhereInput | Prisma.TaskTypeScalarWhereInput[]
-  id?: Prisma.StringFilter<"TaskType"> | string
-  type?: Prisma.EnumTaskTypeCodeFilter<"TaskType"> | $Enums.TaskTypeCode
-  name?: Prisma.StringFilter<"TaskType"> | string
-  description?: Prisma.StringNullableFilter<"TaskType"> | string | null
-  is_leave?: Prisma.BoolFilter<"TaskType"> | boolean
-  is_company?: Prisma.BoolFilter<"TaskType"> | boolean
-  created_at?: Prisma.DateTimeFilter<"TaskType"> | Date | string
-  created_by?: Prisma.StringFilter<"TaskType"> | string
-  updated_at?: Prisma.DateTimeNullableFilter<"TaskType"> | Date | string | null
-  updated_by?: Prisma.StringNullableFilter<"TaskType"> | string | null
-  is_enabled?: Prisma.BoolFilter<"TaskType"> | boolean
-}
-
-export type TaskTypeUpsertWithWhereUniqueWithoutUpdatedByInput = {
-  where: Prisma.TaskTypeWhereUniqueInput
-  update: Prisma.XOR<Prisma.TaskTypeUpdateWithoutUpdatedByInput, Prisma.TaskTypeUncheckedUpdateWithoutUpdatedByInput>
-  create: Prisma.XOR<Prisma.TaskTypeCreateWithoutUpdatedByInput, Prisma.TaskTypeUncheckedCreateWithoutUpdatedByInput>
-}
-
-export type TaskTypeUpdateWithWhereUniqueWithoutUpdatedByInput = {
-  where: Prisma.TaskTypeWhereUniqueInput
-  data: Prisma.XOR<Prisma.TaskTypeUpdateWithoutUpdatedByInput, Prisma.TaskTypeUncheckedUpdateWithoutUpdatedByInput>
-}
-
-export type TaskTypeUpdateManyWithWhereWithoutUpdatedByInput = {
-  where: Prisma.TaskTypeScalarWhereInput
-  data: Prisma.XOR<Prisma.TaskTypeUpdateManyMutationInput, Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByInput>
-}
-
 export type TaskTypeCreateWithoutProjectTaskTypesInput = {
   id?: string
   type: $Enums.TaskTypeCode
   name: string
   description?: string | null
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  is_enabled?: boolean
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedByTaskTypesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByTaskTypesInput
+  is_active?: boolean
   timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutTask_typeInput
 }
 
@@ -742,13 +377,7 @@ export type TaskTypeUncheckedCreateWithoutProjectTaskTypesInput = {
   type: $Enums.TaskTypeCode
   name: string
   description?: string | null
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  updated_by?: string | null
-  is_enabled?: boolean
+  is_active?: boolean
   timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutTask_typeInput
 }
 
@@ -773,13 +402,7 @@ export type TaskTypeUpdateWithoutProjectTaskTypesInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_leave?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_company?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByTaskTypesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByTaskTypesNestedInput
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSheets?: Prisma.TimeSheetUpdateManyWithoutTask_typeNestedInput
 }
 
@@ -788,13 +411,7 @@ export type TaskTypeUncheckedUpdateWithoutProjectTaskTypesInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_leave?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_company?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutTask_typeNestedInput
 }
 
@@ -803,13 +420,7 @@ export type TaskTypeCreateWithoutTimeSheetsInput = {
   type: $Enums.TaskTypeCode
   name: string
   description?: string | null
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  is_enabled?: boolean
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedByTaskTypesInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByTaskTypesInput
+  is_active?: boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeCreateNestedManyWithoutTask_typeInput
 }
 
@@ -818,13 +429,7 @@ export type TaskTypeUncheckedCreateWithoutTimeSheetsInput = {
   type: $Enums.TaskTypeCode
   name: string
   description?: string | null
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  updated_by?: string | null
-  is_enabled?: boolean
+  is_active?: boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedCreateNestedManyWithoutTask_typeInput
 }
 
@@ -849,13 +454,7 @@ export type TaskTypeUpdateWithoutTimeSheetsInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_leave?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_company?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByTaskTypesNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByTaskTypesNestedInput
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeUpdateManyWithoutTask_typeNestedInput
 }
 
@@ -864,126 +463,8 @@ export type TaskTypeUncheckedUpdateWithoutTimeSheetsInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_leave?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_company?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedUpdateManyWithoutTask_typeNestedInput
-}
-
-export type TaskTypeCreateManyCreatedByInput = {
-  id?: string
-  type: $Enums.TaskTypeCode
-  name: string
-  description?: string | null
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  updated_by?: string | null
-  is_enabled?: boolean
-}
-
-export type TaskTypeCreateManyUpdatedByInput = {
-  id?: string
-  type: $Enums.TaskTypeCode
-  name: string
-  description?: string | null
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  is_enabled?: boolean
-}
-
-export type TaskTypeUpdateWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_leave?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_company?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByTaskTypesNestedInput
-  projectTaskTypes?: Prisma.ProjectTaskTypeUpdateManyWithoutTask_typeNestedInput
-  timeSheets?: Prisma.TimeSheetUpdateManyWithoutTask_typeNestedInput
-}
-
-export type TaskTypeUncheckedUpdateWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_leave?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_company?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedUpdateManyWithoutTask_typeNestedInput
-  timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutTask_typeNestedInput
-}
-
-export type TaskTypeUncheckedUpdateManyWithoutCreatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_leave?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_company?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-}
-
-export type TaskTypeUpdateWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_leave?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_company?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByTaskTypesNestedInput
-  projectTaskTypes?: Prisma.ProjectTaskTypeUpdateManyWithoutTask_typeNestedInput
-  timeSheets?: Prisma.TimeSheetUpdateManyWithoutTask_typeNestedInput
-}
-
-export type TaskTypeUncheckedUpdateWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_leave?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_company?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedUpdateManyWithoutTask_typeNestedInput
-  timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutTask_typeNestedInput
-}
-
-export type TaskTypeUncheckedUpdateManyWithoutUpdatedByInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_leave?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_company?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -1031,15 +512,7 @@ export type TaskTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   type?: boolean
   name?: boolean
   description?: boolean
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: boolean
-  created_by?: boolean
-  updated_at?: boolean
-  updated_by?: boolean
-  is_enabled?: boolean
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.TaskType$updatedByArgs<ExtArgs>
+  is_active?: boolean
   projectTaskTypes?: boolean | Prisma.TaskType$projectTaskTypesArgs<ExtArgs>
   timeSheets?: boolean | Prisma.TaskType$timeSheetsArgs<ExtArgs>
   _count?: boolean | Prisma.TaskTypeCountOutputTypeDefaultArgs<ExtArgs>
@@ -1050,15 +523,7 @@ export type TaskTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   type?: boolean
   name?: boolean
   description?: boolean
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: boolean
-  created_by?: boolean
-  updated_at?: boolean
-  updated_by?: boolean
-  is_enabled?: boolean
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.TaskType$updatedByArgs<ExtArgs>
+  is_active?: boolean
 }, ExtArgs["result"]["taskType"]>
 
 export type TaskTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1066,15 +531,7 @@ export type TaskTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   type?: boolean
   name?: boolean
   description?: boolean
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: boolean
-  created_by?: boolean
-  updated_at?: boolean
-  updated_by?: boolean
-  is_enabled?: boolean
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.TaskType$updatedByArgs<ExtArgs>
+  is_active?: boolean
 }, ExtArgs["result"]["taskType"]>
 
 export type TaskTypeSelectScalar = {
@@ -1082,37 +539,21 @@ export type TaskTypeSelectScalar = {
   type?: boolean
   name?: boolean
   description?: boolean
-  is_leave?: boolean
-  is_company?: boolean
-  created_at?: boolean
-  created_by?: boolean
-  updated_at?: boolean
-  updated_by?: boolean
-  is_enabled?: boolean
+  is_active?: boolean
 }
 
-export type TaskTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "name" | "description" | "is_leave" | "is_company" | "created_at" | "created_by" | "updated_at" | "updated_by" | "is_enabled", ExtArgs["result"]["taskType"]>
+export type TaskTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "name" | "description" | "is_active", ExtArgs["result"]["taskType"]>
 export type TaskTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.TaskType$updatedByArgs<ExtArgs>
   projectTaskTypes?: boolean | Prisma.TaskType$projectTaskTypesArgs<ExtArgs>
   timeSheets?: boolean | Prisma.TaskType$timeSheetsArgs<ExtArgs>
   _count?: boolean | Prisma.TaskTypeCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type TaskTypeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.TaskType$updatedByArgs<ExtArgs>
-}
-export type TaskTypeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.TaskType$updatedByArgs<ExtArgs>
-}
+export type TaskTypeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type TaskTypeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $TaskTypePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TaskType"
   objects: {
-    createdBy: Prisma.$UserPayload<ExtArgs>
-    updatedBy: Prisma.$UserPayload<ExtArgs> | null
     projectTaskTypes: Prisma.$ProjectTaskTypePayload<ExtArgs>[]
     timeSheets: Prisma.$TimeSheetPayload<ExtArgs>[]
   }
@@ -1121,13 +562,7 @@ export type $TaskTypePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     type: $Enums.TaskTypeCode
     name: string
     description: string | null
-    is_leave: boolean
-    is_company: boolean
-    created_at: Date
-    created_by: string
-    updated_at: Date | null
-    updated_by: string | null
-    is_enabled: boolean
+    is_active: boolean
   }, ExtArgs["result"]["taskType"]>
   composites: {}
 }
@@ -1522,8 +957,6 @@ readonly fields: TaskTypeFieldRefs;
  */
 export interface Prisma__TaskTypeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  updatedBy<T extends Prisma.TaskType$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaskType$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   projectTaskTypes<T extends Prisma.TaskType$projectTaskTypesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaskType$projectTaskTypesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectTaskTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   timeSheets<T extends Prisma.TaskType$timeSheetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaskType$timeSheetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeSheetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1559,13 +992,7 @@ export interface TaskTypeFieldRefs {
   readonly type: Prisma.FieldRef<"TaskType", 'TaskTypeCode'>
   readonly name: Prisma.FieldRef<"TaskType", 'String'>
   readonly description: Prisma.FieldRef<"TaskType", 'String'>
-  readonly is_leave: Prisma.FieldRef<"TaskType", 'Boolean'>
-  readonly is_company: Prisma.FieldRef<"TaskType", 'Boolean'>
-  readonly created_at: Prisma.FieldRef<"TaskType", 'DateTime'>
-  readonly created_by: Prisma.FieldRef<"TaskType", 'String'>
-  readonly updated_at: Prisma.FieldRef<"TaskType", 'DateTime'>
-  readonly updated_by: Prisma.FieldRef<"TaskType", 'String'>
-  readonly is_enabled: Prisma.FieldRef<"TaskType", 'Boolean'>
+  readonly is_active: Prisma.FieldRef<"TaskType", 'Boolean'>
 }
     
 
@@ -1815,10 +1242,6 @@ export type TaskTypeCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    */
   data: Prisma.TaskTypeCreateManyInput | Prisma.TaskTypeCreateManyInput[]
   skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TaskTypeIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1889,10 +1312,6 @@ export type TaskTypeUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many TaskTypes to update.
    */
   limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TaskTypeIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1959,25 +1378,6 @@ export type TaskTypeDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many TaskTypes to delete.
    */
   limit?: number
-}
-
-/**
- * TaskType.updatedBy
- */
-export type TaskType$updatedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the User
-   */
-  select?: Prisma.UserSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the User
-   */
-  omit?: Prisma.UserOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.UserInclude<ExtArgs> | null
-  where?: Prisma.UserWhereInput
 }
 
 /**
