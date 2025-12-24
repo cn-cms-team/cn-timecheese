@@ -29,9 +29,9 @@ const TimeSheetPeriodSelection = () => {
   useEffect(() => {
     if (periodParam && periodParam !== null) {
       router.replace(`/timesheet?period=${periodParam}`);
-      setPeriod(Number(periodParam));
+      setPeriod(periodParam as PERIODCALENDAR);
     } else {
-      router.replace('/timesheet?period=1');
+      router.replace(`/timesheet?period=${PERIODCALENDAR.WEEK}`);
     }
   }, []);
   return (
