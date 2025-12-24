@@ -1,9 +1,8 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { buddhistFormatDate } from '@/lib/functions/date-format';
 import { ITimeSheetResponse } from '@/types/timesheet';
-import { SquarePen, Trash2, X } from 'lucide-react';
+import { Pencil, Trash2, X } from 'lucide-react';
 import { useTimeSheetContext } from './view/timesheet-context';
 import useDialogConfirm from '@/hooks/use-dialog-confirm';
 
@@ -40,7 +39,7 @@ const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
             className="bg-transparent border-transparent hover:bg-transparent cursor-pointer pe-0 focus:border-none"
             onClick={() => setIsPopoverEdit(true)}
           >
-            <SquarePen stroke="#000" strokeWidth={2} width={16} />
+            <Pencil stroke="#000" strokeWidth={2} width={16} />
           </button>
           <button
             className="bg-transparent border-transparent hover:bg-transparent cursor-pointer pe-0 focus:border-none"
