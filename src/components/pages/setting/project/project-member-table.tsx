@@ -13,14 +13,23 @@ import {
 import { UseFormReturn } from 'react-hook-form';
 import { CreateProjectSchemaType, EditProjectSchemaType } from './schema';
 import { IOptions } from '@/types/dropdown';
+import { UserInfo } from '@/types/setting/project';
+import { differenceInCalendarDays, differenceInBusinessDays } from 'date-fns';
+import ProjectMemberRow from './project-member-row';
 
 export interface ProjectMemberTableProps {
   header: { label: string; className: string }[];
   teamOptions: IOptions[];
+  userOptions: UserInfo[];
   form: UseFormReturn<EditProjectSchemaType | CreateProjectSchemaType>;
 }
 
-const ProjectMemberTable = ({ header, teamOptions, form }: ProjectMemberTableProps) => {
+const ProjectMemberTable = ({
+  header,
+  teamOptions,
+  userOptions,
+  form,
+}: ProjectMemberTableProps) => {
   return (
     <>
       <FormField
@@ -51,138 +60,13 @@ const ProjectMemberTable = ({ header, teamOptions, form }: ProjectMemberTablePro
                     </TableRow>
                   ) : (
                     parentField.value.map((item, index) => (
-                      <TableRow key={index}>
-                        <TableCell>
-                          {
-                            <FormField
-                              control={form.control}
-                              name={`member.${index}.team_id`}
-                              render={({ field }) => (
-                                <FormItem className="">
-                                  <FormControl>
-                                    <ComboboxForm
-                                      placeholder="เลือกทีม"
-                                      options={teamOptions}
-                                      field={field}
-                                      onSelect={(value) => field.onChange(value)}
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            <FormField
-                              control={form.control}
-                              name={`member.${index}.user_id`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <Input
-                                      {...field}
-                                      value={item.user_id}
-                                      maxLength={100}
-                                      onChange={(e) => {
-                                        const details = [...parentField.value];
-                                        details[index].user_id = e.target.value;
-                                        parentField.onChange(details);
-                                      }}
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            <FormField
-                              control={form.control}
-                              name={`member.${index}.position`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <Input
-                                      {...field}
-                                      value={item.position}
-                                      maxLength={100}
-                                      onChange={(e) => {
-                                        const details = [...parentField.value];
-                                        details[index].position = e.target.value;
-                                        parentField.onChange(details);
-                                      }}
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            <FormField
-                              control={form.control}
-                              name={`member.${index}.day_price`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <Input
-                                      {...field}
-                                      value={item.day_price}
-                                      maxLength={100}
-                                      onChange={(e) => {
-                                        const details = [...parentField.value];
-                                        details[index].position = e.target.value;
-                                        parentField.onChange(details);
-                                      }}
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            <FormField
-                              control={form.control}
-                              name={`member.${index}.start_date`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <DatePickerInput
-                                      value={item.start_date}
-                                      placeholder="กรุณาเลือกวันที่เริ่มต้น"
-                                      onChange={field.onChange}
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          }
-                        </TableCell>
-                        <TableCell>
-                          {
-                            <FormField
-                              control={form.control}
-                              name={`member.${index}.end_date`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <DatePickerInput
-                                      value={item.end_date}
-                                      placeholder="กรุณาเลือกวันที่สิ้นสุด"
-                                      onChange={field.onChange}
-                                    />
-                                  </FormControl>
-                                </FormItem>
-                              )}
-                            />
-                          }
-                        </TableCell>
-                      </TableRow>
+                      <ProjectMemberRow
+                        index={index}
+                        form={form}
+                        teamOptions={teamOptions}
+                        userOptions={userOptions}
+                        key={index}
+                      />
                     ))
                   )}
                 </TableBody>

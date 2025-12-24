@@ -11,10 +11,9 @@ import {
 } from '@/components/ui/table';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { CreateProjectSchemaType, EditProjectSchemaType } from './schema';
-import { IOptions } from '@/types/dropdown';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
-import { Textarea } from '@/components/ui/textarea';
+import { MAX_LENGTH_100, MAX_LENGTH_255 } from '@/lib/constants/validation';
 
 export type TaskArrayName = 'main_task_type' | 'optional_task_type';
 
@@ -100,12 +99,8 @@ const ProjectTaskTable = ({ header, form, name }: ProjectMemberTableProps) => {
                                         <Input
                                           {...field}
                                           value={item.name}
-                                          maxLength={100}
-                                          onChange={(e) => {
-                                            const details = [...parentField.value];
-                                            details[index].name = e.target.value;
-                                            parentField.onChange(details);
-                                          }}
+                                          maxLength={MAX_LENGTH_100}
+                                          onChange={parentField.onChange}
                                         />
                                       )}
                                     </FormControl>
@@ -122,16 +117,11 @@ const ProjectTaskTable = ({ header, form, name }: ProjectMemberTableProps) => {
                                 render={({ field }) => (
                                   <FormItem>
                                     <FormControl>
-                                      <Textarea
+                                      <Input
                                         {...field}
                                         value={item.description}
-                                        rows={1}
-                                        maxLength={250}
-                                        onChange={(e) => {
-                                          const details = [...parentField.value];
-                                          details[index].description = e.target.value;
-                                          parentField.onChange(details);
-                                        }}
+                                        maxLength={MAX_LENGTH_255}
+                                        onChange={parentField.onChange}
                                       />
                                     </FormControl>
                                   </FormItem>

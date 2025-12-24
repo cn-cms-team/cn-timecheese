@@ -40,7 +40,7 @@ export function DatePickerInput({
             isError ? 'border-red-500' : ''
           )}
         >
-          {value ? formatDate(value) : placeholder}
+          {value ? formatDate(value, 'dd/mm/yyyy') : placeholder}
           <ChevronDownIcon className="h-4 w-4 opacity-50" />
         </Button>
       </PopoverTrigger>

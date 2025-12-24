@@ -17,9 +17,6 @@ import {
   CreateProjectSchemaType,
   EditProjectSchemaType,
 } from './schema';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { getIsActive, getProjectStatus } from '@/lib/functions/enum-mapping';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -33,17 +30,22 @@ import useDialogConfirm from '@/hooks/use-dialog-confirm';
 import { projectStatusOptions } from '@/lib/constants/select-options';
 import ProjectMemberTable from './project-member-table';
 import ProjectTaskTable from './project-task-table';
+import { UserInfo } from '@/types/setting/project';
+import { Textarea } from '@/components/ui/textarea';
 
 const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   const { data: session } = useSession();
   const router = useRouter();
 
   const [teamOptions, setTeamOptions] = useState<IOptions[]>([]);
+  const [userOptions, setUserOptions] = useState<UserInfo[]>([]);
   const [getConfirmation, Confirmation] = useDialogConfirm();
 
   const schema = id ? editProjectSchema : createProjectSchema;
   const form = useForm<EditProjectSchemaType | CreateProjectSchemaType>({
     resolver: zodResolver(schema),
+    mode: 'onChange',
+    reValidateMode: 'onChange',
     defaultValues: {
       code: '',
       name: '',
@@ -59,8 +61,17 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     const fetchTeamsOptions = async () => {
       try {
         const prefix = process.env.NEXT_PUBLIC_APP_URL;
-        const [team] = await Promise.all([fetcher<IOptions[]>(`${prefix}/api/v1/master/team`)]);
+        const [team, user] = await Promise.all([
+          fetcher<IOptions[]>(`${prefix}/api/v1/master/team`),
+          fetcher<UserInfo[]>(`${prefix}/api/v1/master/user`),
+        ]);
+        const userMap = user.map((item) => ({
+          ...item,
+          label: item.name,
+          value: item.id,
+        }));
         setTeamOptions(team);
+        setUserOptions(userMap);
       } catch (error) {
         console.error('Error fetching options:', error);
       }
@@ -102,7 +113,15 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         status: values.status,
         description: values.description,
         value: values.value,
+        people_cost: values.member.reduce((acc, cur) => acc + (cur.estimated_cost ?? 0), 0),
         created_by: session?.user?.id,
+        member: values.member.map((item) => ({
+          ...item,
+          work_hours: item.work_day ? item.work_day * 8 : 0,
+          hour_price: item.day_price ? item.day_price / 8 : 0,
+        })),
+        main_task_type: values.main_task_type,
+        optional_task_type: values.optional_task_type,
       };
       const response = await fetch(fetchUrl, {
         method: 'POST',
@@ -112,7 +131,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         body: JSON.stringify({ data }),
       });
       if (response.ok) {
-        router.push('/setting/project');
+        // router.push('/setting/project');
       }
     } catch {
       console.error('An unexpected error occurred. Please try again.');
@@ -122,14 +141,14 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   };
 
   const headersTableMember = [
-    { label: 'ทีม', className: 'text-center min-w-20' },
-    { label: 'ชื่อ-นามสกุล', className: 'text-center min-w-20' },
-    { label: 'ตำแหน่ง', className: 'text-center' },
-    { label: 'ค่าใช้จ่ายต่อวัน', className: 'text-center' },
-    { label: 'วันที่เข้าร่วม', className: 'text-center' },
-    { label: 'วันที่สิ้นสุด', className: 'text-center' },
-    { label: 'จำนวนวัน', className: 'text-center' },
-    { label: 'ค่าใช้จ่ายโดยประมาณ', className: 'text-center' },
+    { label: 'ทีม', className: 'text-center min-w-50 max-w-50' },
+    { label: 'ชื่อ-นามสกุล', className: 'text-center min-w-60 max-w-60' },
+    { label: 'ตำแหน่ง', className: 'text-center min-w-60 max-w-60' },
+    { label: 'ค่าใช้จ่ายต่อวัน', className: 'text-center min-w-60 max-w-60' },
+    { label: 'วันที่เข้าร่วม', className: 'text-center min-w-60 max-w-60' },
+    { label: 'วันที่สิ้นสุด', className: 'text-center min-w-60 max-w-60' },
+    { label: 'จำนวนวัน', className: 'text-center min-w-20 max-w-20' },
+    { label: 'ค่าใช้จ่ายโดยประมาณ', className: 'text-center min-w-60 max-w-60' },
   ];
 
   const headersTableTask = [
@@ -142,10 +161,13 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   const defaultMemberDetail = {
     team_id: '',
     user_id: '',
-    position: '',
+    role: '',
     day_price: 0,
     start_date: null!,
     end_date: null!,
+    work_hours: 0,
+    hour_price: 0,
+    estimated_cost: 0,
   };
 
   const defaultTaskType = {
@@ -164,10 +186,6 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
 
   const handleAddOptionalTaskType = () => {
     form.setValue('optional_task_type', [...form.getValues('optional_task_type'), defaultTaskType]);
-  };
-
-  const EmptyTable = () => {
-    return <div className="flex justify-center items-center p-4">ไม่มีข้อมูล</div>;
   };
 
   return (
@@ -191,7 +209,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                       <FormControl>
                         <Input
                           autoComplete="off"
-                          placeholder="กรุณากรอกรหัสโครงการ"
+                          placeholder="รหัสโครงการ"
                           {...field}
                           onInput={(e) => {
                             field.onChange(e);
@@ -213,7 +231,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="กรุณากรอกชื่อโครงการ"
+                          placeholder="ชื่อโครงการ"
                           {...field}
                           onInput={(e) => {
                             field.onChange(e);
@@ -238,7 +256,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                       <FormControl>
                         <DatePickerInput
                           value={field.value}
-                          placeholder="กรุณาเลือกวันที่เริ่มต้นของคุณ"
+                          placeholder="วันที่เริ่มต้นโครงการ"
                           isError={form.formState.errors.start_date ? true : false}
                           onChange={field.onChange}
                         />
@@ -259,7 +277,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                       <FormControl>
                         <DatePickerInput
                           value={field.value || undefined}
-                          placeholder="กรุณาเลือกวันที่สิ้นสุดของคุณ"
+                          placeholder="วันที่สิ้นสุดโครงการ"
                           isError={form.formState.errors.start_date ? true : false}
                           onChange={field.onChange}
                         />
@@ -281,11 +299,14 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                       </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="กรุณากรอกมูลค่าโครงการ"
+                          type="number"
+                          placeholder="มูลค่าโครงการ"
                           {...field}
-                          onInput={(e) => {
-                            field.onChange(e);
-                          }}
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value === '' ? undefined : e.target.valueAsNumber
+                            )
+                          }
                         />
                       </FormControl>
                       <FormMessage />
@@ -314,12 +335,40 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                   )}
                 />
               </div>
+              <div className="flex flex-wrap items-baseline">
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem className="w-full md:w-1/2">
+                      <FormLabel>
+                        คำอธิบาย
+                        <Required />
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="คำอธิบาย"
+                          {...field}
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
           </div>
           <div>
             <h2 className="font-medium text-lg mb-0">สมาชิก</h2>
             <hr className="mt-2 mb-5" />
-            <ProjectMemberTable form={form} teamOptions={teamOptions} header={headersTableMember} />
+            <ProjectMemberTable
+              form={form}
+              teamOptions={teamOptions}
+              header={headersTableMember}
+              userOptions={userOptions}
+            />
             <div className="flex w-full py-4 px-2">
               <Button type="button" onClick={handleAddMember}>
                 เพิ่มข้อมูล
