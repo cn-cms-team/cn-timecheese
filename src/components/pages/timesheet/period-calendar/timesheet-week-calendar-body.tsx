@@ -50,7 +50,7 @@ const TimeSheetWeekCalendarBody = ({ weekDays }: IProps) => {
           <div
             key={index}
             className={cn(
-              'flex-1 border-l border-neutral-300 relative min-w-[100px] hover:bg-neutral-800/10',
+              'flex-1 border-l border-neutral-300 relative min-w-[100px]',
               index === 0 ? 'border-0' : ''
             )}
             onClick={() => setSelectedDay(day)}
@@ -103,52 +103,62 @@ const TimeSheetWeekCalendarBody = ({ weekDays }: IProps) => {
                 );
               }
             })}
-            {tasks
-              .filter((t) => new Date(t.start_date).getDate() === day.getDate())
-              .map((task) => {
-                const start = new Date(task.start_date);
-                const end = new Date(task.end_date);
+            {tasks.map((task) => {
+              const start = new Date(task.start_date);
+              const end = new Date(task.end_date);
 
-                const top = start.getHours() * 80 + (start.getMinutes() / 60) * 80;
+              end.setFullYear(start.getFullYear());
+              end.setMonth(start.getMonth());
+              end.setDate(start.getDate());
 
-                const height = ((end.getTime() - start.getTime()) / 3600000) * 80;
+              const durationMs = end.getTime() - start.getTime();
+              const durationHours = durationMs / 3600000;
 
-                return (
-                  <TimeSheetPopover
-                    key={task.id}
-                    align="center"
-                    side="right"
-                    className="w-full"
-                    setIsEdit={setIsPopoverEdit}
-                    triggerContent={
-                      <div
-                        className="absolute left-[5%] w-[90%]"
-                        style={{ top, height }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <TimeSheetEventCard data={task} height={height} />
-                      </div>
-                    }
-                    popoverContent={(close) =>
-                      isPopoverEdit ? (
-                        <TimeSheetForm
-                          data={task}
-                          close={() => {
-                            close();
-                            setIsPopoverEdit(false);
-                          }}
-                        />
-                      ) : (
-                        <TimeSheetdataDetail
-                          data={task}
-                          setIsPopoverEdit={setIsPopoverEdit}
-                          close={close}
-                        />
-                      )
-                    }
-                  />
-                );
-              })}
+              const height = Math.max(durationHours * 80, 20);
+
+              const top = start.getHours() * 80 + (start.getMinutes() / 60) * 80;
+
+              if (new Date(task.start_date).getDate() !== day.getDate()) return null;
+
+              return (
+                <TimeSheetPopover
+                  key={task.id}
+                  align="center"
+                  side="right"
+                  className={`w-full p-0`}
+                  setIsEdit={setIsPopoverEdit}
+                  triggerContent={
+                    <div
+                      className="absolute left-[5%] w-[90%] overflow-hidden"
+                      style={{
+                        top: top,
+                        height,
+                      }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <TimeSheetEventCard data={task} height={height} />
+                    </div>
+                  }
+                  popoverContent={(close) =>
+                    isPopoverEdit ? (
+                      <TimeSheetForm
+                        data={task}
+                        close={() => {
+                          close();
+                          setIsPopoverEdit(false);
+                        }}
+                      />
+                    ) : (
+                      <TimeSheetdataDetail
+                        data={task}
+                        setIsPopoverEdit={setIsPopoverEdit}
+                        close={close}
+                      />
+                    )
+                  }
+                />
+              );
+            })}
           </div>
         );
       })}
