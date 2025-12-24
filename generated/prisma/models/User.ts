@@ -323,8 +323,6 @@ export type UserWhereInput = {
   updatedByTeams?: Prisma.TeamListRelationFilter
   createdByPosition?: Prisma.PositionListRelationFilter
   updatedByPosition?: Prisma.PositionListRelationFilter
-  createdByTaskTypes?: Prisma.TaskTypeListRelationFilter
-  updatedByTaskTypes?: Prisma.TaskTypeListRelationFilter
   createdByProjects?: Prisma.ProjectListRelationFilter
   updatedByProjects?: Prisma.ProjectListRelationFilter
   projectMembers?: Prisma.ProjectMemberListRelationFilter
@@ -367,8 +365,6 @@ export type UserOrderByWithRelationInput = {
   updatedByTeams?: Prisma.TeamOrderByRelationAggregateInput
   createdByPosition?: Prisma.PositionOrderByRelationAggregateInput
   updatedByPosition?: Prisma.PositionOrderByRelationAggregateInput
-  createdByTaskTypes?: Prisma.TaskTypeOrderByRelationAggregateInput
-  updatedByTaskTypes?: Prisma.TaskTypeOrderByRelationAggregateInput
   createdByProjects?: Prisma.ProjectOrderByRelationAggregateInput
   updatedByProjects?: Prisma.ProjectOrderByRelationAggregateInput
   projectMembers?: Prisma.ProjectMemberOrderByRelationAggregateInput
@@ -414,8 +410,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedByTeams?: Prisma.TeamListRelationFilter
   createdByPosition?: Prisma.PositionListRelationFilter
   updatedByPosition?: Prisma.PositionListRelationFilter
-  createdByTaskTypes?: Prisma.TaskTypeListRelationFilter
-  updatedByTaskTypes?: Prisma.TaskTypeListRelationFilter
   createdByProjects?: Prisma.ProjectListRelationFilter
   updatedByProjects?: Prisma.ProjectListRelationFilter
   projectMembers?: Prisma.ProjectMemberListRelationFilter
@@ -507,8 +501,6 @@ export type UserCreateInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -546,8 +538,6 @@ export type UserUncheckedCreateInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -585,8 +575,6 @@ export type UserUpdateInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -624,8 +612,6 @@ export type UserUncheckedUpdateInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -1156,36 +1142,6 @@ export type UserUncheckedUpdateManyWithoutPosition_levelNestedInput = {
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
-export type UserCreateNestedOneWithoutCreatedByTaskTypesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedByTaskTypesInput, Prisma.UserUncheckedCreateWithoutCreatedByTaskTypesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedByTaskTypesInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserCreateNestedOneWithoutUpdatedByTaskTypesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutUpdatedByTaskTypesInput, Prisma.UserUncheckedCreateWithoutUpdatedByTaskTypesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUpdatedByTaskTypesInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutCreatedByTaskTypesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedByTaskTypesInput, Prisma.UserUncheckedCreateWithoutCreatedByTaskTypesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedByTaskTypesInput
-  upsert?: Prisma.UserUpsertWithoutCreatedByTaskTypesInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedByTaskTypesInput, Prisma.UserUpdateWithoutCreatedByTaskTypesInput>, Prisma.UserUncheckedUpdateWithoutCreatedByTaskTypesInput>
-}
-
-export type UserUpdateOneWithoutUpdatedByTaskTypesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutUpdatedByTaskTypesInput, Prisma.UserUncheckedCreateWithoutUpdatedByTaskTypesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUpdatedByTaskTypesInput
-  upsert?: Prisma.UserUpsertWithoutUpdatedByTaskTypesInput
-  disconnect?: Prisma.UserWhereInput | boolean
-  delete?: Prisma.UserWhereInput | boolean
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUpdatedByTaskTypesInput, Prisma.UserUpdateWithoutUpdatedByTaskTypesInput>, Prisma.UserUncheckedUpdateWithoutUpdatedByTaskTypesInput>
-}
-
 export type UserCreateNestedOneWithoutCreatedByProjectsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutCreatedByProjectsInput, Prisma.UserUncheckedCreateWithoutCreatedByProjectsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutCreatedByProjectsInput
@@ -1273,8 +1229,6 @@ export type UserCreateWithoutCreatedByUserInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -1311,8 +1265,6 @@ export type UserUncheckedCreateWithoutCreatedByUserInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -1354,8 +1306,6 @@ export type UserCreateWithoutUpdatedByUserInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -1392,8 +1342,6 @@ export type UserUncheckedCreateWithoutUpdatedByUserInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -1435,8 +1383,6 @@ export type UserCreateWithoutCreatedByInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -1473,8 +1419,6 @@ export type UserUncheckedCreateWithoutCreatedByInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -1521,8 +1465,6 @@ export type UserCreateWithoutUpdatedByInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -1559,8 +1501,6 @@ export type UserUncheckedCreateWithoutUpdatedByInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -1618,8 +1558,6 @@ export type UserUpdateWithoutCreatedByUserInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -1656,8 +1594,6 @@ export type UserUncheckedUpdateWithoutCreatedByUserInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -1705,8 +1641,6 @@ export type UserUpdateWithoutUpdatedByUserInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -1743,8 +1677,6 @@ export type UserUncheckedUpdateWithoutUpdatedByUserInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -1840,8 +1772,6 @@ export type UserCreateWithoutCreatedByRoleInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -1878,8 +1808,6 @@ export type UserUncheckedCreateWithoutCreatedByRoleInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -1921,8 +1849,6 @@ export type UserCreateWithoutUpdatedByRoleInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -1959,8 +1885,6 @@ export type UserUncheckedCreateWithoutUpdatedByRoleInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -2002,8 +1926,6 @@ export type UserCreateWithoutRoleInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -2040,8 +1962,6 @@ export type UserUncheckedCreateWithoutRoleInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -2099,8 +2019,6 @@ export type UserUpdateWithoutCreatedByRoleInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -2137,8 +2055,6 @@ export type UserUncheckedUpdateWithoutCreatedByRoleInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -2186,8 +2102,6 @@ export type UserUpdateWithoutUpdatedByRoleInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -2224,8 +2138,6 @@ export type UserUncheckedUpdateWithoutUpdatedByRoleInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -2278,8 +2190,6 @@ export type UserCreateWithoutCreatedByTeamsInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -2316,8 +2226,6 @@ export type UserUncheckedCreateWithoutCreatedByTeamsInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -2359,8 +2267,6 @@ export type UserCreateWithoutUpdatedByTeamsInput = {
   createdByTeams?: Prisma.TeamCreateNestedManyWithoutCreatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -2397,8 +2303,6 @@ export type UserUncheckedCreateWithoutUpdatedByTeamsInput = {
   createdByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutCreatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -2440,8 +2344,6 @@ export type UserCreateWithoutTeamInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -2478,8 +2380,6 @@ export type UserUncheckedCreateWithoutTeamInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -2537,8 +2437,6 @@ export type UserUpdateWithoutCreatedByTeamsInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -2575,8 +2473,6 @@ export type UserUncheckedUpdateWithoutCreatedByTeamsInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -2624,8 +2520,6 @@ export type UserUpdateWithoutUpdatedByTeamsInput = {
   createdByTeams?: Prisma.TeamUpdateManyWithoutCreatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -2662,8 +2556,6 @@ export type UserUncheckedUpdateWithoutUpdatedByTeamsInput = {
   createdByTeams?: Prisma.TeamUncheckedUpdateManyWithoutCreatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -2717,8 +2609,6 @@ export type UserCreateWithoutTeamLeadersInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -2755,8 +2645,6 @@ export type UserUncheckedCreateWithoutTeamLeadersInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -2809,8 +2697,6 @@ export type UserUpdateWithoutTeamLeadersInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -2847,8 +2733,6 @@ export type UserUncheckedUpdateWithoutTeamLeadersInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -2884,8 +2768,6 @@ export type UserCreateWithoutCreatedByPositionInput = {
   createdByTeams?: Prisma.TeamCreateNestedManyWithoutCreatedByInput
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -2922,8 +2804,6 @@ export type UserUncheckedCreateWithoutCreatedByPositionInput = {
   createdByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -2965,8 +2845,6 @@ export type UserCreateWithoutUpdatedByPositionInput = {
   createdByTeams?: Prisma.TeamCreateNestedManyWithoutCreatedByInput
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -3003,8 +2881,6 @@ export type UserUncheckedCreateWithoutUpdatedByPositionInput = {
   createdByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -3057,8 +2933,6 @@ export type UserUpdateWithoutCreatedByPositionInput = {
   createdByTeams?: Prisma.TeamUpdateManyWithoutCreatedByNestedInput
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -3095,8 +2969,6 @@ export type UserUncheckedUpdateWithoutCreatedByPositionInput = {
   createdByTeams?: Prisma.TeamUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -3144,8 +3016,6 @@ export type UserUpdateWithoutUpdatedByPositionInput = {
   createdByTeams?: Prisma.TeamUpdateManyWithoutCreatedByNestedInput
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -3182,8 +3052,6 @@ export type UserUncheckedUpdateWithoutUpdatedByPositionInput = {
   createdByTeams?: Prisma.TeamUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -3220,8 +3088,6 @@ export type UserCreateWithoutPosition_levelInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -3258,8 +3124,6 @@ export type UserUncheckedCreateWithoutPosition_levelInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -3293,342 +3157,6 @@ export type UserUpdateManyWithWhereWithoutPosition_levelInput = {
   data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutPosition_levelInput>
 }
 
-export type UserCreateWithoutCreatedByTaskTypesInput = {
-  id?: string
-  code: string
-  email: string
-  password: string
-  first_name: string
-  last_name: string
-  nick_name?: string | null
-  start_date?: Date | string | null
-  end_date?: Date | string | null
-  last_login_at?: Date | string | null
-  salary_range?: string | null
-  reset_password_date?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  is_active?: boolean
-  is_enabled?: boolean
-  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role?: Prisma.RoleCreateNestedOneWithoutUserInput
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
-  createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
-  updatedByUser?: Prisma.UserCreateNestedManyWithoutUpdatedByInput
-  createdByRole?: Prisma.RoleCreateNestedManyWithoutCreatedByInput
-  updatedByRole?: Prisma.RoleCreateNestedManyWithoutUpdatedByInput
-  createdByTeams?: Prisma.TeamCreateNestedManyWithoutCreatedByInput
-  updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
-  createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
-  updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
-  createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
-  updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
-  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
-  timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutUserInput
-  teamLeaders?: Prisma.TeamLeaderCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutCreatedByTaskTypesInput = {
-  id?: string
-  code: string
-  email: string
-  password: string
-  first_name: string
-  last_name: string
-  nick_name?: string | null
-  start_date?: Date | string | null
-  end_date?: Date | string | null
-  last_login_at?: Date | string | null
-  salary_range?: string | null
-  reset_password_date?: Date | string | null
-  position_level_id?: string | null
-  team_id?: string | null
-  role_id?: string | null
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  updated_by?: string | null
-  is_active?: boolean
-  is_enabled?: boolean
-  createdByUser?: Prisma.UserUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByUser?: Prisma.UserUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByRole?: Prisma.RoleUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByRole?: Prisma.RoleUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
-  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
-  timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutUserInput
-  teamLeaders?: Prisma.TeamLeaderUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutCreatedByTaskTypesInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedByTaskTypesInput, Prisma.UserUncheckedCreateWithoutCreatedByTaskTypesInput>
-}
-
-export type UserCreateWithoutUpdatedByTaskTypesInput = {
-  id?: string
-  code: string
-  email: string
-  password: string
-  first_name: string
-  last_name: string
-  nick_name?: string | null
-  start_date?: Date | string | null
-  end_date?: Date | string | null
-  last_login_at?: Date | string | null
-  salary_range?: string | null
-  reset_password_date?: Date | string | null
-  created_at?: Date | string
-  updated_at?: Date | string | null
-  is_active?: boolean
-  is_enabled?: boolean
-  position_level?: Prisma.PositionLevelCreateNestedOneWithoutUsersInput
-  team?: Prisma.TeamCreateNestedOneWithoutUsersInput
-  role?: Prisma.RoleCreateNestedOneWithoutUserInput
-  createdBy: Prisma.UserCreateNestedOneWithoutCreatedByUserInput
-  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByUserInput
-  createdByUser?: Prisma.UserCreateNestedManyWithoutCreatedByInput
-  updatedByUser?: Prisma.UserCreateNestedManyWithoutUpdatedByInput
-  createdByRole?: Prisma.RoleCreateNestedManyWithoutCreatedByInput
-  updatedByRole?: Prisma.RoleCreateNestedManyWithoutUpdatedByInput
-  createdByTeams?: Prisma.TeamCreateNestedManyWithoutCreatedByInput
-  updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
-  createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
-  updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
-  updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
-  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
-  timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutUserInput
-  teamLeaders?: Prisma.TeamLeaderCreateNestedManyWithoutUserInput
-}
-
-export type UserUncheckedCreateWithoutUpdatedByTaskTypesInput = {
-  id?: string
-  code: string
-  email: string
-  password: string
-  first_name: string
-  last_name: string
-  nick_name?: string | null
-  start_date?: Date | string | null
-  end_date?: Date | string | null
-  last_login_at?: Date | string | null
-  salary_range?: string | null
-  reset_password_date?: Date | string | null
-  position_level_id?: string | null
-  team_id?: string | null
-  role_id?: string | null
-  created_at?: Date | string
-  created_by: string
-  updated_at?: Date | string | null
-  updated_by?: string | null
-  is_active?: boolean
-  is_enabled?: boolean
-  createdByUser?: Prisma.UserUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByUser?: Prisma.UserUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByRole?: Prisma.RoleUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByRole?: Prisma.RoleUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
-  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
-  timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutUserInput
-  teamLeaders?: Prisma.TeamLeaderUncheckedCreateNestedManyWithoutUserInput
-}
-
-export type UserCreateOrConnectWithoutUpdatedByTaskTypesInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutUpdatedByTaskTypesInput, Prisma.UserUncheckedCreateWithoutUpdatedByTaskTypesInput>
-}
-
-export type UserUpsertWithoutCreatedByTaskTypesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutCreatedByTaskTypesInput, Prisma.UserUncheckedUpdateWithoutCreatedByTaskTypesInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutCreatedByTaskTypesInput, Prisma.UserUncheckedCreateWithoutCreatedByTaskTypesInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutCreatedByTaskTypesInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutCreatedByTaskTypesInput, Prisma.UserUncheckedUpdateWithoutCreatedByTaskTypesInput>
-}
-
-export type UserUpdateWithoutCreatedByTaskTypesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  first_name?: Prisma.StringFieldUpdateOperationsInput | string
-  last_name?: Prisma.StringFieldUpdateOperationsInput | string
-  nick_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
-  createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
-  updatedByUser?: Prisma.UserUpdateManyWithoutUpdatedByNestedInput
-  createdByRole?: Prisma.RoleUpdateManyWithoutCreatedByNestedInput
-  updatedByRole?: Prisma.RoleUpdateManyWithoutUpdatedByNestedInput
-  createdByTeams?: Prisma.TeamUpdateManyWithoutCreatedByNestedInput
-  updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
-  createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
-  updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
-  createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
-  updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
-  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
-  timeSheets?: Prisma.TimeSheetUpdateManyWithoutUserNestedInput
-  teamLeaders?: Prisma.TeamLeaderUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutCreatedByTaskTypesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  first_name?: Prisma.StringFieldUpdateOperationsInput | string
-  last_name?: Prisma.StringFieldUpdateOperationsInput | string
-  nick_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdByUser?: Prisma.UserUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByUser?: Prisma.UserUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByRole?: Prisma.RoleUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByRole?: Prisma.RoleUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTeams?: Prisma.TeamUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
-  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
-  timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutUserNestedInput
-  teamLeaders?: Prisma.TeamLeaderUncheckedUpdateManyWithoutUserNestedInput
-}
-
-export type UserUpsertWithoutUpdatedByTaskTypesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutUpdatedByTaskTypesInput, Prisma.UserUncheckedUpdateWithoutUpdatedByTaskTypesInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutUpdatedByTaskTypesInput, Prisma.UserUncheckedCreateWithoutUpdatedByTaskTypesInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutUpdatedByTaskTypesInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutUpdatedByTaskTypesInput, Prisma.UserUncheckedUpdateWithoutUpdatedByTaskTypesInput>
-}
-
-export type UserUpdateWithoutUpdatedByTaskTypesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  first_name?: Prisma.StringFieldUpdateOperationsInput | string
-  last_name?: Prisma.StringFieldUpdateOperationsInput | string
-  nick_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  position_level?: Prisma.PositionLevelUpdateOneWithoutUsersNestedInput
-  team?: Prisma.TeamUpdateOneWithoutUsersNestedInput
-  role?: Prisma.RoleUpdateOneWithoutUserNestedInput
-  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByUserNestedInput
-  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByUserNestedInput
-  createdByUser?: Prisma.UserUpdateManyWithoutCreatedByNestedInput
-  updatedByUser?: Prisma.UserUpdateManyWithoutUpdatedByNestedInput
-  createdByRole?: Prisma.RoleUpdateManyWithoutCreatedByNestedInput
-  updatedByRole?: Prisma.RoleUpdateManyWithoutUpdatedByNestedInput
-  createdByTeams?: Prisma.TeamUpdateManyWithoutCreatedByNestedInput
-  updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
-  createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
-  updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
-  updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
-  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
-  timeSheets?: Prisma.TimeSheetUpdateManyWithoutUserNestedInput
-  teamLeaders?: Prisma.TeamLeaderUpdateManyWithoutUserNestedInput
-}
-
-export type UserUncheckedUpdateWithoutUpdatedByTaskTypesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  code?: Prisma.StringFieldUpdateOperationsInput | string
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  password?: Prisma.StringFieldUpdateOperationsInput | string
-  first_name?: Prisma.StringFieldUpdateOperationsInput | string
-  last_name?: Prisma.StringFieldUpdateOperationsInput | string
-  nick_name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  salary_range?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  reset_password_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  position_level_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  team_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  created_by?: Prisma.StringFieldUpdateOperationsInput | string
-  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdByUser?: Prisma.UserUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByUser?: Prisma.UserUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByRole?: Prisma.RoleUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByRole?: Prisma.RoleUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTeams?: Prisma.TeamUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
-  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
-  timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutUserNestedInput
-  teamLeaders?: Prisma.TeamLeaderUncheckedUpdateManyWithoutUserNestedInput
-}
-
 export type UserCreateWithoutCreatedByProjectsInput = {
   id?: string
   code: string
@@ -3659,8 +3187,6 @@ export type UserCreateWithoutCreatedByProjectsInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutUserInput
@@ -3697,8 +3223,6 @@ export type UserUncheckedCreateWithoutCreatedByProjectsInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutUserInput
@@ -3740,8 +3264,6 @@ export type UserCreateWithoutUpdatedByProjectsInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutUserInput
@@ -3778,8 +3300,6 @@ export type UserUncheckedCreateWithoutUpdatedByProjectsInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutUserInput
@@ -3832,8 +3352,6 @@ export type UserUpdateWithoutCreatedByProjectsInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   timeSheets?: Prisma.TimeSheetUpdateManyWithoutUserNestedInput
@@ -3870,8 +3388,6 @@ export type UserUncheckedUpdateWithoutCreatedByProjectsInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutUserNestedInput
@@ -3919,8 +3435,6 @@ export type UserUpdateWithoutUpdatedByProjectsInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   timeSheets?: Prisma.TimeSheetUpdateManyWithoutUserNestedInput
@@ -3957,8 +3471,6 @@ export type UserUncheckedUpdateWithoutUpdatedByProjectsInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutUserNestedInput
@@ -3995,8 +3507,6 @@ export type UserCreateWithoutProjectMembersInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutUserInput
@@ -4033,8 +3543,6 @@ export type UserUncheckedCreateWithoutProjectMembersInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutUserInput
@@ -4087,8 +3595,6 @@ export type UserUpdateWithoutProjectMembersInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   timeSheets?: Prisma.TimeSheetUpdateManyWithoutUserNestedInput
@@ -4125,8 +3631,6 @@ export type UserUncheckedUpdateWithoutProjectMembersInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutUserNestedInput
@@ -4163,8 +3667,6 @@ export type UserCreateWithoutTimeSheetsInput = {
   updatedByTeams?: Prisma.TeamCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
@@ -4201,8 +3703,6 @@ export type UserUncheckedCreateWithoutTimeSheetsInput = {
   updatedByTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByPosition?: Prisma.PositionUncheckedCreateNestedManyWithoutUpdatedByInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutCreatedByInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedCreateNestedManyWithoutUpdatedByInput
   createdByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutCreatedByInput
   updatedByProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUpdatedByInput
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
@@ -4255,8 +3755,6 @@ export type UserUpdateWithoutTimeSheetsInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -4293,8 +3791,6 @@ export type UserUncheckedUpdateWithoutTimeSheetsInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -4376,8 +3872,6 @@ export type UserUpdateWithoutCreatedByInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -4414,8 +3908,6 @@ export type UserUncheckedUpdateWithoutCreatedByInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -4475,8 +3967,6 @@ export type UserUpdateWithoutUpdatedByInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -4513,8 +4003,6 @@ export type UserUncheckedUpdateWithoutUpdatedByInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -4597,8 +4085,6 @@ export type UserUpdateWithoutRoleInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -4635,8 +4121,6 @@ export type UserUncheckedUpdateWithoutRoleInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -4719,8 +4203,6 @@ export type UserUpdateWithoutTeamInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -4757,8 +4239,6 @@ export type UserUncheckedUpdateWithoutTeamInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -4841,8 +4321,6 @@ export type UserUpdateWithoutPosition_levelInput = {
   updatedByTeams?: Prisma.TeamUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
@@ -4879,8 +4357,6 @@ export type UserUncheckedUpdateWithoutPosition_levelInput = {
   updatedByTeams?: Prisma.TeamUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByPosition?: Prisma.PositionUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByPosition?: Prisma.PositionUncheckedUpdateManyWithoutUpdatedByNestedInput
-  createdByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutCreatedByNestedInput
-  updatedByTaskTypes?: Prisma.TaskTypeUncheckedUpdateManyWithoutUpdatedByNestedInput
   createdByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutCreatedByNestedInput
   updatedByProjects?: Prisma.ProjectUncheckedUpdateManyWithoutUpdatedByNestedInput
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
@@ -4925,8 +4401,6 @@ export type UserCountOutputType = {
   updatedByTeams: number
   createdByPosition: number
   updatedByPosition: number
-  createdByTaskTypes: number
-  updatedByTaskTypes: number
   createdByProjects: number
   updatedByProjects: number
   projectMembers: number
@@ -4943,8 +4417,6 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   updatedByTeams?: boolean | UserCountOutputTypeCountUpdatedByTeamsArgs
   createdByPosition?: boolean | UserCountOutputTypeCountCreatedByPositionArgs
   updatedByPosition?: boolean | UserCountOutputTypeCountUpdatedByPositionArgs
-  createdByTaskTypes?: boolean | UserCountOutputTypeCountCreatedByTaskTypesArgs
-  updatedByTaskTypes?: boolean | UserCountOutputTypeCountUpdatedByTaskTypesArgs
   createdByProjects?: boolean | UserCountOutputTypeCountCreatedByProjectsArgs
   updatedByProjects?: boolean | UserCountOutputTypeCountUpdatedByProjectsArgs
   projectMembers?: boolean | UserCountOutputTypeCountProjectMembersArgs
@@ -5021,20 +4493,6 @@ export type UserCountOutputTypeCountUpdatedByPositionArgs<ExtArgs extends runtim
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountCreatedByTaskTypesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TaskTypeWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountUpdatedByTaskTypesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TaskTypeWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
 export type UserCountOutputTypeCountCreatedByProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ProjectWhereInput
 }
@@ -5103,8 +4561,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedByTeams?: boolean | Prisma.User$updatedByTeamsArgs<ExtArgs>
   createdByPosition?: boolean | Prisma.User$createdByPositionArgs<ExtArgs>
   updatedByPosition?: boolean | Prisma.User$updatedByPositionArgs<ExtArgs>
-  createdByTaskTypes?: boolean | Prisma.User$createdByTaskTypesArgs<ExtArgs>
-  updatedByTaskTypes?: boolean | Prisma.User$updatedByTaskTypesArgs<ExtArgs>
   createdByProjects?: boolean | Prisma.User$createdByProjectsArgs<ExtArgs>
   updatedByProjects?: boolean | Prisma.User$updatedByProjectsArgs<ExtArgs>
   projectMembers?: boolean | Prisma.User$projectMembersArgs<ExtArgs>
@@ -5210,8 +4666,6 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   updatedByTeams?: boolean | Prisma.User$updatedByTeamsArgs<ExtArgs>
   createdByPosition?: boolean | Prisma.User$createdByPositionArgs<ExtArgs>
   updatedByPosition?: boolean | Prisma.User$updatedByPositionArgs<ExtArgs>
-  createdByTaskTypes?: boolean | Prisma.User$createdByTaskTypesArgs<ExtArgs>
-  updatedByTaskTypes?: boolean | Prisma.User$updatedByTaskTypesArgs<ExtArgs>
   createdByProjects?: boolean | Prisma.User$createdByProjectsArgs<ExtArgs>
   updatedByProjects?: boolean | Prisma.User$updatedByProjectsArgs<ExtArgs>
   projectMembers?: boolean | Prisma.User$projectMembersArgs<ExtArgs>
@@ -5250,8 +4704,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     updatedByTeams: Prisma.$TeamPayload<ExtArgs>[]
     createdByPosition: Prisma.$PositionPayload<ExtArgs>[]
     updatedByPosition: Prisma.$PositionPayload<ExtArgs>[]
-    createdByTaskTypes: Prisma.$TaskTypePayload<ExtArgs>[]
-    updatedByTaskTypes: Prisma.$TaskTypePayload<ExtArgs>[]
     createdByProjects: Prisma.$ProjectPayload<ExtArgs>[]
     updatedByProjects: Prisma.$ProjectPayload<ExtArgs>[]
     projectMembers: Prisma.$ProjectMemberPayload<ExtArgs>[]
@@ -5687,8 +5139,6 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   updatedByTeams<T extends Prisma.User$updatedByTeamsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$updatedByTeamsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdByPosition<T extends Prisma.User$createdByPositionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdByPositionArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   updatedByPosition<T extends Prisma.User$updatedByPositionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$updatedByPositionArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PositionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  createdByTaskTypes<T extends Prisma.User$createdByTaskTypesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdByTaskTypesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  updatedByTaskTypes<T extends Prisma.User$updatedByTaskTypesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$updatedByTaskTypesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdByProjects<T extends Prisma.User$createdByProjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdByProjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   updatedByProjects<T extends Prisma.User$updatedByProjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$updatedByProjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   projectMembers<T extends Prisma.User$projectMembersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$projectMembersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -6405,54 +5855,6 @@ export type User$updatedByPositionArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.PositionScalarFieldEnum | Prisma.PositionScalarFieldEnum[]
-}
-
-/**
- * User.createdByTaskTypes
- */
-export type User$createdByTaskTypesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TaskType
-   */
-  select?: Prisma.TaskTypeSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the TaskType
-   */
-  omit?: Prisma.TaskTypeOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TaskTypeInclude<ExtArgs> | null
-  where?: Prisma.TaskTypeWhereInput
-  orderBy?: Prisma.TaskTypeOrderByWithRelationInput | Prisma.TaskTypeOrderByWithRelationInput[]
-  cursor?: Prisma.TaskTypeWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TaskTypeScalarFieldEnum | Prisma.TaskTypeScalarFieldEnum[]
-}
-
-/**
- * User.updatedByTaskTypes
- */
-export type User$updatedByTaskTypesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TaskType
-   */
-  select?: Prisma.TaskTypeSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the TaskType
-   */
-  omit?: Prisma.TaskTypeOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TaskTypeInclude<ExtArgs> | null
-  where?: Prisma.TaskTypeWhereInput
-  orderBy?: Prisma.TaskTypeOrderByWithRelationInput | Prisma.TaskTypeOrderByWithRelationInput[]
-  cursor?: Prisma.TaskTypeWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.TaskTypeScalarFieldEnum | Prisma.TaskTypeScalarFieldEnum[]
 }
 
 /**
