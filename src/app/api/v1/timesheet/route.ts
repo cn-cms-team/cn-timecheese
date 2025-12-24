@@ -44,6 +44,17 @@ export async function GET(request: Request) {
           stamp_date: dateFilter,
         }),
       },
+      select: {
+        id: true,
+        project_id: true,
+        task_type_id: true,
+        stamp_date: true,
+        start_date: true,
+        end_date: true,
+        detail: true,
+        remark: true,
+        total_seconds: true,
+      },
       orderBy: { start_date: 'asc' },
     });
 
