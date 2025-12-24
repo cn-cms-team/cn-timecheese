@@ -1,15 +1,30 @@
 import z from 'zod';
 
-const baseSchema = {
-  name: z.string().nonempty('กรุณากรอกชื่อสิทธิ์การใช้งาน'),
-  description: z.string().nonempty('กรุณากรอกคำอธิบาย'),
-  permissions: z.array(z.string()).nonempty('กรุณาเลือกอย่างน้อยหนึ่งสิทธิ์การใช้งาน'),
-};
-
-const createRoleSchema = z.object({
-  ...baseSchema,
+const permissionSchema = z.object({
+  code: z.string(),
+  checked: z.array(z.string()),
 });
 
-type CreateRoleSchema = z.infer<typeof createRoleSchema>;
+const schema = z.object({
+  name: z.string().nonempty('กรุณากรอกชื่อสิทธิ์การใช้งาน'),
+  description: z.string().nonempty('กรุณากรอกคำอธิบายสิทธิ์การใช้งาน'),
+  permissions: z
+    .array(permissionSchema)
+    .optional()
+    .default([])
+    .refine((permissions) => permissions.some((p) => p.checked.length > 0), {
+      message: 'กรุณาเลือกอย่างน้อยหนึ่งสิทธิ์',
+    }),
+});
 
-export { createRoleSchema, type CreateRoleSchema as CreateRoleSchemaType };
+// const createRoleSchema = z.object({
+//   ...baseSchema,
+// });
+
+// const editRoleSchema = z.object({
+//   ...baseSchema,
+// });
+
+type Schema = z.infer<typeof schema>;
+
+export { schema as createEditRoleSchema, type Schema as CreateEditRoleSchemaType };

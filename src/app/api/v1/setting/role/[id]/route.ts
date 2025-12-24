@@ -50,7 +50,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const { id } = await params;
   try {
     const rolePermission = await getRolePermissions();
-    // new role
     if (id === 'new') {
       return Response.json({
         data: { permissions: rolePermission },
@@ -58,7 +57,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       });
     }
 
-    // existing role
     const [checkedPermissions, role] = await Promise.all([
       prisma.rolePermission.findMany({
         where: { role_id: id },
@@ -85,6 +83,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
           (b) => b.module_code === rolePermission.code && b.pms_code === pms_code
         )
       ),
+      children: rolePermission.children.map((child) => ({
+        ...child,
+        checked: child.modulePermission.filter((pms_code) =>
+          checkedPermissions.some((b) => b.module_code === child.code && b.pms_code === pms_code)
+        ),
+      })),
     }));
     const result = {
       ...role,
@@ -95,6 +99,42 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params;
+
+    if (!id) {
+      return Response.json({ error: 'Role ID is required' }, { status: 400 });
+    }
+
+    await prisma.$transaction([
+      prisma.rolePermission.deleteMany({
+        where: { role_id: id },
+      }),
+      prisma.role.delete({
+        where: { id },
+      }),
+    ]);
+
+    return Response.json(
+      {
+        message: 'Delete successfully',
+        data: { id },
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('DELETE ROLE ERROR:', error);
+
+    return Response.json(
+      {
+        error: error instanceof Error ? error.message : 'An unknown error occurred',
+      },
       { status: 500 }
     );
   }

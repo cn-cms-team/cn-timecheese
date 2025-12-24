@@ -6,6 +6,7 @@ import {
   ButtonEdit,
   SortColumn,
 } from '@/components/ui/custom/data-table';
+import LinkTable from '@/components/ui/custom/data-table/link';
 import { IRole } from '@/types/setting/role';
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -16,12 +17,7 @@ const updatedAtColumn = SortColumn<IRole>('updatedAt', 'วันที่แก
 const actionColumn = ActionColumn<IRole>('actions', 'จัดการ');
 
 type createColumnsProps = {
-  onOpenDialog: (
-    mode: 'edit' | 'delete',
-    isActive: boolean,
-    id: string,
-    data: { code: string }
-  ) => void;
+  onOpenDialog: (mode: 'edit' | 'delete', id: string, data: { name: string }) => void;
 };
 export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<IRole>[] => {
   const baseColumns: ColumnDef<IRole>[] = [
@@ -29,8 +25,9 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
       ...nameColumn,
       size: 100,
       cell: ({ row }) => {
-        const { name } = row.original;
-        return <div>{name || '-'}</div>;
+        const { name, id } = row.original;
+        const viewLink = `/setting/role/${id}`;
+        return <LinkTable path={viewLink}>{name || '-'}</LinkTable>;
       },
     },
     {
@@ -61,14 +58,17 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
       ...actionColumn,
       size: 200,
       cell: ({ row }) => {
-        const { id, code, isActive } = row.original;
+        const { id, name } = row.original;
         return (
           <div className="flex justify-center space-x-1">
-            <ButtonEdit onClick={() => onOpenDialog('edit', isActive, id, { code })} />
+            <ButtonEdit onClick={() => onOpenDialog('edit', id, { name })} />
             <ButtonDelete
-              onOpenDialog={() => onOpenDialog('delete', isActive, id, { code })}
+              onOpenDialog={(id, data) => {
+                console.log('DELETE CLICKED', { id, data });
+                onOpenDialog('delete', id, data);
+              }}
               id={id}
-              data={{ code }}
+              data={{ name }}
             />
           </div>
         );

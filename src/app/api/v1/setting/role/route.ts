@@ -1,3 +1,4 @@
+import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 
 export async function GET() {
@@ -30,6 +31,65 @@ export async function GET() {
       };
     });
     return Response.json({ data: roleMaps, status: 200 });
+  } catch (error) {
+    return Response.json(
+      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const session = await auth();
+    const body = await request.json();
+    const { name, description, created_by, permissions = [] } = body.data ?? {};
+
+    if (!session?.user?.id) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const result = await prisma.role.create({
+      data: {
+        name,
+        description,
+        created_by: session?.user?.id,
+        created_at: new Date(),
+      },
+    });
+
+    if (!result) {
+      return Response.json({ error: 'Failed to create role' }, { status: 500 });
+    }
+
+    const rolePermissions = permissions.flatMap(
+      (permission: { code: string; checked?: string[] }) =>
+        (permission.checked ?? []).map((pmsCode) => ({
+          role_id: result.id,
+          module_code: permission.code,
+          pms_code: pmsCode,
+        }))
+    );
+
+    if (rolePermissions.length === 0) {
+      return Response.json({ error: 'No permissions provided' }, { status: 404 });
+    }
+
+    const rolePermissionRes = await prisma.rolePermission.createMany({
+      data: rolePermissions,
+    });
+
+    if (!rolePermissionRes) {
+      return Response.json({ error: 'Failed to assign permissions' }, { status: 500 });
+    }
+
+    return Response.json(
+      {
+        message: 'Create successfully',
+        data: { id: result.id },
+      },
+      { status: 200 }
+    );
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
