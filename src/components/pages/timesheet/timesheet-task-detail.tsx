@@ -13,30 +13,30 @@ interface IProps {
 
 const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
   return (
-    <div className="grid grid-cols-1">
-      <header className="flex items-center justify-between w-full">
+    <div className="grid grid-cols-1 p-4 max-w-[320px]">
+      <header className="flex items-center justify-between w-full gap-2">
         <div className="truncate">
-          <h3 className="font-bold text-lg">{data.project_name}</h3>
+          <h3 className="font-bold">{data.project_name}</h3>
         </div>
-        <div className="flex items-center">
-          <Button
-            className="bg-transparent border-transparent hover:bg-transparent cursor-pointer p-0  focus:border-none"
+        <div className="flex items-center gap-2">
+          <button
+            className="bg-transparent border-transparent hover:bg-transparent cursor-pointer pe-0 focus:border-none"
             onClick={() => setIsPopoverEdit(true)}
           >
-            <SquarePen stroke="#000" strokeWidth={2} />
-          </Button>
-          <Button
+            <SquarePen stroke="#000" strokeWidth={2} width={16} />
+          </button>
+          <button
             className="bg-transparent border-transparent hover:bg-transparent cursor-pointer p-0 focus:border-none"
             onClick={() => {
               close();
               setIsPopoverEdit(false);
             }}
           >
-            <X stroke="#000" strokeWidth={2} />
-          </Button>
+            <X stroke="#000" strokeWidth={2} width={16} />
+          </button>
         </div>
       </header>
-      <main className="space-y-1">
+      <main className="grid grid-cols-1">
         <p>{data.task_type_name}</p>
         <div className="text-sm">
           <span>{buddhistFormatDate(data.start_date, 'HH:ii น.')}</span>
@@ -45,11 +45,13 @@ const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
         </div>
         <div className="text-sm">
           <span className="font-semibold">รายละเอียดการทำงาน</span>
-          <p className="text-sm text-black whitespace-pre-wrap">{data.detail || '-'}</p>
+          <p className="text-sm text-neutral-800 whitespace-pre-wrap text-wrap w-full">
+            {data.detail || '-'}
+          </p>
         </div>
         <div className="text-sm">
-          <span className="font-semibold">หมายเหตุ</span>
-          <p className="text-sm text-black whitespace-pre-wrap">{data.remark || '-'}</p>
+          <span className="font-semibold ">หมายเหตุ</span>
+          <p className="text-sm text-neutral-800 whitespace-pre-wrap ps-2">{data.remark || '-'}</p>
         </div>
       </main>
     </div>
