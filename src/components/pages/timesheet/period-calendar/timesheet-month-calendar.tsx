@@ -37,20 +37,24 @@ const TimeSheetMonthCalendar = () => {
         {['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'].map((d) => (
           <div
             key={d}
-            className="py-2 text-center font-bold text-neutral-800 uppercase bg-[#F5F6F8] border-b border-neutral-400"
+            className="py-2 text-center font-bold text-neutral-800 uppercase bg-[#F5F6F8] border-neutral-400"
           >
             {d}
           </div>
         ))}
         {totalSlots.map((day, index) => {
+          const dayTasks = tasks.filter((task) => !checkIsNotToday(new Date(task.start_date), day));
+
+          const visibleTasks = dayTasks.slice(0, 3);
+          const hiddenTasks = dayTasks.slice(3);
           return (
-            <div key={index} className="relative min-h-[120px] ">
+            <div key={index} className="relative min-h-[140px] max-h-[140px] overflow-hidden ">
               <TimeSheetPopover
                 className="w-full p-0"
                 align="center"
                 triggerContent={
                   <div
-                    className="z-10 hover:bg-neutral-200 border-neutral-400 border-b border-r  cursor-pointer p-2  transition-colors relative group min-h-36 space-y-1"
+                    className="z-10 hover:bg-neutral-200 border-neutral-400 border-t border-r  cursor-pointer p-2  transition-colors relative group min-h-36 space-y-1"
                     onClick={() => {
                       setSelectedCalendar(new Date(year, month, day));
                     }}
@@ -65,36 +69,73 @@ const TimeSheetMonthCalendar = () => {
                     >
                       {day}
                     </div>
-                    {tasks.map((task) => {
-                      if (checkIsNotToday(new Date(task.start_date), day)) return;
-
-                      return (
-                        <TimeSheetPopover
-                          key={task.id}
-                          className={cn('w-full', isEdit ? 'p-0' : '')}
-                          setIsEdit={setIsEdit}
-                          triggerContent={
-                            <div
-                              className="bg-primary font-semibold text-[9px] p-1 rounded truncate cursor-pointer"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              {task.project_name}
-                            </div>
-                          }
-                          popoverContent={(close) =>
-                            isEdit ? (
-                              <TimeSheetForm data={task} close={close} />
-                            ) : (
-                              <TimeSheetdataDetail
-                                data={task}
-                                setIsPopoverEdit={setIsEdit}
-                                close={close}
+                    {visibleTasks.map((task) => (
+                      <TimeSheetPopover
+                        key={task.id}
+                        className="w-full p-0"
+                        setIsEdit={setIsEdit}
+                        triggerContent={
+                          <div
+                            className="bg-primary font-semibold text-[10px] p-1 rounded truncate cursor-pointer"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {task.task_type_name}
+                          </div>
+                        }
+                        popoverContent={(close) =>
+                          isEdit ? (
+                            <TimeSheetForm data={task} close={close} />
+                          ) : (
+                            <TimeSheetdataDetail
+                              data={task}
+                              setIsPopoverEdit={setIsEdit}
+                              close={close}
+                            />
+                          )
+                        }
+                      />
+                    ))}
+                    {hiddenTasks.length > 0 && (
+                      <TimeSheetPopover
+                        className="w-full p-0"
+                        align="center"
+                        triggerContent={
+                          <div
+                            className="text-[10px] text-center text-black font-semibold cursor-pointer underline"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            + อีก {hiddenTasks.length} งาน
+                          </div>
+                        }
+                        popoverContent={() => (
+                          <div className="max-h-[300px] w-[260px] overflow-y-auto space-y-1 p-2">
+                            {hiddenTasks.map((task) => (
+                              <TimeSheetPopover
+                                key={task.id}
+                                className="w-full p-0"
+                                setIsEdit={setIsEdit}
+                                triggerContent={
+                                  <div className="bg-primary font-semibold text-[10px] p-1 rounded cursor-pointer truncate">
+                                    {task.task_type_name}
+                                  </div>
+                                }
+                                popoverContent={(close) =>
+                                  isEdit ? (
+                                    <TimeSheetForm data={task} close={close} />
+                                  ) : (
+                                    <TimeSheetdataDetail
+                                      data={task}
+                                      setIsPopoverEdit={setIsEdit}
+                                      close={close}
+                                    />
+                                  )
+                                }
                               />
-                            )
-                          }
-                        />
-                      );
-                    })}
+                            ))}
+                          </div>
+                        )}
+                      />
+                    )}
                   </div>
                 }
                 popoverContent={(close) => (
