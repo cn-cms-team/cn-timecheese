@@ -5,8 +5,6 @@ import { Calendar, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { fetcher } from '@/lib/fetcher';
-import { IOptions } from '@/types/dropdown';
 import { buddhistFormatDate } from '@/lib/functions/date-format';
 import { ITimeSheetRequest, ITimeSheetResponse } from '@/types/timesheet';
 
@@ -31,7 +29,7 @@ const TimeSheetForm = ({
   endTime = undefined,
   close = () => {},
 }: IProps) => {
-  const { projectOptions, taskTypeOptions } = useTimeSheetContext();
+  const { projectOptions, taskTypeOptions, getTask } = useTimeSheetContext();
 
   const selectedDate = startTime
     ? startTime
@@ -51,6 +49,7 @@ const TimeSheetForm = ({
     defaultValues: {
       id: data ? data.id : undefined,
       task_type_id: data ? data.task_type_id : undefined,
+      project_id: data ? data.project_id : undefined,
       stamp_date: data && data?.stamp_date ? new Date(data?.stamp_date) : new Date(),
       start_date: data && data.start_date ? new Date(data.start_date) : startTime,
       end_date: data && data.end_date ? new Date(data.end_date) : endTime,
@@ -86,7 +85,8 @@ const TimeSheetForm = ({
       if (response.ok) {
         const result = await response.json();
         toast(result.message);
-        close()
+        await getTask();
+        close();
       }
     } catch (error) {
       console.error('Error fetching options: ', error);
@@ -100,7 +100,7 @@ const TimeSheetForm = ({
           <form
             id="timesheet-create-form"
             onSubmit={form.handleSubmit(onSubmit)}
-            className="grid grid-cols-1 space-y-4 w-full"
+            className="grid grid-cols-1 space-y-4 max-w-80"
           >
             <div className="flex items-center">
               <FormField
