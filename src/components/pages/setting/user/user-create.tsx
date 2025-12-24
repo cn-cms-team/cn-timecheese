@@ -29,13 +29,14 @@ import { DatePickerInput } from '@/components/ui/custom/input/date-picker';
 import { useSession } from 'next-auth/react';
 import { Required } from '@/components/ui/custom/form';
 import { MAX_LENGTH_100, MAX_LENGTH_255, MAX_LENGTH_50 } from '@/lib/constants/validation';
+import { toast } from 'sonner';
 
 const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
   const { data: session } = useSession();
   const router = useRouter();
 
   const [teamOptions, setTeamOptions] = useState<IOptions[]>([]);
-  const [positionLevelOptions, setPostitionLevelOptions] = useState<IOptions[]>([]);
+  const [positionLevelOptions, setPositionLevelOptions] = useState<IOptions[]>([]);
   const [roleOptions, setRoleOptions] = useState<IOptions[]>([]);
 
   const schema = id ? editUserSchema : createUserSchema;
@@ -52,6 +53,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       team_id: '',
       position_level_id: '',
       role_id: '',
+      salary_range: '',
       is_active: true,
     },
   });
@@ -67,7 +69,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
           fetcher<IOptions[]>(`${prefix}/api/v1/master/role`),
         ]);
         setTeamOptions(team);
-        setPostitionLevelOptions(positionLevel);
+        setPositionLevelOptions(positionLevel);
         setRoleOptions(role);
       } catch (error) {
         console.error('Error fetching options:', error);
@@ -113,8 +115,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
         start_date: values.start_date,
         end_date: values.end_date,
         is_active: values.is_active,
+        salary_range: values.salary_range,
         code: values.code,
         created_by: session?.user?.id,
+        updated_by: id ? session?.user?.id : '',
       };
       const response = await fetch(fetchUrl, {
         method: 'POST',
@@ -125,10 +129,12 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       });
       if (response.ok) {
         const result = await response.json();
+
+        toast(result.message);
         router.push('/setting/user');
       }
     } catch {
-      console.error('An unexpected error occurred. Please try again.');
+      toast('An unexpected error occurred. Please try again.');
     } finally {
       console.log('Finally block executed');
     }
@@ -431,6 +437,29 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
             />
           </div>
           <div className="flex flex-wrap items-baseline">
+            <FormField
+              control={form.control}
+              name="salary_range"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-1/2">
+                  <FormLabel>
+                    ช่วงเงินเดือนโดยประมาณ
+                    <Required />
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="กรุณากรอกช่วงเงินเดือนโดยประมาณ"
+                      {...field}
+                      maxLength={MAX_LENGTH_100}
+                      onInput={(e) => {
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="is_active"
