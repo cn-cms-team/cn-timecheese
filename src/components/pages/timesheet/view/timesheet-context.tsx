@@ -2,7 +2,7 @@
 import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
 import { fetcher } from '@/lib/fetcher';
 import { IOptions } from '@/types/dropdown';
-import { ITimeSheetResponse, IUserResponse } from '@/types/timesheet';
+import { ITimeSheetResponse, ITimeSheetUserInfoResponse, IUserResponse } from '@/types/timesheet';
 import {
   createContext,
   Dispatch,
@@ -23,7 +23,7 @@ interface ITimeSheetContextType {
   selectedYear: number;
   projectOptions: IOptions[];
   taskTypeOptions: IOptions[];
-  userInfo: IUserResponse | null;
+  userInfo: ITimeSheetUserInfoResponse | null;
   setLoading: (isLoading: boolean) => void;
   setPeriod: (value: PERIODCALENDAR) => void;
   setSelectedCalendar: Dispatch<SetStateAction<Date>>;
@@ -34,6 +34,7 @@ interface ITimeSheetContextType {
   setTasks: Dispatch<SetStateAction<ITimeSheetResponse[]>>;
   fetchOptions: () => void;
   buildTimesheetQuery: () => string;
+  getUserInfo: () => Promise<void>;
   getTask: () => Promise<void>;
   deleteTask: (taskId: string) => Promise<void>;
 }
@@ -55,7 +56,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   const [selectedYear, setSelectedYear] = useState<number>(selectedCalendar.getFullYear());
   const [projectOptions, setProjectOptions] = useState<IOptions[]>([]);
   const [taskTypeOptions, setTaskTypeOptions] = useState<IOptions[]>([]);
-  const [userInfo, setUserInfo] = useState<IUserResponse | null>(null);
+  const [userInfo, setUserInfo] = useState<ITimeSheetUserInfoResponse | null>(null);
 
   const resetSelectCaledar = () => {
     setSelectedCalendar(now);
@@ -92,6 +93,20 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
     return params.toString();
   };
 
+  const getUserInfo = async () => {
+    const prefix = process.env.NEXT_PUBLIC_APP_URL;
+
+    const res = await fetch(`${prefix}/api/v1/timesheet/user-info`);
+    const json = await res.json();
+    const data = json.data as ITimeSheetUserInfoResponse;
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch user info');
+    }
+
+    setUserInfo(data);
+  };
+
   const getTask = async () => {
     const prefix = process.env.NEXT_PUBLIC_APP_URL;
     const query = buildTimesheetQuery();
@@ -105,9 +120,6 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
     }
 
     setTasks(data);
-    if (!userInfo) {
-      setUserInfo(json.user as IUserResponse);
-    }
   };
 
   const deleteTask = async (taskId: string) => {
@@ -153,6 +165,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         buildTimesheetQuery,
         getTask,
         deleteTask,
+        getUserInfo,
       }}
     >
       {children}
