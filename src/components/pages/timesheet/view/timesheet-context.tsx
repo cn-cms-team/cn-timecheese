@@ -17,12 +17,15 @@ interface ITimeSheetContextType {
   taskTypeOptions: IOptions[];
   setLoading: (isLoading: boolean) => void;
   setPeriod: (value: PERIODCALENDAR) => void;
-  setSelectedCalendar: Dispatch<SetStateAction<Date | null>>;
+  setSelectedCalendar: Dispatch<SetStateAction<Date>>;
   setIsPopoverEdit: Dispatch<SetStateAction<boolean>>;
   resetSelectCaledar: () => void;
   setSelectedMonth: Dispatch<SetStateAction<Date>>;
   setSelectedYear: Dispatch<SetStateAction<number>>;
+  setTasks: Dispatch<SetStateAction<ITimeSheetResponse[]>>;
   fetchOptions: () => void;
+  buildTimesheetQuery: () => string;
+  getTask: () => Promise<void>;
 }
 
 interface ITimeSheetProviderProps {
@@ -32,44 +35,19 @@ interface ITimeSheetProviderProps {
 const TimeSheetContext = createContext<ITimeSheetContextType | undefined>(undefined);
 
 const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
-  const mockTimeSheetResponse: ITimeSheetResponse[] = [
-    {
-      id: 'ts_001',
-      project_id: 'proj_01',
-      project_name: 'Internal System Upgrade',
-      task_type_id: 'task_01',
-      task_type_name: 'Development',
-      start_date: '2025-12-22T09:30:00.000Z',
-      end_date: '2025-12-22T11:30:00.000Z',
-      detail: 'Implement authentication flow and API integration',
-      remark: 'Worked on login and session handling',
-      created_at: '2025-12-21T11:35:00.000Z',
-    },
-    {
-      id: 'ts_002',
-      project_id: 'proj_02',
-      project_name: 'Client Website Revamp',
-      task_type_id: 'task_02',
-      task_type_name: 'UI/UX Design',
-      start_date: '2025-12-22T13:00:00.000Z',
-      end_date: '2025-12-22T15:45:00.000Z',
-      detail: 'Redesign landing page layout and responsive components',
-      remark: 'Mobile-first approach applied',
-      created_at: '2025-12-21T15:50:00.000Z',
-    },
-  ];
+  const now = new Date();
   const [loading, setLoading] = useState(false);
   const [period, setPeriod] = useState(PERIODCALENDAR.WEEK);
-  const [selectedCalendar, setSelectedCalendar] = useState<Date | null>(null);
-  const [tasks, setTasks] = useState<ITimeSheetResponse[]>(mockTimeSheetResponse);
+  const [selectedCalendar, setSelectedCalendar] = useState<Date>(now);
+  const [tasks, setTasks] = useState<ITimeSheetResponse[]>([]);
   const [isPopoverEdit, setIsPopoverEdit] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState(new Date());
-  const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(now);
+  const [selectedYear, setSelectedYear] = useState<number>(now.getFullYear());
   const [projectOptions, setProjectOptions] = useState<IOptions[]>([]);
   const [taskTypeOptions, setTaskTypeOptions] = useState<IOptions[]>([]);
 
   const resetSelectCaledar = () => {
-    setSelectedCalendar(null);
+    setSelectedCalendar(now);
   };
 
   const fetchOptions = async () => {
@@ -84,6 +62,39 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
     } catch (error) {
       console.error('Error fetching options:', error);
     }
+  };
+
+  const buildTimesheetQuery = () => {
+    setSelectedCalendar(now);
+    const params = new URLSearchParams();
+
+    params.set('period', period);
+
+    if (period === PERIODCALENDAR.WEEK && selectedCalendar) {
+      params.set('date', selectedCalendar.toISOString());
+    }
+
+    if (period === PERIODCALENDAR.MONTH) {
+      params.set('year', String(selectedYear));
+      params.set('month', String(selectedMonth.getMonth()));
+    }
+
+    return params.toString();
+  };
+
+  const getTask = async () => {
+    const prefix = process.env.NEXT_PUBLIC_APP_URL;
+    const query = buildTimesheetQuery();
+
+    const res = await fetch(`${prefix}/api/v1/timesheet?${query}`);
+    const json = await res.json();
+    const data = json.data as ITimeSheetResponse[];
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch tasks data');
+    }
+
+    setTasks(data);
   };
 
   return (
@@ -102,10 +113,13 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         setLoading,
         setPeriod,
         setSelectedCalendar,
+        setTasks,
         resetSelectCaledar,
         setSelectedMonth,
         setSelectedYear,
         fetchOptions,
+        buildTimesheetQuery,
+        getTask,
       }}
     >
       {children}
