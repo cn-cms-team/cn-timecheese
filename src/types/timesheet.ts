@@ -30,3 +30,10 @@ export interface IUserResponse {
   team: string;
   start_date: string;
 }
+
+export interface ITimeSheetUserInfoResponse {
+  user: IUserResponse;
+  total_tracked_hr: number;
+  total_trakced_overtimes: number;
+  total_projects: number;
+}
