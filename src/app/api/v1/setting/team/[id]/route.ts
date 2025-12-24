@@ -26,15 +26,34 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
           select: {
             id: true,
             user_id: true,
-            team_id: true,
           },
         },
       },
     });
-    const userData = {
-      ...team,
-    };
-    return Response.json({ data: userData, status: 200 });
+
+    if (team) {
+      const leaderIds = (team.teamLeaders ?? []).map((tl) => tl.user_id).filter(Boolean);
+
+      const usersUi = (team.users ?? []).map((u) => ({
+        id: u.id,
+        name: `${u.first_name ?? ''} ${u.last_name ?? ''}`.trim(),
+        isManager: leaderIds.includes(u.id),
+      }));
+
+      usersUi.sort((a, b) => (b.isManager === true ? 1 : 0) - (a.isManager === true ? 1 : 0));
+
+      const payload = {
+        id: team.id,
+        name: team.name,
+        description: team.description,
+        isActive: team.is_active,
+        users: usersUi,
+        teamLeaders: team.teamLeaders,
+      };
+
+      return Response.json({ data: payload, status: 200 });
+    }
+    return Response.json({ data: null, status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
@@ -47,11 +66,8 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const result = await prisma.team.update({
-      where: { id: body.data.id },
-      data: {
-        ...body.data,
-        updated_at: new Date(),
-      },
+      where: { id: body.id },
+      data: body,
     });
     return Response.json(
       {
@@ -71,21 +87,29 @@ export async function POST(request: NextRequest) {
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-
     if (!id) {
       return Response.json({ error: 'team ID is required' }, { status: 400 });
     }
-    const result = await prisma.team.delete({
+    const existingCount = await prisma.teamLeader.count({ where: { team_id: id } });
+    let leaderDeletedCount = 0;
+    if (existingCount > 0) {
+      const leader = await prisma.teamLeader.deleteMany({ where: { team_id: id } });
+      leaderDeletedCount = leader.count;
+    }
+
+    const result = await prisma.team.update({
       where: { id },
-    });
-    await prisma.teamLeader.deleteMany({
-      where: { team_id: id },
+      data: {
+        is_enabled: false,
+        updated_at: new Date(),
+      },
     });
 
     return Response.json(
       {
         message: `Delete successfully `,
         data: { id: result.id },
+        leaderDeletedCount,
       },
       { status: 200 }
     );

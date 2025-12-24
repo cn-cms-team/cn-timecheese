@@ -43,8 +43,7 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
     {
       ...actionColumn,
       cell: ({ row }) => {
-        const { id, name } = row.original;
-        const isActive = true;
+        const { id, name, isActive } = row.original;
         return (
           <div className="flex justify-center space-x-1">
             <ButtonEdit onClick={() => onOpenDialog('edit', isActive, id, { name })} />

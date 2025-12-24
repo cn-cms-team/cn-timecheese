@@ -8,6 +8,7 @@ import { UserPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { TeamList } from '../team-list';
+import { toast } from 'sonner';
 
 const TeamButton = (): React.ReactNode => {
   const router = useRouter();
@@ -27,7 +28,7 @@ const TeamButton = (): React.ReactNode => {
 const TeamListView = () => {
   const router = useRouter();
   const fetchTeamUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/team`;
-  const [teamList, setteamList] = useState<ITeam[]>([]);
+  const [teamList, setTeamList] = useState<ITeam[]>([]);
   const getTeams = async () => {
     const response = await fetch(fetchTeamUrl);
     const result = await response.json();
@@ -47,15 +48,24 @@ const TeamListView = () => {
 
   useEffect(() => {
     getTeams().then((data) => {
-      setteamList(data);
+      setTeamList(data);
     });
   }, []);
 
-  const deleteUser = async (id: string) => {
+  const deleteTeam = async (id: string) => {
     const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/team/${id}`;
-    await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
-      router.push('/setting/team');
-    });
+    try {
+      const response = await fetch(fetchUrl, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        const result = await response.json();
+        toast(result.message);
+        router.push('/setting/team');
+      }
+    } catch {
+      toast('An unexpected error occurred. Please try again.');
+    }
   };
   const handleOpenDialog = async (
     mode: 'edit' | 'delete',
@@ -85,9 +95,9 @@ const TeamListView = () => {
         const result = await getConfirmation();
         if (!id) return;
         if (result) {
-          await deleteUser(id).then(async () => {
+          await deleteTeam(id).then(async () => {
             await getTeams().then((data) => {
-              setteamList(data);
+              setTeamList(data);
             });
           });
         }
