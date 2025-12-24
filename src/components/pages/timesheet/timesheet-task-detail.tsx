@@ -45,13 +45,13 @@ const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
         </div>
         <div className="text-sm">
           <span className="font-semibold">รายละเอียดการทำงาน</span>
-          <p className="text-sm text-neutral-800 whitespace-pre-wrap text-wrap w-full">
+          <p className="text-sm text-neutral-800 whitespace-pre-wrap text-wrap w-full ps-1">
             {data.detail || '-'}
           </p>
         </div>
         <div className="text-sm">
           <span className="font-semibold ">หมายเหตุ</span>
-          <p className="text-sm text-neutral-800 whitespace-pre-wrap ps-2">{data.remark || '-'}</p>
+          <p className="text-sm text-neutral-800 whitespace-pre-wrap ps-1">{data.remark || '-'}</p>
         </div>
       </main>
     </div>
