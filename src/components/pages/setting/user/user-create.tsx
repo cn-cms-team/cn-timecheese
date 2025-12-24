@@ -29,6 +29,7 @@ import { DatePickerInput } from '@/components/ui/custom/input/date-picker';
 import { useSession } from 'next-auth/react';
 import { Required } from '@/components/ui/custom/form';
 import { MAX_LENGTH_100, MAX_LENGTH_255, MAX_LENGTH_50 } from '@/lib/constants/validation';
+import { toast } from 'sonner';
 
 const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
   const { data: session } = useSession();
@@ -128,10 +129,12 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       });
       if (response.ok) {
         const result = await response.json();
+
+        toast(result.message);
         router.push('/setting/user');
       }
     } catch {
-      console.error('An unexpected error occurred. Please try again.');
+      toast('An unexpected error occurred. Please try again.');
     } finally {
       console.log('Finally block executed');
     }
