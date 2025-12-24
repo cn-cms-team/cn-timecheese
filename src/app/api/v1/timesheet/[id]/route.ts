@@ -15,6 +15,10 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     return Response.json({ error: 'Task ID is required' }, { status: 400 });
   }
 
+  const start = new Date(body.data.start_date);
+  const end = new Date(body.data.end_date);
+  const total_seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
+
   try {
     const result = await prisma.timeSheet.update({
       where: { id: id as string },
@@ -25,7 +29,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         end_date: data.end_date,
         detail: data.detail as string,
         remark: data.remark as string | null,
-        total_seconds: data.total_seconds as number,
+        total_seconds: total_seconds,
       },
     });
 
