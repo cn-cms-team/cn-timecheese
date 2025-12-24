@@ -16,22 +16,22 @@ const TimeSheetUserInfo = () => {
         </div>
         <div className="flex flex-col w-full ps-4">
           <div className="text-xl text-center lg:text-start mb-4">
-            {userInfo?.full_name || '-'} ({userInfo?.nick_name || '-'})
+            {userInfo?.user?.full_name || '-'} ({userInfo?.user?.nick_name || '-'})
           </div>
           <div className="flex gap-4 items-center justify-center lg:justify-start ">
             <div className="flex flex-col ">
               <span className="text-sm text-gray-400">ทีม</span>
-              <span className="text-base">{userInfo?.team || '-'}</span>
+              <span className="text-base">{userInfo?.user?.team || '-'}</span>
             </div>
             <div className="flex flex-col ">
               <span className="text-sm text-gray-400">ตำแหน่ง</span>
-              <span className="text-sm">{userInfo?.position_level}</span>
+              <span className="text-sm">{userInfo?.user?.position_level}</span>
             </div>
 
             <div className="flex flex-col ">
               <span className="text-sm text-gray-400">วันที่เริ่มงาน</span>
               <span className="text-sm">
-                {buddhistFormatDate(userInfo?.start_date, 'dd mmmm yyyy')}
+                {buddhistFormatDate(userInfo?.user?.start_date, 'dd mmmm yyyy')}
               </span>
             </div>
           </div>
