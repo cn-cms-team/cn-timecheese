@@ -1760,6 +1760,7 @@ export const TimeSheetScalarFieldEnum = {
   stamp_date: 'stamp_date',
   start_date: 'start_date',
   end_date: 'end_date',
+  exclude_seconds: 'exclude_seconds',
   total_seconds: 'total_seconds',
   detail: 'detail',
   remark: 'remark',
