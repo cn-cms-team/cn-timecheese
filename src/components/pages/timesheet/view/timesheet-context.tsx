@@ -2,7 +2,7 @@
 import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
 import { fetcher } from '@/lib/fetcher';
 import { IOptions } from '@/types/dropdown';
-import { ITimeSheetResponse, ITimeSheetUserInfoResponse, IUserResponse } from '@/types/timesheet';
+import { ITimeSheetResponse, ITimeSheetUserInfoResponse } from '@/types/timesheet';
 import {
   createContext,
   Dispatch,
