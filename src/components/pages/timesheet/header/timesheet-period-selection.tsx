@@ -18,12 +18,13 @@ const TimeSheetPeriodSelection = () => {
   const searchParams = useSearchParams();
   const periodParam = searchParams.get('period');
 
-  const { period, setPeriod, resetSelectCaledar } = useTimeSheetContext();
+  const { period, setPeriod, resetSelectCaledar, getTask } = useTimeSheetContext();
 
   const onSelectPeriod = (period: PERIODCALENDAR) => {
     setPeriod(period);
     resetSelectCaledar();
     router.replace(`/timesheet?period=${period}`);
+    getTask();
   };
 
   useEffect(() => {
