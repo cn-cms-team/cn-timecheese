@@ -5,12 +5,11 @@ import { endOfMonth, endOfWeek, startOfMonth, startOfWeek } from 'date-fns';
 
 export async function GET(request: Request) {
   const session = await auth();
-  if (!session || !session.user?.id) {
+  if (!session?.user?.id) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const searchParams = new URL(request.url).searchParams;
-
   const period = searchParams.get('period');
   const date = searchParams.get('date');
   const year = Number(searchParams.get('year'));
@@ -20,16 +19,14 @@ export async function GET(request: Request) {
 
   if (period === PERIODCALENDAR.WEEK && date) {
     const baseDate = new Date(date);
-
     dateFilter = {
       gte: startOfWeek(baseDate, { weekStartsOn: 0 }),
       lte: endOfWeek(baseDate, { weekStartsOn: 0 }),
     };
   }
 
-  if (period === PERIODCALENDAR.MONTH && year && month) {
+  if (period === PERIODCALENDAR.MONTH && year && month >= 0) {
     const baseDate = new Date(year, month, 1);
-
     dateFilter = {
       gte: startOfMonth(baseDate),
       lte: endOfMonth(baseDate),
@@ -37,74 +34,74 @@ export async function GET(request: Request) {
   }
 
   try {
-    const timeSheets = await prisma.timeSheet.findMany({
-      where: {
-        user_id: session.user?.id,
-        ...(dateFilter.gte && {
-          stamp_date: dateFilter,
-        }),
-      },
-      select: {
-        id: true,
-        project_id: true,
-        task_type_id: true,
-        stamp_date: true,
-        start_date: true,
-        end_date: true,
-        detail: true,
-        remark: true,
-        total_seconds: true,
-      },
-      orderBy: { start_date: 'asc' },
-    });
+    const [timeSheets, userData] = await Promise.all([
+      prisma.timeSheet.findMany({
+        where: {
+          user_id: session.user.id,
+          ...(dateFilter.gte && { stamp_date: dateFilter }),
+        },
+        orderBy: { start_date: 'asc' },
+        select: {
+          id: true,
+          project_id: true,
+          task_type_id: true,
+          stamp_date: true,
+          start_date: true,
+          end_date: true,
+          detail: true,
+          remark: true,
+          total_seconds: true,
 
-    const projectIds = [...new Set(timeSheets.map((t) => t.project_id))];
-    const taskTypeIds = [...new Set(timeSheets.map((t) => t.task_type_id))];
+          project: {
+            select: { name: true },
+          },
+          task_type: {
+            select: { name: true },
+          },
+        },
+      }),
 
-    const [projects, taskTypes, userData] = await Promise.all([
-      prisma.project.findMany({
-        where: { id: { in: projectIds } },
-        select: { id: true, name: true },
-      }),
-      prisma.taskType.findMany({
-        where: { id: { in: taskTypeIds } },
-        select: { id: true, name: true },
-      }),
       prisma.user.findUnique({
-        where: { id: session.user?.id },
+        where: { id: session.user.id },
         select: {
           first_name: true,
           last_name: true,
           nick_name: true,
-          position_level: {
-            select: { name: true },
-          },
-          team: {
-            select: { name: true },
-          },
           start_date: true,
+          position_level: { select: { name: true } },
+          team: { select: { name: true } },
         },
       }),
     ]);
 
-    const userInfo = {
-      full_name: [userData?.first_name ?? '', userData?.last_name ?? ''].join(' ').trim() ?? null,
-      nick_name: userData?.nick_name ?? null,
-      position_level: userData?.position_level?.name ?? null,
-      team: userData?.team?.name ?? null,
-      start_date: userData?.start_date ?? null,
-    };
-
     const result = timeSheets.map((ts) => ({
-      ...ts,
-      project_name: projects.find((p) => p.id === ts.project_id)?.name ?? null,
-      task_type_name: taskTypes.find((t) => t.id === ts.task_type_id)?.name ?? null,
+      id: ts.id,
+      project_id: ts.project_id,
+      task_type_id: ts.task_type_id,
+      stamp_date: ts.stamp_date,
+      start_date: ts.start_date,
+      end_date: ts.end_date,
+      detail: ts.detail,
+      remark: ts.remark,
+      total_seconds: ts.total_seconds,
+      project_name: ts.project?.name ?? null,
+      task_type_name: ts.task_type?.name ?? null,
     }));
+
+    const userInfo = userData
+      ? {
+          full_name: `${userData.first_name ?? ''} ${userData.last_name ?? ''}`.trim(),
+          nick_name: userData.nick_name ?? null,
+          position_level: userData.position_level?.name ?? null,
+          team: userData.team?.name ?? null,
+          start_date: userData.start_date ?? null,
+        }
+      : null;
 
     return Response.json({ data: result, user: userInfo }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { error: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
