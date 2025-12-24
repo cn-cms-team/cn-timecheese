@@ -34,45 +34,31 @@ export async function GET(request: Request) {
   }
 
   try {
-    const [timeSheets, userData] = await Promise.all([
-      prisma.timeSheet.findMany({
-        where: {
-          user_id: session.user.id,
-          ...(dateFilter.gte && { stamp_date: dateFilter }),
-        },
-        orderBy: { start_date: 'asc' },
-        select: {
-          id: true,
-          project_id: true,
-          task_type_id: true,
-          stamp_date: true,
-          start_date: true,
-          end_date: true,
-          detail: true,
-          remark: true,
-          total_seconds: true,
+    const timeSheets = await prisma.timeSheet.findMany({
+      where: {
+        user_id: session.user.id,
+        ...(dateFilter.gte && { stamp_date: dateFilter }),
+      },
+      orderBy: { start_date: 'asc' },
+      select: {
+        id: true,
+        project_id: true,
+        task_type_id: true,
+        stamp_date: true,
+        start_date: true,
+        end_date: true,
+        detail: true,
+        remark: true,
+        total_seconds: true,
 
-          project: {
-            select: { name: true },
-          },
-          task_type: {
-            select: { name: true },
-          },
+        project: {
+          select: { name: true },
         },
-      }),
-
-      prisma.user.findUnique({
-        where: { id: session.user.id },
-        select: {
-          first_name: true,
-          last_name: true,
-          nick_name: true,
-          start_date: true,
-          position_level: { select: { name: true } },
-          team: { select: { name: true } },
+        task_type: {
+          select: { name: true },
         },
-      }),
-    ]);
+      },
+    });
 
     const result = timeSheets.map((ts) => ({
       id: ts.id,
@@ -88,17 +74,7 @@ export async function GET(request: Request) {
       task_type_name: ts.task_type?.name ?? null,
     }));
 
-    const userInfo = userData
-      ? {
-          full_name: `${userData.first_name ?? ''} ${userData.last_name ?? ''}`.trim(),
-          nick_name: userData.nick_name ?? null,
-          position_level: userData.position_level?.name ?? null,
-          team: userData.team?.name ?? null,
-          start_date: userData.start_date ?? null,
-        }
-      : null;
-
-    return Response.json({ data: result, user: userInfo }, { status: 200 });
+    return Response.json({ data: result }, { status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'Unknown error' },
