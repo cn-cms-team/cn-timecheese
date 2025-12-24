@@ -25,11 +25,12 @@ const baseSchema = {
   end_date: z.date('กรุณากรอกวันที่สิ้นสุด'),
   status: z.string().nonempty('กรุณากรอกสถานะโครงการ'),
   description: z.string().nullable(),
-  value: z.number(),
+  value: z.number('กรุณากรอกมูลค่าโครงการ'),
   member: z.array(memberDetailSchema),
   main_task_type: z.array(taskTypeSchema),
   optional_task_type: z.array(taskTypeSchema),
 };
+
 const createProjectSchema = z.object({
   ...baseSchema,
 });

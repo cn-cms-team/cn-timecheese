@@ -28,18 +28,11 @@ import { IOptions } from '@/types/dropdown';
 import { DatePickerInput } from '@/components/ui/custom/input/date-picker';
 import { useSession } from 'next-auth/react';
 import Required from '@/components/ui/custom/form/required';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Trash2 } from 'lucide-react';
 import useDialogConfirm from '@/hooks/use-dialog-confirm';
-import { ProjectStatus } from '@generated/prisma/enums';
+import { projectStatusOptions } from '@/lib/constants/select-options';
+import ProjectMemberTable from './project-member-table';
+import ProjectTaskTable from './project-task-table';
 
 const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   const { data: session } = useSession();
@@ -63,7 +56,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   });
 
   useEffect(() => {
-    const fetchOptions = async () => {
+    const fetchTeamsOptions = async () => {
       try {
         const prefix = process.env.NEXT_PUBLIC_APP_URL;
         const [team] = await Promise.all([fetcher<IOptions[]>(`${prefix}/api/v1/master/team`)]);
@@ -72,7 +65,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         console.error('Error fetching options:', error);
       }
     };
-    fetchOptions();
+
+    fetchTeamsOptions();
   }, []);
 
   useEffect(() => {
@@ -127,11 +121,6 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     }
   };
 
-  const projectStatusOptions = Object.values(ProjectStatus).map((status) => ({
-    value: status,
-    label: getProjectStatus(status),
-  }));
-
   const headersTableMember = [
     { label: 'ทีม', className: 'text-center min-w-20' },
     { label: 'ชื่อ-นามสกุล', className: 'text-center min-w-20' },
@@ -175,28 +164,6 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
 
   const handleAddOptionalTaskType = () => {
     form.setValue('optional_task_type', [...form.getValues('optional_task_type'), defaultTaskType]);
-  };
-
-  interface ITaskFormSchema {
-    id?: string;
-  }
-
-  const handleDeleteTask = async (
-    details: ITaskFormSchema[],
-    index: number,
-    onFieldChange: (next: typeof details) => void
-  ) => {
-    if (details.length === 0) return;
-
-    if (details[index].id !== undefined) {
-      const ok = await getConfirmation({
-        title: 'แจ้งเตือน',
-        message: `คุณยืนยันที่จะลบข้อมูลประเภทงานใช่หรือไม่ ?`,
-      });
-      if (!ok) return;
-    }
-    details.splice(index, 1);
-    onFieldChange(details);
   };
 
   const EmptyTable = () => {
@@ -337,7 +304,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                       <FormControl>
                         <ComboboxForm
                           placeholder="เลือกสถานะ"
-                          options={projectStatusOptions}
+                          options={projectStatusOptions ?? []}
                           field={field}
                           onSelect={(value) => field.onChange(value)}
                         />
@@ -352,102 +319,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
           <div>
             <h2 className="font-medium text-lg mb-0">สมาชิก</h2>
             <hr className="mt-2 mb-5" />
-            <FormField
-              control={form.control}
-              name="member"
-              render={({ field: parentField }) => (
-                <FormItem>
-                  <FormControl>
-                    <Table className="border">
-                      <TableHeader>
-                        <TableRow className="bg-[#f2f4f7]">
-                          {headersTableMember.map(({ label, className }) => (
-                            <TableHead key={label} className={className}>
-                              {label}
-                            </TableHead>
-                          ))}
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {parentField.value.map((item, index) => (
-                          <TableRow key={index}>
-                            <TableCell>
-                              {
-                                <FormField
-                                  control={form.control}
-                                  name={`member.${index}.team_id`}
-                                  render={({ field }) => (
-                                    <FormItem className="">
-                                      <FormControl>
-                                        <ComboboxForm
-                                          placeholder="เลือกทีม"
-                                          options={teamOptions}
-                                          field={field}
-                                          onSelect={(value) => field.onChange(value)}
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
-                              }
-                            </TableCell>
-                            <TableCell>
-                              {
-                                <FormField
-                                  control={form.control}
-                                  name={`member.${index}.user_id`}
-                                  render={({ field }) => (
-                                    <FormItem>
-                                      <FormControl>
-                                        <Input
-                                          {...field}
-                                          value={item.user_id}
-                                          maxLength={100}
-                                          onChange={(e) => {
-                                            const details = [...parentField.value];
-                                            details[index].user_id = e.target.value;
-                                            parentField.onChange(details);
-                                          }}
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
-                              }
-                            </TableCell>
-                            <TableCell>
-                              {
-                                <FormField
-                                  control={form.control}
-                                  name={`member.${index}.position`}
-                                  render={({ field }) => (
-                                    <FormItem>
-                                      <FormControl>
-                                        <Input
-                                          {...field}
-                                          value={item.position}
-                                          maxLength={100}
-                                          onChange={(e) => {
-                                            const details = [...parentField.value];
-                                            details[index].position = e.target.value;
-                                            parentField.onChange(details);
-                                          }}
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
-                              }
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <div className="p-4 flex justify-center w-full">
+            <ProjectMemberTable form={form} teamOptions={teamOptions} header={headersTableMember} />
+            <div className="flex w-full py-4 px-2">
               <Button type="button" onClick={handleAddMember}>
                 เพิ่มข้อมูล
               </Button>
@@ -456,109 +329,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
           <div>
             <h2 className="font-medium text-lg mb-0">ประเภทงานตั้งต้น</h2>
             <hr className="mt-2 mb-5" />
-            <FormField
-              control={form.control}
-              name="main_task_type"
-              render={({ field: parentField }) => (
-                <FormItem>
-                  <FormControl>
-                    <Table className="border">
-                      <TableHeader>
-                        <TableRow className="bg-[#f2f4f7]">
-                          {headersTableTask.map(({ label, className }) => (
-                            <TableHead key={label} className={className}>
-                              {label}
-                            </TableHead>
-                          ))}
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {parentField.value.map((item, index) => (
-                          <TableRow key={index}>
-                            <TableCell>
-                              {
-                                <FormField
-                                  control={form.control}
-                                  name={`main_task_type.${index}.type`}
-                                  render={({ field }) => (
-                                    <FormItem className="">
-                                      <FormControl>
-                                        <ComboboxForm
-                                          placeholder="เลือกหมวดหมู่"
-                                          options={[]}
-                                          field={field}
-                                          onSelect={(value) => field.onChange(value)}
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
-                              }
-                            </TableCell>
-                            <TableCell>
-                              {
-                                <FormField
-                                  control={form.control}
-                                  name={`main_task_type.${index}.name`}
-                                  render={({ field }) => (
-                                    <FormItem>
-                                      <FormControl>
-                                        <ComboboxForm
-                                          placeholder="เลือกประเภท"
-                                          options={[]}
-                                          field={field}
-                                          onSelect={(value) => field.onChange(value)}
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
-                              }
-                            </TableCell>
-                            <TableCell>
-                              {
-                                <FormField
-                                  control={form.control}
-                                  name={`main_task_type.${index}.description`}
-                                  render={({ field }) => (
-                                    <FormItem>
-                                      <FormControl>
-                                        <Input
-                                          {...field}
-                                          value={item.description}
-                                          maxLength={250}
-                                          onChange={(e) => {
-                                            const details = [...parentField.value];
-                                            details[index].description = e.target.value;
-                                            parentField.onChange(details);
-                                          }}
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
-                              }
-                            </TableCell>
-                            <TableCell>
-                              <Button
-                                variant={'ghost'}
-                                onClick={() => {
-                                  const details = [...parentField.value];
-                                  handleDeleteTask(details, index, parentField.onChange);
-                                }}
-                              >
-                                <Trash2 width={20} height={20} />
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <div className="p-4 flex justify-center w-full">
+            <ProjectTaskTable form={form} header={headersTableTask} name="main_task_type" />
+            <div className="flex w-full py-4 px-2">
               <Button type="button" onClick={handleAddMainTaskType}>
                 เพิ่มข้อมูล
               </Button>
@@ -567,109 +339,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
           <div>
             <h2 className="font-medium text-lg mb-0">ประเภทงานจำเพาะ</h2>
             <hr className="mt-2 mb-5" />
-            <FormField
-              control={form.control}
-              name="optional_task_type"
-              render={({ field: parentField }) => (
-                <FormItem>
-                  <FormControl>
-                    <Table className="border">
-                      <TableHeader>
-                        <TableRow className="bg-[#f2f4f7]">
-                          {headersTableTask.map(({ label, className }) => (
-                            <TableHead key={label} className={className}>
-                              {label}
-                            </TableHead>
-                          ))}
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {parentField.value.map((item, index) => (
-                          <TableRow key={index}>
-                            <TableCell>
-                              {
-                                <FormField
-                                  control={form.control}
-                                  name={`optional_task_type.${index}.type`}
-                                  render={({ field }) => (
-                                    <FormItem className="">
-                                      <FormControl>
-                                        <ComboboxForm
-                                          placeholder="เลือกหมวดหมู่"
-                                          options={[]}
-                                          field={field}
-                                          onSelect={(value) => field.onChange(value)}
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
-                              }
-                            </TableCell>
-                            <TableCell>
-                              {
-                                <FormField
-                                  control={form.control}
-                                  name={`optional_task_type.${index}.name`}
-                                  render={({ field }) => (
-                                    <FormItem>
-                                      <FormControl>
-                                        <ComboboxForm
-                                          placeholder="เลือกประเภท"
-                                          options={[]}
-                                          field={field}
-                                          onSelect={(value) => field.onChange(value)}
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
-                              }
-                            </TableCell>
-                            <TableCell>
-                              {
-                                <FormField
-                                  control={form.control}
-                                  name={`optional_task_type.${index}.description`}
-                                  render={({ field }) => (
-                                    <FormItem>
-                                      <FormControl>
-                                        <Input
-                                          {...field}
-                                          value={item.description}
-                                          maxLength={250}
-                                          onChange={(e) => {
-                                            const details = [...parentField.value];
-                                            details[index].description = e.target.value;
-                                            parentField.onChange(details);
-                                          }}
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
-                              }
-                            </TableCell>
-                            <TableCell>
-                              <Button
-                                variant={'ghost'}
-                                onClick={() => {
-                                  const details = [...parentField.value];
-                                  handleDeleteTask(details, index, parentField.onChange);
-                                }}
-                              >
-                                <Trash2 width={20} height={20} />
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <div className="p-4 flex justify-center w-full">
+            <ProjectTaskTable form={form} header={headersTableTask} name="optional_task_type" />
+            <div className="flex w-full py-4 px-2">
               <Button type="button" onClick={handleAddOptionalTaskType}>
                 เพิ่มข้อมูล
               </Button>
@@ -677,7 +348,6 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
           </div>
         </div>
       </form>
-      <Confirmation />
     </Form>
   );
 };
