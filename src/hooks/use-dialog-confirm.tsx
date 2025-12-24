@@ -77,20 +77,22 @@ const useDialogConfirm = () => {
         }}
       >
         <DialogContent
-          className={`p-0 ${sizeClass}`}
+          className={`p-4 ${sizeClass}`}
           onPointerDownOutside={(e) => {
             e.preventDefault();
           }}
         >
-          <DialogHeader className="p-3 rounded-t bg-gray-300">
-            <DialogTitle>{title !== '' && title ? title : state.title}</DialogTitle>
+          <DialogHeader>
+            <DialogTitle className="font-bold text-xl">
+              {title !== '' && title ? title : state.title}
+            </DialogTitle>
           </DialogHeader>
-          <div className="text-start px-3 my-4">
-            <div className="text-sm whitespace-pre-wrap break-words">
+          <div className="text-start py-3">
+            <div className="whitespace-pre-wrap wrap-break-word">
               {message !== '' && message ? message : state.message}
             </div>
           </div>
-          <DialogFooter className="p-3 border-t-1">
+          <DialogFooter>
             {confirmType !== ConfirmType.ACCEPT && (
               <DialogClose asChild>
                 <Button
@@ -105,7 +107,7 @@ const useDialogConfirm = () => {
             )}
             <Button
               size="sm"
-              variant="destructive"
+              variant="default"
               onClick={() => onConfirm(true)}
               disabled={isLoading}
             >

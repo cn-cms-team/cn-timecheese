@@ -13,7 +13,7 @@ export type IUser = {
   start_date?: Date;
   end_date?: Date;
   lastLoginAt?: Date;
-
+  salary_range?: string;
   position_level_id: string;
   position_level: IPositionLevel;
   team_id: string;
@@ -21,10 +21,10 @@ export type IUser = {
   role_id: string;
   role: IRole;
 
-  createdAt: Date;
-  createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  created_at: Date;
+  created_by: string;
+  updated_at?: Date;
+  updated_by?: string;
   createdByUser: IUser;
   updatedByUser?: IUser;
 
