@@ -30,6 +30,7 @@ import { useSession } from 'next-auth/react';
 import { Required } from '@/components/ui/custom/form';
 import { MAX_LENGTH_100, MAX_LENGTH_255, MAX_LENGTH_50 } from '@/lib/constants/validation';
 import { toast } from 'sonner';
+import TitleGroup from '@/components/ui/custom/cev/title-group';
 
 const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
   const { data: session } = useSession();
@@ -141,9 +142,8 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
   };
 
   return (
-    <div className="flex flex-col px-5">
-      <h2 className="font-medium text-lg mb-0">ข้อมูลผู้ใช้งาน</h2>
-      <hr className="mt-2 mb-5" />
+    <div className="cev-box">
+      <TitleGroup title="ข้อมูลผู้ใช้งาน" />
       <Form {...form}>
         <form
           id="user-create-form"

@@ -142,3 +142,9 @@ body {
 .noto-sans {
   font-family: var(--font-noto-sans-thai), sans-serif;
 }
+
+.cev-box {
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--spacing) * 4);
+}
