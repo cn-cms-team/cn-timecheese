@@ -6,12 +6,14 @@ import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
 import { useTimeSheetContext } from './view/timesheet-context';
 import TimeSheetWeekCalendar from './period-calendar/timesheet-week-calendar';
 import TimeSheetMonthCalendar from './period-calendar/timesheet-month-calendar';
+import { ITimeSheetResponse } from '@/types/timesheet';
 
 const TimeSheetCalendarBody = () => {
-  const { period, fetchOptions } = useTimeSheetContext();
+  const { period, fetchOptions, getTask } = useTimeSheetContext();
 
   useEffect(() => {
     fetchOptions();
+    getTask();
   }, []);
 
   const renderCalendar = () => {
@@ -24,7 +26,7 @@ const TimeSheetCalendarBody = () => {
     }
   };
 
-  return <div className="py-3 px-2 lg:py-4 lg:px-4 bg-[#F5F6F8] h-full">{renderCalendar()}</div>;
+  return <div className="py-3 px-2 lg:py-4 lg:px-4 bg-[#F5F6F8] h-full ">{renderCalendar()}</div>;
 };
 
 export default TimeSheetCalendarBody;
