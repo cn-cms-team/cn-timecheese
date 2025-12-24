@@ -2,19 +2,18 @@
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
 import { Calendar, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { buddhistFormatDate } from '@/lib/functions/date-format';
 import { ITimeSheetRequest, ITimeSheetResponse } from '@/types/timesheet';
+import { TimesheetCreateEditSchema, timesheetCreateEditSchema } from './schema';
 
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
-import { TimesheetCreateEditSchema, timesheetCreateEditSchema } from './schema';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { useTimeSheetContext } from './view/timesheet-context';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 
 interface IProps {
   close?: () => void;
@@ -63,13 +62,20 @@ const TimeSheetForm = ({
       const taskId = data ? data.id : null;
       const url = `${baseUrl}/timesheet${taskId ? `/${taskId}` : ''}`;
 
+      const start = new Date(value.start_date);
+      const end = new Date(value.end_date);
+
+      end.setFullYear(start.getFullYear());
+      end.setMonth(start.getMonth());
+      end.setDate(start.getDate());
+
       const params: ITimeSheetRequest = {
         id: taskId ?? undefined,
-        project_id: value.project_id,
-        task_type_id: value.task_type_id,
+        project_id: value.project_id!,
+        task_type_id: value.task_type_id!,
         stamp_date: new Date(value.start_date).toISOString(),
-        start_date: new Date(value.start_date).toISOString(),
-        end_date: new Date(value.end_date).toISOString(),
+        start_date: new Date(start).toISOString(),
+        end_date: new Date(end).toISOString(),
         detail: value.detail,
         remark: value.remark ?? '',
       };
@@ -155,10 +161,21 @@ const TimeSheetForm = ({
 
                           const [hh, mm] = time.split(':').map(Number);
 
-                          const date = field.value ? new Date(field.value) : new Date();
-                          date.setHours(hh, mm, 0, 0);
+                          const base = field.value ?? new Date();
+                          const nextStart = new Date(base);
+                          nextStart.setHours(hh, mm, 0, 0);
 
-                          field.onChange(date);
+                          const end = form.getValues('end_date');
+
+                          if (end && nextStart >= new Date(end)) {
+                            form.setError('start_date', {
+                              message: 'เวลาเริ่มต้องน้อยกว่าเวลาสิ้นสุด',
+                            });
+                            return;
+                          }
+
+                          form.clearErrors('start_date');
+                          field.onChange(nextStart);
                         }}
                       />
                     </FormControl>
@@ -182,9 +199,20 @@ const TimeSheetForm = ({
 
                           const [hh, mm] = time.split(':').map(Number);
 
-                          const date = field.value ? new Date(field.value) : new Date();
+                          const start = form.getValues('start_date');
+                          if (!start) return;
+
+                          const date = new Date(start);
                           date.setHours(hh, mm, 0, 0);
 
+                          if (date <= start) {
+                            form.setError('end_date', {
+                              message: 'เวลาสิ้นสุดต้องมากกว่าเวลาเริ่ม',
+                            });
+                            return;
+                          }
+
+                          form.clearErrors('end_date');
                           field.onChange(date);
                         }}
                       />
