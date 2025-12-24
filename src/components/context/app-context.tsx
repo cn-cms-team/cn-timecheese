@@ -49,13 +49,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
           data.data;
         const resetPasswordDateSession = session?.user?.resetPasswordDate || '';
         const resetPasswordDateAccount = reset_password_date || '';
-
-        if (
-          !user_id ||
-          (resetPasswordDateSession &&
-            resetPasswordDateAccount &&
-            resetPasswordDateSession !== resetPasswordDateAccount)
-        ) {
+        if (!user_id || resetPasswordDateSession !== resetPasswordDateAccount) {
           signOut();
         }
         if (user_id && permissions) {
@@ -68,9 +62,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         }
 
         if (
-          resetPasswordDateSession == null &&
-          resetPasswordDateSession == '' &&
-          !pathname.includes('reset-password')
+          resetPasswordDateSession == null ||
+          (resetPasswordDateSession == '' && !pathname.includes('reset-password'))
         ) {
           // redirect to change password page
           window.location.href = `/setting/user/${user_id}/reset-password`;
@@ -84,7 +77,6 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     getAccount();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    return () => {};
   }, [pathname]);
 
   useEffect(() => {

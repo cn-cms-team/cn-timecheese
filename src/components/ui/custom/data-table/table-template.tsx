@@ -27,10 +27,10 @@ export default function DataTable<TData, TValue>({
 }: TableTemplateProps<TData, TValue>) {
   return (
     <>
-      <div>
+      <div className="rounded-lg border">
         <TableUI>
           {isShowHeader && (
-            <TableHeader>
+            <TableHeader className="bg-neutral-100">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
@@ -51,15 +51,7 @@ export default function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className="truncate"
-                      style={{
-                        width: cell.column.getSize(),
-                        maxWidth: cell.column.getSize(),
-                        minWidth: cell.column.getSize(),
-                      }}
-                    >
+                    <TableCell key={cell.id} className="truncate">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -70,13 +62,12 @@ export default function DataTable<TData, TValue>({
                 <TableCell colSpan={columns.length} className="h-24 text-center">
                   <div className="flex flex-col justify-center items-center min-h-[300px]">
                     <Image
-                      src="/no-data.svg"
+                      src="/img/general/md-no-data.png"
                       width={150}
                       height={150}
                       alt="Nodata"
                       className="mx-auto"
                     />
-                    <span className="text-[#98A2B3] mt-3">ไม่พบข้อมูล</span>
                   </div>
                 </TableCell>
               </TableRow>

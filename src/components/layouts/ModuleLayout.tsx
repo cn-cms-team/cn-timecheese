@@ -18,7 +18,7 @@ const ModuleLayout: React.FC<LayoutProps> = ({ headerTitle, leaveUrl, headerButt
             {headerButton}
           </Header>
         </CardTitle>
-        <CardContent className="p-3 pb-5">{content}</CardContent>
+        <CardContent className="p-3 pb-10">{content}</CardContent>
       </Card>
     </div>
   );

@@ -4,18 +4,23 @@ import { Card, CardContent } from '@/components/ui/card';
 
 const SigninInView = () => {
   return (
-    <div className="flex m-auto h-full w-full">
-      <Card className="m-auto justify-center p-0 min-w-[400px] h-[500px] md:min-h-11/12">
-        <CardContent className="flex h-full w-full xl:w-screen  max-w-6xl p-0">
-          <div className="relative justify-center w-3/5 hidden md:flex after:content-[''] after:h-full after:w-0.5 after:bg-gray-200 after:absolute after:right-0 after:top-0">
-            <SignInBanner className="flex max-h-3/4 my-auto max-w-11/12 w-full" />
+    <main className="h-full w-full flex items-center justify-center bg-gray-100">
+      <div className="container">
+        <div className="flex gap-12">
+          <div className="relative justify-center w-3/5 hidden md:flex">
+            <SignInBanner className="w-full max-w-lg" />
           </div>
-          <div className="w-full md:w-2/5 my-auto">
-            <SignInForm />
+
+          <div className="w-full md:w-1/2 flex justify-center">
+            <Card className="w-full max-w-lg shadow-md m-4 md:m-0">
+              <CardContent className="my-auto px-0 md:px-6">
+                <SignInForm />
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </div>
+    </main>
   );
 };
 

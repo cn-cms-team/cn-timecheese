@@ -2,17 +2,6 @@
 import { useState } from 'react';
 
 import {
-  BriefcaseBusiness,
-  CalendarDays,
-  Home,
-  Network,
-  Presentation,
-  ShieldUser,
-  User,
-  Users,
-} from 'lucide-react';
-
-import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -33,7 +22,6 @@ export function AppSidebar() {
   const user = {
     id: session?.user?.id ?? '',
     username: session?.user?.name ?? '',
-    avatar: session?.user?.image ?? undefined,
     permissions: account?.permissions ?? {},
     name: account.name ?? '',
     position_level: account.position_level ?? '',

@@ -12,7 +12,7 @@ const MainLayout = async ({ children }: { children: React.ReactNode }) => {
       <AppProvider>
         <SidebarProvider>
           <AppSidebar />
-          <main className="w-full overflow-auto">{children}</main>
+          <main className="w-full overflow-auto bg-stone-50">{children}</main>
         </SidebarProvider>
       </AppProvider>
     </SessionProvider>

@@ -122,7 +122,7 @@ export default function DataTablePagination<TData>({ table }: DataTablePaginatio
               key={index}
               variant="ghost"
               className={`h-7 w-fit min-w-7 py-0 px-1 text-center font-normal border-1 rounded-lg ${
-                pageIndex === currentPage ? 'border-primary text-primary' : ''
+                pageIndex === currentPage ? 'border-neutral-500 text-neutral-500' : ''
               }`}
               onClick={() => table.setPageIndex(pageIndex)}
             >

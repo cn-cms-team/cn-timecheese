@@ -60,7 +60,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
             )}
             disabled={disabled}
           >
-            <div className="truncate max-w-[95%]">
+            <div className="truncate text-sm font-medium max-w-[95%]">
               {field.value
                 ? options?.find((language) => language.value === field.value)?.label
                 : placeholder}

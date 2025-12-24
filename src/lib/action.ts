@@ -9,17 +9,20 @@ import {
 import { SigninSchemaType } from '@/components/pages/sign-in/schema';
 import { AuthError } from 'next-auth';
 import { ExecuteAction } from './execute-actions';
+import { AUTH_ERROR_CODES } from '@/types/constants/auth';
 
 export async function authenticate(prevState: string | undefined, formData: SigninSchemaType) {
   try {
     await signIn('credentials', formData);
   } catch (error) {
     if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
+      switch (error.message) {
+        case AUTH_ERROR_CODES.INVALID:
+          return 'รหัสผ่านไม่ถูกต้อง กรุณากรอกข้อมูลใหม่อีกครั้ง';
+        case AUTH_ERROR_CODES.NOTFOUND:
+          return 'ไม่พบบัญชีของคุณภายในระบบ';
         default:
-          return 'Something went wrong.';
+          return 'ไม่สามารถเชื่อมต่อได้ กรุณาติดต่อผู้ดูแลระบบ';
       }
     }
     throw error;

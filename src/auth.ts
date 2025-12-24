@@ -6,11 +6,12 @@ import bcrypt from 'bcrypt';
 import prisma from '@/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { User } from '../generated/prisma/client';
+import { AUTH_ERROR_CODES } from './types/constants/auth';
 
 export const UPDATE_AGE = parseInt(process.env.JWT_UPDATE_AGE_IN_SECONDS || '3600'); // default 1 hour
 export const MAX_AGE = parseInt(process.env.JWT_MAX_AGE_IN_SECONDS || '86400'); // default 24 hours
 
-const getUser = async (email: string) => {
+const getUser = async (email: string): Promise<User> => {
   try {
     const user = await prisma.user.findFirst({
       where: {
@@ -27,14 +28,13 @@ const getUser = async (email: string) => {
         password: true,
       },
     });
-    return user;
+    return user as User;
   } catch (error) {
-    console.error('Failed to fetch user:', error);
-    throw new Error('Failed to fetch user.');
+    throw new Error(AUTH_ERROR_CODES.ERROR);
   }
 };
 
-export const { auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
@@ -52,14 +52,14 @@ export const { auth, signIn, signOut } = NextAuth({
         const { email, password } = parsedCredentials.data;
         const user = await getUser(email);
 
-        if (!user) return null;
+        if (!user) throw new Error(AUTH_ERROR_CODES.NOTFOUND);
 
         let userDetail = {
           id: user.id,
           email: user.email,
           name: `${user.first_name} ${user.last_name}`,
-          resetPasswordDate: user.reset_password_date || null,
-          lastLoginAt: user.last_login_at || null,
+          resetPasswordDate: user.reset_password_date,
+          lastLoginAt: user.last_login_at,
         };
 
         const passwordsMatch = await bcrypt.compare(password, user.password);
@@ -73,8 +73,10 @@ export const { auth, signIn, signOut } = NextAuth({
               data: { last_login_at: lastLogin },
             });
           } catch (error) {
-            console.error('Error updating last login:', error);
+            throw new Error(AUTH_ERROR_CODES.ERROR);
           }
+        } else if (!passwordsMatch) {
+          throw new Error(AUTH_ERROR_CODES.INVALID);
         }
 
         return userDetail;
@@ -89,30 +91,33 @@ export const { auth, signIn, signOut } = NextAuth({
     updateAge: UPDATE_AGE,
   },
   callbacks: {
-    redirect({ url, baseUrl }) {
+    ...authConfig.callbacks,
+    redirect: async ({ url, baseUrl }) => {
       if (url.startsWith(baseUrl)) return url;
       return baseUrl;
     },
     jwt: async ({ token, user }) => {
       if (user) {
-        token.id = (user.id as string) || token.id;
+        token.id = user.id;
         token.name = user.name;
         token.email = user.email;
-        token.resetPasswordDate = user.resetPasswordDate || token.resetPasswordDate;
-        token.lastLoginAt = user.lastLoginAt || token.lastLoginAt;
+        token.resetPasswordDate = user.resetPasswordDate as Date;
+        token.lastLoginAt = user.lastLoginAt as Date;
       }
       return token;
     },
-    session: async ({ session, token }) => {
-      session.user.id = token.id as string;
-      session.user.name = token.name as string;
-      session.user.email = token.email as string;
-      session.user.resetPasswordDate = token.resetPasswordDate as Date | null;
-      session.user.lastLoginAt = token.lastLoginAt as Date | null;
+    session: ({ session, token }) => {
+      if (token?.sub) {
+        session.user.id = token.sub;
+      }
+      if (token) {
+        // session.user.id = token.id as string;
+        session.user.name = token.name as string;
+        session.user.email = token.email as string;
+        session.user.resetPasswordDate = token.resetPasswordDate as Date;
+        session.user.lastLoginAt = token.lastLoginAt as Date;
+      }
       return session;
     },
-  },
-  pages: {
-    signIn: '/sign-in',
   },
 });
