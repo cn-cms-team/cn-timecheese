@@ -2,7 +2,7 @@
 import { buddhistFormatDate } from '@/lib/functions/date-format';
 
 import UserProfileImage from '@/components/ui/icons/user-profile-img';
-import { useTimeSheetContext } from './view/timesheet-context';
+import { useTimeSheetContext } from '../view/timesheet-context';
 
 const TimeSheetUserInfo = () => {
   const { userInfo } = useTimeSheetContext();
