@@ -8,26 +8,22 @@ interface IProps {
   height: number;
 }
 
-const TimeSheetEventCard = ({ data = undefined, height }: IProps) => {
-  if (!data) return;
+const TimeSheetEventCard = ({ data, height }: IProps) => {
+  if (!data) return null;
+
   return (
-    <div className="w-full min-h-full px-4 py-3 rounded-lg bg-primary shadow-lg cursor-pointer">
-      <header>
-        <h3 className="font-bold text-lg truncate">{data.project_name}</h3>
-        <p className="font-semibold text-wrap overflow-hidden truncate">{data.task_type_name}</p>
-      </header>
-      <main>
-        <div>
-          <span>{buddhistFormatDate(data.start_date, 'HH:ii น.')}</span>
-          {' - '}
-          <span>{buddhistFormatDate(data.end_date, 'HH:ii น.')}</span>
+    <div className="w-full h-full border px-3 py-2 rounded-lg bg-primary shadow-lg cursor-pointer overflow-hidden flex justify-between flex-col ">
+      <header className="truncate font-bold text-sm">
+        {data.task_type_name}
+        <div className="text-[11px] font-semibold truncate">
+          {buddhistFormatDate(data.start_date, 'HH:ii')} -{' '}
+          {buddhistFormatDate(data.end_date, 'HH:ii')}
         </div>
-        {height >= 100 && (
-          <div className="overflow-hidden">
-            <p className="text-sm text-neutral-800 truncate">{data.detail}</p>
-          </div>
-        )}
-      </main>
+      </header>
+      <footer>
+        <p className="text-xs truncate">{data.project_name}</p>
+      </footer>
+      {/* {height >= 90 && <p className="mt-1 text-xs truncate">{data.detail}</p>} */}
     </div>
   );
 };
