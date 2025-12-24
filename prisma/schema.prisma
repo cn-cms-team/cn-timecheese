@@ -179,6 +179,7 @@ model PositionLevel {
   description String?  @db.VarChar(255)
   position_id String   @db.Char(36)
   position    Position @relation(fields: [position_id], references: [id])
+  ord      Int?
 
   is_enabled Boolean @default(true)
   users      User[]

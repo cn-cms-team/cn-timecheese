@@ -1689,6 +1689,7 @@ export const PositionLevelScalarFieldEnum = {
   name: 'name',
   description: 'description',
   position_id: 'position_id',
+  ord: 'ord',
   is_enabled: 'is_enabled'
 } as const
 

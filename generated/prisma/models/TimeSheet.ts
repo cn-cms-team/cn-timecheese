@@ -651,14 +651,6 @@ export type TimeSheetUncheckedUpdateManyWithoutProjectNestedInput = {
   deleteMany?: Prisma.TimeSheetScalarWhereInput | Prisma.TimeSheetScalarWhereInput[]
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type TimeSheetCreateWithoutUserInput = {
   id?: string
   stamp_date: Date | string
