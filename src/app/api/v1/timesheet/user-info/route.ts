@@ -43,8 +43,6 @@ export async function GET(request: Request) {
       }),
     ]);
 
-    console.log(timeSummary);
-
     let after6Seconds = 0;
 
     for (const task of tasks) {
