@@ -1,5 +1,7 @@
 import { auth } from '@/auth';
+import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
 import prisma from '@/lib/prisma';
+import { endOfMonth, endOfWeek, startOfMonth, startOfWeek } from 'date-fns';
 
 export async function GET(request: Request) {
   const session = await auth();
@@ -7,38 +9,63 @@ export async function GET(request: Request) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const searchParams = new URL(request.url).searchParams;
+
+  const period = searchParams.get('period');
+  const date = searchParams.get('date');
+  const year = Number(searchParams.get('year'));
+  const month = Number(searchParams.get('month'));
+
+  let dateFilter: { gte?: Date; lte?: Date } = {};
+
+  if (period === PERIODCALENDAR.WEEK && date) {
+    const baseDate = new Date(date);
+
+    dateFilter = {
+      gte: startOfWeek(baseDate, { weekStartsOn: 0 }),
+      lte: endOfWeek(baseDate, { weekStartsOn: 0 }),
+    };
+  }
+
+  if (period === PERIODCALENDAR.MONTH && year && month) {
+    const baseDate = new Date(year, month, 1);
+
+    dateFilter = {
+      gte: startOfMonth(baseDate),
+      lte: endOfMonth(baseDate),
+    };
+  }
+
   try {
     const timeSheets = await prisma.timeSheet.findMany({
-      where: { user_id: session.user?.id },
-      orderBy: { stamp_date: 'asc' },
-    });
-
-    const projects = await prisma.project.findMany({
-      where: { id: { in: timeSheets.map((ts) => ts.project_id) } },
-      select: {
-        id: true,
-        name: true,
+      where: {
+        user_id: session.user?.id,
+        ...(dateFilter.gte && {
+          stamp_date: dateFilter,
+        }),
       },
+      orderBy: { start_date: 'asc' },
     });
 
-    const taskType = await prisma.taskType.findMany({
-      where: { id: { in: timeSheets.map((ts) => ts.task_type_id) } },
-      select: {
-        id: true,
-        name: true,
-      },
-    });
+    const projectIds = [...new Set(timeSheets.map((t) => t.project_id))];
+    const taskTypeIds = [...new Set(timeSheets.map((t) => t.task_type_id))];
 
-    const result = timeSheets.map((ts) => {
-      const project = projects.find((p) => p.id === ts.project_id);
-      const task = taskType.find((t) => t.id === ts.task_type_id);
+    const [projects, taskTypes] = await Promise.all([
+      prisma.project.findMany({
+        where: { id: { in: projectIds } },
+        select: { id: true, name: true },
+      }),
+      prisma.taskType.findMany({
+        where: { id: { in: taskTypeIds } },
+        select: { id: true, name: true },
+      }),
+    ]);
 
-      return {
-        ...ts,
-        project_name: project ? project.name : null,
-        task_type_name: task ? task.name : null,
-      };
-    });
+    const result = timeSheets.map((ts) => ({
+      ...ts,
+      project_name: projects.find((p) => p.id === ts.project_id)?.name ?? null,
+      task_type_name: taskTypes.find((t) => t.id === ts.task_type_id)?.name ?? null,
+    }));
 
     return Response.json({ data: result }, { status: 200 });
   } catch (error) {
