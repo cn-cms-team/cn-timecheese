@@ -1,12 +1,13 @@
+import { TaskTypeListView } from '@/components/pages/setting/task-type/view';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'ตั้งค่าประเภทงาน - Timecheese',
-  description: 'Timecheese',
+  title: 'TaskType - Time Cheese',
+  description: 'Time Cheese',
 };
 
-const RoleSetting = () => {
-  return <>ตั้งค่าประเภทงาน</>;
+const TaskTypeSetting = () => {
+  return <TaskTypeListView />;
 };
 
-export default RoleSetting;
+export default TaskTypeSetting;
