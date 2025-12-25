@@ -1,37 +1,37 @@
 'use client';
-import useSWR from 'swr';
-import { useRouter } from 'next/navigation';
-
-import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
-import { fetcher } from '@/lib/fetcher';
-
 import ModuleLayout from '@/components/layouts/ModuleLayout';
-import { UserList } from '../user-list';
-import { createColumns } from '../user-list-columns';
-import { useState } from 'react';
-import { IUser } from '@/types/setting/user';
 import { Button } from '@/components/ui/button';
-import { UserPlus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { RoleList } from '../role-list';
+import { IRole } from '@/types/setting/role';
 
-const UserButton = (): React.ReactNode => {
+import { useEffect, useState } from 'react';
+import { createColumns } from '../role-list-column';
+import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
+
+const RoleButton = (): React.ReactNode => {
   const router = useRouter();
   return (
     <div>
       <Button
         className="btn btn-outline-primary font-bold"
-        onClick={() => router.push('/setting/user/create')}
+        onClick={() => router.push('/setting/role/create')}
       >
-        <UserPlus className="w-4 h-4" />
-        เพิ่มผู้ใช้งาน
+        เพิ่มสิทธิ์การใช้งาน
       </Button>
     </div>
   );
 };
 
-const UserListView = () => {
+const RoleListView = () => {
   const router = useRouter();
-  const fetchUsersUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user`;
-  const { data, error, isLoading, mutate } = useSWR(fetchUsersUrl, (url) => fetcher<IUser[]>(url));
+  const fetchRolesUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role`;
+  const [roleList, setRoleList] = useState<IRole[]>([]);
+  const getRoles = async () => {
+    const response = await fetch(fetchRolesUrl);
+    const result = await response.json();
+    return result.data;
+  };
 
   const [confirmState, setConfirmState] = useState<{
     title: string;
@@ -44,13 +44,14 @@ const UserListView = () => {
   });
   const [getConfirmation, Confirmation] = useDialogConfirm();
 
-  const deleteUser = async (id: string) => {
-    const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user/${id}`;
+  const deleteRole = async (id: string) => {
+    const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role/${id}`;
     await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
-      router.push('/setting/user');
+      router.push('/setting/role');
     });
   };
-  const handleOpenDialog = async (mode: 'edit' | 'delete', isActive: boolean, id: string) => {
+
+  const handleOpenDialog = async (mode: 'edit' | 'delete', id: string) => {
     try {
       if (mode === 'edit') {
         setConfirmState({
@@ -61,7 +62,7 @@ const UserListView = () => {
 
         const result = await getConfirmation();
         if (result) {
-          router.push(`/setting/user/${id}/edit`);
+          router.push(`/setting/role/${id}/edit`);
         }
       } else {
         setConfirmState({
@@ -73,30 +74,32 @@ const UserListView = () => {
         const result = await getConfirmation();
         if (!id) return;
         if (result) {
-          await deleteUser(id).then(async () => {
-            mutate();
+          await deleteRole(id).then(async () => {
+            await getRoles().then((data) => {
+              setRoleList(data);
+            });
           });
         }
       }
     } catch (error) {}
   };
 
+  useEffect(() => {
+    getRoles().then((data) => {
+      setRoleList(data);
+    });
+  }, []);
+
   const columns = createColumns({
     onOpenDialog: handleOpenDialog,
   });
 
-  // if (isLoading) return <div>loading</div>;
-  if (error) {
-    router.replace('/404');
-    return null;
-  }
-
   return (
     <>
       <ModuleLayout
-        headerTitle={'ผู้ใช้งาน'}
-        headerButton={<UserButton />}
-        content={<UserList columns={columns} data={data || []} loading={isLoading} />}
+        headerTitle="สิทธิ์การใช้งาน"
+        headerButton={<RoleButton />}
+        content={<RoleList columns={columns} data={roleList} />}
       ></ModuleLayout>
 
       <Confirmation
@@ -107,4 +110,4 @@ const UserListView = () => {
     </>
   );
 };
-export default UserListView;
+export default RoleListView;

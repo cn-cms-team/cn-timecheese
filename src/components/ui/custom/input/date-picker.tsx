@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { ChevronDownIcon } from 'lucide-react';
+import { Calendar1, ChevronDownIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -40,8 +40,8 @@ export function DatePickerInput({
             isError ? 'border-red-500' : ''
           )}
         >
-          {value ? formatDate(value, 'dd/mm/yyyy') : placeholder}
-          <ChevronDownIcon className="h-4 w-4 opacity-50" />
+          {value ? formatDate(value) : placeholder}
+          <Calendar1 className="h-4 w-4 opacity-50" />
         </Button>
       </PopoverTrigger>
 

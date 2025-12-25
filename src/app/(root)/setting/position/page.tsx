@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'ตั้งค่าตำแหน่งงาน - Timecheese',
-  description: 'Timecheese',
+  title: 'Position - Time Cheese',
+  description: 'Time Cheese',
 };
 
 const PositionSetting = () => {

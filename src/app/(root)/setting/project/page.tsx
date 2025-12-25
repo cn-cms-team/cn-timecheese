@@ -2,8 +2,8 @@ import { ProjectListView } from '@/components/pages/setting/project/view';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'ตั้งค่าโครงการ - Timecheese',
-  description: 'Timecheese',
+  title: 'Project - Time Cheese',
+  description: 'Time Cheese',
 };
 
 const ProjectSetting = () => {

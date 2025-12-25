@@ -20,16 +20,16 @@ import {
 import { Label } from '@/components/ui/label';
 import DataTable from '@/components/ui/custom/data-table/table-template';
 import InputSearch from '@/components/ui/custom/data-table/input/input-search';
-import { IUser } from '@/types/setting/user';
+import SearchButton from '@/components/ui/custom/button/search-button';
+import { ITeam } from '@/types/setting/team';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  loading: boolean;
 }
 
-export function UserList<TData, TValue>({ columns, data, loading }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'email', desc: false }]);
+export function TeamList<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'name', desc: false }]);
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState<{
     search: string;
@@ -53,17 +53,8 @@ export function UserList<TData, TValue>({ columns, data, loading }: DataTablePro
     filterValue: { search: string }
   ) => {
     const search = filterValue.search.toLowerCase().trim();
-    const { first_name, last_name, nick_name, team, position_level, email } = row.original as IUser;
-    const fullName = `${first_name ?? ''} ${last_name ?? ''}`.toLowerCase();
-    const searchMatch =
-      email?.toLowerCase().includes(search) ||
-      first_name?.toLowerCase().includes(search) ||
-      last_name?.toLowerCase().includes(search) ||
-      fullName.toLowerCase().includes(search) ||
-      nick_name?.toLowerCase().includes(search) ||
-      position_level?.name.toLowerCase().includes(search) ||
-      team?.name?.toLowerCase().includes(search);
-
+    const { name } = row.original as ITeam;
+    const searchMatch = name?.toLowerCase().includes(search);
     return searchMatch;
   };
 
@@ -71,9 +62,9 @@ export function UserList<TData, TValue>({ columns, data, loading }: DataTablePro
     data,
     columns,
     sortingFns: {
-      dateSort: createNullsLastSortFn<IUser>(sorting),
-      customSort: createCustomSortFn<IUser>(),
-      booleanSort: createBooleanSortFn<IUser>(),
+      dateSort: createNullsLastSortFn<ITeam>(sorting),
+      customSort: createCustomSortFn<ITeam>(),
+      booleanSort: createBooleanSortFn<ITeam>(),
     },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -97,7 +88,7 @@ export function UserList<TData, TValue>({ columns, data, loading }: DataTablePro
           <Label className="mb-2">ค้นหา</Label>
           <InputSearch
             isMaxWidthSm={false}
-            placeholder="ชื่อ-นามสกุล, ตำแหน่ง, อีเมล"
+            placeholder="ชื่อทีม"
             globalFilter={tempFilter.search}
             setGlobalFilter={(value: string) =>
               setTempFilter((prev) => ({ ...prev, search: value }))
@@ -105,8 +96,11 @@ export function UserList<TData, TValue>({ columns, data, loading }: DataTablePro
             onEnter={handleSearch}
           />
         </div>
+        <div className="flex items-center gap-2">
+          <SearchButton onClick={handleSearch} />
+        </div>
       </div>
-      <DataTable table={table} columns={columns} loading={loading} />
+      <DataTable table={table} columns={columns} />
     </div>
   );
 }

@@ -63,7 +63,7 @@ export const buddhistFormatDate = (
 
 export const formatDate = (
   dateString: string | Date | undefined,
-  patternStr = 'yyyy-mm-dd',
+  patternStr = 'dd-mm-yyyy',
   isBuddhist = false
 ) => {
   if (typeof dateString === 'undefined' || dateString === null) {
