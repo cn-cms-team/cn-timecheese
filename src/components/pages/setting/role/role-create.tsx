@@ -26,7 +26,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useForm } from 'react-hook-form';
 import { createEditRoleSchema, CreateEditRoleSchemaType } from './schema';
 import { useRouter } from 'next/navigation';
-// import { useSession } from 'next-auth/react';
+import TitleGroup from '@/components/ui/custom/cev/title-group';
 
 type OutputItem = {
   code: string;
@@ -339,9 +339,8 @@ const RoleCreate = ({ id }: { id?: string }) => {
   };
 
   return (
-    <div className="flex flex-col px-5">
-      <h2 className='font-medium text-lg mb-0"'>ข้อมูลสิทธิ์การใช้งาน</h2>
-      <hr className="mt-2 mb-5" />
+    <div className="cev-box">
+      <TitleGroup title="ข้อมูลสิทธิ์การใช้งาน" />
       <Form {...form}>
         <form
           id="role-create-form"
@@ -389,8 +388,7 @@ const RoleCreate = ({ id }: { id?: string }) => {
                 </FormItem>
               )}
             />
-            <h2 className="font-medium text-lg mb-0 mt-5">ตั้งค่าสิทธิ์การใช้งาน</h2>
-            <hr className="mt-2 mb-5" />
+            <TitleGroup title="ตั้งค่าสิทธิ์การใช้งาน" className="mt-6" />
             <FormField
               control={form.control}
               name="permissions"

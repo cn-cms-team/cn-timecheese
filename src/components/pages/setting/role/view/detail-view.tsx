@@ -14,14 +14,9 @@ const RoleViewButton = ({ id }: { id: string }): React.ReactNode => {
     });
   };
   return (
-    <div className="flex align-middle">
-      <Button
-        className="btn btn-outline-primary font-bold"
-        onClick={() => router.push(`/setting/role/${id}/edit`)}
-      >
-        แก้ไข
-      </Button>
-      <Button className="btn btn-outline-secondary font-bold ml-2" onClick={() => deleteUser()}>
+    <div className="flex gap-2 align-middle">
+      <Button onClick={() => router.push(`/setting/role/${id}/edit`)}>แก้ไข</Button>
+      <Button variant={'destructive'} onClick={() => deleteUser()}>
         ลบ
       </Button>
     </div>

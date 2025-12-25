@@ -12,6 +12,7 @@ import { IRole, IRolePermissions } from '@/types/setting/role';
 import { ChevronDown } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import LabelGroup from '@/components/ui/custom/form/label-group';
+import TitleGroup from '@/components/ui/custom/cev/title-group';
 
 const RoleViewDetail = ({ id }: { id: string }) => {
   const [role, setRole] = useState<IRole | null>(null);
@@ -128,87 +129,83 @@ const RoleViewDetail = ({ id }: { id: string }) => {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col px-5">
-        <h2 className='font-medium text-lg mb-0"'>ข้อมูลสิทธิ์การใช้งาน</h2>
-        <hr className="mt-2 mb-5" />
-        <div className="grid grid-cols-1 gap-6">
-          <LabelGroup label="ชื่อสิทธิ์การใช้งาน" value={role?.name} />
-          <LabelGroup label="รายละเอียด" value={role?.description} />
-        </div>
-        <h2 className="font-medium text-lg mb-0 mt-5">ตั้งค่าสิทธิ์การใช้งาน</h2>
-        <hr className="mt-2 mb-5" />
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-[#fdc700]">
-              {headers.map(({ label, className }) => (
-                <TableHead key={label} className={className}>
-                  {label}
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {rolePermissions.map((permission) => (
-              <React.Fragment key={permission.code}>
-                <TableRow>
-                  <TableCell
-                    onClick={() => toggleRow(permission.code)}
-                    className={`flex items-center space-x-2 cursor-pointer 
+    <div className="cev-box">
+      <TitleGroup title="ข้อมูลสิทธิ์การใช้งาน" />
+      <div className="grid grid-cols-1 gap-6">
+        <LabelGroup label="ชื่อสิทธิ์การใช้งาน" value={role?.name} />
+        <LabelGroup label="รายละเอียด" value={role?.description} />
+      </div>
+      <TitleGroup title="ตั้งค่าสิทธิ์การใช้งาน" className="mt-6" />
+      <Table>
+        <TableHeader>
+          <TableRow className="bg-primary/70">
+            {headers.map(({ label, className }) => (
+              <TableHead key={label} className={className}>
+                {label}
+              </TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {rolePermissions.map((permission) => (
+            <React.Fragment key={permission.code}>
+              <TableRow>
+                <TableCell
+                  onClick={() => toggleRow(permission.code)}
+                  className={`flex items-center space-x-2 cursor-pointer 
                     ${(permission.children ?? []).length > 0 ? 'bg-[#f5f5ec]' : ''}`}
-                  >
-                    <div className="flex items-center space-x-2">
-                      <span>{permission.name}</span>
-                      {(permission.children ?? []).length > 0 && (
-                        <button type="button" className="flex items-center justify-center">
-                          <ChevronDown className="h-4 w-4" />
-                        </button>
-                      )}
-                    </div>
-                  </TableCell>
+                >
+                  <div className="flex items-center space-x-2">
+                    <span>{permission.name}</span>
+                    {(permission.children ?? []).length > 0 && (
+                      <button type="button" className="flex items-center justify-center">
+                        <ChevronDown className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+                </TableCell>
+                <TableCell
+                  className={`text-center ${
+                    (permission.children ?? []).length > 0 ? 'bg-[#f5f5ec]' : ''
+                  }`}
+                >
+                  {renderCheckAllView(permission)}
+                </TableCell>
+                {checkBoxColumnKey.map((code) => (
                   <TableCell
+                    key={code}
                     className={`text-center ${
                       (permission.children ?? []).length > 0 ? 'bg-[#f5f5ec]' : ''
                     }`}
                   >
-                    {renderCheckAllView(permission)}
+                    {permission.children && permission.children.length > 0
+                      ? renderParentPermissionCheckView(
+                          permission,
+                          code,
+                          getAllChildPermissions(permission)
+                        )
+                      : renderPermissionCheckView(permission, code)}
                   </TableCell>
-                  {checkBoxColumnKey.map((code) => (
-                    <TableCell
-                      key={code}
-                      className={`text-center ${
-                        (permission.children ?? []).length > 0 ? 'bg-[#f5f5ec]' : ''
-                      }`}
-                    >
-                      {permission.children && permission.children.length > 0
-                        ? renderParentPermissionCheckView(
-                            permission,
-                            code,
-                            getAllChildPermissions(permission)
-                          )
-                        : renderPermissionCheckView(permission, code)}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                ))}
+              </TableRow>
 
-                {(permission.children ?? []).length > 0 &&
-                  openRows[permission.code] &&
-                  (permission.children ?? []).map((child) => (
-                    <TableRow key={child.code}>
-                      <TableCell className="px-5">{child.name}</TableCell>
-                      <TableCell className="text-center">{renderCheckAllView(child)}</TableCell>
-                      {checkBoxColumnKey.map((code) => (
-                        <TableCell key={code} className="text-center">
-                          {renderPermissionCheckView(child, code)}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-              </React.Fragment>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+              {(permission.children ?? []).length > 0 &&
+                openRows[permission.code] &&
+                (permission.children ?? []).map((child) => (
+                  <TableRow key={child.code}>
+                    <TableCell className="px-5">{child.name}</TableCell>
+                    <TableCell className="text-center">{renderCheckAllView(child)}</TableCell>
+                    {checkBoxColumnKey.map((code) => (
+                      <TableCell key={code} className="text-center">
+                        {renderPermissionCheckView(child, code)}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+            </React.Fragment>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };

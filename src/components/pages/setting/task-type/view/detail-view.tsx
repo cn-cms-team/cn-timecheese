@@ -7,13 +7,8 @@ import { useRouter } from 'next/navigation';
 const TaskTypeViewButton = ({ id }: { id: string }): React.ReactNode => {
   const router = useRouter();
   return (
-    <div className="flex items-middle">
-      <Button
-        className="btn btn-outline-primary font-bold"
-        onClick={() => router.push(`/setting/task-type/${id}/edit`)}
-      >
-        แก้ไข
-      </Button>
+    <div className="flex items-middle gap-2">
+      <Button onClick={() => router.push(`/setting/task-type/${id}/edit`)}>แก้ไข</Button>
     </div>
   );
 };
