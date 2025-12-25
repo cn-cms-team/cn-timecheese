@@ -4,21 +4,20 @@ import { createColumns } from '../team-list-columns';
 import { useEffect, useState } from 'react';
 import { ITeam } from '@/types/setting/team';
 import { Button } from '@/components/ui/button';
-import { UserPlus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { TeamList } from '../team-list';
 import { toast } from 'sonner';
+import useSWR from 'swr';
+import { fetcher } from '@/lib/fetcher';
 
 const TeamButton = (): React.ReactNode => {
   const router = useRouter();
   return (
     <div>
-      <Button
-        className="btn btn-outline-primary font-bold"
-        onClick={() => router.push('/setting/team/create')}
-      >
-        <UserPlus className="w-4 h-4" />
+      <Button onClick={() => router.push('/setting/team/create')}>
+        <Plus className="w-4 h-4" />
         เพิ่มทีม
       </Button>
     </div>
@@ -28,12 +27,7 @@ const TeamButton = (): React.ReactNode => {
 const TeamListView = () => {
   const router = useRouter();
   const fetchTeamUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/team`;
-  const [teamList, setTeamList] = useState<ITeam[]>([]);
-  const getTeams = async () => {
-    const response = await fetch(fetchTeamUrl);
-    const result = await response.json();
-    return result.data;
-  };
+  const { data, error, isLoading, mutate } = useSWR(fetchTeamUrl, (url) => fetcher<ITeam[]>(url));
 
   const [confirmState, setConfirmState] = useState<{
     title: string;
@@ -45,12 +39,6 @@ const TeamListView = () => {
     confirmType: ConfirmType.SUBMIT,
   });
   const [getConfirmation, Confirmation] = useDialogConfirm();
-
-  useEffect(() => {
-    getTeams().then((data) => {
-      setTeamList(data);
-    });
-  }, []);
 
   const deleteTeam = async (id: string) => {
     const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/team/${id}`;
@@ -96,9 +84,7 @@ const TeamListView = () => {
         if (!id) return;
         if (result) {
           await deleteTeam(id).then(async () => {
-            await getTeams().then((data) => {
-              setTeamList(data);
-            });
+            mutate();
           });
         }
       }
@@ -108,13 +94,17 @@ const TeamListView = () => {
   const columns = createColumns({
     onOpenDialog: handleOpenDialog,
   });
+  if (error) {
+    router.replace('/404');
+    return null;
+  }
 
   return (
     <>
       <ModuleLayout
         headerTitle={'ทีม'}
         headerButton={<TeamButton />}
-        content={<TeamList columns={columns} data={teamList} />}
+        content={<TeamList columns={columns} data={data || []} loading={isLoading} />}
       ></ModuleLayout>
 
       <Confirmation
