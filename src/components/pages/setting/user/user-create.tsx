@@ -84,7 +84,11 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
         const result = await response.json();
         if (response.ok) {
           const userData = result.data;
-          form.reset({ ...userData, confirm_password: userData.password });
+          form.reset({
+            ...userData,
+            start_date: new Date(userData.start_date),
+            confirm_password: userData.password,
+          });
         }
       } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -405,7 +409,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                   <FormControl>
                     <DatePickerInput
                       {...field}
-                      value={new Date(field.value)}
+                      value={field.value}
                       placeholder="กรุณาเลือกวันที่เริ่มต้นของคุณ"
                       isError={form.formState.errors.start_date ? true : false}
                       onChange={field.onChange}
@@ -445,6 +449,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                     <Input
                       placeholder="กรุณากรอกช่วงเงินเดือนโดยประมาณ"
                       {...field}
+                      value={field.value || ''}
                       maxLength={MAX_LENGTH_100}
                       onInput={(e) => {
                         field.onChange(e);
