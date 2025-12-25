@@ -135,6 +135,12 @@ const TimeSheetWeekCalendarBody = ({ weekDays }: IProps) => {
                   side="right"
                   className={`w-full p-0`}
                   setIsEdit={setIsPopoverEdit}
+                  contentProps={{
+                    avoidCollisions: true,
+                    collisionPadding: 12,
+                    sticky: 'partial',
+                    sideOffset: 8,
+                  }}
                   triggerContent={
                     <div
                       className="absolute left-[5%] w-[90%] overflow-hidden"

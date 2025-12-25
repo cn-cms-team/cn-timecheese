@@ -1,7 +1,8 @@
 'use client';
 
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useState } from 'react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { PopoverContentProps } from '@radix-ui/react-popover';
 
 interface IProps {
   align?: 'start' | 'center' | 'end' | undefined;
@@ -9,6 +10,7 @@ interface IProps {
   className?: string;
   triggerContent: React.ReactNode;
   propOpen?: boolean;
+  contentProps?: Partial<PopoverContentProps>;
   setPropOpen?: (open: boolean) => void;
   popoverContent: (close: () => void) => React.ReactNode;
   setIsEdit?: (isEdit: boolean) => void;
