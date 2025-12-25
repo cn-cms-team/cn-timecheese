@@ -53,7 +53,6 @@ const TimeSheetForm = ({
       start_date: data && data.start_date ? new Date(data.start_date) : startTime,
       end_date: data && data.end_date ? new Date(data.end_date) : endTime,
       detail: data ? data?.detail : '',
-      remark: data ? data.remark : '',
     },
   });
 
@@ -77,7 +76,6 @@ const TimeSheetForm = ({
         start_date: new Date(start).toISOString(),
         end_date: new Date(end).toISOString(),
         detail: value.detail,
-        remark: value.remark ?? '',
       };
 
       const response = await fetch(url, {
@@ -249,23 +247,6 @@ const TimeSheetForm = ({
                     <Textarea
                       value={field.value}
                       placeholder="กรอกรายละเอียดการทำงาน"
-                      onChange={(value) => field.onChange(value)}
-                      // isError={form.formState.errors.detail ? true : false}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="remark"
-              render={({ field }) => (
-                <FormItem className="px-0">
-                  <FormControl>
-                    <Textarea
-                      value={field.value}
-                      placeholder="กรอกหมายเหตุ"
                       onChange={(value) => field.onChange(value)}
                       // isError={form.formState.errors.detail ? true : false}
                     />

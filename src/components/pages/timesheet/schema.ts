@@ -20,7 +20,6 @@ const schema = z.object({
   start_date: z.date('กรุณาเลือกกรอกเริ่มต้น'),
   end_date: z.date('กรุณากรอกวันที่สิ้นสุด'),
   detail: z.string().nonempty('กรุณากรอกรายละเอียดการทำงาน'),
-  remark: z.string().optional(),
 });
 
 type Schema = z.infer<typeof schema>;

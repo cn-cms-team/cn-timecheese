@@ -20,7 +20,6 @@ export interface ITimeSheetRequest {
   start_date: string;
   end_date: string;
   detail: string;
-  remark: string;
 }
 
 export interface IUserResponse {
