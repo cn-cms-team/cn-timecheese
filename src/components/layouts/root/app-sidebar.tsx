@@ -37,7 +37,7 @@ export function AppSidebar() {
                 <CheeseIcon />
               </div>
               <div
-                className="font-bold text-lg text-nowrap bg-linear-to-r from-yellow-500 via-indigo-500 to-red-500
+                className="font-bold text-lg text-nowrap bg-linear-to-r from-yellow-500 via-pink-500  to-indigo-500
            bg-clip-text text-transparent"
               >
                 TimeCheese

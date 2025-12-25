@@ -51,7 +51,10 @@ export default function LoginForm() {
         >
           <div className="flex flex-row justify-center items-center gap-2">
             <img src="/img/sign-in/logo-cheese.png" alt="Time Cheese Logo" className="h-20 w-20" />
-            <h1 className={`text-4xl xl:text-5xl text-center text-nature-600 font-normal`}>
+            <h1
+              className={`text-4xl xl:text-5xl text-center text-nature-600 font-bold bg-linear-to-r from-yellow-500 via-pink-500  to-indigo-500
+           bg-clip-text text-transparent`}
+            >
               TimeCheese
             </h1>
           </div>

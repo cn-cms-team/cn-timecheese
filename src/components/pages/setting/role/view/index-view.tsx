@@ -46,7 +46,11 @@ const RoleListView = () => {
     });
   };
 
-  const handleOpenDialog = async (mode: 'edit' | 'delete', id: string) => {
+  const handleOpenDialog = async (
+    mode: 'edit' | 'delete',
+    id: string,
+    { name }: { name: string }
+  ) => {
     try {
       if (mode === 'edit') {
         setConfirmState({
