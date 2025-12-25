@@ -96,7 +96,7 @@ const UserListView = () => {
       <ModuleLayout
         headerTitle={'ผู้ใช้งาน'}
         headerButton={<UserButton />}
-        content={<UserList columns={columns} data={data || []} />}
+        content={<UserList columns={columns} data={data || []} loading={isLoading} />}
       ></ModuleLayout>
 
       <Confirmation
