@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { differenceInBusinessDays } from 'date-fns';
 import { UseFormReturn, useWatch } from 'react-hook-form';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { FormControl, FormField, FormItem } from '@/components/ui/form';
@@ -10,13 +9,7 @@ import { IOptions } from '@/types/dropdown';
 import { UserInfo } from '@/types/setting/project';
 import { CreateProjectSchemaType, EditProjectSchemaType } from './schema';
 import { MAX_LENGTH_20 } from '@/lib/constants/validation';
-
-export function calcTotalDays(start?: Date, end?: Date): number | null {
-  if (!start || !end) return null;
-
-  const diff = differenceInBusinessDays(end, start);
-  return diff >= 0 ? diff + 1 : null;
-}
+import { calcTotalDays } from '@/lib/functions/date-format';
 
 export interface ProjectMemberTableProps {
   index: number;
@@ -42,7 +35,8 @@ const ProjectMemberRow = ({ index, form, teamOptions, userOptions }: ProjectMemb
   });
 
   useEffect(() => {
-    const totalDays = startDate && endDate ? calcTotalDays(startDate, endDate) : 0;
+    const totalDays =
+      startDate && endDate ? calcTotalDays(startDate.toString(), endDate.toString()) : 0;
     const estimatedCost = totalDays && costPerDay ? totalDays * costPerDay : 0;
 
     form.setValue(`member.${index}.work_day`, totalDays ?? 0);

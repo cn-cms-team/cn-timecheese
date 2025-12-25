@@ -24,7 +24,7 @@ export interface ProjectMemberTableProps {
 }
 
 const ProjectTaskTable = ({ header, form, name }: ProjectMemberTableProps) => {
-  const { remove } = useFieldArray({
+  const { fields, remove } = useFieldArray({
     control: form.control,
     name: name,
   });
@@ -130,7 +130,13 @@ const ProjectTaskTable = ({ header, form, name }: ProjectMemberTableProps) => {
                             }
                           </TableCell>
                           <TableCell>
-                            <Button variant={'ghost'} onClick={() => remove(index)}>
+                            <Button
+                              type="button"
+                              variant={'ghost'}
+                              onClick={() => {
+                                remove(index);
+                              }}
+                            >
                               <Trash2 width={20} height={20} />
                             </Button>
                           </TableCell>

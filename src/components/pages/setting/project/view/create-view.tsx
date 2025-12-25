@@ -33,7 +33,7 @@ const ProjectCreateView = ({ id }: { id?: string }) => {
       headerTitle={id ? 'แก้ไขโครงการ' : 'เพิ่มโครงการ'}
       leaveUrl={'/setting/project'}
       headerButton={<ProjectCreateButton />}
-      content={<ProjectCreate />}
+      content={<ProjectCreate id={id} />}
     ></ModuleLayout>
   );
 };

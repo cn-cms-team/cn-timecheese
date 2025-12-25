@@ -104,6 +104,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
       if (id) {
         fetchUrl = `/api/v1/setting/project/${id}`;
       }
+
       const data = {
         id: id,
         name: values.name,
@@ -113,7 +114,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         status: values.status,
         description: values.description,
         value: values.value,
-        people_cost: values.member.reduce((acc, cur) => acc + (cur.estimated_cost ?? 0), 0),
+        people_cost: values.people_cost,
+        people_cost_percent: values.people_cost_percent,
         created_by: session?.user?.id,
         member: values.member.map((item) => ({
           ...item,
@@ -131,7 +133,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         body: JSON.stringify({ data }),
       });
       if (response.ok) {
-        // router.push('/setting/project');
+        router.push('/setting/project');
       }
     } catch {
       console.error('An unexpected error occurred. Please try again.');
@@ -187,6 +189,40 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   const handleAddOptionalTaskType = () => {
     form.setValue('optional_task_type', [...form.getValues('optional_task_type'), defaultTaskType]);
   };
+
+  const [lastChanged, setLastChanged] = useState<'people_cost' | 'people_cost_percent' | null>(
+    null
+  );
+
+  const projectCost = form.watch('value');
+  const peopleCost = form.watch('people_cost');
+  const peopleCostPercent = form.watch('people_cost_percent');
+
+  useEffect(() => {
+    if (lastChanged !== 'people_cost' || !projectCost || peopleCost === undefined) {
+      return;
+    }
+
+    const percent = (peopleCost / projectCost) * 100;
+
+    form.setValue('people_cost_percent', Number(percent.toFixed(2)), {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  }, [peopleCost, projectCost, lastChanged]);
+
+  useEffect(() => {
+    if (lastChanged !== 'people_cost_percent' || !projectCost || peopleCostPercent === undefined) {
+      return;
+    }
+
+    const cost = (projectCost * peopleCostPercent) / 100;
+
+    form.setValue('people_cost', Math.round(cost), {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  }, [peopleCostPercent, projectCost, lastChanged]);
 
   return (
     <Form {...form}>
@@ -290,6 +326,27 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
               <div className="flex flex-wrap items-baseline">
                 <FormField
                   control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <FormItem className="w-full md:w-1/2">
+                      <FormLabel>
+                        สถานะโครงการ
+                        <Required />
+                      </FormLabel>
+                      <FormControl>
+                        <ComboboxForm
+                          placeholder="เลือกสถานะ"
+                          options={projectStatusOptions ?? []}
+                          field={field}
+                          onSelect={(value) => field.onChange(value)}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="value"
                   render={({ field }) => (
                     <FormItem className="w-full md:w-1/2">
@@ -313,21 +370,50 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                     </FormItem>
                   )}
                 />
+              </div>
+              <div className="flex flex-wrap items-baseline">
                 <FormField
                   control={form.control}
-                  name="status"
+                  name="people_cost"
                   render={({ field }) => (
                     <FormItem className="w-full md:w-1/2">
-                      <FormLabel>
-                        สถานะโครงการ
-                        <Required />
-                      </FormLabel>
+                      <FormLabel>งบประมาณบุคลากรสำหรับโครงการ (บาท)</FormLabel>
                       <FormControl>
-                        <ComboboxForm
-                          placeholder="เลือกสถานะ"
-                          options={projectStatusOptions ?? []}
-                          field={field}
-                          onSelect={(value) => field.onChange(value)}
+                        <Input
+                          type="number"
+                          placeholder="งบประมาณบุคลากรสำหรับโครงการ"
+                          {...field}
+                          onChange={(e) => {
+                            setLastChanged('people_cost');
+                            field.onChange(
+                              e.target.value === '' ? undefined : e.target.valueAsNumber
+                            );
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="people_cost_percent"
+                  render={({ field }) => (
+                    <FormItem className="w-full md:w-1/2">
+                      <FormLabel>สัดส่วนงบประมาณบุคลากร (%)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min={0}
+                          max={100}
+                          placeholder="สัดส่วนงบประมาณบุคลากร"
+                          {...field}
+                          onChange={(e) => {
+                            setLastChanged('people_cost_percent');
+                            field.onChange(
+                              e.target.value === '' ? undefined : e.target.valueAsNumber
+                            );
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -341,10 +427,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                   name="description"
                   render={({ field }) => (
                     <FormItem className="w-full md:w-1/2">
-                      <FormLabel>
-                        คำอธิบาย
-                        <Required />
-                      </FormLabel>
+                      <FormLabel>คำอธิบาย</FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="คำอธิบาย"

@@ -1,20 +1,33 @@
-import { auth } from '@/auth';
-import { ProjectMemberSchemaType } from '@/components/pages/setting/project/schema';
 import prisma from '@/lib/prisma';
+import { ProjectMemberSchemaType } from '@/components/pages/setting/project/schema';
+
+export async function GET() {
+  try {
+    const result = await prisma.project.findMany({
+      select: {
+        id: true,
+        name: true,
+        start_date: true,
+        end_date: true,
+      },
+    });
+    return Response.json({ data: result, status: 200 });
+  } catch (error) {
+    return Response.json(
+      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(request: Request) {
   try {
-    const session = await auth();
     const body = await request.json();
     const data = body.data;
 
-    console.log('====================================');
-    console.log(body.data.member);
-    console.log('====================================');
-
     const projectId = `${crypto.randomUUID()}`;
 
-    const project = await prisma.project.create({
+    await prisma.project.create({
       data: {
         id: projectId,
         name: data.name,
@@ -41,7 +54,7 @@ export async function POST(request: Request) {
       hour_price: item.hour_price,
     }));
 
-    const projectMember = await prisma.projectMember.createMany({
+    await prisma.projectMember.createMany({
       data: memberMap,
     });
 

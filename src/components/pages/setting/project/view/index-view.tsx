@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { createColumns } from '../project-list-column';
 import { ProjectList } from '../project-list';
+import { IProject } from '@/types/setting/project';
 
 const AddProjectButton = (): React.ReactNode => {
   const router = useRouter();
@@ -26,10 +27,10 @@ const AddProjectButton = (): React.ReactNode => {
 
 const ProjectListView = () => {
   const router = useRouter();
-  const fetchUsersUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user`;
-  const [userList, setUserList] = useState<IUser[]>([]);
-  const getUsers = async () => {
-    const response = await fetch(fetchUsersUrl);
+  const fetchProjectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/project`;
+  const [projectList, setProjectList] = useState<IProject[]>([]);
+  const getProject = async () => {
+    const response = await fetch(fetchProjectUrl);
     const result = await response.json();
     return result.data;
   };
@@ -46,45 +47,35 @@ const ProjectListView = () => {
   const [getConfirmation, Confirmation] = useDialogConfirm();
 
   useEffect(() => {
-    getUsers().then((data) => {
-      setUserList(data);
+    getProject().then((data) => {
+      setProjectList(data);
     });
   }, []);
 
-  const deleteUser = async (id: string) => {
-    const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user/${id}`;
-    await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
-      router.push('/setting/user');
-    });
-  };
   const handleOpenDialog = async (mode: 'edit' | 'delete', id: string) => {
     try {
       if (mode === 'edit') {
         setConfirmState({
           title: 'แก้ไขข้อมูล',
-          message: `คุณยืนยันที่จะแก้ไขข้อมูลผู้ใช้งาน : ${name} ใช่หรือไม่ ?`,
+          message: `คุณยืนยันที่จะแก้ไขข้อมูลโครงการ : ${name} ใช่หรือไม่ ?`,
           confirmType: ConfirmType.SUBMIT,
         });
 
         const result = await getConfirmation();
         if (result) {
-          router.push(`/setting/user/${id}/edit`);
+          router.push(`/setting/project/${id}/edit`);
         }
       } else {
         setConfirmState({
           title: 'ลบข้อมูล',
-          message: `คุณยืนยันที่จะลบข้อมูลผู้ใช้งาน : ${name} ใช่หรือไม่ ?`,
+          message: `คุณยืนยันที่จะลบข้อมูลโครงการ: ${name} ใช่หรือไม่ ?`,
           confirmType: ConfirmType.DELETE,
         });
 
         const result = await getConfirmation();
         if (!id) return;
         if (result) {
-          await deleteUser(id).then(async () => {
-            await getUsers().then((data) => {
-              setUserList(data);
-            });
-          });
+          // delete users
         }
       }
     } catch (error) {}
@@ -99,7 +90,7 @@ const ProjectListView = () => {
       <ModuleLayout
         headerTitle={'โครงการ'}
         headerButton={<AddProjectButton />}
-        content={<ProjectList columns={columns} data={[]} />}
+        content={<ProjectList columns={columns} data={projectList} />}
       ></ModuleLayout>
 
       <Confirmation

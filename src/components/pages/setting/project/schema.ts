@@ -30,6 +30,8 @@ const baseSchema = {
   status: z.string().nonempty('กรุณากรอกสถานะโครงการ'),
   description: z.string().optional(),
   value: z.number('กรุณากรอกมูลค่าโครงการ'),
+  people_cost: z.number().optional(),
+  people_cost_percent: z.number().optional(),
   member: z.array(memberDetailSchema),
   main_task_type: z.array(taskTypeSchema),
   optional_task_type: z.array(taskTypeSchema),

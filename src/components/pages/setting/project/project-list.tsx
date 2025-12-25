@@ -22,6 +22,7 @@ import DataTable from '@/components/ui/custom/data-table/table-template';
 import InputSearch from '@/components/ui/custom/data-table/input/input-search';
 import SearchButton from '@/components/ui/custom/button/search-button';
 import { IUser } from '@/types/setting/user';
+import { IProject } from '@/types/setting/project';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -53,16 +54,8 @@ export function ProjectList<TData, TValue>({ columns, data }: DataTableProps<TDa
     filterValue: { search: string; userType: string; roles: string }
   ) => {
     const search = filterValue.search.toLowerCase().trim();
-    const { first_name, last_name, nick_name, team, position_level, email } = row.original as IUser;
-    const fullName = `${first_name ?? ''} ${last_name ?? ''}`.toLowerCase();
-    const searchMatch =
-      email?.toLowerCase().includes(search) ||
-      first_name?.toLowerCase().includes(search) ||
-      last_name?.toLowerCase().includes(search) ||
-      fullName.toLowerCase().includes(search) ||
-      nick_name?.toLowerCase().includes(search) ||
-      position_level?.name.toLowerCase().includes(search) ||
-      team?.name?.toLowerCase().includes(search);
+    const { name } = row.original as IProject;
+    const searchMatch = name?.toLowerCase().includes(search);
 
     return searchMatch;
   };

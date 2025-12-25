@@ -45,7 +45,7 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
       size: 200,
       cell: ({ row }) => {
         const { start_date } = row.original;
-        return formatDate(start_date);
+        return start_date ? formatDate(start_date, 'dd/mm/yyyy') : '-';
       },
     },
     {
@@ -53,7 +53,7 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
       size: 200,
       cell: ({ row }) => {
         const { end_date } = row.original;
-        return formatDate(end_date);
+        return end_date ? formatDate(end_date, 'dd/mm/yyyy') : '-';
       },
     },
     {
