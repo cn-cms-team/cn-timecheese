@@ -47,12 +47,17 @@ const UserListView = () => {
       router.push('/setting/user');
     });
   };
-  const handleOpenDialog = async (mode: 'edit' | 'delete', isActive: boolean, id: string) => {
+  const handleOpenDialog = async (
+    mode: 'edit' | 'delete',
+    isActive: boolean,
+    id: string,
+    { email }: { email: string }
+  ) => {
     try {
       if (mode === 'edit') {
         setConfirmState({
           title: 'แก้ไขข้อมูล',
-          message: `คุณยืนยันที่จะแก้ไขข้อมูลผู้ใช้งาน : ${name} ใช่หรือไม่ ?`,
+          message: `คุณยืนยันที่จะแก้ไขข้อมูลผู้ใช้งาน : ${email} ใช่หรือไม่ ?`,
           confirmType: ConfirmType.SUBMIT,
         });
 
@@ -63,7 +68,7 @@ const UserListView = () => {
       } else {
         setConfirmState({
           title: 'ลบข้อมูล',
-          message: `คุณยืนยันที่จะลบข้อมูลผู้ใช้งาน : ${name} ใช่หรือไม่ ?`,
+          message: `คุณยืนยันที่จะลบข้อมูลผู้ใช้งาน : ${email} ใช่หรือไม่ ?`,
           confirmType: ConfirmType.DELETE,
         });
 

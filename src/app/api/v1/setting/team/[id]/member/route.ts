@@ -18,14 +18,14 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         const created = await prisma.teamLeader.create({
           data: { team_id: id, user_id: userId },
         });
-        return Response.json({ message: 'Leader added', data: created }, { status: 200 });
+        return Response.json({ message: 'Permission added', data: created }, { status: 200 });
       }
-      return Response.json({ message: 'Leader already exists', data: exists }, { status: 200 });
+      return Response.json({ message: 'Permission already exists', data: exists }, { status: 200 });
     } else {
       const deleted = await prisma.teamLeader.deleteMany({
         where: { team_id: id, user_id: userId },
       });
-      return Response.json({ message: 'Leader removed', data: deleted }, { status: 200 });
+      return Response.json({ message: 'Permission removed', data: deleted }, { status: 200 });
     }
   } catch (error) {
     return Response.json(

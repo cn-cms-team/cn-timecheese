@@ -10,7 +10,7 @@ import LinkTable from '@/components/ui/custom/data-table/link';
 import { IRole } from '@/types/setting/role';
 import { ColumnDef } from '@tanstack/react-table';
 
-const nameColumn = SortColumn<IRole>('name', 'ชื่อสิทธื์การใช้งาน');
+const nameColumn = SortColumn<IRole>('name', 'ชื่อสิทธิ์การใช้งาน');
 const descriptionColumn = SortColumn<IRole>('description', 'คำอธิบาย');
 const createdByColumn = SortColumn<IRole>('createdBy', 'ผู้แก้ไข', 'center');
 const updatedAtColumn = SortColumn<IRole>('updatedAt', 'วันที่แก้ไขล่าสุด', 'center');
