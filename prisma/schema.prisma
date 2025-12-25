@@ -215,6 +215,7 @@ enum TaskTypeCode {
 model Project {
   id                  String        @id @default(uuid()) @db.Char(36)
   name                String        @db.VarChar(255)
+  code                String?       @db.VarChar(25)
   description         String?       @db.VarChar(255)
   value               Float?
   people_cost_percent Float?
