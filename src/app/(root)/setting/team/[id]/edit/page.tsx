@@ -2,8 +2,8 @@ import { TeamCreateView } from '@/components/pages/setting/team/view';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Edit Team - CN Timesheet',
-  description: 'CN Timesheet',
+  title: 'Edit Team - Time Cheese',
+  description: 'Time Cheese',
 };
 
 const TeamCreateSetting = async ({ params }: { params: Promise<{ id: string }> }) => {

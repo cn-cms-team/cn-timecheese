@@ -2,8 +2,8 @@ import { RoleView } from '@/components/pages/setting/role/view';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'View Role - CN Timesheet',
-  description: 'CN Timesheet',
+  title: 'View Role - Time Cheese',
+  description: 'Time Cheese',
 };
 
 const RoleViewSetting = async ({ params }: { params: Promise<{ id: string }> }) => {

@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import MainLayout from '@/components/layouts/root';
 
 export const metadata: Metadata = {
-  title: 'Timecheese',
-  description: 'Timecheese',
+  title: 'Time Cheese',
+  description: 'Time Cheese',
 };
 
 export default function RootLayout({

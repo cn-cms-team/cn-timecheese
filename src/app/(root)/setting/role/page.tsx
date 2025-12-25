@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { RoleListView } from '@/components/pages/setting/role/view';
 
 export const metadata: Metadata = {
-  title: 'ตั้งค่าสิทธิ์การใช้งาน - Timecheese',
-  description: 'Timecheese',
+  title: 'Role - Time Cheese',
+  description: 'Time Cheese',
 };
 
 const RoleSetting = () => {
