@@ -1,3 +1,4 @@
+import { ICategoryOption } from '@/components/ui/custom/input/category-dropdown';
 import prisma from '@/lib/prisma';
 
 export async function GET() {
@@ -8,27 +9,40 @@ export async function GET() {
         id: true,
         first_name: true,
         last_name: true,
-        email: true,
-        salary_range: true,
+        team_id: true,
         position_level: {
           select: {
             name: true,
           },
         },
-        team_id: true,
-        role_id: true,
-        code: true,
+        team: {
+          select: { name: true },
+        },
       },
       orderBy: { first_name: 'asc' },
     });
-    const userMaps = users.map((user) => {
-      return {
-        ...user,
-        name: [user.first_name, user.last_name].join(' ').trim(),
-        position: user.position_level?.name,
-      };
-    });
-    return Response.json({ data: userMaps, status: 200 });
+
+    const options: ICategoryOption[] = Object.values(
+      users.reduce<Record<string, ICategoryOption>>((acc, user) => {
+        const teamKey = user.team_id ?? 'no_team';
+        const teamLabel = user.team?.name ?? 'ไม่ระบุทีม';
+
+        if (!acc[teamKey]) {
+          acc[teamKey] = {
+            label: teamLabel,
+            children: [],
+          };
+        }
+
+        acc[teamKey].children!.push({
+          label: `${user.first_name} ${user.last_name}`.trim(),
+          value: user.id,
+        });
+
+        return acc;
+      }, {})
+    );
+    return Response.json({ data: options, status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },

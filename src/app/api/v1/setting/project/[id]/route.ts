@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma';
+import { IProject } from '@/types/setting/project';
 import { NextRequest } from 'next/server';
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -69,9 +70,24 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const result = await prisma.user.update({
-      where: { id: body.data.id },
-      data: { ...body.data },
+    const data = body.data as IProject;
+
+    console.log(data);
+
+    const result = await prisma.project.update({
+      where: { id: data.id },
+      data: {
+        code: data.code,
+        name: data.name,
+        start_date: data.start_date,
+        end_date: data.end_date,
+        value: data.value,
+        people_cost: data.people_cost,
+        people_cost_percent: data.people_cost_percent,
+        description: data.description,
+        status: data.status,
+        updated_by: data.updated_by,
+      },
     });
 
     return Response.json(

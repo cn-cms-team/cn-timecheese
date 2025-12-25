@@ -31,6 +31,7 @@ export async function POST(request: Request) {
       data: {
         id: projectId,
         name: data.name,
+        code: data.code,
         description: data.description,
         value: data.value,
         start_date: data.start_date,

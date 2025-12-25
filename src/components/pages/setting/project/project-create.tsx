@@ -32,13 +32,14 @@ import ProjectMemberTable from './project-member-table';
 import ProjectTaskTable from './project-task-table';
 import { UserInfo } from '@/types/setting/project';
 import { Textarea } from '@/components/ui/textarea';
+import { ICategoryOption } from '@/components/ui/custom/input/category-dropdown';
+import { TitleGroup } from '@/components/ui/custom/cev';
 
 const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const [teamOptions, setTeamOptions] = useState<IOptions[]>([]);
-  const [userOptions, setUserOptions] = useState<UserInfo[]>([]);
+  const [userOptions, setUserOptions] = useState<ICategoryOption[]>([]);
   const [getConfirmation, Confirmation] = useDialogConfirm();
 
   const schema = id ? editProjectSchema : createProjectSchema;
@@ -61,17 +62,11 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     const fetchTeamsOptions = async () => {
       try {
         const prefix = process.env.NEXT_PUBLIC_APP_URL;
-        const [team, user] = await Promise.all([
-          fetcher<IOptions[]>(`${prefix}/api/v1/master/team`),
-          fetcher<UserInfo[]>(`${prefix}/api/v1/master/user`),
+        const [user] = await Promise.all([
+          fetcher<ICategoryOption[]>(`${prefix}/api/v1/master/user`),
         ]);
-        const userMap = user.map((item) => ({
-          ...item,
-          label: item.name,
-          value: item.id,
-        }));
-        setTeamOptions(team);
-        setUserOptions(userMap);
+        setUserOptions(user);
+        console.log;
       } catch (error) {
         console.error('Error fetching options:', error);
       }
@@ -105,6 +100,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         fetchUrl = `/api/v1/setting/project/${id}`;
       }
 
+      console.log('on submit');
+
       const data = {
         id: id,
         name: values.name,
@@ -124,6 +121,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         })),
         main_task_type: values.main_task_type,
         optional_task_type: values.optional_task_type,
+        updated_by: id ? session?.user.id : null,
       };
       const response = await fetch(fetchUrl, {
         method: 'POST',
@@ -143,7 +141,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   };
 
   const headersTableMember = [
-    { label: 'ทีม', className: 'text-center min-w-50 max-w-50' },
+    // { label: 'ทีม', className: 'text-center min-w-50 max-w-50' },
     { label: 'ชื่อ-นามสกุล', className: 'text-center min-w-60 max-w-60' },
     { label: 'ตำแหน่ง', className: 'text-center min-w-60 max-w-60' },
     { label: 'ค่าใช้จ่ายต่อวัน', className: 'text-center min-w-60 max-w-60' },
@@ -203,7 +201,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
       return;
     }
 
-    const percent = (peopleCost / projectCost) * 100;
+    const percent = (peopleCost! / projectCost) * 100;
 
     form.setValue('people_cost_percent', Number(percent.toFixed(2)), {
       shouldValidate: true,
@@ -216,7 +214,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
       return;
     }
 
-    const cost = (projectCost * peopleCostPercent) / 100;
+    const cost = (projectCost * peopleCostPercent!) / 100;
 
     form.setValue('people_cost', Math.round(cost), {
       shouldValidate: true,
@@ -225,262 +223,261 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   }, [peopleCostPercent, projectCost, lastChanged]);
 
   return (
-    <Form {...form}>
-      <form id="project-create-form" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-3 px-5">
-          <div>
-            <h2 className="font-medium text-lg mb-0">ข้อมูลโครงการ</h2>
-            <hr className="mt-2 mb-5" />
-            <div className="grid grid-cols-1 gap-x-6 gap-y-5 px-8 pb-10">
-              <div className="flex flex-wrap items-baseline">
-                <FormField
-                  control={form.control}
-                  name="code"
-                  render={({ field }) => (
-                    <FormItem className="w-full md:w-1/2">
-                      <FormLabel>
-                        รหัสโครงการ
-                        <Required />
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          autoComplete="off"
-                          placeholder="รหัสโครงการ"
-                          {...field}
-                          onInput={(e) => {
-                            field.onChange(e);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem className="w-full md:w-1/2">
-                      <FormLabel>
-                        ชื่อโครงการ
-                        <Required />
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="ชื่อโครงการ"
-                          {...field}
-                          onInput={(e) => {
-                            field.onChange(e);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+    <div className="cev-box">
+      <Form {...form}>
+        <form id="project-create-form" onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="flex flex-col gap-3 px-5">
+            <div>
+              <TitleGroup title="ข้อมูลโครงการ" />
+              <div className="grid grid-cols-1 gap-x-6 gap-y-5 px-8 pb-10">
+                <div className="flex flex-wrap items-baseline">
+                  <FormField
+                    control={form.control}
+                    name="code"
+                    render={({ field }) => (
+                      <FormItem className="w-full md:w-1/2">
+                        <FormLabel>
+                          รหัสโครงการ
+                          <Required />
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            autoComplete="off"
+                            placeholder="รหัสโครงการ"
+                            {...field}
+                            onInput={(e) => {
+                              field.onChange(e);
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem className="w-full md:w-1/2">
+                        <FormLabel>
+                          ชื่อโครงการ
+                          <Required />
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="ชื่อโครงการ"
+                            {...field}
+                            onInput={(e) => {
+                              field.onChange(e);
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex flex-wrap items-baseline">
+                  <FormField
+                    control={form.control}
+                    name="start_date"
+                    render={({ field }) => (
+                      <FormItem className="w-full md:w-1/2">
+                        <FormLabel>
+                          วันที่เริ่มต้น
+                          <Required />
+                        </FormLabel>
+                        <FormControl>
+                          <DatePickerInput
+                            {...field}
+                            value={new Date(field.value)}
+                            placeholder="วันที่เริ่มต้นโครงการ"
+                            isError={form.formState.errors.start_date ? true : false}
+                            onChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="end_date"
+                    render={({ field }) => (
+                      <FormItem className="w-full md:w-1/2">
+                        <FormLabel>
+                          วันที่สิ้นสุด
+                          <Required />
+                        </FormLabel>
+                        <FormControl>
+                          <DatePickerInput
+                            {...field}
+                            value={new Date(field.value)}
+                            placeholder="วันที่สิ้นสุดโครงการ"
+                            isError={form.formState.errors.start_date ? true : false}
+                            onChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex flex-wrap items-baseline">
+                  <FormField
+                    control={form.control}
+                    name="status"
+                    render={({ field }) => (
+                      <FormItem className="w-full md:w-1/2">
+                        <FormLabel>
+                          สถานะโครงการ
+                          <Required />
+                        </FormLabel>
+                        <FormControl>
+                          <ComboboxForm
+                            placeholder="เลือกสถานะ"
+                            options={projectStatusOptions ?? []}
+                            field={field}
+                            onSelect={(value) => field.onChange(value)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="value"
+                    render={({ field }) => (
+                      <FormItem className="w-full md:w-1/2">
+                        <FormLabel>
+                          มูลค่าโครงการ
+                          <Required />
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="มูลค่าโครงการ"
+                            {...field}
+                            onChange={(e) =>
+                              field.onChange(
+                                e.target.value === '' ? undefined : e.target.valueAsNumber
+                              )
+                            }
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex flex-wrap items-baseline">
+                  <FormField
+                    control={form.control}
+                    name="people_cost"
+                    render={({ field }) => (
+                      <FormItem className="w-full md:w-1/2">
+                        <FormLabel>งบประมาณบุคลากรสำหรับโครงการ (บาท)</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="งบประมาณบุคลากรสำหรับโครงการ"
+                            {...field}
+                            onChange={(e) => {
+                              setLastChanged('people_cost');
+                              field.onChange(
+                                e.target.value === '' ? undefined : e.target.valueAsNumber
+                              );
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="people_cost_percent"
+                    render={({ field }) => (
+                      <FormItem className="w-full md:w-1/2">
+                        <FormLabel>สัดส่วนงบประมาณบุคลากร (%)</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            min={0}
+                            max={100}
+                            placeholder="สัดส่วนงบประมาณบุคลากร"
+                            {...field}
+                            onChange={(e) => {
+                              setLastChanged('people_cost_percent');
+                              field.onChange(
+                                e.target.value === '' ? undefined : e.target.valueAsNumber
+                              );
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex flex-wrap items-baseline">
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem className="w-full md:w-1/2">
+                        <FormLabel>คำอธิบาย</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="คำอธิบาย"
+                            {...field}
+                            value={field.value}
+                            onChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
-              <div className="flex flex-wrap items-baseline">
-                <FormField
-                  control={form.control}
-                  name="start_date"
-                  render={({ field }) => (
-                    <FormItem className="w-full md:w-1/2">
-                      <FormLabel>
-                        วันที่เริ่มต้น
-                        <Required />
-                      </FormLabel>
-                      <FormControl>
-                        <DatePickerInput
-                          value={field.value}
-                          placeholder="วันที่เริ่มต้นโครงการ"
-                          isError={form.formState.errors.start_date ? true : false}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="end_date"
-                  render={({ field }) => (
-                    <FormItem className="w-full md:w-1/2">
-                      <FormLabel>
-                        วันที่สิ้นสุด
-                        <Required />
-                      </FormLabel>
-                      <FormControl>
-                        <DatePickerInput
-                          value={field.value || undefined}
-                          placeholder="วันที่สิ้นสุดโครงการ"
-                          isError={form.formState.errors.start_date ? true : false}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            </div>
+            <div>
+              <TitleGroup title="สมาชิก" />
+              <ProjectMemberTable
+                form={form}
+                header={headersTableMember}
+                userOptions={userOptions}
+              />
+              <div className="flex w-full py-4 px-2">
+                <Button type="button" onClick={handleAddMember}>
+                  เพิ่มข้อมูล
+                </Button>
               </div>
-              <div className="flex flex-wrap items-baseline">
-                <FormField
-                  control={form.control}
-                  name="status"
-                  render={({ field }) => (
-                    <FormItem className="w-full md:w-1/2">
-                      <FormLabel>
-                        สถานะโครงการ
-                        <Required />
-                      </FormLabel>
-                      <FormControl>
-                        <ComboboxForm
-                          placeholder="เลือกสถานะ"
-                          options={projectStatusOptions ?? []}
-                          field={field}
-                          onSelect={(value) => field.onChange(value)}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="value"
-                  render={({ field }) => (
-                    <FormItem className="w-full md:w-1/2">
-                      <FormLabel>
-                        มูลค่าโครงการ
-                        <Required />
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="มูลค่าโครงการ"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value === '' ? undefined : e.target.valueAsNumber
-                            )
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            </div>
+            <div>
+              <TitleGroup title="ประเภทงานตั้งต้น" />
+              <ProjectTaskTable form={form} header={headersTableTask} name="main_task_type" />
+              <div className="flex w-full py-4 px-2">
+                <Button type="button" onClick={handleAddMainTaskType}>
+                  เพิ่มข้อมูล
+                </Button>
               </div>
-              <div className="flex flex-wrap items-baseline">
-                <FormField
-                  control={form.control}
-                  name="people_cost"
-                  render={({ field }) => (
-                    <FormItem className="w-full md:w-1/2">
-                      <FormLabel>งบประมาณบุคลากรสำหรับโครงการ (บาท)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="งบประมาณบุคลากรสำหรับโครงการ"
-                          {...field}
-                          onChange={(e) => {
-                            setLastChanged('people_cost');
-                            field.onChange(
-                              e.target.value === '' ? undefined : e.target.valueAsNumber
-                            );
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="people_cost_percent"
-                  render={({ field }) => (
-                    <FormItem className="w-full md:w-1/2">
-                      <FormLabel>สัดส่วนงบประมาณบุคลากร (%)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min={0}
-                          max={100}
-                          placeholder="สัดส่วนงบประมาณบุคลากร"
-                          {...field}
-                          onChange={(e) => {
-                            setLastChanged('people_cost_percent');
-                            field.onChange(
-                              e.target.value === '' ? undefined : e.target.valueAsNumber
-                            );
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="flex flex-wrap items-baseline">
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem className="w-full md:w-1/2">
-                      <FormLabel>คำอธิบาย</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="คำอธิบาย"
-                          {...field}
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            </div>
+            <div>
+              <TitleGroup title="ประเภทงานจำเพาะ" />
+              <ProjectTaskTable form={form} header={headersTableTask} name="optional_task_type" />
+              <div className="flex w-full py-4 px-2">
+                <Button type="button" onClick={handleAddOptionalTaskType}>
+                  เพิ่มข้อมูล
+                </Button>
               </div>
             </div>
           </div>
-          <div>
-            <h2 className="font-medium text-lg mb-0">สมาชิก</h2>
-            <hr className="mt-2 mb-5" />
-            <ProjectMemberTable
-              form={form}
-              teamOptions={teamOptions}
-              header={headersTableMember}
-              userOptions={userOptions}
-            />
-            <div className="flex w-full py-4 px-2">
-              <Button type="button" onClick={handleAddMember}>
-                เพิ่มข้อมูล
-              </Button>
-            </div>
-          </div>
-          <div>
-            <h2 className="font-medium text-lg mb-0">ประเภทงานตั้งต้น</h2>
-            <hr className="mt-2 mb-5" />
-            <ProjectTaskTable form={form} header={headersTableTask} name="main_task_type" />
-            <div className="flex w-full py-4 px-2">
-              <Button type="button" onClick={handleAddMainTaskType}>
-                เพิ่มข้อมูล
-              </Button>
-            </div>
-          </div>
-          <div>
-            <h2 className="font-medium text-lg mb-0">ประเภทงานจำเพาะ</h2>
-            <hr className="mt-2 mb-5" />
-            <ProjectTaskTable form={form} header={headersTableTask} name="optional_task_type" />
-            <div className="flex w-full py-4 px-2">
-              <Button type="button" onClick={handleAddOptionalTaskType}>
-                เพิ่มข้อมูล
-              </Button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </div>
   );
 };
 export default ProjectCreate;

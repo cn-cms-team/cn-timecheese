@@ -10,15 +10,15 @@ import { UserInfo } from '@/types/setting/project';
 import { CreateProjectSchemaType, EditProjectSchemaType } from './schema';
 import { MAX_LENGTH_20 } from '@/lib/constants/validation';
 import { calcTotalDays } from '@/lib/functions/date-format';
+import CategoryDropdown, { ICategoryOption } from '@/components/ui/custom/input/category-dropdown';
 
 export interface ProjectMemberTableProps {
   index: number;
-  teamOptions: IOptions[];
-  userOptions: UserInfo[];
+  userOptions: ICategoryOption[];
   form: UseFormReturn<EditProjectSchemaType | CreateProjectSchemaType>;
 }
 
-const ProjectMemberRow = ({ index, form, teamOptions, userOptions }: ProjectMemberTableProps) => {
+const ProjectMemberRow = ({ index, form, userOptions }: ProjectMemberTableProps) => {
   const startDate = useWatch({
     control: form.control,
     name: `member.${index}.start_date`,
@@ -45,7 +45,7 @@ const ProjectMemberRow = ({ index, form, teamOptions, userOptions }: ProjectMemb
 
   return (
     <TableRow key={index}>
-      <TableCell>
+      {/* <TableCell>
         <FormField
           control={form.control}
           name={`member.${index}.team_id`}
@@ -66,8 +66,8 @@ const ProjectMemberRow = ({ index, form, teamOptions, userOptions }: ProjectMemb
             </FormItem>
           )}
         />
-      </TableCell>
-      <TableCell>
+      </TableCell> */}
+      {/* <TableCell>
         <FormField
           control={form.control}
           name={`member.${index}.user_id`}
@@ -97,6 +97,30 @@ const ProjectMemberRow = ({ index, form, teamOptions, userOptions }: ProjectMemb
               </FormItem>
             );
           }}
+        />
+      </TableCell> */}
+      <TableCell>
+        <FormField
+          control={form.control}
+          name={`member.${index}.user_id`}
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <CategoryDropdown
+                  key={index}
+                  value={field.value}
+                  options={userOptions}
+                  className={
+                    !form.formState.errors.member?.[index]?.user_id ? 'border-red-600' : ''
+                  }
+                  onSelect={(value) => {
+                    field.onChange(value);
+                    form.setValue(`member.${index}.user_id`, value as string);
+                  }}
+                />
+              </FormControl>
+            </FormItem>
+          )}
         />
       </TableCell>
       <TableCell>

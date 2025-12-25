@@ -16,6 +16,7 @@ export type IProject = {
   member: IProjectMember[];
   main_task_type: IProjectTaskType[];
   optional_task_type: IProjectTaskType[];
+  updated_by: string;
 };
 
 export type IProjectMember = {

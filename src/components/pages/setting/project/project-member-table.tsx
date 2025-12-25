@@ -16,20 +16,15 @@ import { IOptions } from '@/types/dropdown';
 import { UserInfo } from '@/types/setting/project';
 import { differenceInCalendarDays, differenceInBusinessDays } from 'date-fns';
 import ProjectMemberRow from './project-member-row';
+import { ICategoryOption } from '@/components/ui/custom/input/category-dropdown';
 
 export interface ProjectMemberTableProps {
   header: { label: string; className: string }[];
-  teamOptions: IOptions[];
-  userOptions: UserInfo[];
+  userOptions: ICategoryOption[];
   form: UseFormReturn<EditProjectSchemaType | CreateProjectSchemaType>;
 }
 
-const ProjectMemberTable = ({
-  header,
-  teamOptions,
-  userOptions,
-  form,
-}: ProjectMemberTableProps) => {
+const ProjectMemberTable = ({ header, userOptions, form }: ProjectMemberTableProps) => {
   return (
     <>
       <FormField
@@ -63,7 +58,6 @@ const ProjectMemberTable = ({
                       <ProjectMemberRow
                         index={index}
                         form={form}
-                        teamOptions={teamOptions}
                         userOptions={userOptions}
                         key={index}
                       />

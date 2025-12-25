@@ -42,7 +42,7 @@ const ProjectViewDetail = ({ id }: { id: string }): React.ReactNode => {
         <div className="flex flex-col lg:px-8 gap-5 mb-10">
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
             <LabelGroup label="รหัสโครงการ" value={projectData?.code} />
-            <LabelGroup label="ชื่อ" value={projectData?.name} className="col-span-2" />
+            <LabelGroup label="ชื่อ" value={projectData?.name} className="col-span-3" />
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
             <LabelGroup
