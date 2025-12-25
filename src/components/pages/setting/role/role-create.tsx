@@ -25,9 +25,8 @@ import { ChevronDown } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useForm } from 'react-hook-form';
 import { createEditRoleSchema, CreateEditRoleSchemaType } from './schema';
-import router from 'next/router';
-import { auth } from '@/auth';
-import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+// import { useSession } from 'next-auth/react';
 
 type OutputItem = {
   code: string;
@@ -53,13 +52,14 @@ function transformData(data: IRolePermissions[]): OutputItem[] {
 }
 
 const RoleCreate = ({ id }: { id?: string }) => {
+  const router = useRouter();
   const [rolePermissions, setRolePermissions] = React.useState<IRolePermissions[]>([]);
   const [openRows, setOpenRows] = React.useState<Record<string, boolean>>({});
   const isEdit = !!id;
-  const { data: session } = useSession();
-  if (!session) {
-    throw new Error('Unauthorized');
-  }
+  // const { data: session } = useSession();
+  // if (!session) {
+  //   throw new Error('Unauthorized');
+  // }
 
   const form = useForm({
     resolver: zodResolver(createEditRoleSchema),
@@ -110,7 +110,7 @@ const RoleCreate = ({ id }: { id?: string }) => {
         name: values.name,
         description: values.description,
         permissions: values.permissions,
-        created_by: session.user?.id as String,
+        // created_by: session.user?.id as String,
       };
       const response = await fetch(fetchUrl, {
         method: 'POST',
@@ -119,12 +119,12 @@ const RoleCreate = ({ id }: { id?: string }) => {
         },
         body: JSON.stringify({ data }),
       });
+
       if (response.ok) {
-        // const result = await response.json();
         router.push('/setting/role');
       }
-    } catch {
-      console.error('An unexpected error occurred. Please try again.');
+    } catch (err) {
+      console.error('Error saving role:', err);
     } finally {
       console.log('Finally block executed');
     }

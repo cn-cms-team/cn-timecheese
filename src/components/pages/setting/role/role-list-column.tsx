@@ -51,7 +51,11 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
       size: 100,
       cell: ({ row }) => {
         const { updatedAt } = row.original;
-        return <div className="text-center">{updatedAt?.toLocaleDateString() || '-'}</div>;
+        return (
+          <div className="text-center">
+            {updatedAt ? new Date(updatedAt).toLocaleDateString() : '-'}
+          </div>
+        );
       },
     },
     {

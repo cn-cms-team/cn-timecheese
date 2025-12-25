@@ -43,7 +43,7 @@ export async function POST(request: Request) {
   try {
     const session = await auth();
     const body = await request.json();
-    const { name, description, created_by, permissions = [] } = body.data ?? {};
+    const { name, description, permissions = [] } = body.data ?? {};
 
     if (!session?.user?.id) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
