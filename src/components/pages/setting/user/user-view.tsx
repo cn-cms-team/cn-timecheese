@@ -33,12 +33,13 @@ const UserViewDetail = ({ id }: { id: string }): React.ReactNode => {
   return (
     <div className="cev-box">
       <TitleGroup title="ข้อมูลผู้ใช้งาน" />
-      <div className="flex flex-col px-8 gap-5">
+      <div className="flex flex-col px-0 lg:px-8 gap-5">
         <LabelGroup label="อีเมล" value={userData?.email} />
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
           <LabelGroup label="ชื่อ" value={userData?.first_name} />
           <LabelGroup label="นามสกุล" value={userData?.last_name} />
           <LabelGroup label="ชื่อเล่น" value={userData?.nick_name} />
+          <LabelGroup label="รหัสพนักงาน" value={userData?.code} />
           <LabelGroup label="ทีม" value={userData?.team.name} />
           <LabelGroup label="ตำแหน่ง" value={userData?.position_level?.name} />
           <LabelGroup label="วันที่เริ่มงาน" value={formatDate(userData?.start_date) || '-'} />
