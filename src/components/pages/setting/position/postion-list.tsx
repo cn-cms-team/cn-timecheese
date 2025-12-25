@@ -99,9 +99,6 @@ export function PositionList<TData, TValue>({ columns, data }: DataTableProps<TD
             onEnter={handleSearch}
           />
         </div>
-        <div className="flex items-center gap-2">
-          <SearchButton onClick={handleSearch} />
-        </div>
       </div>
       <DataTable table={table} columns={columns} />
     </div>
