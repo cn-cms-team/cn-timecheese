@@ -66,7 +66,7 @@ export default function DataTable<TData, TValue>({
                       width={150}
                       height={150}
                       alt="Nodata"
-                      className="mx-auto"
+                      className="mx-auto opacity-80"
                     />
                   </div>
                 </TableCell>
