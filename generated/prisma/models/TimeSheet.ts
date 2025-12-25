@@ -27,10 +27,12 @@ export type AggregateTimeSheet = {
 }
 
 export type TimeSheetAvgAggregateOutputType = {
+  exclude_seconds: number | null
   total_seconds: number | null
 }
 
 export type TimeSheetSumAggregateOutputType = {
+  exclude_seconds: number | null
   total_seconds: number | null
 }
 
@@ -42,6 +44,7 @@ export type TimeSheetMinAggregateOutputType = {
   stamp_date: Date | null
   start_date: Date | null
   end_date: Date | null
+  exclude_seconds: number | null
   total_seconds: number | null
   detail: string | null
   remark: string | null
@@ -56,6 +59,7 @@ export type TimeSheetMaxAggregateOutputType = {
   stamp_date: Date | null
   start_date: Date | null
   end_date: Date | null
+  exclude_seconds: number | null
   total_seconds: number | null
   detail: string | null
   remark: string | null
@@ -70,6 +74,7 @@ export type TimeSheetCountAggregateOutputType = {
   stamp_date: number
   start_date: number
   end_date: number
+  exclude_seconds: number
   total_seconds: number
   detail: number
   remark: number
@@ -79,10 +84,12 @@ export type TimeSheetCountAggregateOutputType = {
 
 
 export type TimeSheetAvgAggregateInputType = {
+  exclude_seconds?: true
   total_seconds?: true
 }
 
 export type TimeSheetSumAggregateInputType = {
+  exclude_seconds?: true
   total_seconds?: true
 }
 
@@ -94,6 +101,7 @@ export type TimeSheetMinAggregateInputType = {
   stamp_date?: true
   start_date?: true
   end_date?: true
+  exclude_seconds?: true
   total_seconds?: true
   detail?: true
   remark?: true
@@ -108,6 +116,7 @@ export type TimeSheetMaxAggregateInputType = {
   stamp_date?: true
   start_date?: true
   end_date?: true
+  exclude_seconds?: true
   total_seconds?: true
   detail?: true
   remark?: true
@@ -122,6 +131,7 @@ export type TimeSheetCountAggregateInputType = {
   stamp_date?: true
   start_date?: true
   end_date?: true
+  exclude_seconds?: true
   total_seconds?: true
   detail?: true
   remark?: true
@@ -223,6 +233,7 @@ export type TimeSheetGroupByOutputType = {
   stamp_date: Date
   start_date: Date
   end_date: Date
+  exclude_seconds: number | null
   total_seconds: number
   detail: string | null
   remark: string | null
@@ -260,6 +271,7 @@ export type TimeSheetWhereInput = {
   stamp_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   start_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   end_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
+  exclude_seconds?: Prisma.IntNullableFilter<"TimeSheet"> | number | null
   total_seconds?: Prisma.IntFilter<"TimeSheet"> | number
   detail?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
   remark?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
@@ -277,6 +289,7 @@ export type TimeSheetOrderByWithRelationInput = {
   stamp_date?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
+  exclude_seconds?: Prisma.SortOrderInput | Prisma.SortOrder
   total_seconds?: Prisma.SortOrder
   detail?: Prisma.SortOrderInput | Prisma.SortOrder
   remark?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -297,6 +310,7 @@ export type TimeSheetWhereUniqueInput = Prisma.AtLeast<{
   stamp_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   start_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   end_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
+  exclude_seconds?: Prisma.IntNullableFilter<"TimeSheet"> | number | null
   total_seconds?: Prisma.IntFilter<"TimeSheet"> | number
   detail?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
   remark?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
@@ -314,6 +328,7 @@ export type TimeSheetOrderByWithAggregationInput = {
   stamp_date?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
+  exclude_seconds?: Prisma.SortOrderInput | Prisma.SortOrder
   total_seconds?: Prisma.SortOrder
   detail?: Prisma.SortOrderInput | Prisma.SortOrder
   remark?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -336,6 +351,7 @@ export type TimeSheetScalarWhereWithAggregatesInput = {
   stamp_date?: Prisma.DateTimeWithAggregatesFilter<"TimeSheet"> | Date | string
   start_date?: Prisma.DateTimeWithAggregatesFilter<"TimeSheet"> | Date | string
   end_date?: Prisma.DateTimeWithAggregatesFilter<"TimeSheet"> | Date | string
+  exclude_seconds?: Prisma.IntNullableWithAggregatesFilter<"TimeSheet"> | number | null
   total_seconds?: Prisma.IntWithAggregatesFilter<"TimeSheet"> | number
   detail?: Prisma.StringNullableWithAggregatesFilter<"TimeSheet"> | string | null
   remark?: Prisma.StringNullableWithAggregatesFilter<"TimeSheet"> | string | null
@@ -347,6 +363,7 @@ export type TimeSheetCreateInput = {
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
+  exclude_seconds?: number | null
   total_seconds: number
   detail?: string | null
   remark?: string | null
@@ -364,6 +381,7 @@ export type TimeSheetUncheckedCreateInput = {
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
+  exclude_seconds?: number | null
   total_seconds: number
   detail?: string | null
   remark?: string | null
@@ -375,6 +393,7 @@ export type TimeSheetUpdateInput = {
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -392,6 +411,7 @@ export type TimeSheetUncheckedUpdateInput = {
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -406,6 +426,7 @@ export type TimeSheetCreateManyInput = {
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
+  exclude_seconds?: number | null
   total_seconds: number
   detail?: string | null
   remark?: string | null
@@ -417,6 +438,7 @@ export type TimeSheetUpdateManyMutationInput = {
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -431,6 +453,7 @@ export type TimeSheetUncheckedUpdateManyInput = {
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -455,6 +478,7 @@ export type TimeSheetCountOrderByAggregateInput = {
   stamp_date?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
+  exclude_seconds?: Prisma.SortOrder
   total_seconds?: Prisma.SortOrder
   detail?: Prisma.SortOrder
   remark?: Prisma.SortOrder
@@ -462,6 +486,7 @@ export type TimeSheetCountOrderByAggregateInput = {
 }
 
 export type TimeSheetAvgOrderByAggregateInput = {
+  exclude_seconds?: Prisma.SortOrder
   total_seconds?: Prisma.SortOrder
 }
 
@@ -473,6 +498,7 @@ export type TimeSheetMaxOrderByAggregateInput = {
   stamp_date?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
+  exclude_seconds?: Prisma.SortOrder
   total_seconds?: Prisma.SortOrder
   detail?: Prisma.SortOrder
   remark?: Prisma.SortOrder
@@ -487,6 +513,7 @@ export type TimeSheetMinOrderByAggregateInput = {
   stamp_date?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
+  exclude_seconds?: Prisma.SortOrder
   total_seconds?: Prisma.SortOrder
   detail?: Prisma.SortOrder
   remark?: Prisma.SortOrder
@@ -494,6 +521,7 @@ export type TimeSheetMinOrderByAggregateInput = {
 }
 
 export type TimeSheetSumOrderByAggregateInput = {
+  exclude_seconds?: Prisma.SortOrder
   total_seconds?: Prisma.SortOrder
 }
 
@@ -628,6 +656,7 @@ export type TimeSheetCreateWithoutUserInput = {
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
+  exclude_seconds?: number | null
   total_seconds: number
   detail?: string | null
   remark?: string | null
@@ -643,6 +672,7 @@ export type TimeSheetUncheckedCreateWithoutUserInput = {
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
+  exclude_seconds?: number | null
   total_seconds: number
   detail?: string | null
   remark?: string | null
@@ -686,6 +716,7 @@ export type TimeSheetScalarWhereInput = {
   stamp_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   start_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   end_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
+  exclude_seconds?: Prisma.IntNullableFilter<"TimeSheet"> | number | null
   total_seconds?: Prisma.IntFilter<"TimeSheet"> | number
   detail?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
   remark?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
@@ -697,6 +728,7 @@ export type TimeSheetCreateWithoutTask_typeInput = {
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
+  exclude_seconds?: number | null
   total_seconds: number
   detail?: string | null
   remark?: string | null
@@ -712,6 +744,7 @@ export type TimeSheetUncheckedCreateWithoutTask_typeInput = {
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
+  exclude_seconds?: number | null
   total_seconds: number
   detail?: string | null
   remark?: string | null
@@ -749,6 +782,7 @@ export type TimeSheetCreateWithoutProjectInput = {
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
+  exclude_seconds?: number | null
   total_seconds: number
   detail?: string | null
   remark?: string | null
@@ -764,6 +798,7 @@ export type TimeSheetUncheckedCreateWithoutProjectInput = {
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
+  exclude_seconds?: number | null
   total_seconds: number
   detail?: string | null
   remark?: string | null
@@ -803,6 +838,7 @@ export type TimeSheetCreateManyUserInput = {
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
+  exclude_seconds?: number | null
   total_seconds: number
   detail?: string | null
   remark?: string | null
@@ -814,6 +850,7 @@ export type TimeSheetUpdateWithoutUserInput = {
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -829,6 +866,7 @@ export type TimeSheetUncheckedUpdateWithoutUserInput = {
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -842,6 +880,7 @@ export type TimeSheetUncheckedUpdateManyWithoutUserInput = {
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -855,6 +894,7 @@ export type TimeSheetCreateManyTask_typeInput = {
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
+  exclude_seconds?: number | null
   total_seconds: number
   detail?: string | null
   remark?: string | null
@@ -866,6 +906,7 @@ export type TimeSheetUpdateWithoutTask_typeInput = {
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -881,6 +922,7 @@ export type TimeSheetUncheckedUpdateWithoutTask_typeInput = {
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -894,6 +936,7 @@ export type TimeSheetUncheckedUpdateManyWithoutTask_typeInput = {
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -907,6 +950,7 @@ export type TimeSheetCreateManyProjectInput = {
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
+  exclude_seconds?: number | null
   total_seconds: number
   detail?: string | null
   remark?: string | null
@@ -918,6 +962,7 @@ export type TimeSheetUpdateWithoutProjectInput = {
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -933,6 +978,7 @@ export type TimeSheetUncheckedUpdateWithoutProjectInput = {
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -946,6 +992,7 @@ export type TimeSheetUncheckedUpdateManyWithoutProjectInput = {
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -962,6 +1009,7 @@ export type TimeSheetSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   stamp_date?: boolean
   start_date?: boolean
   end_date?: boolean
+  exclude_seconds?: boolean
   total_seconds?: boolean
   detail?: boolean
   remark?: boolean
@@ -979,6 +1027,7 @@ export type TimeSheetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   stamp_date?: boolean
   start_date?: boolean
   end_date?: boolean
+  exclude_seconds?: boolean
   total_seconds?: boolean
   detail?: boolean
   remark?: boolean
@@ -996,6 +1045,7 @@ export type TimeSheetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   stamp_date?: boolean
   start_date?: boolean
   end_date?: boolean
+  exclude_seconds?: boolean
   total_seconds?: boolean
   detail?: boolean
   remark?: boolean
@@ -1013,13 +1063,14 @@ export type TimeSheetSelectScalar = {
   stamp_date?: boolean
   start_date?: boolean
   end_date?: boolean
+  exclude_seconds?: boolean
   total_seconds?: boolean
   detail?: boolean
   remark?: boolean
   created_at?: boolean
 }
 
-export type TimeSheetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "project_id" | "task_type_id" | "stamp_date" | "start_date" | "end_date" | "total_seconds" | "detail" | "remark" | "created_at", ExtArgs["result"]["timeSheet"]>
+export type TimeSheetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "project_id" | "task_type_id" | "stamp_date" | "start_date" | "end_date" | "exclude_seconds" | "total_seconds" | "detail" | "remark" | "created_at", ExtArgs["result"]["timeSheet"]>
 export type TimeSheetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -1051,6 +1102,7 @@ export type $TimeSheetPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     stamp_date: Date
     start_date: Date
     end_date: Date
+    exclude_seconds: number | null
     total_seconds: number
     detail: string | null
     remark: string | null
@@ -1488,6 +1540,7 @@ export interface TimeSheetFieldRefs {
   readonly stamp_date: Prisma.FieldRef<"TimeSheet", 'DateTime'>
   readonly start_date: Prisma.FieldRef<"TimeSheet", 'DateTime'>
   readonly end_date: Prisma.FieldRef<"TimeSheet", 'DateTime'>
+  readonly exclude_seconds: Prisma.FieldRef<"TimeSheet", 'Int'>
   readonly total_seconds: Prisma.FieldRef<"TimeSheet", 'Int'>
   readonly detail: Prisma.FieldRef<"TimeSheet", 'String'>
   readonly remark: Prisma.FieldRef<"TimeSheet", 'String'>

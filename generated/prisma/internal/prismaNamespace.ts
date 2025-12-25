@@ -1689,6 +1689,7 @@ export const PositionLevelScalarFieldEnum = {
   name: 'name',
   description: 'description',
   position_id: 'position_id',
+  ord: 'ord',
   is_enabled: 'is_enabled'
 } as const
 
@@ -1709,6 +1710,7 @@ export type TaskTypeScalarFieldEnum = (typeof TaskTypeScalarFieldEnum)[keyof typ
 export const ProjectScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  code: 'code',
   description: 'description',
   value: 'value',
   people_cost_percent: 'people_cost_percent',
@@ -1760,6 +1762,7 @@ export const TimeSheetScalarFieldEnum = {
   stamp_date: 'stamp_date',
   start_date: 'start_date',
   end_date: 'end_date',
+  exclude_seconds: 'exclude_seconds',
   total_seconds: 'total_seconds',
   detail: 'detail',
   remark: 'remark',

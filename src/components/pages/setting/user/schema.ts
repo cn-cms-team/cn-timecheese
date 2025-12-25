@@ -12,7 +12,7 @@ const baseSchema = {
   last_name: z.string().nonempty('กรุณากรอกนามสกุลของคุณ'),
   code: z.string().nonempty('กรุณากรอกรหัสพนักงานของคุณ'),
   team_id: z.string().nonempty('กรุณาเลือกทีม'),
-  salary_range: z.string().optional(),
+  salary_range: z.string().optional().nullable(),
   position_level_id: z.string().nonempty('กรุณาเลือกระดับตำแหน่ง'),
   role_id: z.string().nonempty('กรุณาเลือกสิทธิ์การใช้งาน'),
   start_date: z.date('กรุณาเลือกวันที่เริ่มต้น'),
