@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { ChevronDownIcon } from 'lucide-react';
+import { Calendar1, ChevronDownIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -36,12 +36,14 @@ export function DatePickerInput({
           variant="outline"
           disabled={disabled}
           className={cn(
-            `w-full justify-between font-normal ${className ?? ''}`,
+            `w-full justify-between font-normal relative truncate ${className ?? ''}`,
             isError ? 'border-red-500' : ''
           )}
         >
-          {value ? formatDate(value) : placeholder}
-          <ChevronDownIcon className="h-4 w-4 opacity-50" />
+          <span className={cn('truncate', value ? '' : 'text-gray-500')}>
+            {value ? formatDate(value) : placeholder}
+          </span>
+          <Calendar1 className="h-4 w-4 opacity-50 text-black" />
         </Button>
       </PopoverTrigger>
 

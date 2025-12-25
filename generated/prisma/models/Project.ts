@@ -41,6 +41,7 @@ export type ProjectSumAggregateOutputType = {
 export type ProjectMinAggregateOutputType = {
   id: string | null
   name: string | null
+  code: string | null
   description: string | null
   value: number | null
   people_cost_percent: number | null
@@ -58,6 +59,7 @@ export type ProjectMinAggregateOutputType = {
 export type ProjectMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  code: string | null
   description: string | null
   value: number | null
   people_cost_percent: number | null
@@ -75,6 +77,7 @@ export type ProjectMaxAggregateOutputType = {
 export type ProjectCountAggregateOutputType = {
   id: number
   name: number
+  code: number
   description: number
   value: number
   people_cost_percent: number
@@ -106,6 +109,7 @@ export type ProjectSumAggregateInputType = {
 export type ProjectMinAggregateInputType = {
   id?: true
   name?: true
+  code?: true
   description?: true
   value?: true
   people_cost_percent?: true
@@ -123,6 +127,7 @@ export type ProjectMinAggregateInputType = {
 export type ProjectMaxAggregateInputType = {
   id?: true
   name?: true
+  code?: true
   description?: true
   value?: true
   people_cost_percent?: true
@@ -140,6 +145,7 @@ export type ProjectMaxAggregateInputType = {
 export type ProjectCountAggregateInputType = {
   id?: true
   name?: true
+  code?: true
   description?: true
   value?: true
   people_cost_percent?: true
@@ -244,6 +250,7 @@ export type ProjectGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type ProjectGroupByOutputType = {
   id: string
   name: string
+  code: string | null
   description: string | null
   value: number | null
   people_cost_percent: number | null
@@ -284,6 +291,7 @@ export type ProjectWhereInput = {
   NOT?: Prisma.ProjectWhereInput | Prisma.ProjectWhereInput[]
   id?: Prisma.StringFilter<"Project"> | string
   name?: Prisma.StringFilter<"Project"> | string
+  code?: Prisma.StringNullableFilter<"Project"> | string | null
   description?: Prisma.StringNullableFilter<"Project"> | string | null
   value?: Prisma.FloatNullableFilter<"Project"> | number | null
   people_cost_percent?: Prisma.FloatNullableFilter<"Project"> | number | null
@@ -306,6 +314,7 @@ export type ProjectWhereInput = {
 export type ProjectOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  code?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   value?: Prisma.SortOrderInput | Prisma.SortOrder
   people_cost_percent?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -331,6 +340,7 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ProjectWhereInput[]
   NOT?: Prisma.ProjectWhereInput | Prisma.ProjectWhereInput[]
   name?: Prisma.StringFilter<"Project"> | string
+  code?: Prisma.StringNullableFilter<"Project"> | string | null
   description?: Prisma.StringNullableFilter<"Project"> | string | null
   value?: Prisma.FloatNullableFilter<"Project"> | number | null
   people_cost_percent?: Prisma.FloatNullableFilter<"Project"> | number | null
@@ -353,6 +363,7 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
 export type ProjectOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  code?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   value?: Prisma.SortOrderInput | Prisma.SortOrder
   people_cost_percent?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -378,6 +389,7 @@ export type ProjectScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ProjectScalarWhereWithAggregatesInput | Prisma.ProjectScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Project"> | string
   name?: Prisma.StringWithAggregatesFilter<"Project"> | string
+  code?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   value?: Prisma.FloatNullableWithAggregatesFilter<"Project"> | number | null
   people_cost_percent?: Prisma.FloatNullableWithAggregatesFilter<"Project"> | number | null
@@ -395,6 +407,7 @@ export type ProjectScalarWhereWithAggregatesInput = {
 export type ProjectCreateInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -415,6 +428,7 @@ export type ProjectCreateInput = {
 export type ProjectUncheckedCreateInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -435,6 +449,7 @@ export type ProjectUncheckedCreateInput = {
 export type ProjectUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -455,6 +470,7 @@ export type ProjectUpdateInput = {
 export type ProjectUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -475,6 +491,7 @@ export type ProjectUncheckedUpdateInput = {
 export type ProjectCreateManyInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -492,6 +509,7 @@ export type ProjectCreateManyInput = {
 export type ProjectUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -507,6 +525,7 @@ export type ProjectUpdateManyMutationInput = {
 export type ProjectUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -534,6 +553,7 @@ export type ProjectOrderByRelationAggregateInput = {
 export type ProjectCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  code?: Prisma.SortOrder
   description?: Prisma.SortOrder
   value?: Prisma.SortOrder
   people_cost_percent?: Prisma.SortOrder
@@ -557,6 +577,7 @@ export type ProjectAvgOrderByAggregateInput = {
 export type ProjectMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  code?: Prisma.SortOrder
   description?: Prisma.SortOrder
   value?: Prisma.SortOrder
   people_cost_percent?: Prisma.SortOrder
@@ -574,6 +595,7 @@ export type ProjectMaxOrderByAggregateInput = {
 export type ProjectMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  code?: Prisma.SortOrder
   description?: Prisma.SortOrder
   value?: Prisma.SortOrder
   people_cost_percent?: Prisma.SortOrder
@@ -740,6 +762,7 @@ export type ProjectUpdateOneRequiredWithoutTimeSheetsNestedInput = {
 export type ProjectCreateWithoutCreatedByInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -759,6 +782,7 @@ export type ProjectCreateWithoutCreatedByInput = {
 export type ProjectUncheckedCreateWithoutCreatedByInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -788,6 +812,7 @@ export type ProjectCreateManyCreatedByInputEnvelope = {
 export type ProjectCreateWithoutUpdatedByInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -807,6 +832,7 @@ export type ProjectCreateWithoutUpdatedByInput = {
 export type ProjectUncheckedCreateWithoutUpdatedByInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -855,6 +881,7 @@ export type ProjectScalarWhereInput = {
   NOT?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
   id?: Prisma.StringFilter<"Project"> | string
   name?: Prisma.StringFilter<"Project"> | string
+  code?: Prisma.StringNullableFilter<"Project"> | string | null
   description?: Prisma.StringNullableFilter<"Project"> | string | null
   value?: Prisma.FloatNullableFilter<"Project"> | number | null
   people_cost_percent?: Prisma.FloatNullableFilter<"Project"> | number | null
@@ -888,6 +915,7 @@ export type ProjectUpdateManyWithWhereWithoutUpdatedByInput = {
 export type ProjectCreateWithoutProjectMembersInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -907,6 +935,7 @@ export type ProjectCreateWithoutProjectMembersInput = {
 export type ProjectUncheckedCreateWithoutProjectMembersInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -942,6 +971,7 @@ export type ProjectUpdateToOneWithWhereWithoutProjectMembersInput = {
 export type ProjectUpdateWithoutProjectMembersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -961,6 +991,7 @@ export type ProjectUpdateWithoutProjectMembersInput = {
 export type ProjectUncheckedUpdateWithoutProjectMembersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -980,6 +1011,7 @@ export type ProjectUncheckedUpdateWithoutProjectMembersInput = {
 export type ProjectCreateWithoutProjectTaskTypesInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -999,6 +1031,7 @@ export type ProjectCreateWithoutProjectTaskTypesInput = {
 export type ProjectUncheckedCreateWithoutProjectTaskTypesInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -1034,6 +1067,7 @@ export type ProjectUpdateToOneWithWhereWithoutProjectTaskTypesInput = {
 export type ProjectUpdateWithoutProjectTaskTypesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1053,6 +1087,7 @@ export type ProjectUpdateWithoutProjectTaskTypesInput = {
 export type ProjectUncheckedUpdateWithoutProjectTaskTypesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1072,6 +1107,7 @@ export type ProjectUncheckedUpdateWithoutProjectTaskTypesInput = {
 export type ProjectCreateWithoutTimeSheetsInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -1091,6 +1127,7 @@ export type ProjectCreateWithoutTimeSheetsInput = {
 export type ProjectUncheckedCreateWithoutTimeSheetsInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -1126,6 +1163,7 @@ export type ProjectUpdateToOneWithWhereWithoutTimeSheetsInput = {
 export type ProjectUpdateWithoutTimeSheetsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1145,6 +1183,7 @@ export type ProjectUpdateWithoutTimeSheetsInput = {
 export type ProjectUncheckedUpdateWithoutTimeSheetsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1164,6 +1203,7 @@ export type ProjectUncheckedUpdateWithoutTimeSheetsInput = {
 export type ProjectCreateManyCreatedByInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -1180,6 +1220,7 @@ export type ProjectCreateManyCreatedByInput = {
 export type ProjectCreateManyUpdatedByInput = {
   id?: string
   name: string
+  code?: string | null
   description?: string | null
   value?: number | null
   people_cost_percent?: number | null
@@ -1196,6 +1237,7 @@ export type ProjectCreateManyUpdatedByInput = {
 export type ProjectUpdateWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1215,6 +1257,7 @@ export type ProjectUpdateWithoutCreatedByInput = {
 export type ProjectUncheckedUpdateWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1234,6 +1277,7 @@ export type ProjectUncheckedUpdateWithoutCreatedByInput = {
 export type ProjectUncheckedUpdateManyWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1250,6 +1294,7 @@ export type ProjectUncheckedUpdateManyWithoutCreatedByInput = {
 export type ProjectUpdateWithoutUpdatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1269,6 +1314,7 @@ export type ProjectUpdateWithoutUpdatedByInput = {
 export type ProjectUncheckedUpdateWithoutUpdatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1288,6 +1334,7 @@ export type ProjectUncheckedUpdateWithoutUpdatedByInput = {
 export type ProjectUncheckedUpdateManyWithoutUpdatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
@@ -1353,6 +1400,7 @@ export type ProjectCountOutputTypeCountTimeSheetsArgs<ExtArgs extends runtime.Ty
 export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  code?: boolean
   description?: boolean
   value?: boolean
   people_cost_percent?: boolean
@@ -1376,6 +1424,7 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  code?: boolean
   description?: boolean
   value?: boolean
   people_cost_percent?: boolean
@@ -1395,6 +1444,7 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  code?: boolean
   description?: boolean
   value?: boolean
   people_cost_percent?: boolean
@@ -1414,6 +1464,7 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type ProjectSelectScalar = {
   id?: boolean
   name?: boolean
+  code?: boolean
   description?: boolean
   value?: boolean
   people_cost_percent?: boolean
@@ -1428,7 +1479,7 @@ export type ProjectSelectScalar = {
   is_enabled?: boolean
 }
 
-export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "value" | "people_cost_percent" | "people_cost" | "start_date" | "end_date" | "status" | "created_at" | "created_by" | "updated_at" | "updated_by" | "is_enabled", ExtArgs["result"]["project"]>
+export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "code" | "description" | "value" | "people_cost_percent" | "people_cost" | "start_date" | "end_date" | "status" | "created_at" | "created_by" | "updated_at" | "updated_by" | "is_enabled", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   updatedBy?: boolean | Prisma.Project$updatedByArgs<ExtArgs>
@@ -1458,6 +1509,7 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    code: string | null
     description: string | null
     value: number | null
     people_cost_percent: number | null
@@ -1900,6 +1952,7 @@ export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.
 export interface ProjectFieldRefs {
   readonly id: Prisma.FieldRef<"Project", 'String'>
   readonly name: Prisma.FieldRef<"Project", 'String'>
+  readonly code: Prisma.FieldRef<"Project", 'String'>
   readonly description: Prisma.FieldRef<"Project", 'String'>
   readonly value: Prisma.FieldRef<"Project", 'Float'>
   readonly people_cost_percent: Prisma.FieldRef<"Project", 'Float'>
