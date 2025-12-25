@@ -144,7 +144,7 @@ const TimeSheetWeekCalendarBody = ({ weekDays }: IProps) => {
                       }}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <TimeSheetEventCard data={task} height={height} />
+                      <TimeSheetEventCard data={task} />
                     </div>
                   }
                   popoverContent={(close) =>

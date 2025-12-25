@@ -7,6 +7,7 @@ export interface ITimeSheetResponse {
   stamp_date: string;
   start_date: string;
   end_date: string;
+  exclude: number;
   detail: string;
   remark: string;
   created_at: string;

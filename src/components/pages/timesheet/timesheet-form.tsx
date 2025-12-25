@@ -1,19 +1,21 @@
 'use client';
 import { toast } from 'sonner';
-import { useForm } from 'react-hook-form';
-import { Calendar, X } from 'lucide-react';
+import { Calendar } from 'lucide-react';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { buddhistFormatDate } from '@/lib/functions/date-format';
 import { ITimeSheetRequest, ITimeSheetResponse } from '@/types/timesheet';
 import { TimesheetCreateEditSchema, timesheetCreateEditSchema } from './schema';
 
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { useTimeSheetContext } from './view/timesheet-context';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import TimeInput from '@/components/ui/custom/input/time-input';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 
 interface IProps {
   close?: () => void;
@@ -49,11 +51,15 @@ const TimeSheetForm = ({
       id: data ? data.id : undefined,
       task_type_id: data ? data.task_type_id : undefined,
       project_id: data ? data.project_id : undefined,
+      is_include_breaking_time: data && data.exclude ? true : false,
+      exclude: data && data.exclude ? data.exclude : 3600,
       stamp_date: data && data?.stamp_date ? new Date(data?.stamp_date) : new Date(),
       start_date: data && data.start_date ? new Date(data.start_date) : startTime,
       end_date: data && data.end_date ? new Date(data.end_date) : endTime,
       detail: data ? data?.detail : '',
     },
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
   });
 
   const onSubmit = async (value: TimesheetCreateEditSchema) => {
@@ -97,6 +103,46 @@ const TimeSheetForm = ({
     }
   };
 
+  const calculateHour = () => {
+    const THREE_HOURS = 3 * 60 * 60;
+
+    const startDate = useWatch({ control: form.control, name: 'start_date' });
+    const endDate = useWatch({ control: form.control, name: 'end_date' });
+    const exclude = useWatch({ control: form.control, name: 'exclude' }) || 0;
+    const isIncludeBreak = useWatch({
+      control: form.control,
+      name: 'is_include_breaking_time',
+    });
+
+    if (!startDate || !endDate) return '0.00';
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    end.setFullYear(start.getFullYear());
+    end.setMonth(start.getMonth());
+    end.setDate(start.getDate());
+
+    let totalSeconds = Math.floor((end.getTime() - start.getTime()) / 1000);
+
+    if (totalSeconds <= 0) return '0.00';
+
+    if (!isIncludeBreak) {
+      return (totalSeconds / 3600).toFixed(2);
+    }
+
+    if (totalSeconds >= THREE_HOURS) {
+      totalSeconds = totalSeconds - exclude;
+    }
+
+    return (totalSeconds / 3600).toFixed(2);
+  };
+
+  const timeToSeconds = (time: string) => {
+    const [hh, mm] = time.split(':').map(Number);
+    return hh * 3600 + mm * 60;
+  };
+
   return (
     <div className="flex flex-col w-full p-4 space-y-4">
       <main className="w-full space-y-4">
@@ -121,35 +167,30 @@ const TimeSheetForm = ({
                         isError={form.formState.errors.task_type_id ? true : false}
                       />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
-              <div className=" text-end">
-                <Button
-                  className="bg-transparent border-transparent focus-visible:hidden hover:bg-transparent cursor-pointer focus:border-none"
-                  type="button"
-                  onClick={close}
-                >
-                  <X width={14} stroke="#000" />
-                </Button>
+            </div>
+            <div className="flex items-center justify-between px-0">
+              <div className="flex items-center px-0">
+                <Calendar width={25} strokeWidth={1} />
+                <span className="ml-2 font-semibold text-sm">{`${dayNameTH} ${buddhistFormatDate(
+                  data ? data.start_date : startTime,
+                  'dd mmmm yyyy'
+                )}`}</span>
               </div>
+              <span className="font-semibold text-sm text-end px-0">
+                เวลาทำงาน {calculateHour()} ชม
+              </span>
             </div>
-            <div className="flex items-center px-0">
-              <Calendar width={25} strokeWidth={1} />
-              <span className="ml-2 font-semibold">{`${dayNameTH} ${buddhistFormatDate(
-                data ? data.start_date : startTime,
-                'dd mmmm yyyy'
-              )}`}</span>
-            </div>
-            <div className="grid grid-cols-2 gap-2 w-full">
+            <div className="grid grid-cols-2 items-center gap-2 w-full">
               <FormField
                 control={form.control}
                 name="start_date"
                 render={({ field }) => (
                   <FormItem className="px-0">
                     <FormControl>
-                      <Input
+                      <TimeInput
                         value={field.value ? buddhistFormatDate(field.value, 'HH:ii') : ''}
                         type="time"
                         className="w-full"
@@ -163,21 +204,11 @@ const TimeSheetForm = ({
                           const nextStart = new Date(base);
                           nextStart.setHours(hh, mm, 0, 0);
 
-                          const end = form.getValues('end_date');
-
-                          if (end && nextStart >= new Date(end)) {
-                            form.setError('start_date', {
-                              message: 'เวลาเริ่มต้องน้อยกว่าเวลาสิ้นสุด',
-                            });
-                            return;
-                          }
-
-                          form.clearErrors('start_date');
                           field.onChange(nextStart);
                         }}
+                        isError={form.formState.errors.start_date ? true : false}
                       />
                     </FormControl>
-                    <FormMessage />
                   </FormItem>
                 )}
               />
@@ -187,7 +218,7 @@ const TimeSheetForm = ({
                 render={({ field }) => (
                   <FormItem className="px-0">
                     <FormControl className="ms-0 me-0">
-                      <Input
+                      <TimeInput
                         type="time"
                         className="mx-2 w-full"
                         value={field.value ? buddhistFormatDate(field.value, 'HH:ii') : ''}
@@ -197,25 +228,70 @@ const TimeSheetForm = ({
 
                           const [hh, mm] = time.split(':').map(Number);
 
-                          const start = form.getValues('start_date');
-                          if (!start) return;
+                          const base = field.value ?? new Date();
+                          const nextStart = new Date(base);
+                          nextStart.setHours(hh, mm, 0, 0);
 
-                          const date = new Date(start);
-                          date.setHours(hh, mm, 0, 0);
-
-                          if (date <= start) {
-                            form.setError('end_date', {
-                              message: 'เวลาสิ้นสุดต้องมากกว่าเวลาเริ่ม',
-                            });
-                            return;
-                          }
-
-                          form.clearErrors('end_date');
-                          field.onChange(date);
+                          field.onChange(nextStart);
                         }}
+                        isError={form.formState.errors.end_date ? true : false}
                       />
                     </FormControl>
-                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex gap-2 justify-center items-center">
+                <FormField
+                  control={form.control}
+                  name="is_include_breaking_time"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="flex items-center gap-2">
+                          <Checkbox
+                            checked={field.value}
+                            id="exclude"
+                            className="cursor-pointer"
+                            onCheckedChange={(checked) => {
+                              field.onChange(Boolean(checked));
+
+                              if (!checked) {
+                                form.setValue('exclude', 3600);
+                              }
+                            }}
+                          />
+                          <Label htmlFor="exclude" className="pb-1 cursor-pointer">
+                            รวมเวลาพักกลางวัน
+                          </Label>
+                        </div>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                control={form.control}
+                name="exclude"
+                render={({ field }) => (
+                  <FormItem className="px-0">
+                    <FormControl>
+                      <TimeInput
+                        value={
+                          typeof field.value === 'number'
+                            ? new Date(field.value * 1000).toISOString().substring(11, 16)
+                            : ''
+                        }
+                        disabled={!form.getValues('is_include_breaking_time')}
+                        onChange={(e) => {
+                          const time = e.target.value;
+                          if (!time) return;
+
+                          const seconds = timeToSeconds(time);
+                          field.onChange(seconds);
+                        }}
+                        isError={form.formState.errors.exclude ? true : false}
+                      />
+                    </FormControl>
                   </FormItem>
                 )}
               />
@@ -234,7 +310,6 @@ const TimeSheetForm = ({
                       isError={form.formState.errors.task_type_id ? true : false}
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -248,24 +323,34 @@ const TimeSheetForm = ({
                       value={field.value}
                       placeholder="กรอกรายละเอียดการทำงาน"
                       onChange={(value) => field.onChange(value)}
-                      // isError={form.formState.errors.detail ? true : false}
+                      isError={form.formState.errors.detail ? true : false}
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
-            <footer className="flex justify-center items-center mt-4 space-x-2">
-              <Button
-                className="w-40 bg-transparent border-neutral-500 text-black hover:bg-neutral-200 cursor-pointer"
-                type="button"
-                onClick={close}
-              >
-                ยกเลิก
-              </Button>
-              <Button className="w-40  cursor-pointer text-black" type="submit">
-                บันทึก
-              </Button>
+            <footer className="grid grid-cols-1 space-y-2">
+              {Object.values(form.formState.errors) && (
+                <ul className="list-disc pl-5">
+                  {Object.values(form.formState.errors).map((error, index) => (
+                    <li key={index} className="text-sm text-destructive">
+                      {error?.message}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <div className="flex justify-center items-center mt-4 space-x-2">
+                <Button
+                  className="w-40 bg-transparent border-neutral-500 text-black hover:bg-neutral-200 cursor-pointer"
+                  type="button"
+                  onClick={close}
+                >
+                  ยกเลิก
+                </Button>
+                <Button className="w-40  cursor-pointer text-black" type="submit">
+                  บันทึก
+                </Button>
+              </div>
             </footer>
           </form>
         </Form>

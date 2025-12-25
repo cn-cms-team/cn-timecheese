@@ -71,10 +71,6 @@ const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
             {data.detail || '-'}
           </p>
         </div>
-        <div className="text-sm">
-          <span className="font-semibold ">หมายเหตุ</span>
-          <p className="text-sm text-neutral-800 whitespace-pre-wrap ps-1">{data.remark || '-'}</p>
-        </div>
       </main>
       <Confirmation />
     </div>
