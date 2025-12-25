@@ -1,13 +1,17 @@
 'use client';
+import useSWR from 'swr';
+import { useRouter } from 'next/navigation';
+
+import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
+import { fetcher } from '@/lib/fetcher';
+
 import ModuleLayout from '@/components/layouts/ModuleLayout';
 import { UserList } from '../user-list';
 import { createColumns } from '../user-list-columns';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { IUser } from '@/types/setting/user';
 import { Button } from '@/components/ui/button';
 import { UserPlus } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 
 const UserButton = (): React.ReactNode => {
   const router = useRouter();
@@ -27,12 +31,7 @@ const UserButton = (): React.ReactNode => {
 const UserListView = () => {
   const router = useRouter();
   const fetchUsersUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user`;
-  const [userList, setUserList] = useState<IUser[]>([]);
-  const getUsers = async () => {
-    const response = await fetch(fetchUsersUrl);
-    const result = await response.json();
-    return result.data;
-  };
+  const { data, error, isLoading, mutate } = useSWR(fetchUsersUrl, (url) => fetcher<IUser[]>(url));
 
   const [confirmState, setConfirmState] = useState<{
     title: string;
@@ -44,12 +43,6 @@ const UserListView = () => {
     confirmType: ConfirmType.SUBMIT,
   });
   const [getConfirmation, Confirmation] = useDialogConfirm();
-
-  useEffect(() => {
-    getUsers().then((data) => {
-      setUserList(data);
-    });
-  }, []);
 
   const deleteUser = async (id: string) => {
     const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user/${id}`;
@@ -81,9 +74,7 @@ const UserListView = () => {
         if (!id) return;
         if (result) {
           await deleteUser(id).then(async () => {
-            await getUsers().then((data) => {
-              setUserList(data);
-            });
+            mutate();
           });
         }
       }
@@ -94,12 +85,18 @@ const UserListView = () => {
     onOpenDialog: handleOpenDialog,
   });
 
+  // if (isLoading) return <div>loading</div>;
+  if (error) {
+    router.replace('/404');
+    return null;
+  }
+
   return (
     <>
       <ModuleLayout
         headerTitle={'ผู้ใช้งาน'}
         headerButton={<UserButton />}
-        content={<UserList columns={columns} data={userList} />}
+        content={<UserList columns={columns} data={data || []} loading={isLoading} />}
       ></ModuleLayout>
 
       <Confirmation

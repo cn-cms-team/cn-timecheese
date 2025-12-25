@@ -1,21 +1,61 @@
 'use server';
 
-import { signIn } from '@/auth';
+import { auth, signIn } from '@/auth';
+import bcrypt from 'bcrypt';
+import {
+  resetPasswordSchema,
+  ResetPasswordSchemaType,
+} from '@/components/pages/setting/user/schema';
 import { SigninSchemaType } from '@/components/pages/sign-in/schema';
 import { AuthError } from 'next-auth';
+import { ExecuteAction } from './execute-actions';
+import { AUTH_ERROR_CODES } from '@/types/constants/auth';
 
 export async function authenticate(prevState: string | undefined, formData: SigninSchemaType) {
   try {
     await signIn('credentials', formData);
   } catch (error) {
     if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
+      switch (error.message) {
+        case AUTH_ERROR_CODES.INVALID:
+          return 'รหัสผ่านไม่ถูกต้อง กรุณากรอกข้อมูลใหม่อีกครั้ง';
+        case AUTH_ERROR_CODES.NOTFOUND:
+          return 'ไม่พบบัญชีของคุณภายในระบบ';
         default:
-          return 'Something went wrong.';
+          return 'ไม่สามารถเชื่อมต่อได้ กรุณาติดต่อผู้ดูแลระบบ';
       }
     }
     throw error;
   }
+}
+
+export async function handleResetPasswordUser(id: string, formData: ResetPasswordSchemaType) {
+  const session = await auth();
+  if (!session) {
+    throw new Error('Unauthorized');
+  }
+  return ExecuteAction({
+    actionFn: async () => {
+      const validatedData = resetPasswordSchema.parse(formData);
+      const password = await bcrypt.hash(validatedData.password as string, 10);
+      const payload = {
+        id: validatedData.id,
+        password,
+        updated_at: new Date(),
+        updated_by: session.user.id as string,
+        reset_password_date: new Date(),
+      };
+      const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user/${id}`;
+      const response = await fetch(fetchUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: { ...payload } }),
+      });
+      const result = await response.json();
+      return result;
+    },
+    successMessage: 'รีเซ็ตรหัสผ่านผู้ใช้งานสำเร็จ',
+  });
 }

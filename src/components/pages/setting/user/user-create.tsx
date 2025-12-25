@@ -26,14 +26,16 @@ import { useRouter } from 'next/navigation';
 import { fetcher } from '@/lib/fetcher';
 import { IOptions } from '@/types/dropdown';
 import { DatePickerInput } from '@/components/ui/custom/input/date-picker';
-import { useSession } from 'next-auth/react';
+import { Required } from '@/components/ui/custom/form';
+import { MAX_LENGTH_100, MAX_LENGTH_255, MAX_LENGTH_50 } from '@/lib/constants/validation';
+import { toast } from 'sonner';
+import TitleGroup from '@/components/ui/custom/cev/title-group';
 
 const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
-  const { data: session } = useSession();
   const router = useRouter();
 
   const [teamOptions, setTeamOptions] = useState<IOptions[]>([]);
-  const [positionLevelOptions, setPostitionLevelOptions] = useState<IOptions[]>([]);
+  const [positionLevelOptions, setPositionLevelOptions] = useState<IOptions[]>([]);
   const [roleOptions, setRoleOptions] = useState<IOptions[]>([]);
 
   const schema = id ? editUserSchema : createUserSchema;
@@ -50,6 +52,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       team_id: '',
       position_level_id: '',
       role_id: '',
+      salary_range: '',
       is_active: true,
     },
   });
@@ -65,7 +68,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
           fetcher<IOptions[]>(`${prefix}/api/v1/master/role`),
         ]);
         setTeamOptions(team);
-        setPostitionLevelOptions(positionLevel);
+        setPositionLevelOptions(positionLevel);
         setRoleOptions(role);
       } catch (error) {
         console.error('Error fetching options:', error);
@@ -111,8 +114,8 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
         start_date: values.start_date,
         end_date: values.end_date,
         is_active: values.is_active,
+        salary_range: values.salary_range,
         code: values.code,
-        created_by: session?.user?.id,
       };
       const response = await fetch(fetchUrl, {
         method: 'POST',
@@ -123,37 +126,42 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       });
       if (response.ok) {
         const result = await response.json();
+
+        toast(result.message);
         router.push('/setting/user');
       }
     } catch {
-      console.error('An unexpected error occurred. Please try again.');
+      toast('An unexpected error occurred. Please try again.');
     } finally {
       console.log('Finally block executed');
     }
   };
 
   return (
-    <div className="flex flex-col px-5">
-      <h2 className="font-medium text-lg mb-0">ข้อมูลผู้ใช้งาน</h2>
-      <hr className="mt-2 mb-5" />
+    <div className="cev-box">
+      <TitleGroup title="ข้อมูลผู้ใช้งาน" />
       <Form {...form}>
         <form
           id="user-create-form"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 gap-x-6 gap-y-5 px-8"
+          className="space-x-6 space-y-5 px-0 lg:px-8"
         >
-          <div className="flex flex-wrap items-baseline">
+          <div className="flex flex-wrap items-baseline gap-y-5 mx-0">
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>อีเมล</FormLabel>
+                  <FormLabel>
+                    อีเมล
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       autoComplete="off"
                       placeholder="กรุณากรอกอีเมลของคุณ"
                       {...field}
+                      maxLength={MAX_LENGTH_255}
                       onInput={(e) => {
                         field.onChange(e);
                       }}
@@ -168,11 +176,15 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="code"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>รหัสพนักงาน</FormLabel>
+                  <FormLabel>
+                    รหัสพนักงาน
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="กรุณากรอกรหัสพนักงาน"
                       {...field}
+                      maxLength={MAX_LENGTH_50}
                       onInput={(e) => {
                         field.onChange(e);
                       }}
@@ -184,18 +196,22 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
             />
           </div>
           {!id && (
-            <div className="flex flex-wrap items-baseline">
+            <div className="flex flex-wrap items-baseline gap-y-5 mx-0">
               <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem className="w-full md:w-1/2">
-                    <FormLabel>รหัสผ่าน</FormLabel>
+                    <FormLabel>
+                      รหัสผ่าน
+                      <Required />
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
                         autoComplete="new-password"
                         placeholder="กรุณากรอกรหัสผ่าน"
+                        maxLength={MAX_LENGTH_255}
                         {...field}
                         onInput={(e) => {
                           field.onChange(e);
@@ -211,12 +227,16 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 name="confirm_password"
                 render={({ field }) => (
                   <FormItem className="w-full md:w-1/2">
-                    <FormLabel>ยืนยันรหัสผ่าน</FormLabel>
+                    <FormLabel>
+                      ยืนยันรหัสผ่าน
+                      <Required />
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
                         autoComplete="new-password"
                         placeholder="กรุณากรอกยืนยันรหัสผ่าน"
+                        maxLength={MAX_LENGTH_255}
                         {...field}
                         onInput={(e) => {
                           field.onChange(e);
@@ -229,17 +249,21 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               />
             </div>
           )}
-          <div className="flex flex-wrap items-baseline">
+          <div className="flex flex-wrap items-baseline gap-y-5 mx-0">
             <FormField
               control={form.control}
               name="first_name"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>ชื่อ</FormLabel>
+                  <FormLabel>
+                    ชื่อ
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="กรุณากรอกชื่อ"
                       {...field}
+                      maxLength={MAX_LENGTH_100}
                       onInput={(e) => {
                         field.onChange(e);
                       }}
@@ -254,11 +278,15 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="last_name"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>นามสกุล</FormLabel>
+                  <FormLabel>
+                    นามสกุล
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="กรุณากรอกนามสกุล"
                       {...field}
+                      maxLength={MAX_LENGTH_100}
                       onInput={(e) => {
                         field.onChange(e);
                       }}
@@ -269,17 +297,21 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               )}
             />
           </div>
-          <div className="flex flex-wrap items-baseline">
+          <div className="flex flex-wrap items-baseline gap-y-5 mx-0">
             <FormField
               control={form.control}
               name="nick_name"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>ชื่อเล่น</FormLabel>
+                  <FormLabel>
+                    ชื่อเล่น
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="กรุณากรอกชื่อเล่น"
                       {...field}
+                      maxLength={MAX_LENGTH_100}
                       onInput={(e) => {
                         field.onChange(e);
                       }}
@@ -294,7 +326,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="team_id"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>ทีม</FormLabel>
+                  <FormLabel>
+                    ทีม
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <ComboboxForm
                       placeholder="เลือกทีม"
@@ -309,13 +344,16 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               )}
             />
           </div>
-          <div className="flex flex-wrap items-baseline">
+          <div className="flex flex-wrap items-baseline gap-y-5 mx-0">
             <FormField
               control={form.control}
               name="position_level_id"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>ระดับตำแหน่ง</FormLabel>
+                  <FormLabel>
+                    ระดับตำแหน่ง
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <ComboboxForm
                       placeholder="เลือกระดับตำแหน่ง"
@@ -336,7 +374,10 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="role_id"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>สิทธิ์การใช้งาน</FormLabel>
+                  <FormLabel>
+                    สิทธิ์การใช้งาน
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <ComboboxForm
                       placeholder="เลือกสิทธิ์การใช้งาน"
@@ -351,16 +392,20 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               )}
             />
           </div>
-          <div className="flex flex-wrap items-baseline">
+          <div className="flex flex-wrap items-baseline gap-y-5 mx-0">
             <FormField
               control={form.control}
               name="start_date"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>วันที่เริ่มต้น</FormLabel>
+                  <FormLabel>
+                    วันที่เริ่มต้น
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <DatePickerInput
-                      value={field.value}
+                      {...field}
+                      value={new Date(field.value)}
                       placeholder="กรุณาเลือกวันที่เริ่มต้นของคุณ"
                       isError={form.formState.errors.start_date ? true : false}
                       onChange={field.onChange}
@@ -378,7 +423,8 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                   <FormLabel>วันที่สิ้นสุด</FormLabel>
                   <FormControl>
                     <DatePickerInput
-                      value={field.value || undefined}
+                      {...field}
+                      value={field.value ? new Date(field.value) : undefined}
                       placeholder="กรุณาเลือกวันที่สิ้นสุดของคุณ"
                       onChange={field.onChange}
                     />
@@ -388,7 +434,27 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
               )}
             />
           </div>
-          <div className="flex flex-wrap items-baseline">
+          <div className="flex flex-wrap items-baseline gap-y-5 mx-0">
+            <FormField
+              control={form.control}
+              name="salary_range"
+              render={({ field }) => (
+                <FormItem className="w-full md:w-1/2">
+                  <FormLabel>ช่วงเงินเดือนโดยประมาณ</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="กรุณากรอกช่วงเงินเดือนโดยประมาณ"
+                      {...field}
+                      maxLength={MAX_LENGTH_100}
+                      onInput={(e) => {
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="is_active"

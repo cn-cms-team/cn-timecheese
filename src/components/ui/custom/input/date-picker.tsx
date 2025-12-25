@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { formatDate } from '@/lib/functions/date-format';
 
 type DatePickerInputProps = {
   value?: Date;
@@ -39,7 +40,7 @@ export function DatePickerInput({
             isError ? 'border-red-500' : ''
           )}
         >
-          {value ? value.toLocaleDateString() : placeholder}
+          {value ? formatDate(value) : placeholder}
           <ChevronDownIcon className="h-4 w-4 opacity-50" />
         </Button>
       </PopoverTrigger>

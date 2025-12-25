@@ -20,15 +20,15 @@ import {
 import { Label } from '@/components/ui/label';
 import DataTable from '@/components/ui/custom/data-table/table-template';
 import InputSearch from '@/components/ui/custom/data-table/input/input-search';
-import SearchButton from '@/components/ui/custom/button/search-button';
 import { IUser } from '@/types/setting/user';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  loading: boolean;
 }
 
-export function UserList<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function UserList<TData, TValue>({ columns, data, loading }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([{ id: 'email', desc: false }]);
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState<{
@@ -50,7 +50,7 @@ export function UserList<TData, TValue>({ columns, data }: DataTableProps<TData,
   const multiColumnGlobalFilter = (
     row: Row<TData>,
     columnId: string,
-    filterValue: { search: string; userType: string; roles: string }
+    filterValue: { search: string }
   ) => {
     const search = filterValue.search.toLowerCase().trim();
     const { first_name, last_name, nick_name, team, position_level, email } = row.original as IUser;
@@ -105,11 +105,8 @@ export function UserList<TData, TValue>({ columns, data }: DataTableProps<TData,
             onEnter={handleSearch}
           />
         </div>
-        <div className="flex items-center gap-2">
-          <SearchButton onClick={handleSearch} />
-        </div>
       </div>
-      <DataTable table={table} columns={columns} />
+      <DataTable table={table} columns={columns} loading={loading} />
     </div>
   );
 }

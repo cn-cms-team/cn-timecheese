@@ -1,3 +1,4 @@
+import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 import { NextRequest } from 'next/server';
 
@@ -18,6 +19,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         is_active: true,
         start_date: true,
         end_date: true,
+        salary_range: true,
+        code: true,
         team: {
           select: {
             id: true,
@@ -62,11 +65,21 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const session = await auth();
 
+    if (!session || !session.user) {
+      return Response.json(
+        {
+          message: 'Unauthorized',
+        },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json();
     const result = await prisma.user.update({
       where: { id: body.data.id },
-      data: { ...body.data },
+      data: { ...body.data, updated_by: session?.user.id },
     });
 
     return Response.json(
@@ -92,8 +105,11 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
       return Response.json({ error: 'User ID is required' }, { status: 400 });
     }
 
-    const result = await prisma.user.delete({
+    const result = await prisma.user.update({
       where: { id },
+      data: {
+        is_enabled: false,
+      },
     });
 
     return Response.json(

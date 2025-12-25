@@ -270,7 +270,7 @@ function SidebarRail({
   className,
   ...props
 }: React.ComponentProps<'button'> & { onOpenChange: (open: boolean) => void }) {
-  const { toggleSidebar } = useSidebar();
+  const { toggleSidebar, open } = useSidebar();
 
   return (
     <button

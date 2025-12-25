@@ -38,21 +38,19 @@ model User {
   is_active  Boolean @default(false)
   is_enabled Boolean @default(true)
 
-  createdByUser      User[]          @relation("UserCreatedBy")
-  updatedByUser      User[]          @relation("UserUpdatedBy")
-  createdByRole      Role[]          @relation("RoleCreatedBy")
-  updatedByRole      Role[]          @relation("RoleUpdatedBy")
-  createdByTeams     Team[]          @relation("TeamCreatedBy")
-  updatedByTeams     Team[]          @relation("TeamUpdatedBy")
-  createdByPosition  Position[]      @relation("PositionCreatedBy")
-  updatedByPosition  Position[]      @relation("PositionUpdatedBy")
-  createdByTaskTypes TaskType[]      @relation("TaskTypeCreatedBy")
-  updatedByTaskTypes TaskType[]      @relation("TaskTypeUpdatedBy")
-  createdByProjects  Project[]       @relation("ProjectCreatedBy")
-  updatedByProjects  Project[]       @relation("ProjectUpdatedBy")
-  projectMembers     ProjectMember[]
-  timeSheets         TimeSheet[]
-  teamLeaders        TeamLeader[]
+  createdByUser     User[]          @relation("UserCreatedBy")
+  updatedByUser     User[]          @relation("UserUpdatedBy")
+  createdByRole     Role[]          @relation("RoleCreatedBy")
+  updatedByRole     Role[]          @relation("RoleUpdatedBy")
+  createdByTeams    Team[]          @relation("TeamCreatedBy")
+  updatedByTeams    Team[]          @relation("TeamUpdatedBy")
+  createdByPosition Position[]      @relation("PositionCreatedBy")
+  updatedByPosition Position[]      @relation("PositionUpdatedBy")
+  createdByProjects Project[]       @relation("ProjectCreatedBy")
+  updatedByProjects Project[]       @relation("ProjectUpdatedBy")
+  projectMembers    ProjectMember[]
+  timeSheets        TimeSheet[]
+  teamLeaders       TeamLeader[]
 
   @@map("users")
 }
@@ -139,6 +137,7 @@ model Team {
   updatedBy  User?     @relation("TeamUpdatedBy", fields: [updated_by], references: [id])
 
   is_enabled  Boolean      @default(true)
+  is_active   Boolean      @default(true)
   users       User[]
   teamLeaders TeamLeader[]
 
@@ -180,6 +179,7 @@ model PositionLevel {
   description String?  @db.VarChar(255)
   position_id String   @db.Char(36)
   position    Position @relation(fields: [position_id], references: [id])
+  ord      Int?
 
   is_enabled Boolean @default(true)
   users      User[]
@@ -192,17 +192,8 @@ model TaskType {
   type        TaskTypeCode
   name        String       @db.VarChar(100)
   description String?      @db.VarChar(255)
-  is_leave    Boolean      @default(false)
-  is_company  Boolean      @default(false)
 
-  created_at DateTime  @default(now())
-  created_by String    @db.Char(36)
-  updated_at DateTime?
-  updated_by String?   @db.Char(36)
-  createdBy  User      @relation("TaskTypeCreatedBy", fields: [created_by], references: [id])
-  updatedBy  User?     @relation("TaskTypeUpdatedBy", fields: [updated_by], references: [id])
-
-  is_enabled       Boolean           @default(true)
+  is_active        Boolean           @default(true)
   projectTaskTypes ProjectTaskType[]
   timeSheets       TimeSheet[]
 
@@ -217,11 +208,14 @@ enum TaskTypeCode {
   QA
   IT
   OTHER
+  COMPANY
+  LEAVE
 }
 
 model Project {
   id                  String        @id @default(uuid()) @db.Char(36)
   name                String        @db.VarChar(255)
+  code                String?       @db.VarChar(25)
   description         String?       @db.VarChar(255)
   value               Float?
   people_cost_percent Float?
@@ -297,6 +291,7 @@ model TimeSheet {
   stamp_date    DateTime @db.Date
   start_date    DateTime
   end_date      DateTime
+  exclude_seconds Int?
   total_seconds Int
   detail        String?  @db.VarChar(500)
   remark        String?  @db.VarChar(255)

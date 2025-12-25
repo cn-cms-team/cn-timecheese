@@ -1,9 +1,3 @@
-import NextAuth from 'next-auth';
+import { handlers } from '@/auth';
 
-const { handlers } = NextAuth({
-  providers: [],
-  secret: process.env.AUTH_SECRET,
-});
-
-export const GET = handlers.GET;
-export const POST = handlers.POST;
+export const { GET, POST } = handlers;

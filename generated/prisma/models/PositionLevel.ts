@@ -20,8 +20,18 @@ export type PositionLevelModel = runtime.Types.Result.DefaultSelection<Prisma.$P
 
 export type AggregatePositionLevel = {
   _count: PositionLevelCountAggregateOutputType | null
+  _avg: PositionLevelAvgAggregateOutputType | null
+  _sum: PositionLevelSumAggregateOutputType | null
   _min: PositionLevelMinAggregateOutputType | null
   _max: PositionLevelMaxAggregateOutputType | null
+}
+
+export type PositionLevelAvgAggregateOutputType = {
+  ord: number | null
+}
+
+export type PositionLevelSumAggregateOutputType = {
+  ord: number | null
 }
 
 export type PositionLevelMinAggregateOutputType = {
@@ -29,6 +39,7 @@ export type PositionLevelMinAggregateOutputType = {
   name: string | null
   description: string | null
   position_id: string | null
+  ord: number | null
   is_enabled: boolean | null
 }
 
@@ -37,6 +48,7 @@ export type PositionLevelMaxAggregateOutputType = {
   name: string | null
   description: string | null
   position_id: string | null
+  ord: number | null
   is_enabled: boolean | null
 }
 
@@ -45,16 +57,26 @@ export type PositionLevelCountAggregateOutputType = {
   name: number
   description: number
   position_id: number
+  ord: number
   is_enabled: number
   _all: number
 }
 
+
+export type PositionLevelAvgAggregateInputType = {
+  ord?: true
+}
+
+export type PositionLevelSumAggregateInputType = {
+  ord?: true
+}
 
 export type PositionLevelMinAggregateInputType = {
   id?: true
   name?: true
   description?: true
   position_id?: true
+  ord?: true
   is_enabled?: true
 }
 
@@ -63,6 +85,7 @@ export type PositionLevelMaxAggregateInputType = {
   name?: true
   description?: true
   position_id?: true
+  ord?: true
   is_enabled?: true
 }
 
@@ -71,6 +94,7 @@ export type PositionLevelCountAggregateInputType = {
   name?: true
   description?: true
   position_id?: true
+  ord?: true
   is_enabled?: true
   _all?: true
 }
@@ -113,6 +137,18 @@ export type PositionLevelAggregateArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: PositionLevelAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: PositionLevelSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: PositionLevelMinAggregateInputType
@@ -143,6 +179,8 @@ export type PositionLevelGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   _count?: PositionLevelCountAggregateInputType | true
+  _avg?: PositionLevelAvgAggregateInputType
+  _sum?: PositionLevelSumAggregateInputType
   _min?: PositionLevelMinAggregateInputType
   _max?: PositionLevelMaxAggregateInputType
 }
@@ -152,8 +190,11 @@ export type PositionLevelGroupByOutputType = {
   name: string
   description: string | null
   position_id: string
+  ord: number | null
   is_enabled: boolean
   _count: PositionLevelCountAggregateOutputType | null
+  _avg: PositionLevelAvgAggregateOutputType | null
+  _sum: PositionLevelSumAggregateOutputType | null
   _min: PositionLevelMinAggregateOutputType | null
   _max: PositionLevelMaxAggregateOutputType | null
 }
@@ -181,6 +222,7 @@ export type PositionLevelWhereInput = {
   name?: Prisma.StringFilter<"PositionLevel"> | string
   description?: Prisma.StringNullableFilter<"PositionLevel"> | string | null
   position_id?: Prisma.StringFilter<"PositionLevel"> | string
+  ord?: Prisma.IntNullableFilter<"PositionLevel"> | number | null
   is_enabled?: Prisma.BoolFilter<"PositionLevel"> | boolean
   position?: Prisma.XOR<Prisma.PositionScalarRelationFilter, Prisma.PositionWhereInput>
   users?: Prisma.UserListRelationFilter
@@ -191,6 +233,7 @@ export type PositionLevelOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   position_id?: Prisma.SortOrder
+  ord?: Prisma.SortOrderInput | Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
   position?: Prisma.PositionOrderByWithRelationInput
   users?: Prisma.UserOrderByRelationAggregateInput
@@ -204,6 +247,7 @@ export type PositionLevelWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"PositionLevel"> | string
   description?: Prisma.StringNullableFilter<"PositionLevel"> | string | null
   position_id?: Prisma.StringFilter<"PositionLevel"> | string
+  ord?: Prisma.IntNullableFilter<"PositionLevel"> | number | null
   is_enabled?: Prisma.BoolFilter<"PositionLevel"> | boolean
   position?: Prisma.XOR<Prisma.PositionScalarRelationFilter, Prisma.PositionWhereInput>
   users?: Prisma.UserListRelationFilter
@@ -214,10 +258,13 @@ export type PositionLevelOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   position_id?: Prisma.SortOrder
+  ord?: Prisma.SortOrderInput | Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
   _count?: Prisma.PositionLevelCountOrderByAggregateInput
+  _avg?: Prisma.PositionLevelAvgOrderByAggregateInput
   _max?: Prisma.PositionLevelMaxOrderByAggregateInput
   _min?: Prisma.PositionLevelMinOrderByAggregateInput
+  _sum?: Prisma.PositionLevelSumOrderByAggregateInput
 }
 
 export type PositionLevelScalarWhereWithAggregatesInput = {
@@ -228,6 +275,7 @@ export type PositionLevelScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"PositionLevel"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"PositionLevel"> | string | null
   position_id?: Prisma.StringWithAggregatesFilter<"PositionLevel"> | string
+  ord?: Prisma.IntNullableWithAggregatesFilter<"PositionLevel"> | number | null
   is_enabled?: Prisma.BoolWithAggregatesFilter<"PositionLevel"> | boolean
 }
 
@@ -235,6 +283,7 @@ export type PositionLevelCreateInput = {
   id?: string
   name: string
   description?: string | null
+  ord?: number | null
   is_enabled?: boolean
   position: Prisma.PositionCreateNestedOneWithoutPositionLevelsInput
   users?: Prisma.UserCreateNestedManyWithoutPosition_levelInput
@@ -245,6 +294,7 @@ export type PositionLevelUncheckedCreateInput = {
   name: string
   description?: string | null
   position_id: string
+  ord?: number | null
   is_enabled?: boolean
   users?: Prisma.UserUncheckedCreateNestedManyWithoutPosition_levelInput
 }
@@ -253,6 +303,7 @@ export type PositionLevelUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ord?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   position?: Prisma.PositionUpdateOneRequiredWithoutPositionLevelsNestedInput
   users?: Prisma.UserUpdateManyWithoutPosition_levelNestedInput
@@ -263,6 +314,7 @@ export type PositionLevelUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   position_id?: Prisma.StringFieldUpdateOperationsInput | string
+  ord?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUncheckedUpdateManyWithoutPosition_levelNestedInput
 }
@@ -272,6 +324,7 @@ export type PositionLevelCreateManyInput = {
   name: string
   description?: string | null
   position_id: string
+  ord?: number | null
   is_enabled?: boolean
 }
 
@@ -279,6 +332,7 @@ export type PositionLevelUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ord?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -287,6 +341,7 @@ export type PositionLevelUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   position_id?: Prisma.StringFieldUpdateOperationsInput | string
+  ord?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -310,7 +365,12 @@ export type PositionLevelCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   position_id?: Prisma.SortOrder
+  ord?: Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
+}
+
+export type PositionLevelAvgOrderByAggregateInput = {
+  ord?: Prisma.SortOrder
 }
 
 export type PositionLevelMaxOrderByAggregateInput = {
@@ -318,6 +378,7 @@ export type PositionLevelMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   position_id?: Prisma.SortOrder
+  ord?: Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
 }
 
@@ -326,7 +387,12 @@ export type PositionLevelMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   position_id?: Prisma.SortOrder
+  ord?: Prisma.SortOrder
   is_enabled?: Prisma.SortOrder
+}
+
+export type PositionLevelSumOrderByAggregateInput = {
+  ord?: Prisma.SortOrder
 }
 
 export type PositionLevelCreateNestedOneWithoutUsersInput = {
@@ -387,10 +453,19 @@ export type PositionLevelUncheckedUpdateManyWithoutPositionNestedInput = {
   deleteMany?: Prisma.PositionLevelScalarWhereInput | Prisma.PositionLevelScalarWhereInput[]
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type PositionLevelCreateWithoutUsersInput = {
   id?: string
   name: string
   description?: string | null
+  ord?: number | null
   is_enabled?: boolean
   position: Prisma.PositionCreateNestedOneWithoutPositionLevelsInput
 }
@@ -400,6 +475,7 @@ export type PositionLevelUncheckedCreateWithoutUsersInput = {
   name: string
   description?: string | null
   position_id: string
+  ord?: number | null
   is_enabled?: boolean
 }
 
@@ -423,6 +499,7 @@ export type PositionLevelUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ord?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   position?: Prisma.PositionUpdateOneRequiredWithoutPositionLevelsNestedInput
 }
@@ -432,6 +509,7 @@ export type PositionLevelUncheckedUpdateWithoutUsersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   position_id?: Prisma.StringFieldUpdateOperationsInput | string
+  ord?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -439,6 +517,7 @@ export type PositionLevelCreateWithoutPositionInput = {
   id?: string
   name: string
   description?: string | null
+  ord?: number | null
   is_enabled?: boolean
   users?: Prisma.UserCreateNestedManyWithoutPosition_levelInput
 }
@@ -447,6 +526,7 @@ export type PositionLevelUncheckedCreateWithoutPositionInput = {
   id?: string
   name: string
   description?: string | null
+  ord?: number | null
   is_enabled?: boolean
   users?: Prisma.UserUncheckedCreateNestedManyWithoutPosition_levelInput
 }
@@ -485,6 +565,7 @@ export type PositionLevelScalarWhereInput = {
   name?: Prisma.StringFilter<"PositionLevel"> | string
   description?: Prisma.StringNullableFilter<"PositionLevel"> | string | null
   position_id?: Prisma.StringFilter<"PositionLevel"> | string
+  ord?: Prisma.IntNullableFilter<"PositionLevel"> | number | null
   is_enabled?: Prisma.BoolFilter<"PositionLevel"> | boolean
 }
 
@@ -492,6 +573,7 @@ export type PositionLevelCreateManyPositionInput = {
   id?: string
   name: string
   description?: string | null
+  ord?: number | null
   is_enabled?: boolean
 }
 
@@ -499,6 +581,7 @@ export type PositionLevelUpdateWithoutPositionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ord?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUpdateManyWithoutPosition_levelNestedInput
 }
@@ -507,6 +590,7 @@ export type PositionLevelUncheckedUpdateWithoutPositionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ord?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   users?: Prisma.UserUncheckedUpdateManyWithoutPosition_levelNestedInput
 }
@@ -515,6 +599,7 @@ export type PositionLevelUncheckedUpdateManyWithoutPositionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ord?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -554,6 +639,7 @@ export type PositionLevelSelect<ExtArgs extends runtime.Types.Extensions.Interna
   name?: boolean
   description?: boolean
   position_id?: boolean
+  ord?: boolean
   is_enabled?: boolean
   position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
   users?: boolean | Prisma.PositionLevel$usersArgs<ExtArgs>
@@ -565,6 +651,7 @@ export type PositionLevelSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   name?: boolean
   description?: boolean
   position_id?: boolean
+  ord?: boolean
   is_enabled?: boolean
   position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["positionLevel"]>
@@ -574,6 +661,7 @@ export type PositionLevelSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   name?: boolean
   description?: boolean
   position_id?: boolean
+  ord?: boolean
   is_enabled?: boolean
   position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["positionLevel"]>
@@ -583,10 +671,11 @@ export type PositionLevelSelectScalar = {
   name?: boolean
   description?: boolean
   position_id?: boolean
+  ord?: boolean
   is_enabled?: boolean
 }
 
-export type PositionLevelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "position_id" | "is_enabled", ExtArgs["result"]["positionLevel"]>
+export type PositionLevelOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "position_id" | "ord" | "is_enabled", ExtArgs["result"]["positionLevel"]>
 export type PositionLevelInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
   users?: boolean | Prisma.PositionLevel$usersArgs<ExtArgs>
@@ -610,6 +699,7 @@ export type $PositionLevelPayload<ExtArgs extends runtime.Types.Extensions.Inter
     name: string
     description: string | null
     position_id: string
+    ord: number | null
     is_enabled: boolean
   }, ExtArgs["result"]["positionLevel"]>
   composites: {}
@@ -1040,6 +1130,7 @@ export interface PositionLevelFieldRefs {
   readonly name: Prisma.FieldRef<"PositionLevel", 'String'>
   readonly description: Prisma.FieldRef<"PositionLevel", 'String'>
   readonly position_id: Prisma.FieldRef<"PositionLevel", 'String'>
+  readonly ord: Prisma.FieldRef<"PositionLevel", 'Int'>
   readonly is_enabled: Prisma.FieldRef<"PositionLevel", 'Boolean'>
 }
     
