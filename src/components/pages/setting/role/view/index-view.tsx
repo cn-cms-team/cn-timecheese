@@ -8,6 +8,7 @@ import { IRole } from '@/types/setting/role';
 import { useEffect, useState } from 'react';
 import { createColumns } from '../role-list-column';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
+import { toast } from 'sonner';
 
 const RoleButton = (): React.ReactNode => {
   const router = useRouter();
@@ -62,6 +63,7 @@ const RoleListView = () => {
 
         const result = await getConfirmation();
         if (result) {
+          toast(result);
           router.push(`/setting/role/${id}/edit`);
         }
       } else {
@@ -72,6 +74,7 @@ const RoleListView = () => {
         });
 
         const result = await getConfirmation();
+
         if (!id) return;
         if (result) {
           await deleteRole(id).then(async () => {

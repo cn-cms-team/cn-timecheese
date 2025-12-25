@@ -5,7 +5,7 @@ const permissionSchema = z.object({
   checked: z.array(z.string()),
 });
 
-const schema = z.object({
+const createEditRoleSchema = z.object({
   name: z.string().nonempty('กรุณากรอกชื่อสิทธิ์การใช้งาน'),
   description: z.string().nonempty('กรุณากรอกคำอธิบายสิทธิ์การใช้งาน'),
   permissions: z
@@ -17,14 +17,6 @@ const schema = z.object({
     }),
 });
 
-// const createRoleSchema = z.object({
-//   ...baseSchema,
-// });
+type CreateEditRoleSchema = z.infer<typeof createEditRoleSchema>;
 
-// const editRoleSchema = z.object({
-//   ...baseSchema,
-// });
-
-type Schema = z.infer<typeof schema>;
-
-export { schema as createEditRoleSchema, type Schema as CreateEditRoleSchemaType };
+export { createEditRoleSchema, type CreateEditRoleSchema };

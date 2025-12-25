@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -24,9 +24,13 @@ import { IRolePermissions } from '@/types/setting/role';
 import { ChevronDown } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useForm } from 'react-hook-form';
-import { createEditRoleSchema, CreateEditRoleSchemaType } from './schema';
+import { createEditRoleSchema, CreateEditRoleSchema } from './schema';
 import { useRouter } from 'next/navigation';
-// import { useSession } from 'next-auth/react';
+import { EPermissions } from '@/lib/constants/pms';
+import { MAX_LENGTH_100, MAX_LENGTH_255 } from '@/lib/constants/validation';
+import TitleGroup from '@/components/ui/custom/cev/title-group';
+import { useLoading } from '@/components/context/app-context';
+import { toast } from 'sonner';
 
 type OutputItem = {
   code: string;
@@ -53,13 +57,10 @@ function transformData(data: IRolePermissions[]): OutputItem[] {
 
 const RoleCreate = ({ id }: { id?: string }) => {
   const router = useRouter();
-  const [rolePermissions, setRolePermissions] = React.useState<IRolePermissions[]>([]);
-  const [openRows, setOpenRows] = React.useState<Record<string, boolean>>({});
+  const [rolePermissions, setRolePermissions] = useState<IRolePermissions[]>([]);
+  const { isLoading, setIsLoading } = useLoading();
+  const [openRows, setOpenRows] = useState<Record<string, boolean>>({});
   const isEdit = !!id;
-  // const { data: session } = useSession();
-  // if (!session) {
-  //   throw new Error('Unauthorized');
-  // }
 
   const form = useForm({
     resolver: zodResolver(createEditRoleSchema),
@@ -100,8 +101,9 @@ const RoleCreate = ({ id }: { id?: string }) => {
     setOpenRows(initialOpenState);
   }, [rolePermissions]);
 
-  const onSubmit = async (values: CreateEditRoleSchemaType) => {
+  const onSubmit = async (values: CreateEditRoleSchema) => {
     try {
+      setIsLoading(true);
       let fetchUrl = '/api/v1/setting/role';
       if (id) {
         fetchUrl = `/api/v1/setting/role/${id}`;
@@ -110,7 +112,6 @@ const RoleCreate = ({ id }: { id?: string }) => {
         name: values.name,
         description: values.description,
         permissions: values.permissions,
-        // created_by: session.user?.id as String,
       };
       const response = await fetch(fetchUrl, {
         method: 'POST',
@@ -121,24 +122,26 @@ const RoleCreate = ({ id }: { id?: string }) => {
       });
 
       if (response.ok) {
+        const result = await response.json();
+        toast(result.message);
         router.push('/setting/role');
       }
     } catch (err) {
-      console.error('Error saving role:', err);
+      toast('An unexpected error occurred. Please try again.');
     } finally {
-      console.log('Finally block executed');
+      setIsLoading(false);
     }
   };
 
   const headers = [
-    { label: 'เมนู', className: 'w-[700px] text-left' },
+    { label: 'เมนู', className: 'w-[400px] text-left' },
     ...['ทั้งหมด', 'ดูรายละเอียด', 'สร้าง', 'แก้ไข', 'ลบ', 'นำออกข้อมูล'].map((label) => ({
       label,
       className: 'text-center',
     })),
   ];
 
-  const checkBoxColumnKey = ['VIEW', 'CREATE', 'EDIT', 'DELETE', 'EXPORT'];
+  const checkBoxColumnKey = Object.values(EPermissions);
 
   function toggleRow(code: string) {
     setOpenRows((prev) => ({ ...prev, [code]: !prev[code] }));
@@ -186,8 +189,8 @@ const RoleCreate = ({ id }: { id?: string }) => {
   };
 
   const updateViewPermission = (permItem: { checked: string[] }) => {
-    if (!permItem.checked.includes('VIEW')) {
-      permItem.checked.push('VIEW');
+    if (!permItem.checked.includes(EPermissions.VIEW)) {
+      permItem.checked.push(EPermissions.VIEW);
     }
   };
 
@@ -198,8 +201,8 @@ const RoleCreate = ({ id }: { id?: string }) => {
     if (!updatedChecked) return;
 
     if (checked) {
-      if (code === 'VIEW') {
-        updatedChecked.checked = ['VIEW'];
+      if (code === EPermissions.VIEW) {
+        updatedChecked.checked = [EPermissions.VIEW];
       } else {
         if (!updatedChecked.checked.includes(code)) {
           updatedChecked.checked.push(code);
@@ -207,7 +210,7 @@ const RoleCreate = ({ id }: { id?: string }) => {
         updateViewPermission(updatedChecked);
       }
     } else {
-      if (code === 'VIEW') {
+      if (code === EPermissions.VIEW) {
         updatedChecked.checked = [];
       } else {
         updatedChecked.checked = updatedChecked.checked.filter((c) => c !== code);
@@ -233,14 +236,14 @@ const RoleCreate = ({ id }: { id?: string }) => {
         childPerm.checked.push(code);
       } else if (!checked && isChecked) {
         childPerm.checked = childPerm.checked.filter((c) => c !== code);
-        if (code === 'VIEW') {
+        if (code === EPermissions.VIEW) {
           childPerm.checked = [];
         } else {
           childPerm.checked = childPerm.checked.filter((c) => c !== code);
         }
       }
 
-      if (code !== 'VIEW') {
+      if (code !== EPermissions.VIEW) {
         updateViewPermission(childPerm);
       }
     });
@@ -252,14 +255,14 @@ const RoleCreate = ({ id }: { id?: string }) => {
       if (checked && !hasPermission) {
         parentPerm.checked.push(code);
       } else if (!checked && hasPermission) {
-        if (code === 'VIEW') {
+        if (code === EPermissions.VIEW) {
           parentPerm.checked = [];
         } else {
           parentPerm.checked = parentPerm.checked.filter((c) => c !== code);
         }
       }
 
-      if (code !== 'VIEW') {
+      if (code !== EPermissions.VIEW) {
         updateViewPermission(parentPerm);
       }
     }
@@ -338,10 +341,60 @@ const RoleCreate = ({ id }: { id?: string }) => {
     );
   };
 
+  const renderPermissionColumns = (
+    permissions: IRolePermissions,
+    formPermission?: { code: string; checked: string[] }
+  ) => {
+    const permissionsToShow =
+      permissions.children && permissions.children.length > 0
+        ? getAllChildPermissions(permissions)
+        : permissions.modulePermission ?? [];
+
+    return checkBoxColumnKey.map((code) => (
+      <TableCell
+        key={code}
+        className={`text-center ${(permissions.children ?? []).length > 0 ? 'bg-[#f5f5ec]' : ''}`}
+      >
+        {permissions.children && permissions.children.length > 0
+          ? renderParentPermissionCheck(permissions, code, permissionsToShow)
+          : renderPermissionCheck(permissions, formPermission ?? { code: '', checked: [] }, code)}
+      </TableCell>
+    ));
+  };
+
+  const renderChildPermissionsRows = (
+    permissions: IRolePermissions,
+    fieldValue: OutputItem[] | undefined
+  ) => {
+    if (!permissions.children || !openRows[permissions.code]) return null;
+
+    return permissions.children.map((child) => {
+      const childFormPermission = fieldValue?.find((p) => p.code === child.code) ?? {
+        code: '',
+        checked: [],
+      };
+
+      return (
+        <TableRow key={child.code}>
+          <TableCell className="px-5">{child.name}</TableCell>
+
+          <TableCell className="text-center">
+            {renderCheckAll(child, childFormPermission)}
+          </TableCell>
+
+          {checkBoxColumnKey.map((code) => (
+            <TableCell key={code} className="text-center">
+              {renderPermissionCheck(child, childFormPermission, code)}
+            </TableCell>
+          ))}
+        </TableRow>
+      );
+    });
+  };
+
   return (
-    <div className="flex flex-col px-5">
-      <h2 className='font-medium text-lg mb-0"'>ข้อมูลสิทธิ์การใช้งาน</h2>
-      <hr className="mt-2 mb-5" />
+    <div className="cev-box">
+      <TitleGroup title="สิทธิ์การใช้งาน" />
       <Form {...form}>
         <form
           id="role-create-form"
@@ -354,10 +407,11 @@ const RoleCreate = ({ id }: { id?: string }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>ชื่อสิทธื์การใช้งาน</FormLabel>
+                  <FormLabel>ชื่อสิทธิ์การใช้งาน</FormLabel>
                   <FormControl>
                     <Input
                       autoComplete="off"
+                      maxLength={MAX_LENGTH_100}
                       placeholder="กรุณากรอกสิทธิ์การใช้งานของคุณ"
                       {...field}
                       onInput={(e) => {
@@ -378,6 +432,7 @@ const RoleCreate = ({ id }: { id?: string }) => {
                   <FormControl>
                     <Textarea
                       autoComplete="off"
+                      maxLength={MAX_LENGTH_255}
                       placeholder="กรุณากรอกคำอธิบายของคุณ"
                       {...field}
                       onInput={(e) => {
@@ -389,8 +444,7 @@ const RoleCreate = ({ id }: { id?: string }) => {
                 </FormItem>
               )}
             />
-            <h2 className="font-medium text-lg mb-0 mt-5">ตั้งค่าสิทธิ์การใช้งาน</h2>
-            <hr className="mt-2 mb-5" />
+            <TitleGroup title="ตั้งค่าสิทธิ์การใช้งาน" className="mt-7" />
             <FormField
               control={form.control}
               name="permissions"
@@ -413,7 +467,7 @@ const RoleCreate = ({ id }: { id?: string }) => {
                             (p: OutputItem) => p.code === permissions.code
                           );
                           return (
-                            <React.Fragment key={permissions.code}>
+                            <Fragment key={permissions.code}>
                               <TableRow>
                                 <TableCell
                                   onClick={() => toggleRow(permissions.code)}
@@ -444,63 +498,13 @@ const RoleCreate = ({ id }: { id?: string }) => {
                                     formPermission ?? { code: '', checked: [] }
                                   )}
                                 </TableCell>
-                                {(() => {
-                                  const permissionsToShow =
-                                    permissions.children && permissions.children.length > 0
-                                      ? getAllChildPermissions(permissions)
-                                      : permissions.modulePermission ?? [];
-                                  return checkBoxColumnKey.map((code) => (
-                                    <TableCell
-                                      key={code}
-                                      className={`text-center ${
-                                        (permissions.children ?? []).length > 0
-                                          ? 'bg-[#f5f5ec]'
-                                          : ''
-                                      }`}
-                                    >
-                                      {permissions.children && permissions.children.length > 0
-                                        ? renderParentPermissionCheck(
-                                            permissions,
-                                            code,
-                                            permissionsToShow
-                                          )
-                                        : renderPermissionCheck(
-                                            permissions,
-                                            formPermission ?? { code: '', checked: [] },
-                                            code
-                                          )}
-                                    </TableCell>
-                                  ));
-                                })()}
+                                {renderPermissionColumns(
+                                  permissions,
+                                  formPermission ?? { code: '', checked: [] }
+                                )}
                               </TableRow>
-                              {(permissions.children ?? []).length > 0 &&
-                                openRows[permissions.code] &&
-                                (permissions.children ?? []).map((child) => {
-                                  const childFormPermission = field.value?.find(
-                                    (p: OutputItem) => p.code === child.code
-                                  );
-                                  return (
-                                    <TableRow key={child.code}>
-                                      <TableCell className="px-5">{child.name}</TableCell>
-                                      <TableCell className="text-center">
-                                        {renderCheckAll(
-                                          child,
-                                          childFormPermission ?? { code: '', checked: [] }
-                                        )}
-                                      </TableCell>
-                                      {checkBoxColumnKey.map((code) => (
-                                        <TableCell key={code} className="text-center">
-                                          {renderPermissionCheck(
-                                            child,
-                                            childFormPermission ?? { code: '', checked: [] },
-                                            code
-                                          )}
-                                        </TableCell>
-                                      ))}
-                                    </TableRow>
-                                  );
-                                })}
-                            </React.Fragment>
+                              {renderChildPermissionsRows(permissions, field.value)}
+                            </Fragment>
                           );
                         })}
                       </TableBody>

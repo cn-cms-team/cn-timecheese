@@ -7,6 +7,7 @@ import {
   SortColumn,
 } from '@/components/ui/custom/data-table';
 import LinkTable from '@/components/ui/custom/data-table/link';
+import { formatDate } from '@/lib/functions/date-format';
 import { IRole } from '@/types/setting/role';
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -51,11 +52,7 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
       size: 100,
       cell: ({ row }) => {
         const { updatedAt } = row.original;
-        return (
-          <div className="text-center">
-            {updatedAt ? new Date(updatedAt).toLocaleDateString() : '-'}
-          </div>
-        );
+        return <div className="text-center">{updatedAt ? formatDate(updatedAt) : '-'}</div>;
       },
     },
     {
@@ -68,7 +65,6 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
             <ButtonEdit onClick={() => onOpenDialog('edit', id, { name })} />
             <ButtonDelete
               onOpenDialog={(id, data) => {
-                console.log('DELETE CLICKED', { id, data });
                 onOpenDialog('delete', id, data);
               }}
               id={id}
