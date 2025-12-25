@@ -80,7 +80,6 @@ const RoleListView = () => {
 
         const result = await getConfirmation();
         if (result) {
-          toast(result);
           router.push(`/setting/role/${id}/edit`);
         }
       } else {
