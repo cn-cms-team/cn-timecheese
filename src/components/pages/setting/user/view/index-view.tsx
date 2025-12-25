@@ -11,17 +11,14 @@ import { createColumns } from '../user-list-columns';
 import { useState } from 'react';
 import { IUser } from '@/types/setting/user';
 import { Button } from '@/components/ui/button';
-import { UserPlus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 
 const UserButton = (): React.ReactNode => {
   const router = useRouter();
   return (
     <div>
-      <Button
-        className="btn btn-outline-primary font-bold"
-        onClick={() => router.push('/setting/user/create')}
-      >
-        <UserPlus className="w-4 h-4" />
+      <Button onClick={() => router.push('/setting/user/create')}>
+        <Plus className="w-4 h-4" />
         เพิ่มผู้ใช้งาน
       </Button>
     </div>
@@ -90,7 +87,6 @@ const UserListView = () => {
     onOpenDialog: handleOpenDialog,
   });
 
-  // if (isLoading) return <div>loading</div>;
   if (error) {
     router.replace('/404');
     return null;

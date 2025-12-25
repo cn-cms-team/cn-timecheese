@@ -2,7 +2,7 @@ export type ITeam = {
   id: string;
   code: string;
   name: string;
-  isActive: boolean;
+  is_active: boolean;
   description?: string;
   createdAt: Date;
   updatedAt?: Date;

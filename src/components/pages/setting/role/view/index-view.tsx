@@ -8,12 +8,18 @@ import { IRole } from '@/types/setting/role';
 import { useEffect, useState } from 'react';
 import { createColumns } from '../role-list-column';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
+import { Plus } from 'lucide-react';
+import useSWR from 'swr';
+import { fetcher } from '@/lib/fetcher';
 
 const RoleButton = (): React.ReactNode => {
   const router = useRouter();
   return (
     <div>
-      <Button onClick={() => router.push('/setting/role/create')}>เพิ่มสิทธิ์การใช้งาน</Button>
+      <Button onClick={() => router.push('/setting/role/create')}>
+        <Plus className="w-4 h-4"></Plus>
+        เพิ่มสิทธิ์การใช้งาน
+      </Button>
     </div>
   );
 };
@@ -21,12 +27,7 @@ const RoleButton = (): React.ReactNode => {
 const RoleListView = () => {
   const router = useRouter();
   const fetchRolesUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role`;
-  const [roleList, setRoleList] = useState<IRole[]>([]);
-  const getRoles = async () => {
-    const response = await fetch(fetchRolesUrl);
-    const result = await response.json();
-    return result.data;
-  };
+  const { data, error, isLoading, mutate } = useSWR(fetchRolesUrl, (url) => fetcher<IRole[]>(url));
 
   const [confirmState, setConfirmState] = useState<{
     title: string;
@@ -74,31 +75,27 @@ const RoleListView = () => {
         if (!id) return;
         if (result) {
           await deleteRole(id).then(async () => {
-            await getRoles().then((data) => {
-              setRoleList(data);
-            });
+            mutate();
           });
         }
       }
     } catch (error) {}
   };
-
-  useEffect(() => {
-    getRoles().then((data) => {
-      setRoleList(data);
-    });
-  }, []);
-
   const columns = createColumns({
     onOpenDialog: handleOpenDialog,
   });
+
+  if (error) {
+    router.replace('/404');
+    return null;
+  }
 
   return (
     <>
       <ModuleLayout
         headerTitle="สิทธิ์การใช้งาน"
         headerButton={<RoleButton />}
-        content={<RoleList columns={columns} data={roleList} />}
+        content={<RoleList columns={columns} data={data || []} loading={isLoading} />}
       ></ModuleLayout>
 
       <Confirmation
