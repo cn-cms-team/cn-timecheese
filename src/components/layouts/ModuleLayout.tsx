@@ -5,7 +5,7 @@ import { Header, HeaderTitle } from '../ui/custom/header';
 interface LayoutProps {
   headerTitle: string;
   leaveUrl?: string | undefined;
-  headerButton: React.ReactNode;
+  headerButton?: React.ReactNode;
   content: React.ReactNode;
 }
 const ModuleLayout: React.FC<LayoutProps> = ({ headerTitle, leaveUrl, headerButton, content }) => {

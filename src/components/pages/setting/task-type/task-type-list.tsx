@@ -20,15 +20,15 @@ import {
 import { Label } from '@/components/ui/label';
 import DataTable from '@/components/ui/custom/data-table/table-template';
 import InputSearch from '@/components/ui/custom/data-table/input/input-search';
-import { IUser } from '@/types/setting/user';
+import { ITaskMenu } from '@/types/setting/task-type';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function UserList<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'email', desc: false }]);
+export function TaskTypeList<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'name', desc: false }]);
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState<{
     search: string;
@@ -52,27 +52,20 @@ export function UserList<TData, TValue>({ columns, data }: DataTableProps<TData,
     filterValue: { search: string }
   ) => {
     const search = filterValue.search.toLowerCase().trim();
-    const { first_name, last_name, nick_name, team, position_level, email } = row.original as IUser;
-    const fullName = `${first_name ?? ''} ${last_name ?? ''}`.toLowerCase();
+    const { name, description } = row.original as ITaskMenu;
     const searchMatch =
-      email?.toLowerCase().includes(search) ||
-      first_name?.toLowerCase().includes(search) ||
-      last_name?.toLowerCase().includes(search) ||
-      fullName.toLowerCase().includes(search) ||
-      nick_name?.toLowerCase().includes(search) ||
-      position_level?.name.toLowerCase().includes(search) ||
-      team?.name?.toLowerCase().includes(search);
+      name.toLowerCase().includes(search) || description?.toLowerCase().includes(search);
 
-    return searchMatch;
+    return searchMatch as boolean;
   };
 
   const table = useReactTable({
     data,
     columns,
     sortingFns: {
-      dateSort: createNullsLastSortFn<IUser>(sorting),
-      customSort: createCustomSortFn<IUser>(),
-      booleanSort: createBooleanSortFn<IUser>(),
+      dateSort: createNullsLastSortFn<ITaskMenu>(sorting),
+      customSort: createCustomSortFn<ITaskMenu>(),
+      booleanSort: createBooleanSortFn<ITaskMenu>(),
     },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -96,7 +89,7 @@ export function UserList<TData, TValue>({ columns, data }: DataTableProps<TData,
           <Label className="mb-2">ค้นหา</Label>
           <InputSearch
             isMaxWidthSm={false}
-            placeholder="ชื่อ-นามสกุล, ตำแหน่ง, อีเมล"
+            placeholder="ชื่อ, คำอธิบาย"
             globalFilter={tempFilter.search}
             setGlobalFilter={(value: string) =>
               setTempFilter((prev) => ({ ...prev, search: value }))
