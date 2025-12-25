@@ -13,12 +13,7 @@ const RoleButton = (): React.ReactNode => {
   const router = useRouter();
   return (
     <div>
-      <Button
-        className="btn btn-outline-primary font-bold"
-        onClick={() => router.push('/setting/role/create')}
-      >
-        เพิ่มสิทธิ์การใช้งาน
-      </Button>
+      <Button onClick={() => router.push('/setting/role/create')}>เพิ่มสิทธิ์การใช้งาน</Button>
     </div>
   );
 };
@@ -56,7 +51,7 @@ const RoleListView = () => {
       if (mode === 'edit') {
         setConfirmState({
           title: 'แก้ไขข้อมูล',
-          message: `คุณยืนยันที่จะแก้ไขข้อมูลผู้ใช้งาน : ${name} ใช่หรือไม่ ?`,
+          message: `คุณยืนยันที่จะแก้ไขข้อมูลสิทธิ์การใช้งาน : ${name} ใช่หรือไม่ ?`,
           confirmType: ConfirmType.SUBMIT,
         });
 
@@ -67,7 +62,7 @@ const RoleListView = () => {
       } else {
         setConfirmState({
           title: 'ลบข้อมูล',
-          message: `คุณยืนยันที่จะลบข้อมูลผู้ใช้งาน : ${name} ใช่หรือไม่ ?`,
+          message: `คุณยืนยันที่จะลบข้อมูลสิทธิ์การใช้งาน : ${name} ใช่หรือไม่ ?`,
           confirmType: ConfirmType.DELETE,
         });
 
