@@ -63,7 +63,7 @@ const TimeSheetWeekCalendarBody = ({ weekDays }: IProps) => {
                 const taskEnd = new Date(task.end_date);
 
                 return (
-                  taskStart.getHours() < hr.getHours() &&
+                  taskStart.getHours() <= hr.getHours() &&
                   taskEnd.getHours() > hr.getHours() &&
                   taskStart.getDate() === day.getDate()
                 );
