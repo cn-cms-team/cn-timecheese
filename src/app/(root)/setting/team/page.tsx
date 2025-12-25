@@ -1,12 +1,13 @@
+import { TeamListView } from '@/components/pages/setting/team/view';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'ตั้งค่าทีม - Timecheese',
-  description: 'Timecheese',
+  title: 'Team - CN Timesheet',
+  description: 'CN Timesheet',
 };
 
 const TeamSetting = () => {
-  return <>ตั้งค่าทีม</>;
+  return <TeamListView />;
 };
 
 export default TeamSetting;
