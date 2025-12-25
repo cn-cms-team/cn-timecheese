@@ -353,7 +353,7 @@ const RoleCreate = ({ id }: { id?: string }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>ชื่อสิทธื์การใช้งาน</FormLabel>
+                  <FormLabel>ชื่อสิทธิ์การใช้งาน</FormLabel>
                   <FormControl>
                     <Input
                       autoComplete="off"
