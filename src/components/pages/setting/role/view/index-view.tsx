@@ -8,6 +8,7 @@ import { IRole } from '@/types/setting/role';
 import { useEffect, useState } from 'react';
 import { createColumns } from '../role-list-column';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
+import { useLoading } from '@/components/context/app-context';
 import { toast } from 'sonner';
 
 const RoleButton = (): React.ReactNode => {
@@ -28,10 +29,19 @@ const RoleListView = () => {
   const router = useRouter();
   const fetchRolesUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role`;
   const [roleList, setRoleList] = useState<IRole[]>([]);
+  const { isLoading, setIsLoading } = useLoading();
   const getRoles = async () => {
-    const response = await fetch(fetchRolesUrl);
-    const result = await response.json();
-    return result.data;
+    try {
+      setIsLoading(true);
+      const response = await fetch(fetchRolesUrl);
+      const result = await response.json();
+      return result.data;
+    } catch (error) {
+      toast('ไม่สามารโหลดข้อมูลได้');
+      return [];
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const [confirmState, setConfirmState] = useState<{
@@ -47,9 +57,16 @@ const RoleListView = () => {
 
   const deleteRole = async (id: string) => {
     const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role/${id}`;
-    await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
-      router.push('/setting/role');
-    });
+    try {
+      setIsLoading(true);
+      await fetch(fetchUrl, { method: 'DELETE' });
+      toast('ลบสิทธ์การใช้งานสำเร็จ');
+    } catch (error) {
+      toast('ลบสิทธ์การใช้งานไม่สำเร็จ');
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleOpenDialog = async (mode: 'edit' | 'delete', id: string) => {
@@ -57,7 +74,7 @@ const RoleListView = () => {
       if (mode === 'edit') {
         setConfirmState({
           title: 'แก้ไขข้อมูล',
-          message: `คุณยืนยันที่จะแก้ไขข้อมูลผู้ใช้งาน : ${name} ใช่หรือไม่ ?`,
+          message: `คุณยืนยันที่จะแก้ไขข้อมูลสิทธ์การใช้งาน : ${name} ใช่หรือไม่ ?`,
           confirmType: ConfirmType.SUBMIT,
         });
 
@@ -69,7 +86,7 @@ const RoleListView = () => {
       } else {
         setConfirmState({
           title: 'ลบข้อมูล',
-          message: `คุณยืนยันที่จะลบข้อมูลผู้ใช้งาน : ${name} ใช่หรือไม่ ?`,
+          message: `คุณยืนยันที่จะลบข้อมูลสิทธิ์การใช้งาน : ${name} ใช่หรือไม่ ?`,
           confirmType: ConfirmType.DELETE,
         });
 
