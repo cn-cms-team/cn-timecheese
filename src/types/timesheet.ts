@@ -7,7 +7,7 @@ export interface ITimeSheetResponse {
   stamp_date: string;
   start_date: string;
   end_date: string;
-  exclude: number;
+  exclude_seconds: number;
   detail: string;
   remark: string;
   created_at: string;
@@ -20,6 +20,7 @@ export interface ITimeSheetRequest {
   stamp_date: string;
   start_date: string;
   end_date: string;
+  exclude_seconds: number | null;
   detail: string;
 }
 

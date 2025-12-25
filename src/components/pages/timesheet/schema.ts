@@ -68,9 +68,8 @@ const schema = z
     end.setDate(start.getDate());
 
     const totalSeconds = (end.getTime() - start.getTime()) / 1000;
-    const THREE_HOURS = 3 * 60 * 60;
 
-    if (is_include_breaking_time && totalSeconds >= THREE_HOURS) {
+    if (is_include_breaking_time) {
       const finalSeconds = totalSeconds - exclude;
 
       if (finalSeconds <= 0) {

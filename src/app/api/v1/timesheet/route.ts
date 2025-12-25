@@ -50,7 +50,7 @@ export async function GET(request: Request) {
         detail: true,
         remark: true,
         total_seconds: true,
-
+        exclude_seconds: true,
         project: {
           select: { name: true },
         },
@@ -69,6 +69,7 @@ export async function GET(request: Request) {
       end_date: ts.end_date,
       detail: ts.detail,
       remark: ts.remark,
+      exclude_seconds: ts.exclude_seconds,
       total_seconds: ts.total_seconds,
       project_name: ts.project?.name ?? null,
       task_type_name: ts.task_type?.name ?? null,
@@ -105,7 +106,7 @@ export async function POST(request: Request) {
         start_date: body.data.start_date,
         end_date: body.data.end_date,
         detail: body.data.detail as string,
-        remark: body.data.remark as string | null,
+        exclude_seconds: body.data.exclude_seconds as number,
         total_seconds: total_seconds as number,
       },
     });

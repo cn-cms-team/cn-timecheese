@@ -28,7 +28,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         start_date: data.start_date,
         end_date: data.end_date,
         detail: data.detail as string,
-        remark: data.remark as string | null,
+        exclude_seconds: body.data.exclude_seconds as number,
         total_seconds: total_seconds,
       },
     });

@@ -42,6 +42,8 @@ const TimeSheetForm = ({
     weekday: 'long',
   });
 
+  console.log(data);
+
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const baseUrl = `${prefix}/api/v1`;
 
@@ -51,8 +53,8 @@ const TimeSheetForm = ({
       id: data ? data.id : undefined,
       task_type_id: data ? data.task_type_id : undefined,
       project_id: data ? data.project_id : undefined,
-      is_include_breaking_time: data && data.exclude ? true : false,
-      exclude: data && data.exclude ? data.exclude : 3600,
+      is_include_breaking_time: data && data.exclude_seconds ? true : false,
+      exclude: data && data.exclude_seconds ? data.exclude_seconds : 3600,
       stamp_date: data && data?.stamp_date ? new Date(data?.stamp_date) : new Date(),
       start_date: data && data.start_date ? new Date(data.start_date) : startTime,
       end_date: data && data.end_date ? new Date(data.end_date) : endTime,
@@ -81,6 +83,7 @@ const TimeSheetForm = ({
         stamp_date: new Date(value.start_date).toISOString(),
         start_date: new Date(start).toISOString(),
         end_date: new Date(end).toISOString(),
+        exclude_seconds: value.is_include_breaking_time ? value.exclude ?? 0 : null,
         detail: value.detail,
       };
 
@@ -104,8 +107,6 @@ const TimeSheetForm = ({
   };
 
   const calculateHour = () => {
-    const THREE_HOURS = 3 * 60 * 60;
-
     const startDate = useWatch({ control: form.control, name: 'start_date' });
     const endDate = useWatch({ control: form.control, name: 'end_date' });
     const exclude = useWatch({ control: form.control, name: 'exclude' }) || 0;
@@ -131,9 +132,7 @@ const TimeSheetForm = ({
       return (totalSeconds / 3600).toFixed(2);
     }
 
-    if (totalSeconds >= THREE_HOURS) {
-      totalSeconds = totalSeconds - exclude;
-    }
+    totalSeconds = totalSeconds - exclude;
 
     return (totalSeconds / 3600).toFixed(2);
   };
@@ -152,12 +151,12 @@ const TimeSheetForm = ({
             onSubmit={form.handleSubmit(onSubmit)}
             className="grid grid-cols-1 space-y-4 max-w-80"
           >
-            <div className="flex items-center">
+            <div className="flex items-center w-full">
               <FormField
                 control={form.control}
                 name="project_id"
                 render={({ field }) => (
-                  <FormItem className="px-0 w-full">
+                  <FormItem className="px-0 w-full ">
                     <FormControl>
                       <ComboboxForm
                         field={field}
@@ -179,9 +178,6 @@ const TimeSheetForm = ({
                   'dd mmmm yyyy'
                 )}`}</span>
               </div>
-              <span className="font-semibold text-sm text-end px-0">
-                เวลาทำงาน {calculateHour()} ชม
-              </span>
             </div>
             <div className="grid grid-cols-2 items-center gap-2 w-full">
               <FormField
@@ -348,7 +344,7 @@ const TimeSheetForm = ({
                   ยกเลิก
                 </Button>
                 <Button className="w-40  cursor-pointer text-black" type="submit">
-                  บันทึก
+                  บันทึก ({calculateHour()} ชม)
                 </Button>
               </div>
             </footer>
