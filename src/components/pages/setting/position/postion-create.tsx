@@ -113,8 +113,8 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
   return (
     <Form {...form}>
       <form id="position-create-form" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 lg:px-10">
-          <div className="w-full border px-5 py-5 rounded-sm text-lg">
+        <div className="w-full h-205 lg:h-190 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:px-10">
+          <div className="w-full h-95 lg:h-170 border px-5 py-5 rounded-sm text-lg">
             <div>
               <h1 className="font-semibold">ข้อมูลตำแหน่ง</h1>
             </div>
@@ -169,7 +169,7 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
               </div>
             </div>
           </div>
-          <div className="w-full min-h-180 max-h-180 border px-10 py-5 rounded-sm text-lg overflow-auto">
+          <div className="w-full h-95 lg:h-170 border px-10 py-5 rounded-sm text-lg overflow-auto">
             <div className="flex justify-between items-center">
               <h1 className="font-semibold">ระดับตำแหน่ง</h1>
               <button
