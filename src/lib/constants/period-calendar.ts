@@ -2,3 +2,10 @@ export enum PERIODCALENDAR {
   WEEK = 'WEEK',
   MONTH = 'MONTH',
 }
+
+export enum DAYTASKSTATUS {
+  IGNORE = 'IGNORE',
+  NOTASK = 'NO_TASK',
+  INPROGRESS = 'INPROGRESS',
+  COMPLETED = 'COMPLETED',
+}

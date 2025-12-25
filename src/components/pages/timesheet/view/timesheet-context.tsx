@@ -1,8 +1,9 @@
 'use client';
-import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
+import { DAYTASKSTATUS, PERIODCALENDAR } from '@/lib/constants/period-calendar';
 import { fetcher } from '@/lib/fetcher';
 import { IOptions } from '@/types/dropdown';
 import { ITimeSheetResponse, ITimeSheetUserInfoResponse } from '@/types/timesheet';
+import { format } from 'date-fns';
 import {
   createContext,
   Dispatch,
@@ -10,6 +11,7 @@ import {
   SetStateAction,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from 'react';
 
@@ -24,6 +26,7 @@ interface ITimeSheetContextType {
   projectOptions: IOptions[];
   taskTypeOptions: IOptions[];
   userInfo: ITimeSheetUserInfoResponse | null;
+  dailySecondsMap: Map<string, number>;
   setLoading: (isLoading: boolean) => void;
   setPeriod: (value: PERIODCALENDAR) => void;
   setSelectedCalendar: Dispatch<SetStateAction<Date>>;
@@ -37,6 +40,8 @@ interface ITimeSheetContextType {
   getUserInfo: () => Promise<void>;
   getTask: () => Promise<void>;
   deleteTask: (taskId: string) => Promise<void>;
+  getDailyWorkSeconds: () => Map<string, number>;
+  getDayStatus: (day: Date, dailyTaskMap: Map<string, number>) => DAYTASKSTATUS;
 }
 
 interface ITimeSheetProviderProps {
@@ -57,6 +62,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   const [projectOptions, setProjectOptions] = useState<IOptions[]>([]);
   const [taskTypeOptions, setTaskTypeOptions] = useState<IOptions[]>([]);
   const [userInfo, setUserInfo] = useState<ITimeSheetUserInfoResponse | null>(null);
+  const EIGHT_HOURS = 8 * 60 * 60;
 
   const resetSelectCaledar = () => {
     setSelectedCalendar(now);
@@ -136,6 +142,69 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
     await getTask();
   };
 
+  const dailySecondsMap = useMemo(() => {
+    const map = new Map<string, number>();
+
+    tasks.forEach((task) => {
+      const start = new Date(task.start_date);
+      const end = new Date(task.end_date);
+
+      end.setFullYear(start.getFullYear());
+      end.setMonth(start.getMonth());
+      end.setDate(start.getDate());
+
+      const seconds = Math.max(
+        0,
+        (end.getTime() - start.getTime()) / 1000 - (task.exclude_seconds ?? 0)
+      );
+
+      const key = format(start, 'yyyy-MM-dd');
+      map.set(key, (map.get(key) ?? 0) + seconds);
+    });
+
+    return map;
+  }, [tasks]);
+
+  const getDailyWorkSeconds = () => {
+    const map = new Map<string, number>();
+
+    tasks.forEach((task) => {
+      const start = new Date(task.start_date);
+      const end = new Date(task.end_date);
+
+      end.setFullYear(start.getFullYear());
+      end.setMonth(start.getMonth());
+      end.setDate(start.getDate());
+
+      const seconds = Math.max(
+        0,
+        (end.getTime() - start.getTime()) / 1000 - (task.exclude_seconds ?? 0)
+      );
+
+      const key = format(start, 'yyyy-MM-dd');
+      map.set(key, (map.get(key) ?? 0) + seconds);
+    });
+
+    return map;
+  };
+
+  const isWeekend = (date: Date) => {
+    const d = date.getDay();
+    return d === 0 || d === 6;
+  };
+
+  const getDayStatus = (day: Date) => {
+    if (isWeekend(day)) return DAYTASKSTATUS.IGNORE;
+
+    const key = format(day, 'yyyy-MM-dd');
+    const seconds = dailySecondsMap.get(key) ?? 0;
+
+    if (seconds === 0) return DAYTASKSTATUS.NOTASK;
+    if (seconds < EIGHT_HOURS) return DAYTASKSTATUS.INPROGRESS;
+
+    return DAYTASKSTATUS.COMPLETED;
+  };
+
   useEffect(() => {
     getTask();
   }, [period, selectedCalendar, selectedMonth, selectedYear]);
@@ -153,6 +222,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         projectOptions,
         taskTypeOptions,
         userInfo,
+        dailySecondsMap,
         setIsPopoverEdit,
         setLoading,
         setPeriod,
@@ -166,6 +236,8 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         getTask,
         deleteTask,
         getUserInfo,
+        getDailyWorkSeconds,
+        getDayStatus,
       }}
     >
       {children}

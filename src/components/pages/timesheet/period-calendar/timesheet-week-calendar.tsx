@@ -1,20 +1,22 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { cn } from '@/lib/utils';
-
-import TimeSheetWeekCalendarBody from './timesheet-week-calendar-body';
-import { addDays, addWeeks, format, startOfWeek } from 'date-fns';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { formatDate } from '@/lib/functions/date-format';
 import { th } from 'date-fns/locale';
+import { formatDate } from '@/lib/functions/date-format';
+import { DAYTASKSTATUS } from '@/lib/constants/period-calendar';
+import { addDays, addWeeks, format, isBefore, isSameDay, startOfDay, startOfWeek } from 'date-fns';
+
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTimeSheetContext } from '../view/timesheet-context';
+import TimeSheetWeekCalendarBody from './timesheet-week-calendar-body';
 
 const TimeSheetWeekCalendar = () => {
   const {
+    getDayStatus,
+    dailySecondsMap,
     selectedMonth,
     selectedYear,
-    getTask,
     setSelectedCalendar,
     setSelectedMonth,
     setSelectedYear,
@@ -52,6 +54,11 @@ const TimeSheetWeekCalendar = () => {
     });
   };
 
+  const isPastDay = (day: Date) => {
+    const today = startOfDay(new Date());
+    return isBefore(startOfDay(day), today);
+  };
+
   useEffect(() => {
     setWeekAnchorDate((prev) => {
       const day = prev.getDate();
@@ -72,24 +79,38 @@ const TimeSheetWeekCalendar = () => {
 
         <div className="flex flex-1 ms-13.5">
           {weekDays.map((day, idx) => {
-            const isToday = format(day, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
+            const isToday = isSameDay(day, new Date());
+            const isPast = isPastDay(day);
+            const status = getDayStatus(day, dailySecondsMap);
+            const noTask = isPast && status === DAYTASKSTATUS.NOTASK;
+            const inCompleted = isPast && status === DAYTASKSTATUS.INPROGRESS;
+            const isIgnore = isPast && status === DAYTASKSTATUS.IGNORE;
 
             return (
               <div
                 key={idx}
                 className={cn(
                   'flex-1 p-2 text-center border-l border-neutral-300 ',
+                  noTask && 'bg-destructive ',
+                  inCompleted && 'bg-[#FFA722] ',
+                  isIgnore && 'bg-neutral-100',
                   isToday && 'bg-black',
                   idx === weekDays.length - 1 && 'border-r border-neutral-300'
                 )}
               >
                 <div
-                  className={cn('text-xs uppercase', isToday ? 'text-white' : 'text-neutral-500')}
+                  className={cn(
+                    'text-xs uppercase',
+                    isToday || inCompleted || noTask ? 'text-white' : 'text-neutral-500'
+                  )}
                 >
                   {format(day, 'EEE', { locale: th })}
                 </div>
                 <div
-                  className={cn('font-bold text-lg', isToday ? 'text-white' : 'text-neutral-600')}
+                  className={cn(
+                    'font-bold text-lg',
+                    isToday || inCompleted || noTask ? 'text-white' : 'text-neutral-600'
+                  )}
                 >
                   {formatDate(day, 'd')}
                 </div>
@@ -98,7 +119,6 @@ const TimeSheetWeekCalendar = () => {
           })}
         </div>
 
-        {/* Next */}
         <button
           onClick={handleNextWeek}
           className="px-3 absolute -right-3 h-full flex items-center min-w-[54px] cursor-pointer"
