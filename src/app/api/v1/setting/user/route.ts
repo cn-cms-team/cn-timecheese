@@ -1,3 +1,4 @@
+import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 import bcrypt from 'bcrypt';
 
@@ -44,11 +45,21 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const session = await auth();
+
+    if (!session || !session.user) {
+      return Response.json(
+        {
+          message: 'Unauthorized',
+        },
+        { status: 401 }
+      );
+    }
     const body = await request.json();
     const hashedPassword = await bcrypt.hash(body.data.password, 10);
 
     const result = await prisma.user.create({
-      data: { ...body.data, password: hashedPassword },
+      data: { ...body.data, password: hashedPassword, created_by: session?.user.id },
     });
 
     return Response.json(

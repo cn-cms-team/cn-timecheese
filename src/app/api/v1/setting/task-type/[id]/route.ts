@@ -62,7 +62,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
       where: { task_type_id: id },
     });
     if (timeSheet) {
-      return Response.json({ message: 'This task type have been used' }, { status: 401 });
+      return Response.json({ message: 'This task type have been used' }, { status: 402 });
     }
 
     const result = await prisma.taskType.delete({

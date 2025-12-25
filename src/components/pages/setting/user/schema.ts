@@ -15,7 +15,7 @@ const baseSchema = {
   salary_range: z.string().optional(),
   position_level_id: z.string().nonempty('กรุณาเลือกระดับตำแหน่ง'),
   role_id: z.string().nonempty('กรุณาเลือกสิทธิ์การใช้งาน'),
-  start_date: z.date('กรุณาเลือกวันที่เริ่มต้น'),
+  start_date: z.iso.datetime('กรุณาเลือกวันที่เริ่มต้น'),
   end_date: z.date().nullable().optional(),
   is_active: z.boolean().optional(),
 };
