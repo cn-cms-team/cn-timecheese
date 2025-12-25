@@ -3,7 +3,6 @@ import prisma from '@/lib/prisma';
 export async function GET() {
   try {
     const result = await prisma.taskType.findMany({
-      where: { is_enabled: true },
       select: {
         id: true,
         name: true,
