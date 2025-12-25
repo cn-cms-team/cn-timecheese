@@ -1,6 +1,5 @@
-import { ComboboxForm } from '@/components/ui/custom/combobox';
-import { FormControl, FormField, FormItem } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+'use client';
+
 import {
   Table,
   TableBody,
@@ -9,142 +8,88 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useFieldArray, UseFormReturn } from 'react-hook-form';
-import { CreateProjectSchemaType, EditProjectSchemaType } from './schema';
-import { Button } from '@/components/ui/button';
-import { Trash2 } from 'lucide-react';
-import { MAX_LENGTH_100, MAX_LENGTH_255 } from '@/lib/constants/validation';
+import { ITaskType } from '@/types/setting/task-type';
+import BadgeTable from '@/components/ui/custom/data-table/badge';
+import { ButtonDelete, ButtonEdit } from '@/components/ui/custom/data-table';
 
-export type TaskArrayName = 'main_task_type' | 'optional_task_type';
+export type TaskArrayName = 'task_type';
 
-export interface ProjectMemberTableProps {
-  header: { label: string; className: string }[];
-  form: UseFormReturn<EditProjectSchemaType | CreateProjectSchemaType>;
-  name: TaskArrayName;
+export interface TaskTypeTableProps {
+  data: ITaskType[];
+  onOpenDialog?: (mode: 'edit' | 'delete', id: string) => void;
+  mode: 'view' | 'edit';
 }
 
-const ProjectTaskTable = ({ header, form, name }: ProjectMemberTableProps) => {
-  const { remove } = useFieldArray({
-    control: form.control,
-    name: name,
-  });
+const TaskTypeCreateTable = ({ data, onOpenDialog, mode }: TaskTypeTableProps) => {
+  const header = [
+    { label: 'ประเภทงาน', className: 'text-start min-w-[100px]' },
+    { label: 'คำอธิบาย', className: 'text-start min-w-[200px]' },
+    { label: 'สถานะ', className: 'text-center' },
+  ];
+  if (mode === 'edit') {
+    header.push({ label: 'จัดการ', className: 'text-center' });
+  }
   return (
     <>
-      <FormField
-        control={form.control}
-        name={name}
-        render={({ field: parentField }) => (
-          <FormItem>
-            <FormControl>
-              <div className="border rounded-lg">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-[#f2f4f7]">
-                      {header.map(({ label, className }) => (
-                        <TableHead key={label} className={className}>
-                          {label}
-                        </TableHead>
-                      ))}
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {parentField.value.length === 0 ? (
-                      <TableRow>
-                        <TableCell
-                          colSpan={header.length}
-                          className="h-24 text-center text-muted-foreground"
-                        >
-                          ไม่มีข้อมูล
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      parentField.value.map((item, index) => (
-                        <TableRow key={index}>
-                          <TableCell>
-                            {
-                              <FormField
-                                control={form.control}
-                                name={`${name}.${index}.type`}
-                                render={({ field }) => (
-                                  <FormItem className="">
-                                    <FormControl>
-                                      <ComboboxForm
-                                        placeholder="เลือกหมวดหมู่"
-                                        options={[]}
-                                        field={field}
-                                        onSelect={(value) => field.onChange(value)}
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-                            }
-                          </TableCell>
-                          <TableCell>
-                            {
-                              <FormField
-                                control={form.control}
-                                name={`${name}.${index}.name`}
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormControl>
-                                      {name === 'main_task_type' ? (
-                                        <ComboboxForm
-                                          placeholder="เลือกประเภท"
-                                          options={[]}
-                                          field={field}
-                                          onSelect={(value) => field.onChange(value)}
-                                        />
-                                      ) : (
-                                        <Input
-                                          {...field}
-                                          value={item.name}
-                                          maxLength={MAX_LENGTH_100}
-                                          onChange={parentField.onChange}
-                                        />
-                                      )}
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-                            }
-                          </TableCell>
-                          <TableCell>
-                            {
-                              <FormField
-                                control={form.control}
-                                name={`${name}.${index}.description`}
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormControl>
-                                      <Input
-                                        {...field}
-                                        value={item.description}
-                                        maxLength={MAX_LENGTH_255}
-                                        onChange={parentField.onChange}
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-                            }
-                          </TableCell>
-                          <TableCell>
-                            <Button variant={'ghost'} onClick={() => remove(index)}>
-                              <Trash2 width={20} height={20} />
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    )}
-                  </TableBody>
-                </Table>
-              </div>
-            </FormControl>
-          </FormItem>
-        )}
-      />
+      <div className="border rounded-lg">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-[#f2f4f7]">
+              {header.map(({ label, className }) => (
+                <TableHead key={label} className={className}>
+                  {label}
+                </TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {!data || data.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={header.length}
+                  className="h-24 text-center text-muted-foreground "
+                >
+                  ไม่มีข้อมูล
+                </TableCell>
+              </TableRow>
+            ) : (
+              data &&
+              data.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell>
+                    <div className="text-start">{item.name}</div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="text-start">{item.description || '-'}</div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="text-center">
+                      {item.is_active ? (
+                        <BadgeTable text="ใช้งาน" type="activate" />
+                      ) : (
+                        <BadgeTable text="ไม่ใช้งาน" type="deactivate" />
+                      )}
+                    </div>
+                  </TableCell>
+                  {mode === 'edit' && (
+                    <TableCell>
+                      <div className="flex justify-center gap-2">
+                        <ButtonEdit onClick={() => onOpenDialog!('edit', item.id!)} />
+                        <ButtonDelete
+                          onOpenDialog={() => onOpenDialog!('delete', item.id!)}
+                          id={item.id!}
+                          data={{ name: item.name }}
+                        />
+                      </div>
+                    </TableCell>
+                  )}
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </div>
     </>
   );
 };
-export default ProjectTaskTable;
+export default TaskTypeCreateTable;

@@ -20,6 +20,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     });
     return Response.json({ data: taskType, status: 200 });
   } catch (error) {
+    console.log(error);
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
@@ -53,9 +54,15 @@ export async function POST(request: NextRequest) {
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-
     if (!id) {
       return Response.json({ error: 'Task Type ID is required' }, { status: 400 });
+    }
+
+    const timeSheet = await prisma.timeSheet.findFirst({
+      where: { task_type_id: id },
+    });
+    if (timeSheet) {
+      return Response.json({ message: 'This task type have been used' }, { status: 401 });
     }
 
     const result = await prisma.taskType.delete({

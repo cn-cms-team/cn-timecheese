@@ -1,94 +1,101 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { getIsActive } from '@/lib/functions/enum-mapping';
-import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { IOptions } from '@/types/dropdown';
-import { useSession } from 'next-auth/react';
-import { LabelGroup, Required } from '@/components/ui/custom/form';
-import { MAX_LENGTH_255, MAX_LENGTH_50 } from '@/lib/constants/validation';
-import { toast } from 'sonner';
-import { taskTypeSchema, TaskTypeSchemaType } from './schema';
-import { Textarea } from '@/components/ui/textarea';
+import { LabelGroup } from '@/components/ui/custom/form';
+import TaskTypeCreateTable from './task-type-create-table';
+import { taskTypeMenu } from '@/lib/constants/task';
+import { ITaskType, ITaskView } from '@/types/setting/task-type';
+import TaskTypeCreateDialog from './task-type-create-dialog';
+import { TaskTypeCode } from '../../../../../generated/prisma/enums';
+import { Button } from '@/components/ui/button';
+import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 
-const TaskTypeCreate = ({ id }: { id?: string }): React.ReactNode => {
-  const router = useRouter();
-
-  const form = useForm<TaskTypeSchemaType>({
-    resolver: zodResolver(taskTypeSchema),
-    defaultValues: {
-      name: '',
-      description: '',
-      type: '',
-      is_active: false,
-    },
+const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
+  const [defaultTaskType, setDefaultTaskType] = useState<ITaskType>({
+    name: '',
+    description: '',
+    type: id as TaskTypeCode,
+    is_active: true,
   });
+  const [taskItem, setTaskItem] = useState<ITaskView>();
+  const [open, setOpen] = useState<boolean>(false);
+  const [getConfirmation, Confirmation] = useDialogConfirm();
+  const [confirmState, setConfirmState] = useState<{
+    title: string;
+    message: string;
+    confirmType?: ConfirmType;
+  }>({
+    title: '',
+    message: '',
+    confirmType: ConfirmType.SUBMIT,
+  });
+  const fetchTaskTypeData = async (task_type_id: string) => {
+    try {
+      const taskMenu = taskTypeMenu.find((e) => e.id === id);
+      const response = await fetch(`/api/v1/setting/task-type/${task_type_id}`, {
+        method: 'GET',
+      });
+      const result = await response.json();
+      if (response.ok) {
+        const taskTypeData = result.data;
 
-  useEffect(() => {
-    const fetchTaskTypeData = async (task_type_id: string) => {
-      try {
-        const response = await fetch(`/api/v1/setting/task-type/${task_type_id}`, {
-          method: 'GET',
-        });
-        const result = await response.json();
-        if (response.ok) {
-          const task_typeData = result.data;
-          form.reset({ ...task_typeData, confirm_password: task_typeData.password });
+        if (taskMenu) {
+          setTaskItem({
+            id: taskMenu.id,
+            name: taskMenu.name,
+            description: taskMenu.description,
+            is_project_task: taskMenu.is_project_task,
+            task_type: taskTypeData,
+          });
         }
-      } catch (error) {
-        console.error('Failed to fetch task-type data:', error);
       }
-    };
+    } catch (error) {
+      console.error('Failed to fetch task-type data:', error);
+    }
+  };
+  useEffect(() => {
     if (id) {
       fetchTaskTypeData(id);
     }
   }, []);
 
-  const onSubmit = async (values: TaskTypeSchemaType) => {
+  const deleteTaskType = async (task_id: string) => {
+    const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/task-type/${task_id}`;
+    await fetch(fetchUrl, { method: 'DELETE' }).then(async () => {
+      await fetchTaskTypeData(id);
+    });
+  };
+  const handleOpenDialog = async (mode: 'edit' | 'delete', task_id: string) => {
     try {
-      let fetchUrl = '/api/v1/setting/task-type';
-      if (id) {
-        fetchUrl = `/api/v1/setting/task-type/${id}`;
-      }
-      const data = {
-        id: id,
-        name: values.name,
-        description: values.description,
-        type: values.type,
-        is_active: values.is_active,
-      };
-      const response = await fetch(fetchUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ data }),
-      });
-      if (response.ok) {
-        const result = await response.json();
+      if (mode === 'edit') {
+        setConfirmState({
+          title: 'แก้ไขข้อมูล',
+          message: `คุณยืนยันที่จะแก้ไขข้อมูลประเภทงานนี้ใช่หรือไม่ ?`,
+          confirmType: ConfirmType.SUBMIT,
+        });
 
-        toast(result.message);
-        router.push('/setting/task-type');
+        const result = await getConfirmation();
+        if (result) {
+          const taskTypeItem = taskItem?.task_type.find((e) => e.id === task_id);
+          if (taskTypeItem) {
+            setDefaultTaskType(taskTypeItem as ITaskType);
+            setOpen(true);
+          }
+        }
+      } else {
+        setConfirmState({
+          title: 'ลบข้อมูล',
+          message: `คุณยืนยันที่จะลบข้อมูลประเภทงานนี้ใช่หรือไม่ ?`,
+          confirmType: ConfirmType.DELETE,
+        });
+
+        const result = await getConfirmation();
+        if (!task_id) return;
+        else if (result) {
+          await deleteTaskType(task_id);
+        }
       }
-    } catch {
-      toast('An unexpected error occurred. Please try again.');
-    } finally {
-      console.log('Finally block executed');
-    }
+    } catch (error) {}
   };
 
   return (
@@ -96,62 +103,40 @@ const TaskTypeCreate = ({ id }: { id?: string }): React.ReactNode => {
       <h2 className="font-medium text-lg mb-0">ข้อมูลหมวดหมู่งาน</h2>
       <hr className="mt-2 mb-5" />
       <div className="flex flex-col space-y-5 px-8 mb-5">
-        <LabelGroup label="ชื่อ" className="w-full sm:w-1/2" value={''} />
+        <LabelGroup label="ชื่อ" className="w-full sm:w-1/2" value={taskItem?.name} />
 
-        <LabelGroup label="คำอธิบาย" value={''} />
+        <LabelGroup label="คำอธิบาย" value={taskItem?.description || '-'} />
       </div>
       <h2 className="font-medium text-lg mb-0">ข้อมูลประเภทงาน</h2>
       <hr className="mt-2 mb-5" />
-      <Form {...form}>
-        <form
-          id="task-type-create-form"
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-x-6 space-y-5 px-8"
+
+      <TaskTypeCreateTable
+        data={taskItem?.task_type as ITaskType[]}
+        onOpenDialog={handleOpenDialog}
+        mode="edit"
+      ></TaskTypeCreateTable>
+      <div className="flex w-full py-4 px-2">
+        <Button
+          size="sm"
+          className="flex justify-start items-center px-2 h-9"
+          onClick={() => setOpen(true)}
         >
-          {/* <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem className="w-full md:w-1/2">
-                <FormLabel>ชื่อ</FormLabel>
-                <FormControl>
-                  <Input
-                    autoComplete="off"
-                    placeholder="กรุณากรอกชื่อประเภทงาน"
-                    {...field}
-                    maxLength={MAX_LENGTH_255}
-                    onInput={(e) => {
-                      field.onChange(e);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>คำอธิบาย</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="กรุณากรอกคำอธิบายประเภทงาน"
-                    {...field}
-                    maxLength={MAX_LENGTH_255}
-                    onInput={(e) => {
-                      field.onChange(e);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
-          <div className="flex flex-wrap items-baseline"></div>
-        </form>
-      </Form>
+          เพิ่มข้อมูล
+        </Button>
+      </div>
+      <TaskTypeCreateDialog
+        open={open}
+        onOpen={setOpen}
+        type={id as TaskTypeCode}
+        taskItem={defaultTaskType as ITaskType}
+        getData={fetchTaskTypeData}
+      />
+
+      <Confirmation
+        title={confirmState.title}
+        message={confirmState.message}
+        confirmType={confirmState.confirmType}
+      />
     </div>
   );
 };
