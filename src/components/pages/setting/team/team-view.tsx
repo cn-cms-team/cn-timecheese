@@ -44,14 +44,14 @@ const TeamViewDetail = ({ id }: { id: string }): React.ReactNode => {
           <LabelGroup label="สถานะการใช้งาน" value="">
             <div className="flex items-center space-x-2">
               <Switch
-                checked={teamData?.isActive as boolean}
+                checked={teamData?.is_active as boolean}
                 aria-readonly
                 disabled
                 className="disabled:opacity-80"
                 id="is-team-active"
               />
               <Label htmlFor="is-team-active" className="peer-disabled:opacity-80 text-base">
-                {getIsActive(teamData?.isActive as boolean)}
+                {getIsActive(teamData?.is_active as boolean)}
               </Label>
             </div>
           </LabelGroup>{' '}
