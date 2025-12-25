@@ -72,18 +72,20 @@ const TeamViewDetail = ({ id }: { id: string }): React.ReactNode => {
                   <table className="w-full table-auto border-collapse">
                     <thead>
                       <tr className="">
-                        <th className="text-left px-3 py-2 border-b w-[80%]">ชื่อสมาชิก</th>
-                        <th className="text-center px-3 py-2 border-b w-[20%]">จัดการสมาชิก</th>
+                        <th className="text-left px-3 py-2 border-b w-[50%] md:w-[80%]">สมาชิก</th>
+                        <th className="text-center px-3 py-2 border-b w-[50%] md:w-[20%]">
+                          สิทธิ์การเห็นข้อมูลสมาชิกในทีม
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {membersOrder.map((item) => (
                         <tr key={item.id} className="odd:bg-card even:bg-card/50">
-                          <td className="px-3 py-2 align-middle w-[80%]">
+                          <td className="px-3 py-2 align-middle w-[50%] md:w-[80%]">
                             <span className="font-medium">{item.name}</span>
                             <div className="text-sm text-muted-foreground">{teamData?.name}</div>
                           </td>
-                          <td className="px-3 py-2 align-middle text-center w-[20%]">
+                          <td className="px-3 py-2 align-middle text-center w-[50%] md:w-[20%]">
                             <label className="inline-flex items-center space-x-2 justify-end">
                               <Switch
                                 checked={item.isManager}
