@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { RoleListView } from '@/components/pages/setting/role/view';
 
 export const metadata: Metadata = {
   title: 'ตั้งค่าสิทธิ์การใช้งาน - Timecheese',
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const RoleSetting = () => {
-  return <>ตั้งค่าสิทธิ์การใช้งาน</>;
+  return <RoleListView />;
 };
 
 export default RoleSetting;
