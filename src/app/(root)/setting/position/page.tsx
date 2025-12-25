@@ -1,3 +1,4 @@
+import PostionListView from '@/components/pages/setting/position/view/index-view';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const PositionSetting = () => {
-  return <>ตั้งค่าตำแหน่งงาน</>;
+  return <PostionListView/>;
 };
 
 export default PositionSetting;
