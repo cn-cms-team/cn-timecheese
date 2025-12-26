@@ -9,3 +9,5 @@ export enum DAYTASKSTATUS {
   INPROGRESS = 'INPROGRESS',
   COMPLETED = 'COMPLETED',
 }
+
+export const DAYS = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'];
