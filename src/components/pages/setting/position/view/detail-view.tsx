@@ -5,6 +5,7 @@ import PositionViewDetail from '../position-view';
 import { useRouter } from 'next/navigation';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 const PositionViewButton = ({ 
   id, 
@@ -49,12 +50,11 @@ const PositionView = ({ id }: { id: string }) => {
   const [getConfirmation, Confirmation] = useDialogConfirm();
 
   const handleOpenDialog = async (mode: 'edit' | 'delete') => {
-    const name = positionName || 'นี้';
     try {
       if (mode === 'edit') {
         setConfirmState({
           title: 'แก้ไขข้อมูล',
-          message: `คุณยืนยันที่จะแก้ไขข้อมูลตำแหน่ง : ${name} ใช่หรือไม่ ?`,
+          message: `คุณยืนยันที่จะแก้ไขข้อมูลตำแหน่ง : ${positionName} ใช่หรือไม่ ?`,
           confirmType: ConfirmType.SUBMIT,
         });
 
@@ -65,7 +65,7 @@ const PositionView = ({ id }: { id: string }) => {
       } else {
         setConfirmState({
           title: 'ลบข้อมูล',
-          message: `คุณยืนยันที่จะลบข้อมูลตำแหน่ง : ${name} ใช่หรือไม่ ?`,
+          message: `คุณยืนยันที่จะลบข้อมูลตำแหน่ง : ${positionName} ใช่หรือไม่ ?`,
           confirmType: ConfirmType.DELETE,
         });
 
@@ -73,6 +73,7 @@ const PositionView = ({ id }: { id: string }) => {
         if (result && id) {
           await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
             router.push('/setting/position');
+            toast.success('Delete Success!')
           });
         }
       }
