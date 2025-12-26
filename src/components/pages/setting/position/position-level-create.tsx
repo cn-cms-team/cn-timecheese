@@ -2,9 +2,11 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Trash2 } from 'lucide-react';
+import { CreatePositionSchemaType, EditPositionSchemaType } from "./schema";
+import { Control } from 'react-hook-form';
 interface Props {
   index: number;
-  control: any;
+  control: Control<CreatePositionSchemaType | EditPositionSchemaType>;
   onRemove: () => void;
   totalFields: number;
 }
@@ -38,6 +40,7 @@ const PositionLevelCreate = ({ index, control, onRemove, totalFields }: Props) =
               </FormLabel>
               <FormControl>
                 <Input
+                  maxLength={100}
                   autoComplete="off"
                   placeholder="กรุณากรอกชื่อระดับ"
                   {...field}
@@ -61,6 +64,7 @@ const PositionLevelCreate = ({ index, control, onRemove, totalFields }: Props) =
                 <Textarea
                   {...field}
                   value={field.value || ''}
+                  maxLength={255}
                   className="h-20"
                   autoComplete="off"
                   placeholder="กรุณากรอกคำอธิบายระดับ"
