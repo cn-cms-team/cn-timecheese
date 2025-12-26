@@ -9,6 +9,8 @@ import TaskTypeCreateDialog from './task-type-create-dialog';
 import { TaskTypeCode } from '../../../../../generated/prisma/enums';
 import { Button } from '@/components/ui/button';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
+import { TitleGroup } from '@/components/ui/custom/cev';
+import { toast } from 'sonner';
 
 const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
   const [defaultTaskType, setDefaultTaskType] = useState<ITaskType>({
@@ -37,6 +39,7 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
       });
       const result = await response.json();
       if (response.ok) {
+        toast(result.message);
         const taskTypeData = result.data;
 
         if (taskMenu) {
@@ -60,10 +63,18 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
   }, []);
 
   const deleteTaskType = async (task_id: string) => {
-    const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/task-type/${task_id}`;
-    await fetch(fetchUrl, { method: 'DELETE' }).then(async () => {
-      await fetchTaskTypeData(id);
-    });
+    try {
+      const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/task-type/${task_id}`;
+      await fetch(fetchUrl, { method: 'DELETE' }).then(async (res) => {
+        const result = await res.json();
+        if (res.ok) {
+          toast(result.message);
+          await fetchTaskTypeData(id);
+        }
+      });
+    } catch (error) {
+      toast(error as string);
+    }
   };
   const handleOpenDialog = async (mode: 'edit' | 'delete', task_id: string) => {
     try {
@@ -99,9 +110,8 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
   };
 
   return (
-    <div className="flex flex-col px-5">
-      <h2 className="font-medium text-lg mb-0">ข้อมูลหมวดหมู่งาน</h2>
-      <hr className="mt-2 mb-5" />
+    <div className="cev-box">
+      <TitleGroup title="ข้อมูลหมวดหมู่งาน" />
       <div className="flex flex-col space-y-5 px-8 mb-5">
         <LabelGroup label="ชื่อ" className="w-full sm:w-1/2" value={taskItem?.name} />
 

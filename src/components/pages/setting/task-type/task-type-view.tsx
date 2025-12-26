@@ -5,6 +5,7 @@ import { ITaskType, ITaskView } from '@/types/setting/task-type';
 import { useEffect, useState } from 'react';
 import TaskTypeCreateTable from './task-type-create-table';
 import { taskTypeMenu } from '@/lib/constants/task';
+import { TitleGroup } from '@/components/ui/custom/cev';
 
 const TaskTypeViewDetail = ({ id }: { id: string }): React.ReactNode => {
   const [taskTypeData, setTaskTypeData] = useState<ITaskView>();
@@ -37,9 +38,8 @@ const TaskTypeViewDetail = ({ id }: { id: string }): React.ReactNode => {
   }, [id]);
 
   return (
-    <div className="flex flex-col px-5">
-      <h2 className="font-medium text-lg mb-0">ข้อมูลประเภทงาน</h2>
-      <hr className="mt-2 mb-5" />
+    <div className="cev-box">
+      <TitleGroup title="ข้อมูลหมวดหมู่งาน" />
       <div className="flex flex-wrap space-y-5">
         <div className="flex w-full">
           <LabelGroup label="ชื่อ" className="w-full sm:w-1/2" value={taskTypeData?.name} />
@@ -47,8 +47,7 @@ const TaskTypeViewDetail = ({ id }: { id: string }): React.ReactNode => {
         </div>
         <LabelGroup label="คำอธิบาย" value={taskTypeData?.description} />
       </div>
-      <h2 className="font-medium text-lg mb-0">ข้อมูลประเภทงาน</h2>
-      <hr className="mt-2 mb-5" />
+      <TitleGroup title="ข้อมูลประเภทงาน" className="mt-5" />
       <TaskTypeCreateTable
         data={taskTypeData?.task_type as ITaskType[]}
         mode="view"
