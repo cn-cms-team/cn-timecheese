@@ -3,24 +3,19 @@
 import ModuleLayout from '@/components/layouts/ModuleLayout';
 import { Button } from '@/components/ui/button';
 import PostionCreate from '../postion-create';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const PositionCreateButton = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const from = searchParams.get('from') || '';
-  const returnUrl = from === 'detail' ? `/setting/position/${id}` : `/setting/position`;
   return (
     <div className="flex items-middle gap-2">
       <Button
-        className="btn btn-outline font-bold"
         variant={'outline'}
-        onClick={() => router.push(returnUrl)}
+        onClick={() => router.push(`/setting/position`)}
       >
         ยกเลิก
       </Button>
       <Button
-        className="btn btn-outline-primary font-bold"
         type="submit"
         form="position-create-form"
       >
