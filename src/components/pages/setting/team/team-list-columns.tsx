@@ -8,9 +8,11 @@ import {
 } from '@/components/ui/custom/data-table';
 import { ITeam } from '@/types/setting/team';
 import LinkTable from '@/components/ui/custom/data-table/link';
+import BadgeTable from '@/components/ui/custom/data-table/badge';
 
 const nameColumn = SortColumn<ITeam>('name', 'ชื่อทีม');
 const descriptionColumn = SortColumn<ITeam>('description', 'คำอธิบาย');
+const activeColumn = SortColumn<ITeam>('is_active', 'สถานะ');
 const actionColumn = ActionColumn<ITeam>('actions', 'จัดการ');
 type createColumnsProps = {
   onOpenDialog: (
@@ -41,14 +43,29 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
       },
     },
     {
+      ...activeColumn,
+      cell: ({ row }) => {
+        const { is_active } = row.original;
+        return (
+          <div>
+            {is_active ? (
+              <BadgeTable text="ใช้งาน" type="activate" />
+            ) : (
+              <BadgeTable text="ไม่ใช้งาน" type="deactivate" />
+            )}
+          </div>
+        );
+      },
+    },
+    {
       ...actionColumn,
       cell: ({ row }) => {
-        const { id, name, isActive } = row.original;
+        const { id, name, is_active } = row.original;
         return (
           <div className="flex justify-center space-x-1">
-            <ButtonEdit onClick={() => onOpenDialog('edit', isActive, id, { name })} />
+            <ButtonEdit onClick={() => onOpenDialog('edit', is_active, id, { name })} />
             <ButtonDelete
-              onOpenDialog={() => onOpenDialog('delete', isActive, id, { name })}
+              onOpenDialog={() => onOpenDialog('delete', is_active, id, { name })}
               id={id}
               data={{ name }}
             />

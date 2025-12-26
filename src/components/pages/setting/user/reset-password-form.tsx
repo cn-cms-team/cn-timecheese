@@ -22,6 +22,7 @@ import { handleSignout } from '@/components/layouts/root/actions';
 import { handleResetPasswordUser } from '@/lib/action';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
+import TitleGroup from '@/components/ui/custom/cev/title-group';
 
 type ResetPasswordFormProps = {
   userData?: IUser;
@@ -62,11 +63,8 @@ const ResetPasswordForm = ({ userData }: ResetPasswordFormProps) => {
     }
   };
   return (
-    <div className="flex flex-col px-5">
-      <div>
-        <h2 className="font-medium text-lg mb-0">ข้อมูลรีเซ็ตรหัสผ่าน</h2>
-        <hr className="mt-2 mb-5" />
-      </div>
+    <div className="cev-box">
+      <TitleGroup title="ข้อมูลผู้ใช้งาน" />
       <Form {...form}>
         <form
           id="user-reset-password-form"

@@ -7,15 +7,12 @@ import RoleCreate from '../role-create';
 const RoleCreateButton = (): React.ReactNode => {
   const router = useRouter();
   return (
-    <div className="flex align-middle">
-      <Button className="btn btn-outline-primary font-bold" type="submit" form="role-create-form">
-        บันทึก
-      </Button>
-      <Button
-        className="btn btn-outline-secondary font-bold ml-2"
-        onClick={() => router.push('/setting/role')}
-      >
+    <div className="flex gap-2 align-middle">
+      <Button variant={'outline'} onClick={() => router.push('/setting/role')}>
         ยกเลิก
+      </Button>
+      <Button type="submit" form="role-create-form">
+        บันทึก
       </Button>
     </div>
   );

@@ -8,15 +8,12 @@ import { useRouter } from 'next/navigation';
 const TeamCreateButton = (): React.ReactNode => {
   const router = useRouter();
   return (
-    <div className="flex align-middle">
-      <Button className="btn btn-outline-primary font-bold" type="submit" form="team-create-form">
-        บันทึก
-      </Button>
-      <Button
-        className="btn btn-outline-secondary font-bold ml-2"
-        onClick={() => router.push('/setting/team')}
-      >
+    <div className="flex items-center gap-2">
+      <Button variant={'outline'} onClick={() => router.push('/setting/team')}>
         ยกเลิก
+      </Button>
+      <Button type="submit" form="team-create-form">
+        บันทึก
       </Button>
     </div>
   );

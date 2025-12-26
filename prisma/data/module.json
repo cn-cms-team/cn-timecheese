@@ -22,9 +22,16 @@
   },
   {
     "code": "REPORT_PROJECT_STATUS",
-    "name": "สถานะโครงการ",
+    "name": "สรุป TS ตามโครงการ สำหรับ PM",
     "parent_code": "REPORT",
     "order": 1,
+    "is_active": true
+  },
+  {
+    "code": "REPORT_TEAM_STATUS",
+    "name": "สรุป TS สำหรับหัวหน้าทีม",
+    "parent_code": "REPORT",
+    "order": 2,
     "is_active": true
   },
   {

@@ -21,8 +21,13 @@ export const menuItems: IMenu[] = [
     items: [
       {
         menuId: 'REPORT_PROJECT_STATUS',
-        name: 'สถานะโครงการ',
+        name: 'สรุป TS ตามโครงการ สำหรับ PM',
         url: '/report/project',
+      },
+      {
+        menuId: 'REPORT_TEAM_STATUS',
+        name: 'สรุป TS สำหรับหัวหน้าทีม',
+        url: '/report/team',
       },
     ],
   },

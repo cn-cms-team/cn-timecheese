@@ -2,14 +2,15 @@ import prisma from '@/lib/prisma';
 import { NextRequest } from 'next/server';
 import { TaskTypeCode } from '../../../../../../../generated/prisma/enums';
 
-export async function GET(request: Request, { params }: { params: Promise<{ id: TaskTypeCode }> }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  if (!id) {
+  const taskTypeId = id as TaskTypeCode;
+  if (!taskTypeId) {
     return Response.json({ error: 'Task Type ID is required' }, { status: 400 });
   }
   try {
     const taskType = await prisma.taskType.findMany({
-      where: { type: id },
+      where: { type: taskTypeId },
       select: {
         id: true,
         name: true,
@@ -20,7 +21,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     });
     return Response.json({ data: taskType, status: 200 });
   } catch (error) {
-    console.log(error);
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }

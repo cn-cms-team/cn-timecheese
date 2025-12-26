@@ -36,7 +36,12 @@ export function AppSidebar() {
               <div className="w-8 h-8 rounded-lg flex items-center justify-center">
                 <CheeseIcon />
               </div>
-              <div className="font-bold text-lg text-nowrap">Timecheese</div>
+              <div
+                className="font-bold text-lg text-nowrap bg-linear-to-r from-yellow-500 via-pink-500  to-indigo-500
+           bg-clip-text text-transparent"
+              >
+                TimeCheese
+              </div>
             </div>
           </SidebarMenuItem>
         </SidebarMenu>

@@ -38,6 +38,16 @@ export const modulePermission = [
     order: 2,
   },
   {
+    module_code: EModules.REPORT_TEAM_STATUS,
+    pms_code: EPermissions.VIEW,
+    order: 1,
+  },
+  {
+    module_code: EModules.REPORT_TEAM_STATUS,
+    pms_code: EPermissions.EXPORT,
+    order: 2,
+  },
+  {
     module_code: EModules.ADMIN_USER,
     pms_code: EPermissions.VIEW,
     order: 1,

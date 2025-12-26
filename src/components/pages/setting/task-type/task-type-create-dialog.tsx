@@ -100,7 +100,7 @@ const TaskTypeCreateDialog = ({
   return (
     <Dialog open={open}>
       <DialogContent className={cn(sizeClass, 'p-0 bg-white')} showCloseButton={false}>
-        <DialogHeader className="min-h-12 bg-[#F2F4F7] rounded-t-[.45rem] items-start p-3 text-lg font-bold text-dark justify-center">
+        <DialogHeader className="min-h-12 rounded-t-[.45rem] items-start p-3 text-lg font-bold text-dark justify-center">
           <DialogTitle className="font-bold mb-0">
             {taskItem.id ? 'แก้ไขประเภทงาน' : 'เพิ่มประเภทงาน'}
           </DialogTitle>
@@ -110,7 +110,7 @@ const TaskTypeCreateDialog = ({
           <form
             id="task-type-create-dialog-form"
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-x-6 space-y-5 px-8"
+            className="space-x-6 space-y-5"
           >
             <div className="text-start flex flex-col px-5 py-3 gap-3">
               <FormField
@@ -167,7 +167,7 @@ const TaskTypeCreateDialog = ({
             </div>
           </form>
         </Form>
-        <DialogFooter className="p-3 border-t">
+        <DialogFooter className="p-3">
           <DialogClose asChild>
             <Button
               variant="outline"

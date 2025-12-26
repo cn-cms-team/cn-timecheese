@@ -107,7 +107,7 @@ const useDialogConfirm = () => {
             )}
             <Button
               size="sm"
-              variant="default"
+              variant={confirmType === ConfirmType.DELETE ? 'destructive' : 'default'}
               onClick={() => onConfirm(true)}
               disabled={isLoading}
             >

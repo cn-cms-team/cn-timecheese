@@ -192,6 +192,7 @@ export type ProjectTaskTypeWhereInput = {
   description?: Prisma.StringFilter<"ProjectTaskType"> | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   task_type?: Prisma.XOR<Prisma.TaskTypeNullableScalarRelationFilter, Prisma.TaskTypeWhereInput> | null
+  timeSheets?: Prisma.TimeSheetListRelationFilter
 }
 
 export type ProjectTaskTypeOrderByWithRelationInput = {
@@ -203,6 +204,7 @@ export type ProjectTaskTypeOrderByWithRelationInput = {
   description?: Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
   task_type?: Prisma.TaskTypeOrderByWithRelationInput
+  timeSheets?: Prisma.TimeSheetOrderByRelationAggregateInput
 }
 
 export type ProjectTaskTypeWhereUniqueInput = Prisma.AtLeast<{
@@ -217,6 +219,7 @@ export type ProjectTaskTypeWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"ProjectTaskType"> | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   task_type?: Prisma.XOR<Prisma.TaskTypeNullableScalarRelationFilter, Prisma.TaskTypeWhereInput> | null
+  timeSheets?: Prisma.TimeSheetListRelationFilter
 }, "id">
 
 export type ProjectTaskTypeOrderByWithAggregationInput = {
@@ -250,6 +253,7 @@ export type ProjectTaskTypeCreateInput = {
   description: string
   project: Prisma.ProjectCreateNestedOneWithoutProjectTaskTypesInput
   task_type?: Prisma.TaskTypeCreateNestedOneWithoutProjectTaskTypesInput
+  timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutProject_task_typeInput
 }
 
 export type ProjectTaskTypeUncheckedCreateInput = {
@@ -259,6 +263,7 @@ export type ProjectTaskTypeUncheckedCreateInput = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutProject_task_typeInput
 }
 
 export type ProjectTaskTypeUpdateInput = {
@@ -268,6 +273,7 @@ export type ProjectTaskTypeUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutProjectTaskTypesNestedInput
   task_type?: Prisma.TaskTypeUpdateOneWithoutProjectTaskTypesNestedInput
+  timeSheets?: Prisma.TimeSheetUpdateManyWithoutProject_task_typeNestedInput
 }
 
 export type ProjectTaskTypeUncheckedUpdateInput = {
@@ -277,6 +283,7 @@ export type ProjectTaskTypeUncheckedUpdateInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutProject_task_typeNestedInput
 }
 
 export type ProjectTaskTypeCreateManyInput = {
@@ -339,6 +346,11 @@ export type ProjectTaskTypeMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+}
+
+export type ProjectTaskTypeNullableScalarRelationFilter = {
+  is?: Prisma.ProjectTaskTypeWhereInput | null
+  isNot?: Prisma.ProjectTaskTypeWhereInput | null
 }
 
 export type ProjectTaskTypeCreateNestedManyWithoutTask_typeInput = {
@@ -425,12 +437,29 @@ export type ProjectTaskTypeUncheckedUpdateManyWithoutProjectNestedInput = {
   deleteMany?: Prisma.ProjectTaskTypeScalarWhereInput | Prisma.ProjectTaskTypeScalarWhereInput[]
 }
 
+export type ProjectTaskTypeCreateNestedOneWithoutTimeSheetsInput = {
+  create?: Prisma.XOR<Prisma.ProjectTaskTypeCreateWithoutTimeSheetsInput, Prisma.ProjectTaskTypeUncheckedCreateWithoutTimeSheetsInput>
+  connectOrCreate?: Prisma.ProjectTaskTypeCreateOrConnectWithoutTimeSheetsInput
+  connect?: Prisma.ProjectTaskTypeWhereUniqueInput
+}
+
+export type ProjectTaskTypeUpdateOneWithoutTimeSheetsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectTaskTypeCreateWithoutTimeSheetsInput, Prisma.ProjectTaskTypeUncheckedCreateWithoutTimeSheetsInput>
+  connectOrCreate?: Prisma.ProjectTaskTypeCreateOrConnectWithoutTimeSheetsInput
+  upsert?: Prisma.ProjectTaskTypeUpsertWithoutTimeSheetsInput
+  disconnect?: Prisma.ProjectTaskTypeWhereInput | boolean
+  delete?: Prisma.ProjectTaskTypeWhereInput | boolean
+  connect?: Prisma.ProjectTaskTypeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectTaskTypeUpdateToOneWithWhereWithoutTimeSheetsInput, Prisma.ProjectTaskTypeUpdateWithoutTimeSheetsInput>, Prisma.ProjectTaskTypeUncheckedUpdateWithoutTimeSheetsInput>
+}
+
 export type ProjectTaskTypeCreateWithoutTask_typeInput = {
   id?: string
   type: $Enums.TaskTypeCode
   name: string
   description: string
   project: Prisma.ProjectCreateNestedOneWithoutProjectTaskTypesInput
+  timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutProject_task_typeInput
 }
 
 export type ProjectTaskTypeUncheckedCreateWithoutTask_typeInput = {
@@ -439,6 +468,7 @@ export type ProjectTaskTypeUncheckedCreateWithoutTask_typeInput = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutProject_task_typeInput
 }
 
 export type ProjectTaskTypeCreateOrConnectWithoutTask_typeInput = {
@@ -485,6 +515,7 @@ export type ProjectTaskTypeCreateWithoutProjectInput = {
   name: string
   description: string
   task_type?: Prisma.TaskTypeCreateNestedOneWithoutProjectTaskTypesInput
+  timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutProject_task_typeInput
 }
 
 export type ProjectTaskTypeUncheckedCreateWithoutProjectInput = {
@@ -493,6 +524,7 @@ export type ProjectTaskTypeUncheckedCreateWithoutProjectInput = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutProject_task_typeInput
 }
 
 export type ProjectTaskTypeCreateOrConnectWithoutProjectInput = {
@@ -521,6 +553,58 @@ export type ProjectTaskTypeUpdateManyWithWhereWithoutProjectInput = {
   data: Prisma.XOR<Prisma.ProjectTaskTypeUpdateManyMutationInput, Prisma.ProjectTaskTypeUncheckedUpdateManyWithoutProjectInput>
 }
 
+export type ProjectTaskTypeCreateWithoutTimeSheetsInput = {
+  id?: string
+  type: $Enums.TaskTypeCode
+  name: string
+  description: string
+  project: Prisma.ProjectCreateNestedOneWithoutProjectTaskTypesInput
+  task_type?: Prisma.TaskTypeCreateNestedOneWithoutProjectTaskTypesInput
+}
+
+export type ProjectTaskTypeUncheckedCreateWithoutTimeSheetsInput = {
+  id?: string
+  project_id: string
+  task_type_id?: string | null
+  type: $Enums.TaskTypeCode
+  name: string
+  description: string
+}
+
+export type ProjectTaskTypeCreateOrConnectWithoutTimeSheetsInput = {
+  where: Prisma.ProjectTaskTypeWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectTaskTypeCreateWithoutTimeSheetsInput, Prisma.ProjectTaskTypeUncheckedCreateWithoutTimeSheetsInput>
+}
+
+export type ProjectTaskTypeUpsertWithoutTimeSheetsInput = {
+  update: Prisma.XOR<Prisma.ProjectTaskTypeUpdateWithoutTimeSheetsInput, Prisma.ProjectTaskTypeUncheckedUpdateWithoutTimeSheetsInput>
+  create: Prisma.XOR<Prisma.ProjectTaskTypeCreateWithoutTimeSheetsInput, Prisma.ProjectTaskTypeUncheckedCreateWithoutTimeSheetsInput>
+  where?: Prisma.ProjectTaskTypeWhereInput
+}
+
+export type ProjectTaskTypeUpdateToOneWithWhereWithoutTimeSheetsInput = {
+  where?: Prisma.ProjectTaskTypeWhereInput
+  data: Prisma.XOR<Prisma.ProjectTaskTypeUpdateWithoutTimeSheetsInput, Prisma.ProjectTaskTypeUncheckedUpdateWithoutTimeSheetsInput>
+}
+
+export type ProjectTaskTypeUpdateWithoutTimeSheetsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  project?: Prisma.ProjectUpdateOneRequiredWithoutProjectTaskTypesNestedInput
+  task_type?: Prisma.TaskTypeUpdateOneWithoutProjectTaskTypesNestedInput
+}
+
+export type ProjectTaskTypeUncheckedUpdateWithoutTimeSheetsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  project_id?: Prisma.StringFieldUpdateOperationsInput | string
+  task_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
 export type ProjectTaskTypeCreateManyTask_typeInput = {
   id?: string
   project_id: string
@@ -535,6 +619,7 @@ export type ProjectTaskTypeUpdateWithoutTask_typeInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutProjectTaskTypesNestedInput
+  timeSheets?: Prisma.TimeSheetUpdateManyWithoutProject_task_typeNestedInput
 }
 
 export type ProjectTaskTypeUncheckedUpdateWithoutTask_typeInput = {
@@ -543,6 +628,7 @@ export type ProjectTaskTypeUncheckedUpdateWithoutTask_typeInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutProject_task_typeNestedInput
 }
 
 export type ProjectTaskTypeUncheckedUpdateManyWithoutTask_typeInput = {
@@ -567,6 +653,7 @@ export type ProjectTaskTypeUpdateWithoutProjectInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   task_type?: Prisma.TaskTypeUpdateOneWithoutProjectTaskTypesNestedInput
+  timeSheets?: Prisma.TimeSheetUpdateManyWithoutProject_task_typeNestedInput
 }
 
 export type ProjectTaskTypeUncheckedUpdateWithoutProjectInput = {
@@ -575,6 +662,7 @@ export type ProjectTaskTypeUncheckedUpdateWithoutProjectInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutProject_task_typeNestedInput
 }
 
 export type ProjectTaskTypeUncheckedUpdateManyWithoutProjectInput = {
@@ -586,6 +674,35 @@ export type ProjectTaskTypeUncheckedUpdateManyWithoutProjectInput = {
 }
 
 
+/**
+ * Count Type ProjectTaskTypeCountOutputType
+ */
+
+export type ProjectTaskTypeCountOutputType = {
+  timeSheets: number
+}
+
+export type ProjectTaskTypeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  timeSheets?: boolean | ProjectTaskTypeCountOutputTypeCountTimeSheetsArgs
+}
+
+/**
+ * ProjectTaskTypeCountOutputType without action
+ */
+export type ProjectTaskTypeCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProjectTaskTypeCountOutputType
+   */
+  select?: Prisma.ProjectTaskTypeCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ProjectTaskTypeCountOutputType without action
+ */
+export type ProjectTaskTypeCountOutputTypeCountTimeSheetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TimeSheetWhereInput
+}
+
 
 export type ProjectTaskTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -596,6 +713,8 @@ export type ProjectTaskTypeSelect<ExtArgs extends runtime.Types.Extensions.Inter
   description?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   task_type?: boolean | Prisma.ProjectTaskType$task_typeArgs<ExtArgs>
+  timeSheets?: boolean | Prisma.ProjectTaskType$timeSheetsArgs<ExtArgs>
+  _count?: boolean | Prisma.ProjectTaskTypeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["projectTaskType"]>
 
 export type ProjectTaskTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -633,6 +752,8 @@ export type ProjectTaskTypeOmit<ExtArgs extends runtime.Types.Extensions.Interna
 export type ProjectTaskTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   task_type?: boolean | Prisma.ProjectTaskType$task_typeArgs<ExtArgs>
+  timeSheets?: boolean | Prisma.ProjectTaskType$timeSheetsArgs<ExtArgs>
+  _count?: boolean | Prisma.ProjectTaskTypeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProjectTaskTypeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -648,6 +769,7 @@ export type $ProjectTaskTypePayload<ExtArgs extends runtime.Types.Extensions.Int
   objects: {
     project: Prisma.$ProjectPayload<ExtArgs>
     task_type: Prisma.$TaskTypePayload<ExtArgs> | null
+    timeSheets: Prisma.$TimeSheetPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1052,6 +1174,7 @@ export interface Prisma__ProjectTaskTypeClient<T, Null = never, ExtArgs extends 
   readonly [Symbol.toStringTag]: "PrismaPromise"
   project<T extends Prisma.ProjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectDefaultArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   task_type<T extends Prisma.ProjectTaskType$task_typeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectTaskType$task_typeArgs<ExtArgs>>): Prisma.Prisma__TaskTypeClient<runtime.Types.Result.GetResult<Prisma.$TaskTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  timeSheets<T extends Prisma.ProjectTaskType$timeSheetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectTaskType$timeSheetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeSheetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1499,6 +1622,30 @@ export type ProjectTaskType$task_typeArgs<ExtArgs extends runtime.Types.Extensio
    */
   include?: Prisma.TaskTypeInclude<ExtArgs> | null
   where?: Prisma.TaskTypeWhereInput
+}
+
+/**
+ * ProjectTaskType.timeSheets
+ */
+export type ProjectTaskType$timeSheetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TimeSheet
+   */
+  select?: Prisma.TimeSheetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TimeSheet
+   */
+  omit?: Prisma.TimeSheetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetInclude<ExtArgs> | null
+  where?: Prisma.TimeSheetWhereInput
+  orderBy?: Prisma.TimeSheetOrderByWithRelationInput | Prisma.TimeSheetOrderByWithRelationInput[]
+  cursor?: Prisma.TimeSheetWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TimeSheetScalarFieldEnum | Prisma.TimeSheetScalarFieldEnum[]
 }
 
 /**

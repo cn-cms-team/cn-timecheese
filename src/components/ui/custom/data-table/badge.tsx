@@ -24,7 +24,7 @@ const BadgeTable = ({ text, type }: BadgeTableProps) => {
   };
 
   const badgeColor = getBadgeColor(type);
-  const fullClass = `${badgeColor}`;
+  const fullClass = `rounded-md ${badgeColor}`;
   return (
     <Badge variant={'outline'} className={fullClass}>
       <div className={`w-2 h-2 rounded-sm ${bgStatusClass}`} />
