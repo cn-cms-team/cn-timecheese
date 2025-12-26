@@ -13,7 +13,7 @@ import {
 import { format, isBefore, startOfDay } from 'date-fns';
 
 import { fetcher } from '@/lib/fetcher';
-import { IOptions } from '@/types/dropdown';
+import { IOptionGroups, IOptions } from '@/types/dropdown';
 import { DAYTASKSTATUS, PERIODCALENDAR } from '@/lib/constants/period-calendar';
 import { ITimeSheetResponse, ITimeSheetUserInfoResponse } from '@/types/timesheet';
 
@@ -26,7 +26,7 @@ interface ITimeSheetContextType {
   selectedMonth: Date;
   selectedYear: number;
   projectOptions: IOptions[];
-  taskTypeOptions: IOptions[];
+  taskTypeOptions: IOptionGroups[];
   userInfo: ITimeSheetUserInfoResponse | null;
   dailySecondsMap: Map<string, number>;
   setLoading: (isLoading: boolean) => void;
@@ -38,6 +38,7 @@ interface ITimeSheetContextType {
   setSelectedYear: Dispatch<SetStateAction<number>>;
   setTasks: Dispatch<SetStateAction<ITimeSheetResponse[]>>;
   fetchOptions: () => void;
+  fetchTaskOption: (projectId: string) => Promise<void>;
   buildTimesheetQuery: () => string;
   getUserInfo: () => Promise<void>;
   getTask: () => Promise<void>;
@@ -63,8 +64,9 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   const [selectedMonth, setSelectedMonth] = useState(selectedCalendar);
   const [selectedYear, setSelectedYear] = useState<number>(selectedCalendar.getFullYear());
   const [projectOptions, setProjectOptions] = useState<IOptions[]>([]);
-  const [taskTypeOptions, setTaskTypeOptions] = useState<IOptions[]>([]);
+  const [taskTypeOptions, setTaskTypeOptions] = useState<IOptionGroups[]>([]);
   const [userInfo, setUserInfo] = useState<ITimeSheetUserInfoResponse | null>(null);
+  const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const EIGHT_HOURS = 8 * 60 * 60;
 
   const resetSelectCaledar = () => {
@@ -73,13 +75,27 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
 
   const fetchOptions = async () => {
     try {
-      const prefix = process.env.NEXT_PUBLIC_APP_URL;
-      const [projectOptions, taskTypeOptions] = await Promise.all([
-        fetcher<IOptions[]>(`${prefix}/api/v1/master/project`),
-        fetcher<IOptions[]>(`${prefix}/api/v1/master/task-type`),
-      ]);
+      const projectOptions = await fetcher<IOptions[]>(`${prefix}/api/v1/master/project`);
       setProjectOptions(projectOptions);
-      setTaskTypeOptions(taskTypeOptions);
+    } catch (error) {
+      console.error('Error fetching options:', error);
+    }
+  };
+
+  const fetchTaskOption = async (projectId: string) => {
+    try {
+      if (!projectId) {
+        setTaskTypeOptions([]);
+        return;
+      }
+
+      const res = await fetch(`${prefix}/api/v1/master/task-type/${projectId}`);
+      const json = await res.json();
+      const data = json.data as IOptionGroups[];
+
+      console.log(data);
+
+      setTaskTypeOptions(data);
     } catch (error) {
       console.error('Error fetching options:', error);
     }
@@ -261,6 +277,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         setSelectedMonth,
         setSelectedYear,
         fetchOptions,
+        fetchTaskOption,
         buildTimesheetQuery,
         getTask,
         deleteTask,

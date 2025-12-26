@@ -21,15 +21,19 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
   try {
     const result = await prisma.timeSheet.update({
-      where: { id: id as string },
+      where: {
+        id: id,
+      },
       data: {
-        project_id: data.project_id as string,
-        task_type_id: data.task_type_id as string,
-        start_date: data.start_date,
-        end_date: data.end_date,
-        detail: data.detail as string,
-        exclude_seconds: body.data.exclude_seconds as number,
-        total_seconds: total_seconds,
+        user_id: session.user.id,
+        project_id: data.project_id,
+        project_task_type_id: data.project_task_type_id,
+        stamp_date: data.stamp_date,
+        start_date: start,
+        end_date: end,
+        detail: data.detail || '',
+        exclude_seconds: data.exclude_seconds ?? 0,
+        total_seconds,
       },
     });
 
@@ -41,6 +45,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       { status: 201 }
     );
   } catch (error) {
+    console.log(error);
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }

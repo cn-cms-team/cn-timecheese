@@ -16,6 +16,8 @@ import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { useTimeSheetContext } from './view/timesheet-context';
 import TimeInput from '@/components/ui/custom/input/time-input';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { DropdownGroup } from '@/components/ui/custom/dropdown/dropdown-group';
+import { useEffect, useRef } from 'react';
 
 interface IProps {
   close?: () => void;
@@ -30,7 +32,7 @@ const TimeSheetForm = ({
   endTime = undefined,
   close = () => {},
 }: IProps) => {
-  const { projectOptions, taskTypeOptions, getTask } = useTimeSheetContext();
+  const { projectOptions, taskTypeOptions, getTask, fetchTaskOption } = useTimeSheetContext();
 
   const selectedDate = startTime
     ? startTime
@@ -42,8 +44,6 @@ const TimeSheetForm = ({
     weekday: 'long',
   });
 
-  console.log(data);
-
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const baseUrl = `${prefix}/api/v1`;
 
@@ -51,7 +51,7 @@ const TimeSheetForm = ({
     resolver: zodResolver(timesheetCreateEditSchema),
     defaultValues: {
       id: data ? data.id : undefined,
-      task_type_id: data ? data.task_type_id : undefined,
+      project_task_type_id: data ? data.project_task_type_id : undefined,
       project_id: data ? data.project_id : undefined,
       is_include_breaking_time: data && data.exclude_seconds ? true : false,
       exclude: data && data.exclude_seconds ? data.exclude_seconds : 3600,
@@ -62,6 +62,11 @@ const TimeSheetForm = ({
     },
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
+  });
+
+  const projectId = useWatch({
+    control: form.control,
+    name: 'project_id',
   });
 
   const onSubmit = async (value: TimesheetCreateEditSchema) => {
@@ -79,11 +84,11 @@ const TimeSheetForm = ({
       const params: ITimeSheetRequest = {
         id: taskId ?? undefined,
         project_id: value.project_id!,
-        task_type_id: value.task_type_id!,
         stamp_date: new Date(value.start_date).toISOString(),
         start_date: new Date(start).toISOString(),
         end_date: new Date(end).toISOString(),
         exclude_seconds: value.is_include_breaking_time ? value.exclude ?? 0 : null,
+        project_task_type_id: data?.project_task_type_id!,
         detail: value.detail,
       };
 
@@ -142,6 +147,15 @@ const TimeSheetForm = ({
     return hh * 3600 + mm * 60;
   };
 
+  const hasFetchedRef = useRef(false);
+
+  useEffect(() => {
+    if (!data || hasFetchedRef.current || !data.project_id) return;
+
+    hasFetchedRef.current = true;
+    fetchTaskOption(data.project_id);
+  }, [data]);
+
   return (
     <div className="flex flex-col w-full p-4 space-y-4">
       <main className="w-full space-y-4">
@@ -160,10 +174,13 @@ const TimeSheetForm = ({
                     <FormControl>
                       <ComboboxForm
                         field={field}
-                        placeholder="เลือกประโปรเจค"
+                        placeholder="เลือกโปรเจค"
                         options={projectOptions}
-                        onSelect={field.onChange}
-                        isError={form.formState.errors.task_type_id ? true : false}
+                        onSelect={(value) => {
+                          field.onChange(value);
+                          fetchTaskOption(value);
+                        }}
+                        isError={form.formState.errors.project_id ? true : false}
                       />
                     </FormControl>
                   </FormItem>
@@ -294,16 +311,20 @@ const TimeSheetForm = ({
             </div>
             <FormField
               control={form.control}
-              name="task_type_id"
+              name="project_task_type_id"
               render={({ field }) => (
                 <FormItem className="px-0">
                   <FormControl>
-                    <ComboboxForm
-                      field={field}
+                    <DropdownGroup
+                      value={field.value}
                       placeholder="เลือกประเภทงาน"
-                      options={taskTypeOptions}
-                      onSelect={field.onChange}
-                      isError={form.formState.errors.task_type_id ? true : false}
+                      groups={taskTypeOptions}
+                      onChange={(value) => {
+                        console.log(value);
+                        field.onChange(value);
+                      }}
+                      disabled={!projectId}
+                      isError={form.formState.errors.project_task_type_id ? true : false}
                     />
                   </FormControl>
                 </FormItem>

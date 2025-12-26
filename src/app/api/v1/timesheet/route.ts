@@ -43,7 +43,6 @@ export async function GET(request: Request) {
       select: {
         id: true,
         project_id: true,
-        task_type_id: true,
         stamp_date: true,
         start_date: true,
         end_date: true,
@@ -51,11 +50,16 @@ export async function GET(request: Request) {
         remark: true,
         total_seconds: true,
         exclude_seconds: true,
+        project_task_type_id: true,
         project: {
-          select: { name: true },
+          select: {
+            name: true,
+          },
         },
-        task_type: {
-          select: { name: true },
+        project_task_type: {
+          select: {
+            name: true,
+          },
         },
       },
     });
@@ -63,7 +67,6 @@ export async function GET(request: Request) {
     const result = timeSheets.map((ts) => ({
       id: ts.id,
       project_id: ts.project_id,
-      task_type_id: ts.task_type_id,
       stamp_date: ts.stamp_date,
       start_date: ts.start_date,
       end_date: ts.end_date,
@@ -72,7 +75,8 @@ export async function GET(request: Request) {
       exclude_seconds: ts.exclude_seconds,
       total_seconds: ts.total_seconds,
       project_name: ts.project?.name ?? null,
-      task_type_name: ts.task_type?.name ?? null,
+      task_type_name: ts.project_task_type?.name ?? null,
+      project_task_type_id: ts.project_task_type_id,
     }));
 
     return Response.json({ data: result }, { status: 200 });
@@ -91,6 +95,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
+  const data = body.data;
   const start = new Date(body.data.start_date);
   const end = new Date(body.data.end_date);
 
@@ -99,23 +104,20 @@ export async function POST(request: Request) {
   try {
     const result = await prisma.timeSheet.create({
       data: {
-        user_id: session.user?.id,
-        project_id: body.data.project_id as string,
-        task_type_id: body.data.task_type_id as string,
-        stamp_date: new Date(),
-        start_date: body.data.start_date,
-        end_date: body.data.end_date,
-        detail: body.data.detail as string,
-        exclude_seconds: body.data.exclude_seconds as number,
-        total_seconds: total_seconds as number,
+        user_id: session.user.id,
+        project_id: data.project_id,
+        project_task_type_id: data.project_task_type_id,
+        stamp_date: data.stamp_date,
+        start_date: start,
+        end_date: end,
+        detail: data.detail || '',
+        exclude_seconds: data.exclude_seconds ?? 0,
+        total_seconds,
       },
     });
 
     return Response.json(
-      {
-        message: 'Create Task successfully',
-        data: { id: result.id },
-      },
+      { message: 'Create Task successfully', data: { id: result.id } },
       { status: 201 }
     );
   } catch (error) {

@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { cn } from '@/lib/utils';
 import { IOptionGroups } from '@/types/dropdown';
 
 interface DropdownGroupProps {
@@ -14,6 +15,8 @@ interface DropdownGroupProps {
   onChange: (value: string) => void;
   groups: IOptionGroups[];
   placeholder?: string;
+  disabled?: boolean;
+  isError?: boolean;
 }
 
 export function DropdownGroup({
@@ -21,10 +24,12 @@ export function DropdownGroup({
   onChange,
   groups,
   placeholder = 'กรุณาเลือก',
+  disabled = false,
+  isError = false,
 }: DropdownGroupProps) {
   return (
-    <Select onValueChange={onChange} defaultValue={value}>
-      <SelectTrigger className="w-full">
+    <Select onValueChange={onChange} value={value} disabled={disabled}>
+      <SelectTrigger className={cn('w-full', isError && 'border border-destructive')}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent className="w-full">
