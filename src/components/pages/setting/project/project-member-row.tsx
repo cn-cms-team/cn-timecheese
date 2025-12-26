@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { UseFormReturn, useWatch } from 'react-hook-form';
+import { useFieldArray, UseFormReturn, useWatch } from 'react-hook-form';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { FormControl, FormField, FormItem } from '@/components/ui/form';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
@@ -11,14 +11,17 @@ import { CreateProjectSchemaType, EditProjectSchemaType } from './schema';
 import { MAX_LENGTH_20 } from '@/lib/constants/validation';
 import { calcTotalDays } from '@/lib/functions/date-format';
 import CategoryDropdown, { ICategoryOption } from '@/components/ui/custom/input/category-dropdown';
+import { Button } from '@/components/ui/button';
+import { Trash2 } from 'lucide-react';
 
 export interface ProjectMemberTableProps {
   index: number;
   userOptions: ICategoryOption[];
   form: UseFormReturn<EditProjectSchemaType | CreateProjectSchemaType>;
+  onDelete: (index: number) => void;
 }
 
-const ProjectMemberRow = ({ index, form, userOptions }: ProjectMemberTableProps) => {
+const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberTableProps) => {
   const startDate = useWatch({
     control: form.control,
     name: `member.${index}.start_date`,
@@ -34,6 +37,11 @@ const ProjectMemberRow = ({ index, form, userOptions }: ProjectMemberTableProps)
     name: `member.${index}.day_price`,
   });
 
+  const isUsing = useWatch({
+    control: form.control,
+    name: `member.${index}.is_using`,
+  });
+
   useEffect(() => {
     const totalDays =
       startDate && endDate ? calcTotalDays(startDate.toString(), endDate.toString()) : 0;
@@ -45,60 +53,6 @@ const ProjectMemberRow = ({ index, form, userOptions }: ProjectMemberTableProps)
 
   return (
     <TableRow key={index}>
-      {/* <TableCell>
-        <FormField
-          control={form.control}
-          name={`member.${index}.team_id`}
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <ComboboxForm
-                  placeholder="เลือกทีม"
-                  options={teamOptions}
-                  field={field}
-                  isError={!!form.formState.errors.member?.[index]?.team_id}
-                  onSelect={(value) => {
-                    field.onChange(value);
-                    form.setValue(`member.${index}.user_id`, null!);
-                  }}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-      </TableCell> */}
-      {/* <TableCell>
-        <FormField
-          control={form.control}
-          name={`member.${index}.user_id`}
-          render={({ field }) => {
-            const selectedTeamId = form.watch(`member.${index}.team_id`);
-            const filteredUsers = userOptions.filter((u) => u.team_id === selectedTeamId);
-            return (
-              <FormItem>
-                <FormControl>
-                  <ComboboxForm
-                    placeholder={selectedTeamId ? 'เลือกพนักงาน' : 'กรุณาเลือกทีม'}
-                    options={filteredUsers}
-                    field={field}
-                    disabled={!selectedTeamId}
-                    isError={!!form.formState.errors.member?.[index]?.user_id}
-                    onSelect={(value) => {
-                      field.onChange(value);
-                      const selectedUser = filteredUsers.find((u) => u.value === value);
-
-                      if (selectedUser) {
-                        form.setValue(`member.${index}.role`, selectedUser.position);
-                        form.clearErrors(`member.${index}.role`);
-                      }
-                    }}
-                  />
-                </FormControl>
-              </FormItem>
-            );
-          }}
-        />
-      </TableCell> */}
       <TableCell>
         <FormField
           control={form.control}
@@ -110,9 +64,6 @@ const ProjectMemberRow = ({ index, form, userOptions }: ProjectMemberTableProps)
                   key={index}
                   value={field.value}
                   options={userOptions}
-                  className={
-                    !form.formState.errors.member?.[index]?.user_id ? 'border-red-600' : ''
-                  }
                   onSelect={(value) => {
                     field.onChange(value);
                     form.setValue(`member.${index}.user_id`, value as string);
@@ -146,7 +97,8 @@ const ProjectMemberRow = ({ index, form, userOptions }: ProjectMemberTableProps)
                 <Input
                   type="number"
                   maxLength={MAX_LENGTH_20}
-                  {...field}
+                  min={0}
+                  value={field.value}
                   onChange={(e) =>
                     field.onChange(e.target.value === '' ? undefined : e.target.valueAsNumber)
                   }
@@ -196,15 +148,28 @@ const ProjectMemberRow = ({ index, form, userOptions }: ProjectMemberTableProps)
         <FormField
           control={form.control}
           name={`member.${index}.work_day`}
-          render={({ field }) => <div>{field.value ? field.value.toLocaleString() : ''}</div>}
+          render={({ field }) => <div>{field.value ? field.value.toLocaleString() : 0}</div>}
         />
       </TableCell>
       <TableCell className="text-center">
         <FormField
           control={form.control}
           name={`member.${index}.estimated_cost`}
-          render={({ field }) => <div>{field.value ? field.value.toLocaleString() : ''}</div>}
+          render={({ field }) => <div>{field.value ? field.value.toLocaleString() : 0}</div>}
         />
+      </TableCell>
+      <TableCell>
+        <Button
+          type="button"
+          variant={'ghost'}
+          disabled={isUsing}
+          onClick={() => {
+            onDelete(index);
+          }}
+        >
+          {isUsing}
+          <Trash2 width={20} height={20} />
+        </Button>
       </TableCell>
     </TableRow>
   );

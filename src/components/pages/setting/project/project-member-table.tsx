@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { UseFormReturn } from 'react-hook-form';
+import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { CreateProjectSchemaType, EditProjectSchemaType } from './schema';
 import { IOptions } from '@/types/dropdown';
 import { UserInfo } from '@/types/setting/project';
@@ -25,6 +25,10 @@ export interface ProjectMemberTableProps {
 }
 
 const ProjectMemberTable = ({ header, userOptions, form }: ProjectMemberTableProps) => {
+  const { fields, remove } = useFieldArray({
+    control: form.control,
+    name: 'member',
+  });
   return (
     <>
       <FormField
@@ -44,7 +48,7 @@ const ProjectMemberTable = ({ header, userOptions, form }: ProjectMemberTablePro
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {parentField.value.length === 0 ? (
+                  {fields.length === 0 ? (
                     <TableRow>
                       <TableCell
                         colSpan={header.length}
@@ -54,12 +58,13 @@ const ProjectMemberTable = ({ header, userOptions, form }: ProjectMemberTablePro
                       </TableCell>
                     </TableRow>
                   ) : (
-                    parentField.value.map((item, index) => (
+                    fields.map((item, index) => (
                       <ProjectMemberRow
                         index={index}
                         form={form}
                         userOptions={userOptions}
                         key={index}
+                        onDelete={remove}
                       />
                     ))
                   )}

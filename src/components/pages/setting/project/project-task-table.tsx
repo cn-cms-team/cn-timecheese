@@ -14,6 +14,8 @@ import { CreateProjectSchemaType, EditProjectSchemaType } from './schema';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 import { MAX_LENGTH_100, MAX_LENGTH_255 } from '@/lib/constants/validation';
+import { IOptions } from '@/types/dropdown';
+import { TaskOptions } from '@/types/setting/project';
 
 export type TaskArrayName = 'main_task_type' | 'optional_task_type';
 
@@ -21,9 +23,17 @@ export interface ProjectMemberTableProps {
   header: { label: string; className: string }[];
   form: UseFormReturn<EditProjectSchemaType | CreateProjectSchemaType>;
   name: TaskArrayName;
+  typeOption: IOptions[];
+  taskOption: TaskOptions[];
 }
 
-const ProjectTaskTable = ({ header, form, name }: ProjectMemberTableProps) => {
+const ProjectTaskTable = ({
+  header,
+  form,
+  name,
+  typeOption,
+  taskOption,
+}: ProjectMemberTableProps) => {
   const { fields, remove } = useFieldArray({
     control: form.control,
     name: name,
@@ -48,7 +58,7 @@ const ProjectTaskTable = ({ header, form, name }: ProjectMemberTableProps) => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {parentField.value.length === 0 ? (
+                    {fields.length === 0 ? (
                       <TableRow>
                         <TableCell
                           colSpan={header.length}
@@ -58,21 +68,27 @@ const ProjectTaskTable = ({ header, form, name }: ProjectMemberTableProps) => {
                         </TableCell>
                       </TableRow>
                     ) : (
-                      parentField.value.map((item, index) => (
-                        <TableRow key={index}>
+                      fields.map((item, index) => (
+                        <TableRow key={`${name}-${index}`}>
                           <TableCell>
                             {
                               <FormField
                                 control={form.control}
                                 name={`${name}.${index}.type`}
                                 render={({ field }) => (
-                                  <FormItem className="">
+                                  <FormItem>
                                     <FormControl>
                                       <ComboboxForm
                                         placeholder="เลือกหมวดหมู่"
-                                        options={[]}
+                                        options={typeOption}
                                         field={field}
-                                        onSelect={(value) => field.onChange(value)}
+                                        isError={
+                                          form.formState.errors[name]?.[index]?.type ? true : false
+                                        }
+                                        onSelect={(value) => {
+                                          field.onChange(value);
+                                          form.setValue(`${name}.${index}.task_type_id`, null!);
+                                        }}
                                       />
                                     </FormControl>
                                   </FormItem>
@@ -81,33 +97,59 @@ const ProjectTaskTable = ({ header, form, name }: ProjectMemberTableProps) => {
                             }
                           </TableCell>
                           <TableCell>
-                            {
+                            {name === 'main_task_type' ? (
+                              <FormField
+                                control={form.control}
+                                name={`${name}.${index}.task_type_id`}
+                                render={({ field }) => {
+                                  const selectedType = form.watch(`${name}.${index}.type`);
+                                  const filteredTask = taskOption.filter(
+                                    (u) => u.type === selectedType
+                                  );
+                                  return (
+                                    <FormItem>
+                                      <FormControl>
+                                        <ComboboxForm
+                                          placeholder={
+                                            selectedType ? 'เลือกประเภท' : 'กรุณาเลือกหมวดหมู่'
+                                          }
+                                          options={filteredTask}
+                                          field={field}
+                                          disabled={!selectedType}
+                                          isError={
+                                            !!form.formState.errors[name]?.[index]?.task_type_id
+                                          }
+                                          onSelect={(value) => {
+                                            const taskName =
+                                              filteredTask.find((f) => f.value === value)?.label ??
+                                              '';
+                                            form.setValue(`${name}.${index}.name`, taskName);
+                                            field.onChange(value);
+                                          }}
+                                        />
+                                      </FormControl>
+                                    </FormItem>
+                                  );
+                                }}
+                              />
+                            ) : (
                               <FormField
                                 control={form.control}
                                 name={`${name}.${index}.name`}
                                 render={({ field }) => (
                                   <FormItem>
                                     <FormControl>
-                                      {name === 'main_task_type' ? (
-                                        <ComboboxForm
-                                          placeholder="เลือกประเภท"
-                                          options={[]}
-                                          field={field}
-                                          onSelect={(value) => field.onChange(value)}
-                                        />
-                                      ) : (
-                                        <Input
-                                          {...field}
-                                          value={item.name}
-                                          maxLength={MAX_LENGTH_100}
-                                          onChange={parentField.onChange}
-                                        />
-                                      )}
+                                      <Input
+                                        {...field}
+                                        value={field.value ?? ''}
+                                        maxLength={MAX_LENGTH_100}
+                                        onChange={field.onChange}
+                                      />
                                     </FormControl>
                                   </FormItem>
                                 )}
                               />
-                            }
+                            )}
                           </TableCell>
                           <TableCell>
                             {
@@ -119,9 +161,9 @@ const ProjectTaskTable = ({ header, form, name }: ProjectMemberTableProps) => {
                                     <FormControl>
                                       <Input
                                         {...field}
-                                        value={item.description}
+                                        value={field.value ?? ''}
                                         maxLength={MAX_LENGTH_255}
-                                        onChange={parentField.onChange}
+                                        onChange={field.onChange}
                                       />
                                     </FormControl>
                                   </FormItem>

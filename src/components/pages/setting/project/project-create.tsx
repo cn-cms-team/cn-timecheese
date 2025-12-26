@@ -21,7 +21,6 @@ import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { fetcher } from '@/lib/fetcher';
-import { IOptions } from '@/types/dropdown';
 import { DatePickerInput } from '@/components/ui/custom/input/date-picker';
 import { useSession } from 'next-auth/react';
 import Required from '@/components/ui/custom/form/required';
@@ -30,16 +29,18 @@ import useDialogConfirm from '@/hooks/use-dialog-confirm';
 import { projectStatusOptions } from '@/lib/constants/select-options';
 import ProjectMemberTable from './project-member-table';
 import ProjectTaskTable from './project-task-table';
-import { UserInfo } from '@/types/setting/project';
+import { IProject, TaskOptions, UserInfo } from '@/types/setting/project';
 import { Textarea } from '@/components/ui/textarea';
 import { ICategoryOption } from '@/components/ui/custom/input/category-dropdown';
 import { TitleGroup } from '@/components/ui/custom/cev';
+import { taskTypeOption } from '@/lib/constants/task';
+import { toast } from 'sonner';
 
 const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
-  const { data: session } = useSession();
   const router = useRouter();
-
+  const { data: session } = useSession();
   const [userOptions, setUserOptions] = useState<ICategoryOption[]>([]);
+  const [taskOptions, setTaskOptions] = useState<TaskOptions[]>([]);
   const [getConfirmation, Confirmation] = useDialogConfirm();
 
   const schema = id ? editProjectSchema : createProjectSchema;
@@ -62,11 +63,12 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     const fetchTeamsOptions = async () => {
       try {
         const prefix = process.env.NEXT_PUBLIC_APP_URL;
-        const [user] = await Promise.all([
+        const [user, task] = await Promise.all([
           fetcher<ICategoryOption[]>(`${prefix}/api/v1/master/user`),
+          fetcher<TaskOptions[]>(`${prefix}/api/v1/master/task-type`),
         ]);
         setUserOptions(user);
-        console.log;
+        setTaskOptions(task);
       } catch (error) {
         console.error('Error fetching options:', error);
       }
@@ -81,8 +83,19 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         const response = await fetch(`/api/v1/setting/project/${projectId}`, { method: 'GET' });
         const result = await response.json();
         if (response.ok) {
-          const projectData = result.data;
-          form.reset({ ...projectData });
+          const projectData = result.data as IProject;
+          form.reset({
+            ...projectData,
+            start_date: new Date(projectData.start_date),
+            end_date: new Date(projectData.end_date),
+            member: projectData.member.map((item) => ({
+              ...item,
+              project_id: id,
+              day_price: item.day_price ?? 0,
+              start_date: new Date(item.start_date),
+              end_date: new Date(item.end_date),
+            })),
+          });
         }
       } catch (error) {
         console.error('Failed to fetch project data:', error);
@@ -100,8 +113,6 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         fetchUrl = `/api/v1/setting/project/${id}`;
       }
 
-      console.log('on submit');
-
       const data = {
         id: id,
         name: values.name,
@@ -116,6 +127,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         created_by: session?.user?.id,
         member: values.member.map((item) => ({
           ...item,
+          project_id: id,
+          day_price: item.day_price ?? 0,
           work_hours: item.work_day ? item.work_day * 8 : 0,
           hour_price: item.day_price ? item.day_price / 8 : 0,
         })),
@@ -131,6 +144,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         body: JSON.stringify({ data }),
       });
       if (response.ok) {
+        const result = await response.json();
+        toast(result.message);
         router.push('/setting/project');
       }
     } catch {
@@ -149,6 +164,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     { label: 'วันที่สิ้นสุด', className: 'text-center min-w-60 max-w-60' },
     { label: 'จำนวนวัน', className: 'text-center min-w-20 max-w-20' },
     { label: 'ค่าใช้จ่ายโดยประมาณ', className: 'text-center min-w-60 max-w-60' },
+    { label: '', className: 'text-center' },
   ];
 
   const headersTableTask = [
@@ -168,9 +184,11 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     work_hours: 0,
     hour_price: 0,
     estimated_cost: 0,
+    is_using: false,
   };
 
   const defaultTaskType = {
+    task_type_id: '',
     type: '',
     name: '',
     description: '',
@@ -192,9 +210,11 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     null
   );
 
-  const projectCost = form.watch('value');
-  const peopleCost = form.watch('people_cost');
-  const peopleCostPercent = form.watch('people_cost_percent');
+  const projectCost = form.watch('value') ?? 0;
+  const peopleCost = form.watch('people_cost') ?? 0;
+  const peopleCostPercent = form.watch('people_cost_percent') ?? 0;
+  const formMember = form.watch('member');
+  const allMemberCost = formMember.reduce((acc, cur) => acc + (cur.estimated_cost ?? 0), 0);
 
   useEffect(() => {
     if (lastChanged !== 'people_cost' || !projectCost || peopleCost === undefined) {
@@ -383,6 +403,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                             type="number"
                             placeholder="งบประมาณบุคลากรสำหรับโครงการ"
                             {...field}
+                            value={field.value ?? ''}
                             onChange={(e) => {
                               setLastChanged('people_cost');
                               field.onChange(
@@ -406,8 +427,9 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                             type="number"
                             min={0}
                             max={100}
-                            placeholder="สัดส่วนงบประมาณบุคลากร"
                             {...field}
+                            value={field.value ?? 0}
+                            placeholder="สัดส่วนงบประมาณบุคลากร"
                             onChange={(e) => {
                               setLastChanged('people_cost_percent');
                               field.onChange(
@@ -432,7 +454,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                           <Textarea
                             placeholder="คำอธิบาย"
                             {...field}
-                            value={field.value}
+                            value={field.value ?? ''}
                             onChange={field.onChange}
                           />
                         </FormControl>
@@ -458,7 +480,13 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
             </div>
             <div>
               <TitleGroup title="ประเภทงานตั้งต้น" />
-              <ProjectTaskTable form={form} header={headersTableTask} name="main_task_type" />
+              <ProjectTaskTable
+                form={form}
+                header={headersTableTask}
+                taskOption={taskOptions}
+                typeOption={taskTypeOption}
+                name="main_task_type"
+              />
               <div className="flex w-full py-4 px-2">
                 <Button type="button" onClick={handleAddMainTaskType}>
                   เพิ่มข้อมูล
@@ -467,11 +495,39 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
             </div>
             <div>
               <TitleGroup title="ประเภทงานจำเพาะ" />
-              <ProjectTaskTable form={form} header={headersTableTask} name="optional_task_type" />
+              <ProjectTaskTable
+                form={form}
+                header={headersTableTask}
+                taskOption={taskOptions}
+                typeOption={taskTypeOption}
+                name="optional_task_type"
+              />
               <div className="flex w-full py-4 px-2">
                 <Button type="button" onClick={handleAddOptionalTaskType}>
                   เพิ่มข้อมูล
                 </Button>
+              </div>
+            </div>
+            <div className="flex justify-end font-bold">
+              <div className="flex flex-col w-[25%]">
+                <div className="flex justify-between py-1 text-blue-600">
+                  <div>มูลค่าบุคลากรที่ตั้งไว้</div>
+                  <div>{peopleCost.toLocaleString() ?? 0}</div>
+                </div>
+                <hr className="my-2" />
+                <div className="flex justify-between py-1 text-blue-600">
+                  <div>มูลค่าบุคลากรที่เลือก</div>
+                  <div>{allMemberCost.toLocaleString() ?? 0}</div>
+                </div>
+                <hr className="my-2" />
+                <div className="flex justify-between py-1">
+                  <div>มูลค่าแตกต่าง</div>
+                  <div className={peopleCost - allMemberCost < 0 ? 'text-red-500' : ''}>
+                    {(peopleCost - allMemberCost).toLocaleString()}
+                  </div>
+                </div>
+                <hr className="my-1" />
+                <hr className="my-1" />
               </div>
             </div>
           </div>

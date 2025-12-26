@@ -1,4 +1,4 @@
-import { ProjectStatus } from '@generated/prisma/client';
+import { ProjectStatus, TaskTypeCode } from '@generated/prisma/client';
 import { IOptions } from '../dropdown';
 
 export type IProject = {
@@ -20,7 +20,6 @@ export type IProject = {
 };
 
 export type IProjectMember = {
-  id: string;
   team: string;
   name: string;
   project_id: string;
@@ -31,12 +30,13 @@ export type IProjectMember = {
   end_date: string;
   work_hours: number;
   hour_price: number;
+  is_using: boolean;
 };
 
 export type IProjectTaskType = {
   id: string;
   name: string;
-  type: string;
+  type: TaskTypeCode;
   project_id: string;
   task_type_id: string;
   description: string;
@@ -47,4 +47,8 @@ export interface UserInfo extends IOptions {
   name: string;
   position: string;
   team_id: string;
+}
+
+export interface TaskOptions extends IOptions {
+  type: TaskTypeCode;
 }

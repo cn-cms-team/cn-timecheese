@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma';
 import { ProjectMemberSchemaType } from '@/components/pages/setting/project/schema';
+import { IProject } from '@/types/setting/project';
 
 export async function GET() {
   try {
@@ -7,6 +8,7 @@ export async function GET() {
       select: {
         id: true,
         name: true,
+        code: true,
         start_date: true,
         end_date: true,
       },
@@ -23,7 +25,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const data = body.data;
+    const data = body.data as IProject;
 
     const projectId = `${crypto.randomUUID()}`;
 
@@ -57,6 +59,15 @@ export async function POST(request: Request) {
 
     await prisma.projectMember.createMany({
       data: memberMap,
+    });
+
+    const task = [...data.main_task_type, ...data.optional_task_type].map((item) => ({
+      ...item,
+      project_id: projectId,
+    }));
+
+    await prisma.projectTaskType.createMany({
+      data: task,
     });
 
     return Response.json(

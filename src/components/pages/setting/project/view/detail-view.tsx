@@ -7,21 +7,21 @@ import { useRouter } from 'next/navigation';
 const ProjectViewButton = ({ id }: { id: string }): React.ReactNode => {
   const router = useRouter();
   const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/project/${id}`;
-  const deleteUser = async () => {
+  const deleteProject = async () => {
     await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
       router.push('/setting/project');
     });
   };
   return (
-    <div className="flex items-middle">
+    <div className="flex gap-3 items-middle">
+      <Button className="btn font-bold" variant={'destructive'} onClick={() => deleteProject()}>
+        ลบ
+      </Button>
       <Button
         className="btn btn-outline-primary font-bold"
         onClick={() => router.push(`/setting/project/${id}/edit`)}
       >
         แก้ไข
-      </Button>
-      <Button className="btn btn-outline-secondary font-bold ml-2" onClick={() => deleteUser()}>
-        ลบ
       </Button>
     </div>
   );

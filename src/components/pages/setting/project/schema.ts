@@ -9,17 +9,18 @@ const memberDetailSchema = z.object({
   start_date: z.date('กรุณากรอกวันที่เริ่มต้น').optional(),
   end_date: z.date('กรุณากรอกวันที่สิ้นสุด').optional(),
   work_day: z.number().optional(),
-  work_hours: z.number(),
+  work_hours: z.number().optional(),
   hour_price: z.number().optional(),
   estimated_cost: z.number().optional(),
+  is_using: z.boolean(),
 });
 
 const taskTypeSchema = z.object({
-  id: z.string().uuid().optional(),
-  task_type_id: z.string().uuid().optional(),
+  id: z.string().optional(),
+  task_type_id: z.string().nullable(),
   type: z.string(),
   name: z.string(),
-  description: z.string().optional(),
+  description: z.string(),
 });
 
 const baseSchema = {
@@ -28,7 +29,7 @@ const baseSchema = {
   start_date: z.date('กรุณากรอกวันที่เริ่มต้น'),
   end_date: z.date('กรุณากรอกวันที่สิ้นสุด'),
   status: z.string().nonempty('กรุณากรอกสถานะโครงการ'),
-  description: z.string().optional(),
+  description: z.string().nullable().optional(),
   value: z.number('กรุณากรอกมูลค่าโครงการ'),
   people_cost: z.number().nullable().optional(),
   people_cost_percent: z.number().nullable().optional(),
@@ -47,7 +48,7 @@ const editProjectSchema = z.object({
 
 type CreateProjectSchema = z.infer<typeof createProjectSchema>;
 
-type EditProjectSchema = z.infer<typeof createProjectSchema>;
+type EditProjectSchema = z.infer<typeof editProjectSchema>;
 
 type ProjectMemberSchema = z.infer<typeof memberDetailSchema>;
 

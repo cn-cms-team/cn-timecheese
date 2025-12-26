@@ -52,12 +52,12 @@ const ProjectListView = () => {
     });
   }, []);
 
-  const handleOpenDialog = async (mode: 'edit' | 'delete', id: string) => {
+  const handleOpenDialog = async (mode: 'edit' | 'delete', id: string, code: string) => {
     try {
       if (mode === 'edit') {
         setConfirmState({
           title: 'แก้ไขข้อมูล',
-          message: `คุณยืนยันที่จะแก้ไขข้อมูลโครงการ : ${name} ใช่หรือไม่ ?`,
+          message: `คุณยืนยันที่จะแก้ไขข้อมูลโครงการ : ${code} ใช่หรือไม่ ?`,
           confirmType: ConfirmType.SUBMIT,
         });
 
@@ -68,7 +68,7 @@ const ProjectListView = () => {
       } else {
         setConfirmState({
           title: 'ลบข้อมูล',
-          message: `คุณยืนยันที่จะลบข้อมูลโครงการ: ${name} ใช่หรือไม่ ?`,
+          message: `คุณยืนยันที่จะลบข้อมูลโครงการ: ${code} ใช่หรือไม่ ?`,
           confirmType: ConfirmType.DELETE,
         });
 

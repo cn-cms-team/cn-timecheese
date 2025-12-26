@@ -18,7 +18,7 @@ const endDateColumn = SortColumn<IProject>('end_date', 'วันที่สิ
 const actionColumn = ActionColumn<IProject>('actions', 'จัดการ');
 
 type createColumnsProps = {
-  onOpenDialog: (mode: 'edit' | 'delete', id: string, data: { name: string }) => void;
+  onOpenDialog: (mode: 'edit' | 'delete', id: string, code: string) => void;
 };
 
 export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<IProject>[] => {
@@ -59,15 +59,15 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
     {
       ...actionColumn,
       cell: ({ row }) => {
-        const { id, name } = row.original;
+        const { id, code } = row.original;
 
         return (
           <div className="flex justify-center space-x-1">
-            <ButtonEdit onClick={() => onOpenDialog('edit', id, { name })} />
+            <ButtonEdit onClick={() => onOpenDialog('edit', id, code ?? '')} />
             <ButtonDelete
-              onOpenDialog={() => onOpenDialog('delete', id, { name })}
+              onOpenDialog={() => onOpenDialog('delete', id, code ?? '')}
               id={id}
-              data={{ name }}
+              data={{ code }}
             />
           </div>
         );
