@@ -428,7 +428,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                             min={0}
                             max={100}
                             {...field}
-                            value={field.value ?? 0}
+                            value={field.value ?? ''}
                             placeholder="สัดส่วนงบประมาณบุคลากร"
                             onChange={(e) => {
                               setLastChanged('people_cost_percent');
