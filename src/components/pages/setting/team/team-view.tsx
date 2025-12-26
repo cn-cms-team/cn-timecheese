@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import TitleGroup from '@/components/ui/custom/cev/title-group';
 import LabelGroup from '@/components/ui/custom/form/label-group';
 import { Label } from '@/components/ui/label';
@@ -83,7 +83,9 @@ const TeamViewDetail = ({ id }: { id: string }): React.ReactNode => {
                         <tr key={item.id} className="odd:bg-card even:bg-card/50">
                           <td className="px-3 py-2 align-middle w-[50%] md:w-[80%]">
                             <span className="font-medium">{item.name}</span>
-                            <div className="text-sm text-muted-foreground">{teamData?.name}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {item?.position_level ? item?.position_level?.name : '-'}
+                            </div>
                           </td>
                           <td className="px-3 py-2 align-middle text-center w-[50%] md:w-[20%]">
                             <label className="inline-flex items-center space-x-2 justify-end">
