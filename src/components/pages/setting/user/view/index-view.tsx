@@ -11,17 +11,14 @@ import { createColumns } from '../user-list-columns';
 import { useState } from 'react';
 import { IUser } from '@/types/setting/user';
 import { Button } from '@/components/ui/button';
-import { UserPlus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 
 const UserButton = (): React.ReactNode => {
   const router = useRouter();
   return (
     <div>
-      <Button
-        className="btn btn-outline-primary font-bold"
-        onClick={() => router.push('/setting/user/create')}
-      >
-        <UserPlus className="w-4 h-4" />
+      <Button onClick={() => router.push('/setting/user/create')}>
+        <Plus className="w-4 h-4" />
         เพิ่มผู้ใช้งาน
       </Button>
     </div>
@@ -50,12 +47,17 @@ const UserListView = () => {
       router.push('/setting/user');
     });
   };
-  const handleOpenDialog = async (mode: 'edit' | 'delete', isActive: boolean, id: string) => {
+  const handleOpenDialog = async (
+    mode: 'edit' | 'delete',
+    isActive: boolean,
+    id: string,
+    { email }: { email: string }
+  ) => {
     try {
       if (mode === 'edit') {
         setConfirmState({
           title: 'แก้ไขข้อมูล',
-          message: `คุณยืนยันที่จะแก้ไขข้อมูลผู้ใช้งาน : ${name} ใช่หรือไม่ ?`,
+          message: `คุณยืนยันที่จะแก้ไขข้อมูลผู้ใช้งาน : ${email} ใช่หรือไม่ ?`,
           confirmType: ConfirmType.SUBMIT,
         });
 
@@ -66,7 +68,7 @@ const UserListView = () => {
       } else {
         setConfirmState({
           title: 'ลบข้อมูล',
-          message: `คุณยืนยันที่จะลบข้อมูลผู้ใช้งาน : ${name} ใช่หรือไม่ ?`,
+          message: `คุณยืนยันที่จะลบข้อมูลผู้ใช้งาน : ${email} ใช่หรือไม่ ?`,
           confirmType: ConfirmType.DELETE,
         });
 
@@ -85,7 +87,6 @@ const UserListView = () => {
     onOpenDialog: handleOpenDialog,
   });
 
-  // if (isLoading) return <div>loading</div>;
   if (error) {
     router.replace('/404');
     return null;

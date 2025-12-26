@@ -1,8 +1,10 @@
+import { IPositionLevel } from './position';
+
 export type ITeam = {
   id: string;
   code: string;
   name: string;
-  isActive: boolean;
+  is_active: boolean;
   description?: string;
   createdAt: Date;
   updatedAt?: Date;
@@ -13,6 +15,7 @@ export interface TeamMember {
   isManager: boolean;
   team: string;
   teamId: string;
+  position_level: IPositionLevel;
 }
 
 export interface TeamApiResponse {

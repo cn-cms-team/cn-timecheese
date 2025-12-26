@@ -15,11 +15,13 @@ import { teamSchema, TeamSchemaType } from './schema';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { getIsActive } from '@/lib/functions/enum-mapping';
-import { useEffect } from 'react';
-import { TeamApiResponse, SubmitRequest } from '@/types/setting/team';
+import { useEffect, useState } from 'react';
+import { TeamMember, TeamApiResponse, SubmitRequest } from '@/types/setting/team';
 import { useRouter } from 'next/navigation';
 import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useSession } from 'next-auth/react';
+import { ITeam } from '@/types/setting/team';
 import { toast } from 'sonner';
 import { MAX_LENGTH_100, MAX_LENGTH_255 } from '@/lib/constants/validation';
 import TitleGroup from '@/components/ui/custom/cev/title-group';
@@ -37,6 +39,8 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
     },
   });
   const isActiveWatch = form.watch('isActive');
+  const [membersOrder, setMembersOrder] = useState<TeamMember[]>([]);
+  const [teamData, setTeamData] = useState<ITeam>();
 
   useEffect(() => {
     const fetchTeamData = async (teamId: string) => {
@@ -44,8 +48,11 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
         const response = await fetch(`/api/v1/setting/team/${teamId}`, { method: 'GET' });
         const result = await response.json();
         if (response.ok) {
+          setTeamData(result.data);
           const teamObj = result.data as TeamApiResponse | null;
           if (teamObj) {
+            const users: TeamMember[] = teamObj.users ?? [];
+            setMembersOrder(users);
             form.reset({
               name: teamObj.name ?? '',
               description: teamObj.description ?? '',
@@ -92,6 +99,27 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
         toast(result.message);
         router.push('/setting/team');
       }
+    } catch {
+      toast('An unexpected error occurred. Please try again.');
+    }
+  };
+
+  const changeStatus = async (id: string, team_id: string, status: boolean) => {
+    try {
+      const fetchUrl = `/api/v1/setting/team/${team_id}/member`;
+      const data = {
+        user_id: id,
+        status: status,
+      };
+      const response = await fetch(fetchUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data }),
+      });
+      const result = await response.json();
+      toast(result.message);
     } catch {
       toast('An unexpected error occurred. Please try again.');
     }
@@ -175,6 +203,68 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
           </div>
         </form>
       </Form>
+      {id && (
+        <div className="mt-6">
+          <TitleGroup title="สมาชิกทีม" />
+          <Card className="w-full max-w-full">
+            <CardContent>
+              <div className="overflow-x-auto">
+                {membersOrder.length === 0 ? (
+                  <p className="text-center text-gray-400 font-semibold text-lg">
+                    ไม่มีสมาชิกในทีมนี้
+                  </p>
+                ) : (
+                  <table className="w-full table-auto border-collapse">
+                    <thead>
+                      <tr className="">
+                        <th className="text-left px-3 py-2 border-b w-[50%] md:w-[80%]">สมาชิก</th>
+                        <th className="text-center px-3 py-2 border-b w-[50%] md:w-[20%]">
+                          สิทธิ์การเห็นข้อมูลสมาชิกในทีม
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {membersOrder.map((item) => (
+                        <tr key={item.id} className="odd:bg-card even:bg-card/50">
+                          <td className="px-3 py-2 align-middle w-[50%] md:w-[80%]">
+                            <span className="font-medium">{item.name}</span>
+                            <div className="text-sm text-muted-foreground">
+                              {item?.position_level ? item?.position_level.name : '-'}
+                            </div>
+                          </td>
+                          <td className="px-3 py-2 align-middle text-center w-[50%] md:w-[20%]">
+                            <label className="inline-flex items-center space-x-2 justify-end">
+                              <Switch
+                                checked={item.isManager}
+                                onCheckedChange={(checked) => {
+                                  changeStatus(
+                                    item.id,
+                                    teamData?.id ?? item.teamId,
+                                    !item.isManager
+                                  );
+                                  setMembersOrder((prev) => {
+                                    return prev.map((m) => {
+                                      if (m.id === item.id) {
+                                        return { ...m, isManager: checked };
+                                      }
+                                      return m;
+                                    });
+                                  });
+                                }}
+                                id="is-leader-active"
+                              />
+                            </label>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 };
