@@ -10,6 +10,7 @@ import { TaskTypeCode } from '../../../../../generated/prisma/enums';
 import { Button } from '@/components/ui/button';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { TitleGroup } from '@/components/ui/custom/cev';
+import { toast } from 'sonner';
 
 const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
   const [defaultTaskType, setDefaultTaskType] = useState<ITaskType>({
@@ -38,6 +39,7 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
       });
       const result = await response.json();
       if (response.ok) {
+        toast(result.message);
         const taskTypeData = result.data;
 
         if (taskMenu) {
@@ -61,10 +63,18 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
   }, []);
 
   const deleteTaskType = async (task_id: string) => {
-    const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/task-type/${task_id}`;
-    await fetch(fetchUrl, { method: 'DELETE' }).then(async () => {
-      await fetchTaskTypeData(id);
-    });
+    try {
+      const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/task-type/${task_id}`;
+      await fetch(fetchUrl, { method: 'DELETE' }).then(async (res) => {
+        const result = await res.json();
+        if (res.ok) {
+          toast(result.message);
+          await fetchTaskTypeData(id);
+        }
+      });
+    } catch (error) {
+      toast(error as string);
+    }
   };
   const handleOpenDialog = async (mode: 'edit' | 'delete', task_id: string) => {
     try {
