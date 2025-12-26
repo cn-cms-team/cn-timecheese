@@ -4,6 +4,7 @@ import { Calendar } from 'lucide-react';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { MAX_LENGTH_500 } from '@/lib/constants/validation';
 import { buddhistFormatDate } from '@/lib/functions/date-format';
 import { ITimeSheetRequest, ITimeSheetResponse } from '@/types/timesheet';
 import { TimesheetCreateEditSchema, timesheetCreateEditSchema } from './schema';
@@ -327,7 +328,7 @@ const TimeSheetForm = ({
                     <Textarea
                       value={field.value}
                       placeholder="กรอกรายละเอียดการทำงาน"
-                      maxLength={500}
+                      maxLength={MAX_LENGTH_500}
                       onChange={(value) => field.onChange(value)}
                       isError={form.formState.errors.detail ? true : false}
                     />
