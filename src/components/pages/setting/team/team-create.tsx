@@ -201,76 +201,70 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
               )}
             />
           </div>
-
-          {id && (
-            <div>
-              <h2 className="font-medium text-lg mb-0">การจัดการสมาชิก</h2>
-              <hr className="mt-2 mb-5" />
-              <Card className="w-full max-w-full">
-                <CardHeader>
-                  <CardTitle>ทีม</CardTitle>
-                  <hr className="mt-2 mb-5" />
-                  <CardContent>
-                    <div className="overflow-x-auto">
-                      {membersOrder.length === 0 ? (
-                        <p className="text-center text-gray-400 font-semibold text-lg">
-                          ไม่มีสมาชิกในทีมนี้
-                        </p>
-                      ) : (
-                        <table className="w-full table-auto border-collapse">
-                          <thead>
-                            <tr className="">
-                              <th className="text-left px-3 py-2 border-b w-[80%]">ชื่อสมาชิก</th>
-                              <th className="text-center px-3 py-2 border-b w-[20%]">
-                                จัดการสมาชิก
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {membersOrder.map((item) => (
-                              <tr key={item.id} className="odd:bg-card even:bg-card/50">
-                                <td className="px-3 py-2 align-middle w-[80%]">
-                                  <span className="font-medium">{item.name}</span>
-                                  <div className="text-sm text-muted-foreground">
-                                    {teamData?.name}
-                                  </div>
-                                </td>
-                                <td className="px-3 py-2 align-middle text-center w-[20%]">
-                                  <label className="inline-flex items-center space-x-2 justify-end">
-                                    <Switch
-                                      checked={item.isManager}
-                                      onCheckedChange={(checked) => {
-                                        changeStatus(
-                                          item.id,
-                                          teamData?.id ?? item.teamId,
-                                          !item.isManager
-                                        );
-                                        setMembersOrder((prev) => {
-                                          return prev.map((m) => {
-                                            if (m.id === item.id) {
-                                              return { ...m, isManager: checked };
-                                            }
-                                            return m;
-                                          });
-                                        });
-                                      }}
-                                      id="is-leader-active"
-                                    />
-                                  </label>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      )}
-                    </div>
-                  </CardContent>
-                </CardHeader>
-              </Card>
-            </div>
-          )}
         </form>
       </Form>
+      {id && (
+        <div className="mt-6">
+          <TitleGroup title="สมาชิกทีม" />
+          <Card className="w-full max-w-full">
+            <CardContent>
+              <div className="overflow-x-auto">
+                {membersOrder.length === 0 ? (
+                  <p className="text-center text-gray-400 font-semibold text-lg">
+                    ไม่มีสมาชิกในทีมนี้
+                  </p>
+                ) : (
+                  <table className="w-full table-auto border-collapse">
+                    <thead>
+                      <tr className="">
+                        <th className="text-left px-3 py-2 border-b w-[50%] md:w-[80%]">สมาชิก</th>
+                        <th className="text-center px-3 py-2 border-b w-[50%] md:w-[20%]">
+                          สิทธิ์การเห็นข้อมูลสมาชิกในทีม
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {membersOrder.map((item) => (
+                        <tr key={item.id} className="odd:bg-card even:bg-card/50">
+                          <td className="px-3 py-2 align-middle w-[50%] md:w-[80%]">
+                            <span className="font-medium">{item.name}</span>
+                            <div className="text-sm text-muted-foreground">
+                              {item?.position_level ? item?.position_level.name : '-'}
+                            </div>
+                          </td>
+                          <td className="px-3 py-2 align-middle text-center w-[50%] md:w-[20%]">
+                            <label className="inline-flex items-center space-x-2 justify-end">
+                              <Switch
+                                checked={item.isManager}
+                                onCheckedChange={(checked) => {
+                                  changeStatus(
+                                    item.id,
+                                    teamData?.id ?? item.teamId,
+                                    !item.isManager
+                                  );
+                                  setMembersOrder((prev) => {
+                                    return prev.map((m) => {
+                                      if (m.id === item.id) {
+                                        return { ...m, isManager: checked };
+                                      }
+                                      return m;
+                                    });
+                                  });
+                                }}
+                                id="is-leader-active"
+                              />
+                            </label>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 };

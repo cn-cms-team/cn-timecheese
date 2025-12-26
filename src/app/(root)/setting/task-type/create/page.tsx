@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const TaskTypeCreateSetting = async () => {
-  return <TaskTypeCreateView />;
+  return <TaskTypeCreateView id={'NONE'} />;
 };
 
 export default TaskTypeCreateSetting;

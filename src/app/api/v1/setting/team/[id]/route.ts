@@ -19,6 +19,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             id: true,
             first_name: true,
             last_name: true,
+            position_level: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
           },
         },
         teamLeaders: {
@@ -33,11 +39,11 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
     if (team) {
       const leaderIds = (team.teamLeaders ?? []).map((tl) => tl.user_id).filter(Boolean);
-
       const usersUi = (team.users ?? []).map((u) => ({
         id: u.id,
         name: `${u.first_name ?? ''} ${u.last_name ?? ''}`.trim(),
         isManager: leaderIds.includes(u.id),
+        position_level: u.position_level,
       }));
 
       usersUi.sort((a, b) => (b.isManager === true ? 1 : 0) - (a.isManager === true ? 1 : 0));

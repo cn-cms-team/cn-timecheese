@@ -14,19 +14,14 @@ const UserViewButton = ({ id }: { id: string }): React.ReactNode => {
     });
   };
   return (
-    <div className="flex items-middle">
-      <Link href={`/setting/user/${id}/reset-password`} className="me-2">
+    <div className="flex gap-2 items-center">
+      <Link href={`/setting/user/${id}/reset-password`}>
         <Button variant={'outline'} className="bg-transparent">
           รีเซ็ตรหัสผ่าน
         </Button>
       </Link>
-      <Button
-        className="btn btn-outline-primary font-bold"
-        onClick={() => router.push(`/setting/user/${id}/edit`)}
-      >
-        แก้ไข
-      </Button>
-      <Button className="btn btn-outline-secondary font-bold ml-2" onClick={() => deleteUser()}>
+      <Button onClick={() => router.push(`/setting/user/${id}/edit`)}>แก้ไข</Button>
+      <Button variant={'destructive'} onClick={() => deleteUser()}>
         ลบ
       </Button>
     </div>

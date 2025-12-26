@@ -40,7 +40,7 @@ export type TimeSheetMinAggregateOutputType = {
   id: string | null
   user_id: string | null
   project_id: string | null
-  task_type_id: string | null
+  project_task_type_id: string | null
   stamp_date: Date | null
   start_date: Date | null
   end_date: Date | null
@@ -55,7 +55,7 @@ export type TimeSheetMaxAggregateOutputType = {
   id: string | null
   user_id: string | null
   project_id: string | null
-  task_type_id: string | null
+  project_task_type_id: string | null
   stamp_date: Date | null
   start_date: Date | null
   end_date: Date | null
@@ -70,7 +70,7 @@ export type TimeSheetCountAggregateOutputType = {
   id: number
   user_id: number
   project_id: number
-  task_type_id: number
+  project_task_type_id: number
   stamp_date: number
   start_date: number
   end_date: number
@@ -97,7 +97,7 @@ export type TimeSheetMinAggregateInputType = {
   id?: true
   user_id?: true
   project_id?: true
-  task_type_id?: true
+  project_task_type_id?: true
   stamp_date?: true
   start_date?: true
   end_date?: true
@@ -112,7 +112,7 @@ export type TimeSheetMaxAggregateInputType = {
   id?: true
   user_id?: true
   project_id?: true
-  task_type_id?: true
+  project_task_type_id?: true
   stamp_date?: true
   start_date?: true
   end_date?: true
@@ -127,7 +127,7 @@ export type TimeSheetCountAggregateInputType = {
   id?: true
   user_id?: true
   project_id?: true
-  task_type_id?: true
+  project_task_type_id?: true
   stamp_date?: true
   start_date?: true
   end_date?: true
@@ -229,7 +229,7 @@ export type TimeSheetGroupByOutputType = {
   id: string
   user_id: string
   project_id: string
-  task_type_id: string
+  project_task_type_id: string | null
   stamp_date: Date
   start_date: Date
   end_date: Date
@@ -267,7 +267,7 @@ export type TimeSheetWhereInput = {
   id?: Prisma.StringFilter<"TimeSheet"> | string
   user_id?: Prisma.StringFilter<"TimeSheet"> | string
   project_id?: Prisma.StringFilter<"TimeSheet"> | string
-  task_type_id?: Prisma.StringFilter<"TimeSheet"> | string
+  project_task_type_id?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
   stamp_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   start_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   end_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
@@ -278,14 +278,14 @@ export type TimeSheetWhereInput = {
   created_at?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
-  task_type?: Prisma.XOR<Prisma.TaskTypeScalarRelationFilter, Prisma.TaskTypeWhereInput>
+  project_task_type?: Prisma.XOR<Prisma.ProjectTaskTypeNullableScalarRelationFilter, Prisma.ProjectTaskTypeWhereInput> | null
 }
 
 export type TimeSheetOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
-  task_type_id?: Prisma.SortOrder
+  project_task_type_id?: Prisma.SortOrderInput | Prisma.SortOrder
   stamp_date?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
@@ -296,7 +296,7 @@ export type TimeSheetOrderByWithRelationInput = {
   created_at?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   project?: Prisma.ProjectOrderByWithRelationInput
-  task_type?: Prisma.TaskTypeOrderByWithRelationInput
+  project_task_type?: Prisma.ProjectTaskTypeOrderByWithRelationInput
 }
 
 export type TimeSheetWhereUniqueInput = Prisma.AtLeast<{
@@ -306,7 +306,7 @@ export type TimeSheetWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TimeSheetWhereInput | Prisma.TimeSheetWhereInput[]
   user_id?: Prisma.StringFilter<"TimeSheet"> | string
   project_id?: Prisma.StringFilter<"TimeSheet"> | string
-  task_type_id?: Prisma.StringFilter<"TimeSheet"> | string
+  project_task_type_id?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
   stamp_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   start_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   end_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
@@ -317,14 +317,14 @@ export type TimeSheetWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
-  task_type?: Prisma.XOR<Prisma.TaskTypeScalarRelationFilter, Prisma.TaskTypeWhereInput>
+  project_task_type?: Prisma.XOR<Prisma.ProjectTaskTypeNullableScalarRelationFilter, Prisma.ProjectTaskTypeWhereInput> | null
 }, "id">
 
 export type TimeSheetOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
-  task_type_id?: Prisma.SortOrder
+  project_task_type_id?: Prisma.SortOrderInput | Prisma.SortOrder
   stamp_date?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
@@ -347,7 +347,7 @@ export type TimeSheetScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"TimeSheet"> | string
   user_id?: Prisma.StringWithAggregatesFilter<"TimeSheet"> | string
   project_id?: Prisma.StringWithAggregatesFilter<"TimeSheet"> | string
-  task_type_id?: Prisma.StringWithAggregatesFilter<"TimeSheet"> | string
+  project_task_type_id?: Prisma.StringNullableWithAggregatesFilter<"TimeSheet"> | string | null
   stamp_date?: Prisma.DateTimeWithAggregatesFilter<"TimeSheet"> | Date | string
   start_date?: Prisma.DateTimeWithAggregatesFilter<"TimeSheet"> | Date | string
   end_date?: Prisma.DateTimeWithAggregatesFilter<"TimeSheet"> | Date | string
@@ -370,14 +370,14 @@ export type TimeSheetCreateInput = {
   created_at?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTimeSheetsInput
   project: Prisma.ProjectCreateNestedOneWithoutTimeSheetsInput
-  task_type: Prisma.TaskTypeCreateNestedOneWithoutTimeSheetsInput
+  project_task_type?: Prisma.ProjectTaskTypeCreateNestedOneWithoutTimeSheetsInput
 }
 
 export type TimeSheetUncheckedCreateInput = {
   id?: string
   user_id: string
   project_id: string
-  task_type_id: string
+  project_task_type_id?: string | null
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
@@ -400,14 +400,14 @@ export type TimeSheetUpdateInput = {
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTimeSheetsNestedInput
   project?: Prisma.ProjectUpdateOneRequiredWithoutTimeSheetsNestedInput
-  task_type?: Prisma.TaskTypeUpdateOneRequiredWithoutTimeSheetsNestedInput
+  project_task_type?: Prisma.ProjectTaskTypeUpdateOneWithoutTimeSheetsNestedInput
 }
 
 export type TimeSheetUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   project_id?: Prisma.StringFieldUpdateOperationsInput | string
-  task_type_id?: Prisma.StringFieldUpdateOperationsInput | string
+  project_task_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -422,7 +422,7 @@ export type TimeSheetCreateManyInput = {
   id?: string
   user_id: string
   project_id: string
-  task_type_id: string
+  project_task_type_id?: string | null
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
@@ -449,7 +449,7 @@ export type TimeSheetUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   project_id?: Prisma.StringFieldUpdateOperationsInput | string
-  task_type_id?: Prisma.StringFieldUpdateOperationsInput | string
+  project_task_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -474,7 +474,7 @@ export type TimeSheetCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
-  task_type_id?: Prisma.SortOrder
+  project_task_type_id?: Prisma.SortOrder
   stamp_date?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
@@ -494,7 +494,7 @@ export type TimeSheetMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
-  task_type_id?: Prisma.SortOrder
+  project_task_type_id?: Prisma.SortOrder
   stamp_date?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
@@ -509,7 +509,7 @@ export type TimeSheetMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   user_id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
-  task_type_id?: Prisma.SortOrder
+  project_task_type_id?: Prisma.SortOrder
   stamp_date?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
@@ -567,48 +567,6 @@ export type TimeSheetUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.TimeSheetScalarWhereInput | Prisma.TimeSheetScalarWhereInput[]
 }
 
-export type TimeSheetCreateNestedManyWithoutTask_typeInput = {
-  create?: Prisma.XOR<Prisma.TimeSheetCreateWithoutTask_typeInput, Prisma.TimeSheetUncheckedCreateWithoutTask_typeInput> | Prisma.TimeSheetCreateWithoutTask_typeInput[] | Prisma.TimeSheetUncheckedCreateWithoutTask_typeInput[]
-  connectOrCreate?: Prisma.TimeSheetCreateOrConnectWithoutTask_typeInput | Prisma.TimeSheetCreateOrConnectWithoutTask_typeInput[]
-  createMany?: Prisma.TimeSheetCreateManyTask_typeInputEnvelope
-  connect?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
-}
-
-export type TimeSheetUncheckedCreateNestedManyWithoutTask_typeInput = {
-  create?: Prisma.XOR<Prisma.TimeSheetCreateWithoutTask_typeInput, Prisma.TimeSheetUncheckedCreateWithoutTask_typeInput> | Prisma.TimeSheetCreateWithoutTask_typeInput[] | Prisma.TimeSheetUncheckedCreateWithoutTask_typeInput[]
-  connectOrCreate?: Prisma.TimeSheetCreateOrConnectWithoutTask_typeInput | Prisma.TimeSheetCreateOrConnectWithoutTask_typeInput[]
-  createMany?: Prisma.TimeSheetCreateManyTask_typeInputEnvelope
-  connect?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
-}
-
-export type TimeSheetUpdateManyWithoutTask_typeNestedInput = {
-  create?: Prisma.XOR<Prisma.TimeSheetCreateWithoutTask_typeInput, Prisma.TimeSheetUncheckedCreateWithoutTask_typeInput> | Prisma.TimeSheetCreateWithoutTask_typeInput[] | Prisma.TimeSheetUncheckedCreateWithoutTask_typeInput[]
-  connectOrCreate?: Prisma.TimeSheetCreateOrConnectWithoutTask_typeInput | Prisma.TimeSheetCreateOrConnectWithoutTask_typeInput[]
-  upsert?: Prisma.TimeSheetUpsertWithWhereUniqueWithoutTask_typeInput | Prisma.TimeSheetUpsertWithWhereUniqueWithoutTask_typeInput[]
-  createMany?: Prisma.TimeSheetCreateManyTask_typeInputEnvelope
-  set?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
-  disconnect?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
-  delete?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
-  connect?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
-  update?: Prisma.TimeSheetUpdateWithWhereUniqueWithoutTask_typeInput | Prisma.TimeSheetUpdateWithWhereUniqueWithoutTask_typeInput[]
-  updateMany?: Prisma.TimeSheetUpdateManyWithWhereWithoutTask_typeInput | Prisma.TimeSheetUpdateManyWithWhereWithoutTask_typeInput[]
-  deleteMany?: Prisma.TimeSheetScalarWhereInput | Prisma.TimeSheetScalarWhereInput[]
-}
-
-export type TimeSheetUncheckedUpdateManyWithoutTask_typeNestedInput = {
-  create?: Prisma.XOR<Prisma.TimeSheetCreateWithoutTask_typeInput, Prisma.TimeSheetUncheckedCreateWithoutTask_typeInput> | Prisma.TimeSheetCreateWithoutTask_typeInput[] | Prisma.TimeSheetUncheckedCreateWithoutTask_typeInput[]
-  connectOrCreate?: Prisma.TimeSheetCreateOrConnectWithoutTask_typeInput | Prisma.TimeSheetCreateOrConnectWithoutTask_typeInput[]
-  upsert?: Prisma.TimeSheetUpsertWithWhereUniqueWithoutTask_typeInput | Prisma.TimeSheetUpsertWithWhereUniqueWithoutTask_typeInput[]
-  createMany?: Prisma.TimeSheetCreateManyTask_typeInputEnvelope
-  set?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
-  disconnect?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
-  delete?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
-  connect?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
-  update?: Prisma.TimeSheetUpdateWithWhereUniqueWithoutTask_typeInput | Prisma.TimeSheetUpdateWithWhereUniqueWithoutTask_typeInput[]
-  updateMany?: Prisma.TimeSheetUpdateManyWithWhereWithoutTask_typeInput | Prisma.TimeSheetUpdateManyWithWhereWithoutTask_typeInput[]
-  deleteMany?: Prisma.TimeSheetScalarWhereInput | Prisma.TimeSheetScalarWhereInput[]
-}
-
 export type TimeSheetCreateNestedManyWithoutProjectInput = {
   create?: Prisma.XOR<Prisma.TimeSheetCreateWithoutProjectInput, Prisma.TimeSheetUncheckedCreateWithoutProjectInput> | Prisma.TimeSheetCreateWithoutProjectInput[] | Prisma.TimeSheetUncheckedCreateWithoutProjectInput[]
   connectOrCreate?: Prisma.TimeSheetCreateOrConnectWithoutProjectInput | Prisma.TimeSheetCreateOrConnectWithoutProjectInput[]
@@ -651,6 +609,48 @@ export type TimeSheetUncheckedUpdateManyWithoutProjectNestedInput = {
   deleteMany?: Prisma.TimeSheetScalarWhereInput | Prisma.TimeSheetScalarWhereInput[]
 }
 
+export type TimeSheetCreateNestedManyWithoutProject_task_typeInput = {
+  create?: Prisma.XOR<Prisma.TimeSheetCreateWithoutProject_task_typeInput, Prisma.TimeSheetUncheckedCreateWithoutProject_task_typeInput> | Prisma.TimeSheetCreateWithoutProject_task_typeInput[] | Prisma.TimeSheetUncheckedCreateWithoutProject_task_typeInput[]
+  connectOrCreate?: Prisma.TimeSheetCreateOrConnectWithoutProject_task_typeInput | Prisma.TimeSheetCreateOrConnectWithoutProject_task_typeInput[]
+  createMany?: Prisma.TimeSheetCreateManyProject_task_typeInputEnvelope
+  connect?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
+}
+
+export type TimeSheetUncheckedCreateNestedManyWithoutProject_task_typeInput = {
+  create?: Prisma.XOR<Prisma.TimeSheetCreateWithoutProject_task_typeInput, Prisma.TimeSheetUncheckedCreateWithoutProject_task_typeInput> | Prisma.TimeSheetCreateWithoutProject_task_typeInput[] | Prisma.TimeSheetUncheckedCreateWithoutProject_task_typeInput[]
+  connectOrCreate?: Prisma.TimeSheetCreateOrConnectWithoutProject_task_typeInput | Prisma.TimeSheetCreateOrConnectWithoutProject_task_typeInput[]
+  createMany?: Prisma.TimeSheetCreateManyProject_task_typeInputEnvelope
+  connect?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
+}
+
+export type TimeSheetUpdateManyWithoutProject_task_typeNestedInput = {
+  create?: Prisma.XOR<Prisma.TimeSheetCreateWithoutProject_task_typeInput, Prisma.TimeSheetUncheckedCreateWithoutProject_task_typeInput> | Prisma.TimeSheetCreateWithoutProject_task_typeInput[] | Prisma.TimeSheetUncheckedCreateWithoutProject_task_typeInput[]
+  connectOrCreate?: Prisma.TimeSheetCreateOrConnectWithoutProject_task_typeInput | Prisma.TimeSheetCreateOrConnectWithoutProject_task_typeInput[]
+  upsert?: Prisma.TimeSheetUpsertWithWhereUniqueWithoutProject_task_typeInput | Prisma.TimeSheetUpsertWithWhereUniqueWithoutProject_task_typeInput[]
+  createMany?: Prisma.TimeSheetCreateManyProject_task_typeInputEnvelope
+  set?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
+  disconnect?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
+  delete?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
+  connect?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
+  update?: Prisma.TimeSheetUpdateWithWhereUniqueWithoutProject_task_typeInput | Prisma.TimeSheetUpdateWithWhereUniqueWithoutProject_task_typeInput[]
+  updateMany?: Prisma.TimeSheetUpdateManyWithWhereWithoutProject_task_typeInput | Prisma.TimeSheetUpdateManyWithWhereWithoutProject_task_typeInput[]
+  deleteMany?: Prisma.TimeSheetScalarWhereInput | Prisma.TimeSheetScalarWhereInput[]
+}
+
+export type TimeSheetUncheckedUpdateManyWithoutProject_task_typeNestedInput = {
+  create?: Prisma.XOR<Prisma.TimeSheetCreateWithoutProject_task_typeInput, Prisma.TimeSheetUncheckedCreateWithoutProject_task_typeInput> | Prisma.TimeSheetCreateWithoutProject_task_typeInput[] | Prisma.TimeSheetUncheckedCreateWithoutProject_task_typeInput[]
+  connectOrCreate?: Prisma.TimeSheetCreateOrConnectWithoutProject_task_typeInput | Prisma.TimeSheetCreateOrConnectWithoutProject_task_typeInput[]
+  upsert?: Prisma.TimeSheetUpsertWithWhereUniqueWithoutProject_task_typeInput | Prisma.TimeSheetUpsertWithWhereUniqueWithoutProject_task_typeInput[]
+  createMany?: Prisma.TimeSheetCreateManyProject_task_typeInputEnvelope
+  set?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
+  disconnect?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
+  delete?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
+  connect?: Prisma.TimeSheetWhereUniqueInput | Prisma.TimeSheetWhereUniqueInput[]
+  update?: Prisma.TimeSheetUpdateWithWhereUniqueWithoutProject_task_typeInput | Prisma.TimeSheetUpdateWithWhereUniqueWithoutProject_task_typeInput[]
+  updateMany?: Prisma.TimeSheetUpdateManyWithWhereWithoutProject_task_typeInput | Prisma.TimeSheetUpdateManyWithWhereWithoutProject_task_typeInput[]
+  deleteMany?: Prisma.TimeSheetScalarWhereInput | Prisma.TimeSheetScalarWhereInput[]
+}
+
 export type TimeSheetCreateWithoutUserInput = {
   id?: string
   stamp_date: Date | string
@@ -662,13 +662,13 @@ export type TimeSheetCreateWithoutUserInput = {
   remark?: string | null
   created_at?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutTimeSheetsInput
-  task_type: Prisma.TaskTypeCreateNestedOneWithoutTimeSheetsInput
+  project_task_type?: Prisma.ProjectTaskTypeCreateNestedOneWithoutTimeSheetsInput
 }
 
 export type TimeSheetUncheckedCreateWithoutUserInput = {
   id?: string
   project_id: string
-  task_type_id: string
+  project_task_type_id?: string | null
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
@@ -712,7 +712,7 @@ export type TimeSheetScalarWhereInput = {
   id?: Prisma.StringFilter<"TimeSheet"> | string
   user_id?: Prisma.StringFilter<"TimeSheet"> | string
   project_id?: Prisma.StringFilter<"TimeSheet"> | string
-  task_type_id?: Prisma.StringFilter<"TimeSheet"> | string
+  project_task_type_id?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
   stamp_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   start_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   end_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
@@ -721,60 +721,6 @@ export type TimeSheetScalarWhereInput = {
   detail?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
   remark?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
   created_at?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
-}
-
-export type TimeSheetCreateWithoutTask_typeInput = {
-  id?: string
-  stamp_date: Date | string
-  start_date: Date | string
-  end_date: Date | string
-  exclude_seconds?: number | null
-  total_seconds: number
-  detail?: string | null
-  remark?: string | null
-  created_at?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutTimeSheetsInput
-  project: Prisma.ProjectCreateNestedOneWithoutTimeSheetsInput
-}
-
-export type TimeSheetUncheckedCreateWithoutTask_typeInput = {
-  id?: string
-  user_id: string
-  project_id: string
-  stamp_date: Date | string
-  start_date: Date | string
-  end_date: Date | string
-  exclude_seconds?: number | null
-  total_seconds: number
-  detail?: string | null
-  remark?: string | null
-  created_at?: Date | string
-}
-
-export type TimeSheetCreateOrConnectWithoutTask_typeInput = {
-  where: Prisma.TimeSheetWhereUniqueInput
-  create: Prisma.XOR<Prisma.TimeSheetCreateWithoutTask_typeInput, Prisma.TimeSheetUncheckedCreateWithoutTask_typeInput>
-}
-
-export type TimeSheetCreateManyTask_typeInputEnvelope = {
-  data: Prisma.TimeSheetCreateManyTask_typeInput | Prisma.TimeSheetCreateManyTask_typeInput[]
-  skipDuplicates?: boolean
-}
-
-export type TimeSheetUpsertWithWhereUniqueWithoutTask_typeInput = {
-  where: Prisma.TimeSheetWhereUniqueInput
-  update: Prisma.XOR<Prisma.TimeSheetUpdateWithoutTask_typeInput, Prisma.TimeSheetUncheckedUpdateWithoutTask_typeInput>
-  create: Prisma.XOR<Prisma.TimeSheetCreateWithoutTask_typeInput, Prisma.TimeSheetUncheckedCreateWithoutTask_typeInput>
-}
-
-export type TimeSheetUpdateWithWhereUniqueWithoutTask_typeInput = {
-  where: Prisma.TimeSheetWhereUniqueInput
-  data: Prisma.XOR<Prisma.TimeSheetUpdateWithoutTask_typeInput, Prisma.TimeSheetUncheckedUpdateWithoutTask_typeInput>
-}
-
-export type TimeSheetUpdateManyWithWhereWithoutTask_typeInput = {
-  where: Prisma.TimeSheetScalarWhereInput
-  data: Prisma.XOR<Prisma.TimeSheetUpdateManyMutationInput, Prisma.TimeSheetUncheckedUpdateManyWithoutTask_typeInput>
 }
 
 export type TimeSheetCreateWithoutProjectInput = {
@@ -788,13 +734,13 @@ export type TimeSheetCreateWithoutProjectInput = {
   remark?: string | null
   created_at?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTimeSheetsInput
-  task_type: Prisma.TaskTypeCreateNestedOneWithoutTimeSheetsInput
+  project_task_type?: Prisma.ProjectTaskTypeCreateNestedOneWithoutTimeSheetsInput
 }
 
 export type TimeSheetUncheckedCreateWithoutProjectInput = {
   id?: string
   user_id: string
-  task_type_id: string
+  project_task_type_id?: string | null
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
@@ -831,10 +777,64 @@ export type TimeSheetUpdateManyWithWhereWithoutProjectInput = {
   data: Prisma.XOR<Prisma.TimeSheetUpdateManyMutationInput, Prisma.TimeSheetUncheckedUpdateManyWithoutProjectInput>
 }
 
+export type TimeSheetCreateWithoutProject_task_typeInput = {
+  id?: string
+  stamp_date: Date | string
+  start_date: Date | string
+  end_date: Date | string
+  exclude_seconds?: number | null
+  total_seconds: number
+  detail?: string | null
+  remark?: string | null
+  created_at?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutTimeSheetsInput
+  project: Prisma.ProjectCreateNestedOneWithoutTimeSheetsInput
+}
+
+export type TimeSheetUncheckedCreateWithoutProject_task_typeInput = {
+  id?: string
+  user_id: string
+  project_id: string
+  stamp_date: Date | string
+  start_date: Date | string
+  end_date: Date | string
+  exclude_seconds?: number | null
+  total_seconds: number
+  detail?: string | null
+  remark?: string | null
+  created_at?: Date | string
+}
+
+export type TimeSheetCreateOrConnectWithoutProject_task_typeInput = {
+  where: Prisma.TimeSheetWhereUniqueInput
+  create: Prisma.XOR<Prisma.TimeSheetCreateWithoutProject_task_typeInput, Prisma.TimeSheetUncheckedCreateWithoutProject_task_typeInput>
+}
+
+export type TimeSheetCreateManyProject_task_typeInputEnvelope = {
+  data: Prisma.TimeSheetCreateManyProject_task_typeInput | Prisma.TimeSheetCreateManyProject_task_typeInput[]
+  skipDuplicates?: boolean
+}
+
+export type TimeSheetUpsertWithWhereUniqueWithoutProject_task_typeInput = {
+  where: Prisma.TimeSheetWhereUniqueInput
+  update: Prisma.XOR<Prisma.TimeSheetUpdateWithoutProject_task_typeInput, Prisma.TimeSheetUncheckedUpdateWithoutProject_task_typeInput>
+  create: Prisma.XOR<Prisma.TimeSheetCreateWithoutProject_task_typeInput, Prisma.TimeSheetUncheckedCreateWithoutProject_task_typeInput>
+}
+
+export type TimeSheetUpdateWithWhereUniqueWithoutProject_task_typeInput = {
+  where: Prisma.TimeSheetWhereUniqueInput
+  data: Prisma.XOR<Prisma.TimeSheetUpdateWithoutProject_task_typeInput, Prisma.TimeSheetUncheckedUpdateWithoutProject_task_typeInput>
+}
+
+export type TimeSheetUpdateManyWithWhereWithoutProject_task_typeInput = {
+  where: Prisma.TimeSheetScalarWhereInput
+  data: Prisma.XOR<Prisma.TimeSheetUpdateManyMutationInput, Prisma.TimeSheetUncheckedUpdateManyWithoutProject_task_typeInput>
+}
+
 export type TimeSheetCreateManyUserInput = {
   id?: string
   project_id: string
-  task_type_id: string
+  project_task_type_id?: string | null
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
@@ -856,13 +856,13 @@ export type TimeSheetUpdateWithoutUserInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutTimeSheetsNestedInput
-  task_type?: Prisma.TaskTypeUpdateOneRequiredWithoutTimeSheetsNestedInput
+  project_task_type?: Prisma.ProjectTaskTypeUpdateOneWithoutTimeSheetsNestedInput
 }
 
 export type TimeSheetUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   project_id?: Prisma.StringFieldUpdateOperationsInput | string
-  task_type_id?: Prisma.StringFieldUpdateOperationsInput | string
+  project_task_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -876,63 +876,7 @@ export type TimeSheetUncheckedUpdateWithoutUserInput = {
 export type TimeSheetUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   project_id?: Prisma.StringFieldUpdateOperationsInput | string
-  task_type_id?: Prisma.StringFieldUpdateOperationsInput | string
-  stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
-  detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type TimeSheetCreateManyTask_typeInput = {
-  id?: string
-  user_id: string
-  project_id: string
-  stamp_date: Date | string
-  start_date: Date | string
-  end_date: Date | string
-  exclude_seconds?: number | null
-  total_seconds: number
-  detail?: string | null
-  remark?: string | null
-  created_at?: Date | string
-}
-
-export type TimeSheetUpdateWithoutTask_typeInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
-  detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutTimeSheetsNestedInput
-  project?: Prisma.ProjectUpdateOneRequiredWithoutTimeSheetsNestedInput
-}
-
-export type TimeSheetUncheckedUpdateWithoutTask_typeInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  project_id?: Prisma.StringFieldUpdateOperationsInput | string
-  stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
-  detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type TimeSheetUncheckedUpdateManyWithoutTask_typeInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  project_id?: Prisma.StringFieldUpdateOperationsInput | string
+  project_task_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -946,7 +890,7 @@ export type TimeSheetUncheckedUpdateManyWithoutTask_typeInput = {
 export type TimeSheetCreateManyProjectInput = {
   id?: string
   user_id: string
-  task_type_id: string
+  project_task_type_id?: string | null
   stamp_date: Date | string
   start_date: Date | string
   end_date: Date | string
@@ -968,13 +912,13 @@ export type TimeSheetUpdateWithoutProjectInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTimeSheetsNestedInput
-  task_type?: Prisma.TaskTypeUpdateOneRequiredWithoutTimeSheetsNestedInput
+  project_task_type?: Prisma.ProjectTaskTypeUpdateOneWithoutTimeSheetsNestedInput
 }
 
 export type TimeSheetUncheckedUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  task_type_id?: Prisma.StringFieldUpdateOperationsInput | string
+  project_task_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -988,7 +932,63 @@ export type TimeSheetUncheckedUpdateWithoutProjectInput = {
 export type TimeSheetUncheckedUpdateManyWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
-  task_type_id?: Prisma.StringFieldUpdateOperationsInput | string
+  project_task_type_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
+  detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TimeSheetCreateManyProject_task_typeInput = {
+  id?: string
+  user_id: string
+  project_id: string
+  stamp_date: Date | string
+  start_date: Date | string
+  end_date: Date | string
+  exclude_seconds?: number | null
+  total_seconds: number
+  detail?: string | null
+  remark?: string | null
+  created_at?: Date | string
+}
+
+export type TimeSheetUpdateWithoutProject_task_typeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
+  detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutTimeSheetsNestedInput
+  project?: Prisma.ProjectUpdateOneRequiredWithoutTimeSheetsNestedInput
+}
+
+export type TimeSheetUncheckedUpdateWithoutProject_task_typeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  project_id?: Prisma.StringFieldUpdateOperationsInput | string
+  stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exclude_seconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
+  detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type TimeSheetUncheckedUpdateManyWithoutProject_task_typeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  project_id?: Prisma.StringFieldUpdateOperationsInput | string
   stamp_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   start_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   end_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1005,7 +1005,7 @@ export type TimeSheetSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   id?: boolean
   user_id?: boolean
   project_id?: boolean
-  task_type_id?: boolean
+  project_task_type_id?: boolean
   stamp_date?: boolean
   start_date?: boolean
   end_date?: boolean
@@ -1016,14 +1016,14 @@ export type TimeSheetSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   created_at?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  task_type?: boolean | Prisma.TaskTypeDefaultArgs<ExtArgs>
+  project_task_type?: boolean | Prisma.TimeSheet$project_task_typeArgs<ExtArgs>
 }, ExtArgs["result"]["timeSheet"]>
 
 export type TimeSheetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   user_id?: boolean
   project_id?: boolean
-  task_type_id?: boolean
+  project_task_type_id?: boolean
   stamp_date?: boolean
   start_date?: boolean
   end_date?: boolean
@@ -1034,14 +1034,14 @@ export type TimeSheetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   created_at?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  task_type?: boolean | Prisma.TaskTypeDefaultArgs<ExtArgs>
+  project_task_type?: boolean | Prisma.TimeSheet$project_task_typeArgs<ExtArgs>
 }, ExtArgs["result"]["timeSheet"]>
 
 export type TimeSheetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   user_id?: boolean
   project_id?: boolean
-  task_type_id?: boolean
+  project_task_type_id?: boolean
   stamp_date?: boolean
   start_date?: boolean
   end_date?: boolean
@@ -1052,14 +1052,14 @@ export type TimeSheetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   created_at?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  task_type?: boolean | Prisma.TaskTypeDefaultArgs<ExtArgs>
+  project_task_type?: boolean | Prisma.TimeSheet$project_task_typeArgs<ExtArgs>
 }, ExtArgs["result"]["timeSheet"]>
 
 export type TimeSheetSelectScalar = {
   id?: boolean
   user_id?: boolean
   project_id?: boolean
-  task_type_id?: boolean
+  project_task_type_id?: boolean
   stamp_date?: boolean
   start_date?: boolean
   end_date?: boolean
@@ -1070,21 +1070,21 @@ export type TimeSheetSelectScalar = {
   created_at?: boolean
 }
 
-export type TimeSheetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "project_id" | "task_type_id" | "stamp_date" | "start_date" | "end_date" | "exclude_seconds" | "total_seconds" | "detail" | "remark" | "created_at", ExtArgs["result"]["timeSheet"]>
+export type TimeSheetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "project_id" | "project_task_type_id" | "stamp_date" | "start_date" | "end_date" | "exclude_seconds" | "total_seconds" | "detail" | "remark" | "created_at", ExtArgs["result"]["timeSheet"]>
 export type TimeSheetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  task_type?: boolean | Prisma.TaskTypeDefaultArgs<ExtArgs>
+  project_task_type?: boolean | Prisma.TimeSheet$project_task_typeArgs<ExtArgs>
 }
 export type TimeSheetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  task_type?: boolean | Prisma.TaskTypeDefaultArgs<ExtArgs>
+  project_task_type?: boolean | Prisma.TimeSheet$project_task_typeArgs<ExtArgs>
 }
 export type TimeSheetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  task_type?: boolean | Prisma.TaskTypeDefaultArgs<ExtArgs>
+  project_task_type?: boolean | Prisma.TimeSheet$project_task_typeArgs<ExtArgs>
 }
 
 export type $TimeSheetPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1092,13 +1092,13 @@ export type $TimeSheetPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     project: Prisma.$ProjectPayload<ExtArgs>
-    task_type: Prisma.$TaskTypePayload<ExtArgs>
+    project_task_type: Prisma.$ProjectTaskTypePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     user_id: string
     project_id: string
-    task_type_id: string
+    project_task_type_id: string | null
     stamp_date: Date
     start_date: Date
     end_date: Date
@@ -1503,7 +1503,7 @@ export interface Prisma__TimeSheetClient<T, Null = never, ExtArgs extends runtim
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   project<T extends Prisma.ProjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectDefaultArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  task_type<T extends Prisma.TaskTypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TaskTypeDefaultArgs<ExtArgs>>): Prisma.Prisma__TaskTypeClient<runtime.Types.Result.GetResult<Prisma.$TaskTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  project_task_type<T extends Prisma.TimeSheet$project_task_typeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TimeSheet$project_task_typeArgs<ExtArgs>>): Prisma.Prisma__ProjectTaskTypeClient<runtime.Types.Result.GetResult<Prisma.$ProjectTaskTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1536,7 +1536,7 @@ export interface TimeSheetFieldRefs {
   readonly id: Prisma.FieldRef<"TimeSheet", 'String'>
   readonly user_id: Prisma.FieldRef<"TimeSheet", 'String'>
   readonly project_id: Prisma.FieldRef<"TimeSheet", 'String'>
-  readonly task_type_id: Prisma.FieldRef<"TimeSheet", 'String'>
+  readonly project_task_type_id: Prisma.FieldRef<"TimeSheet", 'String'>
   readonly stamp_date: Prisma.FieldRef<"TimeSheet", 'DateTime'>
   readonly start_date: Prisma.FieldRef<"TimeSheet", 'DateTime'>
   readonly end_date: Prisma.FieldRef<"TimeSheet", 'DateTime'>
@@ -1938,6 +1938,25 @@ export type TimeSheetDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many TimeSheets to delete.
    */
   limit?: number
+}
+
+/**
+ * TimeSheet.project_task_type
+ */
+export type TimeSheet$project_task_typeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProjectTaskType
+   */
+  select?: Prisma.ProjectTaskTypeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProjectTaskType
+   */
+  omit?: Prisma.ProjectTaskTypeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectTaskTypeInclude<ExtArgs> | null
+  where?: Prisma.ProjectTaskTypeWhereInput
 }
 
 /**

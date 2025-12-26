@@ -23,14 +23,9 @@ const TeamViewButton = ({ id }: { id: string }): React.ReactNode => {
     }
   };
   return (
-    <div className="flex align-middle">
-      <Button
-        className="btn btn-outline-primary font-bold"
-        onClick={() => router.push(`/setting/team/${id}/edit`)}
-      >
-        แก้ไข
-      </Button>
-      <Button className="btn btn-outline-secondary font-bold ml-2" onClick={() => deleteTeam()}>
+    <div className="flex align-middle gap-2">
+      <Button onClick={() => router.push(`/setting/team/${id}/edit`)}>แก้ไข</Button>
+      <Button variant={'destructive'} onClick={() => deleteTeam()}>
         ลบ
       </Button>
     </div>

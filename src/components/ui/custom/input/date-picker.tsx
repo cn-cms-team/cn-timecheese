@@ -36,12 +36,14 @@ export function DatePickerInput({
           variant="outline"
           disabled={disabled}
           className={cn(
-            `w-full justify-between font-normal ${className ?? ''}`,
+            `w-full justify-between font-normal relative truncate ${className ?? ''}`,
             isError ? 'border-red-500' : ''
           )}
         >
-          {value ? formatDate(value) : placeholder}
-          <Calendar1 className="h-4 w-4 opacity-50" />
+          <span className={cn('truncate', value ? '' : 'text-gray-500')}>
+            {value ? formatDate(value) : placeholder}
+          </span>
+          <Calendar1 className="h-4 w-4 opacity-50 text-black" />
         </Button>
       </PopoverTrigger>
 
