@@ -1,6 +1,7 @@
 'use client';
 import { toast } from 'sonner';
 import { Calendar } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -16,8 +17,6 @@ import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { useTimeSheetContext } from './view/timesheet-context';
 import TimeInput from '@/components/ui/custom/input/time-input';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
-import { DropdownGroup } from '@/components/ui/custom/dropdown/dropdown-group';
-import { useEffect, useRef } from 'react';
 
 interface IProps {
   close?: () => void;
@@ -315,14 +314,12 @@ const TimeSheetForm = ({
               render={({ field }) => (
                 <FormItem className="px-0">
                   <FormControl>
-                    <DropdownGroup
-                      value={field.value}
+                    <ComboboxForm
+                      field={field}
+                      isGroup
                       placeholder="เลือกประเภทงาน"
-                      groups={taskTypeOptions}
-                      onChange={(value) => {
-                        console.log(value);
-                        field.onChange(value);
-                      }}
+                      options={taskTypeOptions}
+                      onSelect={field.onChange}
                       disabled={!projectId}
                       isError={form.formState.errors.project_task_type_id ? true : false}
                     />
