@@ -5,7 +5,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
     if (!id) {
-      return Response.json({ error: 'User ID is required' }, { status: 400 });
+      return Response.json({ error: 'Position ID is required' }, { status: 400 });
     }
 
     const position = await prisma.position.findUnique({
@@ -51,7 +51,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
     if (!id) {
-      return Response.json({ error: 'User ID is required' }, { status: 400 });
+      return Response.json({ error: 'Position ID is required' }, { status: 400 });
     }
 
     const body = await request.json();
@@ -91,7 +91,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   try {
     const { id } = await params;
     if (!id) {
-      return Response.json({ error: 'User ID is required' }, { status: 400 });
+      return Response.json({ error: 'Position ID is required' }, { status: 400 });
     }
 
     const result = await prisma.$transaction(async (tx) => {

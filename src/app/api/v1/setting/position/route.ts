@@ -25,7 +25,7 @@ export async function POST(request: Request) {
         },
       },
     });
-    return Response.json(result);
+    return Response.json({ message : 'Create successfully' , data : result });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
@@ -46,15 +46,7 @@ export async function GET() {
       orderBy: { created_at: 'asc' },
     });
 
-    const positionMaps = positions.map((position) => {
-      return {
-        id: position.id,
-        name: position.name,
-        description: position.description || null,
-      };
-    });
-
-    return Response.json({ data: positionMaps, status: 200 });
+    return Response.json({ data: positions, status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
