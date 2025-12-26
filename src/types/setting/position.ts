@@ -12,9 +12,9 @@ export type IPosition = {
 
   levels: IPositionLevel[];
 
-  createdAt: Date;
-  updatedAt?: Date;
-  isEnabled: boolean;
+  created_at: Date;
+  updated_at?: Date;
+  is_enabled: boolean;
 };
 
 export type IPositionRequest = {
@@ -24,9 +24,9 @@ export type IPositionRequest = {
 
   levels: IPositionLevelRequest[];
 
-  createdAt: Date;
-  updatedAt?: Date;
-  isEnabled: boolean;
+  created_at: Date;
+  updated_at?: Date;
+  is_enabled: boolean;
 };
 
 export type IPositionLevelRequest = {
