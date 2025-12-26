@@ -260,10 +260,23 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     const { id } = await params;
 
     if (!id) {
-      return Response.json({ error: 'User ID is required' }, { status: 400 });
+      return Response.json({ error: 'Project ID is required' }, { status: 400 });
     }
 
-    const result = await prisma.user.update({
+    const hasReference = await prisma.timeSheet.findFirst({
+      where: { project_id: id },
+    });
+
+    if (hasReference) {
+      return Response.json(
+        {
+          message: `Cannot delete this project while it is currently in use.`,
+        },
+        { status: 400 }
+      );
+    }
+
+    const result = await prisma.project.update({
       where: { id },
       data: {
         is_enabled: false,

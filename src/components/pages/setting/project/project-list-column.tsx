@@ -59,7 +59,7 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
     {
       ...actionColumn,
       cell: ({ row }) => {
-        const { id, code } = row.original;
+        const { id, code, is_using } = row.original;
 
         return (
           <div className="flex justify-center space-x-1">
@@ -68,6 +68,7 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
               onOpenDialog={() => onOpenDialog('delete', id, code ?? '')}
               id={id}
               data={{ code }}
+              disabled={is_using}
             />
           </div>
         );

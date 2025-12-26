@@ -4,7 +4,8 @@ import { IProject } from '@/types/setting/project';
 
 export async function GET() {
   try {
-    const result = await prisma.project.findMany({
+    const project = await prisma.project.findMany({
+      where: { is_enabled: true },
       select: {
         id: true,
         name: true,
@@ -13,6 +14,21 @@ export async function GET() {
         end_date: true,
       },
     });
+
+    const referenceProject = await prisma.timeSheet.findMany({
+      select: {
+        project_id: true,
+      },
+      distinct: 'project_id',
+    });
+
+    const usingProjectIds = new Set(referenceProject.map((r) => r.project_id));
+
+    const result = project.map((item) => ({
+      ...item,
+      is_using: !!usingProjectIds.has(item.id),
+    }));
+
     return Response.json({ data: result, status: 200 });
   } catch (error) {
     return Response.json(

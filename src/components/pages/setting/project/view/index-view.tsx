@@ -9,6 +9,8 @@ import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { createColumns } from '../project-list-column';
 import { ProjectList } from '../project-list';
 import { IProject } from '@/types/setting/project';
+import useSWR from 'swr';
+import { fetcher } from '@/lib/fetcher';
 
 const AddProjectButton = (): React.ReactNode => {
   const router = useRouter();
@@ -27,13 +29,10 @@ const AddProjectButton = (): React.ReactNode => {
 
 const ProjectListView = () => {
   const router = useRouter();
-  const fetchProjectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/project`;
-  const [projectList, setProjectList] = useState<IProject[]>([]);
-  const getProject = async () => {
-    const response = await fetch(fetchProjectUrl);
-    const result = await response.json();
-    return result.data;
-  };
+  const fetchUsersUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/project`;
+  const { data, error, isLoading, mutate } = useSWR(fetchUsersUrl, (url) =>
+    fetcher<IProject[]>(url)
+  );
 
   const [confirmState, setConfirmState] = useState<{
     title: string;
@@ -46,11 +45,12 @@ const ProjectListView = () => {
   });
   const [getConfirmation, Confirmation] = useDialogConfirm();
 
-  useEffect(() => {
-    getProject().then((data) => {
-      setProjectList(data);
+  const deleteProject = async (id: string) => {
+    const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/project/${id}`;
+    await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
+      router.push('/setting/project');
     });
-  }, []);
+  };
 
   const handleOpenDialog = async (mode: 'edit' | 'delete', id: string, code: string) => {
     try {
@@ -75,7 +75,9 @@ const ProjectListView = () => {
         const result = await getConfirmation();
         if (!id) return;
         if (result) {
-          // delete users
+          await deleteProject(id).then(async () => {
+            mutate();
+          });
         }
       }
     } catch (error) {}
@@ -90,7 +92,7 @@ const ProjectListView = () => {
       <ModuleLayout
         headerTitle={'โครงการ'}
         headerButton={<AddProjectButton />}
-        content={<ProjectList columns={columns} data={projectList} />}
+        content={<ProjectList columns={columns} data={data ?? []} />}
       ></ModuleLayout>
 
       <Confirmation
