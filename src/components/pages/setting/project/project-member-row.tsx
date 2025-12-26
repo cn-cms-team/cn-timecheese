@@ -5,18 +5,17 @@ import { FormControl, FormField, FormItem } from '@/components/ui/form';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { Input } from '@/components/ui/input';
 import { DatePickerInput } from '@/components/ui/custom/input/date-picker';
-import { IOptions } from '@/types/dropdown';
+import { IOptionGroups, IOptions } from '@/types/dropdown';
 import { UserInfo } from '@/types/setting/project';
 import { CreateProjectSchemaType, EditProjectSchemaType } from './schema';
 import { MAX_LENGTH_20 } from '@/lib/constants/validation';
 import { calcTotalDays } from '@/lib/functions/date-format';
-import CategoryDropdown, { ICategoryOption } from '@/components/ui/custom/input/category-dropdown';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 
 export interface ProjectMemberTableProps {
   index: number;
-  userOptions: ICategoryOption[];
+  userOptions: IOptionGroups[];
   form: UseFormReturn<EditProjectSchemaType | CreateProjectSchemaType>;
   onDelete: (index: number) => void;
 }
@@ -60,13 +59,18 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <CategoryDropdown
+                <ComboboxForm
                   key={index}
-                  value={field.value}
+                  isGroup={true}
+                  field={field}
+                  placeholder="เลือกพนักงาน"
                   options={userOptions}
                   onSelect={(value) => {
                     field.onChange(value);
-                    form.setValue(`member.${index}.user_id`, value as string);
+                    const selectedUser = userOptions
+                      .flatMap((group) => group.options)
+                      .find((option) => option.value === value) as IOptions & UserInfo;
+                    form.setValue(`member.${index}.role`, selectedUser.position || '');
                   }}
                 />
               </FormControl>

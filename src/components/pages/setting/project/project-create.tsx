@@ -31,15 +31,15 @@ import ProjectMemberTable from './project-member-table';
 import ProjectTaskTable from './project-task-table';
 import { IProject, TaskOptions, UserInfo } from '@/types/setting/project';
 import { Textarea } from '@/components/ui/textarea';
-import { ICategoryOption } from '@/components/ui/custom/input/category-dropdown';
 import { TitleGroup } from '@/components/ui/custom/cev';
 import { taskTypeOption } from '@/lib/constants/task';
 import { toast } from 'sonner';
+import { IOptionGroups } from '@/types/dropdown';
 
 const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
   const { data: session } = useSession();
-  const [userOptions, setUserOptions] = useState<ICategoryOption[]>([]);
+  const [userOptions, setUserOptions] = useState<IOptionGroups[]>([]);
   const [taskOptions, setTaskOptions] = useState<TaskOptions[]>([]);
   const [getConfirmation, Confirmation] = useDialogConfirm();
 
@@ -64,7 +64,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
       try {
         const prefix = process.env.NEXT_PUBLIC_APP_URL;
         const [user, task] = await Promise.all([
-          fetcher<ICategoryOption[]>(`${prefix}/api/v1/master/user`),
+          fetcher<IOptionGroups[]>(`${prefix}/api/v1/master/user`),
           fetcher<TaskOptions[]>(`${prefix}/api/v1/master/task-type`),
         ]);
         setUserOptions(user);

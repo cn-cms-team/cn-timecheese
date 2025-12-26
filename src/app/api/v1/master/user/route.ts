@@ -1,5 +1,5 @@
-import { ICategoryOption } from '@/components/ui/custom/input/category-dropdown';
 import prisma from '@/lib/prisma';
+import { IOptionGroups } from '@/types/dropdown';
 
 export async function GET() {
   try {
@@ -22,21 +22,22 @@ export async function GET() {
       orderBy: { first_name: 'asc' },
     });
 
-    const options: ICategoryOption[] = Object.values(
-      users.reduce<Record<string, ICategoryOption>>((acc, user) => {
+    const options: IOptionGroups[] = Object.values(
+      users.reduce<Record<string, IOptionGroups>>((acc, user) => {
         const teamKey = user.team_id ?? 'no_team';
         const teamLabel = user.team?.name ?? 'ไม่ระบุทีม';
 
         if (!acc[teamKey]) {
           acc[teamKey] = {
             label: teamLabel,
-            children: [],
+            options: [],
           };
         }
 
-        acc[teamKey].children!.push({
+        acc[teamKey].options!.push({
           label: `${user.first_name} ${user.last_name}`.trim(),
           value: user.id,
+          position: user.position_level?.name || null,
         });
 
         return acc;

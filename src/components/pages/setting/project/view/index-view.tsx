@@ -1,7 +1,6 @@
 'use client';
 import ModuleLayout from '@/components/layouts/ModuleLayout';
-import { useEffect, useState } from 'react';
-import { IUser } from '@/types/setting/user';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Presentation, UserPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';

@@ -91,13 +91,13 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         .filter((f) => f.task_type_id)
         .map((item) => ({
           ...item,
-          is_using: usingTaskTypeIds.has(item.task_type_id!),
+          is_using: usingTaskTypeIds.has(item.id),
         })),
       optional_task_type: project.projectTaskTypes
         .filter((f) => !f.task_type_id)
         .map((item) => ({
           ...item,
-          is_using: false,
+          is_using: usingTaskTypeIds.has(item.id),
         })),
     };
 

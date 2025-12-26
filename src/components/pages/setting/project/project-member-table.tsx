@@ -1,7 +1,4 @@
-import { ComboboxForm } from '@/components/ui/custom/combobox';
-import { DatePickerInput } from '@/components/ui/custom/input/date-picker';
 import { FormControl, FormField, FormItem } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -12,15 +9,12 @@ import {
 } from '@/components/ui/table';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { CreateProjectSchemaType, EditProjectSchemaType } from './schema';
-import { IOptions } from '@/types/dropdown';
-import { UserInfo } from '@/types/setting/project';
-import { differenceInCalendarDays, differenceInBusinessDays } from 'date-fns';
+import { IOptionGroups } from '@/types/dropdown';
 import ProjectMemberRow from './project-member-row';
-import { ICategoryOption } from '@/components/ui/custom/input/category-dropdown';
 
 export interface ProjectMemberTableProps {
   header: { label: string; className: string }[];
-  userOptions: ICategoryOption[];
+  userOptions: IOptionGroups[];
   form: UseFormReturn<EditProjectSchemaType | CreateProjectSchemaType>;
 }
 
