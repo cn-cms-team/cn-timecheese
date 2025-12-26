@@ -9,9 +9,8 @@ import {
 } from '@/components/ui/custom/data-table';
 import LinkTable from '@/components/ui/custom/data-table/link';
 import { IPosition } from '@/types/setting/position';
-import React from 'react';
+import { useState , useRef } from 'react'
 
-// const orderColumn = SortColumn<IPosition>('order', 'ลำดับ');
 const positionNameColumn = SortColumn<IPosition>('name', 'ชื่อตำแหน่ง');
 const descriptionColumn = SortColumn<IPosition>('description', 'คำอธิบาย');
 const actionColumn = ActionColumn<IPosition>('actions', 'จัดการ');
@@ -19,7 +18,6 @@ const actionColumn = ActionColumn<IPosition>('actions', 'จัดการ');
 type createColumnsProps = {
   onOpenDialog: (
     mode: 'edit' | 'delete',
-    isActive: boolean,
     id: string,
     data: { name: string }
   ) => void;
@@ -27,13 +25,6 @@ type createColumnsProps = {
 
 export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<IPosition>[] => {
   const baseColumns: ColumnDef<IPosition>[] = [
-    // {
-    //   ...orderColumn,
-    //   size: 100,
-    //   cell: ({ row }) => {
-    //     return <div> {row.index + 1} </div>
-    //   },
-    // },
     {
       ...positionNameColumn,
       size: 100,
@@ -48,8 +39,8 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
       size: 200,
       cell: ({ row }) => {
         const description = (row.original.description as string) || '-';
-        const [isOverflow, setIsOverflow] = React.useState(false);
-        const textRef = React.useRef<HTMLDivElement>(null);
+        const [isOverflow, setIsOverflow] = useState(false);
+        const textRef = useRef<HTMLDivElement>(null);
 
         const handleMouseEnter = () => {
           if (textRef.current) {
@@ -81,9 +72,9 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
 
         return (
           <div className="flex justify-center space-x-1">
-            <ButtonEdit onClick={() => onOpenDialog('edit', true, id, { name })} />
+            <ButtonEdit onClick={() => onOpenDialog('edit' , id, { name })} />
             <ButtonDelete
-              onOpenDialog={() => onOpenDialog('delete', true, id, { name })}
+              onOpenDialog={() => onOpenDialog('delete' , id, { name })}
               id={id}
               data={{ name }}
             />
