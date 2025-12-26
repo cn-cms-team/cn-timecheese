@@ -197,13 +197,33 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   };
 
   const getDayStatus = (day: Date) => {
-    if (isWeekend(day)) return DAYTASKSTATUS.IGNORE;
-
     const key = format(day, 'yyyy-MM-dd');
-    const seconds = dailySecondsMap.get(key) ?? 0;
+    const seconds = getDailyWorkSeconds().get(key) ?? 0;
 
-    if (seconds === 0) return DAYTASKSTATUS.NOTASK;
-    if (seconds < EIGHT_HOURS) return DAYTASKSTATUS.INPROGRESS;
+    const today = startOfDay(new Date());
+    const startWorkDate = userInfo?.user?.start_date
+      ? startOfDay(new Date(userInfo.user.start_date))
+      : null;
+
+    if (isWeekend(day)) {
+      return DAYTASKSTATUS.IGNORE;
+    }
+
+    if (startWorkDate && isBefore(startOfDay(day), startWorkDate)) {
+      return DAYTASKSTATUS.IGNORE;
+    }
+
+    if (!isBefore(startOfDay(day), today)) {
+      return DAYTASKSTATUS.IGNORE;
+    }
+
+    if (seconds === 0) {
+      return DAYTASKSTATUS.NOTASK;
+    }
+
+    if (seconds < EIGHT_HOURS) {
+      return DAYTASKSTATUS.INPROGRESS;
+    }
 
     return DAYTASKSTATUS.COMPLETED;
   };
