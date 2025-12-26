@@ -20,7 +20,6 @@ import {
 import { Label } from '@/components/ui/label';
 import DataTable from '@/components/ui/custom/data-table/table-template';
 import InputSearch from '@/components/ui/custom/data-table/input/input-search';
-import SearchButton from '@/components/ui/custom/button/search-button';
 import { IPosition } from '@/types/setting/position';
 
 interface DataTableProps<TData, TValue> {
