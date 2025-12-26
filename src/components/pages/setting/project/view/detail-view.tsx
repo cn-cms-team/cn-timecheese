@@ -19,15 +19,10 @@ const ProjectViewButton = ({ id }: { id: string }): React.ReactNode => {
   };
   return (
     <div className="flex gap-3 items-middle">
-      <Button className="btn font-bold" variant={'destructive'} onClick={() => deleteProject()}>
+      <Button variant={'destructive'} onClick={() => deleteProject()}>
         ลบ
       </Button>
-      <Button
-        className="btn btn-outline-primary font-bold"
-        onClick={() => router.push(`/setting/project/${id}/edit`)}
-      >
-        แก้ไข
-      </Button>
+      <Button onClick={() => router.push(`/setting/project/${id}/edit`)}>แก้ไข</Button>
     </div>
   );
 };

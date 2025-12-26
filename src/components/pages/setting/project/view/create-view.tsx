@@ -9,18 +9,10 @@ const ProjectCreateButton = (): React.ReactNode => {
   const router = useRouter();
   return (
     <div className="flex align-middle gap-2">
-      <Button
-        className="btn btn-outline font-bold"
-        variant={'outline'}
-        onClick={() => router.push('/setting/project')}
-      >
+      <Button variant={'outline'} onClick={() => router.push('/setting/project')}>
         ยกเลิก
       </Button>
-      <Button
-        className="btn btn-outline-primary font-bold"
-        type="submit"
-        form="project-create-form"
-      >
+      <Button type="submit" form="project-create-form">
         บันทึก
       </Button>
     </div>

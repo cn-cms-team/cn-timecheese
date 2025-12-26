@@ -49,7 +49,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     });
 
     if (!project) {
-      return Response.json({ error: 'ไม่พบข้อมูลโครงการ', status: 404 });
+      return Response.json({ error: 'Project Not Found', status: 404 });
     }
 
     const referenceMember = await prisma.timeSheet.findMany({
@@ -230,7 +230,6 @@ export async function POST(request: NextRequest) {
     if (createTasks.length) {
       await prisma.projectTaskType.createMany({
         data: createTasks.map((task) => ({
-          id: crypto.randomUUID(),
           type: task.type,
           project_id: result.id,
           task_type_id: task.task_type_id,

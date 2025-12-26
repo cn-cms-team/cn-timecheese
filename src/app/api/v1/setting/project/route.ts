@@ -43,11 +43,8 @@ export async function POST(request: Request) {
     const body = await request.json();
     const data = body.data as IProject;
 
-    const projectId = `${crypto.randomUUID()}`;
-
-    await prisma.project.create({
+    const project = await prisma.project.create({
       data: {
-        id: projectId,
         name: data.name,
         code: data.code,
         description: data.description,
@@ -63,7 +60,7 @@ export async function POST(request: Request) {
     });
 
     const memberMap = body.data.member.map((item: ProjectMemberSchemaType) => ({
-      project_id: projectId,
+      project_id: project.id,
       user_id: item.user_id,
       role: item.role,
       day_price: item.day_price,
@@ -79,7 +76,7 @@ export async function POST(request: Request) {
 
     const task = [...data.main_task_type, ...data.optional_task_type].map((item) => ({
       ...item,
-      project_id: projectId,
+      project_id: project.id,
     }));
 
     await prisma.projectTaskType.createMany({

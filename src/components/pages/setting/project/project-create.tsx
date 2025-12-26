@@ -35,6 +35,7 @@ import { TitleGroup } from '@/components/ui/custom/cev';
 import { taskTypeOption } from '@/lib/constants/task';
 import { toast } from 'sonner';
 import { IOptionGroups } from '@/types/dropdown';
+import { MAX_LENGTH_20, MAX_LENGTH_25, MAX_LENGTH_255 } from '@/lib/constants/validation';
 
 const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
@@ -156,7 +157,6 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   };
 
   const headersTableMember = [
-    // { label: 'ทีม', className: 'text-center min-w-50 max-w-50' },
     { label: 'ชื่อ-นามสกุล', className: 'text-center min-w-60 max-w-60' },
     { label: 'ตำแหน่ง', className: 'text-center min-w-60 max-w-60' },
     { label: 'ค่าใช้จ่ายต่อวัน', className: 'text-center min-w-60 max-w-60' },
@@ -264,6 +264,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                           <Input
                             autoComplete="off"
                             placeholder="รหัสโครงการ"
+                            maxLength={MAX_LENGTH_25}
                             {...field}
                             onInput={(e) => {
                               field.onChange(e);
@@ -286,6 +287,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                         <FormControl>
                           <Input
                             placeholder="ชื่อโครงการ"
+                            maxLength={MAX_LENGTH_255}
                             {...field}
                             onInput={(e) => {
                               field.onChange(e);
@@ -453,6 +455,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                         <FormControl>
                           <Textarea
                             placeholder="คำอธิบาย"
+                            maxLength={MAX_LENGTH_255}
                             {...field}
                             value={field.value ?? ''}
                             onChange={field.onChange}

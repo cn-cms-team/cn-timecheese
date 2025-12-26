@@ -15,10 +15,7 @@ const AddProjectButton = (): React.ReactNode => {
   const router = useRouter();
   return (
     <div>
-      <Button
-        className="btn btn-outline-primary font-bold"
-        onClick={() => router.push('/setting/project/create')}
-      >
+      <Button onClick={() => router.push('/setting/project/create')}>
         <Presentation className="w-4 h-4" />
         เพิ่มโครงการ
       </Button>

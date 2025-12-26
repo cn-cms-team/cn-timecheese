@@ -2,7 +2,6 @@ import z from 'zod';
 
 const memberDetailSchema = z.object({
   id: z.string().uuid().optional(),
-  // team_id: z.string().uuid().optional(),
   user_id: z.string(),
   role: z.string().nonempty('กรุณากรอกตำแหน่ง'),
   day_price: z.number().optional(),
