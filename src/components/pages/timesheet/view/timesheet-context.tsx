@@ -1,9 +1,4 @@
 'use client';
-import { DAYTASKSTATUS, PERIODCALENDAR } from '@/lib/constants/period-calendar';
-import { fetcher } from '@/lib/fetcher';
-import { IOptions } from '@/types/dropdown';
-import { ITimeSheetResponse, ITimeSheetUserInfoResponse } from '@/types/timesheet';
-import { format } from 'date-fns';
 import {
   createContext,
   Dispatch,
@@ -14,6 +9,13 @@ import {
   useMemo,
   useState,
 } from 'react';
+
+import { format, isBefore, startOfDay } from 'date-fns';
+
+import { fetcher } from '@/lib/fetcher';
+import { IOptions } from '@/types/dropdown';
+import { DAYTASKSTATUS, PERIODCALENDAR } from '@/lib/constants/period-calendar';
+import { ITimeSheetResponse, ITimeSheetUserInfoResponse } from '@/types/timesheet';
 
 interface ITimeSheetContextType {
   loading: boolean;
@@ -42,6 +44,7 @@ interface ITimeSheetContextType {
   deleteTask: (taskId: string) => Promise<void>;
   getDailyWorkSeconds: () => Map<string, number>;
   getDayStatus: (day: Date, dailyTaskMap: Map<string, number>) => DAYTASKSTATUS;
+  isPastDay: (day: Date) => boolean;
 }
 
 interface ITimeSheetProviderProps {
@@ -205,6 +208,11 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
     return DAYTASKSTATUS.COMPLETED;
   };
 
+  const isPastDay = (day: Date) => {
+    const today = startOfDay(new Date());
+    return isBefore(startOfDay(day), today);
+  };
+
   useEffect(() => {
     getTask();
   }, [period, selectedCalendar, selectedMonth, selectedYear]);
@@ -223,6 +231,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         taskTypeOptions,
         userInfo,
         dailySecondsMap,
+        isPastDay,
         setIsPopoverEdit,
         setLoading,
         setPeriod,

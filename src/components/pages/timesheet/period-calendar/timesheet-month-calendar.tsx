@@ -1,16 +1,27 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import TimeSheetPopover from '../timesheet-popover';
-import TimeSheetForm from '../timesheet-form';
-import { useTimeSheetContext } from '../view/timesheet-context';
-import TimeSheetdataDetail from '../timesheet-task-detail';
 import { useState } from 'react';
+import { isSameDay } from 'date-fns';
+
+import { cn } from '@/lib/utils';
+import { DAYTASKSTATUS } from '@/lib/constants/period-calendar';
+
+import TimeSheetForm from '../timesheet-form';
+import TimeSheetPopover from '../timesheet-popover';
+import TimeSheetdataDetail from '../timesheet-task-detail';
+import { useTimeSheetContext } from '../view/timesheet-context';
 
 const TimeSheetMonthCalendar = () => {
-  const now = new Date();
-  const { tasks, selectedMonth, selectedYear, selectedCalendar, setSelectedCalendar } =
-    useTimeSheetContext();
+  const {
+    tasks,
+    selectedMonth,
+    dailySecondsMap,
+    selectedYear,
+    selectedCalendar,
+    getDayStatus,
+    isPastDay,
+    setSelectedCalendar,
+  } = useTimeSheetContext();
   const year = selectedYear;
   const month = selectedMonth.getMonth();
 
@@ -47,6 +58,7 @@ const TimeSheetMonthCalendar = () => {
         ))}
         {totalSlots.map((day, index) => {
           const isBlank = !day;
+          const dayOfMonth = new Date(selectedYear, selectedMonth.getMonth(), day);
 
           if (isBlank) {
             return (
@@ -61,6 +73,13 @@ const TimeSheetMonthCalendar = () => {
 
           const visibleTasks = dayTasks.slice(0, 3);
           const hiddenTasks = dayTasks.slice(3);
+
+          const isToday = isSameDay(dayOfMonth, new Date());
+          const isPast = isPastDay(dayOfMonth);
+          const status = getDayStatus(dayOfMonth, dailySecondsMap);
+          const noTask = isPast && status === DAYTASKSTATUS.NOTASK;
+          const inCompleted = isPast && status === DAYTASKSTATUS.INPROGRESS;
+
           return (
             <div key={index} className="relative min-h-[140px] max-h-[140px] overflow-hidden ">
               <TimeSheetPopover
@@ -68,17 +87,22 @@ const TimeSheetMonthCalendar = () => {
                 align="center"
                 triggerContent={
                   <div
-                    className="z-10 hover:bg-neutral-200 border-neutral-400 border-t border-r  cursor-pointer p-2  transition-colors relative group min-h-36 space-y-1"
+                    className={cn(
+                      'z-10 hover:bg-neutral-200 border-neutral-400 border-t border-r  cursor-pointer p-2  transition-colors relative group min-h-36 space-y-1'
+                    )}
                     onClick={() => {
                       setSelectedCalendar(new Date(year, month, day));
                     }}
                   >
                     <div
                       className={cn(
-                        'mb-2',
-                        checkIsNotToday(now, day)
-                          ? 'bg-transparent  h-full'
-                          : 'bg-black text-white w-5 h-5 p-4 flex justify-center items-center rounded-full'
+                        'mb-1 bg-transparent h-full',
+                        inCompleted &&
+                          'bg-[#ffa722] font-semibold text-black w-4 h-4 p-4 flex justify-center items-center rounded-full',
+                        noTask &&
+                          'bg-destructive text-white w-5 h-5 p-4 flex justify-center items-center rounded-full',
+                        isToday &&
+                          'bg-black text-white w-5 h-5 p-4 flex justify-center items-center rounded-full'
                       )}
                     >
                       {day}

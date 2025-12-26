@@ -13,6 +13,7 @@ import TimeSheetWeekCalendarBody from './timesheet-week-calendar-body';
 
 const TimeSheetWeekCalendar = () => {
   const {
+    isPastDay,
     getDayStatus,
     dailySecondsMap,
     selectedMonth,
@@ -52,11 +53,6 @@ const TimeSheetWeekCalendar = () => {
 
       return next;
     });
-  };
-
-  const isPastDay = (day: Date) => {
-    const today = startOfDay(new Date());
-    return isBefore(startOfDay(day), today);
   };
 
   useEffect(() => {
