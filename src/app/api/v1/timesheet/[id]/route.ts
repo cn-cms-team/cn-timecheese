@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth();
-  if (!session || !session.user?.id) {
+  if (!session) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
