@@ -2,7 +2,6 @@ export { default as TimeSheetView } from './view/timesheet-view';
 export { default as TimeSheetProvider } from './view/timesheet-context';
 export { default as TimeSheetHeader } from './header/timesheet-header';
 export { default as TimeSheetUserInfo } from './header/timesheet-user-info';
-export { default as TimeSheetCalendar } from './header/timesheet-calendar';
 export { default as TimeSheetTimeSummary } from './header/timesheet-time-summary';
 export { default as TimeSheetPeriodSelection } from './header/timesheet-period-selection';
 export { default as TimeSheetCalendarBody } from './timesheet-calendar-body';
