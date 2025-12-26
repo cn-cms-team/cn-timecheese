@@ -2,7 +2,7 @@ import { TimeSheetView } from '@/components/pages/timesheet';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Time Sheet - CN Timesheet',
+  title: 'Time Sheet - CN Time Cheese',
   description: 'CN Timesheet',
 };
 
