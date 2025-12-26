@@ -39,7 +39,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
     if (team) {
       const leaderIds = (team.teamLeaders ?? []).map((tl) => tl.user_id).filter(Boolean);
-      console.log(team.users);
       const usersUi = (team.users ?? []).map((u) => ({
         id: u.id,
         name: `${u.first_name ?? ''} ${u.last_name ?? ''}`.trim(),
