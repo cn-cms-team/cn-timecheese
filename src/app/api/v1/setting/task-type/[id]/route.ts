@@ -58,7 +58,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
       return Response.json({ error: 'Task Type ID is required' }, { status: 400 });
     }
 
-    const timeSheet = await prisma.timeSheet.findFirst({
+    const timeSheet = await prisma.projectTaskType.findFirst({
       where: { task_type_id: id },
     });
     if (timeSheet) {
