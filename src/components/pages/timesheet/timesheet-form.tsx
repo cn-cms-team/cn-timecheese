@@ -327,6 +327,7 @@ const TimeSheetForm = ({
                     <Textarea
                       value={field.value}
                       placeholder="กรอกรายละเอียดการทำงาน"
+                      maxLength={500}
                       onChange={(value) => field.onChange(value)}
                       isError={form.formState.errors.detail ? true : false}
                     />
