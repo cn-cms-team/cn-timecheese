@@ -17,6 +17,7 @@ import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { useTimeSheetContext } from './view/timesheet-context';
 import TimeInput from '@/components/ui/custom/input/time-input';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { defaultPeriodReportValue } from '../../../lib/functions/date-format';
 
 interface IProps {
   close?: () => void;
@@ -87,7 +88,7 @@ const TimeSheetForm = ({
         start_date: new Date(start).toISOString(),
         end_date: new Date(end).toISOString(),
         exclude_seconds: value.is_include_breaking_time ? value.exclude ?? 0 : null,
-        project_task_type_id: data?.project_task_type_id!,
+        project_task_type_id: value?.project_task_type_id!,
         detail: value.detail,
       };
 
@@ -146,15 +147,6 @@ const TimeSheetForm = ({
     return hh * 3600 + mm * 60;
   };
 
-  const hasFetchedRef = useRef(false);
-
-  useEffect(() => {
-    if (!data || hasFetchedRef.current || !data.project_id) return;
-
-    hasFetchedRef.current = true;
-    fetchTaskOption(data.project_id);
-  }, [data]);
-
   return (
     <div className="flex flex-col w-full p-4 space-y-4">
       <main className="w-full space-y-4">
@@ -178,6 +170,7 @@ const TimeSheetForm = ({
                         onSelect={(value) => {
                           field.onChange(value);
                           fetchTaskOption(value);
+                          form.resetField('project_task_type_id');
                         }}
                         isError={form.formState.errors.project_id ? true : false}
                       />
