@@ -6,9 +6,9 @@ const basePositionSchema = z.object({
     .trim()
     .transform((val) => val.replace(/\s+/g, ' '))
     .pipe(
-      z.string().min(1, 'กรุณากรอกชื่อตำแหน่ง').max(100, 'ห้ามกรอกชื่อตำแหน่งเกิน 100 ตัวอักษร')
+      z.string().min(1, 'กรุณากรอกชื่อตำแหน่ง')
     ),
-  description: z.string().trim().max(255, 'ห้ามกรอกชื่อตำแหน่งเกิน 255 ตัวอักษร').optional(),
+  description: z.string().trim().optional(),
   levels: z.array(
     z.object({
       name: z
@@ -16,9 +16,9 @@ const basePositionSchema = z.object({
         .trim()
         .transform((val) => val.replace(/\s+/g, ' '))
         .pipe(
-          z.string().min(1, 'กรุณากรอกชื่อตำแหน่ง').max(100, 'ห้ามกรอกชื่อตำแหน่งเกิน 100 ตัวอักษร')
+          z.string().min(1, 'กรุณากรอกชื่อตำแหน่ง')
         ),
-      description: z.string().max(255, 'ห้ามกรอกชื่อตำแหน่งเกิน 255 ตัวอักษร').optional(),
+      description: z.string().optional(),
     })
   ),
 });
