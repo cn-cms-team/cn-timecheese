@@ -5,7 +5,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     const { id } = await params;
 
     if (!id) {
-      return Response.json({ message: 'project_id is required' }, { status: 400 });
+      return Response.json({ message: 'Project ID is required' }, { status: 400 });
     }
 
     const result = await prisma.projectTaskType.findMany({
