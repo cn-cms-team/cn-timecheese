@@ -14,10 +14,10 @@ const TimeSheetColorLegend = () => {
       label: 'ไม่ได้ลงเวลา',
       color: '#ff0000',
     },
-    {
-      label: 'วันหยุด',
-      color: '#D9D9D9',
-    },
+    // {
+    //   label: 'วันหยุด',
+    //   color: '#D9D9D9',
+    // },
   ];
 
   return (
