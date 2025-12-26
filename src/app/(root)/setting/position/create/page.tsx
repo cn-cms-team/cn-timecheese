@@ -2,8 +2,8 @@ import PostionCreateView from '@/components/pages/setting/position/view/create-v
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Create Postion - CN Timesheet',
-  description: 'CN Timesheet',
+  title: 'Create Postion - Time Cheese',
+  description: 'Time Cheese',
 };
 
 const PositionCreateSetting = async () => {
