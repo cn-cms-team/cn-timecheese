@@ -1,6 +1,5 @@
 'use client';
 
-import { Plus } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import {
@@ -12,7 +11,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import {
   createPositionSchema,
   CreatePositionSchemaType,
@@ -23,6 +22,9 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { Textarea } from '@/components/ui/textarea';
 import PositionLevelCreate from './position-level-create';
 import { IPositionLevel } from '@/types/setting/position';
+import { toast } from 'sonner';
+import BtnPositionLevelCreate from './position-level-create-btn';
+import PositionLevelCreateBtn from './position-level-create-btn';
 
 const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
@@ -69,9 +71,6 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
     }
   }, []);
 
-  const searchParams = useSearchParams();
-  const from = searchParams.get('from')
-
   const onSubmit = async (values: CreatePositionSchemaType | EditPositionSchemaType) => {
     try {
       let fetchUrl = '/api/v1/setting/position';
@@ -96,15 +95,17 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
         },
         body: JSON.stringify({ data }),
       });
+      const result = await response.json();
       if (response.ok) {
-        if (from == 'detail') {
-          router.push(`/setting/position/${id}`);
+        if (id) {
+          toast.success(result.message);
         } else {
-          router.push('/setting/position');
+          toast.success(result.message);
         }
+        router.push('/setting/position');
       }
     } catch {
-      console.error('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       console.log('Finally block executed');
     }
@@ -113,8 +114,8 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
   return (
     <Form {...form}>
       <form id="position-create-form" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="w-full h-205 lg:h-190 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:px-10 items-center">
-          <div className="w-full h-95 lg:h-170 border px-5 py-5 rounded-sm text-lg">
+        <div className="w-full h-205 lg:h-210 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:px-10 items-center">
+          <div className="w-full h-95 lg:h-190 border px-5 py-5 rounded-sm text-lg">
             <div>
               <h1 className="font-semibold">ข้อมูลตำแหน่ง</h1>
             </div>
@@ -132,9 +133,10 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
                       </FormLabel>
                       <FormControl>
                         <Input
+                          maxLength={100}
+                          {...field}
                           autoComplete="off"
                           placeholder="กรุณากรอกชื่อตำแหน่ง"
-                          {...field}
                           onInput={(e) => {
                             field.onChange(e);
                           }}
@@ -152,6 +154,7 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
                       <FormLabel>คำอธิบาย</FormLabel>
                       <FormControl>
                         <Textarea
+                          maxLength={255}
                           {...field}
                           value={field.value}
                           className="h-20"
@@ -169,16 +172,10 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
               </div>
             </div>
           </div>
-          <div className="w-full h-95 lg:h-170 border px-10 py-5 rounded-sm text-lg overflow-auto">
+          <div className="w-full h-95 lg:h-190 border px-10 py-5 rounded-sm text-lg overflow-auto">
             <div className="flex justify-between items-center">
               <h1 className="font-semibold">ระดับตำแหน่ง</h1>
-              <button
-                type="button"
-                onClick={() => append({ name: '', description: '' })}
-                className="bg-yellow-400 rounded-sm px-3 py-1 cursor-pointer transition-all duration-100 hover:bg-yellow-300"
-              >
-                <Plus size={15} />
-              </button>
+              <PositionLevelCreateBtn onAppend={() => append({ name: '', description: '' })}/>
             </div>
             <hr className="mt-1" />
             <div>
@@ -199,3 +196,4 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
   );
 };
 export default PositionCreate;
+
