@@ -31,8 +31,8 @@ const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
   return (
     <div className="grid grid-cols-1 p-4 max-w-[320px]">
       <header className="flex items-center justify-between w-full gap-2">
-        <div className="truncate">
-          <h3 className="font-bold">{data.project_name}</h3>
+        <div>
+          <h3 className="font-bold truncate">{data.project_name}</h3>
         </div>
         <div className="flex items-center gap-2">
           <button
