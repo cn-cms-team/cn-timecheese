@@ -179,7 +179,7 @@ model PositionLevel {
   description String?  @db.VarChar(255)
   position_id String   @db.Char(36)
   position    Position @relation(fields: [position_id], references: [id])
-  ord      Int?
+  ord         Int?
 
   is_enabled Boolean @default(true)
   users      User[]
@@ -195,7 +195,6 @@ model TaskType {
 
   is_active        Boolean           @default(true)
   projectTaskTypes ProjectTaskType[]
-  timeSheets       TimeSheet[]
 
   @@map("task_types")
 }
@@ -274,27 +273,28 @@ model ProjectTaskType {
   name         String       @db.VarChar(100)
   description  String       @db.VarChar(255)
 
-  project   Project   @relation(fields: [project_id], references: [id])
-  task_type TaskType? @relation(fields: [task_type_id], references: [id])
+  project    Project     @relation(fields: [project_id], references: [id])
+  task_type  TaskType?   @relation(fields: [task_type_id], references: [id])
+  timeSheets TimeSheet[]
 
   @@map("project_task_types")
 }
 
 model TimeSheet {
-  id            String   @id @default(uuid()) @db.Char(36)
-  user_id       String   @db.Char(36)
-  user          User     @relation(fields: [user_id], references: [id])
-  project_id    String   @db.Char(36)
-  project       Project  @relation(fields: [project_id], references: [id])
-  task_type_id  String   @db.Char(36)
-  task_type     TaskType @relation(fields: [task_type_id], references: [id])
-  stamp_date    DateTime @db.Date
-  start_date    DateTime
-  end_date      DateTime
-  exclude_seconds Int?
-  total_seconds Int
-  detail        String?  @db.VarChar(500)
-  remark        String?  @db.VarChar(255)
+  id                   String           @id @default(uuid()) @db.Char(36)
+  user_id              String           @db.Char(36)
+  user                 User             @relation(fields: [user_id], references: [id])
+  project_id           String           @db.Char(36)
+  project              Project          @relation(fields: [project_id], references: [id])
+  project_task_type_id String?          @db.Char(36)
+  project_task_type    ProjectTaskType? @relation(fields: [project_task_type_id], references: [id])
+  stamp_date           DateTime         @db.Date
+  start_date           DateTime
+  end_date             DateTime
+  exclude_seconds      Int?
+  total_seconds        Int
+  detail               String?          @db.VarChar(500)
+  remark               String?          @db.VarChar(255)
 
   created_at DateTime @default(now())
 

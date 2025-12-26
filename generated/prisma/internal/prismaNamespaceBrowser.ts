@@ -275,7 +275,7 @@ export const TimeSheetScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
   project_id: 'project_id',
-  task_type_id: 'task_type_id',
+  project_task_type_id: 'project_task_type_id',
   stamp_date: 'stamp_date',
   start_date: 'start_date',
   end_date: 'end_date',

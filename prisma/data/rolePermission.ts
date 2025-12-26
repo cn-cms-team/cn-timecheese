@@ -39,6 +39,16 @@ export const rolePermissionAdmin = [
   },
   {
     role_id: '3f6a9e2c-8c4d-4c9b-a2d5-9b2c7e1a4f63',
+    module_code: EModules.REPORT_TEAM_STATUS,
+    pms_code: EPermissions.VIEW,
+  },
+  {
+    role_id: '3f6a9e2c-8c4d-4c9b-a2d5-9b2c7e1a4f63',
+    module_code: EModules.REPORT_TEAM_STATUS,
+    pms_code: EPermissions.EXPORT,
+  },
+  {
+    role_id: '3f6a9e2c-8c4d-4c9b-a2d5-9b2c7e1a4f63',
     module_code: EModules.ADMIN_USER,
     pms_code: EPermissions.VIEW,
   },
