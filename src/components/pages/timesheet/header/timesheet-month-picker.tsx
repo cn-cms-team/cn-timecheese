@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { buddhistFormatDate } from '@/lib/functions/date-format';
 
+import { Button } from '@/components/ui/button';
 import { useTimeSheetContext } from '../view/timesheet-context';
 
 interface IProps {
@@ -42,32 +43,32 @@ const TimeSheetMonthPicker = ({ current, className, onSelect }: IProps) => {
   return (
     <div className={cn('w-full h-full p-2 bg-white rounded-lg', className)}>
       <div className="flex justify-center gap-x-4 items-center w-full">
-        <button
-          className="cursor-pointer font-bold"
+        <Button
+          className="cursor-pointer font-bold bg-transparent p-0 hover:bg-transparent"
           onClick={() => {
             const next = subYears(selectedMonth, 1);
             setSelectedMonth(next);
             setSelectedYear(next.getFullYear());
           }}
         >
-          <ChevronLeft width={14} strokeWidth={4} />
-        </button>
-        <button
-          className="text-lg font-semibold cursor-pointer py-1 px-2 rounded-lg flex items-center justify-center border border-transparent hover:border-gray-400 hover:scale-105 transition-all"
+          <ChevronLeft width={14} strokeWidth={4} stroke="#000" />
+        </Button>
+        <Button
+          className="text-lg bg-transparent text-black font-semibold cursor-pointer py-1 px-2 rounded-lg flex items-center justify-center border border-transparent hover:border-gray-400 hover:scale-105 transition-all hover:bg-transparent"
           onClick={() => setShowYearPicker(!showYearPicker)}
         >
           {buddhistFormatDate(String(currentYear), 'yyyy')}
-        </button>
-        <button
-          className="cursor-pointer font-bold"
+        </Button>
+        <Button
+          className="cursor-pointer font-bold bg-transparent p-0 hover:bg-transparent"
           onClick={() => {
             const next = addYears(selectedMonth, 1);
             setSelectedMonth(next);
             setSelectedYear(next.getFullYear());
           }}
         >
-          <ChevronRight width={14} strokeWidth={4} />
-        </button>
+          <ChevronRight width={14} strokeWidth={4} stroke="#000" />
+        </Button>
       </div>
       {(() => {
         if (showYearPicker) {
@@ -76,15 +77,15 @@ const TimeSheetMonthPicker = ({ current, className, onSelect }: IProps) => {
               <div className="grid grid-cols-4 gap-2">
                 {Array.from({ length: 20 }, (_, index) => currentYear - 10 + index).map(
                   (year, index) => (
-                    <button
+                    <Button
                       key={year}
-                      className={` text-center rounded-lg cursor-pointer hover:bg-gray-200 px-4 py-2 flex items-center justify-center ${
+                      className={`text-center rounded-lg cursor-pointer hover:bg-yellow-200 bg-transparent text-black px-4 py-2 flex items-center justify-center ${
                         index === currentMonth ? 'bg-primary text-black hover:text-black' : ''
                       } `}
                       onClick={() => handleYearChange(year)}
                     >
                       {buddhistFormatDate(String(year), 'yyyy')}
-                    </button>
+                    </Button>
                   )
                 )}
               </div>
@@ -94,9 +95,9 @@ const TimeSheetMonthPicker = ({ current, className, onSelect }: IProps) => {
           return (
             <div className="grid grid-cols-3 gap-1">
               {Array.from({ length: 12 }, (_, index) => (
-                <button
+                <Button
                   key={index}
-                  className={`py-1 text-center text-sm rounded-md cursor-pointer hover:bg-yellow-200 font-semibold ${
+                  className={`py-1 text-center text-sm rounded-md cursor-pointer bg-transparent text-black hover:bg-yellow-200 font-semibold ${
                     index === selectedMonth.getMonth()
                       ? 'bg-primary text-black hover:text-black'
                       : ''
@@ -104,7 +105,7 @@ const TimeSheetMonthPicker = ({ current, className, onSelect }: IProps) => {
                   onClick={() => handleMonthSelect(index)}
                 >
                   {buddhistFormatDate(new Date(2021, index), 'mmm')}
-                </button>
+                </Button>
               ))}
             </div>
           );

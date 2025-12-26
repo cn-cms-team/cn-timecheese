@@ -1,13 +1,14 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { addDays, addWeeks, format, isSameDay, startOfWeek } from 'date-fns';
 
 import { cn } from '@/lib/utils';
 import { th } from 'date-fns/locale';
 import { formatDate } from '@/lib/functions/date-format';
-import { DAYTASKSTATUS } from '@/lib/constants/period-calendar';
-import { addDays, addWeeks, format, isBefore, isSameDay, startOfDay, startOfWeek } from 'date-fns';
-
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { DAYTASKSTATUS } from '@/lib/constants/period-calendar';
+
+import { Button } from '@/components/ui/button';
 import { useTimeSheetContext } from '../view/timesheet-context';
 import TimeSheetWeekCalendarBody from './timesheet-week-calendar-body';
 
@@ -66,12 +67,12 @@ const TimeSheetWeekCalendar = () => {
   return (
     <div className="flex flex-col h-full bg-[#F5F6F8] overflow-hidden">
       <div className="flex items-center border-b border-neutral-300 bg-[#F5F6F8] relative">
-        <button
+        <Button
           onClick={handlePrevWeek}
-          className="px-3 absolute left-13 h-full flex items-center min-w-[54px] cursor-pointer"
+          className="px-3 absolute left-13 h-full flex items-center min-w-[54px] cursor-pointer p-0 bg-transparent hover:bg-transparent"
         >
-          <ChevronLeft />
-        </button>
+          <ChevronLeft stroke="#000" />
+        </Button>
 
         <div className="flex flex-1 ms-13.5">
           {weekDays.map((day, idx) => {
@@ -115,12 +116,12 @@ const TimeSheetWeekCalendar = () => {
           })}
         </div>
 
-        <button
+        <Button
           onClick={handleNextWeek}
-          className="px-3 absolute -right-3 h-full flex items-center min-w-[54px] cursor-pointer"
+          className="px-3 absolute -right-3 h-full flex items-center min-w-[54px] cursor-pointer p-0 bg-transparent hover:bg-transparent "
         >
-          <ChevronRight />
-        </button>
+          <ChevronRight stroke="#000" />
+        </Button>
       </div>
 
       <div className="flex-1 relative  bg-[#F5F6F8]">

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { isSameDay } from 'date-fns';
 
 import { cn } from '@/lib/utils';
-import { DAYTASKSTATUS } from '@/lib/constants/period-calendar';
+import { DAYS, DAYTASKSTATUS } from '@/lib/constants/period-calendar';
 
 import TimeSheetForm from '../timesheet-form';
 import TimeSheetPopover from '../timesheet-popover';
@@ -48,7 +48,7 @@ const TimeSheetMonthCalendar = () => {
   return (
     <div className="flex-1 overflow-y-auto relative custom-scrollbar bg-[#F5F6F8]">
       <div className="grid grid-cols-7 bg-[#F5F6F8] border border-neutral-400 rounded-lg overflow-hidden shadow-lg">
-        {['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'].map((d) => (
+        {DAYS.map((d) => (
           <div
             key={d}
             className="py-2 text-center font-bold text-neutral-800 uppercase bg-[#F5F6F8] border-neutral-400"
