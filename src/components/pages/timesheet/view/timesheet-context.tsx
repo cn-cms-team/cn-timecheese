@@ -9,7 +9,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-
+import { toast } from 'sonner';
 import { format, isBefore, startOfDay } from 'date-fns';
 
 import { fetcher } from '@/lib/fetcher';
@@ -153,9 +153,12 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
     const res = await fetch(`${prefix}/api/v1/timesheet/${taskId}`, {
       method: 'DELETE',
     });
+    const json = await res.json();
 
     if (!res.ok) {
       throw new Error('Failed to delete task');
+    } else {
+      toast(json.message);
     }
 
     await getTask();
