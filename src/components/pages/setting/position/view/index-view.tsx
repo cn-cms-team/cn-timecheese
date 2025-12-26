@@ -9,6 +9,7 @@ import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { createColumns } from '../position-list-columns';
 import { PositionList } from '../postion-list';
 import { IPosition } from '@/types/setting/position';
+import { toast } from 'sonner';
 
 const PositionButton = (): React.ReactNode => {
   const router = useRouter();
@@ -56,10 +57,11 @@ const PostionListView = () => {
     const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/position/${id}`;
     await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
       router.push('/setting/position');
+      toast.success('Delete Success!')
     });
   };
 
-  const handleOpenDialog = async (mode: 'edit' | 'delete', isActive: boolean, id: string, {name}: {name : string}) => {
+  const handleOpenDialog = async (mode: 'edit' | 'delete' , id: string , {name}: {name : string}) => {
     try {
       if (mode === 'edit') {
         setConfirmState({
