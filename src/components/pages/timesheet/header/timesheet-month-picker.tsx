@@ -1,20 +1,20 @@
 'use client';
-import { buddhistFormatDate } from '@/lib/functions/date-format';
-import { cn } from '@/lib/utils';
-import { addYears, subYears } from 'date-fns';
 import { useState } from 'react';
-import { useTimeSheetContext } from '../view/timesheet-context';
+import { addYears, subYears } from 'date-fns';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+import { cn } from '@/lib/utils';
+import { buddhistFormatDate } from '@/lib/functions/date-format';
+
+import { useTimeSheetContext } from '../view/timesheet-context';
 
 interface IProps {
   current?: number;
-  minYear?: number;
-  maxYear?: number;
   className?: string;
   onSelect?: (month: number) => void;
 }
 
-const MonthPicker = ({ current, minYear, maxYear, className, onSelect }: IProps) => {
+const TimeSheetMonthPicker = ({ current, className, onSelect }: IProps) => {
   const { selectedMonth, selectedYear, setSelectedMonth, setSelectedYear } = useTimeSheetContext();
   const [showYearPicker, setShowYearPicker] = useState(false);
 
@@ -114,4 +114,4 @@ const MonthPicker = ({ current, minYear, maxYear, className, onSelect }: IProps)
   );
 };
 
-export default MonthPicker;
+export default TimeSheetMonthPicker;
