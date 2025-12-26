@@ -44,7 +44,11 @@ const MonthPicker = ({ current, minYear, maxYear, className, onSelect }: IProps)
       <div className="flex justify-center gap-x-4 items-center w-full">
         <button
           className="cursor-pointer font-bold"
-          onClick={() => setSelectedMonth(subYears(selectedMonth, 1))}
+          onClick={() => {
+            const next = subYears(selectedMonth, 1);
+            setSelectedMonth(next);
+            setSelectedYear(next.getFullYear());
+          }}
         >
           <ChevronLeft width={14} strokeWidth={4} />
         </button>
@@ -56,7 +60,11 @@ const MonthPicker = ({ current, minYear, maxYear, className, onSelect }: IProps)
         </button>
         <button
           className="cursor-pointer font-bold"
-          onClick={() => setSelectedMonth(addYears(selectedMonth, 1))}
+          onClick={() => {
+            const next = addYears(selectedMonth, 1);
+            setSelectedMonth(next);
+            setSelectedYear(next.getFullYear());
+          }}
         >
           <ChevronRight width={14} strokeWidth={4} />
         </button>
