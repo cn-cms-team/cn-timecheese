@@ -300,3 +300,16 @@ model TimeSheet {
 
   @@map("time_sheets")
 }
+
+model TimeSheetSummary {
+  user_id       String @db.Char(36)
+  project_id    String @db.Char(36)
+  year          Int
+  total_seconds Int
+
+  stamp_at   DateTime // last time of engagement in the project
+  updated_at DateTime
+
+  @@id([user_id, project_id, year])
+  @@map("time_sheet_summaries")
+}

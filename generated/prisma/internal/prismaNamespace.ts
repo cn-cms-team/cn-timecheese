@@ -398,7 +398,8 @@ export const ModelName = {
   Project: 'Project',
   ProjectMember: 'ProjectMember',
   ProjectTaskType: 'ProjectTaskType',
-  TimeSheet: 'TimeSheet'
+  TimeSheet: 'TimeSheet',
+  TimeSheetSummary: 'TimeSheetSummary'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -414,7 +415,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "role" | "rolePermission" | "permission" | "module" | "modulePermission" | "team" | "teamLeader" | "position" | "positionLevel" | "taskType" | "project" | "projectMember" | "projectTaskType" | "timeSheet"
+    modelProps: "user" | "role" | "rolePermission" | "permission" | "module" | "modulePermission" | "team" | "teamLeader" | "position" | "positionLevel" | "taskType" | "project" | "projectMember" | "projectTaskType" | "timeSheet" | "timeSheetSummary"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1528,6 +1529,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TimeSheetSummary: {
+      payload: Prisma.$TimeSheetSummaryPayload<ExtArgs>
+      fields: Prisma.TimeSheetSummaryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TimeSheetSummaryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeSheetSummaryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TimeSheetSummaryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeSheetSummaryPayload>
+        }
+        findFirst: {
+          args: Prisma.TimeSheetSummaryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeSheetSummaryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TimeSheetSummaryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeSheetSummaryPayload>
+        }
+        findMany: {
+          args: Prisma.TimeSheetSummaryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeSheetSummaryPayload>[]
+        }
+        create: {
+          args: Prisma.TimeSheetSummaryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeSheetSummaryPayload>
+        }
+        createMany: {
+          args: Prisma.TimeSheetSummaryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TimeSheetSummaryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeSheetSummaryPayload>[]
+        }
+        delete: {
+          args: Prisma.TimeSheetSummaryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeSheetSummaryPayload>
+        }
+        update: {
+          args: Prisma.TimeSheetSummaryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeSheetSummaryPayload>
+        }
+        deleteMany: {
+          args: Prisma.TimeSheetSummaryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TimeSheetSummaryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TimeSheetSummaryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeSheetSummaryPayload>[]
+        }
+        upsert: {
+          args: Prisma.TimeSheetSummaryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TimeSheetSummaryPayload>
+        }
+        aggregate: {
+          args: Prisma.TimeSheetSummaryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTimeSheetSummary>
+        }
+        groupBy: {
+          args: Prisma.TimeSheetSummaryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TimeSheetSummaryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TimeSheetSummaryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TimeSheetSummaryCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1772,6 +1847,18 @@ export const TimeSheetScalarFieldEnum = {
 export type TimeSheetScalarFieldEnum = (typeof TimeSheetScalarFieldEnum)[keyof typeof TimeSheetScalarFieldEnum]
 
 
+export const TimeSheetSummaryScalarFieldEnum = {
+  user_id: 'user_id',
+  project_id: 'project_id',
+  year: 'year',
+  total_seconds: 'total_seconds',
+  stamp_at: 'stamp_at',
+  updated_at: 'updated_at'
+} as const
+
+export type TimeSheetSummaryScalarFieldEnum = (typeof TimeSheetSummaryScalarFieldEnum)[keyof typeof TimeSheetSummaryScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2002,6 +2089,7 @@ export type GlobalOmitConfig = {
   projectMember?: Prisma.ProjectMemberOmit
   projectTaskType?: Prisma.ProjectTaskTypeOmit
   timeSheet?: Prisma.TimeSheetOmit
+  timeSheetSummary?: Prisma.TimeSheetSummaryOmit
 }
 
 /* Types for Logging */

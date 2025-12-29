@@ -65,7 +65,8 @@ export const ModelName = {
   Project: 'Project',
   ProjectMember: 'ProjectMember',
   ProjectTaskType: 'ProjectTaskType',
-  TimeSheet: 'TimeSheet'
+  TimeSheet: 'TimeSheet',
+  TimeSheetSummary: 'TimeSheetSummary'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -287,6 +288,18 @@ export const TimeSheetScalarFieldEnum = {
 } as const
 
 export type TimeSheetScalarFieldEnum = (typeof TimeSheetScalarFieldEnum)[keyof typeof TimeSheetScalarFieldEnum]
+
+
+export const TimeSheetSummaryScalarFieldEnum = {
+  user_id: 'user_id',
+  project_id: 'project_id',
+  year: 'year',
+  total_seconds: 'total_seconds',
+  stamp_at: 'stamp_at',
+  updated_at: 'updated_at'
+} as const
+
+export type TimeSheetSummaryScalarFieldEnum = (typeof TimeSheetSummaryScalarFieldEnum)[keyof typeof TimeSheetSummaryScalarFieldEnum]
 
 
 export const SortOrder = {

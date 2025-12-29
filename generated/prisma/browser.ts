@@ -92,3 +92,8 @@ export type ProjectTaskType = Prisma.ProjectTaskTypeModel
  * 
  */
 export type TimeSheet = Prisma.TimeSheetModel
+/**
+ * Model TimeSheetSummary
+ * 
+ */
+export type TimeSheetSummary = Prisma.TimeSheetSummaryModel
