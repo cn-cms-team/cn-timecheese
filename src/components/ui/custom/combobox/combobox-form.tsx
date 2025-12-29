@@ -1,10 +1,10 @@
-import { useRef, useState } from 'react';
+import { Fragment, useRef, useState } from 'react';
 
 import { ControllerRenderProps, FieldValues } from 'react-hook-form';
 import { ChevronDownIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { IOptions } from '@/types/dropdown';
+import { IOptionGroups, IOptions } from '@/types/dropdown';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -19,13 +19,14 @@ import { X } from 'lucide-react';
 import { CommandEmpty } from 'cmdk';
 
 type ComboboxFormProps<TFieldValues extends FieldValues> = {
-  options: IOptions[] | undefined;
+  options: IOptions[] | IOptionGroups[] | undefined;
   placeholder: string;
   field: ControllerRenderProps<TFieldValues>;
   onSelect: (value: string) => void;
   disabled?: boolean;
   canEmpty?: boolean;
   isError?: boolean;
+  isGroup?: boolean;
 };
 const ComboboxForm = <TFieldValues extends FieldValues>({
   options,
@@ -35,6 +36,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
   disabled = false,
   canEmpty = false,
   isError = false,
+  isGroup = false,
 }: ComboboxFormProps<TFieldValues>) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
@@ -61,8 +63,17 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
             disabled={disabled}
           >
             <div className="truncate text-sm font-medium max-w-[95%]">
-              {field.value
-                ? options?.find((language) => language.value === field.value)?.label
+              {field.value && isGroup
+                ? options
+                    ?.flatMap((item) => {
+                      if (item.options && item.options.length > 0) {
+                        return item.options;
+                      }
+                      return item;
+                    })
+                    .find((language) => language.value === field.value)?.label
+                : field.value
+                ? (options as IOptions[])?.find((language) => language.value === field.value)?.label
                 : placeholder}
             </div>
             <div className={`ms-auto ${open ? 'rotate-180' : ''}`}>
@@ -87,27 +98,50 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
           )}
           <CommandList>
             <CommandEmpty className="opacity-50 p-3 text-sm">ไม่พบข้อมูล</CommandEmpty>
-            <CommandGroup>
-              {options && options.length > 0 ? (
-                options?.map((item, index) => (
-                  <CommandItem
-                    value={item.label}
-                    key={`${item.value}-${index}`}
-                    className={`ems-dropdown-item ${item.value === field.value ? 'active' : ''}`}
-                    onSelect={() => {
-                      onSelect(item.value as string);
-                      setOpen(false);
-                    }}
-                  >
-                    {item.label}
+
+            {isGroup && options && options.length > 0 ? (
+              options?.map((groupItem, gIndex) => (
+                <CommandGroup heading={groupItem.label} key={`${groupItem.label}-${gIndex}`}>
+                  {groupItem.options?.map((item: IOptions, index: number) => (
+                    <CommandItem
+                      value={item.label}
+                      key={`${item.value}-${index}`}
+                      className={`tc-dropdown-item ps-5 ${
+                        item.value === field.value ? 'active' : ''
+                      }`}
+                      onSelect={() => {
+                        onSelect(item.value as string);
+                        setOpen(false);
+                      }}
+                    >
+                      {item.label}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              ))
+            ) : (
+              <CommandGroup>
+                {options && options.length > 0 ? (
+                  (options as IOptions[])?.map((item, index) => (
+                    <CommandItem
+                      value={item.label}
+                      key={`${item.value}-${index}`}
+                      className={`tc-dropdown-item ${item.value === field.value ? 'active' : ''}`}
+                      onSelect={() => {
+                        onSelect(item.value as string);
+                        setOpen(false);
+                      }}
+                    >
+                      {item.label}
+                    </CommandItem>
+                  ))
+                ) : (
+                  <CommandItem disabled className="tc-dropdown-item">
+                    ไม่มีข้อมูล
                   </CommandItem>
-                ))
-              ) : (
-                <CommandItem disabled className="ems-dropdown-item">
-                  ไม่มีข้อมูล
-                </CommandItem>
-              )}
-            </CommandGroup>
+                )}
+              </CommandGroup>
+            )}
           </CommandList>
         </Command>
       </PopoverContent>
