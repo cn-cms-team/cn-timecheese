@@ -116,6 +116,36 @@ export async function POST(request: Request) {
       },
     });
 
+    const resSummary = await prisma.timeSheetSummary.upsert({
+      where: {
+        user_id_project_id_year: {
+          user_id: session.user.id,
+          project_id: data.project_id,
+          year: start.getFullYear(),
+        },
+        month: start.getMonth() + 1,
+      },
+      update: {
+        total_seconds: {
+          increment: total_seconds,
+        },
+        updated_at: new Date(),
+      },
+      create: {
+        user_id: session.user.id,
+        project_id: data.project_id,
+        year: start.getFullYear(),
+        month: start.getMonth() + 1,
+        stamp_at: start,
+        total_seconds,
+        updated_at: new Date(),
+      },
+    });
+
+    if (!resSummary) {
+      return Response.json({ error: 'Failed to create timesheet summary' }, { status: 500 });
+    }
+
     return Response.json(
       { message: 'Create Task successfully', data: { id: result.id } },
       { status: 200 }

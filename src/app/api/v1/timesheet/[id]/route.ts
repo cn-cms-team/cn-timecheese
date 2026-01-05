@@ -20,6 +20,15 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   const total_seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
 
   try {
+    const task = await prisma.timeSheet.findUnique({
+      where: { id: id },
+      select: { total_seconds: true },
+    });
+
+    if (!task) {
+      return Response.json({ error: `Task not found` }, { status: 404 });
+    }
+
     const result = await prisma.timeSheet.update({
       where: {
         id: id,
@@ -37,6 +46,44 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       },
     });
 
+    let isIncrement: boolean | null = null;
+    const currentTotalSecond = total_seconds;
+    const oldTotalSecond = task.total_seconds;
+
+    switch (true) {
+      case oldTotalSecond > currentTotalSecond:
+        isIncrement = false;
+        break;
+      case oldTotalSecond < currentTotalSecond:
+        isIncrement = true;
+        break;
+      default:
+        isIncrement = null;
+        break;
+    }
+
+    const diffSeconds = Math.abs(currentTotalSecond - oldTotalSecond);
+
+    const resUpdateSummary = await prisma.timeSheetSummary.update({
+      where: {
+        user_id_project_id_year: {
+          user_id: session.user.id,
+          project_id: data.project_id,
+          year: start.getFullYear(),
+        },
+      },
+      data: {
+        ...(diffSeconds !== 0 && {
+          total_seconds: isIncrement ? { increment: diffSeconds } : { decrement: diffSeconds },
+        }),
+        updated_at: new Date(),
+      },
+    });
+
+    if (!resUpdateSummary) {
+      return Response.json({ error: 'Failed to update timesheet summary' }, { status: 500 });
+    }
+
     return Response.json(
       {
         message: 'Update successfully',
@@ -45,7 +92,6 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       { status: 201 }
     );
   } catch (error) {
-    console.log(error);
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
@@ -69,6 +115,29 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     const result = await prisma.timeSheet.delete({
       where: { id: id as string },
     });
+
+    const resSummary = await prisma.timeSheetSummary.update({
+      where: {
+        user_id_project_id_year: {
+          user_id: session.user.id,
+          project_id: result.project_id,
+          year: result.start_date.getFullYear(),
+        },
+      },
+      data: {
+        total_seconds: {
+          decrement: result.total_seconds,
+        },
+        updated_at: new Date(),
+      },
+    });
+
+    if (!resSummary) {
+      return Response.json(
+        { error: `Failed to update timesheet summary by deleting task_id: ${id}` },
+        { status: 500 }
+      );
+    }
 
     return Response.json(
       {
