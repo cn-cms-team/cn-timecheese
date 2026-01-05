@@ -7,23 +7,20 @@ import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-const PositionViewButton = ({ 
-  id, 
-  onOpenDialog 
-}: { 
-  id: string; 
-  onOpenDialog: (mode: 'edit' | 'delete') => void 
+const PositionViewButton = ({
+  id,
+  onOpenDialog,
+}: {
+  id: string;
+  onOpenDialog: (mode: 'edit' | 'delete') => void;
 }): React.ReactNode => {
   return (
     <div className="flex align-middle">
-      <Button
-        className="btn btn-outline-primary font-bold"
-        onClick={() => onOpenDialog('edit')}
-      >
+      <Button className="btn btn-outline-primary font-bold" onClick={() => onOpenDialog('edit')}>
         แก้ไข
       </Button>
-      <Button 
-        className="btn btn-outline-secondary font-bold ml-2" 
+      <Button
+        className="btn btn-outline-secondary font-bold ml-2"
         onClick={() => onOpenDialog('delete')}
       >
         ลบ
@@ -35,8 +32,6 @@ const PositionViewButton = ({
 const PositionView = ({ id }: { id: string }) => {
   const router = useRouter();
   const [positionName, setPositionName] = useState<string>('');
-  const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/position/${id}`;
-
   const [confirmState, setConfirmState] = useState<{
     title: string;
     message: string;
@@ -60,7 +55,7 @@ const PositionView = ({ id }: { id: string }) => {
 
         const result = await getConfirmation();
         if (result) {
-          router.push(`/setting/position/${id}/edit?from=detail`);
+          router.push(`/setting/position/${id}/edit`);
         }
       } else {
         setConfirmState({
@@ -71,10 +66,18 @@ const PositionView = ({ id }: { id: string }) => {
 
         const result = await getConfirmation();
         if (result && id) {
-          await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
+          const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/position/${id}`;
+          const res = await fetch(fetchUrl, { method: 'DELETE' });
+          const data = await res.json();
+          if (!res.ok) {
+            if (res.status === 400 && data.code === 'POSITION_IN_USE') {
+              toast.error('ระดับตำแหน่งถูกใช้งานอยู่ ไม่สามารถลบได้');
+              return;
+            }
+          } else {
             router.push('/setting/position');
-            toast.success('Delete Success!')
-          });
+            toast.success('Delete Success!');
+          }
         }
       }
     } catch (error) {
