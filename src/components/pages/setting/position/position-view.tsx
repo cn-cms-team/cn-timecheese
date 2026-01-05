@@ -23,8 +23,8 @@ const PositionViewDetail = ({ id, onDataLoaded }: { id: string, onDataLoaded: (n
     }
   }, []);
   return (
-    <div className="w-full h-205 lg:h-210 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:px-10 items-center">
-      <div className="w-full h-95 lg:h-190 border px-7 py-5 rounded-sm text-lg">
+    <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-10 lg:px-10 lg:py-10">
+      <div className="w-full h-fit border px-7 py-5 rounded-sm text-lg">
         <div>
           <h1 className="font-semibold">ข้อมูลตำแหน่ง</h1>
         </div>
@@ -40,7 +40,7 @@ const PositionViewDetail = ({ id, onDataLoaded }: { id: string, onDataLoaded: (n
           </div>
         </div>
       </div>
-      <div className="w-full h-95 lg:h-190 border px-10 py-5 rounded-sm text-lg overflow-auto">
+      <div className="w-full h-full border px-10 py-5 rounded-sm text-lg">
         <div>
           <h1 className="font-semibold">ระดับตำแหน่ง</h1>
         </div>
