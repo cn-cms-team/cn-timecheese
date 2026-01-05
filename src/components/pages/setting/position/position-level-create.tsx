@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Trash2 } from 'lucide-react';
 import { CreatePositionSchemaType, EditPositionSchemaType } from './schema';
 import { Control } from 'react-hook-form';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 interface Props {
   index: number;
   control: Control<CreatePositionSchemaType | EditPositionSchemaType>;
@@ -21,18 +22,27 @@ const PositionLevelCreate = ({ index, control, onRemove, totalFields, isUsed = f
           <h1>Level</h1>
         </div>
         {totalFields > 1 && (
-          <button
-            type="button"
-            disabled={isUsed}
-            onClick={onRemove}
-            className={`${
-              isUsed
-                ? 'cursor-not-allowed opacity-50 text-gray-400'
-                : 'cursor-pointer text-red-500 hover:text-red-700'
-            }`}
-          >
-            <Trash2 size={20} />
-          </button>
+          <Tooltip delayDuration={100}>
+            <TooltipTrigger asChild>
+              <button
+                type="button"
+                disabled={isUsed}
+                onClick={onRemove}
+                className={`${
+                  isUsed
+                    ? 'cursor-not-allowed opacity-50 text-gray-400'
+                    : 'cursor-pointer text-red-500 hover:text-red-700'
+                }`}
+              >
+                <Trash2 size={20} />
+              </button>
+            </TooltipTrigger>
+            { isUsed && (
+              <TooltipContent>
+                <p>ระดับตำแหน่งถูกใช้งานอยู่</p>
+              </TooltipContent>
+            )}
+          </Tooltip>
         )}
       </div>
       <div>
