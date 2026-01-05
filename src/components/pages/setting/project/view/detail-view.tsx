@@ -1,0 +1,40 @@
+'use client';
+import ModuleLayout from '@/components/layouts/ModuleLayout';
+import { Button } from '@/components/ui/button';
+import ProjectViewDetail from '../project-view';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+
+const ProjectViewButton = ({ id }: { id: string }): React.ReactNode => {
+  const router = useRouter();
+  const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/project/${id}`;
+  const deleteProject = async () => {
+    const response = await fetch(fetchUrl, { method: 'DELETE' });
+    const result = await response.json();
+    if (!result.ok) {
+      toast(result.message);
+    } else {
+      router.push('/setting/project');
+    }
+  };
+  return (
+    <div className="flex gap-3 items-middle">
+      <Button variant={'destructive'} onClick={() => deleteProject()}>
+        ลบ
+      </Button>
+      <Button onClick={() => router.push(`/setting/project/${id}/edit`)}>แก้ไข</Button>
+    </div>
+  );
+};
+
+const ProjectView = ({ id }: { id: string }) => {
+  return (
+    <ModuleLayout
+      headerTitle={'รายละเอียดโครงการ'}
+      leaveUrl={'/setting/project'}
+      headerButton={<ProjectViewButton id={id} />}
+      content={<ProjectViewDetail id={id} />}
+    ></ModuleLayout>
+  );
+};
+export default ProjectView;

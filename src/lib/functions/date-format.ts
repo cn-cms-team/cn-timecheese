@@ -1,5 +1,5 @@
 import { FilterPeriod } from '@/types/period';
-import { differenceInDays, format, parseISO } from 'date-fns';
+import { differenceInBusinessDays, format, parseISO } from 'date-fns';
 import { th } from 'date-fns/locale';
 
 export function formatDateAndTime(dateString: string): string {
@@ -319,4 +319,11 @@ export function secondsToFormatUnit(sec: number) {
   } else {
     return `${seconds} วินาที`;
   }
+}
+
+export function calcTotalDays(start?: string, end?: string): number | null {
+  if (!start || !end) return null;
+
+  const diff = differenceInBusinessDays(end, start);
+  return diff >= 0 ? diff + 1 : null;
 }
