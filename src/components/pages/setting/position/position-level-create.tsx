@@ -2,18 +2,19 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Trash2 } from 'lucide-react';
-import { CreatePositionSchemaType, EditPositionSchemaType } from "./schema";
+import { CreatePositionSchemaType, EditPositionSchemaType } from './schema';
 import { Control } from 'react-hook-form';
 interface Props {
   index: number;
   control: Control<CreatePositionSchemaType | EditPositionSchemaType>;
   onRemove: () => void;
   totalFields: number;
+  isUsed?: boolean;
 }
 
-const PositionLevelCreate = ({ index, control, onRemove, totalFields }: Props) => {
+const PositionLevelCreate = ({ index, control, onRemove, totalFields, isUsed = false }: Props) => {
   return (
-    <div className="w-full h-full border rounded-sm py-5 px-3 mt-10">
+    <div className="w-full h-full border rounded-sm py-5 px-3 mt-5">
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
           <span className="bg-yellow-500 px-2 rounded-md text-white">{index + 1}</span>
@@ -22,8 +23,13 @@ const PositionLevelCreate = ({ index, control, onRemove, totalFields }: Props) =
         {totalFields > 1 && (
           <button
             type="button"
+            disabled={isUsed}
             onClick={onRemove}
-            className="text-red-500 hover:text-red-700 transition-colors cursor-pointer"
+            className={`${
+              isUsed
+                ? 'cursor-not-allowed opacity-50 text-gray-400'
+                : 'cursor-pointer text-red-500 hover:text-red-700'
+            }`}
           >
             <Trash2 size={20} />
           </button>

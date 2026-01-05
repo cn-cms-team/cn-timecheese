@@ -10,7 +10,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   createPositionSchema,
@@ -21,10 +21,10 @@ import {
 import { useFieldArray, useForm } from 'react-hook-form';
 import { Textarea } from '@/components/ui/textarea';
 import PositionLevelCreate from './position-level-create';
-import { IPositionLevel } from '@/types/setting/position';
+import { IPositionLevelRequest } from '@/types/setting/position';
 import { toast } from 'sonner';
-import BtnPositionLevelCreate from './position-level-create-btn';
 import PositionLevelCreateBtn from './position-level-create-btn';
+import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 
 const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
@@ -42,8 +42,40 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
       ],
     },
   });
-
+  const levelsWatch = form.watch('levels');
   const { fields, append, remove } = useFieldArray({ control: form.control, name: 'levels' });
+
+  const [confirmState, setConfirmState] = useState<{
+    title: string;
+    message: string;
+    confirmType?: ConfirmType;
+  }>({
+    title: '',
+    message: '',
+    confirmType: ConfirmType.SUBMIT,
+  });
+  const [getConfirmation, Confirmation] = useDialogConfirm();
+  const onDeleteLevel = async (index: number, name: string) => {
+    try {
+      const level = form.getValues(`levels.${index}`);
+      if (!level.id) {
+        remove(index);
+        return;
+      }
+      setConfirmState({
+        title: 'ลบข้อมูล',
+        message: `คุณยืนยันที่จะลบข้อมูลระดับตำแหน่ง : ${name} ใช่หรือไม่ ?`,
+        confirmType: ConfirmType.DELETE,
+      });
+      const result = await getConfirmation();
+      if (result) {
+        remove(index);
+        router.push(`/setting/position/${id}/edit`);
+      }
+    } catch {
+      toast.error('An unexpected error occurred. Please try again.');
+    }
+  };
 
   useEffect(() => {
     const fetchPositionData = async (positionId: string) => {
@@ -56,7 +88,7 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
             name: positionData.name ?? '',
             description: positionData.description || '',
             levels:
-              positionData.levels.map((level: IPositionLevel) => ({
+              positionData.levels.map((level: IPositionLevelRequest) => ({
                 ...level,
                 description: level.description || '',
               })) || [],
@@ -83,6 +115,7 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
         name: values.name,
         description: values.description,
         levels: values.levels.map((level, index) => ({
+          id: level.id,
           ord: index + 1,
           name: level.name,
           description: level.description || '',
@@ -112,88 +145,95 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
   };
 
   return (
-    <Form {...form}>
-      <form id="position-create-form" onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="w-full h-205 lg:h-210 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:px-10 items-center">
-          <div className="w-full h-95 lg:h-190 border px-5 py-5 rounded-sm text-lg">
-            <div>
-              <h1 className="font-semibold">ข้อมูลตำแหน่ง</h1>
-            </div>
-            <hr className="mt-1" />
-            <div>
+    <>
+      <Form {...form}>
+        <form id="position-create-form" onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 lg:px-10 lg:py-10">
+            <div className="w-full h-fit border px-5 py-5 rounded-sm text-lg">
               <div>
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem className="w-full mt-10">
-                      <FormLabel>
-                        ชื่อตำแหน่ง
-                        <span className="text-red-500">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          maxLength={100}
-                          {...field}
-                          autoComplete="off"
-                          placeholder="กรุณากรอกชื่อตำแหน่ง"
-                          onInput={(e) => {
-                            field.onChange(e);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem className="w-full mt-5">
-                      <FormLabel>คำอธิบาย</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          maxLength={255}
-                          {...field}
-                          value={field.value}
-                          className="h-20"
-                          autoComplete="off"
-                          placeholder="กรุณากรอกคำอธิบายตำแหน่ง"
-                          onInput={(e) => {
-                            field.onChange(e);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <h1 className="font-semibold">ข้อมูลตำแหน่ง</h1>
+              </div>
+              <hr className="mt-1" />
+              <div>
+                <div>
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem className="w-full mt-10">
+                        <FormLabel>
+                          ชื่อตำแหน่ง
+                          <span className="text-red-500">*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            maxLength={100}
+                            {...field}
+                            autoComplete="off"
+                            placeholder="กรุณากรอกชื่อตำแหน่ง"
+                            onInput={(e) => {
+                              field.onChange(e);
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem className="w-full mt-5">
+                        <FormLabel>คำอธิบาย</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            maxLength={255}
+                            {...field}
+                            value={field.value}
+                            className="h-20"
+                            autoComplete="off"
+                            placeholder="กรุณากรอกคำอธิบายตำแหน่ง"
+                            onInput={(e) => {
+                              field.onChange(e);
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="w-full h-full border px-5 lg:px-10 py-5 rounded-sm text-lg overflow-auto">
+              <div className="flex justify-between items-center">
+                <h1 className="font-semibold">ระดับตำแหน่ง</h1>
+                <PositionLevelCreateBtn onAppend={() => append({ name: '', description: '' })} />
+              </div>
+              <hr className="mt-1" />
+              <div>
+                {fields.map((field, index) => (
+                  <PositionLevelCreate
+                    key={field.id}
+                    index={index}
+                    control={form.control}
+                    totalFields={fields.length}
+                    isUsed={levelsWatch?.[index]?.isUsed}
+                    onRemove={() => onDeleteLevel(index, field.name)}
+                  />
+                ))}
               </div>
             </div>
           </div>
-          <div className="w-full h-95 lg:h-190 border px-10 py-5 rounded-sm text-lg overflow-auto">
-            <div className="flex justify-between items-center">
-              <h1 className="font-semibold">ระดับตำแหน่ง</h1>
-              <PositionLevelCreateBtn onAppend={() => append({ name: '', description: '' })}/>
-            </div>
-            <hr className="mt-1" />
-            <div>
-              {fields.map((field, index) => (
-                <PositionLevelCreate
-                  key={field.id}
-                  index={index}
-                  control={form.control}
-                  onRemove={() => remove(index)}
-                  totalFields={fields.length}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </form>
-    </Form>
+        </form>
+      </Form>
+      <Confirmation
+        title={confirmState.title}
+        message={confirmState.message}
+        confirmType={confirmState.confirmType}
+      />
+    </>
   );
 };
 export default PositionCreate;
-
