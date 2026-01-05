@@ -1,4 +1,3 @@
-import { ICategoryOption } from '@/components/ui/custom/input/category-dropdown';
 import { IPositionLevel } from './position';
 import { IRole } from './role';
 import { ITeam } from './team';
@@ -35,7 +34,3 @@ export type IUser = {
   projectMembers: [];
   timeSheets: [];
 };
-
-export interface IUserOption extends ICategoryOption {
-  position?: string;
-}
