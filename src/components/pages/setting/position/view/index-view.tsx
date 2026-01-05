@@ -55,10 +55,17 @@ const PostionListView = () => {
 
   const deletePosition = async (id: string) => {
     const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/position/${id}`;
-    await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
+    const res = await fetch(fetchUrl, { method: 'DELETE' });
+    const data = await res.json();
+    if (!res.ok) {
+      if (res.status === 400 && data.code === 'POSITION_IN_USE') {
+        toast.error('ระดับตำแหน่งถูกใช้งานอยู่ ไม่สามารถลบได้');
+        return;
+      }
+    } else {
       router.push('/setting/position');
       toast.success('Delete Success!')
-    });
+    }
   };
 
   const handleOpenDialog = async (mode: 'edit' | 'delete' , id: string , {name}: {name : string}) => {
