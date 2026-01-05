@@ -1851,6 +1851,7 @@ export const TimeSheetSummaryScalarFieldEnum = {
   user_id: 'user_id',
   project_id: 'project_id',
   year: 'year',
+  month: 'month',
   total_seconds: 'total_seconds',
   stamp_at: 'stamp_at',
   updated_at: 'updated_at'

@@ -305,6 +305,7 @@ model TimeSheetSummary {
   user_id       String @db.Char(36)
   project_id    String @db.Char(36)
   year          Int
+  month         Int
   total_seconds Int
 
   stamp_at   DateTime // last time of engagement in the project

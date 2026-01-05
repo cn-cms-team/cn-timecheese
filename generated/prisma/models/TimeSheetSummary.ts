@@ -28,11 +28,13 @@ export type AggregateTimeSheetSummary = {
 
 export type TimeSheetSummaryAvgAggregateOutputType = {
   year: number | null
+  month: number | null
   total_seconds: number | null
 }
 
 export type TimeSheetSummarySumAggregateOutputType = {
   year: number | null
+  month: number | null
   total_seconds: number | null
 }
 
@@ -40,6 +42,7 @@ export type TimeSheetSummaryMinAggregateOutputType = {
   user_id: string | null
   project_id: string | null
   year: number | null
+  month: number | null
   total_seconds: number | null
   stamp_at: Date | null
   updated_at: Date | null
@@ -49,6 +52,7 @@ export type TimeSheetSummaryMaxAggregateOutputType = {
   user_id: string | null
   project_id: string | null
   year: number | null
+  month: number | null
   total_seconds: number | null
   stamp_at: Date | null
   updated_at: Date | null
@@ -58,6 +62,7 @@ export type TimeSheetSummaryCountAggregateOutputType = {
   user_id: number
   project_id: number
   year: number
+  month: number
   total_seconds: number
   stamp_at: number
   updated_at: number
@@ -67,11 +72,13 @@ export type TimeSheetSummaryCountAggregateOutputType = {
 
 export type TimeSheetSummaryAvgAggregateInputType = {
   year?: true
+  month?: true
   total_seconds?: true
 }
 
 export type TimeSheetSummarySumAggregateInputType = {
   year?: true
+  month?: true
   total_seconds?: true
 }
 
@@ -79,6 +86,7 @@ export type TimeSheetSummaryMinAggregateInputType = {
   user_id?: true
   project_id?: true
   year?: true
+  month?: true
   total_seconds?: true
   stamp_at?: true
   updated_at?: true
@@ -88,6 +96,7 @@ export type TimeSheetSummaryMaxAggregateInputType = {
   user_id?: true
   project_id?: true
   year?: true
+  month?: true
   total_seconds?: true
   stamp_at?: true
   updated_at?: true
@@ -97,6 +106,7 @@ export type TimeSheetSummaryCountAggregateInputType = {
   user_id?: true
   project_id?: true
   year?: true
+  month?: true
   total_seconds?: true
   stamp_at?: true
   updated_at?: true
@@ -193,6 +203,7 @@ export type TimeSheetSummaryGroupByOutputType = {
   user_id: string
   project_id: string
   year: number
+  month: number
   total_seconds: number
   stamp_at: Date
   updated_at: Date
@@ -225,6 +236,7 @@ export type TimeSheetSummaryWhereInput = {
   user_id?: Prisma.StringFilter<"TimeSheetSummary"> | string
   project_id?: Prisma.StringFilter<"TimeSheetSummary"> | string
   year?: Prisma.IntFilter<"TimeSheetSummary"> | number
+  month?: Prisma.IntFilter<"TimeSheetSummary"> | number
   total_seconds?: Prisma.IntFilter<"TimeSheetSummary"> | number
   stamp_at?: Prisma.DateTimeFilter<"TimeSheetSummary"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"TimeSheetSummary"> | Date | string
@@ -234,6 +246,7 @@ export type TimeSheetSummaryOrderByWithRelationInput = {
   user_id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
   year?: Prisma.SortOrder
+  month?: Prisma.SortOrder
   total_seconds?: Prisma.SortOrder
   stamp_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -247,6 +260,7 @@ export type TimeSheetSummaryWhereUniqueInput = Prisma.AtLeast<{
   user_id?: Prisma.StringFilter<"TimeSheetSummary"> | string
   project_id?: Prisma.StringFilter<"TimeSheetSummary"> | string
   year?: Prisma.IntFilter<"TimeSheetSummary"> | number
+  month?: Prisma.IntFilter<"TimeSheetSummary"> | number
   total_seconds?: Prisma.IntFilter<"TimeSheetSummary"> | number
   stamp_at?: Prisma.DateTimeFilter<"TimeSheetSummary"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"TimeSheetSummary"> | Date | string
@@ -256,6 +270,7 @@ export type TimeSheetSummaryOrderByWithAggregationInput = {
   user_id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
   year?: Prisma.SortOrder
+  month?: Prisma.SortOrder
   total_seconds?: Prisma.SortOrder
   stamp_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -273,6 +288,7 @@ export type TimeSheetSummaryScalarWhereWithAggregatesInput = {
   user_id?: Prisma.StringWithAggregatesFilter<"TimeSheetSummary"> | string
   project_id?: Prisma.StringWithAggregatesFilter<"TimeSheetSummary"> | string
   year?: Prisma.IntWithAggregatesFilter<"TimeSheetSummary"> | number
+  month?: Prisma.IntWithAggregatesFilter<"TimeSheetSummary"> | number
   total_seconds?: Prisma.IntWithAggregatesFilter<"TimeSheetSummary"> | number
   stamp_at?: Prisma.DateTimeWithAggregatesFilter<"TimeSheetSummary"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"TimeSheetSummary"> | Date | string
@@ -282,6 +298,7 @@ export type TimeSheetSummaryCreateInput = {
   user_id: string
   project_id: string
   year: number
+  month: number
   total_seconds: number
   stamp_at: Date | string
   updated_at: Date | string
@@ -291,6 +308,7 @@ export type TimeSheetSummaryUncheckedCreateInput = {
   user_id: string
   project_id: string
   year: number
+  month: number
   total_seconds: number
   stamp_at: Date | string
   updated_at: Date | string
@@ -300,6 +318,7 @@ export type TimeSheetSummaryUpdateInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   project_id?: Prisma.StringFieldUpdateOperationsInput | string
   year?: Prisma.IntFieldUpdateOperationsInput | number
+  month?: Prisma.IntFieldUpdateOperationsInput | number
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   stamp_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -309,6 +328,7 @@ export type TimeSheetSummaryUncheckedUpdateInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   project_id?: Prisma.StringFieldUpdateOperationsInput | string
   year?: Prisma.IntFieldUpdateOperationsInput | number
+  month?: Prisma.IntFieldUpdateOperationsInput | number
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   stamp_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -318,6 +338,7 @@ export type TimeSheetSummaryCreateManyInput = {
   user_id: string
   project_id: string
   year: number
+  month: number
   total_seconds: number
   stamp_at: Date | string
   updated_at: Date | string
@@ -327,6 +348,7 @@ export type TimeSheetSummaryUpdateManyMutationInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   project_id?: Prisma.StringFieldUpdateOperationsInput | string
   year?: Prisma.IntFieldUpdateOperationsInput | number
+  month?: Prisma.IntFieldUpdateOperationsInput | number
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   stamp_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -336,6 +358,7 @@ export type TimeSheetSummaryUncheckedUpdateManyInput = {
   user_id?: Prisma.StringFieldUpdateOperationsInput | string
   project_id?: Prisma.StringFieldUpdateOperationsInput | string
   year?: Prisma.IntFieldUpdateOperationsInput | number
+  month?: Prisma.IntFieldUpdateOperationsInput | number
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   stamp_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -351,6 +374,7 @@ export type TimeSheetSummaryCountOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
   year?: Prisma.SortOrder
+  month?: Prisma.SortOrder
   total_seconds?: Prisma.SortOrder
   stamp_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -358,6 +382,7 @@ export type TimeSheetSummaryCountOrderByAggregateInput = {
 
 export type TimeSheetSummaryAvgOrderByAggregateInput = {
   year?: Prisma.SortOrder
+  month?: Prisma.SortOrder
   total_seconds?: Prisma.SortOrder
 }
 
@@ -365,6 +390,7 @@ export type TimeSheetSummaryMaxOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
   year?: Prisma.SortOrder
+  month?: Prisma.SortOrder
   total_seconds?: Prisma.SortOrder
   stamp_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -374,6 +400,7 @@ export type TimeSheetSummaryMinOrderByAggregateInput = {
   user_id?: Prisma.SortOrder
   project_id?: Prisma.SortOrder
   year?: Prisma.SortOrder
+  month?: Prisma.SortOrder
   total_seconds?: Prisma.SortOrder
   stamp_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -381,6 +408,7 @@ export type TimeSheetSummaryMinOrderByAggregateInput = {
 
 export type TimeSheetSummarySumOrderByAggregateInput = {
   year?: Prisma.SortOrder
+  month?: Prisma.SortOrder
   total_seconds?: Prisma.SortOrder
 }
 
@@ -390,6 +418,7 @@ export type TimeSheetSummarySelect<ExtArgs extends runtime.Types.Extensions.Inte
   user_id?: boolean
   project_id?: boolean
   year?: boolean
+  month?: boolean
   total_seconds?: boolean
   stamp_at?: boolean
   updated_at?: boolean
@@ -399,6 +428,7 @@ export type TimeSheetSummarySelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   user_id?: boolean
   project_id?: boolean
   year?: boolean
+  month?: boolean
   total_seconds?: boolean
   stamp_at?: boolean
   updated_at?: boolean
@@ -408,6 +438,7 @@ export type TimeSheetSummarySelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   user_id?: boolean
   project_id?: boolean
   year?: boolean
+  month?: boolean
   total_seconds?: boolean
   stamp_at?: boolean
   updated_at?: boolean
@@ -417,12 +448,13 @@ export type TimeSheetSummarySelectScalar = {
   user_id?: boolean
   project_id?: boolean
   year?: boolean
+  month?: boolean
   total_seconds?: boolean
   stamp_at?: boolean
   updated_at?: boolean
 }
 
-export type TimeSheetSummaryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_id" | "project_id" | "year" | "total_seconds" | "stamp_at" | "updated_at", ExtArgs["result"]["timeSheetSummary"]>
+export type TimeSheetSummaryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_id" | "project_id" | "year" | "month" | "total_seconds" | "stamp_at" | "updated_at", ExtArgs["result"]["timeSheetSummary"]>
 
 export type $TimeSheetSummaryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TimeSheetSummary"
@@ -431,6 +463,7 @@ export type $TimeSheetSummaryPayload<ExtArgs extends runtime.Types.Extensions.In
     user_id: string
     project_id: string
     year: number
+    month: number
     total_seconds: number
     stamp_at: Date
     updated_at: Date
@@ -860,6 +893,7 @@ export interface TimeSheetSummaryFieldRefs {
   readonly user_id: Prisma.FieldRef<"TimeSheetSummary", 'String'>
   readonly project_id: Prisma.FieldRef<"TimeSheetSummary", 'String'>
   readonly year: Prisma.FieldRef<"TimeSheetSummary", 'Int'>
+  readonly month: Prisma.FieldRef<"TimeSheetSummary", 'Int'>
   readonly total_seconds: Prisma.FieldRef<"TimeSheetSummary", 'Int'>
   readonly stamp_at: Prisma.FieldRef<"TimeSheetSummary", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"TimeSheetSummary", 'DateTime'>
