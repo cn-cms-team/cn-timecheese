@@ -1,0 +1,52 @@
+'use client';
+import { useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+
+import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
+
+import { useTimeSheetContext } from '../view/timesheet-context';
+import PeriodInput from '@/components/ui/custom/input/period-input';
+import TimeSheetColorLegend from './timesheet-color-legend';
+
+const options = [
+  { label: 'สัปดาห์', value: PERIODCALENDAR.WEEK },
+  { label: 'เดือน', value: PERIODCALENDAR.MONTH },
+];
+
+const TimeSheetPeriodSelection = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const periodParam = searchParams.get('period');
+
+  const { period, setPeriod, resetSelectCaledar, getTask } = useTimeSheetContext();
+
+  const onSelectPeriod = (period: PERIODCALENDAR) => {
+    setPeriod(period);
+    resetSelectCaledar();
+    getTask();
+    router.replace(`/timesheet?period=${period}`);
+  };
+
+  useEffect(() => {
+    if (periodParam && periodParam !== null) {
+      router.replace(`/timesheet?period=${periodParam}`);
+      setPeriod(periodParam as PERIODCALENDAR);
+    } else {
+      router.replace(`/timesheet?period=${PERIODCALENDAR.WEEK}`);
+    }
+  }, []);
+  return (
+    <div className="p-4 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.2)] z-50 bg-white">
+      <div className=" flex lg:flex-row flex-col gap-4 justify-between">
+        <PeriodInput
+          value={period}
+          options={options}
+          onSelect={(value) => onSelectPeriod(value as PERIODCALENDAR)}
+        />
+        <TimeSheetColorLegend />
+      </div>
+    </div>
+  );
+};
+
+export default TimeSheetPeriodSelection;
