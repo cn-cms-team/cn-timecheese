@@ -11,6 +11,7 @@ const basePositionSchema = z.object({
   description: z.string().trim().optional(),
   levels: z.array(
     z.object({
+      id: z.string().optional(),
       name: z
         .string()
         .trim()
@@ -19,6 +20,7 @@ const basePositionSchema = z.object({
           z.string().min(1, 'กรุณากรอกชื่อตำแหน่ง')
         ),
       description: z.string().optional(),
+      isUsed: z.boolean().optional(),
     })
   ),
 });
