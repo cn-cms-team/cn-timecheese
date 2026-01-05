@@ -34,4 +34,5 @@ export type IPositionLevelRequest = {
   name: string;
   description?: string;
   ord: number;
+  isUsed?: boolean;
 };
