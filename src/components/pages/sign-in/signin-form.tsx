@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { signinSchema, SigninSchemaType } from './schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { MAX_LENGTH_255 } from '@/lib/constants/validation';
+import CheeseIcon from '@/components/ui/icons/cheese';
 
 export default function LoginForm() {
   const [disabled, setDisabled] = useState(false);
@@ -49,8 +50,8 @@ export default function LoginForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 flex flex-col px-6 md:px-3"
         >
-          <div className="flex flex-row justify-center items-center gap-2">
-            <img src="/img/sign-in/logo-cheese.png" alt="Time Cheese Logo" className="h-20 w-20" />
+          <div className="flex flex-row justify-center gap-4">
+            <CheeseIcon width={55} height={55} />
             <h1
               className={`text-4xl xl:text-5xl text-center text-nature-600 font-bold bg-linear-to-r from-yellow-500 via-pink-500  to-indigo-500
            bg-clip-text text-transparent`}
