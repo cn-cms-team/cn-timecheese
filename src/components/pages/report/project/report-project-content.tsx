@@ -1,3 +1,4 @@
+'use client';
 import Dropdown from '@/components/ui/custom/input/dropdown';
 import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
 
@@ -9,6 +10,8 @@ import { IOption } from '@/types/option';
 import { fetcher } from '@/lib/fetcher';
 import { set } from 'zod';
 import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
+import DonutChartTimesheet from '@/components/ui/custom/report/donut-chart-timesheet';
+import TableListTimesheet from '@/components/ui/custom/report/table-list-timesheet';
 
 const ReportProjectContent = () => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
@@ -17,6 +20,7 @@ const ReportProjectContent = () => {
   const [memberId, setMemberId] = useState<string>(null!);
   const [memberOptions, setMemberOptions] = useState<(IOption & UserAvatarProps)[]>([]);
   const [reportProjectData, setReportProjectData] = useState<IReportProject>(null!);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onClickUser = (id: string) => {
     setMemberOptions(
@@ -71,6 +75,7 @@ const ReportProjectContent = () => {
 
   useEffect(() => {
     const fetchProjectData = async () => {
+      setIsLoading(true);
       try {
         const projectData = await fetcher<IReportProject>(
           `${prefix}/api/v1/report/project?project_id=${projectId}&member_id=${memberId}`
@@ -78,6 +83,8 @@ const ReportProjectContent = () => {
         setReportProjectData(projectData);
       } catch (error) {
         console.error('Error fetching options:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (memberId) {
@@ -102,7 +109,7 @@ const ReportProjectContent = () => {
           <ReportUsersButton onClick={onClickUser} userList={memberOptions} />
         </div>
       </div>
-      {reportProjectData ? (
+      {reportProjectData && !isLoading ? (
         <>
           <div className="border rounded-lg">
             <AvatarDetail
@@ -115,8 +122,12 @@ const ReportProjectContent = () => {
             />
           </div>
           <CardProjectInfo project={reportProjectData.project} />
+          <DonutChartTimesheet donutLabel={reportProjectData.timesheet_chart} />
+          <TableListTimesheet />
         </>
-      ) : projectId && memberId ? (
+      ) : isLoading ? (
+        <div className="flex w-full justify-center">กำลังโหลดข้อมูล...</div>
+      ) : projectId && memberId && !reportProjectData ? (
         <div className="flex w-full justify-center">ไม่พบข้อมูลรายงานโครงการ</div>
       ) : (
         <div className="flex w-full justify-center">เลือกโครงการและสมาชิก</div>

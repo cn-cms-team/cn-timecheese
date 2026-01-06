@@ -1,6 +1,7 @@
 import { calcTotalDays, formatDate, secondsToDuration } from '@/lib/functions/date-format';
 import { numberWithCommas } from '@/lib/functions/number-format';
 import { IProjectInfoByUser } from '@/types/report';
+import DonutChartTimesheet from './donut-chart-timesheet';
 
 interface CardProjectInfoProps {
   project: IProjectInfoByUser;
@@ -56,31 +57,41 @@ const CardProjectInfo = ({ project }: CardProjectInfoProps) => {
         <div className="border rounded-lg col-span-2 p-3 flex flex-col h-full">
           <div className="mb-2">เวลาที่ใช้ในโครงการ</div>
           <div className="grid grid-cols-6 gap-4 flex-1">
-            <div className="col-span-2 border rounded-lg px-3 py-1 flex flex-col text-center">
-              <div className="ms-auto">ปี</div>
-              <div className="text-lg font-bold">{workDuration.year}</div>
+            <div className="col-span-2 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
+              <div className="flex items-baseline">
+                <div className="text-2xl font-bold">{workDuration.year}</div>
+                <div className="ms-2">ปี</div>
+              </div>
             </div>
-            <div className="col-span-2 border rounded-lg px-3 py-1 flex flex-col text-center">
-              <div className="ms-auto">เดือน</div>
-              <div className="text-lg font-bold">{workDuration.month}</div>
+            <div className="col-span-2 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
+              <div className="flex items-baseline">
+                <div className="text-2xl font-bold">{workDuration.month}</div>
+                <div className="ms-2">เดือน</div>
+              </div>
             </div>
-            <div className="col-span-2 border rounded-lg px-3 py-1 flex flex-col text-center">
-              <div className="ms-auto">วัน</div>
-              <div className="text-lg font-bold">{workDuration.day}</div>
+            <div className="col-span-2 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
+              <div className="flex items-baseline">
+                <div className="text-2xl font-bold">{workDuration.day}</div>
+                <div className="ms-2">วัน</div>
+              </div>
             </div>
-            <div className="col-span-3 border rounded-lg px-3 py-1 flex flex-col text-center">
-              <div className="ms-auto">ชั่วโมง</div>
-              <div className="text-lg font-bold">{workDuration.hour}</div>
+            <div className="col-span-2 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
+              <div className="flex items-baseline">
+                <div className="text-2xl font-bold">{workDuration.hour}</div>
+                <div className="ms-2">ชั่วโมง</div>
+              </div>
             </div>
-            <div className="col-span-3 border rounded-lg px-3 py-1 flex flex-col text-center">
-              <div className="ms-auto">นาที</div>
-              <div className="text-lg font-bold">{workDuration.minute}</div>
+            <div className="col-span-2 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
+              <div className="flex items-baseline">
+                <div className="text-2xl font-bold">{workDuration.minute}</div>
+                <div className="ms-2">นาที</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3">
-        <div className="flex flex-col border rounded-lg p-3">
+        <div className="flex flex-col border rounded-lg px-3 py-5">
           <div>จำนวนวัน</div>
           <div className="flex flex-nowrap items-baseline justify-center">
             <div className="text-3xl font-semibold">
@@ -89,7 +100,7 @@ const CardProjectInfo = ({ project }: CardProjectInfoProps) => {
             <div className="ms-2">วัน</div>
           </div>
         </div>
-        <div className="flex flex-col border rounded-lg p-3">
+        <div className="flex flex-col border rounded-lg px-3 py-5">
           <div className="flex justify-between">
             <div>ค่าใช้จ่าย</div>
             <div>{costPercentage}% ของโครงการ</div>
