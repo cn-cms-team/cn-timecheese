@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { LabelGroup } from '@/components/ui/custom/form';
+import { Label } from '@/components/ui/label';
 import { calcTotalDays, formatDate } from '@/lib/functions/date-format';
 import { numberWithCommas } from '@/lib/functions/number-format';
 import { IUserReportProject } from '@/types/report/team';
@@ -21,7 +22,7 @@ const ReportTeamProject = ({
   join_date,
 }: IUserReportProject) => {
   return (
-    <Card className="w-full justify-between max-w-full lg:max-w-[350px]">
+    <Card className="w-full justify-between max-w-full">
       <CardHeader>
         <CardTitle>โครงการ</CardTitle>
         <CardDescription>{name || '-'}</CardDescription>
@@ -36,14 +37,21 @@ const ReportTeamProject = ({
       </CardContent>
       <CardFooter className="flex-col gap-2 border-t">
         <div className="flex justify-between w-full mb-2">
-          <LabelGroup
-            label="จำนวนวัน"
-            value={start_date && end_date ? calcTotalDays(start_date, end_date) : '-'}
-          />
-          <LabelGroup label="ค่าใช้จ่าย" value={numberWithCommas(value)} />
+          <div className="flex flex-col w-full gap-3 items-center">
+            <Label className="text-label text-sm text-[#999999]">จำนวนวัน</Label>
+            <Label className="select-text break-all flex-wrap text-base font-bold">
+              {value || '-'}
+            </Label>
+          </div>
+          <div className="flex flex-col w-full gap-3 items-center">
+            <Label className="text-label text-sm text-[#999999]">ค่าใช้จ่าย</Label>
+            <Label className="select-text break-all flex-wrap text-base font-bold">
+              {numberWithCommas(value) || '-'}
+            </Label>
+          </div>
         </div>
         <div className="text-xs text-gray-400 text-end w-full">
-          วันที่เข้าร่วมล่าสุด: {join_date || '-'}
+          วันที่เข้าร่วมล่าสุด: {join_date ? formatDate(join_date) : '-'}
         </div>
       </CardFooter>
     </Card>
