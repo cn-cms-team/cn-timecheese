@@ -30,7 +30,7 @@ const DashboardBarChart = () => {
           />
         </div>
         <div className="min-w-150 overflow-x-auto">
-          <ApexChart options={barchartOption} type="bar" height={300} />
+          <ApexChart options={barchartOption} type="bar" height={250} />
         </div>
       </main>
     </div>
