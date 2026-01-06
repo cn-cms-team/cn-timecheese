@@ -8,9 +8,11 @@ import { fetcher } from '@/lib/fetcher';
 import { useSession } from 'next-auth/react';
 import { IReportTeam } from '@/types/report/team';
 import ReportUsersButton from '../../report-users-button';
+import { useRouter } from 'next/navigation';
 
 const ReportTeamView = () => {
   const { data: session } = useSession();
+  const router = useRouter();
   const [userList, setUserList] = useState<(IOption & UserAvatarProps)[]>([]);
   const [userReport, setUserReport] = useState<IReportTeam | null>(null);
 
@@ -40,12 +42,16 @@ const ReportTeamView = () => {
   }, []);
 
   const getUserReport = async (id: string) => {
-    const params = new URLSearchParams();
-    params.set('user_id', id || '');
-    const url = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/report/team?${params.toString()}`;
-    const data = await fetcher<IReportTeam>(url);
-    if (data) {
-      setUserReport(data);
+    try {
+      const params = new URLSearchParams();
+      params.set('user_id', id || '');
+      const url = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/report/team?${params.toString()}`;
+      const data = await fetcher<IReportTeam>(url);
+      if (data) {
+        setUserReport(data);
+      }
+    } catch (error) {
+      router.push('/');
     }
   };
 
