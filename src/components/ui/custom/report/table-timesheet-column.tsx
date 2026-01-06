@@ -2,37 +2,37 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { SortColumn } from '../data-table';
-import { ITimeSheetResponse } from '@/types/timesheet';
+import { ITimeSheetTable } from '@/types/report';
 import { buddhistFormatDate } from '@/lib/functions/date-format';
 
 type createColumnsProps = {
   data: any;
 };
 
-const dateColumn = SortColumn<ITimeSheetResponse>('stamp_date', 'วันที่');
-const startTimeColumn = SortColumn<ITimeSheetResponse>('start_date', 'เวลาเริ่มต้น');
-const endTimeColumn = SortColumn<ITimeSheetResponse>('end_date', 'เวลาสิ้นสุด');
-const breakDurationColumn = SortColumn<ITimeSheetResponse>('exclude_seconds', 'ช่วงพัก');
-const totalTrackedColumn = SortColumn<ITimeSheetResponse>('summary_seconds', 'รวมเวลา');
-const taskTypeColumn = SortColumn<ITimeSheetResponse>('task_type_name', 'ประเภทงาน');
-const detailColumn = SortColumn<ITimeSheetResponse>('detail', 'รายละเอียดงาน');
+const dateColumn = SortColumn<ITimeSheetTable>('stamp_date', 'วันที่');
+const startTimeColumn = SortColumn<ITimeSheetTable>('start_date', 'เวลาเริ่มต้น');
+const endTimeColumn = SortColumn<ITimeSheetTable>('end_date', 'เวลาสิ้นสุด');
+const breakDurationColumn = SortColumn<ITimeSheetTable>('exclude_seconds', 'ช่วงพัก');
+const totalTrackedColumn = SortColumn<ITimeSheetTable>('summary_seconds', 'รวมเวลา');
+const taskTypeColumn = SortColumn<ITimeSheetTable>('task_type_name', 'ประเภทงาน');
+const detailColumn = SortColumn<ITimeSheetTable>('detail', 'รายละเอียดงาน');
 
-export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeSheetResponse>[] => {
-  const baseColumns: ColumnDef<ITimeSheetResponse>[] = [
+export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeSheetTable>[] => {
+  const baseColumns: ColumnDef<ITimeSheetTable>[] = [
     {
       ...dateColumn,
       size: 150,
       cell: ({ row }) => {
-        const { stamp_date } = row.original;
-        return <div>{buddhistFormatDate(stamp_date, 'dd mmm yyyy') || '-'}</div>;
+        const { date } = row.original;
+        return <div>{buddhistFormatDate(date, 'dd mmm yyyy') || '-'}</div>;
       },
     },
     {
       ...startTimeColumn,
       size: 150,
       cell: ({ row }) => {
-        const { start_date } = row.original;
-        const time = start_date ? buddhistFormatDate(start_date, 'HH:MM') : '-';
+        const { start_time } = row.original;
+        const time = start_time ? buddhistFormatDate(start_time, 'HH:MM') : '-';
         return <div>{buddhistFormatDate(time, 'HH:ii') || '-'}</div>;
       },
     },
@@ -40,8 +40,8 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
       ...endTimeColumn,
       size: 150,
       cell: ({ row }) => {
-        const { end_date } = row.original;
-        const time = end_date ? buddhistFormatDate(end_date, 'HH:MM') : '-';
+        const { end_time } = row.original;
+        const time = end_time ? buddhistFormatDate(end_time, 'HH:MM') : '-';
         return <div>{buddhistFormatDate(time, 'HH:ii') || '-'}</div>;
       },
     },
@@ -49,9 +49,9 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
       ...breakDurationColumn,
       size: 150,
       cell: ({ row }) => {
-        const { exclude_seconds } = row.original;
-        const hours = Math.floor(exclude_seconds / 3600);
-        const minutes = Math.floor((exclude_seconds % 3600) / 60);
+        const { break_hours } = row.original;
+        const hours = Math.floor(break_hours / 3600);
+        const minutes = Math.floor((break_hours % 3600) / 60);
         const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(
           2,
           '0'
@@ -63,12 +63,12 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
       ...totalTrackedColumn,
       size: 150,
       cell: ({ row }) => {
-        const { start_date, end_date, exclude_seconds } = row.original;
+        const { start_time, end_time, break_hours } = row.original;
 
-        const startTime = start_date ? new Date(start_date).getTime() : 0;
-        const endTime = end_date ? new Date(end_date).getTime() : 0;
+        const startTime = start_time ? new Date(start_time).getTime() : 0;
+        const endTime = end_time ? new Date(end_time).getTime() : 0;
         const totalSeconds =
-          startTime && endTime ? Math.floor((endTime - startTime) / 1000) - exclude_seconds : 0;
+          startTime && endTime ? Math.floor((endTime - startTime) / 1000) - break_hours : 0;
 
         const hours = Math.floor(totalSeconds / 3600);
         const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -83,8 +83,8 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
       ...taskTypeColumn,
       size: 200,
       cell: ({ row }) => {
-        const { task_type_name } = row.original;
-        return <div>{task_type_name || '-'}</div>;
+        const { task_type } = row.original;
+        return <div>{task_type || '-'}</div>;
       },
     },
     {

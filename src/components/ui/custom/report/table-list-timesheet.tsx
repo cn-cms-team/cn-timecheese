@@ -15,7 +15,7 @@ import {
   createCustomSortFn,
   createNullsLastSortFn,
 } from '@/lib/functions/sort-utils';
-import { ITimeSheetResponse } from '@/types/timesheet';
+import { ITimeSheetTable } from '@/types/report';
 
 import { Input } from '../../input';
 import { Label } from '../../label';
@@ -43,7 +43,7 @@ const TableListTimesheet = () => {
   });
 
   const multiColumnGlobalFilter = (
-    row: Row<ITimeSheetResponse>,
+    row: Row<ITimeSheetTable>,
     columnId: string,
     filterValue: { search: string; userType: string; roles: string }
   ) => {
