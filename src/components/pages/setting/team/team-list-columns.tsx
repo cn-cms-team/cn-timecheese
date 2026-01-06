@@ -9,21 +9,23 @@ import {
 import { ITeam } from '@/types/setting/team';
 import LinkTable from '@/components/ui/custom/data-table/link';
 import BadgeTable from '@/components/ui/custom/data-table/badge';
+import { Account } from '@/components/context/app-context';
+import { renderByPermission } from '@/lib/functions/ui-manage';
+import { EModules } from '@/lib/constants/module';
 
 const nameColumn = SortColumn<ITeam>('name', 'ชื่อทีม');
 const descriptionColumn = SortColumn<ITeam>('description', 'คำอธิบาย');
 const activeColumn = SortColumn<ITeam>('is_active', 'สถานะ');
 const actionColumn = ActionColumn<ITeam>('actions', 'จัดการ');
 type createColumnsProps = {
-  onOpenDialog: (
-    mode: 'edit' | 'delete',
-    isActive: boolean,
-    id: string,
-    team: { name: string }
-  ) => void;
+  account: Account;
+  onOpenDialog: (mode: 'edit' | 'delete', id: string, team: { name: string }) => void;
 };
 
-export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<ITeam>[] => {
+export const createColumns = ({
+  account,
+  onOpenDialog,
+}: createColumnsProps): ColumnDef<ITeam>[] => {
   const baseColumns: ColumnDef<ITeam>[] = [
     {
       ...nameColumn,
@@ -57,22 +59,33 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
         );
       },
     },
-    {
-      ...actionColumn,
-      cell: ({ row }) => {
-        const { id, name, is_active } = row.original;
-        return (
-          <div className="flex justify-center space-x-1">
-            <ButtonEdit onClick={() => onOpenDialog('edit', is_active, id, { name })} />
-            <ButtonDelete
-              onOpenDialog={() => onOpenDialog('delete', is_active, id, { name })}
-              id={id}
-              data={{ name }}
-            />
-          </div>
-        );
-      },
-    },
   ];
+
+  const canEdit = renderByPermission(account, EModules.ADMIN_TEAM, 'EDIT');
+  const canDelete = renderByPermission(account, EModules.ADMIN_TEAM, 'DELETE');
+  if (canEdit && canDelete) {
+    return [
+      ...baseColumns,
+      {
+        ...actionColumn,
+        cell: ({ row }) => {
+          const { id, name } = row.original;
+
+          return (
+            <div className="flex justify-center gap-2">
+              {canEdit && <ButtonEdit onClick={() => onOpenDialog('edit', id, { name })} />}
+              {canDelete && (
+                <ButtonDelete
+                  onOpenDialog={() => onOpenDialog('delete', id, { name })}
+                  id={id}
+                  data={{ name }}
+                />
+              )}
+            </div>
+          );
+        },
+      },
+    ];
+  }
   return baseColumns;
 };

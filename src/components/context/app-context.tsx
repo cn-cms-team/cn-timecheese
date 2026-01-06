@@ -86,7 +86,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const accessMenu = menu.find((e) => pathname.includes(e.url));
     if (accessMenu) {
       const permissionMenu = permission?.[`${accessMenu.menuId!}`] as IPermissionId[];
-      const permissionAccess = pathname.includes('new')
+      const permissionAccess = pathname.includes('create')
         ? EPermissions.CREATE
         : pathname.includes('edit')
         ? EPermissions.EDIT

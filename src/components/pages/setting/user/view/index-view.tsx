@@ -12,9 +12,15 @@ import { useState } from 'react';
 import { IUser } from '@/types/setting/user';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
+import { renderByPermission } from '@/lib/functions/ui-manage';
+import { Account, useAccount } from '@/components/context/app-context';
+import { EModules } from '@/lib/constants/module';
 
-const UserButton = (): React.ReactNode => {
+const UserButton = ({ account }: { account: Account }): React.ReactNode => {
   const router = useRouter();
+  if (!renderByPermission(account, EModules.ADMIN_USER, 'CREATE')) {
+    return <></>;
+  }
   return (
     <div>
       <Button onClick={() => router.push('/setting/user/create')}>
@@ -26,6 +32,7 @@ const UserButton = (): React.ReactNode => {
 };
 
 const UserListView = () => {
+  const { account } = useAccount();
   const router = useRouter();
   const fetchUsersUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user`;
   const { data, error, isLoading, mutate } = useSWR(fetchUsersUrl, (url) => fetcher<IUser[]>(url));
@@ -49,7 +56,6 @@ const UserListView = () => {
   };
   const handleOpenDialog = async (
     mode: 'edit' | 'delete',
-    isActive: boolean,
     id: string,
     { email }: { email: string }
   ) => {
@@ -84,6 +90,7 @@ const UserListView = () => {
   };
 
   const columns = createColumns({
+    account: account,
     onOpenDialog: handleOpenDialog,
   });
 
@@ -96,7 +103,7 @@ const UserListView = () => {
     <>
       <ModuleLayout
         headerTitle={'ผู้ใช้งาน'}
-        headerButton={<UserButton />}
+        headerButton={<UserButton account={account} />}
         content={<UserList columns={columns} data={data || []} loading={isLoading} />}
       ></ModuleLayout>
 
