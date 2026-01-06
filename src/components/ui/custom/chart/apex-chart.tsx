@@ -28,7 +28,7 @@ interface IProps {
   type?: ApexChartType;
 }
 
-const ApexChart: React.FC<ApexOptions & IProps> = ({
+const ApexChart: React.FC<IProps> = ({
   height = undefined,
   options = {},
   serires = [],
