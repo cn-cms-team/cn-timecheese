@@ -1,21 +1,43 @@
 'use client';
 
-import { createContext, useContext } from 'react';
 import { ApexOptions } from 'apexcharts';
+import { createContext, useContext, useState } from 'react';
+
+import { formatDate } from '@/lib/functions/date-format';
+import { IOption } from '@/types/option';
 
 interface IDashboardContextType {
   loading: boolean;
-  chart_options: ApexOptions;
+  monthOption: IOption[];
+  chartOption: ApexOptions;
+  selectedMonth: number;
+  setSelectedMonth: (month: number) => void;
 }
 
 const DashboardContext = createContext<IDashboardContextType | undefined>(undefined);
 
 const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const loading = false;
+  const today = new Date();
+  const [selectedMonth, setSelectedMonth] = useState<number>(today.getMonth());
+  const [weekAnchorDate, setWeekAnchorDate] = useState<Date>(() => {
+    return new Date(today.getFullYear(), selectedMonth, today.getDate());
+  });
+
+  const daysInMonth = new Date(weekAnchorDate.getFullYear(), selectedMonth + 1, 0).getDate();
+
+  const weekDays = Array.from({ length: daysInMonth }, (_, i) =>
+    formatDate(new Date(weekAnchorDate.getFullYear(), selectedMonth, i + 1), 'd')
+  );
+
+  const monthOption = Array.from({ length: 12 }, (_, i) => ({
+    label: formatDate(new Date(today.getFullYear(), i, 1), 'mmmm'),
+    value: i,
+  }));
+
   const chartOption: ApexOptions = {
     chart: {
       type: 'bar',
-      height: 350,
     },
     plotOptions: {
       bar: {
@@ -33,7 +55,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
       colors: ['transparent'],
     },
     xaxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+      categories: weekDays,
     },
     yaxis: {
       title: {
@@ -53,7 +75,9 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <DashboardContext.Provider value={{ loading, chart_options: chartOption }}>
+    <DashboardContext.Provider
+      value={{ loading, chartOption, monthOption, selectedMonth, setSelectedMonth }}
+    >
       {children}
     </DashboardContext.Provider>
   );
