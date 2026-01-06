@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ReportTeamView } from '@/components/pages/reports/team/view';
 
 export const metadata: Metadata = {
   title: 'Report Team - Time Cheese',
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const ReportTeam = () => {
-  return <>รายงานสถานะทีม</>;
+  return <ReportTeamView />;
 };
 
 export default ReportTeam;
