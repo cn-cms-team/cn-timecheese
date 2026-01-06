@@ -10,7 +10,6 @@ interface IDashboardContextType {
   loading: boolean;
   monthOption: IOption[];
   barchartOption: ApexOptions;
-  donutChartOption: ApexOptions;
   selectedMonth: number;
   setSelectedMonth: (month: number) => void;
 }
@@ -75,26 +74,6 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     },
   };
 
-  const donutChartOption: ApexOptions = {
-    chart: {
-      type: 'donut',
-    },
-    // labels: ['งานที่ทำเสร็จ', 'งานที่ค้างอยู่', 'งานที่ยังไม่เริ่ม'],
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
-          },
-          legend: {
-            position: 'bottom',
-          },
-        },
-      },
-    ],
-  };
-
   return (
     <DashboardContext.Provider
       value={{
@@ -102,7 +81,6 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
         barchartOption,
         monthOption,
         selectedMonth,
-        donutChartOption,
         setSelectedMonth,
       }}
     >

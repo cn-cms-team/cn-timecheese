@@ -327,3 +327,39 @@ export function calcTotalDays(start?: string, end?: string): number | null {
   const diff = differenceInBusinessDays(end, start);
   return diff >= 0 ? diff + 1 : null;
 }
+
+export function secondsToDuration(sec: number) {
+  if (!Number.isFinite(sec) || sec < 0) {
+    return {
+      year: 0,
+      month: 0,
+      day: 0,
+      hour: 0,
+      minute: 0,
+    };
+  }
+
+  let remaining = Math.floor(sec);
+
+  const YEAR = 365 * 24 * 60 * 60;
+  const MONTH = 30 * 24 * 60 * 60;
+  const DAY = 24 * 60 * 60;
+  const HOUR = 60 * 60;
+  const MINUTE = 60;
+
+  const year = Math.floor(remaining / YEAR);
+  remaining %= YEAR;
+
+  const month = Math.floor(remaining / MONTH);
+  remaining %= MONTH;
+
+  const day = Math.floor(remaining / DAY);
+  remaining %= DAY;
+
+  const hour = Math.floor(remaining / HOUR);
+  remaining %= HOUR;
+
+  const minute = Math.floor(remaining / MINUTE);
+
+  return { year, month, day, hour, minute };
+}
