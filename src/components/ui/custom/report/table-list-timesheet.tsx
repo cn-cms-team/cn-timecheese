@@ -78,7 +78,7 @@ const TableListTimesheet = () => {
   });
 
   return (
-    <div className="border rounded-md mt-4 p-3 w-full">
+    <div className="border rounded-md p-3 w-full">
       <header className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-2 mb-3">
         <div className="space-y-1 w-full">
           <Label>ค้นหา</Label>

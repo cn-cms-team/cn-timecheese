@@ -39,12 +39,9 @@ const DashboardContent = () => {
   ];
 
   return (
-    <div className="w-full">
+    <div className="w-full gap-3 flex flex-col">
       <DashboardBarChart />
-      <DonutChartTimesheet
-        donutLabel={mockTimeSheetDonutChart}
-        donutHeight={250}
-      />
+      <DonutChartTimesheet donutLabel={mockTimeSheetDonutChart} donutHeight={250} />
       <TableListTimesheet />
     </div>
   );
