@@ -1,3 +1,4 @@
+import { DashboardView } from '@/components/pages/dashboard';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -5,8 +6,8 @@ export const metadata: Metadata = {
   description: 'Time Cheese',
 };
 
-const Dashboard = () => {
-  return <div> Dashboard </div>;
+const DashboardPage = () => {
+  return <DashboardView />;
 };
 
-export default Dashboard;
+export default DashboardPage;
