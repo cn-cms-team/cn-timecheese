@@ -25,6 +25,7 @@ import { IPositionLevelRequest } from '@/types/setting/position';
 import { toast } from 'sonner';
 import PositionLevelCreateBtn from './position-level-create-btn';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
+import { MAX_LENGTH_100, MAX_LENGTH_255 } from '@/lib/constants/validation';
 
 const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
@@ -167,7 +168,7 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
                         </FormLabel>
                         <FormControl>
                           <Input
-                            maxLength={100}
+                            maxLength={MAX_LENGTH_100}
                             {...field}
                             autoComplete="off"
                             placeholder="กรุณากรอกชื่อตำแหน่ง"
@@ -188,7 +189,7 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
                         <FormLabel>คำอธิบาย</FormLabel>
                         <FormControl>
                           <Textarea
-                            maxLength={255}
+                            maxLength={MAX_LENGTH_255}
                             {...field}
                             value={field.value}
                             className="h-20"

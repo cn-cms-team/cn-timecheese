@@ -5,6 +5,7 @@ import { Trash2 } from 'lucide-react';
 import { CreatePositionSchemaType, EditPositionSchemaType } from './schema';
 import { Control } from 'react-hook-form';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { MAX_LENGTH_100, MAX_LENGTH_255 } from '@/lib/constants/validation';
 interface Props {
   index: number;
   control: Control<CreatePositionSchemaType | EditPositionSchemaType>;
@@ -56,7 +57,7 @@ const PositionLevelCreate = ({ index, control, onRemove, totalFields, isUsed = f
               </FormLabel>
               <FormControl>
                 <Input
-                  maxLength={100}
+                  maxLength={MAX_LENGTH_100}
                   autoComplete="off"
                   placeholder="กรุณากรอกชื่อระดับ"
                   {...field}
@@ -80,7 +81,7 @@ const PositionLevelCreate = ({ index, control, onRemove, totalFields, isUsed = f
                 <Textarea
                   {...field}
                   value={field.value || ''}
-                  maxLength={255}
+                  maxLength={MAX_LENGTH_255}
                   className="h-20"
                   autoComplete="off"
                   placeholder="กรุณากรอกคำอธิบายระดับ"
