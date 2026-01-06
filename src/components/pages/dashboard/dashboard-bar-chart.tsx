@@ -4,7 +4,7 @@ import ApexChart from '@/components/ui/custom/chart/apex-chart';
 import { useDashboardContext } from './view/dashboard-use-context';
 import Dropdown from '@/components/ui/custom/input/dropdown';
 
-const DashboardChart = () => {
+const DashboardBarChart = () => {
   const { chartOption, monthOption, selectedMonth, setSelectedMonth } = useDashboardContext();
   const handleSelectMonth = (month: number) => {
     if (setSelectedMonth) {
@@ -33,4 +33,4 @@ const DashboardChart = () => {
   );
 };
 
-export default DashboardChart;
+export default DashboardBarChart;

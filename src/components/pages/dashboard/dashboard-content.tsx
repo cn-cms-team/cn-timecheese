@@ -1,11 +1,11 @@
 'use client';
 
-import DashboardChart from './dashboard-chart';
+import DashboardBarChart from './dashboard-bar-chart';
 
 const DashboardContent = () => {
   return (
     <div className="w-full">
-      <DashboardChart />
+      <DashboardBarChart />
     </div>
   );
 };
