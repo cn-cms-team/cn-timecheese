@@ -58,7 +58,7 @@ const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300 }: IProps) => 
   };
 
   return (
-    <div className="w-full mt-4 border rounded-md p-3">
+    <div className="w-full border rounded-md p-3">
       {donutLabel.length === 0 ? (
         <Image
           src="/img/general/md-no-data.png"
