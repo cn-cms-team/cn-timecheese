@@ -25,13 +25,9 @@ const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300 }: IProps) => 
     const series = donutLabel.map((item) => item.tracked_hours);
     const label = donutLabel.map((item) => {
       const trackedHours = item.tracked_hours;
-      const hours = Math.floor(trackedHours / 3600);
-      const minutes = Math.floor((trackedHours % 3600) / 60);
-
       const percentage =
         totalHours > 0 ? `${((trackedHours / totalHours) * 100).toFixed(1)}%` : '0.0%';
-
-      const duration = `${hours} ชม ${minutes.toString().padStart(2, '0')} น`;
+      const duration = formatHours(trackedHours);
 
       return {
         percentage,
@@ -54,11 +50,7 @@ const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300 }: IProps) => 
     tooltip: {
       y: {
         formatter: function (val) {
-          const hours = Math.floor(val / 3600);
-          const minutes = Math.floor((val % 3600) / 60);
-          const formattedDuration = `${hours} ชั่วโมง ${
-            minutes < 10 ? `0${minutes}` : minutes
-          } นาที`;
+          const formattedDuration = formatHours(val);
           return formattedDuration;
         },
       },
