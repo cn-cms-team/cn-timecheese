@@ -4,8 +4,12 @@ import { useRouter } from 'next/navigation';
 import ModuleLayout from '@/components/layouts/ModuleLayout';
 import { Button } from '@/components/ui/button';
 import RoleViewDetail from '../role-view';
+import { useAccount } from '@/components/context/app-context';
+import { renderByPermission } from '@/lib/functions/ui-manage';
+import { EModules } from '@/lib/constants/module';
 
 const RoleViewButton = ({ id }: { id: string }): React.ReactNode => {
+  const { account } = useAccount();
   const router = useRouter();
   const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role/${id}`;
   const deleteUser = async () => {
@@ -13,12 +17,20 @@ const RoleViewButton = ({ id }: { id: string }): React.ReactNode => {
       router.push('/setting/role');
     });
   };
+
+  const canEdit = renderByPermission(account, EModules.ADMIN_ROLE, 'EDIT');
+  const canDelete = renderByPermission(account, EModules.ADMIN_ROLE, 'DELETE');
+  if (!canEdit && !canDelete) {
+    return <></>;
+  }
   return (
     <div className="flex gap-2 align-middle">
-      <Button onClick={() => router.push(`/setting/role/${id}/edit`)}>แก้ไข</Button>
-      <Button variant={'destructive'} onClick={() => deleteUser()}>
-        ลบ
-      </Button>
+      {canEdit && <Button onClick={() => router.push(`/setting/role/${id}/edit`)}>แก้ไข</Button>}
+      {canDelete && (
+        <Button variant={'destructive'} onClick={() => deleteUser()}>
+          ลบ
+        </Button>
+      )}
     </div>
   );
 };

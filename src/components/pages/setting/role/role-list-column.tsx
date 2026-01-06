@@ -1,5 +1,6 @@
 'use client';
 
+import { Account } from '@/components/context/app-context';
 import {
   ActionColumn,
   ButtonDelete,
@@ -7,6 +8,8 @@ import {
   SortColumn,
 } from '@/components/ui/custom/data-table';
 import LinkTable from '@/components/ui/custom/data-table/link';
+import { EModules } from '@/lib/constants/module';
+import { renderByPermission } from '@/lib/functions/ui-manage';
 import { IRole } from '@/types/setting/role';
 import { ColumnDef } from '@tanstack/react-table';
 
@@ -17,9 +20,13 @@ const updatedAtColumn = SortColumn<IRole>('updatedAt', 'วันที่แก
 const actionColumn = ActionColumn<IRole>('actions', 'จัดการ');
 
 type createColumnsProps = {
+  account: Account;
   onOpenDialog: (mode: 'edit' | 'delete', id: string, data: { name: string }) => void;
 };
-export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<IRole>[] => {
+export const createColumns = ({
+  account,
+  onOpenDialog,
+}: createColumnsProps): ColumnDef<IRole>[] => {
   const baseColumns: ColumnDef<IRole>[] = [
     {
       ...nameColumn,
@@ -58,26 +65,36 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
         );
       },
     },
-    {
-      ...actionColumn,
-      size: 200,
-      cell: ({ row }) => {
-        const { id, name } = row.original;
-        return (
-          <div className="flex justify-center space-x-1">
-            <ButtonEdit onClick={() => onOpenDialog('edit', id, { name })} />
-            <ButtonDelete
-              onOpenDialog={(id, data) => {
-                console.log('DELETE CLICKED', { id, data });
-                onOpenDialog('delete', id, data);
-              }}
-              id={id}
-              data={{ name }}
-            />
-          </div>
-        );
-      },
-    },
   ];
+
+  const canEdit = renderByPermission(account, EModules.ADMIN_ROLE, 'EDIT');
+  const canDelete = renderByPermission(account, EModules.ADMIN_ROLE, 'DELETE');
+  if (canEdit && canDelete) {
+    return [
+      ...baseColumns,
+      {
+        ...actionColumn,
+        cell: ({ row }) => {
+          const { id, name } = row.original;
+
+          return (
+            <div className="flex justify-center gap-2">
+              {canEdit && <ButtonEdit onClick={() => onOpenDialog('edit', id, { name })} />}
+              {canDelete && (
+                <ButtonDelete
+                  onOpenDialog={(id, data) => {
+                    console.log('DELETE CLICKED', { id, data });
+                    onOpenDialog('delete', id, data);
+                  }}
+                  id={id}
+                  data={{ name }}
+                />
+              )}
+            </div>
+          );
+        },
+      },
+    ];
+  }
   return baseColumns;
 };

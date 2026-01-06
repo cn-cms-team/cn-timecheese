@@ -11,9 +11,15 @@ import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { Plus } from 'lucide-react';
 import useSWR from 'swr';
 import { fetcher } from '@/lib/fetcher';
+import { Account, useAccount } from '@/components/context/app-context';
+import { EModules } from '@/lib/constants/module';
+import { renderByPermission } from '@/lib/functions/ui-manage';
 
-const RoleButton = (): React.ReactNode => {
+const RoleButton = ({ account }: { account: Account }): React.ReactNode => {
   const router = useRouter();
+  if (!renderByPermission(account, EModules.ADMIN_ROLE, 'CREATE')) {
+    return <></>;
+  }
   return (
     <div>
       <Button onClick={() => router.push('/setting/role/create')}>
@@ -25,6 +31,7 @@ const RoleButton = (): React.ReactNode => {
 };
 
 const RoleListView = () => {
+  const { account } = useAccount();
   const router = useRouter();
   const fetchRolesUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role`;
   const { data, error, isLoading, mutate } = useSWR(fetchRolesUrl, (url) => fetcher<IRole[]>(url));
@@ -82,6 +89,7 @@ const RoleListView = () => {
     } catch (error) {}
   };
   const columns = createColumns({
+    account: account,
     onOpenDialog: handleOpenDialog,
   });
 
@@ -94,7 +102,7 @@ const RoleListView = () => {
     <>
       <ModuleLayout
         headerTitle="สิทธิ์การใช้งาน"
-        headerButton={<RoleButton />}
+        headerButton={<RoleButton account={account} />}
         content={<RoleList columns={columns} data={data || []} loading={isLoading} />}
       ></ModuleLayout>
 
