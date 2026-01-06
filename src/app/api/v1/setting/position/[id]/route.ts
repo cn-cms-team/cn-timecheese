@@ -158,7 +158,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 
     if (levelsIsUsed) {
       return Response.json(
-        { error: 'Position Levels is used', code: 'POSITION_IN_USE' },
+        { message: 'ระดับตำแหน่งถูกใช้งานอยู่ ไม่สามารถลบได้' },
         { status: 400 }
       );
     }

@@ -70,10 +70,8 @@ const PositionView = ({ id }: { id: string }) => {
           const res = await fetch(fetchUrl, { method: 'DELETE' });
           const data = await res.json();
           if (!res.ok) {
-            if (res.status === 400 && data.code === 'POSITION_IN_USE') {
-              toast.error('ระดับตำแหน่งถูกใช้งานอยู่ ไม่สามารถลบได้');
-              return;
-            }
+            toast.error(data.message);
+            return;
           } else {
             router.push('/setting/position');
             toast.success('Delete Success!');
