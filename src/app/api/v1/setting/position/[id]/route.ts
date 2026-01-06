@@ -45,7 +45,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         name: level.name,
         description: level.description,
         ord: level.ord,
-        isUsed: level._count.users > 0,
+        is_used: level._count.users > 0,
       })),
     };
 

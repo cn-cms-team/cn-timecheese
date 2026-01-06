@@ -20,7 +20,7 @@ const basePositionSchema = z.object({
           z.string().min(1, 'กรุณากรอกชื่อตำแหน่ง')
         ),
       description: z.string().optional(),
-      isUsed: z.boolean().optional(),
+      is_used: z.boolean().optional(),
     })
   ),
 });

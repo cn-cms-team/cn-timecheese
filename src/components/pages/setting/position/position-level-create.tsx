@@ -11,10 +11,10 @@ interface Props {
   control: Control<CreatePositionSchemaType | EditPositionSchemaType>;
   onRemove: () => void;
   totalFields: number;
-  isUsed?: boolean;
+  is_used?: boolean;
 }
 
-const PositionLevelCreate = ({ index, control, onRemove, totalFields, isUsed = false }: Props) => {
+const PositionLevelCreate = ({ index, control, onRemove, totalFields, is_used = false }: Props) => {
   return (
     <div className="w-full h-full border rounded-sm py-5 px-3 mt-5">
       <div className="flex items-center justify-between">
@@ -27,10 +27,10 @@ const PositionLevelCreate = ({ index, control, onRemove, totalFields, isUsed = f
             <TooltipTrigger asChild>
               <button
                 type="button"
-                disabled={isUsed}
+                disabled={is_used}
                 onClick={onRemove}
                 className={`${
-                  isUsed
+                  is_used
                     ? 'cursor-not-allowed opacity-50 text-gray-400'
                     : 'cursor-pointer text-red-500 hover:text-red-700'
                 }`}
@@ -38,7 +38,7 @@ const PositionLevelCreate = ({ index, control, onRemove, totalFields, isUsed = f
                 <Trash2 size={20} />
               </button>
             </TooltipTrigger>
-            { isUsed && (
+            { is_used && (
               <TooltipContent>
                 <p>ระดับตำแหน่งถูกใช้งานอยู่</p>
               </TooltipContent>

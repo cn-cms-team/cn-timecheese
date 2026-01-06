@@ -220,7 +220,7 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
                     index={index}
                     control={form.control}
                     totalFields={fields.length}
-                    isUsed={levelsWatch?.[index]?.isUsed}
+                    is_used={levelsWatch?.[index]?.is_used}
                     onRemove={() => onDeleteLevel(index, field.name)}
                   />
                 ))}
