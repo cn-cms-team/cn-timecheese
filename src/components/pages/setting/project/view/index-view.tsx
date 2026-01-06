@@ -10,9 +10,15 @@ import { ProjectList } from '../project-list';
 import { IProject } from '@/types/setting/project';
 import useSWR from 'swr';
 import { fetcher } from '@/lib/fetcher';
+import { Account, useAccount } from '@/components/context/app-context';
+import { EModules } from '@/lib/constants/module';
+import { renderByPermission } from '@/lib/functions/ui-manage';
 
-const AddProjectButton = (): React.ReactNode => {
+const AddProjectButton = ({ account }: { account: Account }): React.ReactNode => {
   const router = useRouter();
+  if (!renderByPermission(account, EModules.ADMIN_PROJECT, 'CREATE')) {
+    return <></>;
+  }
   return (
     <div>
       <Button onClick={() => router.push('/setting/project/create')}>
@@ -24,6 +30,7 @@ const AddProjectButton = (): React.ReactNode => {
 };
 
 const ProjectListView = () => {
+  const { account } = useAccount();
   const router = useRouter();
   const fetchUsersUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/project`;
   const { data, error, isLoading, mutate } = useSWR(fetchUsersUrl, (url) =>
@@ -80,6 +87,7 @@ const ProjectListView = () => {
   };
 
   const columns = createColumns({
+    account: account,
     onOpenDialog: handleOpenDialog,
   });
 
@@ -87,7 +95,7 @@ const ProjectListView = () => {
     <>
       <ModuleLayout
         headerTitle={'โครงการ'}
-        headerButton={<AddProjectButton />}
+        headerButton={<AddProjectButton account={account} />}
         content={<ProjectList columns={columns} data={data ?? []} />}
       ></ModuleLayout>
 

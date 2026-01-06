@@ -6,6 +6,9 @@ import { useRouter } from 'next/navigation';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { renderByPermission } from '@/lib/functions/ui-manage';
+import { EModules } from '@/lib/constants/module';
+import { useAccount } from '@/components/context/app-context';
 
 const PositionViewButton = ({
   id,
@@ -14,6 +17,12 @@ const PositionViewButton = ({
   id: string;
   onOpenDialog: (mode: 'edit' | 'delete') => void;
 }): React.ReactNode => {
+  const { account } = useAccount();
+  const canEdit = renderByPermission(account, EModules.ADMIN_POSITION, 'EDIT');
+  const canDelete = renderByPermission(account, EModules.ADMIN_POSITION, 'DELETE');
+  if (!canEdit && !canDelete) {
+    return <></>;
+  }
   return (
     <div className="flex align-middle">
       <Button className="btn btn-outline-primary font-bold" onClick={() => onOpenDialog('edit')}>

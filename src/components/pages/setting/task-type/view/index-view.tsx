@@ -7,8 +7,10 @@ import { ITaskMenu } from '@/types/setting/task-type';
 import { useRouter } from 'next/navigation';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { taskTypeMenu } from '@/lib/constants/task';
+import { useAccount } from '@/components/context/app-context';
 
 const TaskTypeListView = () => {
+  const { account } = useAccount();
   const router = useRouter();
   const [taskMenuList, setTaskMenuList] = useState<ITaskMenu[]>(taskTypeMenu);
 
@@ -45,6 +47,7 @@ const TaskTypeListView = () => {
   };
 
   const columns = createColumns({
+    account: account,
     onOpenDialog: handleOpenDialog,
   });
 

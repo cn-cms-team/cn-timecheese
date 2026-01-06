@@ -11,9 +11,15 @@ import { TeamList } from '../team-list';
 import { toast } from 'sonner';
 import useSWR from 'swr';
 import { fetcher } from '@/lib/fetcher';
+import { Account, useAccount } from '@/components/context/app-context';
+import { renderByPermission } from '@/lib/functions/ui-manage';
+import { EModules } from '@/lib/constants/module';
 
-const TeamButton = (): React.ReactNode => {
+const TeamButton = ({ account }: { account: Account }): React.ReactNode => {
   const router = useRouter();
+  if (!renderByPermission(account, EModules.ADMIN_TEAM, 'CREATE')) {
+    return <></>;
+  }
   return (
     <div>
       <Button onClick={() => router.push('/setting/team/create')}>
@@ -25,6 +31,7 @@ const TeamButton = (): React.ReactNode => {
 };
 
 const TeamListView = () => {
+  const { account } = useAccount();
   const router = useRouter();
   const fetchTeamUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/team`;
   const { data, error, isLoading, mutate } = useSWR(fetchTeamUrl, (url) => fetcher<ITeam[]>(url));
@@ -55,12 +62,7 @@ const TeamListView = () => {
       toast('An unexpected error occurred. Please try again.');
     }
   };
-  const handleOpenDialog = async (
-    mode: 'edit' | 'delete',
-    isActive: boolean,
-    id: string,
-    team: { name: string }
-  ) => {
+  const handleOpenDialog = async (mode: 'edit' | 'delete', id: string, team: { name: string }) => {
     try {
       if (mode === 'edit') {
         setConfirmState({
@@ -92,6 +94,7 @@ const TeamListView = () => {
   };
 
   const columns = createColumns({
+    account: account,
     onOpenDialog: handleOpenDialog,
   });
   if (error) {
@@ -103,7 +106,7 @@ const TeamListView = () => {
     <>
       <ModuleLayout
         headerTitle={'ทีม'}
-        headerButton={<TeamButton />}
+        headerButton={<TeamButton account={account} />}
         content={<TeamList columns={columns} data={data || []} loading={isLoading} />}
       ></ModuleLayout>
 

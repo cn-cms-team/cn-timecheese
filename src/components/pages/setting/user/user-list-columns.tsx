@@ -10,6 +10,9 @@ import {
 import { IUser } from '@/types/setting/user';
 import LinkTable from '@/components/ui/custom/data-table/link';
 import BadgeTable from '@/components/ui/custom/data-table/badge';
+import { EModules } from '@/lib/constants/module';
+import { renderByPermission } from '@/lib/functions/ui-manage';
+import { Account } from '@/components/context/app-context';
 
 const nameColumn = SortColumn<IUser>('fullName', 'ชื่อ - นามสกุล');
 const nickNameColumn = SortColumn<IUser>('nickName', 'ชื่อเล่น');
@@ -20,15 +23,14 @@ const activeColumn = SortColumn<IUser>('is_active', 'สถานะ');
 const actionColumn = ActionColumn<IUser>('actions', 'จัดการ');
 
 type createColumnsProps = {
-  onOpenDialog: (
-    mode: 'edit' | 'delete',
-    isActive: boolean,
-    id: string,
-    data: { email: string }
-  ) => void;
+  account: Account;
+  onOpenDialog: (mode: 'edit' | 'delete', id: string, data: { email: string }) => void;
 };
 
-export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<IUser>[] => {
+export const createColumns = ({
+  account,
+  onOpenDialog,
+}: createColumnsProps): ColumnDef<IUser>[] => {
   const baseColumns: ColumnDef<IUser>[] = [
     {
       ...nameColumn,
@@ -85,24 +87,33 @@ export const createColumns = ({ onOpenDialog }: createColumnsProps): ColumnDef<I
         );
       },
     },
-
-    {
-      ...actionColumn,
-      cell: ({ row }) => {
-        const { id, email, is_active } = row.original;
-
-        return (
-          <div className="flex justify-center gap-2">
-            <ButtonEdit onClick={() => onOpenDialog('edit', is_active, id, { email })} />
-            <ButtonDelete
-              onOpenDialog={() => onOpenDialog('delete', is_active, id, { email })}
-              id={id}
-              data={{ email }}
-            />
-          </div>
-        );
-      },
-    },
   ];
+
+  const canEdit = renderByPermission(account, EModules.ADMIN_USER, 'EDIT');
+  const canDelete = renderByPermission(account, EModules.ADMIN_USER, 'DELETE');
+  if (canEdit && canDelete) {
+    return [
+      ...baseColumns,
+      {
+        ...actionColumn,
+        cell: ({ row }) => {
+          const { id, email } = row.original;
+
+          return (
+            <div className="flex justify-center gap-2">
+              {canEdit && <ButtonEdit onClick={() => onOpenDialog('edit', id, { email })} />}
+              {canDelete && (
+                <ButtonDelete
+                  onOpenDialog={() => onOpenDialog('delete', id, { email })}
+                  id={id}
+                  data={{ email }}
+                />
+              )}
+            </div>
+          );
+        },
+      },
+    ];
+  }
   return baseColumns;
 };

@@ -3,30 +3,34 @@
 import ModuleLayout from '@/components/layouts/ModuleLayout';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { ListPlus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { createColumns } from '../position-list-columns';
 import { PositionList } from '../postion-list';
 import { IPosition } from '@/types/setting/position';
 import { toast } from 'sonner';
+import { Account, useAccount } from '@/components/context/app-context';
+import { renderByPermission } from '@/lib/functions/ui-manage';
+import { EModules } from '@/lib/constants/module';
 
-const PositionButton = (): React.ReactNode => {
+const PositionButton = ({ account }: { account: Account }): React.ReactNode => {
   const router = useRouter();
+  if (!renderByPermission(account, EModules.ADMIN_POSITION, 'CREATE')) {
+    return <></>;
+  }
   return (
     <div>
-      <Button
-        className="btn btn-outline-primary font-bold"
-        onClick={() => router.push('/setting/position/create')}
-      >
-        <ListPlus className="w-4 h-4" />
+      <Button onClick={() => router.push('/setting/position/create')}>
+        <Plus className="w-4 h-4" />
         เพิ่มตำแหน่ง
       </Button>
     </div>
   );
 };
 
-const PostionListView = () => {
+const PositionListView = () => {
+  const { account } = useAccount();
   const router = useRouter();
   const fetchPositionsUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/position`;
   const [positionList, setPositionList] = useState<IPosition[]>([]);
@@ -62,11 +66,15 @@ const PostionListView = () => {
       return;
     } else {
       router.push('/setting/position');
-      toast.success('Delete Success!')
+      toast.success('Delete Success!');
     }
   };
 
-  const handleOpenDialog = async (mode: 'edit' | 'delete' , id: string , {name}: {name : string}) => {
+  const handleOpenDialog = async (
+    mode: 'edit' | 'delete',
+    id: string,
+    { name }: { name: string }
+  ) => {
     try {
       if (mode === 'edit') {
         setConfirmState({
@@ -102,15 +110,15 @@ const PostionListView = () => {
   };
 
   const columns = createColumns({
+    account: account,
     onOpenDialog: handleOpenDialog,
   });
-  
 
   return (
     <>
       <ModuleLayout
         headerTitle={'ตำแหน่ง'}
-        headerButton={<PositionButton />}
+        headerButton={<PositionButton account={account} />}
         content={<PositionList columns={columns} data={positionList} />}
       ></ModuleLayout>
 
@@ -122,4 +130,4 @@ const PostionListView = () => {
     </>
   );
 };
-export default PostionListView;
+export default PositionListView;

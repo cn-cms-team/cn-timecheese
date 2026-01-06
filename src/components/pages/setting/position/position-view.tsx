@@ -2,7 +2,13 @@ import { useEffect, useState } from 'react';
 import PositionLevelView from './position-level-view';
 import { IPosition } from '@/types/setting/position';
 
-const PositionViewDetail = ({ id, onDataLoaded }: { id: string, onDataLoaded: (name: string) => void }): React.ReactNode => {
+const PositionViewDetail = ({
+  id,
+  onDataLoaded,
+}: {
+  id: string;
+  onDataLoaded: (name: string) => void;
+}): React.ReactNode => {
   const [positionData, setPositionData] = useState<IPosition>();
   useEffect(() => {
     const fetchPositionData = async () => {
@@ -12,7 +18,7 @@ const PositionViewDetail = ({ id, onDataLoaded }: { id: string, onDataLoaded: (n
           const result = await response.json();
           const data = result.data;
           setPositionData(data);
-          onDataLoaded(data.name)
+          onDataLoaded(data.name);
         }
       } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -31,11 +37,11 @@ const PositionViewDetail = ({ id, onDataLoaded }: { id: string, onDataLoaded: (n
         <hr className="mt-1" />
         <div>
           <div>
-            <h1 className="text-gray-500 mt-10">ชื่อตำแหน่ง</h1>
+            <h3 className="text-gray-500 mt-10 text-sm">ชื่อตำแหน่ง</h3>
             <p>{positionData?.name}</p>
           </div>
           <div>
-            <h1 className="text-gray-500 mt-10">คำอธิบาย</h1>
+            <h3 className="text-gray-500 mt-10 text-sm">คำอธิบาย</h3>
             <p className="whitespace-pre-wrap">{positionData?.description || '-'}</p>
           </div>
         </div>
