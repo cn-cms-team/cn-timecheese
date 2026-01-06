@@ -6,6 +6,7 @@ declare module 'next-auth' {
     // refreshToken?: string;
     resetPasswordDate?: Date | null;
     lastLoginAt?: Date | null;
+    team_id?: string;
   }
   interface Session {
     user: User & DefaultSession['user'];

@@ -1,7 +1,8 @@
 'use client';
 
 import ModuleLayout from '@/components/layouts/ModuleLayout';
-import DashboardProvider from './dashboard-usecontext';
+import DashboardProvider from './dashboard-use-context';
+import DashboardContent from '../dashboard-content';
 
 const DashboardView = () => {
   return (
@@ -10,7 +11,7 @@ const DashboardView = () => {
       headerButton={null}
       content={
         <DashboardProvider>
-          <div>Dashboard Content Goes Here</div>
+          <DashboardContent />
         </DashboardProvider>
       }
     />

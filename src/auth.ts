@@ -26,6 +26,7 @@ const getUser = async (email: string): Promise<User> => {
         last_login_at: true,
         reset_password_date: true,
         password: true,
+        team_id: true,
       },
     });
     return user as User;
@@ -60,6 +61,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           name: `${user.first_name} ${user.last_name}`,
           resetPasswordDate: user.reset_password_date,
           lastLoginAt: user.last_login_at,
+          team_id: user.team_id || undefined,
         };
 
         const passwordsMatch = await bcrypt.compare(password, user.password);
@@ -103,6 +105,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.email = user.email;
         token.resetPasswordDate = user.resetPasswordDate as Date;
         token.lastLoginAt = user.lastLoginAt as Date;
+        token.team_id = user.team_id as string;
       }
       return token;
     },
@@ -116,6 +119,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.email = token.email as string;
         session.user.resetPasswordDate = token.resetPasswordDate as Date;
         session.user.lastLoginAt = token.lastLoginAt as Date;
+        session.user.team_id = token.team_id as string;
       }
       return session;
     },
