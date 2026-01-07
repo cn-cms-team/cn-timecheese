@@ -16,12 +16,14 @@ interface IDashboardContextType {
   projectId: string;
   dashboardProjectData: IDashboard;
   projectOption: IOption[];
+  weekDays: string[];
   setSelectedMonth: (month: number) => void;
   setLoading: (loading: boolean) => void;
   setProjectId: (projectId: string) => void;
   setDashboardProjectData: (data: IDashboard) => void;
   fetchProjectData: (userId: string, projectId: string) => Promise<void>;
   fetchProjectsOption: () => Promise<void>;
+  formatHours: (seconds: number) => string;
 }
 
 const DashboardContext = createContext<IDashboardContextType | undefined>(undefined);
@@ -39,6 +41,16 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     return new Date(today.getFullYear(), selectedMonth, today.getDate());
   });
 
+  const formatHours = (hours: number) => {
+    const minutes = Math.floor((hours % 3600) / 60);
+
+    const duration = `${hours} ชม ${
+      minutes === 0 ? '' : minutes.toString().padStart(2, '0') + 'น'
+    } `;
+
+    return duration;
+  };
+
   const daysInMonth = new Date(weekAnchorDate.getFullYear(), selectedMonth + 1, 0).getDate();
 
   const weekDays = Array.from({ length: daysInMonth }, (_, i) =>
@@ -53,21 +65,22 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const barchartOption: ApexOptions = {
     chart: {
       type: 'bar',
+      toolbar: {
+        show: false,
+      },
     },
     plotOptions: {
       bar: {
-        horizontal: false,
-        columnWidth: '55%',
+        columnWidth: '80%',
         borderRadius: 4,
+        distributed: true,
       },
     },
     dataLabels: {
       enabled: false,
     },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ['transparent'],
+    legend: {
+      show: false,
     },
     xaxis: {
       categories: weekDays,
@@ -76,14 +89,30 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
       title: {
         text: 'ชั่วโมง',
       },
+      forceNiceScale: false,
+      tickAmount: 4,
+      labels: {
+        formatter: function (value) {
+          return value.toFixed(0);
+        },
+      },
     },
     fill: {
       opacity: 1,
     },
     tooltip: {
+      x: {
+        show: false,
+      },
       y: {
-        formatter: function (val) {
-          return +val + ' ชั่วโมง';
+        title: {
+          formatter: function () {
+            return '';
+          },
+        },
+        formatter: function (value, option) {
+          const dataIndex = option.dataPointIndex;
+          return `วันที่ ${weekDays[dataIndex]}: ${formatHours(value)}`;
         },
       },
     },
@@ -123,12 +152,14 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
         projectId,
         dashboardProjectData,
         projectOption,
+        weekDays,
         setSelectedMonth,
         setProjectId,
         setLoading,
         setDashboardProjectData,
         fetchProjectData,
         fetchProjectsOption,
+        formatHours,
       }}
     >
       {children}
