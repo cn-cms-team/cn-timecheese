@@ -26,6 +26,7 @@ import { toast } from 'sonner';
 import PositionLevelCreateBtn from './position-level-create-btn';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { MAX_LENGTH_100, MAX_LENGTH_255 } from '@/lib/constants/validation';
+import { TitleGroup } from '@/components/ui/custom/cev';
 
 const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
@@ -149,70 +150,65 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
     <>
       <Form {...form}>
         <form id="position-create-form" onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-5 lg:px-10 lg:py-10">
-            <div className="w-full h-fit border px-5 py-5 rounded-sm text-lg">
-              <div>
-                <h1 className="font-semibold">ข้อมูลตำแหน่ง</h1>
-              </div>
-              <hr className="mt-1" />
-              <div>
-                <div>
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem className="w-full mt-10">
-                        <FormLabel>
-                          ชื่อตำแหน่ง
-                          <span className="text-red-500">*</span>
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            maxLength={MAX_LENGTH_100}
-                            {...field}
-                            autoComplete="off"
-                            placeholder="กรุณากรอกชื่อตำแหน่ง"
-                            onInput={(e) => {
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem className="w-full mt-5">
-                        <FormLabel>คำอธิบาย</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            maxLength={MAX_LENGTH_255}
-                            {...field}
-                            value={field.value}
-                            className="h-20"
-                            autoComplete="off"
-                            placeholder="กรุณากรอกคำอธิบายตำแหน่ง"
-                            onInput={(e) => {
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+          <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-10 lg:px-10 lg:py-10">
+            <div className="w-full h-fit border px-6 py-5 rounded-lg shadow-sm">
+              <TitleGroup title="ข้อมูลตำแหน่ง" />
+              <div className="flex flex-col gap-5 mt-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>
+                        ชื่อตำแหน่ง
+                        <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          maxLength={MAX_LENGTH_100}
+                          {...field}
+                          autoComplete="off"
+                          placeholder="กรุณากรอกชื่อตำแหน่ง"
+                          onInput={(e) => {
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>คำอธิบาย</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          maxLength={MAX_LENGTH_255}
+                          {...field}
+                          value={field.value}
+                          className="h-20"
+                          autoComplete="off"
+                          placeholder="กรุณากรอกคำอธิบายตำแหน่ง"
+                          onInput={(e) => {
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
-            <div className="w-full h-full border px-5 lg:px-10 py-5 rounded-sm text-lg overflow-auto">
+            <div className="w-full h-full border px-6 py-5 rounded-lg shadow-sm overflow-auto">
               <div className="flex justify-between items-center">
-                <h1 className="font-semibold">ระดับตำแหน่ง</h1>
+                <h1 className="font-medium text-lg mb-0">ระดับตำแหน่ง</h1>
                 <PositionLevelCreateBtn onAppend={() => append({ name: '', description: '' })} />
               </div>
-              <hr className="mt-1" />
+              <hr className="mt-2 mb-5" />
               <div>
                 {fields.map((field, index) => (
                   <PositionLevelCreate
