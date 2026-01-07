@@ -24,14 +24,9 @@ const PositionViewButton = ({
     return <></>;
   }
   return (
-    <div className="flex align-middle">
-      <Button className="btn btn-outline-primary font-bold" onClick={() => onOpenDialog('edit')}>
-        แก้ไข
-      </Button>
-      <Button
-        className="btn btn-outline-secondary font-bold ml-2"
-        onClick={() => onOpenDialog('delete')}
-      >
+    <div className="flex gap-3 align-middle">
+      <Button onClick={() => onOpenDialog('edit')}>แก้ไข</Button>
+      <Button variant={'destructive'} onClick={() => onOpenDialog('delete')}>
         ลบ
       </Button>
     </div>
