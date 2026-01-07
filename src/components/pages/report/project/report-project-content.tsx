@@ -8,7 +8,6 @@ import ReportUsersButton from '../../reports/report-users-button';
 import { UserAvatarProps } from '@/components/ui/custom/avatar/user-avatar';
 import { IOption } from '@/types/option';
 import { fetcher } from '@/lib/fetcher';
-import { set } from 'zod';
 import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
 import DonutChartTimesheet from '@/components/ui/custom/report/donut-chart-timesheet';
 import TableListTimesheet from '@/components/ui/custom/report/table-list-timesheet';
@@ -44,7 +43,7 @@ const ReportProjectContent = () => {
         const project = await fetcher<IOption[]>(`${prefix}//api/v1/report/project/project-list`);
         setProjectOptions(project);
       } catch (error) {
-        console.error('Error fetching options:', error);
+        console.error('Error fetching project options:', error);
       }
     };
     fetchProjects();
@@ -65,7 +64,7 @@ const ReportProjectContent = () => {
           }))
         );
       } catch (error) {
-        console.error('Error fetching options:', error);
+        console.error('Error fetching member options:', error);
       }
     };
     if (projectId) {
@@ -82,7 +81,7 @@ const ReportProjectContent = () => {
         );
         setReportProjectData(projectData);
       } catch (error) {
-        console.error('Error fetching options:', error);
+        console.error('Error fetching project data:', error);
       } finally {
         setIsLoading(false);
       }
