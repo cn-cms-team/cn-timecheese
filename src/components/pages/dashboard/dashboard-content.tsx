@@ -49,7 +49,6 @@ const DashboardContent = () => {
           position="Full-Stack Developer"
           code="CN-550"
           start_date="2568-01-06"
-          image=""
         />
       </div>
       <DashboardBarChart />
