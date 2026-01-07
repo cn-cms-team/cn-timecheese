@@ -79,11 +79,11 @@ export async function getReportProjectByUser(projectId: string, memberId: string
     const projectData = {
       project_id: projectId,
       user: {
-        id: user.id,
-        position: user.position_level?.name || '',
-        code: user.code,
-        start_date: user.start_date,
-        saraly_range: user.salary_range || '',
+        id: user?.id,
+        position: user?.position_level?.name || '',
+        code: user?.code,
+        start_date: user?.start_date,
+        saraly_range: user?.salary_range || '',
         full_name: `${user?.first_name} ${user?.last_name}`,
       },
       project: project
