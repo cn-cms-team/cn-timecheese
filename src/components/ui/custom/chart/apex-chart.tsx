@@ -1,5 +1,8 @@
 'use client';
-import ReactChart from 'react-apexcharts';
+
+import dynamic from 'next/dynamic';
+
+const ReactChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import { ApexOptions } from 'apexcharts';
 
 type ApexChartType =
