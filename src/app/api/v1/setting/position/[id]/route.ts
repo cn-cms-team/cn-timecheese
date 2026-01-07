@@ -121,7 +121,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       });
     });
 
-    return Response.json({ message: 'Update successfully', data: { id: result.id } });
+    return Response.json({ message: 'Update success', data: { id: result.id } });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'Update failed' },
@@ -176,7 +176,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 
     return Response.json(
       {
-        message: `Delete successfully `,
+        message: `Delete success `,
         data: { id: result.id },
       },
       { status: 200 }
