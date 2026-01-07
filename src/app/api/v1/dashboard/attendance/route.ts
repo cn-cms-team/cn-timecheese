@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     return Response.json({ error: 'Month parameter is required' }, { status: 400 });
   }
 
-  const year = new Date().getFullYear() - 1;
+  const year = new Date().getFullYear();
   const monthNumber = Number(month);
 
   if (isNaN(monthNumber) || monthNumber < 0 || monthNumber > 11) {
