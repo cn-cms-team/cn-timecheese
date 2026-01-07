@@ -85,7 +85,7 @@ export async function POST(request: Request) {
 
     return Response.json(
       {
-        message: 'Create successfully',
+        message: 'Create success',
       },
       { status: 200 }
     );

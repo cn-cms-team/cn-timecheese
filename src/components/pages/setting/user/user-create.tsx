@@ -24,7 +24,7 @@ import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { fetcher } from '@/lib/fetcher';
-import { IOptions } from '@/types/dropdown';
+import { IOptionGroups, IOptions } from '@/types/dropdown';
 import { DatePickerInput } from '@/components/ui/custom/input/date-picker';
 import { Required } from '@/components/ui/custom/form';
 import { MAX_LENGTH_100, MAX_LENGTH_255, MAX_LENGTH_50 } from '@/lib/constants/validation';
@@ -36,7 +36,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
 
   const [teamOptions, setTeamOptions] = useState<IOptions[]>([]);
-  const [positionLevelOptions, setPositionLevelOptions] = useState<IOptions[]>([]);
+  const [positionLevelOptions, setPositionLevelOptions] = useState<IOptionGroups[]>([]);
   const [roleOptions, setRoleOptions] = useState<IOptions[]>([]);
 
   const schema = id ? editUserSchema : createUserSchema;
@@ -65,7 +65,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
         const prefix = process.env.NEXT_PUBLIC_APP_URL;
         const [team, positionLevel, role] = await Promise.all([
           fetcher<IOptions[]>(`${prefix}/api/v1/master/team`),
-          fetcher<IOptions[]>(`${prefix}/api/v1/master/position-level`),
+          fetcher<IOptionGroups[]>(`${prefix}/api/v1/master/position-level`),
           fetcher<IOptions[]>(`${prefix}/api/v1/master/role`),
         ]);
         setTeamOptions(team);
@@ -371,6 +371,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                     <ComboboxForm
                       placeholder="เลือกระดับตำแหน่ง"
                       options={positionLevelOptions}
+                      isGroup={true}
                       field={field}
                       onSelect={(value) => {
                         field.onChange(value);

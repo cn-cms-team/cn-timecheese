@@ -79,11 +79,11 @@ const PositionView = ({ id }: { id: string }) => {
           const res = await fetch(fetchUrl, { method: 'DELETE' });
           const data = await res.json();
           if (!res.ok) {
-            toast.error(data.message);
+            toast(data.message);
             return;
           } else {
             router.push('/setting/position');
-            toast.success('Delete Success!');
+            toast('Delete success');
           }
         }
       }
