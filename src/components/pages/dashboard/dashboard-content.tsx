@@ -1,60 +1,70 @@
 'use client';
-
-import { useDashboardContext } from './view/dashboard-use-context';
+import { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 
 import DashboardBarChart from './dashboard-bar-chart';
-import DonutChartTimesheet from '@/components/ui/custom/report/donut-chart-timesheet';
-import TableListTimesheet from '@/components/ui/custom/report/table-list-timesheet';
-import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
-import { IProjectInfoByUser } from '@/types/report';
+import { Label } from '@/components/ui/label';
+import Dropdown from '@/components/ui/custom/input/dropdown';
+import { useDashboardContext } from './view/dashboard-use-context';
 import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
+import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
+import TableListTimesheet from '@/components/ui/custom/report/table-list-timesheet';
+import DonutChartTimesheet from '@/components/ui/custom/report/donut-chart-timesheet';
 
 const DashboardContent = () => {
-  const mockTimeSheetDonutChart = [
-    {
-      task_type: 'Frontend Development',
-      tracked_hours: 172800,
-    },
-    {
-      task_type: 'Backend Development',
-      tracked_hours: 216000,
-    },
-    {
-      task_type: 'Bug Fixing',
-      tracked_hours: 108900,
-    },
-    {
-      task_type: 'Code Review',
-      tracked_hours: 54000,
-    },
-    {
-      task_type: 'Testing & QA',
-      tracked_hours: 72500,
-    },
-    {
-      task_type: 'DevOps / Deployment',
-      tracked_hours: 36500,
-    },
-    {
-      task_type: 'Meeting & Planning',
-      tracked_hours: 90000,
-    },
-  ];
+  const { data } = useSession();
+  const {
+    dashboardProjectData,
+    projectOption,
+    projectId,
+    setProjectId,
+    fetchProjectData,
+    fetchProjectsOption,
+  } = useDashboardContext();
+
+  useEffect(() => {
+    if (!data?.user?.id) return;
+
+    const init = async () => {
+      if (projectOption.length === 0) {
+        await fetchProjectsOption();
+      }
+
+      if (projectId) {
+        await fetchProjectData(data.user.id, projectId);
+      }
+    };
+
+    init();
+  }, [data?.user?.id, projectId]);
 
   return (
-    <div className="w-full gap-3 flex flex-col">
+    <div className="w-full gap-4 flex flex-col">
       <div className="border rounded-lg">
         <AvatarDetail
-          name="พิชญากร ทรงบุญเขตกุล"
-          position="Full-Stack Developer"
-          code="CN-550"
-          start_date="2568-01-06"
+          name={dashboardProjectData?.user?.full_name || '-'}
+          position={dashboardProjectData?.user?.position || '-'}
+          code={dashboardProjectData?.user?.code || '-'}
+          start_date={dashboardProjectData?.user?.start_date || '-'}
           image=""
         />
       </div>
       <DashboardBarChart />
-      <CardProjectInfo project={{} as IProjectInfoByUser} />
-      <DonutChartTimesheet donutLabel={mockTimeSheetDonutChart} donutHeight={250} />
+      <div className="space-y-1 max-w-sm">
+        <Label>โครงการ</Label>
+        <Dropdown
+          value={projectId}
+          options={projectOption}
+          isAllPlaceHolder={false}
+          placeholder="เลือกโครงการ"
+          onChange={(value) => setProjectId(value)}
+        />
+      </div>
+      <CardProjectInfo project={dashboardProjectData?.project || {}} />
+      <DonutChartTimesheet
+        donutLabel={dashboardProjectData?.timesheet_chart || []}
+        donutHeight={250}
+      />
       <TableListTimesheet />
     </div>
   );
