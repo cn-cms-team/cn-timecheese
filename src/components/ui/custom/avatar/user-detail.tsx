@@ -4,7 +4,6 @@ import { getFirstCharacter } from '@/lib/functions/string-format';
 
 export type UserAvatarDetailProps = {
   name: string;
-  image: string;
   position: string;
   code: string;
   start_date: string;
@@ -13,7 +12,6 @@ export type UserAvatarDetailProps = {
 
 const AvatarDetail = ({
   name,
-  image,
   position,
   code,
   start_date,
@@ -21,13 +19,11 @@ const AvatarDetail = ({
 }: UserAvatarDetailProps) => {
   return (
     <div className="flex w-full px-4 py-3 gap-4">
-      {image ? (
-        <img className="w-32 h-32 rounded-full" src={image} alt={name} />
-      ) : (
-        <div className="flex w-32 h-32 rounded-full font-bold text-6xl items-center justify-center border-2 text-primary-foreground bg-primary">
-          {getFirstCharacter(name)}
-        </div>
-      )}
+      <img
+        className="w-32 h-32 rounded-full"
+        src={`${process.env.NEXT_PUBLIC_DICEBEAR_URL}${name.trim()}`}
+        alt={name}
+      />
       <div className="flex flex-col justify-between gap-3">
         <div className="text-lg font-bold">{name}</div>
         <div className="text-normal  font-bold">{position || '-'}</div>
