@@ -2,7 +2,7 @@
 import ModuleLayout from '@/components/layouts/ModuleLayout';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Presentation, UserPlus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { createColumns } from '../project-list-column';
@@ -22,7 +22,7 @@ const AddProjectButton = ({ account }: { account: Account }): React.ReactNode =>
   return (
     <div>
       <Button onClick={() => router.push('/setting/project/create')}>
-        <Presentation className="w-4 h-4" />
+        <Plus className="w-4 h-4" />
         เพิ่มโครงการ
       </Button>
     </div>
@@ -91,12 +91,17 @@ const ProjectListView = () => {
     onOpenDialog: handleOpenDialog,
   });
 
+  if (error) {
+    router.replace('/404');
+    return null;
+  }
+
   return (
     <>
       <ModuleLayout
         headerTitle={'โครงการ'}
         headerButton={<AddProjectButton account={account} />}
-        content={<ProjectList columns={columns} data={data ?? []} />}
+        content={<ProjectList columns={columns} data={data ?? []} loading={isLoading} />}
       ></ModuleLayout>
 
       <Confirmation

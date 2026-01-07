@@ -147,7 +147,7 @@ export async function POST(request: Request) {
     }
 
     return Response.json(
-      { message: 'Create Task successfully', data: { id: result.id } },
+      { message: 'Create Task success', data: { id: result.id } },
       { status: 200 }
     );
   } catch (error) {

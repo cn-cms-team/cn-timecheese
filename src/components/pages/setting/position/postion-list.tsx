@@ -25,9 +25,14 @@ import { IPosition } from '@/types/setting/position';
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  loading: boolean;
 }
 
-export function PositionList<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function PositionList<TData, TValue>({
+  columns,
+  data,
+  loading,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState<{
@@ -99,7 +104,7 @@ export function PositionList<TData, TValue>({ columns, data }: DataTableProps<TD
           />
         </div>
       </div>
-      <DataTable table={table} columns={columns} />
+      <DataTable table={table} columns={columns} loading={loading} />
     </div>
   );
 }
