@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -45,13 +45,9 @@ const TableListTimesheet = () => {
   const multiColumnGlobalFilter = (
     row: Row<ITimeSheetTable>,
     columnId: string,
-    filterValue: { search: string; userType: string; roles: string }
+    filterValue: {}
   ) => {
-    const search = filterValue.search.toLowerCase().trim();
-    const { name } = row.original as any;
-    const searchMatch = name?.toLowerCase().includes(search);
-
-    return searchMatch;
+    return false;
   };
 
   const table = useReactTable({
@@ -93,4 +89,4 @@ const TableListTimesheet = () => {
     </div>
   );
 };
-export default TableListTimesheet;
+export default React.memo(TableListTimesheet);
