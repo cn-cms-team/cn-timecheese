@@ -1,7 +1,7 @@
-export interface IDashboard extends IProjectReportBase {}
-export interface IReportProject extends IProjectReportBase {
+export interface IDashboard extends IProjectReportBase {
   timesheet_monthly_column_chart: ITimeSheetMontlyColumnChart;
 }
+export interface IReportProject extends IProjectReportBase {}
 export interface IReportTeam {
   user: IReportUserInfo;
   projects: IProjectInfoByUser[];
@@ -22,6 +22,7 @@ export interface IReportUserInfo {
   code: string;
   start_date: string;
   saraly_range?: string;
+  image: string;
 }
 
 export interface IProjectInfoByUser {

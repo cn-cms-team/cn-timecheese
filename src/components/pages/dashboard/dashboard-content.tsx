@@ -5,6 +5,9 @@ import { useDashboardContext } from './view/dashboard-use-context';
 import DashboardBarChart from './dashboard-bar-chart';
 import DonutChartTimesheet from '@/components/ui/custom/report/donut-chart-timesheet';
 import TableListTimesheet from '@/components/ui/custom/report/table-list-timesheet';
+import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
+import { IProjectInfoByUser } from '@/types/report';
+import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
 
 const DashboardContent = () => {
   const mockTimeSheetDonutChart = [
@@ -39,12 +42,19 @@ const DashboardContent = () => {
   ];
 
   return (
-    <div className="w-full">
+    <div className="w-full gap-3 flex flex-col">
+      <div className="border rounded-lg">
+        <AvatarDetail
+          name="พิชญากร ทรงบุญเขตกุล"
+          position="Full-Stack Developer"
+          code="CN-550"
+          start_date="2568-01-06"
+          image=""
+        />
+      </div>
       <DashboardBarChart />
-      <DonutChartTimesheet
-        donutLabel={mockTimeSheetDonutChart}
-        donutHeight={250}
-      />
+      <CardProjectInfo project={{} as IProjectInfoByUser} />
+      <DonutChartTimesheet donutLabel={mockTimeSheetDonutChart} donutHeight={250} />
       <TableListTimesheet />
     </div>
   );

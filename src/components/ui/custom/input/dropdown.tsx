@@ -18,7 +18,7 @@ import {
   CommandList,
 } from '../../command';
 import { X } from 'lucide-react';
-import { IOptions } from '@/types/dropdown';
+import { IOption } from '@/types/option';
 
 export interface DropdownOption<T extends string | number> {
   label: string;
@@ -26,7 +26,7 @@ export interface DropdownOption<T extends string | number> {
 }
 
 interface DropdownProps<T extends string | number> {
-  options: DropdownOption<T>[] | IOptions[];
+  options: DropdownOption<T>[] | IOption[];
   value?: T;
   onChange?: (value: T) => void;
   placeholder?: string;
