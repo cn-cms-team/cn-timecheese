@@ -1,9 +1,11 @@
 'use client';
-import { ApexOptions } from 'apexcharts';
-import ApexChart from '../chart/apex-chart';
-import { ITimeSheetDonutChart } from '@/types/report';
 import { useMemo } from 'react';
 import Image from 'next/image';
+import { ApexOptions } from 'apexcharts';
+
+import { ITimeSheetDonutChart } from '@/types/report';
+
+import ApexChart from '../chart/apex-chart';
 
 interface IProps {
   donutHeight?: number;
@@ -72,7 +74,7 @@ const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300 }: IProps) => 
           <div className="w-full xl:w-1/2 flex justify-center">
             <ApexChart
               options={donutChartOption}
-              serires={data.series}
+              series={data.series}
               type="donut"
               height={donutHeight}
             />
