@@ -12,7 +12,7 @@ import {
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { useSession } from 'next-auth/react';
 import { LogOut } from 'lucide-react';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export type AppSidebarUserProps = {
   user: {
@@ -44,6 +44,10 @@ const AppSidebarUser = ({ user }: AppSidebarUserProps) => {
             >
               <div className="px-2">
                 <Avatar>
+                  <AvatarImage
+                    src={`${process.env.NEXT_PUBLIC_DICEBEAR_URL}${user.name.trim()}`}
+                    alt={user.name}
+                  />
                   <AvatarFallback className="bg-primary text-primary-foreground">
                     {user.name.charAt(0)}
                   </AvatarFallback>
