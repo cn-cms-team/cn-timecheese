@@ -27,17 +27,17 @@ type ApexChartType =
 interface IProps {
   height?: number;
   options?: ApexOptions;
-  serires?: ApexOptions['series'];
+  series?: ApexOptions['series'];
   type?: ApexChartType;
 }
 
 const ApexChart: React.FC<IProps> = ({
   height = undefined,
   options = {},
-  serires = [],
+  series = [],
   type = undefined,
 }) => {
-  return <ReactChart options={options} series={serires} type={type} height={height} />;
+  return <ReactChart options={options} series={series} type={type} height={height} />;
 };
 
 export default ApexChart;
