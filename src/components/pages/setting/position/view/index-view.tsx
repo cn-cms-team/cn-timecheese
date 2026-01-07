@@ -13,6 +13,8 @@ import { toast } from 'sonner';
 import { Account, useAccount } from '@/components/context/app-context';
 import { renderByPermission } from '@/lib/functions/ui-manage';
 import { EModules } from '@/lib/constants/module';
+import { fetcher } from '@/lib/fetcher';
+import useSWR from 'swr';
 
 const PositionButton = ({ account }: { account: Account }): React.ReactNode => {
   const router = useRouter();
@@ -32,13 +34,11 @@ const PositionButton = ({ account }: { account: Account }): React.ReactNode => {
 const PositionListView = () => {
   const { account } = useAccount();
   const router = useRouter();
+
   const fetchPositionsUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/position`;
-  const [positionList, setPositionList] = useState<IPosition[]>([]);
-  const getPositions = async () => {
-    const response = await fetch(fetchPositionsUrl);
-    const result = await response.json();
-    return result.data;
-  };
+  const { data, error, isLoading, mutate } = useSWR(fetchPositionsUrl, (url) =>
+    fetcher<IPosition[]>(url)
+  );
 
   const [confirmState, setConfirmState] = useState<{
     title: string;
@@ -51,22 +51,16 @@ const PositionListView = () => {
   });
   const [getConfirmation, Confirmation] = useDialogConfirm();
 
-  useEffect(() => {
-    getPositions().then((data) => {
-      setPositionList(data);
-    });
-  }, []);
-
   const deletePosition = async (id: string) => {
     const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/position/${id}`;
     const res = await fetch(fetchUrl, { method: 'DELETE' });
     const data = await res.json();
     if (!res.ok) {
-      toast.error(data.message);
+      toast(data.message);
       return;
     } else {
       router.push('/setting/position');
-      toast.success('Delete Success!');
+      toast('Delete success');
     }
   };
 
@@ -100,9 +94,7 @@ const PositionListView = () => {
         if (!id) return;
         if (result) {
           await deletePosition(id).then(async () => {
-            await getPositions().then((data) => {
-              setPositionList(data);
-            });
+            mutate();
           });
         }
       }
@@ -114,12 +106,16 @@ const PositionListView = () => {
     onOpenDialog: handleOpenDialog,
   });
 
+  if (error) {
+    router.replace('/404');
+    return null;
+  }
   return (
     <>
       <ModuleLayout
         headerTitle={'ตำแหน่ง'}
         headerButton={<PositionButton account={account} />}
-        content={<PositionList columns={columns} data={positionList} />}
+        content={<PositionList columns={columns} data={data || []} loading={isLoading} />}
       ></ModuleLayout>
 
       <Confirmation

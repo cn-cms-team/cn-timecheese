@@ -75,7 +75,7 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
         router.push(`/setting/position/${id}/edit`);
       }
     } catch {
-      toast.error('An unexpected error occurred. Please try again.');
+      toast('An unexpected error occurred. Please try again.');
     }
   };
 
@@ -133,14 +133,14 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
       const result = await response.json();
       if (response.ok) {
         if (id) {
-          toast.success(result.message);
+          toast(result.message);
         } else {
-          toast.success(result.message);
+          toast(result.message);
         }
         router.push('/setting/position');
       }
     } catch {
-      toast.error('An unexpected error occurred. Please try again.');
+      toast('An unexpected error occurred. Please try again.');
     } finally {
       console.log('Finally block executed');
     }

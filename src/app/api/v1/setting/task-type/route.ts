@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     });
     return Response.json(
       {
-        message: 'Create successfully',
+        message: 'Create success',
         data: { id: result.id },
       },
       { status: 200 }

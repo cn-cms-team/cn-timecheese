@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
 
     return Response.json(
       {
-        message: 'Update successfully',
+        message: 'Update success',
         data: { id: result.id },
       },
       { status: 200 }
@@ -114,7 +114,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 
     return Response.json(
       {
-        message: `Delete successfully `,
+        message: `Delete success `,
         data: { id: result.id },
       },
       { status: 200 }

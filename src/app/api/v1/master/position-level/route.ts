@@ -2,12 +2,12 @@ import prisma from '@/lib/prisma';
 
 export async function GET() {
   try {
-    const result = await prisma.positionLevel.findMany({
+    const result = await prisma.position.findMany({
       where: { is_enabled: true },
       select: {
         id: true,
         name: true,
-        position: {
+        positionLevels: {
           select: {
             id: true,
             name: true,
@@ -16,13 +16,27 @@ export async function GET() {
       },
       orderBy: { name: 'asc' },
     });
+    // const result = await prisma.positionLevel.findMany({
+    //   where: { is_enabled: true },
+    //   select: {
+    //     id: true,
+    //     name: true,
+    //     position: {
+    //       select: {
+    //         id: true,
+    //         name: true,
+    //       },
+    //     },
+    //   },
+    //   orderBy: { name: 'asc' },
+    // });
     const options = result.map((item) => ({
-      label: `${item.position.name} - ${item.name}`,
-      value: String(item.id),
-      position: {
-        id: item.position.id,
-        name: item.position.name,
-      },
+      label: `${item.name}`,
+      id: item.id,
+      options: item.positionLevels.map((pl) => ({
+        label: `${pl.name}`,
+        value: String(pl.id),
+      })),
     }));
 
     return Response.json({ data: options, status: 200 });
