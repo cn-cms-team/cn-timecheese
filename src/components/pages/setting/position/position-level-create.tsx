@@ -16,11 +16,11 @@ interface Props {
 
 const PositionLevelCreate = ({ index, control, onRemove, totalFields, is_used = false }: Props) => {
   return (
-    <div className="w-full h-full border rounded-sm py-5 px-3 mt-5">
+    <div className="w-full h-full border rounded-md py-5 px-3 mt-5 shadow-sm">
       <div className="flex items-center justify-between">
-        <div className="flex gap-2">
-          <span className="bg-yellow-500 px-2 rounded-md text-white">{index + 1}</span>
-          <h1>Level</h1>
+        <div className="flex gap-2 items-center">
+          <div className="bg-yellow-500 h-6 w-6 rounded-md text-white text-center">{index + 1}</div>
+          <h1 className="font-semibold text-lg">Level</h1>
         </div>
         {totalFields > 1 && (
           <Tooltip delayDuration={100}>
@@ -38,7 +38,7 @@ const PositionLevelCreate = ({ index, control, onRemove, totalFields, is_used = 
                 <Trash2 size={20} />
               </button>
             </TooltipTrigger>
-            { is_used && (
+            {is_used && (
               <TooltipContent>
                 <p>ระดับตำแหน่งถูกใช้งานอยู่</p>
               </TooltipContent>
