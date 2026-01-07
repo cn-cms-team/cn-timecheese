@@ -46,7 +46,6 @@ const DashboardContent = () => {
           position={dashboardProjectData?.user?.position || '-'}
           code={dashboardProjectData?.user?.code || '-'}
           start_date={dashboardProjectData?.user?.start_date || '-'}
-          image=""
         />
       </div>
       <DashboardBarChart />

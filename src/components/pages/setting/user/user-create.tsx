@@ -30,6 +30,7 @@ import { Required } from '@/components/ui/custom/form';
 import { MAX_LENGTH_100, MAX_LENGTH_255, MAX_LENGTH_50 } from '@/lib/constants/validation';
 import { toast } from 'sonner';
 import TitleGroup from '@/components/ui/custom/cev/title-group';
+import { isEmailUnique } from './action';
 
 const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
@@ -101,6 +102,14 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
 
   const onSubmit = async (values: CreateUserSchemaType | EditUserSchemaType) => {
     try {
+      const isUniqueEmail = await isEmailUnique(values.email);
+      if (!isUniqueEmail) {
+        form.setError('email', {
+          type: 'manual',
+          message: 'อีเมลนี้ถูกใช้งานแล้ว กรุณาใช้อีเมลอื่น',
+        });
+        return;
+      }
       let fetchUrl = '/api/v1/setting/user';
       if (id) {
         fetchUrl = `/api/v1/setting/user/${id}`;
