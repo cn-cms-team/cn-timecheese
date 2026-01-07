@@ -1,4 +1,4 @@
-import { formatDate } from '@/lib/functions/date-format';
+import { calcTotalYearAndMonth } from '@/lib/functions/date-format';
 import { numberWithCommas } from '@/lib/functions/number-format';
 import { getFirstCharacter } from '@/lib/functions/string-format';
 
@@ -29,17 +29,19 @@ const AvatarDetail = ({
         </div>
       )}
       <div className="flex flex-col justify-between gap-3">
-        <div className="text-lg">{name}</div>
-        <div className="text-normal">{position || '-'}</div>
-        <div className="flex gap-3 text-normal">
+        <div className="text-lg font-bold">{name}</div>
+        <div className="text-normal  font-bold">{position || '-'}</div>
+        <div className="flex gap-3 text-normal  font-bold">
           <span>{code}</span>
-          <span>{start_date ? formatDate(start_date) : '-'}</span>
+          <span>
+            {start_date ? calcTotalYearAndMonth(start_date, new Date().toISOString()) : '-'}
+          </span>
         </div>
       </div>
       {salary_range && (
         <div className="flex flex-col justify-end ms-auto">
-          <div className="text-normal mb-3">เงินเดือนโดยประมาณ</div>
-          <div className="text-normal">{numberWithCommas(Number(salary_range))}</div>
+          <div className="text-normal mb-3 font-bold">เงินเดือนโดยประมาณ</div>
+          <div className="text-normal font-bold">{numberWithCommas(Number(salary_range))}</div>
         </div>
       )}
     </div>

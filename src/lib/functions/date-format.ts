@@ -1,5 +1,11 @@
 import { FilterPeriod } from '@/types/period';
-import { differenceInBusinessDays, format, parseISO } from 'date-fns';
+import {
+  differenceInBusinessDays,
+  differenceInCalendarMonths,
+  differenceInCalendarYears,
+  format,
+  parseISO,
+} from 'date-fns';
 import { th } from 'date-fns/locale';
 
 export function formatDateAndTime(dateString: string): string {
@@ -362,4 +368,19 @@ export function secondsToDuration(sec: number) {
   const minute = Math.floor(remaining / MINUTE);
 
   return { year, month, day, hour, minute };
+}
+
+export function calcTotalYearAndMonth(start?: string, end?: string): string | null {
+  if (!start || !end) return null;
+  const diff = differenceInCalendarMonths(end, start);
+  const year = Math.floor(diff / 12);
+  const month = Math.floor(diff % 12);
+  let result = '';
+  if (year > 0) {
+    result += `${year} ปี `;
+  }
+  if (month > 0) {
+    result += `${month} เดือน`;
+  }
+  return result;
 }
