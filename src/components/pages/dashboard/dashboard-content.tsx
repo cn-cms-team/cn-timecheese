@@ -17,6 +17,7 @@ const DashboardContent = () => {
     dashboardProjectData,
     projectOption,
     projectId,
+    loading,
     setProjectId,
     fetchProjectData,
     fetchProjectsOption,
@@ -59,7 +60,7 @@ const DashboardContent = () => {
           onChange={(value) => setProjectId(value)}
         />
       </div>
-      <CardProjectInfo project={dashboardProjectData?.project || {}} />
+      <CardProjectInfo project={dashboardProjectData?.project || {}} loading={loading} />
       <DonutChartTimesheet
         donutLabel={dashboardProjectData?.timesheet_chart || []}
         donutHeight={250}

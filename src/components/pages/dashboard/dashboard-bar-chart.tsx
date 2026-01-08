@@ -64,7 +64,7 @@ const DashboardBarChart = () => {
   return (
     <div className="w-full border rounded-md p-3">
       <header>
-        <h2 className="text-base font-semibold">การลงเวลางาน</h2>
+        <h2 className="text-base font-semibold mb-4">การลงเวลางาน</h2>
       </header>
       <main className="mt-2 grid grid-cols-1 overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">

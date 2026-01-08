@@ -11,6 +11,8 @@ import { fetcher } from '@/lib/fetcher';
 import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
 import DonutChartTimesheet from '@/components/ui/custom/report/donut-chart-timesheet';
 import TableListTimesheet from '@/components/ui/custom/report/table-list-timesheet';
+import EmptyFolderIcon from '@/components/ui/icons/empty-folder';
+import { Label } from '@/components/ui/label';
 
 const ReportProjectContent = () => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
@@ -93,8 +95,9 @@ const ReportProjectContent = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex gap-3">
+      <div className="flex items-end gap-3">
         <div className="w-1/2 lg:w-1/4">
+          <Label className="mb-2">โครงการ</Label>
           <Dropdown
             value={projectId}
             options={projectOptions}
@@ -108,7 +111,7 @@ const ReportProjectContent = () => {
           <ReportUsersButton onClick={onClickUser} userList={memberOptions} />
         </div>
       </div>
-      {reportProjectData && !isLoading ? (
+      {reportProjectData ? (
         <>
           <div className="border rounded-lg">
             <AvatarDetail
@@ -119,16 +122,21 @@ const ReportProjectContent = () => {
               salary_range={reportProjectData.user?.saraly_range}
             />
           </div>
-          <CardProjectInfo project={reportProjectData.project} />
-          <DonutChartTimesheet donutLabel={reportProjectData.timesheet_chart} />
+          <CardProjectInfo
+            project={reportProjectData.project}
+            displayCost={true}
+            loading={isLoading}
+          />
+          <DonutChartTimesheet donutLabel={reportProjectData.timesheet_chart} loading={isLoading} />
           <TableListTimesheet projectId={projectId} />
         </>
-      ) : isLoading ? (
-        <div className="flex w-full justify-center">กำลังโหลดข้อมูล...</div>
-      ) : projectId && memberId && !reportProjectData ? (
+      ) : projectId && memberId && !reportProjectData && !isLoading ? (
         <div className="flex w-full justify-center">ไม่พบข้อมูลรายงานโครงการ</div>
       ) : (
-        <div className="flex w-full justify-center">เลือกโครงการและสมาชิก</div>
+        <div className="flex flex-col items-center w-full justify-center p-10 gap-5">
+          <EmptyFolderIcon />
+          <div className="text-xl font-semibold">เลือกโครงการและสมาชิก</div>
+        </div>
       )}
     </div>
   );
