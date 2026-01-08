@@ -63,7 +63,7 @@ const DashboardContent = () => {
       <CardProjectInfo project={dashboardProjectData?.project || {}} loading={loading} />
       <DonutChartTimesheet
         donutLabel={dashboardProjectData?.timesheet_chart || []}
-        donutHeight={250}
+        donutHeight={350}
       />
       <TableListTimesheet projectId={projectId} />
     </div>

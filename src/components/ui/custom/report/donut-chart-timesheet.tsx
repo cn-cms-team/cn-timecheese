@@ -18,7 +18,9 @@ const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300, loading = fal
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
 
-    const duration = `${hours} ชม ${minutes.toString().padStart(2, '0')} น`;
+    const duration = `${hours} ชม. ${
+      minutes > 0 ? `${minutes.toString().padStart(2, '0')} น.` : ''
+    } `;
 
     return duration;
   };
@@ -48,7 +50,7 @@ const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300, loading = fal
     },
     labels: data.label.map((item) => item.task_name),
     legend: {
-      show: false,
+      show: true,
     },
     tooltip: {
       y: {
@@ -79,34 +81,13 @@ const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300, loading = fal
           ) : (
             <>
               <div className="text-base font-semibold mb-4">สัดส่วนงาน</div>
-              <main className="flex xl:flex-row flex-col  gap-4 ">
-                <div className="w-full xl:w-1/2 flex justify-center">
-                  <ApexChart
-                    options={donutChartOption}
-                    series={data.series}
-                    type="donut"
-                    height={donutHeight}
-                  />
-                </div>
-                <div className="flex flex-col justify-center w-full ">
-                  <h3 className="font-semibold mb-3">ประเภทงาน</h3>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-4 lg:grid-flow-col auto-rows-min">
-                    {data.label.map((item, index) => (
-                      <div key={index} className="px-2">
-                        <div className="flex items-center gap-x-3 py-2 text-sm">
-                          <div className="w-6 shrink-0">{index + 1}.</div>
-                          <div className="w-12 text-right font-semibold text-gray-400 shrink-0">
-                            {item.percentage}
-                          </div>
-                          <div className="flex-1 text-nowrap min-w-30">{item.task_name}</div>
-                          <div className="w-24 text-right text-gray-400 shrink-0">
-                            {item.duration}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <main className="flex justify-center  gap-4 ">
+                <ApexChart
+                  options={donutChartOption}
+                  series={data.series}
+                  type="donut"
+                  height={donutHeight}
+                />
               </main>
             </>
           )}
