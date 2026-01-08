@@ -16,7 +16,8 @@ import {
   createCustomSortFn,
   createNullsLastSortFn,
 } from '@/lib/functions/sort-utils';
-import { ITimeSheetData, ITimeSheetTable } from '@/types/report';
+import { ITimeSheetData } from '@/types/report';
+import { defaultPageSize } from '@/types/constants/pagination';
 
 import { Input } from '../../input';
 import { Label } from '../../label';
@@ -41,7 +42,7 @@ const TableListTimesheet = ({ projectId }: IProps) => {
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: defaultPageSize,
   });
 
   const [tempFilter, setTempFilter] = useState<{
