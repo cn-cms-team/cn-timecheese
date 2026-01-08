@@ -22,7 +22,7 @@ export interface TeamApiResponse {
   id: string;
   name: string;
   description?: string | null;
-  isActive: boolean;
+  is_active: boolean;
   users: TeamMember[];
   teamLeaders?: TeamLeader[];
 }

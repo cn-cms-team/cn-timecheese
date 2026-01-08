@@ -35,10 +35,10 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
     defaultValues: {
       name: '',
       description: '',
-      isActive: true,
+      is_active: true,
     },
   });
-  const isActiveWatch = form.watch('isActive');
+  const isActiveWatch = form.watch('is_active');
   const [membersOrder, setMembersOrder] = useState<TeamMember[]>([]);
   const [teamData, setTeamData] = useState<ITeam>();
 
@@ -56,7 +56,7 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
             form.reset({
               name: teamObj.name ?? '',
               description: teamObj.description ?? '',
-              isActive: teamObj.isActive ?? true,
+              is_active: teamObj.is_active ?? true,
             });
           }
         }
@@ -76,7 +76,7 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
         id: id,
         name: values.name,
         description: values.description,
-        is_active: values.isActive ?? true,
+        is_active: values.is_active ?? true,
       };
       if (id) {
         fetchUrl = `/api/v1/setting/team/${id}`;
@@ -158,7 +158,7 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
             />
             <FormField
               control={form.control}
-              name="isActive"
+              name="is_active"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
                   <FormLabel>สถานะการใช้งาน</FormLabel>
