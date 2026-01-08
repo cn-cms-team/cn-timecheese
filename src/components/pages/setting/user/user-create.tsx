@@ -102,7 +102,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
 
   const onSubmit = async (values: CreateUserSchemaType | EditUserSchemaType) => {
     try {
-      const isUniqueEmail = await isEmailUnique(values.email);
+      const isUniqueEmail = await isEmailUnique(values.email, id || null);
       if (!isUniqueEmail) {
         form.setError('email', {
           type: 'manual',
