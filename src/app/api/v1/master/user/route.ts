@@ -4,12 +4,13 @@ import { IOptionGroups } from '@/types/dropdown';
 export async function GET() {
   try {
     const users = await prisma.user.findMany({
-      where: { is_enabled: true, is_active: true },
+      where: { is_enabled: true },
       select: {
         id: true,
         first_name: true,
         last_name: true,
         team_id: true,
+        is_active: true,
         position_level: {
           select: {
             name: true,
@@ -38,6 +39,7 @@ export async function GET() {
           label: `${user.first_name} ${user.last_name}`.trim(),
           value: user.id,
           position: user.position_level?.name || null,
+          is_active: user.is_active,
         });
 
         return acc;

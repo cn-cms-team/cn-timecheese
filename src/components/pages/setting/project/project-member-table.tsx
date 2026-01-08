@@ -31,7 +31,7 @@ const ProjectMemberTable = ({ header, userOptions, form }: ProjectMemberTablePro
         render={({ field: parentField }) => (
           <FormItem>
             <FormControl>
-              <div className="border rounded-lg">
+              <div className="border rounded-lg overflow-auto">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-[#f2f4f7]">

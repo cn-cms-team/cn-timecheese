@@ -91,7 +91,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
           )}
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
+      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 min-w-[300px]">
         <Command>
           {options && options.length > 0 && (
             <CommandInput placeholder={placeholder} className="h-9 leading-[3]" />
@@ -113,8 +113,9 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                         onSelect(item.value as string);
                         setOpen(false);
                       }}
+                      disabled={!item.is_active}
                     >
-                      {item.label}
+                      {item.label} {!item.is_active && '(ไม่ใช้งาน)'}
                     </CommandItem>
                   ))}
                 </CommandGroup>
