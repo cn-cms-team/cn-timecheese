@@ -15,6 +15,7 @@ import { Plus } from 'lucide-react';
 import { renderByPermission } from '@/lib/functions/ui-manage';
 import { Account, useAccount } from '@/components/context/app-context';
 import { EModules } from '@/lib/constants/module';
+import { toast } from 'sonner';
 
 const UserButton = ({ account }: { account: Account }): React.ReactNode => {
   const router = useRouter();
@@ -50,9 +51,20 @@ const UserListView = () => {
 
   const deleteUser = async (id: string) => {
     const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user/${id}`;
-    await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
-      router.push('/setting/user');
-    });
+    try {
+      await fetch(fetchUrl, { method: 'DELETE' }).then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          toast(data.message);
+          return;
+        } else {
+          toast(data.message);
+          router.push('/setting/user');
+        }
+      });
+    } catch (error) {
+      console.log(error instanceof Error ? error.message : 'Unknown error');
+    }
   };
   const handleOpenDialog = async (
     mode: 'edit' | 'delete',
