@@ -16,6 +16,7 @@ import { fetcher } from '@/lib/fetcher';
 import { IOptionGroups, IOptions } from '@/types/dropdown';
 import { DAYTASKSTATUS, PERIODCALENDAR } from '@/lib/constants/period-calendar';
 import { ITimeSheetResponse, ITimeSheetUserInfoResponse } from '@/types/timesheet';
+import { useSession } from 'next-auth/react';
 
 interface ITimeSheetContextType {
   loading: boolean;
@@ -55,6 +56,7 @@ interface ITimeSheetProviderProps {
 const TimeSheetContext = createContext<ITimeSheetContextType | undefined>(undefined);
 
 const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
+  const { data: session } = useSession();
   const now = new Date();
   const [loading, setLoading] = useState(false);
   const [period, setPeriod] = useState(PERIODCALENDAR.WEEK);
@@ -75,7 +77,9 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
 
   const fetchOptions = async () => {
     try {
-      const projectOptions = await fetcher<IOptions[]>(`${prefix}/api/v1/master/project`);
+      const projectOptions = await fetcher<IOptions[]>(
+        `${prefix}/api/v1/master/project${session?.user?.id ? `?user_id=${session.user.id}` : ''}`
+      );
       setProjectOptions(projectOptions);
     } catch (error) {
       console.error('Error fetching options:', error);
