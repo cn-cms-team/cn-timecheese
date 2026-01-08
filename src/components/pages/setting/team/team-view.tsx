@@ -5,6 +5,14 @@ import TitleGroup from '@/components/ui/custom/cev/title-group';
 import LabelGroup from '@/components/ui/custom/form/label-group';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { getIsActive } from '@/lib/functions/enum-mapping';
 import { TeamApiResponse, TeamMember } from '@/types/setting/team';
 import { ITeam } from '@/types/setting/team';
@@ -13,6 +21,10 @@ import { useEffect, useState } from 'react';
 const TeamViewDetail = ({ id }: { id: string }): React.ReactNode => {
   const [teamData, setTeamData] = useState<ITeam>();
   const [membersOrder, setMembersOrder] = useState<TeamMember[]>([]);
+  const header = [
+    { label: 'สมาชิก', className: 'text-start min-w-[300px]' },
+    { label: 'สิทธิ์การเห็นข้อมูลสมาชิกในทีม', className: 'text-center' },
+  ];
   useEffect(() => {
     const fetchTeamData = async (teamId: string) => {
       try {
@@ -61,51 +73,54 @@ const TeamViewDetail = ({ id }: { id: string }): React.ReactNode => {
       {id && (
         <div className="mt-6">
           <TitleGroup title="สมาชิกทีม" />
-          <Card className="w-full max-w-full">
-            <CardContent>
-              <div className="overflow-x-auto">
-                {membersOrder.length === 0 ? (
-                  <p className="text-center text-gray-400 font-semibold text-lg">
-                    ไม่มีสมาชิกในทีมนี้
-                  </p>
+          <div className="border rounded-lg">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-[#f2f4f7]">
+                  {header.map(({ label, className }) => (
+                    <TableHead key={label} className={className}>
+                      {label}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {!membersOrder || membersOrder.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={header.length}
+                      className="h-24 text-center text-muted-foreground "
+                    >
+                      ไม่มีข้อมูล
+                    </TableCell>
+                  </TableRow>
                 ) : (
-                  <table className="w-full table-auto border-collapse">
-                    <thead>
-                      <tr className="">
-                        <th className="text-left px-3 py-2 border-b w-[50%] md:w-[80%]">สมาชิก</th>
-                        <th className="text-center px-3 py-2 border-b w-[50%] md:w-[20%]">
-                          สิทธิ์การเห็นข้อมูลสมาชิกในทีม
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {membersOrder.map((item) => (
-                        <tr key={item.id} className="odd:bg-card even:bg-card/50">
-                          <td className="px-3 py-2 align-middle w-[50%] md:w-[80%]">
-                            <span className="font-medium">{item.name}</span>
-                            <div className="text-sm text-muted-foreground">
-                              {item?.position_level ? item?.position_level?.name : '-'}
-                            </div>
-                          </td>
-                          <td className="px-3 py-2 align-middle text-center w-[50%] md:w-[20%]">
-                            <label className="inline-flex items-center space-x-2 justify-end">
-                              <Switch
-                                checked={item.isManager}
-                                aria-readonly
-                                disabled
-                                className="disabled:opacity-80"
-                                id="is-team-active"
-                              />
-                            </label>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  membersOrder &&
+                  membersOrder.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        <span className="font-medium">{item.name}</span>
+                        <div className="text-sm text-muted-foreground">
+                          {item?.position_level ? item?.position_level?.name : '-'}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex justify-center gap-2">
+                          <Switch
+                            checked={item.isManager}
+                            aria-readonly
+                            disabled
+                            className="disabled:opacity-80"
+                            id="is-team-active"
+                          />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
                 )}
-              </div>
-            </CardContent>
-          </Card>
+              </TableBody>
+            </Table>
+          </div>
         </div>
       )}
     </div>
