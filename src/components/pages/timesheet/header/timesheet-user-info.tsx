@@ -25,13 +25,13 @@ const TimeSheetUserInfo = () => {
             </div>
             <div className="flex flex-col ">
               <span className="text-sm text-gray-400">ตำแหน่ง</span>
-              <span className="text-sm">{userInfo?.user?.position_level}</span>
+              <span className="text-sm">{userInfo?.user?.position_level || '-'}</span>
             </div>
 
             <div className="flex flex-col ">
               <span className="text-sm text-gray-400">วันที่เริ่มงาน</span>
               <span className="text-sm">
-                {buddhistFormatDate(userInfo?.user?.start_date, 'dd mmmm yyyy')}
+                {buddhistFormatDate(userInfo?.user?.start_date, 'dd mmmm yyyy') || '-'}
               </span>
             </div>
           </div>
