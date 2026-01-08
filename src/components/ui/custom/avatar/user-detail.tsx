@@ -1,6 +1,7 @@
+'use client';
+import { useLoading } from '@/components/context/app-context';
 import { calcTotalYearAndMonth } from '@/lib/functions/date-format';
 import { numberWithCommas } from '@/lib/functions/number-format';
-import { getFirstCharacter } from '@/lib/functions/string-format';
 
 export type UserAvatarDetailProps = {
   name: string;
@@ -20,13 +21,15 @@ const AvatarDetail = ({
   return (
     <div className="flex w-full px-4 py-3 gap-4">
       <img
-        className="w-32 h-32 rounded-full"
-        src={`${process.env.NEXT_PUBLIC_DICEBEAR_URL}${name.trim()}`}
-        alt={name}
+        className="w-32 h-32 rounded-full bg-gray-400"
+        src={name != '' ? `${process.env.NEXT_PUBLIC_DICEBEAR_URL}${name.trim()}` : ''}
+        loading="lazy"
       />
       <div className="flex flex-col justify-between gap-3">
-        <div className="text-lg font-bold">{name}</div>
-        <div className="text-normal  font-bold">{position || '-'}</div>
+        <div className="flex flex-col">
+          <div className="text-lg font-bold">{name}</div>
+          <div className="text-normal font-medium text-gray-500">{position || '-'}</div>
+        </div>
         <div className="flex gap-3 text-normal  font-bold">
           <span>{code}</span>
           <span>
