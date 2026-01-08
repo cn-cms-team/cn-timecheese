@@ -1,4 +1,6 @@
 'use client';
+
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { Calendar } from 'lucide-react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -17,7 +19,6 @@ import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { useTimeSheetContext } from './view/timesheet-context';
 import TimeInput from '@/components/ui/custom/input/time-input';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
-import { useState } from 'react';
 
 interface IProps {
   close?: () => void;
@@ -229,6 +230,8 @@ const TimeSheetForm = ({
                     <FormControl className="ms-0 me-0">
                       <TimeInput
                         type="time"
+                        min="00:00"
+                        max="24:00"
                         className="mx-2 w-full"
                         value={field.value ? buddhistFormatDate(field.value, 'HH:ii') : ''}
                         onChange={(e) => {
