@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma';
+import { endOfMonth, startOfMonth } from 'date-fns';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -27,15 +28,15 @@ export async function GET(request: Request) {
     return Response.json({ error: 'Invalid year parameter' }, { status: 400 });
   }
 
-  const startOfMonth = new Date(yearNumber, monthNumber, 1);
-  const endOfMonth = new Date(yearNumber, monthNumber + 1, 0, 23, 59, 59);
+  const monthStart = startOfMonth(new Date(yearNumber, monthNumber));
+  const monthEnd = endOfMonth(new Date(yearNumber, monthNumber));
 
   try {
     const tasks = await prisma.timeSheet.findMany({
       where: {
         stamp_date: {
-          gte: startOfMonth,
-          lte: endOfMonth,
+          gte: monthStart,
+          lte: monthEnd,
         },
       },
       select: {
