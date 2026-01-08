@@ -32,8 +32,8 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
       size: 150,
       cell: ({ row }) => {
         const { start_time } = row.original;
-        const time = start_time ? buddhistFormatDate(start_time, 'HH:MM') : '-';
-        return <div>{buddhistFormatDate(time, 'HH:ii') || '-'}</div>;
+        const time = start_time ? buddhistFormatDate(start_time, 'HH:ii') : '-';
+        return <div>{time}</div>;
       },
     },
     {
@@ -41,8 +41,8 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
       size: 150,
       cell: ({ row }) => {
         const { end_time } = row.original;
-        const time = end_time ? buddhistFormatDate(end_time, 'HH:MM') : '-';
-        return <div>{buddhistFormatDate(time, 'HH:ii') || '-'}</div>;
+        const time = end_time ? buddhistFormatDate(end_time, 'HH:ii') : '-';
+        return <div>{time}</div>;
       },
     },
     {
@@ -92,7 +92,7 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
       size: 300,
       cell: ({ row }) => {
         const { detail } = row.original;
-        return <div>{detail || '-'}</div>;
+        return <div className="truncate w-80">{detail || '-'}</div>;
       },
     },
   ];

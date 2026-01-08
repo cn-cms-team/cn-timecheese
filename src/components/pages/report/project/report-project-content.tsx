@@ -121,7 +121,7 @@ const ReportProjectContent = () => {
           </div>
           <CardProjectInfo project={reportProjectData.project} />
           <DonutChartTimesheet donutLabel={reportProjectData.timesheet_chart} />
-          <TableListTimesheet />
+          <TableListTimesheet projectId={projectId} />
         </>
       ) : isLoading ? (
         <div className="flex w-full justify-center">กำลังโหลดข้อมูล...</div>

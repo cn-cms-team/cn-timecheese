@@ -7,24 +7,27 @@ import { IDashboardAttendance } from '@/types/dashboard';
 import Dropdown from '@/components/ui/custom/input/dropdown';
 import ApexChart from '@/components/ui/custom/chart/apex-chart';
 import { useDashboardContext } from './view/dashboard-use-context';
+import { Label } from '@/components/ui/label';
 
 const DashboardBarChart = () => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
-  const { barchartOption, monthOption, selectedMonth, weekDays, setSelectedMonth } =
-    useDashboardContext();
+  const {
+    barchartOption,
+    monthOption,
+    selectedMonth,
+    selectYear,
+    yearOption,
+    weekDays,
+    setSelectYear,
+    setSelectedMonth,
+  } = useDashboardContext();
 
   const [data, setData] = useState<IDashboardAttendance[]>([]);
-
-  const handleSelectMonth = (month: number) => {
-    if (setSelectedMonth) {
-      setSelectedMonth(month);
-    }
-  };
 
   const fetchData = async () => {
     try {
       const res = await fetcher<IDashboardAttendance[]>(
-        `${prefix}/api/v1/dashboard/attendance?month=${selectedMonth}`
+        `${prefix}/api/v1/dashboard/attendance?month=${selectedMonth}&year=${selectYear}`
       );
 
       setData(res);
@@ -37,7 +40,7 @@ const DashboardBarChart = () => {
     if (selectedMonth === null) return;
 
     fetchData();
-  }, [selectedMonth]);
+  }, [selectedMonth, selectYear]);
 
   const series = useMemo(() => {
     const dateMap = new Map(
@@ -60,16 +63,31 @@ const DashboardBarChart = () => {
         <h2 className="text-base font-semibold">การลงเวลางาน</h2>
       </header>
       <main className="mt-2 grid grid-cols-1 overflow-hidden">
-        <div>
-          <Dropdown
-            className="max-w-xs ms-4"
-            options={monthOption}
-            value={selectedMonth}
-            canEmpty={false}
-            isAllPlaceHolder={false}
-            placeholder="เลือกเดือน"
-            onChange={(value) => handleSelectMonth(Number(value))}
-          />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+          <div className="space-y-1">
+            <Label>เดือน</Label>
+            <Dropdown
+              className="max-w-md"
+              value={selectedMonth}
+              options={monthOption}
+              canEmpty={false}
+              isAllPlaceHolder={false}
+              placeholder="เลือกเดือน"
+              onChange={(value) => setSelectedMonth(Number(value))}
+            />
+          </div>
+          <div className="space-y-1">
+            <Label>ปี</Label>
+            <Dropdown
+              className="max-w-md"
+              value={selectYear}
+              options={yearOption}
+              canEmpty={false}
+              isAllPlaceHolder={false}
+              placeholder="เลือกปี"
+              onChange={(value) => setSelectYear(Number(value))}
+            />
+          </div>
         </div>
         <div className="min-w-150 overflow-x-auto">
           <ApexChart options={barchartOption} series={series} type="bar" height={250} />

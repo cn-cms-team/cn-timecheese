@@ -64,7 +64,7 @@ const DashboardContent = () => {
         donutLabel={dashboardProjectData?.timesheet_chart || []}
         donutHeight={250}
       />
-      <TableListTimesheet />
+      <TableListTimesheet projectId={projectId} />
     </div>
   );
 };

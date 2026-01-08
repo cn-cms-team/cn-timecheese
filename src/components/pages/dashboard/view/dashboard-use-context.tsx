@@ -17,6 +17,8 @@ interface IDashboardContextType {
   dashboardProjectData: IDashboard;
   projectOption: IOption[];
   weekDays: string[];
+  yearOption: IOption[];
+  selectYear: number;
   setSelectedMonth: (month: number) => void;
   setLoading: (loading: boolean) => void;
   setProjectId: (projectId: string) => void;
@@ -24,6 +26,7 @@ interface IDashboardContextType {
   fetchProjectData: (userId: string, projectId: string) => Promise<void>;
   fetchProjectsOption: () => Promise<void>;
   formatHours: (seconds: number) => string;
+  setSelectYear: (year: number) => void;
 }
 
 const DashboardContext = createContext<IDashboardContextType | undefined>(undefined);
@@ -33,6 +36,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectYear, setSelectYear] = useState<number>(today.getFullYear());
   const [dashboardProjectData, setDashboardProjectData] = useState<IDashboard>(null!);
   const [projectOption, setProjectOptions] = useState<IOption[]>([]);
   const [selectedMonth, setSelectedMonth] = useState<number>(today.getMonth());
@@ -61,6 +65,16 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     label: formatDate(new Date(today.getFullYear(), i, 1), 'mmmm'),
     value: i,
   }));
+
+  const userStartDate = dashboardProjectData?.user?.start_date;
+
+  const yearOption = Array.from(
+    { length: today.getFullYear() - new Date(userStartDate).getFullYear() + 1 },
+    (_, i) => ({
+      label: (new Date(userStartDate).getFullYear() + i + 543).toString(),
+      value: new Date(userStartDate).getFullYear() + i,
+    })
+  );
 
   const barchartOption: ApexOptions = {
     chart: {
@@ -153,6 +167,9 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
         dashboardProjectData,
         projectOption,
         weekDays,
+        yearOption,
+        selectYear,
+        setSelectYear,
         setSelectedMonth,
         setProjectId,
         setLoading,
