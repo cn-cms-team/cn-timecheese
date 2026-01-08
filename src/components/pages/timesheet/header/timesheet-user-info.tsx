@@ -8,7 +8,7 @@ const TimeSheetUserInfo = () => {
 
   return (
     <div className="lg:col-span-2 bg-white p-4 rounded-lg">
-      <h1 className="text-2xl text-gray-400 mb-4">ข้อมูลผู้ใช้งาน</h1>
+      <h1 className="text-lg text-gray-500 mb-4">ข้อมูลผู้ใช้งาน</h1>
       <div className="flex flex-col items-center lg:flex-row">
         <div className="flex  justify-center mx-4 lg:mb-0 mb-4">
           <img
