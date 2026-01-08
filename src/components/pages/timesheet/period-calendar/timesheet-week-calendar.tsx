@@ -1,6 +1,6 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { addDays, addWeeks, format, isSameDay, startOfWeek } from 'date-fns';
+import { useEffect } from 'react';
+import { addWeeks, format, isSameDay } from 'date-fns';
 
 import { cn } from '@/lib/utils';
 import { th } from 'date-fns/locale';
