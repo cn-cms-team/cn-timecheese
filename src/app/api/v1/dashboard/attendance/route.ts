@@ -3,13 +3,18 @@ import prisma from '@/lib/prisma';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const month = searchParams.get('month');
+  const year = searchParams.get('year');
 
   if (!month) {
     return Response.json({ error: 'Month parameter is required' }, { status: 400 });
   }
 
-  const year = new Date().getFullYear();
+  if (!year) {
+    return Response.json({ error: 'Year parameter is required' }, { status: 400 });
+  }
+
   const monthNumber = Number(month);
+  const yearNumber = Number(year);
 
   if (isNaN(monthNumber) || monthNumber < 0 || monthNumber > 11) {
     return Response.json(
@@ -18,8 +23,12 @@ export async function GET(request: Request) {
     );
   }
 
-  const startOfMonth = new Date(year, monthNumber, 1);
-  const endOfMonth = new Date(year, monthNumber + 1, 0, 23, 59, 59);
+  if (isNaN(yearNumber)) {
+    return Response.json({ error: 'Invalid year parameter' }, { status: 400 });
+  }
+
+  const startOfMonth = new Date(yearNumber, monthNumber, 1);
+  const endOfMonth = new Date(yearNumber, monthNumber + 1, 0, 23, 59, 59);
 
   try {
     const tasks = await prisma.timeSheet.findMany({
