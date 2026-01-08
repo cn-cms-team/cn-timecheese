@@ -62,7 +62,7 @@ const DashboardBarChart = () => {
   }, [data, weekDays]);
 
   return (
-    <div className="w-full border rounded-md p-3">
+    <div className="w-full border rounded-md p-3 shadow-sm">
       <header>
         <h2 className="text-base font-semibold mb-4">การลงเวลางาน</h2>
       </header>

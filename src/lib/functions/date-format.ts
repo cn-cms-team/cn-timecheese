@@ -384,3 +384,14 @@ export function calcTotalYearAndMonth(start?: string, end?: string): string | nu
   }
   return result;
 }
+
+export const formatHours = (seconds: number) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+
+  const duration = `${hours} ชม. ${
+    minutes > 0 ? `${minutes.toString().padStart(2, '0')} น.` : ''
+  } `;
+
+  return duration;
+};

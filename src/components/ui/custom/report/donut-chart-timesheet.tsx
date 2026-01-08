@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ApexOptions } from 'apexcharts';
 
 import { ITimeSheetDonutChart } from '@/types/report';
+import { formatHours } from '@/lib/functions/date-format';
 
 import ApexChart from '../chart/apex-chart';
 
@@ -14,17 +15,6 @@ interface IProps {
 }
 
 const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300, loading = false }: IProps) => {
-  const formatHours = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-
-    const duration = `${hours} ชม. ${
-      minutes > 0 ? `${minutes.toString().padStart(2, '0')} น.` : ''
-    } `;
-
-    return duration;
-  };
-
   const data = useMemo(() => {
     const totalHours = donutLabel.reduce((acc, curr) => acc + curr.tracked_hours, 0);
     const series = donutLabel.map((item) => item.tracked_hours);
@@ -69,7 +59,7 @@ const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300, loading = fal
           <div className="animate-pulse bg-gray-200 h-64 rounded-lg col-span-2 shadow"></div>
         </div>
       ) : (
-        <div className="w-full border rounded-md p-3">
+        <div className="w-full border rounded-md p-3 shadow-sm">
           {donutLabel.length === 0 ? (
             <Image
               src="/img/general/md-no-data.png"

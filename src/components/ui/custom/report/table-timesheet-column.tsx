@@ -3,7 +3,7 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { SortColumn } from '../data-table';
 import { ITimeSheetTable } from '@/types/report';
-import { buddhistFormatDate } from '@/lib/functions/date-format';
+import { formatDate } from '@/lib/functions/date-format';
 
 type createColumnsProps = {
   data: any;
@@ -24,7 +24,7 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
       size: 150,
       cell: ({ row }) => {
         const { date } = row.original;
-        return <div>{buddhistFormatDate(date, 'dd mmm yyyy') || '-'}</div>;
+        return <div>{formatDate(date, 'dd/mm/yyyy') || '-'}</div>;
       },
     },
     {
@@ -32,7 +32,7 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
       size: 150,
       cell: ({ row }) => {
         const { start_time } = row.original;
-        const time = start_time ? buddhistFormatDate(start_time, 'HH:ii') : '-';
+        const time = start_time ? formatDate(start_time, 'HH:ii') : '-';
         return <div>{time}</div>;
       },
     },
@@ -41,7 +41,7 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
       size: 150,
       cell: ({ row }) => {
         const { end_time } = row.original;
-        const time = end_time ? buddhistFormatDate(end_time, 'HH:ii') : '-';
+        const time = end_time ? formatDate(end_time, 'HH:ii') : '-';
         return <div>{time}</div>;
       },
     },
