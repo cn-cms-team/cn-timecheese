@@ -148,7 +148,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchProjectsOption = async () => {
     try {
-      const project = await fetcher<IOption[]>(`${prefix}//api/v1/report/project/project-list`);
+      const project = await fetcher<IOption[]>(`${prefix}/api/v1/report/project/project-list`);
       setProjectOptions(project);
       setProjectId((project[0]?.value as string) || '');
     } catch (error) {
