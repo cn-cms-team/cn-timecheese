@@ -4,7 +4,7 @@ import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
 
 import { IReportProject } from '@/types/report';
 import { useEffect, useState } from 'react';
-import ReportUsersButton from '../../reports/report-users-button';
+import ReportUsersButton from '../report-users-button';
 import { UserAvatarProps } from '@/components/ui/custom/avatar/user-avatar';
 import { IOption } from '@/types/option';
 import { fetcher } from '@/lib/fetcher';
