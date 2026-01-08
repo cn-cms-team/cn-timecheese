@@ -146,11 +146,7 @@ const TableListTimesheet = ({ projectId }: IProps) => {
           ค้นหา
         </Button>
       </header>
-      {loading ? (
-        <div className="w-full h-90 bg-gray-300 animate-pulse rounded-lg mt-4" />
-      ) : (
-        <DataTable table={table} columns={columns} />
-      )}
+      <DataTable table={table} columns={columns} loading={loading} />
     </div>
   );
 };
