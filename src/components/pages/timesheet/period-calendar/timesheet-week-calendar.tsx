@@ -60,7 +60,7 @@ const TimeSheetWeekCalendar = () => {
 
   return (
     <div className="flex flex-col h-full bg-[#F5F6F8] overflow-hidden">
-      <div className="flex items-center border-b border-neutral-300 bg-[#F5F6F8] relative">
+      <div className="flex items-center border-b border-neutral-300 bg-[#F5F6F8] sticky top-0 z-10">
         <Button
           onClick={handlePrevWeek}
           className="px-3 absolute left-13 h-full flex items-center min-w-[54px] cursor-pointer p-0 bg-transparent hover:bg-transparent"
@@ -117,7 +117,7 @@ const TimeSheetWeekCalendar = () => {
           <ChevronRight stroke="#000" />
         </Button>
       </div>
-      <div className="flex-1 relative  bg-[#F5F6F8]">
+      <div className="flex-1 relative bg-[#F5F6F8]">
         <TimeSheetWeekCalendarBody weekDays={weekDays} />
       </div>
     </div>
