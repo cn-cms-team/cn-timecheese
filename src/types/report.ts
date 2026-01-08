@@ -41,6 +41,11 @@ export interface ITimeSheetDonutChart {
   tracked_hours: number;
 }
 
+export interface ITimeSheetData {
+  data: ITimeSheetTable[];
+  total_items: number;
+}
+
 export interface ITimeSheetTable {
   date: string;
   start_time: string;
