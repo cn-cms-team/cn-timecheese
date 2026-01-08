@@ -22,10 +22,12 @@ const DashboardBarChart = () => {
     setSelectedMonth,
   } = useDashboardContext();
 
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState<IDashboardAttendance[]>([]);
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const res = await fetcher<IDashboardAttendance[]>(
         `${prefix}/api/v1/dashboard/attendance?month=${selectedMonth}&year=${selectYear}`
       );
@@ -33,6 +35,8 @@ const DashboardBarChart = () => {
       setData(res);
     } catch (error) {
       console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -89,9 +93,13 @@ const DashboardBarChart = () => {
             />
           </div>
         </div>
-        <div className="min-w-150 overflow-x-auto">
-          <ApexChart options={barchartOption} series={series} type="bar" height={250} />
-        </div>
+        {loading ? (
+          <div className="w-full h-64 bg-gray-300 animate-pulse rounded-lg mt-4" />
+        ) : (
+          <div className="min-w-150 overflow-x-auto">
+            <ApexChart options={barchartOption} series={series} type="bar" height={250} />
+          </div>
+        )}
       </main>
     </div>
   );

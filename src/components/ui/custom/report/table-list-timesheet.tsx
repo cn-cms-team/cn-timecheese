@@ -115,6 +115,7 @@ const TableListTimesheet = ({ projectId }: IProps) => {
             value={tempFilter.search}
             className="w-full"
             placeholder="ค้นหา"
+            disabled={loading}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 fetchData(session?.user?.id!);
@@ -130,6 +131,7 @@ const TableListTimesheet = ({ projectId }: IProps) => {
           <DatePickerInput
             value={tempFilter.date ? new Date(tempFilter.date) : undefined}
             placeholder="เลือกวันที่"
+            disabled={loading}
             onChange={(date) => {
               setTempFilter({ ...tempFilter, date: date?.toISOString() || null });
             }}
@@ -139,11 +141,16 @@ const TableListTimesheet = ({ projectId }: IProps) => {
           className="max-w-full lg:max-w-30"
           type="button"
           onClick={() => fetchData(session?.user?.id!)}
+          disabled={loading}
         >
           ค้นหา
         </Button>
       </header>
-      <DataTable table={table} columns={columns} />
+      {loading ? (
+        <div className="w-full h-90 bg-gray-300 animate-pulse rounded-lg mt-4" />
+      ) : (
+        <DataTable table={table} columns={columns} />
+      )}
     </div>
   );
 };
