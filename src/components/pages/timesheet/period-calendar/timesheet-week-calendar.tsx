@@ -14,6 +14,7 @@ import TimeSheetWeekCalendarBody from './timesheet-week-calendar-body';
 
 const TimeSheetWeekCalendar = () => {
   const {
+    weekDays,
     isPastDay,
     getDayStatus,
     dailySecondsMap,
@@ -22,15 +23,8 @@ const TimeSheetWeekCalendar = () => {
     setSelectedCalendar,
     setSelectedMonth,
     setSelectedYear,
+    setWeekAnchorDate,
   } = useTimeSheetContext();
-  const [weekAnchorDate, setWeekAnchorDate] = useState<Date>(() => {
-    const today = new Date();
-    return new Date(selectedYear, selectedMonth.getMonth(), today.getDate());
-  });
-
-  const start = startOfWeek(weekAnchorDate, { weekStartsOn: 0 });
-
-  const weekDays = Array.from({ length: 7 }, (_, i) => addDays(start, i));
 
   const handlePrevWeek = () => {
     setWeekAnchorDate((prev) => {
@@ -123,7 +117,6 @@ const TimeSheetWeekCalendar = () => {
           <ChevronRight stroke="#000" />
         </Button>
       </div>
-
       <div className="flex-1 relative  bg-[#F5F6F8]">
         <TimeSheetWeekCalendarBody weekDays={weekDays} />
       </div>

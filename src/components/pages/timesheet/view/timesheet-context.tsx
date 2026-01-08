@@ -11,7 +11,7 @@ import {
 } from 'react';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
-import { format, isBefore, startOfDay } from 'date-fns';
+import { addDays, addWeeks, format, isBefore, startOfDay, startOfWeek } from 'date-fns';
 
 import { fetcher } from '@/lib/fetcher';
 import { IOptionGroups, IOptions } from '@/types/dropdown';
@@ -30,6 +30,7 @@ interface ITimeSheetContextType {
   taskTypeOptions: IOptionGroups[];
   userInfo: ITimeSheetUserInfoResponse | null;
   dailySecondsMap: Map<string, number>;
+  weekDays: Date[];
   setLoading: (isLoading: boolean) => void;
   setPeriod: (value: PERIODCALENDAR) => void;
   setSelectedCalendar: Dispatch<SetStateAction<Date>>;
@@ -47,6 +48,7 @@ interface ITimeSheetContextType {
   getDailyWorkSeconds: () => Map<string, number>;
   getDayStatus: (day: Date, dailyTaskMap: Map<string, number>) => DAYTASKSTATUS;
   isPastDay: (day: Date) => boolean;
+  setWeekAnchorDate: Dispatch<SetStateAction<Date>>;
 }
 
 interface ITimeSheetProviderProps {
@@ -70,6 +72,15 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   const [userInfo, setUserInfo] = useState<ITimeSheetUserInfoResponse | null>(null);
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const EIGHT_HOURS = 8 * 60 * 60;
+
+  const [weekAnchorDate, setWeekAnchorDate] = useState<Date>(() => {
+    const today = new Date();
+    return new Date(selectedYear, selectedMonth.getMonth(), today.getDate());
+  });
+
+  const start = startOfWeek(weekAnchorDate, { weekStartsOn: 0 });
+
+  const weekDays = Array.from({ length: 7 }, (_, i) => addDays(start, i));
 
   const resetSelectCaledar = () => {
     setSelectedCalendar(now);
@@ -274,6 +285,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         taskTypeOptions,
         userInfo,
         dailySecondsMap,
+        weekDays,
         isPastDay,
         setIsPopoverEdit,
         setLoading,
@@ -291,6 +303,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         getUserInfo,
         getDailyWorkSeconds,
         getDayStatus,
+        setWeekAnchorDate,
       }}
     >
       {children}
