@@ -42,7 +42,7 @@ const ReportProjectContent = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const project = await fetcher<IOption[]>(`${prefix}//api/v1/report/project/project-list`);
+        const project = await fetcher<IOption[]>(`${prefix}/api/v1/report/project/project-list`);
         setProjectOptions(project);
       } catch (error) {
         console.error('Error fetching project options:', error);
