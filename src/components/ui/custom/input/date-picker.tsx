@@ -16,6 +16,8 @@ type DatePickerInputProps = {
   disabled?: boolean;
   className?: string;
   isError?: boolean;
+  startMonth?: Date;
+  endMonth?: Date;
 };
 
 export function DatePickerInput({
@@ -25,6 +27,8 @@ export function DatePickerInput({
   disabled,
   className,
   isError,
+  startMonth = new Date(new Date().getFullYear() - 5, 0),
+  endMonth = new Date(new Date().getFullYear() + 5, 0),
 }: DatePickerInputProps) {
   const [open, setOpen] = React.useState(false);
 
@@ -52,6 +56,8 @@ export function DatePickerInput({
           mode="single"
           selected={value}
           captionLayout="dropdown"
+          startMonth={startMonth}
+          endMonth={endMonth}
           onSelect={(date) => {
             onChange?.(date);
             setOpen(false);

@@ -420,6 +420,8 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                     <DatePickerInput
                       {...field}
                       value={field.value}
+                      startMonth={undefined}
+                      endMonth={undefined}
                       placeholder="กรุณาเลือกวันที่เริ่มต้นของคุณ"
                       isError={form.formState.errors.start_date ? true : false}
                       onChange={field.onChange}
@@ -439,6 +441,8 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                     <DatePickerInput
                       {...field}
                       value={field.value ? new Date(field.value) : undefined}
+                      startMonth={undefined}
+                      endMonth={undefined}
                       placeholder="กรุณาเลือกวันที่สิ้นสุดของคุณ"
                       onChange={field.onChange}
                     />
