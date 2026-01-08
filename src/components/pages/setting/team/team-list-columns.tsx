@@ -15,6 +15,7 @@ import { EModules } from '@/lib/constants/module';
 
 const nameColumn = SortColumn<ITeam>('name', 'ชื่อทีม');
 const descriptionColumn = SortColumn<ITeam>('description', 'คำอธิบาย');
+const usedCountColumn = SortColumn<ITeam>('used_count', 'จำนวนผู้ใช้งาน', 'center');
 const activeColumn = SortColumn<ITeam>('is_active', 'สถานะ');
 const actionColumn = ActionColumn<ITeam>('actions', 'จัดการ');
 type createColumnsProps = {
@@ -42,6 +43,14 @@ export const createColumns = ({
       cell: ({ row }) => {
         const { description } = row.original;
         return <div>{description || '-'}</div>;
+      },
+    },
+    {
+      ...usedCountColumn,
+      size: 100,
+      cell: ({ row }) => {
+        const { used_count } = row.original;
+        return <div className="text-center">{used_count || '-'}</div>;
       },
     },
     {

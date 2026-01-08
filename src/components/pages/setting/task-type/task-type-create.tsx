@@ -39,7 +39,6 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
       });
       const result = await response.json();
       if (response.ok) {
-        toast(result.message);
         const taskTypeData = result.data;
 
         if (taskMenu) {
@@ -129,7 +128,15 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
         <Button
           size="sm"
           className="flex justify-start items-center px-2 h-9"
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setDefaultTaskType({
+              name: '',
+              description: '',
+              type: id as TaskTypeCode,
+              is_active: true,
+            });
+            setOpen(true);
+          }}
         >
           เพิ่มข้อมูล
         </Button>
