@@ -10,7 +10,7 @@ const BadgeTable = ({ text, type }: BadgeTableProps) => {
     switch (type) {
       case 'activate': {
         bgStatusClass = 'bg-green-500';
-        return 'text-green-700 bg-green-100 border-green-200';
+        return 'text-green-700 bg-green-50 border-green-200';
       }
       case 'deactivate': {
         bgStatusClass = 'bg-gray-500';

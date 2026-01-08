@@ -19,6 +19,7 @@ const codeColumn = SortColumn<IProject>('code', 'รหัสโครงกา�
 const startDateColumn = SortColumn<IProject>('start_date', 'วันที่เริ่มต้น');
 const endDateColumn = SortColumn<IProject>('end_date', 'วันที่สิ้นสุด');
 const actionColumn = ActionColumn<IProject>('actions', 'จัดการ');
+const membersColumn = SortColumn<IProject>('members_count', 'จำนวนสมาชิก', 'center');
 
 type createColumnsProps = {
   account: Account;
@@ -61,6 +62,14 @@ export const createColumns = ({
       cell: ({ row }) => {
         const { end_date } = row.original;
         return end_date ? formatDate(end_date, 'dd/mm/yyyy') : '-';
+      },
+    },
+    {
+      ...membersColumn,
+      size: 100,
+      cell: ({ row }) => {
+        const { members_count } = row.original;
+        return <div className="text-center">{members_count || '-'}</div>;
       },
     },
   ];

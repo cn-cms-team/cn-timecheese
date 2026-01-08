@@ -15,6 +15,7 @@ import { ColumnDef } from '@tanstack/react-table';
 
 const nameColumn = SortColumn<IRole>('name', 'ชื่อสิทธิ์การใช้งาน');
 const descriptionColumn = SortColumn<IRole>('description', 'คำอธิบาย');
+const usedCountColumn = SortColumn<IRole>('used_count', 'จำนวนผู้ใช้งาน', 'center');
 const createdByColumn = SortColumn<IRole>('createdBy', 'ผู้แก้ไข', 'center');
 const updatedAtColumn = SortColumn<IRole>('updatedAt', 'วันที่แก้ไขล่าสุด', 'center');
 const actionColumn = ActionColumn<IRole>('actions', 'จัดการ');
@@ -43,6 +44,14 @@ export const createColumns = ({
       cell: ({ row }) => {
         const { description } = row.original;
         return <div>{description || '-'}</div>;
+      },
+    },
+    {
+      ...usedCountColumn,
+      size: 100,
+      cell: ({ row }) => {
+        const { used_count } = row.original;
+        return <div className="text-center">{used_count || '-'}</div>;
       },
     },
     {

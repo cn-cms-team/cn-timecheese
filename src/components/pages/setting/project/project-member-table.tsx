@@ -31,39 +31,41 @@ const ProjectMemberTable = ({ header, userOptions, form }: ProjectMemberTablePro
         render={({ field: parentField }) => (
           <FormItem>
             <FormControl>
-              <Table className="border">
-                <TableHeader>
-                  <TableRow className="bg-[#f2f4f7]">
-                    {header.map(({ label, className }) => (
-                      <TableHead key={label} className={className}>
-                        {label}
-                      </TableHead>
-                    ))}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {fields.length === 0 ? (
-                    <TableRow>
-                      <TableCell
-                        colSpan={header.length}
-                        className="h-24 text-center text-muted-foreground"
-                      >
-                        ไม่มีข้อมูล
-                      </TableCell>
+              <div className="border rounded-lg">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-[#f2f4f7]">
+                      {header.map(({ label, className }) => (
+                        <TableHead key={label} className={className}>
+                          {label}
+                        </TableHead>
+                      ))}
                     </TableRow>
-                  ) : (
-                    fields.map((item, index) => (
-                      <ProjectMemberRow
-                        index={index}
-                        form={form}
-                        userOptions={userOptions}
-                        key={index}
-                        onDelete={remove}
-                      />
-                    ))
-                  )}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {fields.length === 0 ? (
+                      <TableRow>
+                        <TableCell
+                          colSpan={header.length}
+                          className="h-24 text-center text-muted-foreground"
+                        >
+                          ไม่มีข้อมูล
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      fields.map((item, index) => (
+                        <ProjectMemberRow
+                          index={index}
+                          form={form}
+                          userOptions={userOptions}
+                          key={index}
+                          onDelete={remove}
+                        />
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
             </FormControl>
           </FormItem>
         )}

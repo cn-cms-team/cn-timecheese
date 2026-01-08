@@ -5,7 +5,7 @@ export type IRole = {
   description?: string;
   fullName: string;
   updatedAt?: Date;
-
+  used_count: number;
   isActive: boolean;
   rolePermissions: IRolePermissions[];
 };

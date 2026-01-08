@@ -16,6 +16,7 @@ import { EModules } from '@/lib/constants/module';
 
 const positionNameColumn = SortColumn<IPosition>('name', 'ชื่อตำแหน่ง');
 const descriptionColumn = SortColumn<IPosition>('description', 'คำอธิบาย');
+const usedCountColumn = SortColumn<IPosition>('used_count', 'จำนวนผู้ใช้งาน', 'center');
 const actionColumn = ActionColumn<IPosition>('actions', 'จัดการ');
 
 type createColumnsProps = {
@@ -66,6 +67,14 @@ export const createColumns = ({
             </Tooltip>
           </TooltipProvider>
         );
+      },
+    },
+    {
+      ...usedCountColumn,
+      size: 100,
+      cell: ({ row }) => {
+        const { used_count } = row.original;
+        return <div className="text-center">{used_count || '-'}</div>;
       },
     },
   ];

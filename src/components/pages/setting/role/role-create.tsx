@@ -27,6 +27,7 @@ import { useForm } from 'react-hook-form';
 import { createEditRoleSchema, CreateEditRoleSchemaType } from './schema';
 import { useRouter } from 'next/navigation';
 import TitleGroup from '@/components/ui/custom/cev/title-group';
+import { Required } from '@/components/ui/custom/form';
 
 type OutputItem = {
   code: string;
@@ -353,7 +354,9 @@ const RoleCreate = ({ id }: { id?: string }) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>ชื่อสิทธิ์การใช้งาน</FormLabel>
+                  <FormLabel>
+                    ชื่อสิทธิ์การใช้งาน <Required />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       autoComplete="off"
@@ -373,7 +376,9 @@ const RoleCreate = ({ id }: { id?: string }) => {
               name="description"
               render={({ field }) => (
                 <FormItem className="mt-5">
-                  <FormLabel>คำอธิบาย</FormLabel>
+                  <FormLabel>
+                    คำอธิบาย <Required />
+                  </FormLabel>
                   <FormControl>
                     <Textarea
                       autoComplete="off"

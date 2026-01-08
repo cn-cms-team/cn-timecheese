@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import PositionLevelView from './position-level-view';
 import { IPosition } from '@/types/setting/position';
+import { LabelGroup } from '@/components/ui/custom/form';
+import { TitleGroup } from '@/components/ui/custom/cev';
 
 const PositionViewDetail = ({
   id,
@@ -30,27 +32,15 @@ const PositionViewDetail = ({
   }, []);
   return (
     <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-10 lg:px-10 lg:py-10">
-      <div className="w-full h-fit border px-7 py-5 rounded-sm text-lg">
-        <div>
-          <h1 className="font-semibold">ข้อมูลตำแหน่ง</h1>
-        </div>
-        <hr className="mt-1" />
-        <div>
-          <div>
-            <h3 className="text-gray-500 mt-10 text-sm">ชื่อตำแหน่ง</h3>
-            <p>{positionData?.name}</p>
-          </div>
-          <div>
-            <h3 className="text-gray-500 mt-10 text-sm">คำอธิบาย</h3>
-            <p className="whitespace-pre-wrap">{positionData?.description || '-'}</p>
-          </div>
+      <div className="w-full h-fit border px-6 py-5 rounded-lg shadow-sm">
+        <TitleGroup title="ข้อมูลตำแหน่ง" />
+        <div className="flex flex-col gap-5 mt-4">
+          <LabelGroup label="ชื่อตำแหน่ง" value={positionData?.name} />
+          <LabelGroup label="คำอธิบาย" value={positionData?.description} />
         </div>
       </div>
-      <div className="w-full h-full border px-10 py-5 rounded-sm text-lg">
-        <div>
-          <h1 className="font-semibold">ระดับตำแหน่ง</h1>
-        </div>
-        <hr className="mt-1" />
+      <div className="w-full h-full border px-6 py-5 rounded-lg shadow-sm">
+        <TitleGroup title="ระดับตำแหน่ง" />
         <PositionLevelView levels={positionData?.levels || []} />
       </div>
     </div>

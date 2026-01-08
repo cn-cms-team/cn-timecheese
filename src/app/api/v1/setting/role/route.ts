@@ -10,6 +10,11 @@ export async function GET() {
         name: true,
         description: true,
         updated_at: true,
+        _count: {
+          select: {
+            User: true,
+          },
+        },
         updatedBy: { select: { id: true, first_name: true, last_name: true } },
       },
       orderBy: { created_at: 'desc' },
@@ -28,6 +33,7 @@ export async function GET() {
           firstName && lastName
             ? [role.updatedBy?.first_name, role.updatedBy?.last_name].join(' ').trim()
             : null,
+        used_count: role._count.User,
       };
     });
     return Response.json({ data: roleMaps, status: 200 });
