@@ -4,7 +4,7 @@ import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
 
 import { IReportProject } from '@/types/report';
 import { useEffect, useState } from 'react';
-import ReportUsersButton from '../../reports/report-users-button';
+import ReportUsersButton from '../report-users-button';
 import { UserAvatarProps } from '@/components/ui/custom/avatar/user-avatar';
 import { IOption } from '@/types/option';
 import { fetcher } from '@/lib/fetcher';
@@ -42,7 +42,7 @@ const ReportProjectContent = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const project = await fetcher<IOption[]>(`${prefix}//api/v1/report/project/project-list`);
+        const project = await fetcher<IOption[]>(`${prefix}/api/v1/report/project/project-list`);
         setProjectOptions(project);
       } catch (error) {
         console.error('Error fetching project options:', error);
