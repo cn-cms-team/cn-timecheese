@@ -17,6 +17,7 @@ import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { useTimeSheetContext } from './view/timesheet-context';
 import TimeInput from '@/components/ui/custom/input/time-input';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { useState } from 'react';
 
 interface IProps {
   close?: () => void;
@@ -32,6 +33,7 @@ const TimeSheetForm = ({
   close = () => {},
 }: IProps) => {
   const { projectOptions, taskTypeOptions, getTask, fetchTaskOption } = useTimeSheetContext();
+  const [loading, setLoading] = useState(false);
 
   const selectedDate = startTime
     ? startTime
@@ -70,6 +72,7 @@ const TimeSheetForm = ({
 
   const onSubmit = async (value: TimesheetCreateEditSchema) => {
     try {
+      setLoading(true);
       const taskId = data ? data.id : null;
       const url = `${baseUrl}/timesheet${taskId ? `/${taskId}` : ''}`;
 
@@ -107,6 +110,8 @@ const TimeSheetForm = ({
       }
     } catch (error) {
       console.error('Error fetching options: ', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -354,7 +359,11 @@ const TimeSheetForm = ({
                 >
                   ยกเลิก
                 </Button>
-                <Button className="w-40  cursor-pointer text-black" type="submit">
+                <Button
+                  disabled={loading}
+                  className="w-40  cursor-pointer text-black"
+                  type="submit"
+                >
                   บันทึก ({calculateHour()} ชม)
                 </Button>
               </div>
