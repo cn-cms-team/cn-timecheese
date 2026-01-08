@@ -64,11 +64,12 @@ const TimeSheetMonthCalendar = () => {
             return (
               <div
                 key={index}
-                className={cn('min-h-[140px] border-t border-r border-neutral-400 bg-[#F5F6F8]')}
+                className={cn('min-h-[140px] border-t border-r border-neutral-400 bg-neutral-300')}
               />
             );
           }
 
+          const isSaturday = dayOfMonth.getDay() === 6;
           const dayTasks = tasks.filter((task) => !checkIsNotToday(new Date(task.start_date), day));
 
           const visibleTasks = dayTasks.slice(0, 3);
@@ -88,7 +89,8 @@ const TimeSheetMonthCalendar = () => {
                 triggerContent={
                   <div
                     className={cn(
-                      'z-10 hover:bg-neutral-200 border-neutral-400 border-t border-r  cursor-pointer p-2  transition-colors relative group min-h-36 space-y-1'
+                      'z-10 hover:bg-neutral-200 border-neutral-400 border-t cursor-pointer p-2  transition-colors relative group min-h-36 space-y-1',
+                      isSaturday ? '' : 'border-r'
                     )}
                     onClick={() => {
                       setSelectedCalendar(new Date(year, month, day));
