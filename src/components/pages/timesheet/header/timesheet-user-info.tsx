@@ -1,7 +1,6 @@
 'use client';
 import { buddhistFormatDate } from '@/lib/functions/date-format';
 
-import UserProfileImage from '@/components/ui/icons/user-profile-img';
 import { useTimeSheetContext } from '../view/timesheet-context';
 
 const TimeSheetUserInfo = () => {
@@ -10,9 +9,13 @@ const TimeSheetUserInfo = () => {
   return (
     <div className="lg:col-span-2 bg-white p-4 rounded-lg">
       <h1 className="text-2xl text-gray-400 mb-4">ข้อมูลผู้ใช้งาน</h1>
-      <div className="flex flex-col lg:flex-row">
+      <div className="flex flex-col items-center lg:flex-row">
         <div className="flex  justify-center mx-4 lg:mb-0 mb-4">
-          <UserProfileImage />
+          <img
+            className="w-40 h-full rounded-full"
+            src={`${process.env.NEXT_PUBLIC_DICEBEAR_URL}${userInfo?.user?.full_name}`}
+            alt={userInfo?.user?.full_name.trim() || 'User Avatar'}
+          />
         </div>
         <div className="flex flex-col w-full ps-4">
           <div className="text-xl text-center lg:text-start mb-4">
