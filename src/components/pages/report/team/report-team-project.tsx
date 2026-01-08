@@ -33,7 +33,7 @@ const ReportTeamProject = ({
           <LabelGroup label="วันที่เข้าร่วม" value={start_date ? formatDate(start_date) : '-'} />
           <LabelGroup label="วันที่สิ้นสุด" value={end_date ? formatDate(end_date) : '-'} />
         </div>
-        <LabelGroup label="ตำแหน้งโครงการ" value={position || '-'} />
+        <LabelGroup label="ตำแหน่งโครงการ" value={position || '-'} />
       </CardContent>
       <CardFooter className="flex-col gap-2 border-t">
         <div className="flex justify-between w-full mb-2">
