@@ -16,7 +16,13 @@ import { getProjectStatus } from '@/lib/functions/enum-mapping';
 import { IProject, IProjectTaskType } from '@/types/setting/project';
 import { useEffect, useState } from 'react';
 
-const ProjectViewDetail = ({ id }: { id: string }): React.ReactNode => {
+const ProjectViewDetail = ({
+  id,
+  onDataLoaded,
+}: {
+  id: string;
+  onDataLoaded: (name: string) => void;
+}): React.ReactNode => {
   const [projectData, setProjectData] = useState<IProject>();
   useEffect(() => {
     const fetchProjectData = async () => {
@@ -26,6 +32,7 @@ const ProjectViewDetail = ({ id }: { id: string }): React.ReactNode => {
           const result = await response.json();
           const data = result.data;
           setProjectData(data);
+          onDataLoaded(data.name);
         }
       } catch (error) {
         console.error('Failed to fetch user data:', error);
