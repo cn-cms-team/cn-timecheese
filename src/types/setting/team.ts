@@ -6,6 +6,7 @@ export type ITeam = {
   name: string;
   is_active: boolean;
   description?: string;
+  used_count: number;
   createdAt: Date;
   updatedAt?: Date;
 };
