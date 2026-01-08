@@ -33,7 +33,8 @@ const TimeSheetForm = ({
   endTime = undefined,
   close = () => {},
 }: IProps) => {
-  const { projectOptions, taskTypeOptions, getTask, fetchTaskOption } = useTimeSheetContext();
+  const { projectOptions, taskTypeOptions, getTask, fetchTaskOption, getUserInfo } =
+    useTimeSheetContext();
   const [loading, setLoading] = useState(false);
 
   const selectedDate = startTime
@@ -106,6 +107,7 @@ const TimeSheetForm = ({
       if (response.ok) {
         const result = await response.json();
         toast(result.message);
+        await getUserInfo();
         await getTask();
         close();
       }
