@@ -33,7 +33,7 @@ export async function GET() {
           firstName && lastName
             ? [role.updatedBy?.first_name, role.updatedBy?.last_name].join(' ').trim()
             : null,
-        userCount: role._count.User,
+        used_count: role._count.User,
       };
     });
     return Response.json({ data: roleMaps, status: 200 });
