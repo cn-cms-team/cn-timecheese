@@ -47,11 +47,11 @@ const TimeSheetMonthCalendar = () => {
 
   return (
     <div className="flex-1 overflow-y-auto relative custom-scrollbar bg-[#F5F6F8]">
-      <div className="grid grid-cols-7 bg-[#F5F6F8] border border-neutral-400 rounded-lg overflow-hidden shadow-lg">
+      <div className="grid grid-cols-7 bg-white border border-neutral-400 rounded-lg overflow-hidden shadow-lg">
         {DAYS.map((d) => (
           <div
             key={d}
-            className="py-2 text-center font-bold text-neutral-800 uppercase bg-[#F5F6F8] border-neutral-400"
+            className="py-2 text-center font-bold text-neutral-800 uppercase bg-white border-neutral-400"
           >
             {d}
           </div>
