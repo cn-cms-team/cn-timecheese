@@ -72,7 +72,7 @@ export const createColumns = ({
 
   const canEdit = renderByPermission(account, EModules.ADMIN_TEAM, 'EDIT');
   const canDelete = renderByPermission(account, EModules.ADMIN_TEAM, 'DELETE');
-  if (canEdit && canDelete) {
+  if (canEdit || canDelete) {
     return [
       ...baseColumns,
       {

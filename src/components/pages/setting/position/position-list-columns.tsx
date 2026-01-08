@@ -81,7 +81,7 @@ export const createColumns = ({
 
   const canEdit = renderByPermission(account, EModules.ADMIN_POSITION, 'EDIT');
   const canDelete = renderByPermission(account, EModules.ADMIN_POSITION, 'DELETE');
-  if (canEdit && canDelete) {
+  if (canEdit || canDelete) {
     return [
       ...baseColumns,
       {
