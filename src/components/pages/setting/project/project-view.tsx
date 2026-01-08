@@ -51,7 +51,7 @@ const ProjectViewDetail = ({
     return (
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className="bg-[#f2f4f7]">
             <TableHead className="w-[100px]">หมวดหมู่</TableHead>
             <TableHead className="w-[100px]">ประเภทงาน</TableHead>
             <TableHead className="w-[100px]">คำอธิบาย</TableHead>
@@ -120,7 +120,7 @@ const ProjectViewDetail = ({
           <div className="rounded-lg border">
             <Table>
               <TableHeader>
-                <TableRow>
+                <TableRow className="bg-[#f2f4f7]">
                   <TableHead className="w-[100px]">ชื่อ-สกุล</TableHead>
                   <TableHead className="w-[100px]">ตำแหน่ง</TableHead>
                   <TableHead className="w-[100px]">ค่าใช้จ่ายต่อวัน</TableHead>
