@@ -16,7 +16,13 @@ import { getProjectStatus } from '@/lib/functions/enum-mapping';
 import { IProject, IProjectTaskType } from '@/types/setting/project';
 import { useEffect, useState } from 'react';
 
-const ProjectViewDetail = ({ id }: { id: string }): React.ReactNode => {
+const ProjectViewDetail = ({
+  id,
+  onDataLoaded,
+}: {
+  id: string;
+  onDataLoaded: (name: string) => void;
+}): React.ReactNode => {
   const [projectData, setProjectData] = useState<IProject>();
   useEffect(() => {
     const fetchProjectData = async () => {
@@ -26,6 +32,7 @@ const ProjectViewDetail = ({ id }: { id: string }): React.ReactNode => {
           const result = await response.json();
           const data = result.data;
           setProjectData(data);
+          onDataLoaded(data.name);
         }
       } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -44,7 +51,7 @@ const ProjectViewDetail = ({ id }: { id: string }): React.ReactNode => {
     return (
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow className="bg-[#f2f4f7]">
             <TableHead className="w-[100px]">หมวดหมู่</TableHead>
             <TableHead className="w-[100px]">ประเภทงาน</TableHead>
             <TableHead className="w-[100px]">คำอธิบาย</TableHead>
@@ -113,7 +120,7 @@ const ProjectViewDetail = ({ id }: { id: string }): React.ReactNode => {
           <div className="rounded-lg border">
             <Table>
               <TableHeader>
-                <TableRow>
+                <TableRow className="bg-[#f2f4f7]">
                   <TableHead className="w-[100px]">ชื่อ-สกุล</TableHead>
                   <TableHead className="w-[100px]">ตำแหน่ง</TableHead>
                   <TableHead className="w-[100px]">ค่าใช้จ่ายต่อวัน</TableHead>

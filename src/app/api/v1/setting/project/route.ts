@@ -12,6 +12,11 @@ export async function GET() {
         code: true,
         start_date: true,
         end_date: true,
+        _count: {
+          select: {
+            projectMembers: true,
+          },
+        },
       },
     });
 
@@ -26,6 +31,7 @@ export async function GET() {
 
     const result = project.map((item) => ({
       ...item,
+      members_count: item._count.projectMembers,
       is_using: !!usingProjectIds.has(item.id),
     }));
 

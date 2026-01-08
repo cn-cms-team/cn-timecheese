@@ -9,10 +9,19 @@ export async function GET() {
         name: true,
         description: true,
         is_active: true,
+        _count: {
+          select: {
+            users: true,
+          },
+        },
       },
       orderBy: { created_at: 'desc' },
     });
-    return Response.json({ data: teams, status: 200 });
+    const teamMaps = teams.map((team) => ({
+      ...team,
+      used_count: team._count.users,
+    }));
+    return Response.json({ data: teamMaps, status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },

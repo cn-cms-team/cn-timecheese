@@ -42,11 +42,28 @@ export async function GET() {
         id: true,
         name: true,
         description: true,
+        positionLevels: {
+          where: { is_enabled: true },
+          select: {
+            _count: {
+              select: {
+                users: true,
+              },
+            },
+          },
+        },
       },
       orderBy: { created_at: 'asc' },
     });
 
-    return Response.json({ data: positions, status: 200 });
+    const positionMaps = positions.map((position) => ({
+      id: position.id,
+      name: position.name,
+      description: position.description,
+      used_count: position.positionLevels.reduce((acc, level) => acc + level._count.users, 0),
+    }));
+
+    return Response.json({ data: positionMaps, status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },

@@ -52,7 +52,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         id: team.id,
         name: team.name,
         description: team.description,
-        isActive: team.is_active,
+        is_active: team.is_active,
         users: usersUi,
         teamLeaders: team.teamLeaders,
       };

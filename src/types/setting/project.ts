@@ -18,6 +18,7 @@ export type IProject = {
   optional_task_type: IProjectTaskType[];
   updated_by: string;
   is_using?: boolean;
+  members_count?: number;
 };
 
 export type IProjectMember = {

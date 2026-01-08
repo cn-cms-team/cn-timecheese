@@ -45,12 +45,14 @@ const AppSidebarUser = ({ user }: AppSidebarUserProps) => {
               <div className="px-2">
                 <Avatar>
                   <AvatarImage
-                    src={`${process.env.NEXT_PUBLIC_DICEBEAR_URL}${user.name.trim()}`}
+                    src={
+                      user && user.name
+                        ? `${process.env.NEXT_PUBLIC_DICEBEAR_URL}${user.name.trim()}`
+                        : ''
+                    }
                     alt={user.name}
                   />
-                  <AvatarFallback className="bg-primary text-primary-foreground">
-                    {user.name.charAt(0)}
-                  </AvatarFallback>
+                  <AvatarFallback className="bg-gray-300"></AvatarFallback>
                 </Avatar>
               </div>
               <div className="grid flex-1 text-left">

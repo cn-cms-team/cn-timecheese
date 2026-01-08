@@ -9,7 +9,7 @@ export type IPosition = {
   id: string;
   name: string;
   description: string | null;
-
+  used_count: number;
   levels: IPositionLevel[];
 
   created_at: Date;

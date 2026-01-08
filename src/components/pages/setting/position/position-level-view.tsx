@@ -1,3 +1,4 @@
+import { LabelGroup } from '@/components/ui/custom/form';
 import { IPositionLevel } from '@/types/setting/position';
 import { Inbox } from 'lucide-react';
 
@@ -11,22 +12,22 @@ const PositionLevelView = ({ levels }: { levels: IPositionLevel[] }) => {
     );
   }
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       {levels.map((level, index) => (
-        <div key={index} className="w-full h-full border rounded-sm py-5 px-5 mt-10">
-          <div className="flex items-center justify-between0">
-            <div className="flex gap-2">
-              <span className="bg-yellow-500 px-2 rounded-md text-white">{index + 1}</span>
-              <h1>Level</h1>
+        <div key={index} className="w-full h-full border rounded-md py-5 px-5 shadow-sm">
+          <div className="flex items-center justify-between">
+            <div className="flex gap-2 items-center">
+              <div className="bg-yellow-500 h-6 w-6 rounded-md text-white text-center">
+                {index + 1}
+              </div>
+              <h1 className="font-semibold text-lg">Level</h1>
             </div>
           </div>
           <div className="text-sm mt-5">
-            <h1 className="text-gray-500">ชื่อระดับ</h1>
-            <p>{level.name}</p>
+            <LabelGroup label="ชื่อระดับ" value={level.name} />
           </div>
           <div className="text-sm mt-5">
-            <h1 className="text-gray-500 mt-5 ">คำอธิบาย</h1>
-            <p className="whitespace-pre-wrap">{level.description || '-'}</p>
+            <LabelGroup label="คำอธิบาย" value={level.description || '-'} />
           </div>
         </div>
       ))}

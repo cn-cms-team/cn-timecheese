@@ -6,6 +6,7 @@ export type ITeam = {
   name: string;
   is_active: boolean;
   description?: string;
+  used_count: number;
   createdAt: Date;
   updatedAt?: Date;
 };
@@ -22,7 +23,7 @@ export interface TeamApiResponse {
   id: string;
   name: string;
   description?: string | null;
-  isActive: boolean;
+  is_active: boolean;
   users: TeamMember[];
   teamLeaders?: TeamLeader[];
 }

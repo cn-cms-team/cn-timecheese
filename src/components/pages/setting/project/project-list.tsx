@@ -103,9 +103,6 @@ export function ProjectList<TData, TValue>({
             onEnter={handleSearch}
           />
         </div>
-        <div className="flex items-center gap-2">
-          <SearchButton onClick={handleSearch} />
-        </div>
       </div>
       <DataTable table={table} columns={columns} loading={loading} />
     </div>
