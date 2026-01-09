@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { type DateRange } from 'react-day-picker';
+import { ModifiersClassNames, type DateRange } from 'react-day-picker';
 
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover';
@@ -29,6 +29,10 @@ export function DateRangePicker({
 }: IProps) {
   const [open, setOpen] = useState(false);
 
+  const modifiers: ModifiersClassNames = {
+    range_middle: '!bg-gray-200 text-black',
+  };
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger className={cn(className, 'w-full')}>
@@ -43,9 +47,9 @@ export function DateRangePicker({
         >
           <span className={cn('truncate', selected ? '' : 'text-gray-500')}>
             {selected
-              ? `${formatDate(selected.from, 'dd-mmm-yyyy')} - ${formatDate(
+              ? `${formatDate(selected.from, 'dd/mm/yyyy')} - ${formatDate(
                   selected.to,
-                  'dd-mmm-yyyy'
+                  'dd/mm/yyyy'
                 )}`
               : placeholder}
           </span>
@@ -58,7 +62,9 @@ export function DateRangePicker({
           defaultMonth={selected?.from || undefined}
           selected={selected}
           onSelect={onSelect}
+          showOutsideDays={false}
           className="rounded-lg border shadow-sm"
+          modifiersClassNames={modifiers}
         />
       </PopoverContent>
     </Popover>
