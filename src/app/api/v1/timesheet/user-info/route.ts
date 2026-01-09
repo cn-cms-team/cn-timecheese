@@ -45,6 +45,22 @@ export async function GET(request: Request) {
 
     let after6Seconds = 0;
 
+    const calcAfter6PMSeconds = (start: Date, end: Date) => {
+      const sixPM = new Date(start);
+      sixPM.setHours(18, 0, 0, 0);
+
+      if (start < sixPM) {
+        start = sixPM;
+      }
+
+      if (end > sixPM) {
+        const diff = (end.getTime() - start.getTime()) / 1000;
+        return diff > 0 ? diff : 0;
+      }
+
+      return 0;
+    };
+
     for (const task of tasks) {
       const start = new Date(task.start_date);
       const end = new Date(task.end_date);

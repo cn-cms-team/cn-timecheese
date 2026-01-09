@@ -5,6 +5,7 @@ import { ITimeSheetResponse } from '@/types/timesheet';
 import { Pencil, Trash2, X } from 'lucide-react';
 import { useTimeSheetContext } from './view/timesheet-context';
 import useDialogConfirm from '@/hooks/use-dialog-confirm';
+import TimeSheetPopover from './timesheet-popover';
 
 interface IProps {
   data: ITimeSheetResponse;
@@ -29,10 +30,17 @@ const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
   };
 
   return (
-    <div className="grid grid-cols-1 p-4 max-w-[320px]">
+    <div className="grid grid-cols-1 p-4 max-w-[320px] overflow-hidden">
       <header className="flex items-center justify-between w-full gap-2">
         <div>
-          <h3 className="font-bold truncate">{data.project_name}</h3>
+          <TimeSheetPopover
+            triggerContent={
+              <h3 className="font-bold max-w-52 line-clamp-2 cursor-pointer">
+                {data.project_name}
+              </h3>
+            }
+            popoverContent={() => <>{data.project_name}</>}
+          />
         </div>
         <div className="flex items-center gap-2">
           <button

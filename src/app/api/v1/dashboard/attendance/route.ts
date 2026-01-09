@@ -1,0 +1,85 @@
+import prisma from '@/lib/prisma';
+import { endOfMonth, startOfMonth } from 'date-fns';
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const month = searchParams.get('month');
+  const year = searchParams.get('year');
+
+  if (!month) {
+    return Response.json({ error: 'Month parameter is required' }, { status: 400 });
+  }
+
+  if (!year) {
+    return Response.json({ error: 'Year parameter is required' }, { status: 400 });
+  }
+
+  const monthNumber = Number(month);
+  const yearNumber = Number(year);
+
+  if (isNaN(monthNumber) || monthNumber < 0 || monthNumber > 11) {
+    return Response.json(
+      { error: 'Invalid month parameter. Must be between 0 and 11' },
+      { status: 400 }
+    );
+  }
+
+  if (isNaN(yearNumber)) {
+    return Response.json({ error: 'Invalid year parameter' }, { status: 400 });
+  }
+
+  const monthStart = startOfMonth(new Date(yearNumber, monthNumber));
+  const monthEnd = endOfMonth(new Date(yearNumber, monthNumber));
+
+  try {
+    const tasks = await prisma.timeSheet.findMany({
+      where: {
+        stamp_date: {
+          gte: monthStart,
+          lte: monthEnd,
+        },
+      },
+      select: {
+        id: true,
+        project_task_type: true,
+        stamp_date: true,
+        start_date: true,
+        end_date: true,
+        total_seconds: true,
+      },
+      orderBy: {
+        stamp_date: 'asc',
+      },
+    });
+
+    type Summary = {
+      date: string;
+      task_name?: string;
+      total_seconds: number;
+    };
+
+    const summaryMap = new Map<string, Summary>();
+
+    for (const task of tasks) {
+      const dateKey = task.stamp_date.toISOString().split('T')[0];
+
+      if (!summaryMap.has(dateKey)) {
+        summaryMap.set(dateKey, {
+          date: dateKey,
+          total_seconds: 0,
+        });
+      }
+
+      summaryMap.get(dateKey)!.total_seconds += task.total_seconds;
+    }
+
+    const result = Array.from(summaryMap.values());
+
+    return Response.json({ data: result, status: 200 });
+  } catch (error) {
+    return Response.json(
+      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { status: 500 }
+    );
+  }
+}

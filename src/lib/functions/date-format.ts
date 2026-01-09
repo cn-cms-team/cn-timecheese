@@ -1,5 +1,11 @@
 import { FilterPeriod } from '@/types/period';
-import { differenceInBusinessDays, format, parseISO } from 'date-fns';
+import {
+  differenceInBusinessDays,
+  differenceInCalendarMonths,
+  differenceInCalendarYears,
+  format,
+  parseISO,
+} from 'date-fns';
 import { th } from 'date-fns/locale';
 
 export function formatDateAndTime(dateString: string): string {
@@ -327,3 +333,65 @@ export function calcTotalDays(start?: string, end?: string): number | null {
   const diff = differenceInBusinessDays(end, start);
   return diff >= 0 ? diff + 1 : null;
 }
+
+export function secondsToDuration(sec: number) {
+  if (!Number.isFinite(sec) || sec < 0) {
+    return {
+      year: 0,
+      month: 0,
+      day: 0,
+      hour: 0,
+      minute: 0,
+    };
+  }
+
+  let remaining = Math.floor(sec);
+
+  const YEAR = 365 * 24 * 60 * 60;
+  const MONTH = 30 * 24 * 60 * 60;
+  const DAY = 24 * 60 * 60;
+  const HOUR = 60 * 60;
+  const MINUTE = 60;
+
+  const year = Math.floor(remaining / YEAR);
+  remaining %= YEAR;
+
+  const month = Math.floor(remaining / MONTH);
+  remaining %= MONTH;
+
+  const day = Math.floor(remaining / DAY);
+  remaining %= DAY;
+
+  const hour = Math.floor(remaining / HOUR);
+  remaining %= HOUR;
+
+  const minute = Math.floor(remaining / MINUTE);
+
+  return { year, month, day, hour, minute };
+}
+
+export function calcTotalYearAndMonth(start?: string, end?: string): string | null {
+  if (!start || !end) return null;
+  const diff = differenceInCalendarMonths(end, start);
+  const year = Math.floor(diff / 12);
+  const month = Math.floor(diff % 12);
+  let result = '';
+  if (year > 0) {
+    result += `${year} ปี `;
+  }
+  if (month > 0) {
+    result += `${month} เดือน`;
+  }
+  return result;
+}
+
+export const formatHours = (seconds: number) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+
+  const duration = `${hours} ชม. ${
+    minutes > 0 ? `${minutes.toString().padStart(2, '0')} น.` : ''
+  } `;
+
+  return duration;
+};

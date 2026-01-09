@@ -1,6 +1,6 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { addDays, addWeeks, format, isSameDay, startOfWeek } from 'date-fns';
+import { useEffect } from 'react';
+import { addWeeks, format, isSameDay } from 'date-fns';
 
 import { cn } from '@/lib/utils';
 import { th } from 'date-fns/locale';
@@ -14,6 +14,8 @@ import TimeSheetWeekCalendarBody from './timesheet-week-calendar-body';
 
 const TimeSheetWeekCalendar = () => {
   const {
+    loading,
+    weekDays,
     isPastDay,
     getDayStatus,
     dailySecondsMap,
@@ -22,15 +24,8 @@ const TimeSheetWeekCalendar = () => {
     setSelectedCalendar,
     setSelectedMonth,
     setSelectedYear,
+    setWeekAnchorDate,
   } = useTimeSheetContext();
-  const [weekAnchorDate, setWeekAnchorDate] = useState<Date>(() => {
-    const today = new Date();
-    return new Date(selectedYear, selectedMonth.getMonth(), today.getDate());
-  });
-
-  const start = startOfWeek(weekAnchorDate, { weekStartsOn: 0 });
-
-  const weekDays = Array.from({ length: 7 }, (_, i) => addDays(start, i));
 
   const handlePrevWeek = () => {
     setWeekAnchorDate((prev) => {
@@ -66,7 +61,7 @@ const TimeSheetWeekCalendar = () => {
 
   return (
     <div className="flex flex-col h-full bg-[#F5F6F8] overflow-hidden">
-      <div className="flex items-center border-b border-neutral-300 bg-[#F5F6F8] relative">
+      <div className="flex items-center border-b border-neutral-300 bg-[#F5F6F8] sticky top-0 z-10">
         <Button
           onClick={handlePrevWeek}
           className="px-3 absolute left-13 h-full flex items-center min-w-[54px] cursor-pointer p-0 bg-transparent hover:bg-transparent"
@@ -123,9 +118,8 @@ const TimeSheetWeekCalendar = () => {
           <ChevronRight stroke="#000" />
         </Button>
       </div>
-
-      <div className="flex-1 relative  bg-[#F5F6F8]">
-        <TimeSheetWeekCalendarBody weekDays={weekDays} />
+      <div className="flex-1 relative bg-[#F5F6F8] overflow-y-auto max-h-150">
+        <TimeSheetWeekCalendarBody weekDays={weekDays} loading={loading} />
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import ReportProjectView from '@/components/pages/report/project/view/report-project-view';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -6,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const ReportProjectStatus = () => {
-  return <>รายงานสถานะโครงการ</>;
+  return <ReportProjectView />;
 };
 
 export default ReportProjectStatus;

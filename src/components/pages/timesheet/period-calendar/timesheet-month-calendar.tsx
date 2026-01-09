@@ -47,11 +47,11 @@ const TimeSheetMonthCalendar = () => {
 
   return (
     <div className="flex-1 overflow-y-auto relative custom-scrollbar bg-[#F5F6F8]">
-      <div className="grid grid-cols-7 bg-[#F5F6F8] border border-neutral-400 rounded-lg overflow-hidden shadow-lg">
+      <div className="grid grid-cols-7 bg-white border border-neutral-400 rounded-lg overflow-hidden shadow-lg">
         {DAYS.map((d) => (
           <div
             key={d}
-            className="py-2 text-center font-bold text-neutral-800 uppercase bg-[#F5F6F8] border-neutral-400"
+            className="py-2 text-center font-bold text-neutral-800 uppercase bg-white border-neutral-400"
           >
             {d}
           </div>
@@ -64,11 +64,12 @@ const TimeSheetMonthCalendar = () => {
             return (
               <div
                 key={index}
-                className={cn('min-h-[140px] border-t border-r border-neutral-400 bg-[#F5F6F8]')}
+                className={cn('min-h-[140px] border-t border-r border-neutral-400 bg-neutral-300')}
               />
             );
           }
 
+          const isSaturday = dayOfMonth.getDay() === 6;
           const dayTasks = tasks.filter((task) => !checkIsNotToday(new Date(task.start_date), day));
 
           const visibleTasks = dayTasks.slice(0, 3);
@@ -88,7 +89,8 @@ const TimeSheetMonthCalendar = () => {
                 triggerContent={
                   <div
                     className={cn(
-                      'z-10 hover:bg-neutral-200 border-neutral-400 border-t border-r  cursor-pointer p-2  transition-colors relative group min-h-36 space-y-1'
+                      'z-10 hover:bg-neutral-200 border-neutral-400 border-t cursor-pointer p-2  transition-colors relative group min-h-36 space-y-1',
+                      isSaturday ? '' : 'border-r'
                     )}
                     onClick={() => {
                       setSelectedCalendar(new Date(year, month, day));
@@ -96,7 +98,7 @@ const TimeSheetMonthCalendar = () => {
                   >
                     <div
                       className={cn(
-                        'mb-1 bg-transparent h-full',
+                        'mb-1 bg-transparent w-5 h-5',
                         inCompleted &&
                           'bg-[#ffa722] font-semibold text-black w-4 h-4 p-4 flex justify-center items-center rounded-full',
                         noTask &&
@@ -177,7 +179,11 @@ const TimeSheetMonthCalendar = () => {
                   </div>
                 }
                 popoverContent={(close) => (
-                  <TimeSheetForm startTime={selectedCalendar!} close={close} />
+                  <TimeSheetForm
+                    startTime={selectedCalendar!}
+                    endTime={selectedCalendar!}
+                    close={close}
+                  />
                 )}
               />
             </div>
