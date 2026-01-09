@@ -117,7 +117,7 @@ const TimeSheetWeekCalendar = () => {
           <ChevronRight stroke="#000" />
         </Button>
       </div>
-      <div className="flex-1 relative bg-[#F5F6F8]">
+      <div className="flex-1 relative bg-[#F5F6F8] overflow-y-auto max-h-150">
         <TimeSheetWeekCalendarBody weekDays={weekDays} />
       </div>
     </div>
