@@ -6,16 +6,9 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  Row,
-  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 
-import {
-  createBooleanSortFn,
-  createCustomSortFn,
-  createNullsLastSortFn,
-} from '@/lib/functions/sort-utils';
 import { ITimeSheetData } from '@/types/report';
 import { defaultPageSize } from '@/types/constants/pagination';
 
@@ -33,7 +26,6 @@ interface IProps {
 const TableListTimesheet = ({ projectId }: IProps) => {
   const { data: session } = useSession();
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'name', desc: false }]);
   const [rowSelection, setRowSelection] = useState({});
   const [data, setData] = useState<ITimeSheetData>({
     data: [],
@@ -82,16 +74,11 @@ const TableListTimesheet = ({ projectId }: IProps) => {
     if (!session?.user?.id || !projectId) return;
 
     fetchData(session.user.id);
-  }, [pagination.pageIndex, pagination.pageSize, sorting, session?.user?.id, projectId]);
+  }, [pagination.pageIndex, pagination.pageSize, session?.user?.id, projectId]);
 
   const table = useReactTable({
     data: data.data,
     columns,
-    sortingFns: {
-      dateSort: createNullsLastSortFn<any>(sorting),
-      customSort: createCustomSortFn<any>(),
-      booleanSort: createBooleanSortFn<any>(),
-    },
     onPaginationChange: setPagination,
     manualPagination: true,
     manualSorting: true,
@@ -99,12 +86,10 @@ const TableListTimesheet = ({ projectId }: IProps) => {
     pageCount: data ? Math.ceil(data?.total_items / pagination.pageSize) : 0,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
     state: {
-      sorting,
       rowSelection,
       pagination,
     },
