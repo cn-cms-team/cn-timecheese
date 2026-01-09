@@ -98,7 +98,7 @@ const TimeSheetMonthCalendar = () => {
                   >
                     <div
                       className={cn(
-                        'mb-1 bg-transparent h-full',
+                        'mb-2 bg-transparent w-5 h-5',
                         inCompleted &&
                           'bg-[#ffa722] font-semibold text-black w-4 h-4 p-4 flex justify-center items-center rounded-full',
                         noTask &&
