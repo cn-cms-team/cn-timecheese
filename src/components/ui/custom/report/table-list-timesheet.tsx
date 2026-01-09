@@ -17,7 +17,6 @@ import { Label } from '../../label';
 import DataTable from '../data-table/table-template';
 import { createColumns } from './table-timesheet-column';
 import { Button } from '../../button';
-import { DatePickerInput } from '../input/date-picker';
 import { DateRangePicker } from '../input/date-range-picker';
 import { DateRange } from 'react-day-picker';
 
@@ -106,7 +105,7 @@ const TableListTimesheet = ({ projectId }: IProps) => {
           <Label>ค้นหา</Label>
           <Input
             value={tempFilter.search}
-            className="max-w-sm"
+            className="md:max-w-sm"
             placeholder="ค้นหา"
             disabled={loading}
             onKeyDown={(e) => {
@@ -119,7 +118,7 @@ const TableListTimesheet = ({ projectId }: IProps) => {
             }}
           />
         </div>
-        <div className="space-y-1 md:w-md w-full">
+        <div className="space-y-1 md:max-w-xs w-full">
           <Label>วันที่เริ่มต้น - สิ้นสุด</Label>
           <DateRangePicker
             selected={tempFilter.date}
@@ -130,7 +129,7 @@ const TableListTimesheet = ({ projectId }: IProps) => {
           />
         </div>
         <Button
-          className="md:max-w-30 w-full"
+          className="md:max-w-20 w-full"
           type="button"
           onClick={() => fetchData(session?.user?.id!)}
           disabled={loading}

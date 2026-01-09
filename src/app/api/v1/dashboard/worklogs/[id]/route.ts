@@ -8,7 +8,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   }
 
   const search = searchParams.get('search')?.trim() || '';
-  const date = searchParams.get('date');
+  const start_date = searchParams.get('start_date');
+  const end_date = searchParams.get('end_date');
   const projectId = searchParams.get('project_id');
   const page = Number(searchParams.get('page') || '1');
   const limit = Number(searchParams.get('limit') || '10');
@@ -19,7 +20,13 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   }
 
   //ใช้ en-CA เพื่อทำให้รูปแบบ ISO โดยไม่แปลงเป็น UTC
-  const dateOnly = date ? new Date(date).toLocaleDateString('en-CA').split('T')[0] : null;
+  const startDateOnly = start_date
+    ? new Date(start_date).toLocaleDateString('en-CA').split('T')[0]
+    : null;
+
+  const endDateOnly = end_date
+    ? new Date(end_date).toLocaleDateString('en-CA').split('T')[0]
+    : null;
 
   try {
     const totalTask = await prisma.timeSheet.count({
@@ -44,9 +51,13 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             },
           ],
         }),
-        ...(dateOnly && {
-          stamp_date: new Date(dateOnly),
-        }),
+        ...(startDateOnly &&
+          endDateOnly && {
+            stamp_date: {
+              gte: startDateOnly,
+              lte: endDateOnly,
+            },
+          }),
       },
     });
 
@@ -72,9 +83,13 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             },
           ],
         }),
-        ...(dateOnly && {
-          stamp_date: new Date(dateOnly),
-        }),
+        ...(startDateOnly &&
+          endDateOnly && {
+            stamp_date: {
+              gte: startDateOnly,
+              lte: endDateOnly,
+            },
+          }),
       },
       select: {
         id: true,
