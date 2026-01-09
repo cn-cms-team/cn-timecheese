@@ -35,7 +35,7 @@ const TimeSheetUserInfo = () => {
               {userInfoLoading ? (
                 <div className="w-32 h-6 bg-gray-300 animate-pulse rounded-md" />
               ) : (
-                <span className="text-base">{userInfo?.user?.team || '-'}</span>
+                <span className="text-sm">{userInfo?.user?.team || '-'}</span>
               )}
             </div>
             <div className="flex flex-col">
