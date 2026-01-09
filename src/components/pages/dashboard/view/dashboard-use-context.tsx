@@ -6,17 +6,15 @@ import { createContext, useContext, useState } from 'react';
 import { fetcher } from '@/lib/fetcher';
 import { IOption } from '@/types/option';
 import { IDashboard } from '@/types/report';
-import { formatDate } from '@/lib/functions/date-format';
+import { weekDays } from '@/lib/constants/period-calendar';
 
 interface IDashboardContextType {
   loading: boolean;
-  monthOption: IOption[];
   barchartOption: ApexOptions;
   selectedMonth: number;
   projectId: string;
   dashboardProjectData: IDashboard;
   projectOption: IOption[];
-  weekDays: string[];
   yearOption: IOption[];
   selectYear: number;
   setSelectedMonth: (month: number) => void;
@@ -55,16 +53,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     return duration;
   };
 
-  const daysInMonth = new Date(weekAnchorDate.getFullYear(), selectedMonth + 1, 0).getDate();
-
-  const weekDays = Array.from({ length: daysInMonth }, (_, i) =>
-    formatDate(new Date(weekAnchorDate.getFullYear(), selectedMonth, i + 1), 'd')
-  );
-
-  const monthOption = Array.from({ length: 12 }, (_, i) => ({
-    label: formatDate(new Date(today.getFullYear(), i, 1), 'mmmm'),
-    value: i,
-  }));
+  const days = weekDays(selectedMonth);
 
   const userStartDate = dashboardProjectData?.user?.start_date;
 
@@ -97,7 +86,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
       show: false,
     },
     xaxis: {
-      categories: weekDays,
+      categories: days,
     },
     yaxis: {
       title: {
@@ -126,7 +115,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
         },
         formatter: function (value, option) {
           const dataIndex = option.dataPointIndex;
-          return `วันที่ ${weekDays[dataIndex]}: ${formatHours(value)}`;
+          return `วันที่ ${days[dataIndex]}: ${formatHours(value)}`;
         },
       },
     },
@@ -161,12 +150,10 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         loading,
         barchartOption,
-        monthOption,
         selectedMonth,
         projectId,
         dashboardProjectData,
         projectOption,
-        weekDays,
         yearOption,
         selectYear,
         setSelectYear,

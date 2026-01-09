@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { fetcher } from '@/lib/fetcher';
 import { IDashboardAttendance } from '@/types/dashboard';
+import { monthOption, weekDays } from '@/lib/constants/period-calendar';
 
 import Dropdown from '@/components/ui/custom/input/dropdown';
 import ApexChart from '@/components/ui/custom/chart/apex-chart';
@@ -11,16 +12,8 @@ import { Label } from '@/components/ui/label';
 
 const DashboardBarChart = () => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
-  const {
-    barchartOption,
-    monthOption,
-    selectedMonth,
-    selectYear,
-    yearOption,
-    weekDays,
-    setSelectYear,
-    setSelectedMonth,
-  } = useDashboardContext();
+  const { barchartOption, selectedMonth, selectYear, yearOption, setSelectYear, setSelectedMonth } =
+    useDashboardContext();
 
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<IDashboardAttendance[]>([]);
@@ -53,7 +46,7 @@ const DashboardBarChart = () => {
 
     return [
       {
-        data: weekDays.map((day) => {
+        data: weekDays(selectedMonth).map((day) => {
           const totalSeconds = dateMap.get(Number(day));
           return totalSeconds ? totalSeconds / 3600 : 0;
         }),
@@ -65,8 +58,6 @@ const DashboardBarChart = () => {
     <div className="w-full border rounded-md p-3 shadow-sm">
       <header>
         <h2 className="text-base font-semibold mb-4">การลงเวลางาน</h2>
-      </header>
-      <main className="mt-2 grid grid-cols-1 overflow-hidden">
         <div className="flex md:flex-row flex-col gap-2 w-full">
           <div className="space-y-1 md:w-xs w-full">
             <Label>เดือน</Label>
@@ -93,6 +84,8 @@ const DashboardBarChart = () => {
             />
           </div>
         </div>
+      </header>
+      <main className="mt-2 grid grid-cols-1 overflow-x-auto">
         {loading ? (
           <div className="w-full h-64 bg-gray-300 animate-pulse rounded-lg mt-4" />
         ) : (
