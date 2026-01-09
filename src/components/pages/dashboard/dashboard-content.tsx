@@ -41,7 +41,7 @@ const DashboardContent = () => {
 
   return (
     <div className="w-full gap-4 flex flex-col">
-      <div className="border rounded-lg">
+      <div className="border rounded-lg shadow">
         <AvatarDetail
           name={dashboardProjectData?.user?.full_name || '-'}
           position={dashboardProjectData?.user?.position || '-'}
