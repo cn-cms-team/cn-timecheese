@@ -58,6 +58,7 @@ interface ITimeSheetProviderProps {
 const TimeSheetContext = createContext<ITimeSheetContextType | undefined>(undefined);
 
 const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
+  const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const { data: session } = useSession();
   const now = new Date();
   const [loading, setLoading] = useState(false);
@@ -70,7 +71,6 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   const [projectOptions, setProjectOptions] = useState<IOptions[]>([]);
   const [taskTypeOptions, setTaskTypeOptions] = useState<IOptionGroups[]>([]);
   const [userInfo, setUserInfo] = useState<ITimeSheetUserInfoResponse | null>(null);
-  const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const EIGHT_HOURS = 8 * 60 * 60;
 
   const [weekAnchorDate, setWeekAnchorDate] = useState<Date>(() => {
@@ -148,18 +148,24 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   };
 
   const getTask = async () => {
-    const prefix = process.env.NEXT_PUBLIC_APP_URL;
-    const query = buildTimesheetQuery();
+    try {
+      setLoading(true);
+      const query = buildTimesheetQuery();
 
-    const res = await fetch(`${prefix}/api/v1/timesheet?${query}`);
-    const json = await res.json();
-    const data = json.data as ITimeSheetResponse[];
+      const res = await fetch(`${prefix}/api/v1/timesheet?${query}`);
+      const json = await res.json();
+      const data = json.data as ITimeSheetResponse[];
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch tasks data');
+      if (!res.ok) {
+        throw new Error('Failed to fetch tasks data');
+      }
+
+      setTasks(data);
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
+    } finally {
+      setLoading(false);
     }
-
-    setTasks(data);
   };
 
   const deleteTask = async (taskId: string) => {
