@@ -59,14 +59,14 @@ const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300, loading = fal
           <div className="animate-pulse bg-gray-200 h-64 rounded-lg col-span-2 shadow"></div>
         </div>
       ) : (
-        <div className="w-full border rounded-md p-3 shadow-sm">
+        <div className="w-full border rounded-md p-3 shadow">
           {donutLabel.length === 0 ? (
             <Image
               src="/img/general/md-no-data.png"
               width={150}
               height={150}
               alt="Nodata"
-              className="mx-auto"
+              className="mx-auto opacity-60"
             />
           ) : (
             <>

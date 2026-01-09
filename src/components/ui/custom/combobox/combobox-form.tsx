@@ -106,7 +106,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                     <CommandItem
                       value={item.label}
                       key={`${item.value}-${index}`}
-                      className={`tc-dropdown-item ps-5 ${
+                      className={`tc-dropdown-item ps-5 mt-1 ${
                         item.value === field.value ? 'active' : ''
                       }`}
                       onSelect={() => {
@@ -126,7 +126,9 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                     <CommandItem
                       value={item.label}
                       key={`${item.value}-${index}`}
-                      className={`tc-dropdown-item ${item.value === field.value ? 'active' : ''}`}
+                      className={`tc-dropdown-item mt-1 ${
+                        item.value === field.value ? 'active' : ''
+                      }`}
                       onSelect={() => {
                         onSelect(item.value as string);
                         setOpen(false);

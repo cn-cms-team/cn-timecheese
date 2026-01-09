@@ -113,7 +113,7 @@ const ReportProjectContent = () => {
       </div>
       {reportProjectData ? (
         <>
-          <div className="border rounded-lg">
+          <div className="border rounded-lg shadow">
             <AvatarDetail
               name={reportProjectData.user.full_name}
               position={reportProjectData.user.position}
