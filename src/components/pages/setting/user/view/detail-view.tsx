@@ -7,15 +7,27 @@ import Link from 'next/link';
 import { renderByPermission } from '@/lib/functions/ui-manage';
 import { useAccount } from '@/components/context/app-context';
 import { EModules } from '@/lib/constants/module';
+import { toast } from 'sonner';
 
 const UserViewButton = ({ id }: { id: string }): React.ReactNode => {
   const { account } = useAccount();
   const router = useRouter();
   const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user/${id}`;
   const deleteUser = async () => {
-    await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
-      router.push('/setting/user');
-    });
+    try {
+      await fetch(fetchUrl, { method: 'DELETE' }).then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          toast(data.message);
+          return;
+        } else {
+          toast(data.message);
+          router.push('/setting/user');
+        }
+      });
+    } catch (error) {
+      console.log(error instanceof Error ? error.message : 'Unknown error');
+    }
   };
   const canEdit = renderByPermission(account, EModules.ADMIN_USER, 'EDIT');
   const canDelete = renderByPermission(account, EModules.ADMIN_USER, 'DELETE');

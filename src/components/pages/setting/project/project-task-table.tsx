@@ -46,7 +46,7 @@ const ProjectTaskTable = ({
         render={({ field: parentField }) => (
           <FormItem>
             <FormControl>
-              <div className="border rounded-lg">
+              <div className="border rounded-lg overflow-auto">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-[#f2f4f7]">
@@ -70,7 +70,7 @@ const ProjectTaskTable = ({
                     ) : (
                       fields.map((item, index) => (
                         <TableRow key={`${name}-${index}`}>
-                          <TableCell>
+                          <TableCell className="min-w-[150px] max-w-[150px]">
                             {
                               <FormField
                                 control={form.control}
@@ -96,7 +96,7 @@ const ProjectTaskTable = ({
                               />
                             }
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="min-w-[150px] max-w-[150px]">
                             {name === 'main_task_type' ? (
                               <FormField
                                 control={form.control}

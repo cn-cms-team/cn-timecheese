@@ -117,7 +117,7 @@ const ProjectViewDetail = ({
         </div>
         <div>
           <TitleGroup title="สมาชิก" />
-          <div className="rounded-lg border">
+          <div className="rounded-lg border overflow-auto">
             <Table>
               <TableHeader>
                 <TableRow className="bg-[#f2f4f7]">
@@ -168,13 +168,13 @@ const ProjectViewDetail = ({
         </div>
         <div>
           <TitleGroup title="ประเภทงานตั้งต้น" />
-          <div className="rounded-lg border">
+          <div className="rounded-lg border overflow-auto">
             <TaskTable tasks={projectData?.main_task_type ?? []} />
           </div>
         </div>
         <div>
           <TitleGroup title="ประเภทงานจำเพาะ" />
-          <div className="rounded-lg border">
+          <div className="rounded-lg border overflow-auto">
             <TaskTable tasks={projectData?.optional_task_type ?? []} />
           </div>
         </div>

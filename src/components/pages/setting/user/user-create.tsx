@@ -41,7 +41,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
 
   const schema = id ? editUserSchema : createUserSchema;
   const form = useForm<CreateUserSchemaType | EditUserSchemaType>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema) as any,
     defaultValues: {
       email: '',
       nick_name: '',

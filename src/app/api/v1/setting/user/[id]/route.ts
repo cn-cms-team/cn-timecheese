@@ -104,6 +104,19 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     if (!id) {
       return Response.json({ error: 'User ID is required' }, { status: 400 });
     }
+    const isInAnyProject = await prisma.project.findFirst({
+      where: {
+        projectMembers: {
+          some: {
+            user_id: id,
+          },
+        },
+      },
+    });
+
+    if (isInAnyProject) {
+      return Response.json({ message: 'User is in use in project' }, { status: 409 });
+    }
 
     const result = await prisma.user.update({
       where: { id },

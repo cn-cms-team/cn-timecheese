@@ -246,8 +246,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     <div className="cev-box">
       <Form {...form}>
         <form id="project-create-form" onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex flex-col gap-3 px-5">
-            <div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 px-5">
+            <div className="lg:col-span-2">
               <TitleGroup title="ข้อมูลโครงการ" />
               <div className="grid grid-cols-1 gap-x-6 gap-y-5 px-8 pb-10">
                 <div className="flex flex-wrap items-baseline">
@@ -380,11 +380,9 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                           <Input
                             type="number"
                             placeholder="มูลค่าโครงการ"
-                            {...field}
+                            value={field.value ?? ''}
                             onChange={(e) =>
-                              field.onChange(
-                                e.target.value === '' ? undefined : e.target.valueAsNumber
-                              )
+                              field.onChange(e.target.value === '' ? '' : e.target.valueAsNumber)
                             }
                           />
                         </FormControl>
@@ -408,9 +406,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                             value={field.value ?? ''}
                             onChange={(e) => {
                               setLastChanged('people_cost');
-                              field.onChange(
-                                e.target.value === '' ? undefined : e.target.valueAsNumber
-                              );
+                              field.onChange(e.target.value === '' ? '' : e.target.valueAsNumber);
                             }}
                           />
                         </FormControl>
@@ -434,9 +430,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                             placeholder="สัดส่วนงบประมาณบุคลากร"
                             onChange={(e) => {
                               setLastChanged('people_cost_percent');
-                              field.onChange(
-                                e.target.value === '' ? undefined : e.target.valueAsNumber
-                              );
+                              field.onChange(e.target.value === '' ? '' : e.target.valueAsNumber);
                             }}
                           />
                         </FormControl>
@@ -468,7 +462,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                 </div>
               </div>
             </div>
-            <div>
+            <div className="lg:col-span-2">
               <TitleGroup title="สมาชิก" />
               <ProjectMemberTable
                 form={form}
@@ -481,7 +475,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                 </Button>
               </div>
             </div>
-            <div>
+            <div className="md:col-span-1">
               <TitleGroup title="ประเภทงานตั้งต้น" />
               <ProjectTaskTable
                 form={form}
@@ -496,7 +490,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                 </Button>
               </div>
             </div>
-            <div>
+            <div className="md:col-span-1">
               <TitleGroup title="ประเภทงานจำเพาะ" />
               <ProjectTaskTable
                 form={form}
@@ -511,8 +505,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                 </Button>
               </div>
             </div>
-            <div className="flex justify-end font-bold">
-              <div className="flex flex-col w-[25%]">
+            <div className="flex justify-end font-bold lg:col-span-2">
+              <div className="flex flex-col w-[50%] lg:w-[25%]">
                 <div className="flex justify-between py-1 text-blue-600">
                   <div>มูลค่าบุคลากรที่ตั้งไว้</div>
                   <div>{peopleCost.toLocaleString() ?? 0}</div>
