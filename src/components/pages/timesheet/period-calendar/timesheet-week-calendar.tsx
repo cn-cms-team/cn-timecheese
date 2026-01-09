@@ -14,6 +14,7 @@ import TimeSheetWeekCalendarBody from './timesheet-week-calendar-body';
 
 const TimeSheetWeekCalendar = () => {
   const {
+    loading,
     weekDays,
     isPastDay,
     getDayStatus,
@@ -118,7 +119,7 @@ const TimeSheetWeekCalendar = () => {
         </Button>
       </div>
       <div className="flex-1 relative bg-[#F5F6F8] overflow-y-auto max-h-150">
-        <TimeSheetWeekCalendarBody weekDays={weekDays} />
+        <TimeSheetWeekCalendarBody weekDays={weekDays} loading={loading} />
       </div>
     </div>
   );

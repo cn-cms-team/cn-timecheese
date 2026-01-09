@@ -14,9 +14,10 @@ import { useTimeSheetContext } from '../view/timesheet-context';
 
 interface IProps {
   weekDays: Date[];
+  loading?: boolean;
 }
 
-const TimeSheetWeekCalendarBody = ({ weekDays }: IProps) => {
+const TimeSheetWeekCalendarBody = ({ weekDays, loading = false }: IProps) => {
   const currentDate = new Date();
   const { tasks, isPopoverEdit, setIsPopoverEdit } = useTimeSheetContext();
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
@@ -36,14 +37,21 @@ const TimeSheetWeekCalendarBody = ({ weekDays }: IProps) => {
   return (
     <div className="flex min-h-[600px] relative">
       <div className="w-[55px] shrink-0 bg-transparent border-r border-neutral-300 text-xs text-neutral-500 font-mono text-center sticky left-0 z-50">
-        {hoursInDay.map((hour, index) => (
-          <div
-            key={index}
-            className="h-20 border-b border-neutral-400/50 flex items-start justify-center pt-1 text-gray-400 font-semibold z-50"
-          >
-            {buddhistFormatDate(hour, 'HH:ii')}
-          </div>
-        ))}
+        {loading
+          ? Array.from({ length: 24 }).map((_, index) => (
+              <div
+                key={index}
+                className="h-20 bg-gray-300 animate-pulse border-b border-neutral-400/50 flex items-start justify-center pt-1 text-gray-400 font-semibold"
+              />
+            ))
+          : hoursInDay.map((hour, index) => (
+              <div
+                key={index}
+                className="h-20 border-b border-neutral-400/50 flex items-start justify-center pt-1 text-gray-400 font-semibold z-50"
+              >
+                {buddhistFormatDate(hour, 'HH:ii')}
+              </div>
+            ))}
       </div>
       {weekDays.map((day, index) => {
         const isSaturday = day.getDay() === 6;
@@ -57,54 +65,61 @@ const TimeSheetWeekCalendarBody = ({ weekDays }: IProps) => {
             )}
             onClick={() => setSelectedDay(day)}
           >
-            {hoursInDay.map((hr, hrIndex) => {
-              const hasTask = tasks.some((task) => {
-                const taskStart = new Date(task.start_date);
-                const taskEnd = new Date(task.end_date);
-
-                return (
-                  taskStart.getHours() <= hr.getHours() &&
-                  taskEnd.getHours() > hr.getHours() &&
-                  taskStart.getDate() === day.getDate()
-                );
-              });
-
-              if (hasTask) {
-                return (
+            {loading
+              ? Array.from({ length: 24 }).map((_, hrIndex) => (
                   <div
                     key={hrIndex}
-                    className="h-20 border-b border-neutral-400/30 cursor-not-allowed hover:bg-neutral-200"
+                    className="h-20 bg-gray-300 animate-pulse border-b border-neutral-400/50 cursor-pointer"
                   />
-                );
-              } else {
-                return (
-                  <TimeSheetPopover
-                    key={hrIndex}
-                    align="center"
-                    side="right"
-                    className="w-90 p-0"
-                    triggerContent={
+                ))
+              : hoursInDay.map((hr, hrIndex) => {
+                  const hasTask = tasks.some((task) => {
+                    const taskStart = new Date(task.start_date);
+                    const taskEnd = new Date(task.end_date);
+
+                    return (
+                      taskStart.getHours() <= hr.getHours() &&
+                      taskEnd.getHours() > hr.getHours() &&
+                      taskStart.getDate() === day.getDate()
+                    );
+                  });
+
+                  if (hasTask) {
+                    return (
                       <div
-                        className="h-20 border-b border-neutral-400/30 cursor-pointer hover:bg-neutral-200"
-                        onClick={() =>
-                          setSelectHr(() => ({
-                            start: hr.getHours(),
-                            end: hr.getHours() + 1,
-                          }))
+                        key={hrIndex}
+                        className="h-20 border-b border-neutral-400/30 cursor-not-allowed hover:bg-neutral-200"
+                      />
+                    );
+                  } else {
+                    return (
+                      <TimeSheetPopover
+                        key={hrIndex}
+                        align="center"
+                        side="right"
+                        className="w-90 p-0"
+                        triggerContent={
+                          <div
+                            className="h-20 border-b border-neutral-400/30 cursor-pointer hover:bg-neutral-200"
+                            onClick={() =>
+                              setSelectHr(() => ({
+                                start: hr.getHours(),
+                                end: hr.getHours() + 1,
+                              }))
+                            }
+                          />
                         }
+                        popoverContent={(close) => (
+                          <TimeSheetForm
+                            startTime={start || undefined}
+                            endTime={end || undefined}
+                            close={close}
+                          />
+                        )}
                       />
-                    }
-                    popoverContent={(close) => (
-                      <TimeSheetForm
-                        startTime={start || undefined}
-                        endTime={end || undefined}
-                        close={close}
-                      />
-                    )}
-                  />
-                );
-              }
-            })}
+                    );
+                  }
+                })}
             {tasks.map((task) => {
               const start = new Date(task.start_date);
               const end = new Date(task.end_date);
