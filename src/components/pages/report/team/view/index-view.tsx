@@ -20,12 +20,12 @@ const ReportTeamView = () => {
     user: {} as IUserReport,
     projects: [],
   });
+  const prefix = process.env.NEXT_PUBLIC_APP_URL;
 
   useEffect(() => {
     setIsLoading(true);
     const fetchTeamsOptions = async () => {
       try {
-        const prefix = process.env.NEXT_PUBLIC_APP_URL;
         const user = await fetcher<(IOption & UserAvatarProps)[]>(
           `${prefix}/api/v1/master/team/member`
         );
@@ -52,7 +52,7 @@ const ReportTeamView = () => {
       setIsLoading(true);
       const params = new URLSearchParams();
       params.set('user_id', id || '');
-      const url = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/report/team?${params.toString()}`;
+      const url = `${prefix}/api/v1/report/team?${params.toString()}`;
       const data = await fetcher<IReportTeam>(url);
       if (data) {
         setUserReport(data);
