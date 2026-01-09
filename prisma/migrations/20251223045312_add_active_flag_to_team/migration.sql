@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "teams" ADD COLUMN     "is_active" BOOLEAN NOT NULL DEFAULT true;

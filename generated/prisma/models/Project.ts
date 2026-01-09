@@ -332,6 +332,7 @@ export type ProjectOrderByWithRelationInput = {
   projectMembers?: Prisma.ProjectMemberOrderByRelationAggregateInput
   projectTaskTypes?: Prisma.ProjectTaskTypeOrderByRelationAggregateInput
   timeSheets?: Prisma.TimeSheetOrderByRelationAggregateInput
+  _relevance?: Prisma.ProjectOrderByRelevanceInput
 }
 
 export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -548,6 +549,12 @@ export type ProjectListRelationFilter = {
 
 export type ProjectOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type ProjectOrderByRelevanceInput = {
+  fields: Prisma.ProjectOrderByRelevanceFieldEnum | Prisma.ProjectOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type ProjectCountOrderByAggregateInput = {
@@ -1421,45 +1428,7 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
-export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  name?: boolean
-  code?: boolean
-  description?: boolean
-  value?: boolean
-  people_cost_percent?: boolean
-  people_cost?: boolean
-  start_date?: boolean
-  end_date?: boolean
-  status?: boolean
-  created_at?: boolean
-  created_by?: boolean
-  updated_at?: boolean
-  updated_by?: boolean
-  is_enabled?: boolean
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Project$updatedByArgs<ExtArgs>
-}, ExtArgs["result"]["project"]>
 
-export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  name?: boolean
-  code?: boolean
-  description?: boolean
-  value?: boolean
-  people_cost_percent?: boolean
-  people_cost?: boolean
-  start_date?: boolean
-  end_date?: boolean
-  status?: boolean
-  created_at?: boolean
-  created_by?: boolean
-  updated_at?: boolean
-  updated_by?: boolean
-  is_enabled?: boolean
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Project$updatedByArgs<ExtArgs>
-}, ExtArgs["result"]["project"]>
 
 export type ProjectSelectScalar = {
   id?: boolean
@@ -1487,14 +1456,6 @@ export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   projectTaskTypes?: boolean | Prisma.Project$projectTaskTypesArgs<ExtArgs>
   timeSheets?: boolean | Prisma.Project$timeSheetsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Project$updatedByArgs<ExtArgs>
-}
-export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  updatedBy?: boolean | Prisma.Project$updatedByArgs<ExtArgs>
 }
 
 export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1640,30 +1601,6 @@ export interface ProjectDelegate<ExtArgs extends runtime.Types.Extensions.Intern
   createMany<T extends ProjectCreateManyArgs>(args?: Prisma.SelectSubset<T, ProjectCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many Projects and returns the data saved in the database.
-   * @param {ProjectCreateManyAndReturnArgs} args - Arguments to create many Projects.
-   * @example
-   * // Create many Projects
-   * const project = await prisma.project.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many Projects and only return the `id`
-   * const projectWithIdOnly = await prisma.project.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends ProjectCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ProjectCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a Project.
    * @param {ProjectDeleteArgs} args - Arguments to delete one Project.
    * @example
@@ -1726,36 +1663,6 @@ export interface ProjectDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * 
    */
   updateMany<T extends ProjectUpdateManyArgs>(args: Prisma.SelectSubset<T, ProjectUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more Projects and returns the data updated in the database.
-   * @param {ProjectUpdateManyAndReturnArgs} args - Arguments to update many Projects.
-   * @example
-   * // Update many Projects
-   * const project = await prisma.project.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more Projects and only return the `id`
-   * const projectWithIdOnly = await prisma.project.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends ProjectUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ProjectUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Project.
@@ -2198,29 +2105,6 @@ export type ProjectCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * Project createManyAndReturn
- */
-export type ProjectCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Project
-   */
-  select?: Prisma.ProjectSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Project
-   */
-  omit?: Prisma.ProjectOmit<ExtArgs> | null
-  /**
-   * The data used to create many Projects.
-   */
-  data: Prisma.ProjectCreateManyInput | Prisma.ProjectCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProjectIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * Project update
  */
 export type ProjectUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2262,36 +2146,6 @@ export type ProjectUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Projects to update.
    */
   limit?: number
-}
-
-/**
- * Project updateManyAndReturn
- */
-export type ProjectUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Project
-   */
-  select?: Prisma.ProjectSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Project
-   */
-  omit?: Prisma.ProjectOmit<ExtArgs> | null
-  /**
-   * The data used to update Projects.
-   */
-  data: Prisma.XOR<Prisma.ProjectUpdateManyMutationInput, Prisma.ProjectUncheckedUpdateManyInput>
-  /**
-   * Filter which Projects to update
-   */
-  where?: Prisma.ProjectWhereInput
-  /**
-   * Limit how many Projects to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProjectIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

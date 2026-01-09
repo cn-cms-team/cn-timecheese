@@ -210,6 +210,7 @@ export type ModulePermissionOrderByWithRelationInput = {
   order?: Prisma.SortOrder
   permission?: Prisma.PermissionOrderByWithRelationInput
   module?: Prisma.ModuleOrderByWithRelationInput
+  _relevance?: Prisma.ModulePermissionOrderByRelevanceInput
 }
 
 export type ModulePermissionWhereUniqueInput = Prisma.AtLeast<{
@@ -292,6 +293,12 @@ export type ModulePermissionListRelationFilter = {
 
 export type ModulePermissionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type ModulePermissionOrderByRelevanceInput = {
+  fields: Prisma.ModulePermissionOrderByRelevanceFieldEnum | Prisma.ModulePermissionOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type ModulePermissionModule_codePms_codeCompoundUniqueInput = {
@@ -540,21 +547,7 @@ export type ModulePermissionSelect<ExtArgs extends runtime.Types.Extensions.Inte
   module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["modulePermission"]>
 
-export type ModulePermissionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  module_code?: boolean
-  pms_code?: boolean
-  order?: boolean
-  permission?: boolean | Prisma.PermissionDefaultArgs<ExtArgs>
-  module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["modulePermission"]>
 
-export type ModulePermissionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  module_code?: boolean
-  pms_code?: boolean
-  order?: boolean
-  permission?: boolean | Prisma.PermissionDefaultArgs<ExtArgs>
-  module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["modulePermission"]>
 
 export type ModulePermissionSelectScalar = {
   module_code?: boolean
@@ -564,14 +557,6 @@ export type ModulePermissionSelectScalar = {
 
 export type ModulePermissionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"module_code" | "pms_code" | "order", ExtArgs["result"]["modulePermission"]>
 export type ModulePermissionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  permission?: boolean | Prisma.PermissionDefaultArgs<ExtArgs>
-  module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
-}
-export type ModulePermissionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  permission?: boolean | Prisma.PermissionDefaultArgs<ExtArgs>
-  module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
-}
-export type ModulePermissionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   permission?: boolean | Prisma.PermissionDefaultArgs<ExtArgs>
   module?: boolean | Prisma.ModuleDefaultArgs<ExtArgs>
 }
@@ -704,30 +689,6 @@ export interface ModulePermissionDelegate<ExtArgs extends runtime.Types.Extensio
   createMany<T extends ModulePermissionCreateManyArgs>(args?: Prisma.SelectSubset<T, ModulePermissionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many ModulePermissions and returns the data saved in the database.
-   * @param {ModulePermissionCreateManyAndReturnArgs} args - Arguments to create many ModulePermissions.
-   * @example
-   * // Create many ModulePermissions
-   * const modulePermission = await prisma.modulePermission.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many ModulePermissions and only return the `module_code`
-   * const modulePermissionWithModule_codeOnly = await prisma.modulePermission.createManyAndReturn({
-   *   select: { module_code: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends ModulePermissionCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ModulePermissionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ModulePermissionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a ModulePermission.
    * @param {ModulePermissionDeleteArgs} args - Arguments to delete one ModulePermission.
    * @example
@@ -790,36 +751,6 @@ export interface ModulePermissionDelegate<ExtArgs extends runtime.Types.Extensio
    * 
    */
   updateMany<T extends ModulePermissionUpdateManyArgs>(args: Prisma.SelectSubset<T, ModulePermissionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more ModulePermissions and returns the data updated in the database.
-   * @param {ModulePermissionUpdateManyAndReturnArgs} args - Arguments to update many ModulePermissions.
-   * @example
-   * // Update many ModulePermissions
-   * const modulePermission = await prisma.modulePermission.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more ModulePermissions and only return the `module_code`
-   * const modulePermissionWithModule_codeOnly = await prisma.modulePermission.updateManyAndReturn({
-   *   select: { module_code: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends ModulePermissionUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ModulePermissionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ModulePermissionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one ModulePermission.
@@ -1247,29 +1178,6 @@ export type ModulePermissionCreateManyArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
- * ModulePermission createManyAndReturn
- */
-export type ModulePermissionCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ModulePermission
-   */
-  select?: Prisma.ModulePermissionSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the ModulePermission
-   */
-  omit?: Prisma.ModulePermissionOmit<ExtArgs> | null
-  /**
-   * The data used to create many ModulePermissions.
-   */
-  data: Prisma.ModulePermissionCreateManyInput | Prisma.ModulePermissionCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ModulePermissionIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * ModulePermission update
  */
 export type ModulePermissionUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1311,36 +1219,6 @@ export type ModulePermissionUpdateManyArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many ModulePermissions to update.
    */
   limit?: number
-}
-
-/**
- * ModulePermission updateManyAndReturn
- */
-export type ModulePermissionUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ModulePermission
-   */
-  select?: Prisma.ModulePermissionSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the ModulePermission
-   */
-  omit?: Prisma.ModulePermissionOmit<ExtArgs> | null
-  /**
-   * The data used to update ModulePermissions.
-   */
-  data: Prisma.XOR<Prisma.ModulePermissionUpdateManyMutationInput, Prisma.ModulePermissionUncheckedUpdateManyInput>
-  /**
-   * Filter which ModulePermissions to update
-   */
-  where?: Prisma.ModulePermissionWhereInput
-  /**
-   * Limit how many ModulePermissions to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ModulePermissionIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

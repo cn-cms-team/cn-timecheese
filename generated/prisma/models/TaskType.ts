@@ -192,6 +192,7 @@ export type TaskTypeOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrder
   projectTaskTypes?: Prisma.ProjectTaskTypeOrderByRelationAggregateInput
+  _relevance?: Prisma.TaskTypeOrderByRelevanceInput
 }
 
 export type TaskTypeWhereUniqueInput = Prisma.AtLeast<{
@@ -286,6 +287,12 @@ export type TaskTypeUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+export type TaskTypeOrderByRelevanceInput = {
+  fields: Prisma.TaskTypeOrderByRelevanceFieldEnum | Prisma.TaskTypeOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type TaskTypeCountOrderByAggregateInput = {
@@ -426,21 +433,7 @@ export type TaskTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   _count?: boolean | Prisma.TaskTypeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["taskType"]>
 
-export type TaskTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  type?: boolean
-  name?: boolean
-  description?: boolean
-  is_active?: boolean
-}, ExtArgs["result"]["taskType"]>
 
-export type TaskTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  type?: boolean
-  name?: boolean
-  description?: boolean
-  is_active?: boolean
-}, ExtArgs["result"]["taskType"]>
 
 export type TaskTypeSelectScalar = {
   id?: boolean
@@ -455,8 +448,6 @@ export type TaskTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   projectTaskTypes?: boolean | Prisma.TaskType$projectTaskTypesArgs<ExtArgs>
   _count?: boolean | Prisma.TaskTypeCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type TaskTypeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type TaskTypeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $TaskTypePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TaskType"
@@ -587,30 +578,6 @@ export interface TaskTypeDelegate<ExtArgs extends runtime.Types.Extensions.Inter
   createMany<T extends TaskTypeCreateManyArgs>(args?: Prisma.SelectSubset<T, TaskTypeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many TaskTypes and returns the data saved in the database.
-   * @param {TaskTypeCreateManyAndReturnArgs} args - Arguments to create many TaskTypes.
-   * @example
-   * // Create many TaskTypes
-   * const taskType = await prisma.taskType.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many TaskTypes and only return the `id`
-   * const taskTypeWithIdOnly = await prisma.taskType.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends TaskTypeCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TaskTypeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskTypePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a TaskType.
    * @param {TaskTypeDeleteArgs} args - Arguments to delete one TaskType.
    * @example
@@ -673,36 +640,6 @@ export interface TaskTypeDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * 
    */
   updateMany<T extends TaskTypeUpdateManyArgs>(args: Prisma.SelectSubset<T, TaskTypeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more TaskTypes and returns the data updated in the database.
-   * @param {TaskTypeUpdateManyAndReturnArgs} args - Arguments to update many TaskTypes.
-   * @example
-   * // Update many TaskTypes
-   * const taskType = await prisma.taskType.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more TaskTypes and only return the `id`
-   * const taskTypeWithIdOnly = await prisma.taskType.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends TaskTypeUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TaskTypeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskTypePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one TaskType.
@@ -1131,25 +1068,6 @@ export type TaskTypeCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * TaskType createManyAndReturn
- */
-export type TaskTypeCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TaskType
-   */
-  select?: Prisma.TaskTypeSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the TaskType
-   */
-  omit?: Prisma.TaskTypeOmit<ExtArgs> | null
-  /**
-   * The data used to create many TaskTypes.
-   */
-  data: Prisma.TaskTypeCreateManyInput | Prisma.TaskTypeCreateManyInput[]
-  skipDuplicates?: boolean
-}
-
-/**
  * TaskType update
  */
 export type TaskTypeUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1179,32 +1097,6 @@ export type TaskTypeUpdateArgs<ExtArgs extends runtime.Types.Extensions.Internal
  * TaskType updateMany
  */
 export type TaskTypeUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * The data used to update TaskTypes.
-   */
-  data: Prisma.XOR<Prisma.TaskTypeUpdateManyMutationInput, Prisma.TaskTypeUncheckedUpdateManyInput>
-  /**
-   * Filter which TaskTypes to update
-   */
-  where?: Prisma.TaskTypeWhereInput
-  /**
-   * Limit how many TaskTypes to update.
-   */
-  limit?: number
-}
-
-/**
- * TaskType updateManyAndReturn
- */
-export type TaskTypeUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TaskType
-   */
-  select?: Prisma.TaskTypeSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the TaskType
-   */
-  omit?: Prisma.TaskTypeOmit<ExtArgs> | null
   /**
    * The data used to update TaskTypes.
    */

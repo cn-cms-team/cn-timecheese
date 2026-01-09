@@ -311,18 +311,176 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
-} as const
-
-export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
 export const NullsOrder = {
   first: 'first',
   last: 'last'
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const UserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  code: 'code',
+  email: 'email',
+  password: 'password',
+  first_name: 'first_name',
+  last_name: 'last_name',
+  nick_name: 'nick_name',
+  salary_range: 'salary_range',
+  position_level_id: 'position_level_id',
+  team_id: 'team_id',
+  role_id: 'role_id',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+} as const
+
+export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
+
+
+export const RoleOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+} as const
+
+export type RoleOrderByRelevanceFieldEnum = (typeof RoleOrderByRelevanceFieldEnum)[keyof typeof RoleOrderByRelevanceFieldEnum]
+
+
+export const RolePermissionOrderByRelevanceFieldEnum = {
+  role_id: 'role_id',
+  module_code: 'module_code',
+  pms_code: 'pms_code'
+} as const
+
+export type RolePermissionOrderByRelevanceFieldEnum = (typeof RolePermissionOrderByRelevanceFieldEnum)[keyof typeof RolePermissionOrderByRelevanceFieldEnum]
+
+
+export const PermissionOrderByRelevanceFieldEnum = {
+  code: 'code',
+  name: 'name'
+} as const
+
+export type PermissionOrderByRelevanceFieldEnum = (typeof PermissionOrderByRelevanceFieldEnum)[keyof typeof PermissionOrderByRelevanceFieldEnum]
+
+
+export const ModuleOrderByRelevanceFieldEnum = {
+  code: 'code',
+  name: 'name',
+  parent_code: 'parent_code'
+} as const
+
+export type ModuleOrderByRelevanceFieldEnum = (typeof ModuleOrderByRelevanceFieldEnum)[keyof typeof ModuleOrderByRelevanceFieldEnum]
+
+
+export const ModulePermissionOrderByRelevanceFieldEnum = {
+  module_code: 'module_code',
+  pms_code: 'pms_code'
+} as const
+
+export type ModulePermissionOrderByRelevanceFieldEnum = (typeof ModulePermissionOrderByRelevanceFieldEnum)[keyof typeof ModulePermissionOrderByRelevanceFieldEnum]
+
+
+export const TeamOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+} as const
+
+export type TeamOrderByRelevanceFieldEnum = (typeof TeamOrderByRelevanceFieldEnum)[keyof typeof TeamOrderByRelevanceFieldEnum]
+
+
+export const TeamLeaderOrderByRelevanceFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  team_id: 'team_id'
+} as const
+
+export type TeamLeaderOrderByRelevanceFieldEnum = (typeof TeamLeaderOrderByRelevanceFieldEnum)[keyof typeof TeamLeaderOrderByRelevanceFieldEnum]
+
+
+export const PositionOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+} as const
+
+export type PositionOrderByRelevanceFieldEnum = (typeof PositionOrderByRelevanceFieldEnum)[keyof typeof PositionOrderByRelevanceFieldEnum]
+
+
+export const PositionLevelOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  position_id: 'position_id'
+} as const
+
+export type PositionLevelOrderByRelevanceFieldEnum = (typeof PositionLevelOrderByRelevanceFieldEnum)[keyof typeof PositionLevelOrderByRelevanceFieldEnum]
+
+
+export const TaskTypeOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description'
+} as const
+
+export type TaskTypeOrderByRelevanceFieldEnum = (typeof TaskTypeOrderByRelevanceFieldEnum)[keyof typeof TaskTypeOrderByRelevanceFieldEnum]
+
+
+export const ProjectOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  description: 'description',
+  created_by: 'created_by',
+  updated_by: 'updated_by'
+} as const
+
+export type ProjectOrderByRelevanceFieldEnum = (typeof ProjectOrderByRelevanceFieldEnum)[keyof typeof ProjectOrderByRelevanceFieldEnum]
+
+
+export const ProjectMemberOrderByRelevanceFieldEnum = {
+  project_id: 'project_id',
+  user_id: 'user_id',
+  role: 'role'
+} as const
+
+export type ProjectMemberOrderByRelevanceFieldEnum = (typeof ProjectMemberOrderByRelevanceFieldEnum)[keyof typeof ProjectMemberOrderByRelevanceFieldEnum]
+
+
+export const ProjectTaskTypeOrderByRelevanceFieldEnum = {
+  id: 'id',
+  project_id: 'project_id',
+  task_type_id: 'task_type_id',
+  name: 'name',
+  description: 'description'
+} as const
+
+export type ProjectTaskTypeOrderByRelevanceFieldEnum = (typeof ProjectTaskTypeOrderByRelevanceFieldEnum)[keyof typeof ProjectTaskTypeOrderByRelevanceFieldEnum]
+
+
+export const TimeSheetOrderByRelevanceFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  project_id: 'project_id',
+  project_task_type_id: 'project_task_type_id',
+  detail: 'detail',
+  remark: 'remark'
+} as const
+
+export type TimeSheetOrderByRelevanceFieldEnum = (typeof TimeSheetOrderByRelevanceFieldEnum)[keyof typeof TimeSheetOrderByRelevanceFieldEnum]
+
+
+export const TimeSheetSummaryOrderByRelevanceFieldEnum = {
+  user_id: 'user_id',
+  project_id: 'project_id'
+} as const
+
+export type TimeSheetSummaryOrderByRelevanceFieldEnum = (typeof TimeSheetSummaryOrderByRelevanceFieldEnum)[keyof typeof TimeSheetSummaryOrderByRelevanceFieldEnum]
 

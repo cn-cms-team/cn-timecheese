@@ -228,6 +228,7 @@ export type ModuleOrderByWithRelationInput = {
   is_active?: Prisma.SortOrder
   rolePermission?: Prisma.RolePermissionOrderByRelationAggregateInput
   modulePermission?: Prisma.ModulePermissionOrderByRelationAggregateInput
+  _relevance?: Prisma.ModuleOrderByRelevanceInput
 }
 
 export type ModuleWhereUniqueInput = Prisma.AtLeast<{
@@ -334,6 +335,12 @@ export type ModuleUncheckedUpdateManyInput = {
 export type ModuleScalarRelationFilter = {
   is?: Prisma.ModuleWhereInput
   isNot?: Prisma.ModuleWhereInput
+}
+
+export type ModuleOrderByRelevanceInput = {
+  fields: Prisma.ModuleOrderByRelevanceFieldEnum | Prisma.ModuleOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type ModuleCountOrderByAggregateInput = {
@@ -551,21 +558,7 @@ export type ModuleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   _count?: boolean | Prisma.ModuleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["module"]>
 
-export type ModuleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  code?: boolean
-  name?: boolean
-  parent_code?: boolean
-  order?: boolean
-  is_active?: boolean
-}, ExtArgs["result"]["module"]>
 
-export type ModuleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  code?: boolean
-  name?: boolean
-  parent_code?: boolean
-  order?: boolean
-  is_active?: boolean
-}, ExtArgs["result"]["module"]>
 
 export type ModuleSelectScalar = {
   code?: boolean
@@ -581,8 +574,6 @@ export type ModuleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   modulePermission?: boolean | Prisma.Module$modulePermissionArgs<ExtArgs>
   _count?: boolean | Prisma.ModuleCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type ModuleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type ModuleIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $ModulePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Module"
@@ -714,30 +705,6 @@ export interface ModuleDelegate<ExtArgs extends runtime.Types.Extensions.Interna
   createMany<T extends ModuleCreateManyArgs>(args?: Prisma.SelectSubset<T, ModuleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many Modules and returns the data saved in the database.
-   * @param {ModuleCreateManyAndReturnArgs} args - Arguments to create many Modules.
-   * @example
-   * // Create many Modules
-   * const module = await prisma.module.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many Modules and only return the `code`
-   * const moduleWithCodeOnly = await prisma.module.createManyAndReturn({
-   *   select: { code: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends ModuleCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ModuleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ModulePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a Module.
    * @param {ModuleDeleteArgs} args - Arguments to delete one Module.
    * @example
@@ -800,36 +767,6 @@ export interface ModuleDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    * 
    */
   updateMany<T extends ModuleUpdateManyArgs>(args: Prisma.SelectSubset<T, ModuleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more Modules and returns the data updated in the database.
-   * @param {ModuleUpdateManyAndReturnArgs} args - Arguments to update many Modules.
-   * @example
-   * // Update many Modules
-   * const module = await prisma.module.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more Modules and only return the `code`
-   * const moduleWithCodeOnly = await prisma.module.updateManyAndReturn({
-   *   select: { code: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends ModuleUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ModuleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ModulePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Module.
@@ -1259,25 +1196,6 @@ export type ModuleCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Module createManyAndReturn
- */
-export type ModuleCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Module
-   */
-  select?: Prisma.ModuleSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Module
-   */
-  omit?: Prisma.ModuleOmit<ExtArgs> | null
-  /**
-   * The data used to create many Modules.
-   */
-  data: Prisma.ModuleCreateManyInput | Prisma.ModuleCreateManyInput[]
-  skipDuplicates?: boolean
-}
-
-/**
  * Module update
  */
 export type ModuleUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1307,32 +1225,6 @@ export type ModuleUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
  * Module updateMany
  */
 export type ModuleUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * The data used to update Modules.
-   */
-  data: Prisma.XOR<Prisma.ModuleUpdateManyMutationInput, Prisma.ModuleUncheckedUpdateManyInput>
-  /**
-   * Filter which Modules to update
-   */
-  where?: Prisma.ModuleWhereInput
-  /**
-   * Limit how many Modules to update.
-   */
-  limit?: number
-}
-
-/**
- * Module updateManyAndReturn
- */
-export type ModuleUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Module
-   */
-  select?: Prisma.ModuleSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Module
-   */
-  omit?: Prisma.ModuleOmit<ExtArgs> | null
   /**
    * The data used to update Modules.
    */

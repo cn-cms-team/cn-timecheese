@@ -32,14 +32,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
               project_task_type: {
                 name: {
                   contains: search,
-                  mode: 'insensitive',
                 },
               },
             },
             {
               detail: {
                 contains: search,
-                mode: 'insensitive',
               },
             },
           ],
@@ -60,14 +58,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
               project_task_type: {
                 name: {
                   contains: search,
-                  mode: 'insensitive',
                 },
               },
             },
             {
               detail: {
                 contains: search,
-                mode: 'insensitive',
               },
             },
           ],
