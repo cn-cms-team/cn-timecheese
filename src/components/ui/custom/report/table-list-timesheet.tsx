@@ -6,17 +6,11 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  Row,
-  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 
-import {
-  createBooleanSortFn,
-  createCustomSortFn,
-  createNullsLastSortFn,
-} from '@/lib/functions/sort-utils';
-import { ITimeSheetTable } from '@/types/report';
+import { ITimeSheetData } from '@/types/report';
+import { defaultPageSize } from '@/types/constants/pagination';
 
 import { Input } from '../../input';
 import { Label } from '../../label';
@@ -32,13 +26,15 @@ interface IProps {
 const TableListTimesheet = ({ projectId }: IProps) => {
   const { data: session } = useSession();
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'name', desc: false }]);
   const [rowSelection, setRowSelection] = useState({});
-  const [data, setData] = useState<ITimeSheetTable[]>([]);
+  const [data, setData] = useState<ITimeSheetData>({
+    data: [],
+    total_items: 0,
+  });
   const [loading, setLoading] = useState(false);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: defaultPageSize,
   });
 
   const [tempFilter, setTempFilter] = useState<{
@@ -67,8 +63,8 @@ const TableListTimesheet = ({ projectId }: IProps) => {
       setLoading(true);
       const url = `${prefix}/api/v1/dashboard/worklogs/${userId}?${params.toString()}`;
       const res = await fetch(url);
-      const json = await res.json();
-      setData(json.data);
+      const json = (await res.json()) as ITimeSheetData;
+      setData(json);
     } finally {
       setLoading(false);
     }
@@ -78,29 +74,22 @@ const TableListTimesheet = ({ projectId }: IProps) => {
     if (!session?.user?.id || !projectId) return;
 
     fetchData(session.user.id);
-  }, [pagination.pageIndex, pagination.pageSize, sorting, session?.user?.id, projectId]);
+  }, [pagination.pageIndex, pagination.pageSize, session?.user?.id, projectId]);
 
   const table = useReactTable({
-    data,
+    data: data.data,
     columns,
-    sortingFns: {
-      dateSort: createNullsLastSortFn<any>(sorting),
-      customSort: createCustomSortFn<any>(),
-      booleanSort: createBooleanSortFn<any>(),
-    },
     onPaginationChange: setPagination,
     manualPagination: true,
     manualSorting: true,
     manualFiltering: true,
-    pageCount: data ? Math.ceil(data?.length / pagination.pageSize) : 0,
+    pageCount: data ? Math.ceil(data?.total_items / pagination.pageSize) : 0,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
     state: {
-      sorting,
       rowSelection,
       pagination,
     },

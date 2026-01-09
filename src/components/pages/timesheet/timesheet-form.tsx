@@ -203,19 +203,14 @@ const TimeSheetForm = ({
                   <FormItem className="px-0">
                     <FormControl>
                       <TimeInput
-                        value={field.value ? buddhistFormatDate(field.value, 'HH:ii') : ''}
-                        type="time"
-                        className="w-full"
+                        value={field.value ? field.value : undefined}
                         onChange={(e) => {
-                          const time = e.target.value;
-                          if (!time) return;
-
-                          const [hh, mm] = time.split(':').map(Number);
-
+                          const time = e;
+                          const hh = time.getHours();
+                          const mm = time.getMinutes();
                           const base = field.value ?? new Date();
                           const nextStart = new Date(base);
                           nextStart.setHours(hh, mm, 0, 0);
-
                           field.onChange(nextStart);
                         }}
                         isError={form.formState.errors.start_date ? true : false}
@@ -231,21 +226,14 @@ const TimeSheetForm = ({
                   <FormItem className="px-0">
                     <FormControl className="ms-0 me-0">
                       <TimeInput
-                        type="time"
-                        min="00:00"
-                        max="24:00"
-                        className="mx-2 w-full"
-                        value={field.value ? buddhistFormatDate(field.value, 'HH:ii') : ''}
+                        value={field.value ? field.value : undefined}
                         onChange={(e) => {
-                          const time = e.target.value;
-                          if (!time) return;
-
-                          const [hh, mm] = time.split(':').map(Number);
-
+                          const time = e;
+                          const hh = time.getHours();
+                          const mm = time.getMinutes();
                           const base = field.value ?? new Date();
                           const nextStart = new Date(base);
                           nextStart.setHours(hh, mm, 0, 0);
-
                           field.onChange(nextStart);
                         }}
                         isError={form.formState.errors.end_date ? true : false}
@@ -290,20 +278,25 @@ const TimeSheetForm = ({
                   <FormItem className="px-0">
                     <FormControl>
                       <TimeInput
-                        value={
-                          typeof field.value === 'number'
-                            ? new Date(field.value * 1000).toISOString().substring(11, 16)
-                            : ''
-                        }
-                        disabled={!form.getValues('is_include_breaking_time')}
-                        onChange={(e) => {
-                          const time = e.target.value;
+                        value={(() => {
+                          const seconds =
+                            typeof field.value === 'number' && field.value !== 0
+                              ? field.value
+                              : 3600;
+                          const date = new Date(seconds * 1000);
+                          date.setHours(date.getUTCHours(), date.getUTCMinutes(), 0, 0);
+                          return date;
+                        })()}
+                        disabled={!form.watch('is_include_breaking_time')}
+                        onChange={(time) => {
                           if (!time) return;
-
-                          const seconds = timeToSeconds(time);
-                          field.onChange(seconds);
+                          const timeString = `${time.getHours().toString().padStart(2, '0')}:${time
+                            .getMinutes()
+                            .toString()
+                            .padStart(2, '0')}`;
+                          field.onChange(timeToSeconds(timeString));
                         }}
-                        isError={form.formState.errors.exclude ? true : false}
+                        isError={!!form.formState.errors.exclude}
                       />
                     </FormControl>
                   </FormItem>

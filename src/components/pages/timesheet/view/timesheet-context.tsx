@@ -20,6 +20,7 @@ import { ITimeSheetResponse, ITimeSheetUserInfoResponse } from '@/types/timeshee
 
 interface ITimeSheetContextType {
   loading: boolean;
+  userInfoLoading: boolean;
   period: PERIODCALENDAR;
   selectedCalendar: Date | null;
   tasks: ITimeSheetResponse[];
@@ -32,6 +33,7 @@ interface ITimeSheetContextType {
   dailySecondsMap: Map<string, number>;
   weekDays: Date[];
   setLoading: (isLoading: boolean) => void;
+  setUserInfoLoading: (isLoading: boolean) => void;
   setPeriod: (value: PERIODCALENDAR) => void;
   setSelectedCalendar: Dispatch<SetStateAction<Date>>;
   setIsPopoverEdit: Dispatch<SetStateAction<boolean>>;
@@ -58,9 +60,11 @@ interface ITimeSheetProviderProps {
 const TimeSheetContext = createContext<ITimeSheetContextType | undefined>(undefined);
 
 const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
+  const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const { data: session } = useSession();
   const now = new Date();
   const [loading, setLoading] = useState(false);
+  const [userInfoLoading, setUserInfoLoading] = useState(false);
   const [period, setPeriod] = useState(PERIODCALENDAR.WEEK);
   const [selectedCalendar, setSelectedCalendar] = useState<Date>(now);
   const [tasks, setTasks] = useState<ITimeSheetResponse[]>([]);
@@ -70,7 +74,6 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   const [projectOptions, setProjectOptions] = useState<IOptions[]>([]);
   const [taskTypeOptions, setTaskTypeOptions] = useState<IOptionGroups[]>([]);
   const [userInfo, setUserInfo] = useState<ITimeSheetUserInfoResponse | null>(null);
-  const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const EIGHT_HOURS = 8 * 60 * 60;
 
   const [weekAnchorDate, setWeekAnchorDate] = useState<Date>(() => {
@@ -134,32 +137,45 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   };
 
   const getUserInfo = async () => {
-    const prefix = process.env.NEXT_PUBLIC_APP_URL;
+    try {
+      setUserInfoLoading(true);
+      const prefix = process.env.NEXT_PUBLIC_APP_URL;
 
-    const res = await fetch(`${prefix}/api/v1/timesheet/user-info`);
-    const json = await res.json();
-    const data = json.data as ITimeSheetUserInfoResponse;
+      const res = await fetch(`${prefix}/api/v1/timesheet/user-info`);
+      const json = await res.json();
+      const data = json.data as ITimeSheetUserInfoResponse;
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch user info');
+      if (!res.ok) {
+        throw new Error('Failed to fetch user info');
+      }
+
+      setUserInfo(data);
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+    } finally {
+      setUserInfoLoading(false);
     }
-
-    setUserInfo(data);
   };
 
   const getTask = async () => {
-    const prefix = process.env.NEXT_PUBLIC_APP_URL;
-    const query = buildTimesheetQuery();
+    try {
+      setLoading(true);
+      const query = buildTimesheetQuery();
 
-    const res = await fetch(`${prefix}/api/v1/timesheet?${query}`);
-    const json = await res.json();
-    const data = json.data as ITimeSheetResponse[];
+      const res = await fetch(`${prefix}/api/v1/timesheet?${query}`);
+      const json = await res.json();
+      const data = json.data as ITimeSheetResponse[];
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch tasks data');
+      if (!res.ok) {
+        throw new Error('Failed to fetch tasks data');
+      }
+
+      setTasks(data);
+    } catch (error) {
+      console.error('Error fetching tasks:', error);
+    } finally {
+      setLoading(false);
     }
-
-    setTasks(data);
   };
 
   const deleteTask = async (taskId: string) => {
@@ -275,6 +291,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
     <TimeSheetContext.Provider
       value={{
         loading,
+        userInfoLoading,
         selectedCalendar,
         period,
         tasks,
@@ -286,6 +303,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         userInfo,
         dailySecondsMap,
         weekDays,
+        setUserInfoLoading,
         isPastDay,
         setIsPopoverEdit,
         setLoading,

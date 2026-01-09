@@ -71,7 +71,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const yearOption = Array.from(
     { length: today.getFullYear() - new Date(userStartDate).getFullYear() + 1 },
     (_, i) => ({
-      label: (new Date(userStartDate).getFullYear() + i + 543).toString(),
+      label: (new Date(userStartDate).getFullYear() + i).toString(),
       value: new Date(userStartDate).getFullYear() + i,
     })
   );

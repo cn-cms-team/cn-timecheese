@@ -36,7 +36,7 @@ const ReportUsersButton = ({
                 onClick(user.value as string);
               }}
             >
-              <UserAvatar name={user.name} image={user.image} is_active={user.is_active} />
+              <UserAvatar name={user.name} is_active={user.is_active} />
               <span className="text-truncate">{user.name}</span>
             </div>
           ))}

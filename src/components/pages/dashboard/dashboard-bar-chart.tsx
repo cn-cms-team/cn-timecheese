@@ -62,16 +62,16 @@ const DashboardBarChart = () => {
   }, [data, weekDays]);
 
   return (
-    <div className="w-full border rounded-md p-3">
+    <div className="w-full border rounded-md p-3 shadow-sm">
       <header>
         <h2 className="text-base font-semibold mb-4">การลงเวลางาน</h2>
       </header>
       <main className="mt-2 grid grid-cols-1 overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-          <div className="space-y-1">
+        <div className="flex md:flex-row flex-col gap-2 w-full">
+          <div className="space-y-1 md:w-xs w-full">
             <Label>เดือน</Label>
             <Dropdown
-              className="max-w-md"
+              className="w-full"
               value={selectedMonth}
               options={monthOption}
               canEmpty={false}
@@ -80,10 +80,10 @@ const DashboardBarChart = () => {
               onChange={(value) => setSelectedMonth(Number(value))}
             />
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1 md:w-xs w-full">
             <Label>ปี</Label>
             <Dropdown
-              className="max-w-md"
+              className="w-full"
               value={selectYear}
               options={yearOption}
               canEmpty={false}

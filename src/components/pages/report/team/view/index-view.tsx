@@ -6,17 +6,23 @@ import { useEffect, useState } from 'react';
 import { IOption } from '@/types/option';
 import { fetcher } from '@/lib/fetcher';
 import { useSession } from 'next-auth/react';
-import { IReportTeam } from '@/types/report/team';
+import { IReportTeam, IUserReport } from '@/types/report/team';
 import ReportUsersButton from '../../report-users-button';
 import { useRouter } from 'next/navigation';
+import { useLoading } from '@/components/context/app-context';
 
 const ReportTeamView = () => {
+  const { isLoading, setIsLoading } = useLoading();
   const { data: session } = useSession();
   const router = useRouter();
   const [userList, setUserList] = useState<(IOption & UserAvatarProps)[]>([]);
-  const [userReport, setUserReport] = useState<IReportTeam | null>(null);
+  const [userReport, setUserReport] = useState<IReportTeam>({
+    user: {} as IUserReport,
+    projects: [],
+  });
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchTeamsOptions = async () => {
       try {
         const prefix = process.env.NEXT_PUBLIC_APP_URL;
@@ -43,6 +49,7 @@ const ReportTeamView = () => {
 
   const getUserReport = async (id: string) => {
     try {
+      setIsLoading(true);
       const params = new URLSearchParams();
       params.set('user_id', id || '');
       const url = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/report/team?${params.toString()}`;
@@ -52,6 +59,8 @@ const ReportTeamView = () => {
       }
     } catch (error) {
       router.push('/');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -69,7 +78,7 @@ const ReportTeamView = () => {
     <ModuleLayout
       headerTitle={'รายงานสรุปทีม'}
       headerButton={<ReportUsersButton onClick={onClickUser} userList={userList} />}
-      content={userReport ? <ReportTeamDetail {...userReport!} /> : <></>}
+      content={<ReportTeamDetail {...userReport!} loading={isLoading} />}
     ></ModuleLayout>
   );
 };

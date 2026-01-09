@@ -22,6 +22,34 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const dateOnly = date ? new Date(date).toLocaleDateString('en-CA').split('T')[0] : null;
 
   try {
+    const totalTask = await prisma.timeSheet.count({
+      where: {
+        user_id: userId,
+        project_id: projectId,
+        ...(search && {
+          OR: [
+            {
+              project_task_type: {
+                name: {
+                  contains: search,
+                  mode: 'insensitive',
+                },
+              },
+            },
+            {
+              detail: {
+                contains: search,
+                mode: 'insensitive',
+              },
+            },
+          ],
+        }),
+        ...(dateOnly && {
+          stamp_date: new Date(dateOnly),
+        }),
+      },
+    });
+
     const tasks = await prisma.timeSheet.findMany({
       where: {
         user_id: userId,
@@ -80,7 +108,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       detail: task.detail,
     }));
 
-    return Response.json({ data }, { status: 200 });
+    return Response.json({ data, total_items: totalTask }, { status: 200 });
   } catch (error) {
     return Response.json({ error: 'Internal Server Error' }, { status: 500 });
   }
