@@ -134,17 +134,24 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   };
 
   const getUserInfo = async () => {
-    const prefix = process.env.NEXT_PUBLIC_APP_URL;
+    try {
+      setLoading(true);
+      const prefix = process.env.NEXT_PUBLIC_APP_URL;
 
-    const res = await fetch(`${prefix}/api/v1/timesheet/user-info`);
-    const json = await res.json();
-    const data = json.data as ITimeSheetUserInfoResponse;
+      const res = await fetch(`${prefix}/api/v1/timesheet/user-info`);
+      const json = await res.json();
+      const data = json.data as ITimeSheetUserInfoResponse;
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch user info');
+      if (!res.ok) {
+        throw new Error('Failed to fetch user info');
+      }
+
+      setUserInfo(data);
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+    } finally {
+      setLoading(false);
     }
-
-    setUserInfo(data);
   };
 
   const getTask = async () => {
