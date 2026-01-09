@@ -45,3 +45,12 @@ export const handleLatitudeChange = (
     onChange(value);
   }
 };
+
+export const formatRangeNumberWithComma = (value: string) => {
+  if (!value) return '-';
+
+  const splitNumber = value.split('-');
+  return `${numberWithCommas(Number(splitNumber[0]))} - ${numberWithCommas(
+    Number(splitNumber[1])
+  )}`;
+};

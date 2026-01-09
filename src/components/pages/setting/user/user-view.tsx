@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { formatDate } from '@/lib/functions/date-format';
 import { getIsActive } from '@/lib/functions/enum-mapping';
-import { numberWithCommas } from '@/lib/functions/number-format';
+import { formatRangeNumberWithComma } from '@/lib/functions/number-format';
 import { IUser } from '@/types/setting/user';
 import { useEffect, useState } from 'react';
 
@@ -47,7 +47,9 @@ const UserViewDetail = ({ id }: { id: string }): React.ReactNode => {
           <LabelGroup label="สิทธิ์การใช้งาน" value={userData?.role?.name} />
           <LabelGroup
             label="ช่วงเงินเดือนโดยประมาณ"
-            value={userData?.salary_range ? numberWithCommas(Number(userData?.salary_range)) : '-'}
+            value={
+              userData?.salary_range ? formatRangeNumberWithComma(userData?.salary_range) : '-'
+            }
           />
           <LabelGroup label="สถานะการใช้งาน" value="">
             <div className="flex items-center space-x-2">
