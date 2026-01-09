@@ -4,14 +4,14 @@ import { buddhistFormatDate } from '@/lib/functions/date-format';
 import { useTimeSheetContext } from '../view/timesheet-context';
 
 const TimeSheetUserInfo = () => {
-  const { userInfo, loading } = useTimeSheetContext();
+  const { userInfo, userInfoLoading } = useTimeSheetContext();
 
   return (
     <div className="lg:col-span-2 bg-white p-4 rounded-lg">
       <h1 className="text-lg text-gray-500 mb-4">ข้อมูลผู้ใช้งาน</h1>
       <div className="flex flex-col items-center lg:flex-row">
         <div className="flex justify-center mx-4 lg:mb-0 mb-4 ">
-          {loading ? (
+          {userInfoLoading ? (
             <div className="w-15 h-15 bg-gray-300 animate-pulse rounded-full" />
           ) : (
             <img
@@ -23,7 +23,7 @@ const TimeSheetUserInfo = () => {
         </div>
         <div className="flex flex-col w-full ps-4">
           <div className="text-xl text-center lg:text-start mb-4">
-            {loading ? (
+            {userInfoLoading ? (
               <div className="w-full h-6 bg-gray-300 animate-pulse rounded-md" />
             ) : (
               `${userInfo?.user?.full_name || '-'} (${userInfo?.user?.nick_name || '-'})`
@@ -32,7 +32,7 @@ const TimeSheetUserInfo = () => {
           <div className="flex gap-4 items-center justify-center lg:justify-start">
             <div className="flex flex-col">
               <span className="text-sm text-gray-500">ทีม</span>
-              {loading ? (
+              {userInfoLoading ? (
                 <div className="w-32 h-6 bg-gray-300 animate-pulse rounded-md" />
               ) : (
                 <span className="text-base">{userInfo?.user?.team || '-'}</span>
@@ -40,7 +40,7 @@ const TimeSheetUserInfo = () => {
             </div>
             <div className="flex flex-col">
               <span className="text-sm text-gray-500">ตำแหน่ง</span>
-              {loading ? (
+              {userInfoLoading ? (
                 <div className="w-32 h-6 bg-gray-300 animate-pulse rounded-md" />
               ) : (
                 <span className="text-sm">{userInfo?.user?.position_level || '-'}</span>
@@ -48,7 +48,7 @@ const TimeSheetUserInfo = () => {
             </div>
             <div className="flex flex-col">
               <span className="text-sm text-gray-500">วันที่เริ่มงาน</span>
-              {loading ? (
+              {userInfoLoading ? (
                 <div className="w-32 h-6 bg-gray-300 animate-pulse rounded-md" />
               ) : (
                 <span className="text-sm">

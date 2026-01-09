@@ -20,6 +20,7 @@ import { ITimeSheetResponse, ITimeSheetUserInfoResponse } from '@/types/timeshee
 
 interface ITimeSheetContextType {
   loading: boolean;
+  userInfoLoading: boolean;
   period: PERIODCALENDAR;
   selectedCalendar: Date | null;
   tasks: ITimeSheetResponse[];
@@ -32,6 +33,7 @@ interface ITimeSheetContextType {
   dailySecondsMap: Map<string, number>;
   weekDays: Date[];
   setLoading: (isLoading: boolean) => void;
+  setUserInfoLoading: (isLoading: boolean) => void;
   setPeriod: (value: PERIODCALENDAR) => void;
   setSelectedCalendar: Dispatch<SetStateAction<Date>>;
   setIsPopoverEdit: Dispatch<SetStateAction<boolean>>;
@@ -62,6 +64,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   const { data: session } = useSession();
   const now = new Date();
   const [loading, setLoading] = useState(false);
+  const [userInfoLoading, setUserInfoLoading] = useState(false);
   const [period, setPeriod] = useState(PERIODCALENDAR.WEEK);
   const [selectedCalendar, setSelectedCalendar] = useState<Date>(now);
   const [tasks, setTasks] = useState<ITimeSheetResponse[]>([]);
@@ -135,7 +138,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
 
   const getUserInfo = async () => {
     try {
-      setLoading(true);
+      setUserInfoLoading(true);
       const prefix = process.env.NEXT_PUBLIC_APP_URL;
 
       const res = await fetch(`${prefix}/api/v1/timesheet/user-info`);
@@ -150,7 +153,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
     } catch (error) {
       console.error('Error fetching user info:', error);
     } finally {
-      setLoading(false);
+      setUserInfoLoading(false);
     }
   };
 
@@ -288,6 +291,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
     <TimeSheetContext.Provider
       value={{
         loading,
+        userInfoLoading,
         selectedCalendar,
         period,
         tasks,
@@ -299,6 +303,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         userInfo,
         dailySecondsMap,
         weekDays,
+        setUserInfoLoading,
         isPastDay,
         setIsPopoverEdit,
         setLoading,
