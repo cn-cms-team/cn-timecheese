@@ -98,7 +98,7 @@ const TimeSheetMonthCalendar = () => {
                   >
                     <div
                       className={cn(
-                        'mb-2 bg-transparent w-5 h-5',
+                        'mb-1 bg-transparent w-5 h-5',
                         inCompleted &&
                           'bg-[#ffa722] font-semibold text-black w-4 h-4 p-4 flex justify-center items-center rounded-full',
                         noTask &&
@@ -179,7 +179,11 @@ const TimeSheetMonthCalendar = () => {
                   </div>
                 }
                 popoverContent={(close) => (
-                  <TimeSheetForm startTime={selectedCalendar!} close={close} />
+                  <TimeSheetForm
+                    startTime={selectedCalendar!}
+                    endTime={selectedCalendar!}
+                    close={close}
+                  />
                 )}
               />
             </div>

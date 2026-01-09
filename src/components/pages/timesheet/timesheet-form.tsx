@@ -228,6 +228,7 @@ const TimeSheetForm = ({
                       <TimeInput
                         value={field.value ? field.value : undefined}
                         onChange={(e) => {
+                          console.log(e);
                           const time = e;
                           const hh = time.getHours();
                           const mm = time.getMinutes();

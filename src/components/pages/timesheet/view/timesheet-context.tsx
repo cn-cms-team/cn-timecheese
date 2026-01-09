@@ -11,7 +11,7 @@ import {
 } from 'react';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
-import { addDays, addWeeks, format, isBefore, startOfDay, startOfWeek } from 'date-fns';
+import { addDays, format, isBefore, startOfDay, startOfWeek } from 'date-fns';
 
 import { fetcher } from '@/lib/fetcher';
 import { IOptionGroups, IOptions } from '@/types/dropdown';
@@ -110,8 +110,6 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
       const res = await fetch(`${prefix}/api/v1/master/task-type/${projectId}`);
       const json = await res.json();
       const data = json.data as IOptionGroups[];
-
-      console.log(data);
 
       setTaskTypeOptions(data);
     } catch (error) {
