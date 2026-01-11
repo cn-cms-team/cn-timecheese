@@ -263,6 +263,7 @@ export type ProjectMemberOrderByWithRelationInput = {
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
+  _relevance?: Prisma.ProjectMemberOrderByRelevanceInput
 }
 
 export type ProjectMemberWhereUniqueInput = Prisma.AtLeast<{
@@ -395,6 +396,12 @@ export type ProjectMemberListRelationFilter = {
 
 export type ProjectMemberOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type ProjectMemberOrderByRelevanceInput = {
+  fields: Prisma.ProjectMemberOrderByRelevanceFieldEnum | Prisma.ProjectMemberOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type ProjectMemberProject_idUser_idCompoundUniqueInput = {
@@ -732,31 +739,7 @@ export type ProjectMemberSelect<ExtArgs extends runtime.Types.Extensions.Interna
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["projectMember"]>
 
-export type ProjectMemberSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  project_id?: boolean
-  user_id?: boolean
-  role?: boolean
-  day_price?: boolean
-  hour_price?: boolean
-  work_hours?: boolean
-  start_date?: boolean
-  end_date?: boolean
-  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["projectMember"]>
 
-export type ProjectMemberSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  project_id?: boolean
-  user_id?: boolean
-  role?: boolean
-  day_price?: boolean
-  hour_price?: boolean
-  work_hours?: boolean
-  start_date?: boolean
-  end_date?: boolean
-  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["projectMember"]>
 
 export type ProjectMemberSelectScalar = {
   project_id?: boolean
@@ -771,14 +754,6 @@ export type ProjectMemberSelectScalar = {
 
 export type ProjectMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"project_id" | "user_id" | "role" | "day_price" | "hour_price" | "work_hours" | "start_date" | "end_date", ExtArgs["result"]["projectMember"]>
 export type ProjectMemberInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type ProjectMemberIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type ProjectMemberIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -916,30 +891,6 @@ export interface ProjectMemberDelegate<ExtArgs extends runtime.Types.Extensions.
   createMany<T extends ProjectMemberCreateManyArgs>(args?: Prisma.SelectSubset<T, ProjectMemberCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many ProjectMembers and returns the data saved in the database.
-   * @param {ProjectMemberCreateManyAndReturnArgs} args - Arguments to create many ProjectMembers.
-   * @example
-   * // Create many ProjectMembers
-   * const projectMember = await prisma.projectMember.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many ProjectMembers and only return the `project_id`
-   * const projectMemberWithProject_idOnly = await prisma.projectMember.createManyAndReturn({
-   *   select: { project_id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends ProjectMemberCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ProjectMemberCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a ProjectMember.
    * @param {ProjectMemberDeleteArgs} args - Arguments to delete one ProjectMember.
    * @example
@@ -1002,36 +953,6 @@ export interface ProjectMemberDelegate<ExtArgs extends runtime.Types.Extensions.
    * 
    */
   updateMany<T extends ProjectMemberUpdateManyArgs>(args: Prisma.SelectSubset<T, ProjectMemberUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more ProjectMembers and returns the data updated in the database.
-   * @param {ProjectMemberUpdateManyAndReturnArgs} args - Arguments to update many ProjectMembers.
-   * @example
-   * // Update many ProjectMembers
-   * const projectMember = await prisma.projectMember.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more ProjectMembers and only return the `project_id`
-   * const projectMemberWithProject_idOnly = await prisma.projectMember.updateManyAndReturn({
-   *   select: { project_id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends ProjectMemberUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ProjectMemberUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one ProjectMember.
@@ -1464,29 +1385,6 @@ export type ProjectMemberCreateManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * ProjectMember createManyAndReturn
- */
-export type ProjectMemberCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ProjectMember
-   */
-  select?: Prisma.ProjectMemberSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the ProjectMember
-   */
-  omit?: Prisma.ProjectMemberOmit<ExtArgs> | null
-  /**
-   * The data used to create many ProjectMembers.
-   */
-  data: Prisma.ProjectMemberCreateManyInput | Prisma.ProjectMemberCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProjectMemberIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * ProjectMember update
  */
 export type ProjectMemberUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1528,36 +1426,6 @@ export type ProjectMemberUpdateManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many ProjectMembers to update.
    */
   limit?: number
-}
-
-/**
- * ProjectMember updateManyAndReturn
- */
-export type ProjectMemberUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ProjectMember
-   */
-  select?: Prisma.ProjectMemberSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the ProjectMember
-   */
-  omit?: Prisma.ProjectMemberOmit<ExtArgs> | null
-  /**
-   * The data used to update ProjectMembers.
-   */
-  data: Prisma.XOR<Prisma.ProjectMemberUpdateManyMutationInput, Prisma.ProjectMemberUncheckedUpdateManyInput>
-  /**
-   * Filter which ProjectMembers to update
-   */
-  where?: Prisma.ProjectMemberWhereInput
-  /**
-   * Limit how many ProjectMembers to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProjectMemberIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

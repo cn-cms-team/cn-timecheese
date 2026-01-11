@@ -237,6 +237,7 @@ export type PositionLevelOrderByWithRelationInput = {
   is_enabled?: Prisma.SortOrder
   position?: Prisma.PositionOrderByWithRelationInput
   users?: Prisma.UserOrderByRelationAggregateInput
+  _relevance?: Prisma.PositionLevelOrderByRelevanceInput
 }
 
 export type PositionLevelWhereUniqueInput = Prisma.AtLeast<{
@@ -358,6 +359,12 @@ export type PositionLevelListRelationFilter = {
 
 export type PositionLevelOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type PositionLevelOrderByRelevanceInput = {
+  fields: Prisma.PositionLevelOrderByRelevanceFieldEnum | Prisma.PositionLevelOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type PositionLevelCountOrderByAggregateInput = {
@@ -646,25 +653,7 @@ export type PositionLevelSelect<ExtArgs extends runtime.Types.Extensions.Interna
   _count?: boolean | Prisma.PositionLevelCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["positionLevel"]>
 
-export type PositionLevelSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  name?: boolean
-  description?: boolean
-  position_id?: boolean
-  ord?: boolean
-  is_enabled?: boolean
-  position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["positionLevel"]>
 
-export type PositionLevelSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  name?: boolean
-  description?: boolean
-  position_id?: boolean
-  ord?: boolean
-  is_enabled?: boolean
-  position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["positionLevel"]>
 
 export type PositionLevelSelectScalar = {
   id?: boolean
@@ -680,12 +669,6 @@ export type PositionLevelInclude<ExtArgs extends runtime.Types.Extensions.Intern
   position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
   users?: boolean | Prisma.PositionLevel$usersArgs<ExtArgs>
   _count?: boolean | Prisma.PositionLevelCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type PositionLevelIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
-}
-export type PositionLevelIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  position?: boolean | Prisma.PositionDefaultArgs<ExtArgs>
 }
 
 export type $PositionLevelPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -819,30 +802,6 @@ export interface PositionLevelDelegate<ExtArgs extends runtime.Types.Extensions.
   createMany<T extends PositionLevelCreateManyArgs>(args?: Prisma.SelectSubset<T, PositionLevelCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many PositionLevels and returns the data saved in the database.
-   * @param {PositionLevelCreateManyAndReturnArgs} args - Arguments to create many PositionLevels.
-   * @example
-   * // Create many PositionLevels
-   * const positionLevel = await prisma.positionLevel.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many PositionLevels and only return the `id`
-   * const positionLevelWithIdOnly = await prisma.positionLevel.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends PositionLevelCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, PositionLevelCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PositionLevelPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a PositionLevel.
    * @param {PositionLevelDeleteArgs} args - Arguments to delete one PositionLevel.
    * @example
@@ -905,36 +864,6 @@ export interface PositionLevelDelegate<ExtArgs extends runtime.Types.Extensions.
    * 
    */
   updateMany<T extends PositionLevelUpdateManyArgs>(args: Prisma.SelectSubset<T, PositionLevelUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more PositionLevels and returns the data updated in the database.
-   * @param {PositionLevelUpdateManyAndReturnArgs} args - Arguments to update many PositionLevels.
-   * @example
-   * // Update many PositionLevels
-   * const positionLevel = await prisma.positionLevel.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more PositionLevels and only return the `id`
-   * const positionLevelWithIdOnly = await prisma.positionLevel.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends PositionLevelUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, PositionLevelUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PositionLevelPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one PositionLevel.
@@ -1365,29 +1294,6 @@ export type PositionLevelCreateManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
- * PositionLevel createManyAndReturn
- */
-export type PositionLevelCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PositionLevel
-   */
-  select?: Prisma.PositionLevelSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the PositionLevel
-   */
-  omit?: Prisma.PositionLevelOmit<ExtArgs> | null
-  /**
-   * The data used to create many PositionLevels.
-   */
-  data: Prisma.PositionLevelCreateManyInput | Prisma.PositionLevelCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PositionLevelIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * PositionLevel update
  */
 export type PositionLevelUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1429,36 +1335,6 @@ export type PositionLevelUpdateManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many PositionLevels to update.
    */
   limit?: number
-}
-
-/**
- * PositionLevel updateManyAndReturn
- */
-export type PositionLevelUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the PositionLevel
-   */
-  select?: Prisma.PositionLevelSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the PositionLevel
-   */
-  omit?: Prisma.PositionLevelOmit<ExtArgs> | null
-  /**
-   * The data used to update PositionLevels.
-   */
-  data: Prisma.XOR<Prisma.PositionLevelUpdateManyMutationInput, Prisma.PositionLevelUncheckedUpdateManyInput>
-  /**
-   * Filter which PositionLevels to update
-   */
-  where?: Prisma.PositionLevelWhereInput
-  /**
-   * Limit how many PositionLevels to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.PositionLevelIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

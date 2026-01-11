@@ -176,6 +176,7 @@ export type TeamLeaderOrderByWithRelationInput = {
   team_id?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   team?: Prisma.TeamOrderByWithRelationInput
+  _relevance?: Prisma.TeamLeaderOrderByRelevanceInput
 }
 
 export type TeamLeaderWhereUniqueInput = Prisma.AtLeast<{
@@ -255,6 +256,12 @@ export type TeamLeaderListRelationFilter = {
 
 export type TeamLeaderOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type TeamLeaderOrderByRelevanceInput = {
+  fields: Prisma.TeamLeaderOrderByRelevanceFieldEnum | Prisma.TeamLeaderOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type TeamLeaderCountOrderByAggregateInput = {
@@ -490,21 +497,7 @@ export type TeamLeaderSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teamLeader"]>
 
-export type TeamLeaderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  user_id?: boolean
-  team_id?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["teamLeader"]>
 
-export type TeamLeaderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  user_id?: boolean
-  team_id?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["teamLeader"]>
 
 export type TeamLeaderSelectScalar = {
   id?: boolean
@@ -514,14 +507,6 @@ export type TeamLeaderSelectScalar = {
 
 export type TeamLeaderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "team_id", ExtArgs["result"]["teamLeader"]>
 export type TeamLeaderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
-}
-export type TeamLeaderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
-}
-export type TeamLeaderIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   team?: boolean | Prisma.TeamDefaultArgs<ExtArgs>
 }
@@ -654,30 +639,6 @@ export interface TeamLeaderDelegate<ExtArgs extends runtime.Types.Extensions.Int
   createMany<T extends TeamLeaderCreateManyArgs>(args?: Prisma.SelectSubset<T, TeamLeaderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many TeamLeaders and returns the data saved in the database.
-   * @param {TeamLeaderCreateManyAndReturnArgs} args - Arguments to create many TeamLeaders.
-   * @example
-   * // Create many TeamLeaders
-   * const teamLeader = await prisma.teamLeader.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many TeamLeaders and only return the `id`
-   * const teamLeaderWithIdOnly = await prisma.teamLeader.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends TeamLeaderCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TeamLeaderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamLeaderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a TeamLeader.
    * @param {TeamLeaderDeleteArgs} args - Arguments to delete one TeamLeader.
    * @example
@@ -740,36 +701,6 @@ export interface TeamLeaderDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * 
    */
   updateMany<T extends TeamLeaderUpdateManyArgs>(args: Prisma.SelectSubset<T, TeamLeaderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more TeamLeaders and returns the data updated in the database.
-   * @param {TeamLeaderUpdateManyAndReturnArgs} args - Arguments to update many TeamLeaders.
-   * @example
-   * // Update many TeamLeaders
-   * const teamLeader = await prisma.teamLeader.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more TeamLeaders and only return the `id`
-   * const teamLeaderWithIdOnly = await prisma.teamLeader.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends TeamLeaderUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TeamLeaderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamLeaderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one TeamLeader.
@@ -1197,29 +1128,6 @@ export type TeamLeaderCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * TeamLeader createManyAndReturn
- */
-export type TeamLeaderCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TeamLeader
-   */
-  select?: Prisma.TeamLeaderSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the TeamLeader
-   */
-  omit?: Prisma.TeamLeaderOmit<ExtArgs> | null
-  /**
-   * The data used to create many TeamLeaders.
-   */
-  data: Prisma.TeamLeaderCreateManyInput | Prisma.TeamLeaderCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TeamLeaderIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * TeamLeader update
  */
 export type TeamLeaderUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1261,36 +1169,6 @@ export type TeamLeaderUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many TeamLeaders to update.
    */
   limit?: number
-}
-
-/**
- * TeamLeader updateManyAndReturn
- */
-export type TeamLeaderUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TeamLeader
-   */
-  select?: Prisma.TeamLeaderSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the TeamLeader
-   */
-  omit?: Prisma.TeamLeaderOmit<ExtArgs> | null
-  /**
-   * The data used to update TeamLeaders.
-   */
-  data: Prisma.XOR<Prisma.TeamLeaderUpdateManyMutationInput, Prisma.TeamLeaderUncheckedUpdateManyInput>
-  /**
-   * Filter which TeamLeaders to update
-   */
-  where?: Prisma.TeamLeaderWhereInput
-  /**
-   * Limit how many TeamLeaders to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TeamLeaderIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
