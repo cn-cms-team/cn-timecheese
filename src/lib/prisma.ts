@@ -10,7 +10,8 @@ const adapter = new PrismaMariaDb({
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  port: parseInt(process.env.DATABASE_PORT || '3306'),
+  port: parseInt(process.env.DATABASE_PORT || '4000'),
+  ssl: process.env.DATABASE_SSL === 'true',
 });
 const prisma = globalForPrisma.prisma || new PrismaClient({ adapter });
 
