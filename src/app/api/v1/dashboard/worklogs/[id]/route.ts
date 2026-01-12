@@ -52,8 +52,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         ...(startDateOnly &&
           endDateOnly && {
             stamp_date: {
-              gte: startDateOnly,
-              lte: endDateOnly,
+              gte: new Date(startDateOnly),
+              lte: new Date(endDateOnly),
             },
           }),
       },
@@ -82,8 +82,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         ...(startDateOnly &&
           endDateOnly && {
             stamp_date: {
-              gte: startDateOnly,
-              lte: endDateOnly,
+              gte: new Date(startDateOnly),
+              lte: new Date(endDateOnly),
             },
           }),
       },
@@ -99,10 +99,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       },
       orderBy: [
         {
-          stamp_date: 'asc',
+          stamp_date: 'desc',
         },
         {
-          start_date: 'asc',
+          start_date: 'desc',
         },
       ],
       skip,
@@ -121,6 +121,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
     return Response.json({ data, total_items: totalTask }, { status: 200 });
   } catch (error) {
+    console.log(error);
     return Response.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
