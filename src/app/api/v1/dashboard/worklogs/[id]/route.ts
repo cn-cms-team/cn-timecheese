@@ -119,7 +119,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       detail: task.detail,
     }));
 
-    return Response.json({ data, total_items: totalTask }, { status: 200 });
+    return Response.json({ data, total_items: totalTask || 0 }, { status: 200 });
   } catch (error) {
     console.log(error);
     return Response.json({ error: 'Internal Server Error' }, { status: 500 });
