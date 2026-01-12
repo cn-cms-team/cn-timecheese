@@ -61,7 +61,7 @@ const twoDigitPad = (num: number) => (num < 10 ? '0' + num : String(num));
 
 export const buddhistFormatDate = (
   dateString: string | Date | undefined,
-  patternStr = 'yyyy-mm-dd'
+  patternStr = 'dd/mm/yyyy'
 ) => {
   const isBuddhist = true;
   return formatDate(dateString, patternStr, isBuddhist);
@@ -69,7 +69,7 @@ export const buddhistFormatDate = (
 
 export const formatDate = (
   dateString: string | Date | undefined,
-  patternStr = 'dd-mm-yyyy',
+  patternStr = 'dd/mm/yyyy',
   isBuddhist = false
 ) => {
   if (typeof dateString === 'undefined' || dateString === null) {

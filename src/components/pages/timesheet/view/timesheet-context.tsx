@@ -209,7 +209,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         (end.getTime() - start.getTime()) / 1000 - (task.exclude_seconds ?? 0)
       );
 
-      const key = format(start, 'yyyy-MM-dd');
+      const key = format(start, 'dd/mm/yyyy');
       map.set(key, (map.get(key) ?? 0) + seconds);
     });
 
@@ -232,7 +232,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
         (end.getTime() - start.getTime()) / 1000 - (task.exclude_seconds ?? 0)
       );
 
-      const key = format(start, 'yyyy-MM-dd');
+      const key = format(start, 'dd/mm/yyyy');
       map.set(key, (map.get(key) ?? 0) + seconds);
     });
 
@@ -245,7 +245,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   };
 
   const getDayStatus = (day: Date) => {
-    const key = format(day, 'yyyy-MM-dd');
+    const key = format(day, 'dd/mm/yyyy');
     const seconds = getDailyWorkSeconds().get(key) ?? 0;
 
     const today = startOfDay(new Date());
