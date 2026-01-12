@@ -31,6 +31,7 @@ const getUser = async (email: string): Promise<User> => {
     });
     return user as User;
   } catch (error) {
+    console.error('Error fetching user:', error);
     throw new Error(AUTH_ERROR_CODES.ERROR);
   }
 };

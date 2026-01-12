@@ -13,7 +13,7 @@ const adapter = new PrismaMariaDb({
   port: parseInt(process.env.DATABASE_PORT || '4000'),
   ssl: process.env.DATABASE_SSL === 'true',
 });
-const prisma = globalForPrisma.prisma || new PrismaClient({ adapter });
+const prisma = globalForPrisma.prisma || new PrismaClient({ adapter, log: ['error'] });
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
