@@ -123,6 +123,7 @@ const TableListTimesheet = ({ projectId }: IProps) => {
           <DateRangePicker
             selected={tempFilter.date}
             disabled={loading}
+            canClear={true}
             onSelect={(date) => {
               setTempFilter({ ...tempFilter, date });
             }}
