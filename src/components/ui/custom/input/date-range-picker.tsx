@@ -7,7 +7,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover';
 import { Button } from '../../button';
 import { cn } from '@/lib/utils';
-import { Calendar1 } from 'lucide-react';
+import { Calendar1, X } from 'lucide-react';
 import { formatDate } from '@/lib/functions/date-format';
 
 interface IProps {
@@ -15,6 +15,7 @@ interface IProps {
   placeholder?: string;
   disabled?: boolean;
   selected: DateRange | undefined;
+  canClear?: boolean;
   isError?: boolean;
   onSelect: (date: DateRange | undefined) => void;
 }
@@ -24,6 +25,7 @@ export function DateRangePicker({
   disabled = false,
   placeholder = 'เลือกช่วงวันที่',
   className,
+  canClear = false,
   isError = false,
   onSelect,
 }: IProps) {
@@ -33,15 +35,21 @@ export function DateRangePicker({
     range_middle: '!bg-gray-200 text-black',
   };
 
+  const handleClear = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onSelect(undefined);
+  };
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger className={cn(className, 'w-full')}>
+      <PopoverTrigger className={cn(className, 'w-full relative')}>
         <Button
           type="button"
           variant="outline"
           disabled={disabled}
           className={cn(
-            `w-full justify-between font-normal relative truncate ${className ?? ''}`,
+            `w-full justify-between font-normal  truncate ${className ?? ''}`,
             isError ? 'border-red-500' : ''
           )}
         >
@@ -53,8 +61,13 @@ export function DateRangePicker({
                 )}`
               : placeholder}
           </span>
-          <Calendar1 className="h-4 w-4 opacity-50 text-black" />
         </Button>
+        <div className="flex gap-1 absolute right-2 top-1/2 -translate-y-1/2 items-center">
+          {canClear && selected && (
+            <X className="cursor-pointer" width={16} onClick={handleClear} />
+          )}
+          <Calendar1 className="h-4 w-4 opacity-50 text-black" />
+        </div>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
