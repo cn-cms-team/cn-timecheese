@@ -113,9 +113,9 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                         onSelect(item.value as string);
                         setOpen(false);
                       }}
-                      disabled={!item.is_active}
+                      disabled={item.is_active != null && item.is_active === false}
                     >
-                      {item.label} {!item.is_active && '(ไม่ใช้งาน)'}
+                      {item.label} {item.is_active === false && '(ไม่ใช้งาน)'}
                     </CommandItem>
                   ))}
                 </CommandGroup>
