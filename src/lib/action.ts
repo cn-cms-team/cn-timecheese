@@ -17,7 +17,8 @@ export async function authenticate(prevState: string | undefined, formData: Sign
     await signIn('credentials', formData);
   } catch (error) {
     if (error instanceof AuthError) {
-      switch (error.message) {
+      const cause = error.cause?.err as Error;
+      switch (cause.message) {
         case AUTH_ERROR_CODES.INVALID:
           return 'รหัสผ่านไม่ถูกต้อง กรุณากรอกข้อมูลใหม่อีกครั้ง';
         case AUTH_ERROR_CODES.NOTFOUND:
