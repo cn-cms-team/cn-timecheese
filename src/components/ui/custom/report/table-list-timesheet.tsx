@@ -17,7 +17,8 @@ import { Label } from '../../label';
 import DataTable from '../data-table/table-template';
 import { createColumns } from './table-timesheet-column';
 import { Button } from '../../button';
-import { DatePickerInput } from '../input/date-picker';
+import { DateRangePicker } from '../input/date-range-picker';
+import { DateRange } from 'react-day-picker';
 
 interface IProps {
   projectId: string;
@@ -39,10 +40,10 @@ const TableListTimesheet = ({ projectId }: IProps) => {
 
   const [tempFilter, setTempFilter] = useState<{
     search: string;
-    date: string | null;
+    date: DateRange | undefined;
   }>({
     search: '',
-    date: new Date().toISOString(),
+    date: undefined,
   });
 
   const columns = createColumns({
@@ -57,7 +58,8 @@ const TableListTimesheet = ({ projectId }: IProps) => {
 
     if (projectId) params.append('project_id', projectId);
     if (tempFilter.search) params.append('search', tempFilter.search);
-    if (tempFilter.date) params.append('date', tempFilter.date);
+    if (tempFilter.date?.from) params.append('start_date', tempFilter.date?.from.toISOString());
+    if (tempFilter.date?.to) params.append('end_date', tempFilter.date?.to.toISOString());
 
     try {
       setLoading(true);
@@ -96,14 +98,14 @@ const TableListTimesheet = ({ projectId }: IProps) => {
   });
 
   return (
-    <div className="border rounded-md p-3 w-full shadow">
+    <div className="border rounded-md p-3 w-full shadow grid grid-cols-1">
       <div className="text-base font-semibold mb-4">ประวัติการบันทึกเวลา</div>
-      <header className="grid grid-cols-1  lg:grid-cols-4 xl:grid-cols-6 gap-2 mb-3 items-end">
-        <div className="space-y-1 w-full">
+      <header className="flex flex-col md:flex-row mb-2 items-end gap-2">
+        <div className="space-y-1 md:max-w-sm w-full">
           <Label>ค้นหา</Label>
           <Input
             value={tempFilter.search}
-            className="w-full"
+            className="md:max-w-sm"
             placeholder="ค้นหา"
             disabled={loading}
             onKeyDown={(e) => {
@@ -116,19 +118,19 @@ const TableListTimesheet = ({ projectId }: IProps) => {
             }}
           />
         </div>
-        <div className="space-y-1 w-full">
-          <Label>วันที่</Label>
-          <DatePickerInput
-            value={tempFilter.date ? new Date(tempFilter.date) : undefined}
-            placeholder="เลือกวันที่"
+        <div className="space-y-1 md:max-w-xs w-full">
+          <Label>วันที่เริ่มต้น - สิ้นสุด</Label>
+          <DateRangePicker
+            selected={tempFilter.date}
             disabled={loading}
-            onChange={(date) => {
-              setTempFilter({ ...tempFilter, date: date?.toISOString() || null });
+            canClear={true}
+            onSelect={(date) => {
+              setTempFilter({ ...tempFilter, date });
             }}
           />
         </div>
         <Button
-          className="max-w-full lg:max-w-30"
+          className="md:max-w-20 w-full"
           type="button"
           onClick={() => fetchData(session?.user?.id!)}
           disabled={loading}

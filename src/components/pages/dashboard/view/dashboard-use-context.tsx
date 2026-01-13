@@ -6,6 +6,7 @@ import { createContext, useContext, useState } from 'react';
 import { fetcher } from '@/lib/fetcher';
 import { IOption } from '@/types/option';
 import { IDashboard } from '@/types/report';
+import { IReportTeam } from '@/types/report/team';
 import { weekDays } from '@/lib/constants/period-calendar';
 
 interface IDashboardContextType {
@@ -17,12 +18,14 @@ interface IDashboardContextType {
   projectOption: IOption[];
   yearOption: IOption[];
   selectYear: number;
+  userInfo: IReportTeam;
   setSelectedMonth: (month: number) => void;
   setLoading: (loading: boolean) => void;
   setProjectId: (projectId: string) => void;
   setDashboardProjectData: (data: IDashboard) => void;
   fetchProjectData: (userId: string, projectId: string) => Promise<void>;
   fetchProjectsOption: () => Promise<void>;
+  fetchUserInfo: (userId: string) => Promise<void>;
   formatHours: (seconds: number) => string;
   setSelectYear: (year: number) => void;
 }
@@ -34,14 +37,13 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [userInfoLoading, setUserInfoLoading] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useState<IReportTeam>(null!);
   const [selectYear, setSelectYear] = useState<number>(today.getFullYear());
   const [dashboardProjectData, setDashboardProjectData] = useState<IDashboard>(null!);
   const [projectOption, setProjectOptions] = useState<IOption[]>([]);
   const [selectedMonth, setSelectedMonth] = useState<number>(today.getMonth());
   const [projectId, setProjectId] = useState<string>(null!);
-  const [weekAnchorDate, setWeekAnchorDate] = useState<Date>(() => {
-    return new Date(today.getFullYear(), selectedMonth, today.getDate());
-  });
 
   const formatHours = (hours: number) => {
     const minutes = Math.floor((hours % 3600) / 60);
@@ -55,7 +57,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
 
   const days = weekDays(selectedMonth);
 
-  const userStartDate = dashboardProjectData?.user?.start_date;
+  const userStartDate = userInfo?.user?.start_date;
 
   const yearOption = Array.from(
     { length: today.getFullYear() - new Date(userStartDate).getFullYear() + 1 },
@@ -121,6 +123,18 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     },
   };
 
+  const fetchUserInfo = async (userId: string) => {
+    setLoading(true);
+    try {
+      const userInfo = await fetcher<IReportTeam>(`${prefix}/api/v1/report/team?user_id=${userId}`);
+
+      setUserInfo(userInfo);
+    } catch (error) {
+      console.error('Error fetching options:', error);
+    }
+    setLoading(false);
+  };
+
   const fetchProjectData = async (userId: string, projectId: string) => {
     setLoading(true);
     try {
@@ -156,6 +170,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
         projectOption,
         yearOption,
         selectYear,
+        userInfo,
         setSelectYear,
         setSelectedMonth,
         setProjectId,
@@ -163,6 +178,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
         setDashboardProjectData,
         fetchProjectData,
         fetchProjectsOption,
+        fetchUserInfo,
         formatHours,
       }}
     >

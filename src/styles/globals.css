@@ -148,3 +148,8 @@ body {
   flex-direction: column;
   padding: calc(var(--spacing) * 4);
 }
+
+[data-range-middle='true'] {
+  background-color: transparent !important;
+  color: #000;
+}
