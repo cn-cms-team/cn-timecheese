@@ -37,7 +37,6 @@ const Tooltips = ({
       </TooltipTrigger>
       <TooltipContent
         avoidCollisions={avoidCollisions}
-        arrowClass={arrowClass}
         side={side || undefined}
         className={cn(contentClass, 'max-w-[400px]')}
       >
