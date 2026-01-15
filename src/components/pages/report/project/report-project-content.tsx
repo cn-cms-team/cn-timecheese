@@ -97,7 +97,7 @@ const ReportProjectContent = () => {
     <div className="flex flex-col gap-3">
       <div className="flex items-end gap-3">
         <div className="w-1/2 lg:w-1/4">
-          <Label className="mb-2">โครงการ</Label>
+          <Label>โครงการ</Label>
           <Dropdown
             value={projectId}
             options={projectOptions}

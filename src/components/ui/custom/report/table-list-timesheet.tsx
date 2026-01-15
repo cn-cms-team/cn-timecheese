@@ -100,7 +100,7 @@ const TableListTimesheet = ({ projectId }: IProps) => {
   return (
     <div className="border rounded-md p-3 w-full shadow grid grid-cols-1">
       <div className="text-base font-semibold mb-4">ประวัติการบันทึกเวลา</div>
-      <header className="flex flex-col md:flex-row mb-2 items-end gap-2">
+      <header className="flex flex-col md:flex-row mb-2 items-end gap-3">
         <div className="space-y-1 md:max-w-sm w-full">
           <Label>ค้นหา</Label>
           <Input
