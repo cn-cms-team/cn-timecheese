@@ -12,41 +12,44 @@ import TableListTimesheet from '@/components/ui/custom/report/table-list-timeshe
 import DonutChartTimesheet from '@/components/ui/custom/report/donut-chart-timesheet';
 
 const DashboardContent = () => {
-  const { data } = useSession();
+  const { data: session } = useSession();
   const {
+    userInfo,
     dashboardProjectData,
     projectOption,
     projectId,
     loading,
     setProjectId,
+    fetchUserInfo,
     fetchProjectData,
     fetchProjectsOption,
   } = useDashboardContext();
 
   useEffect(() => {
-    if (!data?.user?.id) return;
+    if (!session?.user?.id) return;
 
     const init = async () => {
-      if (projectOption.length === 0) {
-        await fetchProjectsOption();
-      }
+      const userId = session?.user?.id;
+      if (!userId) return;
+
+      await Promise.allSettled([fetchUserInfo(userId), fetchProjectsOption()]);
 
       if (projectId) {
-        await fetchProjectData(data.user.id, projectId);
+        await fetchProjectData(userId, projectId);
       }
     };
 
     init();
-  }, [data?.user?.id, projectId]);
+  }, [session?.user?.id, projectId]);
 
   return (
     <div className="w-full gap-4 flex flex-col">
       <div className="border rounded-lg shadow">
         <AvatarDetail
-          name={dashboardProjectData?.user?.full_name || '-'}
-          position={dashboardProjectData?.user?.position || '-'}
-          code={dashboardProjectData?.user?.code || '-'}
-          start_date={dashboardProjectData?.user?.start_date || '-'}
+          name={userInfo?.user ? `${userInfo.user.first_name} ${userInfo.user.last_name}` : '-'}
+          position={userInfo?.user?.position_level?.name ?? '-'}
+          code={userInfo?.user?.code ?? '-'}
+          start_date={userInfo?.user?.start_date ?? '-'}
         />
       </div>
       <DashboardBarChart />

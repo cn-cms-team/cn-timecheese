@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { Calendar } from 'lucide-react';
 import { useForm, useWatch } from 'react-hook-form';
@@ -36,6 +36,7 @@ const TimeSheetForm = ({
   const { projectOptions, taskTypeOptions, getTask, fetchTaskOption, getUserInfo } =
     useTimeSheetContext();
   const [loading, setLoading] = useState(false);
+  const [isAllDay, setIsAllDay] = useState(false);
 
   const selectedDate = startTime
     ? startTime
@@ -154,6 +155,24 @@ const TimeSheetForm = ({
     return hh * 3600 + mm * 60;
   };
 
+  useEffect(() => {
+    if (!selectedDate) return;
+
+    if (isAllDay) {
+      const startOfDay = new Date(selectedDate);
+      startOfDay.setHours(9, 0, 0, 0);
+
+      const endOfDay = new Date(selectedDate);
+      endOfDay.setHours(18, 0, 0, 0);
+
+      form.setValue('start_date', startOfDay);
+      form.setValue('end_date', endOfDay);
+    } else {
+      form.resetField('start_date');
+      form.resetField('end_date');
+    }
+  }, [isAllDay]);
+
   return (
     <div className="flex flex-col w-full p-4 space-y-4">
       <main className="w-full space-y-4">
@@ -186,13 +205,26 @@ const TimeSheetForm = ({
                 )}
               />
             </div>
-            <div className="flex items-center justify-between px-0">
+            <div className="flex items-center gap-2 px-0">
               <div className="flex items-center px-0">
                 <Calendar width={25} strokeWidth={1} />
                 <span className="ml-2 font-semibold text-sm">{`${dayNameTH} ${buddhistFormatDate(
                   data ? data.start_date : startTime,
                   'dd mmmm yyyy'
                 )}`}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Checkbox
+                  checked={isAllDay}
+                  id="is_all_day"
+                  className="cursor-pointer"
+                  onCheckedChange={(checked) => {
+                    setIsAllDay(!!checked);
+                  }}
+                />
+                <Label htmlFor="is_all_day" className="cursor-pointer">
+                  ทั้งวัน
+                </Label>
               </div>
             </div>
             <div className="grid grid-cols-2 items-center gap-2 w-full">
@@ -228,7 +260,6 @@ const TimeSheetForm = ({
                       <TimeInput
                         value={field.value ? field.value : undefined}
                         onChange={(e) => {
-                          console.log(e);
                           const time = e;
                           const hh = time.getHours();
                           const mm = time.getMinutes();

@@ -32,7 +32,7 @@ const ReportTeamDetail = ({ user, projects, loading }: IReportTeam & { loading: 
               width={150}
               height={150}
               alt="Nodata"
-              className="mx-auto opacity-60"
+              className="mx-auto opacity-80"
             />
           </div>
         )}

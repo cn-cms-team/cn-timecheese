@@ -4,6 +4,8 @@ import { ColumnDef } from '@tanstack/react-table';
 import { SortColumn } from '../data-table';
 import { ITimeSheetTable } from '@/types/report';
 import { formatDate } from '@/lib/functions/date-format';
+import { Popover, PopoverContent, PopoverTrigger } from '../../popover';
+import ColumnTooltip from '../data-table/column-tooltip';
 
 type createColumnsProps = {
   data: any;
@@ -92,7 +94,8 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
       size: 300,
       cell: ({ row }) => {
         const { detail } = row.original;
-        return <div className="truncate w-80">{detail || '-'}</div>;
+
+        return <ColumnTooltip>{detail || '-'}</ColumnTooltip>;
       },
     },
   ];

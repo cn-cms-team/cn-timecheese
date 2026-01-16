@@ -11,6 +11,7 @@ import { DAYTASKSTATUS } from '@/lib/constants/period-calendar';
 import { Button } from '@/components/ui/button';
 import { useTimeSheetContext } from '../view/timesheet-context';
 import TimeSheetWeekCalendarBody from './timesheet-week-calendar-body';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 const TimeSheetWeekCalendar = () => {
   const {
@@ -119,7 +120,10 @@ const TimeSheetWeekCalendar = () => {
         </Button>
       </div>
       <div className="flex-1 relative bg-[#F5F6F8] overflow-y-auto max-h-150">
-        <TimeSheetWeekCalendarBody weekDays={weekDays} loading={loading} />
+        <ScrollArea>
+          <TimeSheetWeekCalendarBody weekDays={weekDays} loading={loading} />
+          <ScrollBar orientation="vertical" />
+        </ScrollArea>
       </div>
     </div>
   );
