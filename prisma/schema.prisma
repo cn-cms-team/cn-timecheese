@@ -209,6 +209,10 @@ enum TaskTypeCode {
   OTHER
   COMPANY
   LEAVE
+  HR
+  ACCOUNTING
+  GRAPHIC_DESIGN
+  MEDIA
 }
 
 model Project {
