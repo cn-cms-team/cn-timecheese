@@ -6,7 +6,7 @@ const memberDetailSchema = z.object({
   role: z.string().nonempty('กรุณากรอกตำแหน่ง'),
   day_price: z.number().optional(),
   start_date: z.date('กรุณากรอกวันที่เริ่มต้น').optional(),
-  end_date: z.date('กรุณากรอกวันที่สิ้นสุด').optional(),
+  end_date: z.date().nullable().optional(),
   work_day: z.number().optional(),
   work_hours: z.number().optional(),
   hour_price: z.number().optional(),
@@ -19,7 +19,7 @@ const taskTypeSchema = z.object({
   task_type_id: z.string().nullable(),
   type: z.string(),
   name: z.string(),
-  description: z.string(),
+  description: z.string().nullable().optional(),
 });
 
 const baseSchema = {

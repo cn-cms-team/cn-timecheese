@@ -151,7 +151,7 @@ const TaskTypeCreateDialog = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <div className="flex items-center space-x-2 mt-2">
+                      <div className="flex align-middle space-x-2 mt-2">
                         <Switch
                           checked={field.value}
                           onCheckedChange={field.onChange}

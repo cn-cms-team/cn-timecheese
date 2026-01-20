@@ -73,8 +73,9 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                     })
                     .find((language) => language.value === field.value)?.label
                 : field.value
-                ? (options as IOptions[])?.find((language) => language.value === field.value)?.label
-                : placeholder}
+                  ? (options as IOptions[])?.find((language) => language.value === field.value)
+                      ?.label
+                  : placeholder}
             </div>
             <div className={`ms-auto ${open ? 'rotate-180' : ''}`}>
               <ChevronDownIcon />
@@ -130,6 +131,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                       className={`tc-dropdown-item mt-1 ${
                         item.value === field.value ? 'active' : ''
                       }`}
+                      disabled={item.is_active != null && item.is_active === false}
                       onSelect={() => {
                         onSelect(item.value as string);
                         setOpen(false);

@@ -36,6 +36,7 @@ import { taskTypeOption } from '@/lib/constants/task';
 import { toast } from 'sonner';
 import { IOptionGroups } from '@/types/dropdown';
 import { MAX_LENGTH_20, MAX_LENGTH_25, MAX_LENGTH_255 } from '@/lib/constants/validation';
+import { ModalAddMultipleTask } from './modal-add-multiple-task';
 
 const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
@@ -43,6 +44,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   const [userOptions, setUserOptions] = useState<IOptionGroups[]>([]);
   const [taskOptions, setTaskOptions] = useState<TaskOptions[]>([]);
   const [getConfirmation, Confirmation] = useDialogConfirm();
+  const [open, setOpen] = useState(false);
 
   const schema = id ? editProjectSchema : createProjectSchema;
   const form = useForm<EditProjectSchemaType | CreateProjectSchemaType>({
@@ -167,6 +169,11 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     { label: '', className: 'text-center' },
   ];
 
+  const headersTableTaskMain = [
+    { label: 'หมวดหมู่', className: 'text-center min-w-20' },
+    { label: 'ประเภทงาน', className: 'text-center min-w-20' },
+    { label: '', className: 'text-center' },
+  ];
   const headersTableTask = [
     { label: 'หมวดหมู่', className: 'text-center min-w-20' },
     { label: 'ประเภทงาน', className: 'text-center min-w-20' },
@@ -360,6 +367,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                             placeholder="เลือกสถานะ"
                             options={projectStatusOptions ?? []}
                             field={field}
+                            isError={form.formState.errors.status ? true : false}
                             onSelect={(value) => field.onChange(value)}
                           />
                         </FormControl>
@@ -479,15 +487,19 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
               <TitleGroup title="ประเภทงานตั้งต้น" />
               <ProjectTaskTable
                 form={form}
-                header={headersTableTask}
+                header={headersTableTaskMain}
                 taskOption={taskOptions}
                 typeOption={taskTypeOption}
                 name="main_task_type"
               />
               <div className="flex w-full py-4 px-2">
-                <Button type="button" onClick={handleAddMainTaskType}>
-                  เพิ่มข้อมูล
-                </Button>
+                <ModalAddMultipleTask
+                  form={form}
+                  taskOption={taskOptions}
+                  typeOption={taskTypeOption}
+                  open={open}
+                  onOpenChange={setOpen}
+                />
               </div>
             </div>
             <div className="md:col-span-1">

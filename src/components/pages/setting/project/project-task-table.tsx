@@ -1,5 +1,5 @@
 import { ComboboxForm } from '@/components/ui/custom/combobox';
-import { FormControl, FormField, FormItem } from '@/components/ui/form';
+import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import {
   Table,
@@ -77,20 +77,26 @@ const ProjectTaskTable = ({
                                 name={`${name}.${index}.type`}
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormControl>
-                                      <ComboboxForm
-                                        placeholder="เลือกหมวดหมู่"
-                                        options={typeOption}
-                                        field={field}
-                                        isError={
-                                          form.formState.errors[name]?.[index]?.type ? true : false
-                                        }
-                                        onSelect={(value) => {
-                                          field.onChange(value);
-                                          form.setValue(`${name}.${index}.task_type_id`, null!);
-                                        }}
-                                      />
-                                    </FormControl>
+                                    {name === 'main_task_type' ? (
+                                      <FormLabel className="truncate">{item.type}</FormLabel>
+                                    ) : (
+                                      <FormControl>
+                                        <ComboboxForm
+                                          placeholder="เลือกหมวดหมู่"
+                                          options={typeOption}
+                                          field={field}
+                                          isError={
+                                            form.formState.errors[name]?.[index]?.type
+                                              ? true
+                                              : false
+                                          }
+                                          onSelect={(value) => {
+                                            field.onChange(value);
+                                            form.setValue(`${name}.${index}.task_type_id`, null!);
+                                          }}
+                                        />
+                                      </FormControl>
+                                    )}
                                   </FormItem>
                                 )}
                               />
@@ -102,13 +108,23 @@ const ProjectTaskTable = ({
                                 control={form.control}
                                 name={`${name}.${index}.task_type_id`}
                                 render={({ field }) => {
-                                  const selectedType = form.watch(`${name}.${index}.type`);
-                                  const filteredTask = taskOption.filter(
-                                    (u) => u.type === selectedType
-                                  );
+                                  // const selectedType = form.watch(`${name}.${index}.type`);
+                                  // const filteredTask = taskOption
+                                  //   .filter((u) => u.type === selectedType)
+                                  //   .map((e) => {
+                                  //     return {
+                                  //       ...e,
+                                  //       is_active: fields.some((x) => x.task_type_id === e.value)
+                                  //         ? false
+                                  //         : true,
+                                  //     };
+                                  //   });
                                   return (
                                     <FormItem>
-                                      <FormControl>
+                                      <FormLabel className="truncate w-[150px]">
+                                        {item.name}
+                                      </FormLabel>
+                                      {/* <FormControl>
                                         <ComboboxForm
                                           placeholder={
                                             selectedType ? 'เลือกประเภท' : 'กรุณาเลือกหมวดหมู่'
@@ -127,7 +143,7 @@ const ProjectTaskTable = ({
                                             field.onChange(value);
                                           }}
                                         />
-                                      </FormControl>
+                                      </FormControl> */}
                                     </FormItem>
                                   );
                                 }}
@@ -151,26 +167,28 @@ const ProjectTaskTable = ({
                               />
                             )}
                           </TableCell>
-                          <TableCell>
-                            {
-                              <FormField
-                                control={form.control}
-                                name={`${name}.${index}.description`}
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormControl>
-                                      <Input
-                                        {...field}
-                                        value={field.value ?? ''}
-                                        maxLength={MAX_LENGTH_255}
-                                        onChange={field.onChange}
-                                      />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-                            }
-                          </TableCell>
+                          {name !== 'main_task_type' && (
+                            <TableCell>
+                              {
+                                <FormField
+                                  control={form.control}
+                                  name={`${name}.${index}.description`}
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormControl>
+                                        <Input
+                                          {...field}
+                                          value={field.value ?? ''}
+                                          maxLength={MAX_LENGTH_255}
+                                          onChange={field.onChange}
+                                        />
+                                      </FormControl>
+                                    </FormItem>
+                                  )}
+                                />
+                              }
+                            </TableCell>
+                          )}
                           <TableCell>
                             <Button
                               type="button"
