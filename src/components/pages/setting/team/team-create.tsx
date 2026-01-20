@@ -33,6 +33,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Required } from '@/components/ui/custom/form';
 
 const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
@@ -152,7 +153,10 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="name"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>ชื่อทีม</FormLabel>
+                  <FormLabel>
+                    ชื่อทีม
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       autoComplete="off"
@@ -196,7 +200,10 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="description"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>คำอธิบาย</FormLabel>
+                  <FormLabel>
+                    คำอธิบาย
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <Textarea
                       id="small-form-comments"
