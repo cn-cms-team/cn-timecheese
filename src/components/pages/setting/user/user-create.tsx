@@ -481,7 +481,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 <FormItem className="w-full md:w-1/2">
                   <FormLabel>สถานะการใช้งาน</FormLabel>
                   <FormControl>
-                    <div className="flex items-center space-x-2 mt-2">
+                    <div className="flex align-middle space-x-2 mt-2">
                       <Switch
                         checked={field.value}
                         onCheckedChange={field.onChange}

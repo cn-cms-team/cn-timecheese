@@ -60,9 +60,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = await params;
-    const body = await request.json();
-    const comingLevels = body.data.levels;
+    const [{ id }, body] = await Promise.all([params, request.json()]);
+    const comingLevels: IPositionLevelRequest[] = body.data.levels;
 
     const result = await prisma.$transaction(async (tx) => {
       const existingLevels = await tx.positionLevel.findMany({
@@ -70,47 +69,43 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
         select: { id: true },
       });
 
-      const comingIds = comingLevels
-        .filter((l: IPositionLevelRequest) => l.id)
-        .map((l: IPositionLevelRequest) => l.id);
-      await Promise.all(
-        comingLevels
-          .filter((l: IPositionLevelRequest) => l.id)
-          .map((level: IPositionLevelRequest) =>
-            tx.positionLevel.update({
-              where: { id: level.id },
-              data: {
-                ord: level.ord,
-                name: level.name,
-                description: level.description || null,
-              },
-            })
-          )
-      );
+      const existingIds = new Set(existingLevels.map((l) => l.id));
+      const comingIds = new Set(comingLevels.filter((l) => l.id).map((l) => l.id!));
 
-      await Promise.all(
-        comingLevels
-          .filter((l: IPositionLevelRequest) => !l.id)
-          .map((level: IPositionLevelRequest) =>
-            tx.positionLevel.create({
-              data: {
+      const toUpdate = comingLevels.filter((l) => l.id && existingIds.has(l.id));
+      const toCreate = comingLevels.filter((l) => !l.id);
+      const toDeleteIds = [...existingIds].filter((id) => !comingIds.has(id));
+
+      await Promise.all([
+        // Update existing levels
+        ...toUpdate.map((level) =>
+          tx.positionLevel.update({
+            where: { id: level.id },
+            data: {
+              ord: level.ord,
+              name: level.name,
+              description: level.description || null,
+            },
+          })
+        ),
+        // Create new levels
+        toCreate.length > 0
+          ? tx.positionLevel.createMany({
+              data: toCreate.map((level) => ({
                 position_id: id,
                 ord: level.ord,
                 name: level.name,
                 description: level.description || null,
-              },
+              })),
             })
-          )
-      );
-
-      const removedLevelIds = existingLevels
-        .map((l) => l.id)
-        .filter((id) => !comingIds.includes(id));
-      for (const levelId of removedLevelIds) {
-        await tx.positionLevel.delete({
-          where: { id: levelId },
-        });
-      }
+          : Promise.resolve(),
+        // Delete removed levels in batch
+        toDeleteIds.length > 0
+          ? tx.positionLevel.deleteMany({
+              where: { id: { in: toDeleteIds } },
+            })
+          : Promise.resolve(),
+      ]);
 
       return tx.position.update({
         where: { id },

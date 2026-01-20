@@ -18,7 +18,11 @@ export const TaskTypeCode = {
   IT: 'IT',
   OTHER: 'OTHER',
   COMPANY: 'COMPANY',
-  LEAVE: 'LEAVE'
+  LEAVE: 'LEAVE',
+  HR: 'HR',
+  ACCOUNTING: 'ACCOUNTING',
+  GRAPHIC_DESIGN: 'GRAPHIC_DESIGN',
+  MEDIA: 'MEDIA'
 } as const
 
 export type TaskTypeCode = (typeof TaskTypeCode)[keyof typeof TaskTypeCode]
