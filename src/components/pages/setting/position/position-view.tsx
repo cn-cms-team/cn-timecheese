@@ -45,9 +45,9 @@ const PositionViewDetail = ({
       <div className="w-full px-6 py-5 ">
         <TitleGroup title="ข้อมูลตำแหน่ง" />
         <div className="flex flex-col gap-5 mt-4">
-          <LabelGroup label="ชื่อตำแหน่ง" value={positionData?.name} />
+          <LabelGroup label="ชื่อตำแหน่ง" value={positionData?.name || '-'} />
           <LabelGroup label="คำอธิบาย">
-            <span className="whitespace-break-spaces">{positionData?.description}</span>
+            <span className="whitespace-break-spaces">{positionData?.description || '-'}</span>
           </LabelGroup>
         </div>
       </div>
