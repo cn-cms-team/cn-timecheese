@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { TableRow, TableCell } from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
 import { MAX_LENGTH_100, MAX_LENGTH_255 } from '@/lib/constants/validation';
+import { IPositionLevel } from '@/types/setting/position';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical, Trash2 } from 'lucide-react';
@@ -16,10 +17,11 @@ interface Props<T extends FieldValues> {
   id: string;
   index: number;
   form: UseFormReturn<T>;
+  data: IPositionLevel[];
   onDelete: (index: number, name: string) => void;
 }
 
-const SortableRow = <T extends FieldValues>({ id, index, form, onDelete }: Props<T>) => {
+const SortableRow = <T extends FieldValues>({ id, index, form, data, onDelete }: Props<T>) => {
   const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
     id,
   });
@@ -28,6 +30,8 @@ const SortableRow = <T extends FieldValues>({ id, index, form, onDelete }: Props
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  const isUsed = (index: number) => data[index]?.is_used;
 
   useEffect(() => {
     if (isDragging) {
@@ -96,14 +100,17 @@ const SortableRow = <T extends FieldValues>({ id, index, form, onDelete }: Props
         />
       </TableCell>
       <TableCell className="w-10">
-        <Button
-          className="bg-transparent text-destructive hover:bg-transparent hover:text-destructive"
-          variant="outline"
-          type="button"
-          onClick={() => onDelete(index, form.getValues(`levels.${index}.name` as Path<T>))}
-        >
-          <Trash2 />
-        </Button>
+        {
+          <Button
+            className="bg-transparent text-destructive hover:bg-transparent hover:text-destructive"
+            variant="outline"
+            type="button"
+            disabled={isUsed(index)}
+            onClick={() => onDelete(index, form.getValues(`levels.${index}.name` as Path<T>))}
+          >
+            <Trash2 />
+          </Button>
+        }
       </TableCell>
     </TableRow>
   );

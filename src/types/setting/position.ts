@@ -3,6 +3,7 @@ export type IPositionLevel = {
   name: string;
   description?: string;
   ord: number;
+  is_used?: boolean;
 };
 
 export type IPosition = {

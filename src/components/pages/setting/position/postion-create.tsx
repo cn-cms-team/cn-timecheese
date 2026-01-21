@@ -10,7 +10,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   createPositionSchema,
@@ -31,6 +31,7 @@ import PositionFormTable from './position-form-table/position-form-table';
 const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
   const { setIsLoading } = useLoading();
+  const [data, setData] = useState<IPositionLevelRequest[]>([]);
   const schema = id ? editPositionSchema : createPositionSchema;
   const form = useForm<CreatePositionSchemaType | EditPositionSchemaType>({
     resolver: zodResolver(schema),
@@ -54,6 +55,7 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
         const result = await response.json();
         if (response.ok) {
           const positionData = result.data;
+          setData(positionData.levels);
           form.reset({
             name: positionData.name ?? '',
             description: positionData.description || '',
@@ -174,7 +176,7 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
             </div>
             <div className="w-full mt-4">
               <TitleGroup title="ระดับตำแหน่ง" />
-              <PositionFormTable form={form} />
+              <PositionFormTable data={data} form={form} />
             </div>
           </div>
         </form>

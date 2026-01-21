@@ -13,7 +13,7 @@ import {
 } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import SortableRow from '../position-sortable-row';
+import SortableRow from './position-sortable-row';
 import { useFieldArray, UseFormReturn } from 'react-hook-form';
 import { CreatePositionSchemaType, EditPositionSchemaType } from '../schema';
 import { Button } from '@/components/ui/button';
@@ -23,12 +23,14 @@ import router from 'next/router';
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { IPositionLevel } from '@/types/setting/position';
 
 interface IProps {
   form: UseFormReturn<CreatePositionSchemaType | EditPositionSchemaType>;
+  data: IPositionLevel[];
 }
 
-const PositionFormTable = ({ form }: IProps) => {
+const PositionFormTable = ({ form, data }: IProps) => {
   const [confirmState, setConfirmState] = useState<{
     title: string;
     message: string;
@@ -106,6 +108,7 @@ const PositionFormTable = ({ form }: IProps) => {
                       index={index}
                       form={form}
                       onDelete={onDeleteLevel}
+                      data={data}
                     />
                   ))}
                 </SortableContext>
