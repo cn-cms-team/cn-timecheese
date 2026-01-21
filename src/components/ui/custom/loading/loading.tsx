@@ -7,14 +7,14 @@ const Loading = () => {
   const { isLoading } = useLoading();
   if (!isLoading) return <></>;
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-[#ffffff24] backdrop-blur-sm z-999">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-[#ffffff24] backdrop-blur-sm z-999 loading-wrapper">
       <div className="loader-container">
         <svg className="mouse-shadow-group" width="40" height="10">
-          <ellipse className="shadow" cx="20" cy="5" rx="18" ry="5" />
+          <ellipse className="shadow-loading" cx="20" cy="5" rx="18" ry="5" />
         </svg>
 
         <svg className="cheese-shadow">
-          <ellipse className="shadow" cx="15" cy="5" rx="15" ry="5" />
+          <ellipse className="shadow-loading" cx="15" cy="5" rx="15" ry="5" />
         </svg>
 
         <svg className="cheese-group" viewBox="0 0 50 50">

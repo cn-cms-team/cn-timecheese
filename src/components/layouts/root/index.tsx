@@ -6,7 +6,7 @@ import { swrConfig } from '@/lib/constants/swr-config';
 
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from './app-sidebar';
-import { AppProvider, useLoading } from '@/components/context/app-context';
+import { AppProvider } from '@/components/context/app-context';
 import { Toaster } from '@/components/ui/sonner';
 import Loading from '@/components/ui/custom/loading/loading';
 
