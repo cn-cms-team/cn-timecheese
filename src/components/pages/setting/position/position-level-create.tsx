@@ -6,6 +6,7 @@ import { CreatePositionSchemaType, EditPositionSchemaType } from './schema';
 import { Control } from 'react-hook-form';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { MAX_LENGTH_100, MAX_LENGTH_255 } from '@/lib/constants/validation';
+import { Button } from '@/components/ui/button';
 interface Props {
   index: number;
   control: Control<CreatePositionSchemaType | EditPositionSchemaType>;
@@ -25,8 +26,7 @@ const PositionLevelCreate = ({ index, control, onRemove, totalFields, is_used = 
         {totalFields > 1 && (
           <Tooltip delayDuration={100}>
             <TooltipTrigger asChild>
-              <button
-                type="button"
+              <Button
                 disabled={is_used}
                 onClick={onRemove}
                 className={`${
@@ -36,7 +36,7 @@ const PositionLevelCreate = ({ index, control, onRemove, totalFields, is_used = 
                 }`}
               >
                 <Trash2 size={20} />
-              </button>
+              </Button>
             </TooltipTrigger>
             {is_used && (
               <TooltipContent>

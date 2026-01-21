@@ -3,6 +3,7 @@ import PositionLevelView from './position-level-view';
 import { IPosition } from '@/types/setting/position';
 import { LabelGroup } from '@/components/ui/custom/form';
 import { TitleGroup } from '@/components/ui/custom/cev';
+import { useLoading } from '@/components/context/app-context';
 
 const PositionViewDetail = ({
   id,
@@ -11,10 +12,12 @@ const PositionViewDetail = ({
   id: string;
   onDataLoaded: (name: string) => void;
 }): React.ReactNode => {
+  const { setIsLoading } = useLoading();
   const [positionData, setPositionData] = useState<IPosition>();
   useEffect(() => {
     const fetchPositionData = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(`/api/v1/setting/position/${id}`, { method: 'GET' });
         if (response.ok) {
           const result = await response.json();
@@ -24,6 +27,8 @@ const PositionViewDetail = ({
         }
       } catch (error) {
         console.error('Failed to fetch user data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (id) {

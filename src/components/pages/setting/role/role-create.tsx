@@ -28,6 +28,8 @@ import { createEditRoleSchema, CreateEditRoleSchemaType } from './schema';
 import { useRouter } from 'next/navigation';
 import TitleGroup from '@/components/ui/custom/cev/title-group';
 import { Required } from '@/components/ui/custom/form';
+import { useLoading } from '@/components/context/app-context';
+import { Button } from '@/components/ui/button';
 
 type OutputItem = {
   code: string;
@@ -54,13 +56,10 @@ function transformData(data: IRolePermissions[]): OutputItem[] {
 
 const RoleCreate = ({ id }: { id?: string }) => {
   const router = useRouter();
+  const { setIsLoading } = useLoading();
   const [rolePermissions, setRolePermissions] = React.useState<IRolePermissions[]>([]);
   const [openRows, setOpenRows] = React.useState<Record<string, boolean>>({});
   const isEdit = !!id;
-  // const { data: session } = useSession();
-  // if (!session) {
-  //   throw new Error('Unauthorized');
-  // }
 
   const form = useForm({
     resolver: zodResolver(createEditRoleSchema),
@@ -73,21 +72,28 @@ const RoleCreate = ({ id }: { id?: string }) => {
 
   useEffect(() => {
     const fetchRole = async () => {
-      const url = isEdit
-        ? `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role/${id}`
-        : `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role/new`;
+      try {
+        setIsLoading(true);
+        const url = isEdit
+          ? `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role/${id}`
+          : `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role/new`;
 
-      const res = await fetch(url);
-      const result = await res.json();
-      const data = result.data;
+        const res = await fetch(url);
+        const result = await res.json();
+        const data = result.data;
 
-      setRolePermissions(data.permissions ?? []);
+        setRolePermissions(data.permissions ?? []);
 
-      form.reset({
-        name: data.name ?? '',
-        description: data.description ?? '',
-        permissions: transformData(data.permissions ?? []),
-      });
+        form.reset({
+          name: data.name ?? '',
+          description: data.description ?? '',
+          permissions: transformData(data.permissions ?? []),
+        });
+      } catch (error) {
+        console.log(error instanceof Error ? error.message : 'Unknown error');
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchRole();
@@ -103,6 +109,7 @@ const RoleCreate = ({ id }: { id?: string }) => {
 
   const onSubmit = async (values: CreateEditRoleSchemaType) => {
     try {
+      setIsLoading(true);
       let fetchUrl = '/api/v1/setting/role';
       if (id) {
         fetchUrl = `/api/v1/setting/role/${id}`;
@@ -127,7 +134,7 @@ const RoleCreate = ({ id }: { id?: string }) => {
     } catch (err) {
       console.error('Error saving role:', err);
     } finally {
-      console.log('Finally block executed');
+      setIsLoading(false);
     }
   };
 
@@ -428,12 +435,9 @@ const RoleCreate = ({ id }: { id?: string }) => {
                                   <div className="flex items-center space-x-2">
                                     <span>{permissions.name}</span>
                                     {(permissions.children ?? []).length > 0 && (
-                                      <button
-                                        type="button"
-                                        className="flex items-center justify-center"
-                                      >
+                                      <Button className="flex items-center justify-center">
                                         <ChevronDown className="h-4 w-4" />
-                                      </button>
+                                      </Button>
                                     )}
                                   </div>
                                 </TableCell>
@@ -451,7 +455,7 @@ const RoleCreate = ({ id }: { id?: string }) => {
                                   const permissionsToShow =
                                     permissions.children && permissions.children.length > 0
                                       ? getAllChildPermissions(permissions)
-                                      : permissions.modulePermission ?? [];
+                                      : (permissions.modulePermission ?? []);
                                   return checkBoxColumnKey.map((code) => (
                                     <TableCell
                                       key={code}

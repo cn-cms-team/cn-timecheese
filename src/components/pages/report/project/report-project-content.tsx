@@ -76,8 +76,8 @@ const ReportProjectContent = () => {
 
   useEffect(() => {
     const fetchProjectData = async () => {
-      setIsLoading(true);
       try {
+        setIsLoading(true);
         const projectData = await fetcher<IReportProject>(
           `${prefix}/api/v1/report/project?project_id=${projectId}&member_id=${memberId}`
         );

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { renderByPermission } from '@/lib/functions/ui-manage';
 import { EModules } from '@/lib/constants/module';
-import { useAccount } from '@/components/context/app-context';
+import { useAccount, useLoading } from '@/components/context/app-context';
 import { useState } from 'react';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 
@@ -37,6 +37,8 @@ const ProjectViewButton = ({
 
 const ProjectView = ({ id }: { id: string }) => {
   const router = useRouter();
+  const { setIsLoading } = useLoading();
+
   const [projectName, setProjectName] = useState<string>('');
   const [confirmState, setConfirmState] = useState<{
     title: string;
@@ -64,6 +66,7 @@ const ProjectView = ({ id }: { id: string }) => {
           router.push(`/setting/project/${id}/edit`);
         }
       } else {
+        setIsLoading(true);
         setConfirmState({
           title: 'ลบข้อมูล',
           message: `คุณยืนยันที่จะลบข้อมูลโครงการ : ${projectName} ใช่หรือไม่ ?`,
@@ -86,6 +89,8 @@ const ProjectView = ({ id }: { id: string }) => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
