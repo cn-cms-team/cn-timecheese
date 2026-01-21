@@ -22,6 +22,7 @@ import { id } from 'date-fns/locale';
 import router from 'next/router';
 import { toast } from 'sonner';
 import { useState } from 'react';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 interface IProps {
   form: UseFormReturn<CreatePositionSchemaType | EditPositionSchemaType>;
@@ -42,7 +43,6 @@ const PositionFormTable = ({ form }: IProps) => {
   const [getConfirmation, Confirmation] = useDialogConfirm();
 
   const onDeleteLevel = async (index: number, name: string) => {
-    // try {
     const level = form.getValues(`levels.${index}`);
     if (!level.id) {
       remove(index);
@@ -76,41 +76,44 @@ const PositionFormTable = ({ form }: IProps) => {
   );
   return (
     <>
-      <div className="border rounded-lg min-w-[500px] overflow-auto">
-        <DndContext
-          collisionDetection={closestCenter}
-          modifiers={[restrictToVerticalAxis]}
-          onDragEnd={handleDragEnd}
-          sensors={sensors}
-        >
-          <Table className="w-full">
-            <TableHeader>
-              <TableRow className="bg-[#f2f4f7]">
-                <TableHead className="w-10"></TableHead>
-                <TableHead>ระดับ</TableHead>
-                <TableHead>ชื่อระดับ</TableHead>
-                <TableHead>คำอธิบาย</TableHead>
-                <TableHead>จัดการ</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <SortableContext
-                items={fields.map((f) => f.id)}
-                strategy={verticalListSortingStrategy}
-              >
-                {fields.map((field, index) => (
-                  <SortableRow
-                    key={field.id}
-                    id={field.id}
-                    index={index}
-                    form={form}
-                    onDelete={onDeleteLevel}
-                  />
-                ))}
-              </SortableContext>
-            </TableBody>
-          </Table>
-        </DndContext>
+      <div className="border rounded-lg overflow-x-auto overflow-y-auto max-w-full">
+        <ScrollArea>
+          <DndContext
+            collisionDetection={closestCenter}
+            modifiers={[restrictToVerticalAxis]}
+            onDragEnd={handleDragEnd}
+            sensors={sensors}
+          >
+            <Table className="min-w-[1000px]">
+              <TableHeader>
+                <TableRow className="bg-[#f2f4f7]">
+                  <TableHead className="w-10"></TableHead>
+                  <TableHead>ระดับ</TableHead>
+                  <TableHead>ชื่อระดับ</TableHead>
+                  <TableHead>คำอธิบาย</TableHead>
+                  <TableHead>จัดการ</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <SortableContext
+                  items={fields.map((f) => f.id)}
+                  strategy={verticalListSortingStrategy}
+                >
+                  {fields.map((field, index) => (
+                    <SortableRow
+                      key={field.id}
+                      id={field.id}
+                      index={index}
+                      form={form}
+                      onDelete={onDeleteLevel}
+                    />
+                  ))}
+                </SortableContext>
+              </TableBody>
+            </Table>
+          </DndContext>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </div>
       <Button className="mt-2" type="button" onClick={() => append({ name: '', description: '' })}>
         เพิ่มระดับตำแหน่ง
