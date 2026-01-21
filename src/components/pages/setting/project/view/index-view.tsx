@@ -1,6 +1,6 @@
 'use client';
 import ModuleLayout from '@/components/layouts/ModuleLayout';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -10,9 +10,10 @@ import { ProjectList } from '../project-list';
 import { IProject } from '@/types/setting/project';
 import useSWR from 'swr';
 import { fetcher } from '@/lib/fetcher';
-import { Account, useAccount } from '@/components/context/app-context';
+import { Account, useAccount, useLoading } from '@/components/context/app-context';
 import { EModules } from '@/lib/constants/module';
 import { renderByPermission } from '@/lib/functions/ui-manage';
+import { toast } from 'sonner';
 
 const AddProjectButton = ({ account }: { account: Account }): React.ReactNode => {
   const router = useRouter();
@@ -31,6 +32,7 @@ const AddProjectButton = ({ account }: { account: Account }): React.ReactNode =>
 
 const ProjectListView = () => {
   const { account } = useAccount();
+  const { setIsLoading } = useLoading();
   const router = useRouter();
   const fetchUsersUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/project`;
   const { data, error, isLoading, mutate } = useSWR(fetchUsersUrl, (url) =>
@@ -49,10 +51,24 @@ const ProjectListView = () => {
   const [getConfirmation, Confirmation] = useDialogConfirm();
 
   const deleteProject = async (id: string) => {
-    const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/project/${id}`;
-    await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
-      router.push('/setting/project');
-    });
+    try {
+      setIsLoading(true);
+      const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/project/${id}`;
+      await fetch(fetchUrl, { method: 'DELETE' }).then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          toast(data.message);
+          return;
+        } else {
+          toast(data.message);
+          router.push('/setting/project');
+        }
+      });
+    } catch (error) {
+      console.log(error instanceof Error ? error.message : 'Unknown error');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleOpenDialog = async (mode: 'edit' | 'delete', id: string, code: string) => {
@@ -91,6 +107,13 @@ const ProjectListView = () => {
     onOpenDialog: handleOpenDialog,
   });
 
+  useEffect(() => {
+    if (isLoading) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [isLoading]);
   if (error) {
     router.replace('/404');
     return null;

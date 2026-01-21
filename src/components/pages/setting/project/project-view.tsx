@@ -1,5 +1,6 @@
 'use client';
 
+import { useLoading } from '@/components/context/app-context';
 import { TitleGroup } from '@/components/ui/custom/cev';
 import LabelGroup from '@/components/ui/custom/form/label-group';
 import {
@@ -23,10 +24,12 @@ const ProjectViewDetail = ({
   id: string;
   onDataLoaded: (name: string) => void;
 }): React.ReactNode => {
+  const { setIsLoading } = useLoading();
   const [projectData, setProjectData] = useState<IProject>();
   useEffect(() => {
     const fetchProjectData = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(`/api/v1/setting/project/${id}`, { method: 'GET' });
         if (response.ok) {
           const result = await response.json();
@@ -36,6 +39,8 @@ const ProjectViewDetail = ({
         }
       } catch (error) {
         console.error('Failed to fetch user data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (id) {

@@ -24,11 +24,13 @@ import { IPositionLevelRequest } from '@/types/setting/position';
 import { toast } from 'sonner';
 import { MAX_LENGTH_100, MAX_LENGTH_255 } from '@/lib/constants/validation';
 import { TitleGroup } from '@/components/ui/custom/cev';
+import { useLoading } from '@/components/context/app-context';
 
 import PositionFormTable from './position-form-table/position-form-table';
 
 const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
+  const { setIsLoading } = useLoading();
   const schema = id ? editPositionSchema : createPositionSchema;
   const form = useForm<CreatePositionSchemaType | EditPositionSchemaType>({
     resolver: zodResolver(schema),
@@ -47,6 +49,7 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
   useEffect(() => {
     const fetchPositionData = async (positionId: string) => {
       try {
+        setIsLoading(true);
         const response = await fetch(`/api/v1/setting/position/${positionId}`, { method: 'GET' });
         const result = await response.json();
         if (response.ok) {
@@ -63,6 +66,8 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
         }
       } catch (error) {
         console.error('Failed to fetch position data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (id) {
@@ -72,6 +77,7 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
 
   const onSubmit = async (values: CreatePositionSchemaType | EditPositionSchemaType) => {
     try {
+      setIsLoading(true);
       let fetchUrl = '/api/v1/setting/position';
       let method = 'POST';
       if (id) {
@@ -107,7 +113,7 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
     } catch {
       toast('An unexpected error occurred. Please try again.');
     } finally {
-      console.log('Finally block executed');
+      setIsLoading(false);
     }
   };
 

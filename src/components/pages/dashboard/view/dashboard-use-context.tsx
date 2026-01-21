@@ -8,6 +8,7 @@ import { IOption } from '@/types/option';
 import { IDashboard } from '@/types/report';
 import { IReportTeam } from '@/types/report/team';
 import { weekDays } from '@/lib/constants/period-calendar';
+import { useLoading } from '@/components/context/app-context';
 
 interface IDashboardContextType {
   loading: boolean;
@@ -35,7 +36,7 @@ const DashboardContext = createContext<IDashboardContextType | undefined>(undefi
 const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const today = new Date();
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
-
+  const { setIsLoading } = useLoading();
   const [loading, setLoading] = useState<boolean>(false);
   const [userInfoLoading, setUserInfoLoading] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IReportTeam>(null!);
@@ -124,20 +125,24 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const fetchUserInfo = async (userId: string) => {
-    setLoading(true);
     try {
+      setLoading(true);
+      setIsLoading(true);
       const userInfo = await fetcher<IReportTeam>(`${prefix}/api/v1/report/team?user_id=${userId}`);
 
       setUserInfo(userInfo);
     } catch (error) {
       console.error('Error fetching options:', error);
+    } finally {
+      setIsLoading(false);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const fetchProjectData = async (userId: string, projectId: string) => {
-    setLoading(true);
     try {
+      setLoading(true);
+      setIsLoading(true);
       const dashboardData = await fetcher<IDashboard>(
         `${prefix}/api/v1/dashboard?project_id=${projectId}&member_id=${userId}`
       );
@@ -145,8 +150,10 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
       setDashboardProjectData(dashboardData);
     } catch (error) {
       console.error('Error fetching options:', error);
+    } finally {
+      setIsLoading(false);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const fetchProjectsOption = async () => {

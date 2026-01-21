@@ -8,13 +8,16 @@ import { renderByPermission } from '@/lib/functions/ui-manage';
 import { useAccount } from '@/components/context/app-context';
 import { EModules } from '@/lib/constants/module';
 import { toast } from 'sonner';
+import { useLoading } from '@/components/context/app-context';
 
 const UserViewButton = ({ id }: { id: string }): React.ReactNode => {
   const { account } = useAccount();
+  const { setIsLoading } = useLoading();
   const router = useRouter();
   const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user/${id}`;
   const deleteUser = async () => {
     try {
+      setIsLoading(true);
       await fetch(fetchUrl, { method: 'DELETE' }).then(async (res) => {
         const data = await res.json();
         if (!res.ok) {
@@ -27,6 +30,8 @@ const UserViewButton = ({ id }: { id: string }): React.ReactNode => {
       });
     } catch (error) {
       console.log(error instanceof Error ? error.message : 'Unknown error');
+    } finally {
+      setIsLoading(false);
     }
   };
   const canEdit = renderByPermission(account, EModules.ADMIN_USER, 'EDIT');

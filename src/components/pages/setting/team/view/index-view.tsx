@@ -11,7 +11,7 @@ import { TeamList } from '../team-list';
 import { toast } from 'sonner';
 import useSWR from 'swr';
 import { fetcher } from '@/lib/fetcher';
-import { Account, useAccount } from '@/components/context/app-context';
+import { Account, useAccount, useLoading } from '@/components/context/app-context';
 import { renderByPermission } from '@/lib/functions/ui-manage';
 import { EModules } from '@/lib/constants/module';
 
@@ -33,6 +33,7 @@ const TeamButton = ({ account }: { account: Account }): React.ReactNode => {
 const TeamListView = () => {
   const { account } = useAccount();
   const router = useRouter();
+  const { setIsLoading } = useLoading();
   const fetchTeamUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/team`;
   const { data, error, isLoading, mutate } = useSWR(fetchTeamUrl, (url) => fetcher<ITeam[]>(url));
 
@@ -50,6 +51,7 @@ const TeamListView = () => {
   const deleteTeam = async (id: string) => {
     const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/team/${id}`;
     try {
+      setIsLoading(true);
       const response = await fetch(fetchUrl, {
         method: 'DELETE',
       });
@@ -60,6 +62,8 @@ const TeamListView = () => {
       }
     } catch {
       toast('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
   const handleOpenDialog = async (mode: 'edit' | 'delete', id: string, team: { name: string }) => {
@@ -97,6 +101,15 @@ const TeamListView = () => {
     account: account,
     onOpenDialog: handleOpenDialog,
   });
+
+  useEffect(() => {
+    if (isLoading) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [isLoading]);
+
   if (error) {
     router.replace('/404');
     return null;

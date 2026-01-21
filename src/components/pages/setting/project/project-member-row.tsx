@@ -139,7 +139,7 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
               <FormControl>
                 <DatePickerInput
                   {...field}
-                  value={field.value}
+                  value={field.value ? new Date(field.value) : undefined}
                   placeholder="วันที่สิ้นสุด"
                   onChange={field.onChange}
                 />
@@ -164,7 +164,6 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
       </TableCell>
       <TableCell>
         <Button
-          type="button"
           variant={'ghost'}
           disabled={isUsing}
           onClick={() => {

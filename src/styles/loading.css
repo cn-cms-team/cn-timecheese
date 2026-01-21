@@ -1,0 +1,209 @@
+.loading-wrapper .loader-container {
+  width: 300px;
+  height: 120px;
+  position: relative;
+}
+.loading-wrapper .shadow-loading {
+  fill: rgba(0, 0, 0, 0.2);
+  transform: scale(1, 0.5);
+}
+.loading-wrapper .mouse-shadow-group {
+  position: absolute;
+  left: 5px;
+  bottom: 20px;
+  animation: shadow-follow 4s infinite linear;
+}
+.loading-wrapper .cheese-shadow {
+  position: absolute;
+  right: 25px;
+  bottom: 22px;
+  width: 30px;
+  height: 10px;
+  animation: cheese-fade 4s infinite linear;
+}
+
+/* Cheese & Crumbs Group */
+.loading-wrapper .cheese-group {
+  position: absolute;
+  right: 20px;
+  bottom: 30px;
+  width: 40px;
+  height: 40px;
+}
+.loading-wrapper .cheese-body {
+  animation: cheese-fade 4s infinite linear;
+}
+.loading-wrapper .crumb {
+  opacity: 0;
+  fill: #ffd700;
+}
+
+/* Mouse Group */
+.loading-wrapper .mouse-wrapper {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  width: 50px;
+  height: 30px;
+  /* Main movement across the screen */
+  animation: move-across 4s infinite linear;
+}
+.loading-wrapper .mouse-character {
+  transform-origin: center bottom;
+  /* Bouncy walk cycle and chewing squash/stretch */
+  animation:
+    bounce-walk 0.5s infinite alternate ease-in-out,
+    chew-action 4s infinite linear;
+}
+
+/* Mouse Parts */
+.loading-wrapper .mouse-body {
+  fill: #999;
+}
+.loading-wrapper .mouse-ear {
+  fill: #777;
+}
+.loading-wrapper .mouse-tail {
+  fill: none;
+  stroke: #999;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.loading-wrapper .mouse-eye {
+  fill: black;
+}
+
+/* ----- ANIMATIONS ----- */
+
+/* 1. Move Mouse Across Screen */
+@keyframes move-across {
+  0%,
+  5% {
+    transform: translateX(0) scaleX(1);
+  } /* Wait */
+  40% {
+    transform: translateX(190px) scaleX(1);
+  } /* Arrive at cheese */
+  60% {
+    transform: translateX(190px) scaleX(1);
+  } /* Finish eating */
+  65% {
+    transform: translateX(190px) scaleX(-1);
+  } /* Turn */
+  95%,
+  100% {
+    transform: translateX(0) scaleX(-1);
+  } /* Walk back */
+}
+
+/* 2. Bouncy Walk Cycle (Up and Down) */
+@keyframes bounce-walk {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
+
+/* 3. Chewing Action (Squash & Stretch) - Overrides walk bounce */
+@keyframes chew-action {
+  0%,
+  40% {
+    transform: scale(1, 1);
+  } /* Walking normally */
+  42% {
+    transform: scale(1.1, 0.9) translateY(2px);
+  } /* Nom */
+  45% {
+    transform: scale(0.9, 1.1) translateY(-2px);
+  } /* Nom */
+  48% {
+    transform: scale(1.1, 0.9) translateY(2px);
+  } /* Nom */
+  51% {
+    transform: scale(0.9, 1.1) translateY(-2px);
+  } /* Nom */
+  54% {
+    transform: scale(1, 1);
+  } /* Done chewing */
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+/* 4. Shadow Follows Mouse */
+@keyframes shadow-follow {
+  0%,
+  5% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  40%,
+  60% {
+    transform: translateX(190px);
+    opacity: 1;
+  }
+  65% {
+    transform: translateX(190px);
+    opacity: 1;
+  }
+  95%,
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* 5. Cheese Disappears */
+@keyframes cheese-fade {
+  0%,
+  45% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0;
+    transform: scale(0.5);
+  } /* Eaten! */
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  } /* Reset */
+}
+
+/* 6. Crumbs Explode */
+@keyframes crumb-explode {
+  0%,
+  45% {
+    opacity: 0;
+    transform: translate(0, 0) scale(1);
+  }
+  48% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;
+    transform: var(--dest) scale(0);
+  } /* Fly to destination */
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Apply crumb animation with different directions */
+.loading-wrapper .c1 {
+  --dest: translate(-15px, -15px);
+  animation: crumb-explode 4s infinite linear;
+}
+.loading-wrapper .c2 {
+  --dest: translate(0px, -20px);
+  animation: crumb-explode 4s infinite linear;
+}
+.loading-wrapper .c3 {
+  --dest: translate(15px, -15px);
+  animation: crumb-explode 4s infinite linear;
+}

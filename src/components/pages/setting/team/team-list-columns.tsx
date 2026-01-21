@@ -16,7 +16,7 @@ import { EModules } from '@/lib/constants/module';
 const nameColumn = SortColumn<ITeam>('name', 'ชื่อทีม');
 const descriptionColumn = SortColumn<ITeam>('description', 'คำอธิบาย');
 const usedCountColumn = SortColumn<ITeam>('used_count', 'จำนวนผู้ใช้งาน', 'center');
-const activeColumn = SortColumn<ITeam>('is_active', 'สถานะ');
+const activeColumn = SortColumn<ITeam>('is_active', 'สถานะ', 'center');
 const actionColumn = ActionColumn<ITeam>('actions', 'จัดการ');
 type createColumnsProps = {
   account: Account;
@@ -58,7 +58,7 @@ export const createColumns = ({
       cell: ({ row }) => {
         const { is_active } = row.original;
         return (
-          <div>
+          <div className="text-center">
             {is_active ? (
               <BadgeTable text="ใช้งาน" type="activate" />
             ) : (

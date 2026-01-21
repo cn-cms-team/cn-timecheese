@@ -23,7 +23,6 @@ const ReportTeamView = () => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
 
   useEffect(() => {
-    setIsLoading(true);
     const fetchTeamsOptions = async () => {
       try {
         const user = await fetcher<(IOption & UserAvatarProps)[]>(

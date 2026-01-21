@@ -35,12 +35,14 @@ import { TitleGroup } from '@/components/ui/custom/cev';
 import { taskTypeOption } from '@/lib/constants/task';
 import { toast } from 'sonner';
 import { IOptionGroups } from '@/types/dropdown';
-import { MAX_LENGTH_20, MAX_LENGTH_25, MAX_LENGTH_255 } from '@/lib/constants/validation';
+import { MAX_LENGTH_25, MAX_LENGTH_255 } from '@/lib/constants/validation';
 import { ModalAddMultipleTask } from './modal-add-multiple-task';
+import { useLoading } from '@/components/context/app-context';
 
 const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
   const { data: session } = useSession();
+  const { setIsLoading } = useLoading();
   const [userOptions, setUserOptions] = useState<IOptionGroups[]>([]);
   const [taskOptions, setTaskOptions] = useState<TaskOptions[]>([]);
   const [getConfirmation, Confirmation] = useDialogConfirm();
@@ -83,6 +85,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   useEffect(() => {
     const fetchProjectData = async (projectId: string) => {
       try {
+        setIsLoading(true);
         const response = await fetch(`/api/v1/setting/project/${projectId}`, { method: 'GET' });
         const result = await response.json();
         if (response.ok) {
@@ -102,6 +105,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         }
       } catch (error) {
         console.error('Failed to fetch project data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (id) {
@@ -111,6 +116,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
 
   const onSubmit = async (values: CreateProjectSchemaType | EditProjectSchemaType) => {
     try {
+      setIsLoading(true);
       let fetchUrl = '/api/v1/setting/project';
       if (id) {
         fetchUrl = `/api/v1/setting/project/${id}`;
@@ -154,7 +160,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     } catch {
       console.error('An unexpected error occurred. Please try again.');
     } finally {
-      console.log('Finally block executed');
+      setIsLoading(false);
     }
   };
 
@@ -203,10 +209,6 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
 
   const handleAddMember = () => {
     form.setValue('member', [...form.getValues('member'), defaultMemberDetail]);
-  };
-
-  const handleAddMainTaskType = () => {
-    form.setValue('main_task_type', [...form.getValues('main_task_type'), defaultTaskType]);
   };
 
   const handleAddOptionalTaskType = () => {
@@ -478,9 +480,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                 userOptions={userOptions}
               />
               <div className="flex w-full py-4 px-2">
-                <Button type="button" onClick={handleAddMember}>
-                  เพิ่มข้อมูล
-                </Button>
+                <Button onClick={handleAddMember}>เพิ่มข้อมูล</Button>
               </div>
             </div>
             <div className="md:col-span-1">
@@ -512,9 +512,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                 name="optional_task_type"
               />
               <div className="flex w-full py-4 px-2">
-                <Button type="button" onClick={handleAddOptionalTaskType}>
-                  เพิ่มข้อมูล
-                </Button>
+                <Button onClick={handleAddOptionalTaskType}>เพิ่มข้อมูล</Button>
               </div>
             </div>
             <div className="flex justify-end font-bold lg:col-span-2">
