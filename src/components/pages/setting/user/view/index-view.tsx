@@ -8,12 +8,12 @@ import { fetcher } from '@/lib/fetcher';
 import ModuleLayout from '@/components/layouts/ModuleLayout';
 import { UserList } from '../user-list';
 import { createColumns } from '../user-list-columns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IUser } from '@/types/setting/user';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { renderByPermission } from '@/lib/functions/ui-manage';
-import { Account, useAccount } from '@/components/context/app-context';
+import { Account, useAccount, useLoading } from '@/components/context/app-context';
 import { EModules } from '@/lib/constants/module';
 import { toast } from 'sonner';
 
@@ -35,6 +35,7 @@ const UserButton = ({ account }: { account: Account }): React.ReactNode => {
 const UserListView = () => {
   const { account } = useAccount();
   const router = useRouter();
+  const { setIsLoading } = useLoading();
   const fetchUsersUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user`;
   const { data, error, isLoading, mutate } = useSWR(fetchUsersUrl, (url) => fetcher<IUser[]>(url));
 
@@ -52,6 +53,7 @@ const UserListView = () => {
   const deleteUser = async (id: string) => {
     const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/user/${id}`;
     try {
+      setIsLoading(true);
       await fetch(fetchUrl, { method: 'DELETE' }).then(async (res) => {
         const data = await res.json();
         if (!res.ok) {
@@ -64,6 +66,8 @@ const UserListView = () => {
       });
     } catch (error) {
       console.log(error instanceof Error ? error.message : 'Unknown error');
+    } finally {
+      setIsLoading(false);
     }
   };
   const handleOpenDialog = async (
@@ -105,6 +109,13 @@ const UserListView = () => {
     account: account,
     onOpenDialog: handleOpenDialog,
   });
+  useEffect(() => {
+    if (isLoading) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [isLoading]);
 
   if (error) {
     router.replace('/404');

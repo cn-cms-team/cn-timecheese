@@ -11,9 +11,10 @@ import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { Plus } from 'lucide-react';
 import useSWR from 'swr';
 import { fetcher } from '@/lib/fetcher';
-import { Account, useAccount } from '@/components/context/app-context';
+import { Account, useAccount, useLoading } from '@/components/context/app-context';
 import { EModules } from '@/lib/constants/module';
 import { renderByPermission } from '@/lib/functions/ui-manage';
+import { toast } from 'sonner';
 
 const RoleButton = ({ account }: { account: Account }): React.ReactNode => {
   const router = useRouter();
@@ -32,6 +33,7 @@ const RoleButton = ({ account }: { account: Account }): React.ReactNode => {
 
 const RoleListView = () => {
   const { account } = useAccount();
+  const { setIsLoading } = useLoading();
   const router = useRouter();
   const fetchRolesUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role`;
   const { data, error, isLoading, mutate } = useSWR(fetchRolesUrl, (url) => fetcher<IRole[]>(url));
@@ -48,10 +50,24 @@ const RoleListView = () => {
   const [getConfirmation, Confirmation] = useDialogConfirm();
 
   const deleteRole = async (id: string) => {
-    const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role/${id}`;
-    await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
-      router.push('/setting/role');
-    });
+    try {
+      setIsLoading(true);
+      const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role/${id}`;
+      await fetch(fetchUrl, { method: 'DELETE' }).then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          toast(data.message);
+          return;
+        } else {
+          toast(data.message);
+          router.push('/setting/role');
+        }
+      });
+    } catch (error) {
+      console.log(error instanceof Error ? error.message : 'Unknown error');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleOpenDialog = async (
@@ -93,6 +109,13 @@ const RoleListView = () => {
     onOpenDialog: handleOpenDialog,
   });
 
+  useEffect(() => {
+    if (isLoading) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [isLoading]);
   if (error) {
     router.replace('/404');
     return null;

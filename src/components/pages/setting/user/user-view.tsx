@@ -1,5 +1,6 @@
 'use client';
 
+import { useLoading } from '@/components/context/app-context';
 import TitleGroup from '@/components/ui/custom/cev/title-group';
 import LabelGroup from '@/components/ui/custom/form/label-group';
 import { Label } from '@/components/ui/label';
@@ -12,9 +13,11 @@ import { useEffect, useState } from 'react';
 
 const UserViewDetail = ({ id }: { id: string }): React.ReactNode => {
   const [userData, setUserData] = useState<IUser>();
+  const { setIsLoading } = useLoading();
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(`/api/v1/setting/user/${id}`, { method: 'GET' });
         if (response.ok) {
           const result = await response.json();
@@ -23,6 +26,8 @@ const UserViewDetail = ({ id }: { id: string }): React.ReactNode => {
         }
       } catch (error) {
         console.error('Failed to fetch user data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (id) {

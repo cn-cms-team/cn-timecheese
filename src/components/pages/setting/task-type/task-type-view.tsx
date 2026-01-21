@@ -6,12 +6,15 @@ import { useEffect, useState } from 'react';
 import TaskTypeCreateTable from './task-type-create-table';
 import { taskTypeMenu } from '@/lib/constants/task';
 import { TitleGroup } from '@/components/ui/custom/cev';
+import { useLoading } from '@/components/context/app-context';
 
 const TaskTypeViewDetail = ({ id }: { id: string }): React.ReactNode => {
+  const { setIsLoading } = useLoading();
   const [taskTypeData, setTaskTypeData] = useState<ITaskView>();
   useEffect(() => {
     const fetchTaskTypeData = async () => {
       try {
+        setIsLoading(true);
         const taskMenu = taskTypeMenu.find((e) => e.id === id);
 
         const response = await fetch(`/api/v1/setting/task-type/${id}`, { method: 'GET' });
@@ -30,6 +33,8 @@ const TaskTypeViewDetail = ({ id }: { id: string }): React.ReactNode => {
         }
       } catch (error) {
         console.error('Failed to fetch task-type data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (id) {

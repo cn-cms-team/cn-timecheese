@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { renderByPermission } from '@/lib/functions/ui-manage';
 import { EModules } from '@/lib/constants/module';
-import { useAccount } from '@/components/context/app-context';
+import { useAccount, useLoading } from '@/components/context/app-context';
 
 const PositionViewButton = ({
   id,
@@ -35,6 +35,7 @@ const PositionViewButton = ({
 
 const PositionView = ({ id }: { id: string }) => {
   const router = useRouter();
+  const { setIsLoading } = useLoading();
   const [positionName, setPositionName] = useState<string>('');
   const [confirmState, setConfirmState] = useState<{
     title: string;
@@ -70,6 +71,7 @@ const PositionView = ({ id }: { id: string }) => {
 
         const result = await getConfirmation();
         if (result && id) {
+          setIsLoading(true);
           const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/position/${id}`;
           const res = await fetch(fetchUrl, { method: 'DELETE' });
           const data = await res.json();
@@ -84,6 +86,8 @@ const PositionView = ({ id }: { id: string }) => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 

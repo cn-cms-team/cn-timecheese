@@ -17,6 +17,7 @@ import { fetcher } from '@/lib/fetcher';
 import { IOptionGroups, IOptions } from '@/types/dropdown';
 import { DAYTASKSTATUS, PERIODCALENDAR } from '@/lib/constants/period-calendar';
 import { ITimeSheetResponse, ITimeSheetUserInfoResponse } from '@/types/timesheet';
+import { useLoading } from '@/components/context/app-context';
 
 interface ITimeSheetContextType {
   loading: boolean;
@@ -62,6 +63,8 @@ const TimeSheetContext = createContext<ITimeSheetContextType | undefined>(undefi
 const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const { data: session } = useSession();
+  const { setIsLoading } = useLoading();
+
   const now = new Date();
   const [loading, setLoading] = useState(false);
   const [userInfoLoading, setUserInfoLoading] = useState(false);
@@ -136,6 +139,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
 
   const getUserInfo = async () => {
     try {
+      setIsLoading(true);
       setUserInfoLoading(true);
       const prefix = process.env.NEXT_PUBLIC_APP_URL;
 
@@ -152,12 +156,13 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
       console.error('Error fetching user info:', error);
     } finally {
       setUserInfoLoading(false);
+      setIsLoading(false);
     }
   };
 
   const getTask = async () => {
     try {
-      setLoading(true);
+      setIsLoading(true);
       const query = buildTimesheetQuery();
 
       const res = await fetch(`${prefix}/api/v1/timesheet?${query}`);
@@ -172,25 +177,32 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
     } catch (error) {
       console.error('Error fetching tasks:', error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   const deleteTask = async (taskId: string) => {
-    const prefix = process.env.NEXT_PUBLIC_APP_URL;
+    try {
+      setIsLoading(true);
+      const prefix = process.env.NEXT_PUBLIC_APP_URL;
 
-    const res = await fetch(`${prefix}/api/v1/timesheet/${taskId}`, {
-      method: 'DELETE',
-    });
-    const json = await res.json();
+      const res = await fetch(`${prefix}/api/v1/timesheet/${taskId}`, {
+        method: 'DELETE',
+      });
+      const json = await res.json();
 
-    if (!res.ok) {
-      throw new Error('Failed to delete task');
-    } else {
-      toast(json.message);
+      if (!res.ok) {
+        throw new Error('Failed to delete task');
+      } else {
+        toast(json.message);
+      }
+
+      await getTask();
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    } finally {
+      setIsLoading(false);
     }
-
-    await getTask();
   };
 
   const dailySecondsMap = useMemo(() => {

@@ -41,8 +41,8 @@ const TimeSheetForm = ({
   const selectedDate = startTime
     ? startTime
     : data?.start_date
-    ? new Date(data.start_date)
-    : undefined;
+      ? new Date(data.start_date)
+      : undefined;
 
   const dayNameTH = selectedDate?.toLocaleDateString('th-TH', {
     weekday: 'long',
@@ -92,7 +92,7 @@ const TimeSheetForm = ({
         stamp_date: new Date(value.start_date).toISOString(),
         start_date: new Date(start).toISOString(),
         end_date: new Date(end).toISOString(),
-        exclude_seconds: value.is_include_breaking_time ? value.exclude ?? 0 : null,
+        exclude_seconds: value.is_include_breaking_time ? (value.exclude ?? 0) : null,
         project_task_type_id: value?.project_task_type_id!,
         detail: value.detail,
       };
@@ -384,7 +384,6 @@ const TimeSheetForm = ({
               <div className="flex justify-center items-center mt-4 space-x-2">
                 <Button
                   className="w-40 bg-transparent border-neutral-500 text-black hover:bg-neutral-200 cursor-pointer"
-                  type="button"
                   onClick={close}
                 >
                   ยกเลิก

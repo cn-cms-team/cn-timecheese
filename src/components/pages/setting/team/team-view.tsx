@@ -1,5 +1,6 @@
 'use client';
 
+import { useLoading } from '@/components/context/app-context';
 import { Card, CardContent } from '@/components/ui/card';
 import TitleGroup from '@/components/ui/custom/cev/title-group';
 import LabelGroup from '@/components/ui/custom/form/label-group';
@@ -19,6 +20,7 @@ import { ITeam } from '@/types/setting/team';
 import { useEffect, useState } from 'react';
 
 const TeamViewDetail = ({ id }: { id: string }): React.ReactNode => {
+  const { setIsLoading } = useLoading();
   const [teamData, setTeamData] = useState<ITeam>();
   const [membersOrder, setMembersOrder] = useState<TeamMember[]>([]);
   const header = [
@@ -28,6 +30,7 @@ const TeamViewDetail = ({ id }: { id: string }): React.ReactNode => {
   useEffect(() => {
     const fetchTeamData = async (teamId: string) => {
       try {
+        setIsLoading(true);
         const response = await fetch(`/api/v1/setting/team/${teamId}`, { method: 'GET' });
         const result = await response.json();
         if (response.ok) {
@@ -40,6 +43,8 @@ const TeamViewDetail = ({ id }: { id: string }): React.ReactNode => {
         }
       } catch (error) {
         console.error('Failed to fetch user data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (id) {

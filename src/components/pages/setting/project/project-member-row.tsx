@@ -164,7 +164,6 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
       </TableCell>
       <TableCell>
         <Button
-          type="button"
           variant={'ghost'}
           disabled={isUsing}
           onClick={() => {
