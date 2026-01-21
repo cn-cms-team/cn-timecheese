@@ -3,7 +3,9 @@ import PositionLevelView from './position-level-view';
 import { IPosition } from '@/types/setting/position';
 import { LabelGroup } from '@/components/ui/custom/form';
 import { TitleGroup } from '@/components/ui/custom/cev';
-import { useLoading } from '@/components/context/app-context';
+import { useAccount, useLoading } from '@/components/context/app-context';
+import { createColumns } from './position-list-columns';
+import { createLevelListColumns } from './position-level-list-column';
 
 const PositionViewDetail = ({
   id,
@@ -35,18 +37,23 @@ const PositionViewDetail = ({
       fetchPositionData();
     }
   }, []);
+
+  const columns = createLevelListColumns();
+
   return (
-    <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-10 lg:px-10 lg:py-10">
-      <div className="w-full h-fit border px-6 py-5 rounded-lg shadow-sm">
+    <div className="w-full grid grid-cols-1 ">
+      <div className="w-full px-6 py-5 ">
         <TitleGroup title="ข้อมูลตำแหน่ง" />
         <div className="flex flex-col gap-5 mt-4">
           <LabelGroup label="ชื่อตำแหน่ง" value={positionData?.name} />
-          <LabelGroup label="คำอธิบาย" value={positionData?.description} />
+          <LabelGroup label="คำอธิบาย">
+            <span className="whitespace-break-spaces">{positionData?.description}</span>
+          </LabelGroup>
         </div>
       </div>
-      <div className="w-full h-full border px-6 py-5 rounded-lg shadow-sm">
+      <div className="w-full h-full px-6 py-5 ">
         <TitleGroup title="ระดับตำแหน่ง" />
-        <PositionLevelView levels={positionData?.levels || []} />
+        <PositionLevelView levels={positionData?.levels || []} columns={columns} />
       </div>
     </div>
   );
