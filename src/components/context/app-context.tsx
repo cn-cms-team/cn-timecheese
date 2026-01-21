@@ -30,7 +30,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const { data: session } = useSession();
   const pathname = usePathname();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [account, setAccount] = useState<Account>({
     user_id: null,
     permissions: null,
@@ -89,8 +89,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       const permissionAccess = pathname.includes('create')
         ? EPermissions.CREATE
         : pathname.includes('edit')
-        ? EPermissions.EDIT
-        : EPermissions.VIEW;
+          ? EPermissions.EDIT
+          : EPermissions.VIEW;
 
       const canAccess = permissionMenu ? permissionMenu.includes(permissionAccess) : false;
       if (!canAccess) {

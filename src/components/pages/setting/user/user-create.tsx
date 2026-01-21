@@ -31,10 +31,11 @@ import { MAX_LENGTH_100, MAX_LENGTH_255, MAX_LENGTH_50 } from '@/lib/constants/v
 import { toast } from 'sonner';
 import TitleGroup from '@/components/ui/custom/cev/title-group';
 import { isEmailUnique } from './action';
+import { useLoading } from '@/components/context/app-context';
 
 const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
-
+  const { setIsLoading } = useLoading();
   const [teamOptions, setTeamOptions] = useState<IOptions[]>([]);
   const [positionLevelOptions, setPositionLevelOptions] = useState<IOptionGroups[]>([]);
   const [roleOptions, setRoleOptions] = useState<IOptions[]>([]);
@@ -81,6 +82,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
   useEffect(() => {
     const fetchUserData = async (userId: string) => {
       try {
+        setIsLoading(true);
         const response = await fetch(`/api/v1/setting/user/${userId}`, { method: 'GET' });
         const result = await response.json();
         if (response.ok) {
@@ -93,6 +95,8 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
         }
       } catch (error) {
         console.error('Failed to fetch user data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (id) {
@@ -114,6 +118,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       if (id) {
         fetchUrl = `/api/v1/setting/user/${id}`;
       }
+      setIsLoading(true);
       const data = {
         id: id,
         email: values.email,
@@ -146,7 +151,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
     } catch {
       toast('An unexpected error occurred. Please try again.');
     } finally {
-      console.log('Finally block executed');
+      setIsLoading(false);
     }
   };
 

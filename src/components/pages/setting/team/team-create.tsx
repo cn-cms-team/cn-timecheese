@@ -33,10 +33,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Required } from '@/components/ui/custom/form';
+import { useLoading } from '@/components/context/app-context';
 
 const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
   const { data: session } = useSession();
+  const { setIsLoading } = useLoading();
 
   const form = useForm<TeamSchemaType>({
     resolver: zodResolver(teamSchema),
@@ -57,6 +60,7 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
   useEffect(() => {
     const fetchTeamData = async (teamId: string) => {
       try {
+        setIsLoading(true);
         const response = await fetch(`/api/v1/setting/team/${teamId}`, { method: 'GET' });
         const result = await response.json();
         if (response.ok) {
@@ -74,6 +78,8 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
         }
       } catch (error) {
         console.error('Failed to fetch user data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (id) {
@@ -83,6 +89,7 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
 
   const onSubmit = async (values: TeamSchemaType) => {
     try {
+      setIsLoading(true);
       let fetchUrl = '/api/v1/setting/team';
       const baseData: SubmitRequest = {
         id: id,
@@ -113,11 +120,14 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
       }
     } catch {
       toast('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const changeStatus = async (id: string, team_id: string, status: boolean) => {
     try {
+      setIsLoading(true);
       const fetchUrl = `/api/v1/setting/team/${team_id}/member`;
       const data = {
         user_id: id,
@@ -134,6 +144,8 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
       toast(result.message);
     } catch {
       toast('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -152,7 +164,10 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="name"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>ชื่อทีม</FormLabel>
+                  <FormLabel>
+                    ชื่อทีม
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       autoComplete="off"
@@ -196,7 +211,10 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
               name="description"
               render={({ field }) => (
                 <FormItem className="w-full md:w-1/2">
-                  <FormLabel>คำอธิบาย</FormLabel>
+                  <FormLabel>
+                    คำอธิบาย
+                    <Required />
+                  </FormLabel>
                   <FormControl>
                     <Textarea
                       id="small-form-comments"

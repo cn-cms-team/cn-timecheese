@@ -11,8 +11,10 @@ import { Button } from '@/components/ui/button';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { TitleGroup } from '@/components/ui/custom/cev';
 import { toast } from 'sonner';
+import { useLoading } from '@/components/context/app-context';
 
 const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
+  const { setIsLoading } = useLoading();
   const [defaultTaskType, setDefaultTaskType] = useState<ITaskType>({
     name: '',
     description: '',
@@ -33,6 +35,7 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
   });
   const fetchTaskTypeData = async (task_type_id: string) => {
     try {
+      setIsLoading(true);
       const taskMenu = taskTypeMenu.find((e) => e.id === id);
       const response = await fetch(`/api/v1/setting/task-type/${task_type_id}`, {
         method: 'GET',
@@ -53,6 +56,8 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
       }
     } catch (error) {
       console.error('Failed to fetch task-type data:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -63,6 +68,7 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
 
   const deleteTaskType = async (task_id: string) => {
     try {
+      setIsLoading(true);
       const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/task-type/${task_id}`;
       await fetch(fetchUrl, { method: 'DELETE' }).then(async (res) => {
         const result = await res.json();
@@ -73,6 +79,8 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
       });
     } catch (error) {
       toast(error as string);
+    } finally {
+      setIsLoading(false);
     }
   };
   const handleOpenDialog = async (mode: 'edit' | 'delete', task_id: string) => {

@@ -13,8 +13,11 @@ import { ChevronDown } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import LabelGroup from '@/components/ui/custom/form/label-group';
 import TitleGroup from '@/components/ui/custom/cev/title-group';
+import { useLoading } from '@/components/context/app-context';
+import { Button } from '@/components/ui/button';
 
 const RoleViewDetail = ({ id }: { id: string }) => {
+  const { setIsLoading } = useLoading();
   const [role, setRole] = useState<IRole | null>(null);
   const [rolePermissions, setRolePermissions] = useState<IRolePermissions[]>([]);
   const [openRows, setOpenRows] = React.useState<Record<string, boolean>>({});
@@ -22,6 +25,7 @@ const RoleViewDetail = ({ id }: { id: string }) => {
   useEffect(() => {
     const fetchRole = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(`/api/v1/setting/role/${id}`, { method: 'GET' });
         if (response.ok) {
           const result = await response.json();
@@ -31,6 +35,8 @@ const RoleViewDetail = ({ id }: { id: string }) => {
         }
       } catch (error) {
         console.error('Failed to fetch role data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchRole();
@@ -158,9 +164,9 @@ const RoleViewDetail = ({ id }: { id: string }) => {
                   <div className="flex items-center space-x-2">
                     <span>{permission.name}</span>
                     {(permission.children ?? []).length > 0 && (
-                      <button type="button" className="flex items-center justify-center">
+                      <Button className="flex items-center justify-center">
                         <ChevronDown className="h-4 w-4" />
-                      </button>
+                      </Button>
                     )}
                   </div>
                 </TableCell>
