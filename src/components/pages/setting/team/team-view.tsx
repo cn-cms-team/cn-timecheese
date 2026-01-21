@@ -67,7 +67,7 @@ const TeamViewDetail = ({ id }: { id: string }): React.ReactNode => {
                 className="disabled:opacity-80"
                 id="is-team-active"
               />
-              <Label htmlFor="is-team-active" className="peer-disabled:opacity-80 text-base">
+              <Label htmlFor="is-team-active" className="peer-disabled:opacity-80 text-base mb-0">
                 {getIsActive(teamData?.is_active as boolean)}
               </Label>
             </div>

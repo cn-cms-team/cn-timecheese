@@ -65,7 +65,7 @@ const UserViewDetail = ({ id }: { id: string }): React.ReactNode => {
                 className="disabled:opacity-80"
                 id="is-user-active"
               />
-              <Label htmlFor="is-user-active" className="peer-disabled:opacity-80 text-base">
+              <Label htmlFor="is-user-active" className="peer-disabled:opacity-80 text-base mb-0">
                 {getIsActive(userData?.is_active as boolean)}
               </Label>
             </div>
