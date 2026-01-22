@@ -31,8 +31,6 @@ const SortableRow = <T extends FieldValues>({ id, index, form, data, onDelete }:
     transition,
   };
 
-  const isUsed = (index: number) => data[index]?.is_used;
-
   useEffect(() => {
     if (isDragging) {
       document.body.style.cursor = 'grabbing';
@@ -105,7 +103,7 @@ const SortableRow = <T extends FieldValues>({ id, index, form, data, onDelete }:
             className="bg-transparent text-destructive hover:bg-transparent hover:text-destructive"
             variant="outline"
             type="button"
-            disabled={isUsed(index)}
+            disabled={form.getValues(`levels.${index}.is_used` as Path<T>) as boolean}
             onClick={() => onDelete(index, form.getValues(`levels.${index}.name` as Path<T>))}
           >
             <Trash2 />
