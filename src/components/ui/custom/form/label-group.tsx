@@ -9,7 +9,7 @@ type LabelGroupProps = {
 };
 const LabelGroup = ({ label, value, children, className = '' }: LabelGroupProps) => {
   return (
-    <div className={cn('flex flex-col w-full gap-3', className)}>
+    <div className={cn('flex flex-col w-full', className)}>
       <Label className="text-label text-sm text-[#999999]">{label}</Label>
       {children ? (
         (children as React.ReactNode)
