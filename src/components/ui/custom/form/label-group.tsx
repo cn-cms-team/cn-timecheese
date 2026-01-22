@@ -3,14 +3,14 @@ import { cn } from '@/lib/utils';
 
 type LabelGroupProps = {
   label: string;
-  value: string | number | null | undefined;
+  value?: string | number | null | undefined;
   className?: string;
   children?: React.ReactNode;
 };
-const LabelGroup = ({ label, value, children, className = '' }: LabelGroupProps) => {
+const LabelGroup = ({ label, children, className = '', value = undefined }: LabelGroupProps) => {
   return (
     <div className={cn('flex flex-col w-full', className)}>
-      <Label className="text-label text-sm text-[#999999]">{label}</Label>
+      <Label className="text-label text-sm text-[#999999] mb-0">{label}</Label>
       {children ? (
         (children as React.ReactNode)
       ) : (

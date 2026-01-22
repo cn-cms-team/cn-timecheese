@@ -55,12 +55,12 @@ export const createColumns = ({
           <TooltipProvider>
             <Tooltip delayDuration={100}>
               <TooltipTrigger asChild onMouseEnter={handleMouseEnter}>
-                <div ref={textRef} className="truncate w-fit max-w-[1200px] cursor-help">
+                <div ref={textRef} className="truncate w-fit max-w-[500px] cursor-help">
                   {description}
                 </div>
               </TooltipTrigger>
               {isOverflow && (
-                <TooltipContent className="max-w-[400px]">
+                <TooltipContent className="max-w-[500px]">
                   <p>{description}</p>
                 </TooltipContent>
               )}
