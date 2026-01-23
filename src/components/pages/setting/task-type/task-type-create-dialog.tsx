@@ -151,14 +151,16 @@ const TaskTypeCreateDialog = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <div className="flex align-middle space-x-2 mt-2">
+                      <div className="flex items-center space-x-2">
                         <Switch
                           checked={field.value}
                           onCheckedChange={field.onChange}
                           aria-readonly
                           id="is-active"
                         />
-                        <Label htmlFor="is-active">{getIsActive(field.value as boolean)}</Label>
+                        <Label htmlFor="is-active" className="mb-0">
+                          {getIsActive(field.value as boolean)}
+                        </Label>
                       </div>
                     </FormControl>
                   </FormItem>
