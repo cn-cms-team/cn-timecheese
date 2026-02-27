@@ -160,7 +160,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const project = await fetcher<IOption[]>(`${prefix}/api/v1/report/project/project-list`);
       setProjectOptions(project);
-      setProjectId((project[0]?.value as string) || '');
+      if (!projectId) setProjectId((project[0]?.value as string) || '');
     } catch (error) {
       console.error('Error fetching options:', error);
     }

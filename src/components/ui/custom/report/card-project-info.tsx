@@ -2,6 +2,7 @@ import { calcTotalDays, formatDate, secondsToDuration } from '@/lib/functions/da
 import { numberWithCommas } from '@/lib/functions/number-format';
 import { IProjectInfoByUser } from '@/types/report';
 import { Skeleton } from '../../skeleton';
+import { useEffect, useState } from 'react';
 
 interface CardProjectInfoProps {
   project: IProjectInfoByUser;
@@ -14,7 +15,7 @@ const CardProjectInfo = ({
   displayCost = false,
   loading = false,
 }: CardProjectInfoProps) => {
-  const workDuration = secondsToDuration(project.spent_times || 0);
+  const [workDuration, setWorkDuration] = useState(secondsToDuration(project.spent_times || 0));
   const workedDays = Math.floor((project.spent_times || 0) / 28800); // assuming 8 hours per day
   const totalDays =
     project.start_date && project.end_date
@@ -23,6 +24,10 @@ const CardProjectInfo = ({
   const totalCost = (project.day_price || 0) * (totalDays || 0);
   const usedCost = (project.day_price || 0) * workedDays;
   const costPercentage = totalCost ? ((usedCost / totalCost) * 100).toFixed(2) : '0.00';
+
+  useEffect(() => {
+    if (setWorkDuration) setWorkDuration(secondsToDuration(project.spent_times || 0));
+  }, [project]);
   return (
     <>
       {loading ? (
