@@ -45,7 +45,7 @@ export const taskTypeMenu: ITaskMenu[] = [
   {
     id: TaskTypeCode.DEVELOPMENT,
     name: 'Development',
-    description: 'development team tasks',
+    description: 'Development team tasks',
     is_project_task: true,
   },
   {
@@ -81,7 +81,7 @@ export const taskTypeMenu: ITaskMenu[] = [
   {
     id: TaskTypeCode.COMPANY,
     name: 'Company',
-    description: 'company-wide tasks',
+    description: 'Company-wide tasks',
     is_project_task: true,
   },
   {
@@ -93,7 +93,7 @@ export const taskTypeMenu: ITaskMenu[] = [
   {
     id: TaskTypeCode.OTHER,
     name: 'Others',
-    description: 'other tasks',
+    description: 'Other tasks',
     is_project_task: true,
   },
   {

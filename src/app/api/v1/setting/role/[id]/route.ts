@@ -109,7 +109,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    console.log('ROLE ID:', id);
     const session = await auth();
     const body = await request.json();
     const { name, description, permissions = [] } = body.data ?? {};

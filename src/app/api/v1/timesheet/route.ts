@@ -115,7 +115,6 @@ export async function POST(request: Request) {
         total_seconds,
       },
     });
-
     const resSummary = await prisma.timeSheetSummary.upsert({
       where: {
         user_id_project_id_year: {
@@ -123,7 +122,6 @@ export async function POST(request: Request) {
           project_id: data.project_id,
           year: start.getFullYear(),
         },
-        month: start.getMonth() + 1,
       },
       update: {
         total_seconds: {
