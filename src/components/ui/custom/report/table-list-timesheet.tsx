@@ -22,9 +22,10 @@ import { DateRange } from 'react-day-picker';
 
 interface IProps {
   projectId: string;
+  userId?: string;
 }
 
-const TableListTimesheet = ({ projectId }: IProps) => {
+const TableListTimesheet = ({ projectId, userId }: IProps) => {
   const { data: session } = useSession();
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const [rowSelection, setRowSelection] = useState({});
@@ -75,8 +76,8 @@ const TableListTimesheet = ({ projectId }: IProps) => {
   useEffect(() => {
     if (!session?.user?.id || !projectId) return;
 
-    fetchData(session.user.id);
-  }, [pagination.pageIndex, pagination.pageSize, session?.user?.id, projectId]);
+    fetchData(userId ? userId : session.user.id);
+  }, [pagination.pageIndex, pagination.pageSize, session?.user?.id, projectId, userId]);
 
   const table = useReactTable({
     data: data.data,
