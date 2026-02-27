@@ -71,7 +71,7 @@ const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300, loading = fal
           ) : (
             <>
               <div className="text-base font-semibold mb-4">สัดส่วนงาน</div>
-              <main className="flex justify-center  gap-4 ">
+              <main className="max-w-[500px] mx-auto">
                 <ApexChart
                   options={donutChartOption}
                   series={data.series}
