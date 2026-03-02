@@ -4,7 +4,7 @@ version: '1.0'
 language: 'th-TH'
 
 reviews:
-  profile: 'chill' # เลือกโทนการตอบ (assertive, chill, informative)
+  profile: 'assertive' # เลือกโทนการตอบ (assertive, chill, informative)
   request_changes_workflow: false # ถ้า true มันจะกด Request Changes ใน GitHub จริงๆ
 
   # ตั้งค่าสิ่งที่ต้องการให้ตรวจ
