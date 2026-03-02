@@ -1,4 +1,4 @@
-# .coderabbit.yaml
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 version: '1.0'
 
 language: 'th-TH'
@@ -25,6 +25,10 @@ reviews:
     - '!.eslintrc.json'
     - '!tailwind.config.ts'
     - '!next.config.mjs'
+    - '!.agent/**'
+    - '!.agents/**'
+    - '!generated/**'
+    - '!prisma/**'
 
 chat:
   auto_reply: true # ให้มันตอบกลับเวลาเรา Mention @coderabbitai
