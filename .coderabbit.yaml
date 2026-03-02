@@ -1,0 +1,42 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+version: '1.0'
+
+language: 'th-TH'
+
+reviews:
+  profile: 'chill' # เลือกโทนการตอบ (assertive, chill, informative)
+  request_changes_workflow: false # ถ้า true มันจะกด Request Changes ใน GitHub จริงๆ
+
+  # ตั้งค่าสิ่งที่ต้องการให้ตรวจ
+  high_level_summary: true
+  poetic_summary: false
+
+  # ไฟล์ที่ไม่ต้องให้ AI มายุ่ง
+  path_filters:
+    - '!node_modules/**'
+    - '!.next/**'
+    - '!out/**'
+    - '!public/**'
+    - '!package-lock.json'
+    - '!pnpm-lock.yaml'
+    - '!yarn.lock'
+    - '!**.min.js'
+    - '!**.map'
+    - '!.eslintrc.json'
+    - '!tailwind.config.ts'
+    - '!next.config.mjs'
+    - '!.agent/**'
+    - '!.agents/**'
+    - '!generated/**'
+    - '!prisma/**'
+
+chat:
+  auto_reply: true # ให้มันตอบกลับเวลาเรา Mention @coderabbitai
+
+# คำแนะนำเพิ่มเติมสำหรับ Next.js
+instructions: >
+  ให้เน้นตรวจเรื่อง Next.js Best Practices เช่น:
+  1. การใช้ Server Components vs Client Components ให้เหมาะสม
+  2. การจัดการ Data Fetching (Suspense, Cache)
+  3. แนะนำการปรับแต่ง Performance ของรูปภาพ (next/image)
+  4. ตรวจสอบเรื่องความปลอดภัยในการใช้ Environment Variables
