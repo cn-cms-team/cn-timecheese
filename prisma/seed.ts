@@ -20,7 +20,7 @@ const prisma = new PrismaClient({
 });
 
 export async function main() {
-  const ADMIN_ID = '9e6a2d0b-7f84-4c1e-b539-18a5f3c72d94';
+  const ADMIN_ID = '018f1e50-8b2a-7c3d-9f1a-6e2b7d4c9a10';
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
   const hashedPassword = await bcrypt.hash(ADMIN_PASSWORD, 10);
 

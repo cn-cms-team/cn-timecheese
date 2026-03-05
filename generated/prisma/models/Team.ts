@@ -205,13 +205,13 @@ export type TeamWhereInput = {
   AND?: Prisma.TeamWhereInput | Prisma.TeamWhereInput[]
   OR?: Prisma.TeamWhereInput[]
   NOT?: Prisma.TeamWhereInput | Prisma.TeamWhereInput[]
-  id?: Prisma.StringFilter<"Team"> | string
+  id?: Prisma.UuidFilter<"Team"> | string
   name?: Prisma.StringFilter<"Team"> | string
   description?: Prisma.StringNullableFilter<"Team"> | string | null
   created_at?: Prisma.DateTimeFilter<"Team"> | Date | string
-  created_by?: Prisma.StringFilter<"Team"> | string
+  created_by?: Prisma.UuidFilter<"Team"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"Team"> | Date | string | null
-  updated_by?: Prisma.StringNullableFilter<"Team"> | string | null
+  updated_by?: Prisma.UuidNullableFilter<"Team"> | string | null
   is_enabled?: Prisma.BoolFilter<"Team"> | boolean
   is_active?: Prisma.BoolFilter<"Team"> | boolean
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -234,7 +234,6 @@ export type TeamOrderByWithRelationInput = {
   updatedBy?: Prisma.UserOrderByWithRelationInput
   users?: Prisma.UserOrderByRelationAggregateInput
   teamLeaders?: Prisma.TeamLeaderOrderByRelationAggregateInput
-  _relevance?: Prisma.TeamOrderByRelevanceInput
 }
 
 export type TeamWhereUniqueInput = Prisma.AtLeast<{
@@ -245,9 +244,9 @@ export type TeamWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Team"> | string
   description?: Prisma.StringNullableFilter<"Team"> | string | null
   created_at?: Prisma.DateTimeFilter<"Team"> | Date | string
-  created_by?: Prisma.StringFilter<"Team"> | string
+  created_by?: Prisma.UuidFilter<"Team"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"Team"> | Date | string | null
-  updated_by?: Prisma.StringNullableFilter<"Team"> | string | null
+  updated_by?: Prisma.UuidNullableFilter<"Team"> | string | null
   is_enabled?: Prisma.BoolFilter<"Team"> | boolean
   is_active?: Prisma.BoolFilter<"Team"> | boolean
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -275,13 +274,13 @@ export type TeamScalarWhereWithAggregatesInput = {
   AND?: Prisma.TeamScalarWhereWithAggregatesInput | Prisma.TeamScalarWhereWithAggregatesInput[]
   OR?: Prisma.TeamScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TeamScalarWhereWithAggregatesInput | Prisma.TeamScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Team"> | string
+  id?: Prisma.UuidWithAggregatesFilter<"Team"> | string
   name?: Prisma.StringWithAggregatesFilter<"Team"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Team"> | string | null
   created_at?: Prisma.DateTimeWithAggregatesFilter<"Team"> | Date | string
-  created_by?: Prisma.StringWithAggregatesFilter<"Team"> | string
+  created_by?: Prisma.UuidWithAggregatesFilter<"Team"> | string
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Team"> | Date | string | null
-  updated_by?: Prisma.StringNullableWithAggregatesFilter<"Team"> | string | null
+  updated_by?: Prisma.UuidNullableWithAggregatesFilter<"Team"> | string | null
   is_enabled?: Prisma.BoolWithAggregatesFilter<"Team"> | boolean
   is_active?: Prisma.BoolWithAggregatesFilter<"Team"> | boolean
 }
@@ -389,12 +388,6 @@ export type TeamListRelationFilter = {
 
 export type TeamOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type TeamOrderByRelevanceInput = {
-  fields: Prisma.TeamOrderByRelevanceFieldEnum | Prisma.TeamOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type TeamCountOrderByAggregateInput = {
@@ -712,13 +705,13 @@ export type TeamScalarWhereInput = {
   AND?: Prisma.TeamScalarWhereInput | Prisma.TeamScalarWhereInput[]
   OR?: Prisma.TeamScalarWhereInput[]
   NOT?: Prisma.TeamScalarWhereInput | Prisma.TeamScalarWhereInput[]
-  id?: Prisma.StringFilter<"Team"> | string
+  id?: Prisma.UuidFilter<"Team"> | string
   name?: Prisma.StringFilter<"Team"> | string
   description?: Prisma.StringNullableFilter<"Team"> | string | null
   created_at?: Prisma.DateTimeFilter<"Team"> | Date | string
-  created_by?: Prisma.StringFilter<"Team"> | string
+  created_by?: Prisma.UuidFilter<"Team"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"Team"> | Date | string | null
-  updated_by?: Prisma.StringNullableFilter<"Team"> | string | null
+  updated_by?: Prisma.UuidNullableFilter<"Team"> | string | null
   is_enabled?: Prisma.BoolFilter<"Team"> | boolean
   is_active?: Prisma.BoolFilter<"Team"> | boolean
 }
@@ -960,7 +953,33 @@ export type TeamSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   _count?: boolean | Prisma.TeamCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["team"]>
 
+export type TeamSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  name?: boolean
+  description?: boolean
+  created_at?: boolean
+  created_by?: boolean
+  updated_at?: boolean
+  updated_by?: boolean
+  is_enabled?: boolean
+  is_active?: boolean
+  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Team$updatedByArgs<ExtArgs>
+}, ExtArgs["result"]["team"]>
 
+export type TeamSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  name?: boolean
+  description?: boolean
+  created_at?: boolean
+  created_by?: boolean
+  updated_at?: boolean
+  updated_by?: boolean
+  is_enabled?: boolean
+  is_active?: boolean
+  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Team$updatedByArgs<ExtArgs>
+}, ExtArgs["result"]["team"]>
 
 export type TeamSelectScalar = {
   id?: boolean
@@ -981,6 +1000,14 @@ export type TeamInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   users?: boolean | Prisma.Team$usersArgs<ExtArgs>
   teamLeaders?: boolean | Prisma.Team$teamLeadersArgs<ExtArgs>
   _count?: boolean | Prisma.TeamCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type TeamIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Team$updatedByArgs<ExtArgs>
+}
+export type TeamIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  updatedBy?: boolean | Prisma.Team$updatedByArgs<ExtArgs>
 }
 
 export type $TeamPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1119,6 +1146,30 @@ export interface TeamDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
   createMany<T extends TeamCreateManyArgs>(args?: Prisma.SelectSubset<T, TeamCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Teams and returns the data saved in the database.
+   * @param {TeamCreateManyAndReturnArgs} args - Arguments to create many Teams.
+   * @example
+   * // Create many Teams
+   * const team = await prisma.team.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Teams and only return the `id`
+   * const teamWithIdOnly = await prisma.team.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends TeamCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TeamCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Team.
    * @param {TeamDeleteArgs} args - Arguments to delete one Team.
    * @example
@@ -1181,6 +1232,36 @@ export interface TeamDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    * 
    */
   updateMany<T extends TeamUpdateManyArgs>(args: Prisma.SelectSubset<T, TeamUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Teams and returns the data updated in the database.
+   * @param {TeamUpdateManyAndReturnArgs} args - Arguments to update many Teams.
+   * @example
+   * // Update many Teams
+   * const team = await prisma.team.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Teams and only return the `id`
+   * const teamWithIdOnly = await prisma.team.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends TeamUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TeamUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Team.
@@ -1616,6 +1697,29 @@ export type TeamCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * Team createManyAndReturn
+ */
+export type TeamCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Team
+   */
+  select?: Prisma.TeamSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Team
+   */
+  omit?: Prisma.TeamOmit<ExtArgs> | null
+  /**
+   * The data used to create many Teams.
+   */
+  data: Prisma.TeamCreateManyInput | Prisma.TeamCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeamIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Team update
  */
 export type TeamUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1657,6 +1761,36 @@ export type TeamUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Teams to update.
    */
   limit?: number
+}
+
+/**
+ * Team updateManyAndReturn
+ */
+export type TeamUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Team
+   */
+  select?: Prisma.TeamSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Team
+   */
+  omit?: Prisma.TeamOmit<ExtArgs> | null
+  /**
+   * The data used to update Teams.
+   */
+  data: Prisma.XOR<Prisma.TeamUpdateManyMutationInput, Prisma.TeamUncheckedUpdateManyInput>
+  /**
+   * Filter which Teams to update
+   */
+  where?: Prisma.TeamWhereInput
+  /**
+   * Limit how many Teams to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TeamIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
