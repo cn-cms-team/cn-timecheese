@@ -76,6 +76,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     };
 
     getAccount();
+
+    setIsLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
