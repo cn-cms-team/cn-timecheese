@@ -1,5 +1,5 @@
 import { PrismaClient } from '../generated/prisma/client';
-import { PrismaMariaDb } from '@prisma/adapter-mariadb';
+import { PrismaPg } from '@prisma/adapter-pg';
 import 'dotenv/config';
 import bcrypt from 'bcrypt';
 
@@ -13,21 +13,14 @@ import { rolePermissionMember, rolePermissionAdmin, rolePermissionPM } from './d
 import { modulePermission } from './data/modulePermission';
 import userData from './data/user.json';
 
-const adapter = new PrismaMariaDb({
-  host: process.env.DATABASE_HOST,
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE_NAME,
-  port: parseInt(process.env.DATABASE_PORT || '4000'),
-  ssl: process.env.DATABASE_SSL === 'true',
-  connectionLimit: 5,
-});
+const connectionString = `${process.env.DATABASE_URL}`;
+const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({
   adapter,
 });
 
 export async function main() {
-  const ADMIN_ID = '9e6a2d0b-7f84-4c1e-b539-18a5f3c72d94';
+  const ADMIN_ID = '018f1e50-8b2a-7c3d-9f1a-6e2b7d4c9a10';
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
   const hashedPassword = await bcrypt.hash(ADMIN_PASSWORD, 10);
 

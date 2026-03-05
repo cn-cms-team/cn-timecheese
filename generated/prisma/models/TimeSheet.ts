@@ -264,10 +264,10 @@ export type TimeSheetWhereInput = {
   AND?: Prisma.TimeSheetWhereInput | Prisma.TimeSheetWhereInput[]
   OR?: Prisma.TimeSheetWhereInput[]
   NOT?: Prisma.TimeSheetWhereInput | Prisma.TimeSheetWhereInput[]
-  id?: Prisma.StringFilter<"TimeSheet"> | string
-  user_id?: Prisma.StringFilter<"TimeSheet"> | string
-  project_id?: Prisma.StringFilter<"TimeSheet"> | string
-  project_task_type_id?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
+  id?: Prisma.UuidFilter<"TimeSheet"> | string
+  user_id?: Prisma.UuidFilter<"TimeSheet"> | string
+  project_id?: Prisma.UuidFilter<"TimeSheet"> | string
+  project_task_type_id?: Prisma.UuidNullableFilter<"TimeSheet"> | string | null
   stamp_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   start_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   end_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
@@ -297,7 +297,6 @@ export type TimeSheetOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   project?: Prisma.ProjectOrderByWithRelationInput
   project_task_type?: Prisma.ProjectTaskTypeOrderByWithRelationInput
-  _relevance?: Prisma.TimeSheetOrderByRelevanceInput
 }
 
 export type TimeSheetWhereUniqueInput = Prisma.AtLeast<{
@@ -305,9 +304,9 @@ export type TimeSheetWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.TimeSheetWhereInput | Prisma.TimeSheetWhereInput[]
   OR?: Prisma.TimeSheetWhereInput[]
   NOT?: Prisma.TimeSheetWhereInput | Prisma.TimeSheetWhereInput[]
-  user_id?: Prisma.StringFilter<"TimeSheet"> | string
-  project_id?: Prisma.StringFilter<"TimeSheet"> | string
-  project_task_type_id?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
+  user_id?: Prisma.UuidFilter<"TimeSheet"> | string
+  project_id?: Prisma.UuidFilter<"TimeSheet"> | string
+  project_task_type_id?: Prisma.UuidNullableFilter<"TimeSheet"> | string | null
   stamp_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   start_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   end_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
@@ -345,10 +344,10 @@ export type TimeSheetScalarWhereWithAggregatesInput = {
   AND?: Prisma.TimeSheetScalarWhereWithAggregatesInput | Prisma.TimeSheetScalarWhereWithAggregatesInput[]
   OR?: Prisma.TimeSheetScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TimeSheetScalarWhereWithAggregatesInput | Prisma.TimeSheetScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"TimeSheet"> | string
-  user_id?: Prisma.StringWithAggregatesFilter<"TimeSheet"> | string
-  project_id?: Prisma.StringWithAggregatesFilter<"TimeSheet"> | string
-  project_task_type_id?: Prisma.StringNullableWithAggregatesFilter<"TimeSheet"> | string | null
+  id?: Prisma.UuidWithAggregatesFilter<"TimeSheet"> | string
+  user_id?: Prisma.UuidWithAggregatesFilter<"TimeSheet"> | string
+  project_id?: Prisma.UuidWithAggregatesFilter<"TimeSheet"> | string
+  project_task_type_id?: Prisma.UuidNullableWithAggregatesFilter<"TimeSheet"> | string | null
   stamp_date?: Prisma.DateTimeWithAggregatesFilter<"TimeSheet"> | Date | string
   start_date?: Prisma.DateTimeWithAggregatesFilter<"TimeSheet"> | Date | string
   end_date?: Prisma.DateTimeWithAggregatesFilter<"TimeSheet"> | Date | string
@@ -469,12 +468,6 @@ export type TimeSheetListRelationFilter = {
 
 export type TimeSheetOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type TimeSheetOrderByRelevanceInput = {
-  fields: Prisma.TimeSheetOrderByRelevanceFieldEnum | Prisma.TimeSheetOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type TimeSheetCountOrderByAggregateInput = {
@@ -716,10 +709,10 @@ export type TimeSheetScalarWhereInput = {
   AND?: Prisma.TimeSheetScalarWhereInput | Prisma.TimeSheetScalarWhereInput[]
   OR?: Prisma.TimeSheetScalarWhereInput[]
   NOT?: Prisma.TimeSheetScalarWhereInput | Prisma.TimeSheetScalarWhereInput[]
-  id?: Prisma.StringFilter<"TimeSheet"> | string
-  user_id?: Prisma.StringFilter<"TimeSheet"> | string
-  project_id?: Prisma.StringFilter<"TimeSheet"> | string
-  project_task_type_id?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
+  id?: Prisma.UuidFilter<"TimeSheet"> | string
+  user_id?: Prisma.UuidFilter<"TimeSheet"> | string
+  project_id?: Prisma.UuidFilter<"TimeSheet"> | string
+  project_task_type_id?: Prisma.UuidNullableFilter<"TimeSheet"> | string | null
   stamp_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   start_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   end_date?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
@@ -1026,7 +1019,41 @@ export type TimeSheetSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   project_task_type?: boolean | Prisma.TimeSheet$project_task_typeArgs<ExtArgs>
 }, ExtArgs["result"]["timeSheet"]>
 
+export type TimeSheetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  user_id?: boolean
+  project_id?: boolean
+  project_task_type_id?: boolean
+  stamp_date?: boolean
+  start_date?: boolean
+  end_date?: boolean
+  exclude_seconds?: boolean
+  total_seconds?: boolean
+  detail?: boolean
+  remark?: boolean
+  created_at?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  project_task_type?: boolean | Prisma.TimeSheet$project_task_typeArgs<ExtArgs>
+}, ExtArgs["result"]["timeSheet"]>
 
+export type TimeSheetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  user_id?: boolean
+  project_id?: boolean
+  project_task_type_id?: boolean
+  stamp_date?: boolean
+  start_date?: boolean
+  end_date?: boolean
+  exclude_seconds?: boolean
+  total_seconds?: boolean
+  detail?: boolean
+  remark?: boolean
+  created_at?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  project_task_type?: boolean | Prisma.TimeSheet$project_task_typeArgs<ExtArgs>
+}, ExtArgs["result"]["timeSheet"]>
 
 export type TimeSheetSelectScalar = {
   id?: boolean
@@ -1045,6 +1072,16 @@ export type TimeSheetSelectScalar = {
 
 export type TimeSheetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "project_id" | "project_task_type_id" | "stamp_date" | "start_date" | "end_date" | "exclude_seconds" | "total_seconds" | "detail" | "remark" | "created_at", ExtArgs["result"]["timeSheet"]>
 export type TimeSheetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  project_task_type?: boolean | Prisma.TimeSheet$project_task_typeArgs<ExtArgs>
+}
+export type TimeSheetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  project_task_type?: boolean | Prisma.TimeSheet$project_task_typeArgs<ExtArgs>
+}
+export type TimeSheetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   project_task_type?: boolean | Prisma.TimeSheet$project_task_typeArgs<ExtArgs>
@@ -1188,6 +1225,30 @@ export interface TimeSheetDelegate<ExtArgs extends runtime.Types.Extensions.Inte
   createMany<T extends TimeSheetCreateManyArgs>(args?: Prisma.SelectSubset<T, TimeSheetCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many TimeSheets and returns the data saved in the database.
+   * @param {TimeSheetCreateManyAndReturnArgs} args - Arguments to create many TimeSheets.
+   * @example
+   * // Create many TimeSheets
+   * const timeSheet = await prisma.timeSheet.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many TimeSheets and only return the `id`
+   * const timeSheetWithIdOnly = await prisma.timeSheet.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends TimeSheetCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TimeSheetCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeSheetPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a TimeSheet.
    * @param {TimeSheetDeleteArgs} args - Arguments to delete one TimeSheet.
    * @example
@@ -1250,6 +1311,36 @@ export interface TimeSheetDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * 
    */
   updateMany<T extends TimeSheetUpdateManyArgs>(args: Prisma.SelectSubset<T, TimeSheetUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more TimeSheets and returns the data updated in the database.
+   * @param {TimeSheetUpdateManyAndReturnArgs} args - Arguments to update many TimeSheets.
+   * @example
+   * // Update many TimeSheets
+   * const timeSheet = await prisma.timeSheet.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more TimeSheets and only return the `id`
+   * const timeSheetWithIdOnly = await prisma.timeSheet.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends TimeSheetUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TimeSheetUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeSheetPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one TimeSheet.
@@ -1687,6 +1778,29 @@ export type TimeSheetCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * TimeSheet createManyAndReturn
+ */
+export type TimeSheetCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TimeSheet
+   */
+  select?: Prisma.TimeSheetSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the TimeSheet
+   */
+  omit?: Prisma.TimeSheetOmit<ExtArgs> | null
+  /**
+   * The data used to create many TimeSheets.
+   */
+  data: Prisma.TimeSheetCreateManyInput | Prisma.TimeSheetCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * TimeSheet update
  */
 export type TimeSheetUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1728,6 +1842,36 @@ export type TimeSheetUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many TimeSheets to update.
    */
   limit?: number
+}
+
+/**
+ * TimeSheet updateManyAndReturn
+ */
+export type TimeSheetUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TimeSheet
+   */
+  select?: Prisma.TimeSheetSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the TimeSheet
+   */
+  omit?: Prisma.TimeSheetOmit<ExtArgs> | null
+  /**
+   * The data used to update TimeSheets.
+   */
+  data: Prisma.XOR<Prisma.TimeSheetUpdateManyMutationInput, Prisma.TimeSheetUncheckedUpdateManyInput>
+  /**
+   * Filter which TimeSheets to update
+   */
+  where?: Prisma.TimeSheetWhereInput
+  /**
+   * Limit how many TimeSheets to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

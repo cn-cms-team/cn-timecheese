@@ -233,8 +233,8 @@ export type TimeSheetSummaryWhereInput = {
   AND?: Prisma.TimeSheetSummaryWhereInput | Prisma.TimeSheetSummaryWhereInput[]
   OR?: Prisma.TimeSheetSummaryWhereInput[]
   NOT?: Prisma.TimeSheetSummaryWhereInput | Prisma.TimeSheetSummaryWhereInput[]
-  user_id?: Prisma.StringFilter<"TimeSheetSummary"> | string
-  project_id?: Prisma.StringFilter<"TimeSheetSummary"> | string
+  user_id?: Prisma.UuidFilter<"TimeSheetSummary"> | string
+  project_id?: Prisma.UuidFilter<"TimeSheetSummary"> | string
   year?: Prisma.IntFilter<"TimeSheetSummary"> | number
   month?: Prisma.IntFilter<"TimeSheetSummary"> | number
   total_seconds?: Prisma.IntFilter<"TimeSheetSummary"> | number
@@ -250,7 +250,6 @@ export type TimeSheetSummaryOrderByWithRelationInput = {
   total_seconds?: Prisma.SortOrder
   stamp_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  _relevance?: Prisma.TimeSheetSummaryOrderByRelevanceInput
 }
 
 export type TimeSheetSummaryWhereUniqueInput = Prisma.AtLeast<{
@@ -258,8 +257,8 @@ export type TimeSheetSummaryWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.TimeSheetSummaryWhereInput | Prisma.TimeSheetSummaryWhereInput[]
   OR?: Prisma.TimeSheetSummaryWhereInput[]
   NOT?: Prisma.TimeSheetSummaryWhereInput | Prisma.TimeSheetSummaryWhereInput[]
-  user_id?: Prisma.StringFilter<"TimeSheetSummary"> | string
-  project_id?: Prisma.StringFilter<"TimeSheetSummary"> | string
+  user_id?: Prisma.UuidFilter<"TimeSheetSummary"> | string
+  project_id?: Prisma.UuidFilter<"TimeSheetSummary"> | string
   year?: Prisma.IntFilter<"TimeSheetSummary"> | number
   month?: Prisma.IntFilter<"TimeSheetSummary"> | number
   total_seconds?: Prisma.IntFilter<"TimeSheetSummary"> | number
@@ -286,8 +285,8 @@ export type TimeSheetSummaryScalarWhereWithAggregatesInput = {
   AND?: Prisma.TimeSheetSummaryScalarWhereWithAggregatesInput | Prisma.TimeSheetSummaryScalarWhereWithAggregatesInput[]
   OR?: Prisma.TimeSheetSummaryScalarWhereWithAggregatesInput[]
   NOT?: Prisma.TimeSheetSummaryScalarWhereWithAggregatesInput | Prisma.TimeSheetSummaryScalarWhereWithAggregatesInput[]
-  user_id?: Prisma.StringWithAggregatesFilter<"TimeSheetSummary"> | string
-  project_id?: Prisma.StringWithAggregatesFilter<"TimeSheetSummary"> | string
+  user_id?: Prisma.UuidWithAggregatesFilter<"TimeSheetSummary"> | string
+  project_id?: Prisma.UuidWithAggregatesFilter<"TimeSheetSummary"> | string
   year?: Prisma.IntWithAggregatesFilter<"TimeSheetSummary"> | number
   month?: Prisma.IntWithAggregatesFilter<"TimeSheetSummary"> | number
   total_seconds?: Prisma.IntWithAggregatesFilter<"TimeSheetSummary"> | number
@@ -365,12 +364,6 @@ export type TimeSheetSummaryUncheckedUpdateManyInput = {
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type TimeSheetSummaryOrderByRelevanceInput = {
-  fields: Prisma.TimeSheetSummaryOrderByRelevanceFieldEnum | Prisma.TimeSheetSummaryOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
-}
-
 export type TimeSheetSummaryUser_idProject_idYearCompoundUniqueInput = {
   user_id: string
   project_id: string
@@ -431,7 +424,25 @@ export type TimeSheetSummarySelect<ExtArgs extends runtime.Types.Extensions.Inte
   updated_at?: boolean
 }, ExtArgs["result"]["timeSheetSummary"]>
 
+export type TimeSheetSummarySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  user_id?: boolean
+  project_id?: boolean
+  year?: boolean
+  month?: boolean
+  total_seconds?: boolean
+  stamp_at?: boolean
+  updated_at?: boolean
+}, ExtArgs["result"]["timeSheetSummary"]>
 
+export type TimeSheetSummarySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  user_id?: boolean
+  project_id?: boolean
+  year?: boolean
+  month?: boolean
+  total_seconds?: boolean
+  stamp_at?: boolean
+  updated_at?: boolean
+}, ExtArgs["result"]["timeSheetSummary"]>
 
 export type TimeSheetSummarySelectScalar = {
   user_id?: boolean
@@ -574,6 +585,30 @@ export interface TimeSheetSummaryDelegate<ExtArgs extends runtime.Types.Extensio
   createMany<T extends TimeSheetSummaryCreateManyArgs>(args?: Prisma.SelectSubset<T, TimeSheetSummaryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many TimeSheetSummaries and returns the data saved in the database.
+   * @param {TimeSheetSummaryCreateManyAndReturnArgs} args - Arguments to create many TimeSheetSummaries.
+   * @example
+   * // Create many TimeSheetSummaries
+   * const timeSheetSummary = await prisma.timeSheetSummary.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many TimeSheetSummaries and only return the `user_id`
+   * const timeSheetSummaryWithUser_idOnly = await prisma.timeSheetSummary.createManyAndReturn({
+   *   select: { user_id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends TimeSheetSummaryCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TimeSheetSummaryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeSheetSummaryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a TimeSheetSummary.
    * @param {TimeSheetSummaryDeleteArgs} args - Arguments to delete one TimeSheetSummary.
    * @example
@@ -636,6 +671,36 @@ export interface TimeSheetSummaryDelegate<ExtArgs extends runtime.Types.Extensio
    * 
    */
   updateMany<T extends TimeSheetSummaryUpdateManyArgs>(args: Prisma.SelectSubset<T, TimeSheetSummaryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more TimeSheetSummaries and returns the data updated in the database.
+   * @param {TimeSheetSummaryUpdateManyAndReturnArgs} args - Arguments to update many TimeSheetSummaries.
+   * @example
+   * // Update many TimeSheetSummaries
+   * const timeSheetSummary = await prisma.timeSheetSummary.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more TimeSheetSummaries and only return the `user_id`
+   * const timeSheetSummaryWithUser_idOnly = await prisma.timeSheetSummary.updateManyAndReturn({
+   *   select: { user_id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends TimeSheetSummaryUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TimeSheetSummaryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeSheetSummaryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one TimeSheetSummary.
@@ -1041,6 +1106,25 @@ export type TimeSheetSummaryCreateManyArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
+ * TimeSheetSummary createManyAndReturn
+ */
+export type TimeSheetSummaryCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TimeSheetSummary
+   */
+  select?: Prisma.TimeSheetSummarySelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the TimeSheetSummary
+   */
+  omit?: Prisma.TimeSheetSummaryOmit<ExtArgs> | null
+  /**
+   * The data used to create many TimeSheetSummaries.
+   */
+  data: Prisma.TimeSheetSummaryCreateManyInput | Prisma.TimeSheetSummaryCreateManyInput[]
+  skipDuplicates?: boolean
+}
+
+/**
  * TimeSheetSummary update
  */
 export type TimeSheetSummaryUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1066,6 +1150,32 @@ export type TimeSheetSummaryUpdateArgs<ExtArgs extends runtime.Types.Extensions.
  * TimeSheetSummary updateMany
  */
 export type TimeSheetSummaryUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * The data used to update TimeSheetSummaries.
+   */
+  data: Prisma.XOR<Prisma.TimeSheetSummaryUpdateManyMutationInput, Prisma.TimeSheetSummaryUncheckedUpdateManyInput>
+  /**
+   * Filter which TimeSheetSummaries to update
+   */
+  where?: Prisma.TimeSheetSummaryWhereInput
+  /**
+   * Limit how many TimeSheetSummaries to update.
+   */
+  limit?: number
+}
+
+/**
+ * TimeSheetSummary updateManyAndReturn
+ */
+export type TimeSheetSummaryUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TimeSheetSummary
+   */
+  select?: Prisma.TimeSheetSummarySelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the TimeSheetSummary
+   */
+  omit?: Prisma.TimeSheetSummaryOmit<ExtArgs> | null
   /**
    * The data used to update TimeSheetSummaries.
    */
