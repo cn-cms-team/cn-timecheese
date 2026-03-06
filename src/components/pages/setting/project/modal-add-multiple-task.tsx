@@ -76,7 +76,7 @@ export function ModalAddMultipleTask({
       <DialogTrigger asChild>
         <Button>เพิ่มข้อมูล</Button>
       </DialogTrigger>
-      <DialogContent showCloseButton={false}>
+      <DialogContent showCloseButton={false} className="sm:max-w-[50%]">
         <DialogHeader>
           <DialogTitle>เพิ่มข้อมูลประเภทงาน</DialogTitle>
         </DialogHeader>

@@ -60,6 +60,7 @@ export async function POST(request: Request) {
         status: data.status,
         people_cost: data.people_cost,
         people_cost_percent: data.people_cost_percent,
+        is_company_project: data.is_company_project,
         created_at: new Date(),
         created_by: data.created_by,
       },

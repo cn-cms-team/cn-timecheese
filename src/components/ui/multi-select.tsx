@@ -940,9 +940,9 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
             className={cn(
               'w-auto p-0',
               getPopoverAnimationClass(),
-              screenSize === 'mobile' && 'w-[85vw] max-w-[280px]',
+              screenSize === 'mobile' && 'w-[85vw] max-w-70',
               screenSize === 'tablet' && 'w-[70vw] max-w-md',
-              screenSize === 'desktop' && 'min-w-[300px]',
+              screenSize === 'desktop' && 'min-w-75',
               popoverClassName
             )}
             style={{
@@ -973,7 +973,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
               )}
               <CommandList
                 className={cn(
-                  'max-h-[350px] overflow-y-auto multiselect-scrollbar',
+                  'max-h-50 overflow-y-auto multiselect-scrollbar',
                   'overscroll-behavior-y-contain'
                 )}
               >

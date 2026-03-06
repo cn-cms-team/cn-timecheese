@@ -19,6 +19,7 @@ export type IProject = {
   updated_by: string;
   is_using?: boolean;
   members_count?: number;
+  is_company_project: boolean;
 };
 
 export type IProjectMember = {

@@ -4,6 +4,10 @@ export const getIsActive = (is_active: boolean): string => {
   return is_active ? 'เปิดการใช้งาน' : 'ปิดการใช้งาน';
 };
 
+export const getIsCompanyProject = (is_company_project: boolean): string => {
+  return is_company_project ? 'ใช้ภายในบริษัท' : 'ใช้กับโครงการลูกค้า';
+};
+
 export const getProjectStatus = (status: ProjectStatus): string => {
   const value: Record<ProjectStatus, string> = {
     [ProjectStatus.CANCELLED]: 'ยกเลิก',

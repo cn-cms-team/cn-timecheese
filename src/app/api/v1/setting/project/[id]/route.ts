@@ -21,6 +21,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         people_cost: true,
         people_cost_percent: true,
         status: true,
+        is_company_project: true,
         projectMembers: {
           select: {
             user: {
@@ -82,6 +83,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       people_cost: project.people_cost,
       people_cost_percent: project.people_cost_percent,
       status: project.status,
+      is_company_project: project.is_company_project,
       member: project.projectMembers.map(({ user, ...rest }) => ({
         ...rest,
         name: `${user.first_name} ${user.last_name}`,
