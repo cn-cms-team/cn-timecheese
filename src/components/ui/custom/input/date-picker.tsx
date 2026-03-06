@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Calendar1, ChevronDownIcon } from 'lucide-react';
+import { Calendar1 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
