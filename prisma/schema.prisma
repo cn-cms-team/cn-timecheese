@@ -226,6 +226,7 @@ model Project {
   start_date          DateTime?
   end_date            DateTime?
   status              ProjectStatus @default(IN_PROGRESS)
+  is_company_project  Boolean       @default(false)
 
   created_at DateTime  @default(now())
   created_by String    @db.Uuid
