@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
+import { PERIOD_CALENDAR } from '@/lib/constants/period-calendar';
 import prisma from '@/lib/prisma';
 import { endOfMonth, endOfWeek, startOfMonth, startOfWeek } from 'date-fns';
 
@@ -17,7 +17,7 @@ export async function GET(request: Request) {
 
   let dateFilter: { gte?: Date; lte?: Date } = {};
 
-  if (period === PERIODCALENDAR.WEEK && date) {
+  if (period === PERIOD_CALENDAR.WEEK && date) {
     const baseDate = new Date(date);
     dateFilter = {
       gte: startOfWeek(baseDate, { weekStartsOn: 0 }),
@@ -25,7 +25,7 @@ export async function GET(request: Request) {
     };
   }
 
-  if (period === PERIODCALENDAR.MONTH && year && month >= 0) {
+  if (period === PERIOD_CALENDAR.MONTH && year && month >= 0) {
     const baseDate = new Date(year, month, 1);
     dateFilter = {
       gte: startOfMonth(baseDate),

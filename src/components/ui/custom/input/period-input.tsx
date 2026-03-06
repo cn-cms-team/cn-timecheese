@@ -11,7 +11,7 @@ interface IProps {
 
 const PeriodInput = ({ value, options = [], onSelect }: IProps) => {
   return (
-    <div className="border border-gray-300 w-full lg:max-w-md rounded-md flex ">
+    <div className="border border-gray-300 w-full lg:max-w-md rounded-md flex p-0.5">
       {options?.map((item, index) => (
         <div
           key={index}

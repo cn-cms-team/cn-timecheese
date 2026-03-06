@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { isSameDay } from 'date-fns';
 
 import { cn } from '@/lib/utils';
-import { DAYS, DAYTASKSTATUS } from '@/lib/constants/period-calendar';
+import { DAYS, DAY_TASK_STATUS } from '@/lib/constants/period-calendar';
 
 import TimeSheetForm from '../timesheet-form';
 import TimeSheetPopover from '../timesheet-popover';
@@ -64,7 +64,7 @@ const TimeSheetMonthCalendar = () => {
             return (
               <div
                 key={index}
-                className={cn('min-h-[140px] border-t border-r border-neutral-400 bg-neutral-300')}
+                className={cn('min-h-35 border-t border-r border-neutral-400 bg-neutral-300')}
               />
             );
           }
@@ -78,11 +78,11 @@ const TimeSheetMonthCalendar = () => {
           const isToday = isSameDay(dayOfMonth, new Date());
           const isPast = isPastDay(dayOfMonth);
           const status = getDayStatus(dayOfMonth, dailySecondsMap);
-          const noTask = isPast && status === DAYTASKSTATUS.NOTASK;
-          const inCompleted = isPast && status === DAYTASKSTATUS.INPROGRESS;
+          const noTask = isPast && status === DAY_TASK_STATUS.NO_TASK;
+          const inCompleted = isPast && status === DAY_TASK_STATUS.IN_PROGRESS;
 
           return (
-            <div key={index} className="relative min-h-[140px] max-h-[140px] overflow-hidden ">
+            <div key={index} className="relative min-h-35 max-h-35 overflow-hidden ">
               <TimeSheetPopover
                 className="w-full p-0"
                 align="center"
@@ -148,7 +148,7 @@ const TimeSheetMonthCalendar = () => {
                           </div>
                         }
                         popoverContent={() => (
-                          <div className="max-h-[300px] w-[260px] overflow-y-auto space-y-1 p-2">
+                          <div className="max-h-75 w-65 overflow-y-auto space-y-1 p-2">
                             {hiddenTasks.map((task) => (
                               <TimeSheetPopover
                                 key={task.id}
