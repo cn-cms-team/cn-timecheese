@@ -44,6 +44,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             type: true,
             task_type_id: true,
             description: true,
+            task_type: {
+              select: {
+                id: true,
+                description: true,
+              },
+            },
           },
         },
       },
@@ -93,6 +99,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         .filter((f) => f.task_type_id)
         .map((item) => ({
           ...item,
+          description: item?.task_type?.description,
           is_using: usingTaskTypeIds.has(item.id),
         })),
       optional_task_type: project.projectTaskTypes
