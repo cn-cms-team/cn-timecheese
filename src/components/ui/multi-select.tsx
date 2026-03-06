@@ -1099,21 +1099,20 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                 )}
                 <CommandSeparator />
                 <CommandGroup>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 p-2">
                     {selectedValues.length > 0 && (
                       <>
                         <CommandItem
                           onSelect={handleClear}
-                          className="flex-1 justify-center cursor-pointer"
+                          className="flex-1 justify-center cursor-pointer rounded-md border border-border bg-muted/50 px-3 py-2 text-sm font-medium transition-colors hover:bg-muted focus:bg-muted data-[selected=true]:bg-muted"
                         >
                           Clear
                         </CommandItem>
-                        <Separator orientation="vertical" className="flex min-h-6 h-full" />
                       </>
                     )}
                     <CommandItem
                       onSelect={() => setIsPopoverOpen(false)}
-                      className="flex-1 justify-center cursor-pointer max-w-full"
+                      className="flex-1 justify-center cursor-pointer rounded-md border border-primary/20 bg-primary/10 px-3 py-2 text-sm font-medium transition-colors hover:bg-primary/15 focus:bg-primary/15 data-[selected=true]:bg-primary/15 text-black"
                     >
                       Close
                     </CommandItem>
