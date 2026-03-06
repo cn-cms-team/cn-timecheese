@@ -99,7 +99,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
           form.reset({
             ...projectData,
             start_date: new Date(projectData.start_date),
-            end_date: new Date(projectData.end_date),
+            end_date: projectData.end_date ? new Date(projectData.end_date) : undefined,
             member: projectData.member.map((item) => ({
               ...item,
               project_id: id,
@@ -262,8 +262,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     <div className="cev-box">
       <Form {...form}>
         <form id="project-create-form" onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-            <div className="lg:col-span-2">
+          <div className="flex flex-col gap-3">
+            <div>
               <TitleGroup title="ข้อมูลโครงการ" />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {!id && (
@@ -496,7 +496,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
               </div>
             </div>
             {!isCompanyProjectWatch && (
-              <div className="lg:col-span-2">
+              <div>
                 <TitleGroup title="สมาชิก" />
                 <ProjectMemberTable
                   form={form}
@@ -504,11 +504,13 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                   userOptions={userOptions}
                 />
                 <div className="flex w-full py-4 px-2">
-                  <Button onClick={handleAddMember}>เพิ่มข้อมูล</Button>
+                  <Button type="button" onClick={handleAddMember}>
+                    เพิ่มข้อมูล
+                  </Button>
                 </div>
               </div>
             )}
-            <div className="md:col-span-1">
+            <div>
               <TitleGroup title="ประเภทงานตั้งต้น" />
               <ProjectTaskTable
                 form={form}
@@ -527,7 +529,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                 />
               </div>
             </div>
-            <div className="md:col-span-1">
+            <div>
               <TitleGroup title="ประเภทงานจำเพาะ" />
               <ProjectTaskTable
                 form={form}
@@ -537,7 +539,9 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                 name="optional_task_type"
               />
               <div className="flex w-full py-4 px-2">
-                <Button onClick={handleAddOptionalTaskType}>เพิ่มข้อมูล</Button>
+                <Button type="button" onClick={handleAddOptionalTaskType}>
+                  เพิ่มข้อมูล
+                </Button>
               </div>
             </div>
             <div className="flex justify-end font-bold lg:col-span-2">

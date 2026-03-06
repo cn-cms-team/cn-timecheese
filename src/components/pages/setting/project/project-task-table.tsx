@@ -191,6 +191,7 @@ const ProjectTaskTable = ({
                           )}
                           <TableCell>
                             <Button
+                              type="button"
                               variant={'ghost'}
                               onClick={() => {
                                 remove(index);

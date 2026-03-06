@@ -59,7 +59,7 @@ const ProjectViewDetail = ({
           <TableRow className="bg-[#f2f4f7]">
             <TableHead className="w-25">หมวดหมู่</TableHead>
             <TableHead className="w-25">ประเภทงาน</TableHead>
-            <TableHead className="w-25">คำอธิบาย</TableHead>
+            <TableHead className="w-50">คำอธิบาย</TableHead>
           </TableRow>
         </TableHeader>
 
