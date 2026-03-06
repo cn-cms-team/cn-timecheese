@@ -162,64 +162,62 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
         <form
           id="user-create-form"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-x-6 space-y-5 px-0 lg:px-8"
+          className="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
-          <div className="flex flex-wrap items-baseline gap-y-5 mx-0">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>
-                    อีเมล
-                    <Required />
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      autoComplete="off"
-                      placeholder="กรุณากรอกอีเมลของคุณ"
-                      {...field}
-                      maxLength={MAX_LENGTH_255}
-                      onInput={(e) => {
-                        field.onChange(e);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="code"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>
-                    รหัสพนักงาน
-                    <Required />
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="กรุณากรอกรหัสพนักงาน"
-                      {...field}
-                      maxLength={MAX_LENGTH_50}
-                      onInput={(e) => {
-                        field.onChange(e);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  อีเมล
+                  <Required />
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    autoComplete="off"
+                    placeholder="กรุณากรอกอีเมลของคุณ"
+                    {...field}
+                    maxLength={MAX_LENGTH_255}
+                    onInput={(e) => {
+                      field.onChange(e);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="code"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  รหัสพนักงาน
+                  <Required />
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="กรุณากรอกรหัสพนักงาน"
+                    {...field}
+                    maxLength={MAX_LENGTH_50}
+                    onInput={(e) => {
+                      field.onChange(e);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           {!id && (
-            <div className="flex flex-wrap items-baseline gap-y-5 mx-0">
+            <>
               <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem className="w-full md:w-1/2">
+                  <FormItem>
                     <FormLabel>
                       รหัสผ่าน
                       <Required />
@@ -244,7 +242,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                 control={form.control}
                 name="confirm_password"
                 render={({ field }) => (
-                  <FormItem className="w-full md:w-1/2">
+                  <FormItem>
                     <FormLabel>
                       ยืนยันรหัสผ่าน
                       <Required />
@@ -265,244 +263,234 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                   </FormItem>
                 )}
               />
-            </div>
+            </>
           )}
-          <div className="flex flex-wrap items-baseline gap-y-5 mx-0">
-            <FormField
-              control={form.control}
-              name="first_name"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>
-                    ชื่อ
-                    <Required />
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="กรุณากรอกชื่อ"
-                      {...field}
-                      maxLength={MAX_LENGTH_100}
-                      onInput={(e) => {
-                        field.onChange(e);
-                      }}
+          <FormField
+            control={form.control}
+            name="first_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  ชื่อ
+                  <Required />
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="กรุณากรอกชื่อ"
+                    {...field}
+                    maxLength={MAX_LENGTH_100}
+                    onInput={(e) => {
+                      field.onChange(e);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="last_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  นามสกุล
+                  <Required />
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="กรุณากรอกนามสกุล"
+                    {...field}
+                    maxLength={MAX_LENGTH_100}
+                    onInput={(e) => {
+                      field.onChange(e);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="nick_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  ชื่อเล่น
+                  <Required />
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="กรุณากรอกชื่อเล่น"
+                    {...field}
+                    maxLength={MAX_LENGTH_100}
+                    onInput={(e) => {
+                      field.onChange(e);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="team_id"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  ทีม
+                  <Required />
+                </FormLabel>
+                <FormControl>
+                  <ComboboxForm
+                    placeholder="เลือกทีม"
+                    options={teamOptions}
+                    field={field}
+                    onSelect={(value) => field.onChange(value)}
+                    isError={form.formState.errors.team_id ? true : false}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="position_level_id"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  ระดับตำแหน่ง
+                  <Required />
+                </FormLabel>
+                <FormControl>
+                  <ComboboxForm
+                    placeholder="เลือกระดับตำแหน่ง"
+                    options={positionLevelOptions}
+                    isGroup={true}
+                    field={field}
+                    onSelect={(value) => {
+                      field.onChange(value);
+                    }}
+                    isError={form.formState.errors.position_level_id ? true : false}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="role_id"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  สิทธิ์การใช้งาน
+                  <Required />
+                </FormLabel>
+                <FormControl>
+                  <ComboboxForm
+                    placeholder="เลือกสิทธิ์การใช้งาน"
+                    options={roleOptions}
+                    field={field}
+                    onSelect={(value) => field.onChange(value)}
+                    isError={form.formState.errors.role_id ? true : false}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="start_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  วันที่เริ่มต้น
+                  <Required />
+                </FormLabel>
+                <FormControl>
+                  <DatePickerInput
+                    {...field}
+                    value={field.value}
+                    startMonth={undefined}
+                    endMonth={undefined}
+                    placeholder="กรุณาเลือกวันที่เริ่มต้นของคุณ"
+                    isError={form.formState.errors.start_date ? true : false}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="end_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>วันที่สิ้นสุด</FormLabel>
+                <FormControl>
+                  <DatePickerInput
+                    {...field}
+                    value={field.value ? new Date(field.value) : undefined}
+                    startMonth={undefined}
+                    endMonth={undefined}
+                    placeholder="กรุณาเลือกวันที่สิ้นสุดของคุณ"
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="salary_range"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>ช่วงเงินเดือนโดยประมาณ</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="กรุณากรอกช่วงเงินเดือนโดยประมาณ"
+                    {...field}
+                    value={field.value || ''}
+                    maxLength={MAX_LENGTH_100}
+                    onInput={(e) => {
+                      field.onChange(e);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="is_active"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>สถานะการใช้งาน</FormLabel>
+                <FormControl>
+                  <div className="flex items-center space-x-2 mt-2">
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      aria-readonly
+                      id="is-active"
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="last_name"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>
-                    นามสกุล
-                    <Required />
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="กรุณากรอกนามสกุล"
-                      {...field}
-                      maxLength={MAX_LENGTH_100}
-                      onInput={(e) => {
-                        field.onChange(e);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex flex-wrap items-baseline gap-y-5 mx-0">
-            <FormField
-              control={form.control}
-              name="nick_name"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>
-                    ชื่อเล่น
-                    <Required />
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="กรุณากรอกชื่อเล่น"
-                      {...field}
-                      maxLength={MAX_LENGTH_100}
-                      onInput={(e) => {
-                        field.onChange(e);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="team_id"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>
-                    ทีม
-                    <Required />
-                  </FormLabel>
-                  <FormControl>
-                    <ComboboxForm
-                      placeholder="เลือกทีม"
-                      options={teamOptions}
-                      field={field}
-                      onSelect={(value) => field.onChange(value)}
-                      isError={form.formState.errors.team_id ? true : false}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex flex-wrap items-baseline gap-y-5 mx-0">
-            <FormField
-              control={form.control}
-              name="position_level_id"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>
-                    ระดับตำแหน่ง
-                    <Required />
-                  </FormLabel>
-                  <FormControl>
-                    <ComboboxForm
-                      placeholder="เลือกระดับตำแหน่ง"
-                      options={positionLevelOptions}
-                      isGroup={true}
-                      field={field}
-                      onSelect={(value) => {
-                        field.onChange(value);
-                      }}
-                      isError={form.formState.errors.position_level_id ? true : false}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="role_id"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>
-                    สิทธิ์การใช้งาน
-                    <Required />
-                  </FormLabel>
-                  <FormControl>
-                    <ComboboxForm
-                      placeholder="เลือกสิทธิ์การใช้งาน"
-                      options={roleOptions}
-                      field={field}
-                      onSelect={(value) => field.onChange(value)}
-                      isError={form.formState.errors.role_id ? true : false}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex flex-wrap items-baseline gap-y-5 mx-0">
-            <FormField
-              control={form.control}
-              name="start_date"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>
-                    วันที่เริ่มต้น
-                    <Required />
-                  </FormLabel>
-                  <FormControl>
-                    <DatePickerInput
-                      {...field}
-                      value={field.value}
-                      startMonth={undefined}
-                      endMonth={undefined}
-                      placeholder="กรุณาเลือกวันที่เริ่มต้นของคุณ"
-                      isError={form.formState.errors.start_date ? true : false}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="end_date"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>วันที่สิ้นสุด</FormLabel>
-                  <FormControl>
-                    <DatePickerInput
-                      {...field}
-                      value={field.value ? new Date(field.value) : undefined}
-                      startMonth={undefined}
-                      endMonth={undefined}
-                      placeholder="กรุณาเลือกวันที่สิ้นสุดของคุณ"
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex flex-wrap items-baseline gap-y-5 mx-0">
-            <FormField
-              control={form.control}
-              name="salary_range"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>ช่วงเงินเดือนโดยประมาณ</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="กรุณากรอกช่วงเงินเดือนโดยประมาณ"
-                      {...field}
-                      value={field.value || ''}
-                      maxLength={MAX_LENGTH_100}
-                      onInput={(e) => {
-                        field.onChange(e);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="is_active"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>สถานะการใช้งาน</FormLabel>
-                  <FormControl>
-                    <div className="flex items-center space-x-2 mt-2">
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        aria-readonly
-                        id="is-active"
-                      />
-                      <Label htmlFor="is-active" className="mb-0">
-                        {getIsActive(isActiveWatch as boolean)}
-                      </Label>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+                    <Label htmlFor="is-active" className="mb-0">
+                      {getIsActive(isActiveWatch as boolean)}
+                    </Label>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </form>
       </Form>
     </div>

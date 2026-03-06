@@ -156,83 +156,79 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
         <form
           id="team-create-form"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 gap-x-6 gap-y-5 px-8"
+          className="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
-          <div className="flex flex-wrap items-baseline">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>
-                    ชื่อทีม
-                    <Required />
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      autoComplete="off"
-                      placeholder="กรุณากรอกชื่อทีม"
-                      {...field}
-                      maxLength={MAX_LENGTH_100}
-                      onInput={(e) => {
-                        field.onChange(e);
-                      }}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  ชื่อทีม
+                  <Required />
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    autoComplete="off"
+                    placeholder="กรุณากรอกชื่อทีม"
+                    {...field}
+                    maxLength={MAX_LENGTH_100}
+                    onInput={(e) => {
+                      field.onChange(e);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="is_active"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>สถานะการใช้งาน</FormLabel>
+                <FormControl>
+                  <div className="flex items-center space-x-2 mt-2">
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      aria-readonly
+                      id="is-active"
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="is_active"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>สถานะการใช้งาน</FormLabel>
-                  <FormControl>
-                    <div className="flex items-center space-x-2 mt-2">
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        aria-readonly
-                        id="is-active"
-                      />
-                      <Label htmlFor="is-active" className="mb-0">
-                        {getIsActive(isActiveWatch as boolean)}
-                      </Label>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex flex-wrap items-baseline">
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem className="w-full md:w-1/2">
-                  <FormLabel>
-                    คำอธิบาย
-                    <Required />
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      id="small-form-comments"
-                      placeholder="กรุณากรอกคำอธิบาย"
-                      maxLength={MAX_LENGTH_255}
-                      {...field}
-                      onInput={(e) => {
-                        field.onChange(e);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+                    <Label htmlFor="is-active" className="mb-0">
+                      {getIsActive(isActiveWatch as boolean)}
+                    </Label>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  คำอธิบาย
+                  <Required />
+                </FormLabel>
+                <FormControl>
+                  <Textarea
+                    id="small-form-comments"
+                    placeholder="กรุณากรอกคำอธิบาย"
+                    maxLength={MAX_LENGTH_255}
+                    {...field}
+                    onInput={(e) => {
+                      field.onChange(e);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </form>
       </Form>
       {id && (

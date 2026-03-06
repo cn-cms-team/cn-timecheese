@@ -91,7 +91,7 @@ export async function POST(request: Request) {
 
     return Response.json(
       {
-        message: 'Create success',
+        message: 'Created successfully',
         data: { id: result.id },
       },
       { status: 200 }

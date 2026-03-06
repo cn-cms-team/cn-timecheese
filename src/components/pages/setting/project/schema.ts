@@ -1,3 +1,4 @@
+import { is } from 'date-fns/locale';
 import z from 'zod';
 
 const memberDetailSchema = z.object({
@@ -23,10 +24,11 @@ const taskTypeSchema = z.object({
 });
 
 const baseSchema = {
+  is_company_project: z.boolean(),
   code: z.string().nonempty('กรุณากรอกรหัสโครงการ'),
   name: z.string().nonempty('กรุณากรอกชื่อโครงการ'),
   start_date: z.date('กรุณากรอกวันที่เริ่มต้น'),
-  end_date: z.date('กรุณากรอกวันที่สิ้นสุด'),
+  end_date: z.date().nullable().optional(),
   status: z.string().nonempty('กรุณากรอกสถานะโครงการ'),
   description: z.string().nullable().optional(),
   value: z.number('กรุณากรอกมูลค่าโครงการ'),

@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { th } from 'date-fns/locale';
 import { formatDate } from '@/lib/functions/date-format';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { DAYTASKSTATUS } from '@/lib/constants/period-calendar';
+import { DAY_TASK_STATUS } from '@/lib/constants/period-calendar';
 
 import { Button } from '@/components/ui/button';
 import { useTimeSheetContext } from '../view/timesheet-context';
@@ -75,9 +75,9 @@ const TimeSheetWeekCalendar = () => {
             const isToday = isSameDay(day, new Date());
             const isPast = isPastDay(day);
             const status = getDayStatus(day, dailySecondsMap);
-            const noTask = isPast && status === DAYTASKSTATUS.NOTASK;
-            const inCompleted = isPast && status === DAYTASKSTATUS.INPROGRESS;
-            const isIgnore = isPast && status === DAYTASKSTATUS.IGNORE;
+            const noTask = isPast && status === DAY_TASK_STATUS.NO_TASK;
+            const inCompleted = isPast && status === DAY_TASK_STATUS.IN_PROGRESS;
+            const isIgnore = isPast && status === DAY_TASK_STATUS.IGNORE;
 
             return (
               <div

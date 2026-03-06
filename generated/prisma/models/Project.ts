@@ -49,6 +49,7 @@ export type ProjectMinAggregateOutputType = {
   start_date: Date | null
   end_date: Date | null
   status: $Enums.ProjectStatus | null
+  is_company_project: boolean | null
   created_at: Date | null
   created_by: string | null
   updated_at: Date | null
@@ -67,6 +68,7 @@ export type ProjectMaxAggregateOutputType = {
   start_date: Date | null
   end_date: Date | null
   status: $Enums.ProjectStatus | null
+  is_company_project: boolean | null
   created_at: Date | null
   created_by: string | null
   updated_at: Date | null
@@ -85,6 +87,7 @@ export type ProjectCountAggregateOutputType = {
   start_date: number
   end_date: number
   status: number
+  is_company_project: number
   created_at: number
   created_by: number
   updated_at: number
@@ -117,6 +120,7 @@ export type ProjectMinAggregateInputType = {
   start_date?: true
   end_date?: true
   status?: true
+  is_company_project?: true
   created_at?: true
   created_by?: true
   updated_at?: true
@@ -135,6 +139,7 @@ export type ProjectMaxAggregateInputType = {
   start_date?: true
   end_date?: true
   status?: true
+  is_company_project?: true
   created_at?: true
   created_by?: true
   updated_at?: true
@@ -153,6 +158,7 @@ export type ProjectCountAggregateInputType = {
   start_date?: true
   end_date?: true
   status?: true
+  is_company_project?: true
   created_at?: true
   created_by?: true
   updated_at?: true
@@ -258,6 +264,7 @@ export type ProjectGroupByOutputType = {
   start_date: Date | null
   end_date: Date | null
   status: $Enums.ProjectStatus
+  is_company_project: boolean
   created_at: Date
   created_by: string
   updated_at: Date | null
@@ -299,6 +306,7 @@ export type ProjectWhereInput = {
   start_date?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   end_date?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   status?: Prisma.EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFilter<"Project"> | boolean
   created_at?: Prisma.DateTimeFilter<"Project"> | Date | string
   created_by?: Prisma.UuidFilter<"Project"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
@@ -322,6 +330,7 @@ export type ProjectOrderByWithRelationInput = {
   start_date?: Prisma.SortOrderInput | Prisma.SortOrder
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  is_company_project?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -348,6 +357,7 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   start_date?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   end_date?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   status?: Prisma.EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFilter<"Project"> | boolean
   created_at?: Prisma.DateTimeFilter<"Project"> | Date | string
   created_by?: Prisma.UuidFilter<"Project"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
@@ -371,6 +381,7 @@ export type ProjectOrderByWithAggregationInput = {
   start_date?: Prisma.SortOrderInput | Prisma.SortOrder
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  is_company_project?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_at?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -397,6 +408,7 @@ export type ProjectScalarWhereWithAggregatesInput = {
   start_date?: Prisma.DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
   end_date?: Prisma.DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
   status?: Prisma.EnumProjectStatusWithAggregatesFilter<"Project"> | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolWithAggregatesFilter<"Project"> | boolean
   created_at?: Prisma.DateTimeWithAggregatesFilter<"Project"> | Date | string
   created_by?: Prisma.UuidWithAggregatesFilter<"Project"> | string
   updated_at?: Prisma.DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
@@ -415,6 +427,7 @@ export type ProjectCreateInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   updated_at?: Date | string | null
   is_enabled?: boolean
@@ -436,6 +449,7 @@ export type ProjectUncheckedCreateInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -457,6 +471,7 @@ export type ProjectUpdateInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -478,6 +493,7 @@ export type ProjectUncheckedUpdateInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -499,6 +515,7 @@ export type ProjectCreateManyInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -517,6 +534,7 @@ export type ProjectUpdateManyMutationInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -533,6 +551,7 @@ export type ProjectUncheckedUpdateManyInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -561,6 +580,7 @@ export type ProjectCountOrderByAggregateInput = {
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  is_company_project?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -585,6 +605,7 @@ export type ProjectMaxOrderByAggregateInput = {
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  is_company_project?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -603,6 +624,7 @@ export type ProjectMinOrderByAggregateInput = {
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  is_company_project?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   created_by?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -770,6 +792,7 @@ export type ProjectCreateWithoutCreatedByInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   updated_at?: Date | string | null
   is_enabled?: boolean
@@ -790,6 +813,7 @@ export type ProjectUncheckedCreateWithoutCreatedByInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   updated_at?: Date | string | null
   updated_by?: string | null
@@ -820,6 +844,7 @@ export type ProjectCreateWithoutUpdatedByInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   updated_at?: Date | string | null
   is_enabled?: boolean
@@ -840,6 +865,7 @@ export type ProjectUncheckedCreateWithoutUpdatedByInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -889,6 +915,7 @@ export type ProjectScalarWhereInput = {
   start_date?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   end_date?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   status?: Prisma.EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFilter<"Project"> | boolean
   created_at?: Prisma.DateTimeFilter<"Project"> | Date | string
   created_by?: Prisma.UuidFilter<"Project"> | string
   updated_at?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
@@ -923,6 +950,7 @@ export type ProjectCreateWithoutProjectMembersInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   updated_at?: Date | string | null
   is_enabled?: boolean
@@ -943,6 +971,7 @@ export type ProjectUncheckedCreateWithoutProjectMembersInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -979,6 +1008,7 @@ export type ProjectUpdateWithoutProjectMembersInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -999,6 +1029,7 @@ export type ProjectUncheckedUpdateWithoutProjectMembersInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1019,6 +1050,7 @@ export type ProjectCreateWithoutProjectTaskTypesInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   updated_at?: Date | string | null
   is_enabled?: boolean
@@ -1039,6 +1071,7 @@ export type ProjectUncheckedCreateWithoutProjectTaskTypesInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -1075,6 +1108,7 @@ export type ProjectUpdateWithoutProjectTaskTypesInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1095,6 +1129,7 @@ export type ProjectUncheckedUpdateWithoutProjectTaskTypesInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1115,6 +1150,7 @@ export type ProjectCreateWithoutTimeSheetsInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   updated_at?: Date | string | null
   is_enabled?: boolean
@@ -1135,6 +1171,7 @@ export type ProjectUncheckedCreateWithoutTimeSheetsInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -1171,6 +1208,7 @@ export type ProjectUpdateWithoutTimeSheetsInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1191,6 +1229,7 @@ export type ProjectUncheckedUpdateWithoutTimeSheetsInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1211,6 +1250,7 @@ export type ProjectCreateManyCreatedByInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   updated_at?: Date | string | null
   updated_by?: string | null
@@ -1228,6 +1268,7 @@ export type ProjectCreateManyUpdatedByInput = {
   start_date?: Date | string | null
   end_date?: Date | string | null
   status?: $Enums.ProjectStatus
+  is_company_project?: boolean
   created_at?: Date | string
   created_by: string
   updated_at?: Date | string | null
@@ -1245,6 +1286,7 @@ export type ProjectUpdateWithoutCreatedByInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1265,6 +1307,7 @@ export type ProjectUncheckedUpdateWithoutCreatedByInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1285,6 +1328,7 @@ export type ProjectUncheckedUpdateManyWithoutCreatedByInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1302,6 +1346,7 @@ export type ProjectUpdateWithoutUpdatedByInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1322,6 +1367,7 @@ export type ProjectUncheckedUpdateWithoutUpdatedByInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1342,6 +1388,7 @@ export type ProjectUncheckedUpdateManyWithoutUpdatedByInput = {
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_by?: Prisma.StringFieldUpdateOperationsInput | string
   updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1408,6 +1455,7 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   start_date?: boolean
   end_date?: boolean
   status?: boolean
+  is_company_project?: boolean
   created_at?: boolean
   created_by?: boolean
   updated_at?: boolean
@@ -1432,6 +1480,7 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   start_date?: boolean
   end_date?: boolean
   status?: boolean
+  is_company_project?: boolean
   created_at?: boolean
   created_by?: boolean
   updated_at?: boolean
@@ -1452,6 +1501,7 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   start_date?: boolean
   end_date?: boolean
   status?: boolean
+  is_company_project?: boolean
   created_at?: boolean
   created_by?: boolean
   updated_at?: boolean
@@ -1472,6 +1522,7 @@ export type ProjectSelectScalar = {
   start_date?: boolean
   end_date?: boolean
   status?: boolean
+  is_company_project?: boolean
   created_at?: boolean
   created_by?: boolean
   updated_at?: boolean
@@ -1479,7 +1530,7 @@ export type ProjectSelectScalar = {
   is_enabled?: boolean
 }
 
-export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "code" | "description" | "value" | "people_cost_percent" | "people_cost" | "start_date" | "end_date" | "status" | "created_at" | "created_by" | "updated_at" | "updated_by" | "is_enabled", ExtArgs["result"]["project"]>
+export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "code" | "description" | "value" | "people_cost_percent" | "people_cost" | "start_date" | "end_date" | "status" | "is_company_project" | "created_at" | "created_by" | "updated_at" | "updated_by" | "is_enabled", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   updatedBy?: boolean | Prisma.Project$updatedByArgs<ExtArgs>
@@ -1517,6 +1568,7 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     start_date: Date | null
     end_date: Date | null
     status: $Enums.ProjectStatus
+    is_company_project: boolean
     created_at: Date
     created_by: string
     updated_at: Date | null
@@ -1960,6 +2012,7 @@ export interface ProjectFieldRefs {
   readonly start_date: Prisma.FieldRef<"Project", 'DateTime'>
   readonly end_date: Prisma.FieldRef<"Project", 'DateTime'>
   readonly status: Prisma.FieldRef<"Project", 'ProjectStatus'>
+  readonly is_company_project: Prisma.FieldRef<"Project", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"Project", 'DateTime'>
   readonly created_by: Prisma.FieldRef<"Project", 'String'>
   readonly updated_at: Prisma.FieldRef<"Project", 'DateTime'>

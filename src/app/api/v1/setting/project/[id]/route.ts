@@ -21,6 +21,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         people_cost: true,
         people_cost_percent: true,
         status: true,
+        is_company_project: true,
         projectMembers: {
           select: {
             user: {
@@ -43,6 +44,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             type: true,
             task_type_id: true,
             description: true,
+            task_type: {
+              select: {
+                id: true,
+                description: true,
+              },
+            },
           },
         },
       },
@@ -82,6 +89,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       people_cost: project.people_cost,
       people_cost_percent: project.people_cost_percent,
       status: project.status,
+      is_company_project: project.is_company_project,
       member: project.projectMembers.map(({ user, ...rest }) => ({
         ...rest,
         name: `${user.first_name} ${user.last_name}`,
@@ -91,6 +99,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         .filter((f) => f.task_type_id)
         .map((item) => ({
           ...item,
+          description: item?.task_type?.description,
           is_using: usingTaskTypeIds.has(item.id),
         })),
       optional_task_type: project.projectTaskTypes
@@ -241,7 +250,7 @@ export async function POST(request: NextRequest) {
 
     return Response.json(
       {
-        message: 'Update success',
+        message: 'Updated successfully',
         data: { id: result.id },
       },
       { status: 200 }

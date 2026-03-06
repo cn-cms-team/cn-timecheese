@@ -163,11 +163,7 @@ const RoleViewDetail = ({ id }: { id: string }) => {
                 >
                   <div className="flex items-center space-x-2">
                     <span>{permission.name}</span>
-                    {(permission.children ?? []).length > 0 && (
-                      <Button className="flex items-center justify-center">
-                        <ChevronDown className="h-4 w-4" />
-                      </Button>
-                    )}
+                    {(permission.children ?? []).length > 0 && <ChevronDown className="h-4 w-4" />}
                   </div>
                 </TableCell>
                 <TableCell

@@ -1,14 +1,14 @@
 import { formatDate } from '../functions/date-format';
 
-export enum PERIODCALENDAR {
+export enum PERIOD_CALENDAR {
   WEEK = 'WEEK',
   MONTH = 'MONTH',
 }
 
-export enum DAYTASKSTATUS {
+export enum DAY_TASK_STATUS {
   IGNORE = 'IGNORE',
-  NOTASK = 'NO_TASK',
-  INPROGRESS = 'INPROGRESS',
+  NO_TASK = 'NO_TASK',
+  IN_PROGRESS = 'IN_PROGRESS',
   COMPLETED = 'COMPLETED',
 }
 

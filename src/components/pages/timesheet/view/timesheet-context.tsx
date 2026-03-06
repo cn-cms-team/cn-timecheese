@@ -15,14 +15,14 @@ import { addDays, format, isBefore, startOfDay, startOfWeek } from 'date-fns';
 
 import { fetcher } from '@/lib/fetcher';
 import { IOptionGroups, IOptions } from '@/types/dropdown';
-import { DAYTASKSTATUS, PERIODCALENDAR } from '@/lib/constants/period-calendar';
+import { DAY_TASK_STATUS, PERIOD_CALENDAR } from '@/lib/constants/period-calendar';
 import { ITimeSheetResponse, ITimeSheetUserInfoResponse } from '@/types/timesheet';
 import { useLoading } from '@/components/context/app-context';
 
 interface ITimeSheetContextType {
   loading: boolean;
   userInfoLoading: boolean;
-  period: PERIODCALENDAR;
+  period: PERIOD_CALENDAR;
   selectedCalendar: Date | null;
   tasks: ITimeSheetResponse[];
   isPopoverEdit: boolean;
@@ -35,7 +35,7 @@ interface ITimeSheetContextType {
   weekDays: Date[];
   setLoading: (isLoading: boolean) => void;
   setUserInfoLoading: (isLoading: boolean) => void;
-  setPeriod: (value: PERIODCALENDAR) => void;
+  setPeriod: (value: PERIOD_CALENDAR) => void;
   setSelectedCalendar: Dispatch<SetStateAction<Date>>;
   setIsPopoverEdit: Dispatch<SetStateAction<boolean>>;
   resetSelectCaledar: () => void;
@@ -49,7 +49,7 @@ interface ITimeSheetContextType {
   getTask: () => Promise<void>;
   deleteTask: (taskId: string) => Promise<void>;
   getDailyWorkSeconds: () => Map<string, number>;
-  getDayStatus: (day: Date, dailyTaskMap: Map<string, number>) => DAYTASKSTATUS;
+  getDayStatus: (day: Date, dailyTaskMap: Map<string, number>) => DAY_TASK_STATUS;
   isPastDay: (day: Date) => boolean;
   setWeekAnchorDate: Dispatch<SetStateAction<Date>>;
 }
@@ -68,7 +68,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
   const now = new Date();
   const [loading, setLoading] = useState(false);
   const [userInfoLoading, setUserInfoLoading] = useState(false);
-  const [period, setPeriod] = useState(PERIODCALENDAR.WEEK);
+  const [period, setPeriod] = useState(PERIOD_CALENDAR.WEEK);
   const [selectedCalendar, setSelectedCalendar] = useState<Date>(now);
   const [tasks, setTasks] = useState<ITimeSheetResponse[]>([]);
   const [isPopoverEdit, setIsPopoverEdit] = useState(false);
@@ -125,11 +125,11 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
 
     params.set('period', period);
 
-    if (period === PERIODCALENDAR.WEEK && selectedCalendar) {
+    if (period === PERIOD_CALENDAR.WEEK && selectedCalendar) {
       params.set('date', selectedCalendar.toISOString());
     }
 
-    if (period === PERIODCALENDAR.MONTH) {
+    if (period === PERIOD_CALENDAR.MONTH) {
       params.set('year', String(selectedYear));
       params.set('month', String(selectedMonth.getMonth()));
     }
@@ -266,26 +266,26 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
       : null;
 
     if (isWeekend(day)) {
-      return DAYTASKSTATUS.IGNORE;
+      return DAY_TASK_STATUS.IGNORE;
     }
 
     if (startWorkDate && isBefore(startOfDay(day), startWorkDate)) {
-      return DAYTASKSTATUS.IGNORE;
+      return DAY_TASK_STATUS.IGNORE;
     }
 
     if (!isBefore(startOfDay(day), today)) {
-      return DAYTASKSTATUS.IGNORE;
+      return DAY_TASK_STATUS.IGNORE;
     }
 
     if (seconds === 0) {
-      return DAYTASKSTATUS.NOTASK;
+      return DAY_TASK_STATUS.NO_TASK;
     }
 
     if (seconds < EIGHT_HOURS) {
-      return DAYTASKSTATUS.INPROGRESS;
+      return DAY_TASK_STATUS.IN_PROGRESS;
     }
 
-    return DAYTASKSTATUS.COMPLETED;
+    return DAY_TASK_STATUS.COMPLETED;
   };
 
   const isPastDay = (day: Date) => {

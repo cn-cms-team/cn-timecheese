@@ -52,7 +52,7 @@ const SortableRow = <T extends FieldValues>({ id, index, form, data, onDelete }:
         </Button>
       </TableCell>
       <TableCell className="w-10 text-center">{index + 1}</TableCell>
-      <TableCell className="min-w-[100px] max-w-[100px]">
+      <TableCell className="min-w-25 max-w-25">
         <FormField
           control={form.control}
           name={`levels.${index}.name` as Path<T>}
@@ -74,7 +74,7 @@ const SortableRow = <T extends FieldValues>({ id, index, form, data, onDelete }:
           )}
         />
       </TableCell>
-      <TableCell className="min-w-[100px] max-w-[100px]">
+      <TableCell className="min-w-25 max-w-25">
         <FormField
           control={form.control}
           name={`levels.${index}.description` as Path<T>}

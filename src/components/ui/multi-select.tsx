@@ -940,9 +940,9 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
             className={cn(
               'w-auto p-0',
               getPopoverAnimationClass(),
-              screenSize === 'mobile' && 'w-[85vw] max-w-[280px]',
+              screenSize === 'mobile' && 'w-[85vw] max-w-70',
               screenSize === 'tablet' && 'w-[70vw] max-w-md',
-              screenSize === 'desktop' && 'min-w-[300px]',
+              screenSize === 'desktop' && 'min-w-75',
               popoverClassName
             )}
             style={{
@@ -973,7 +973,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
               )}
               <CommandList
                 className={cn(
-                  'max-h-[350px] overflow-y-auto multiselect-scrollbar',
+                  'max-h-50 overflow-y-auto multiselect-scrollbar',
                   'overscroll-behavior-y-contain'
                 )}
               >
@@ -1097,28 +1097,27 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                     })}
                   </CommandGroup>
                 )}
-                <CommandSeparator />
-                <CommandGroup>
-                  <div className="flex items-center justify-between">
+                {/* <CommandSeparator /> */}
+                {/* <CommandGroup>
+                  <div className="flex items-center gap-2 p-2">
                     {selectedValues.length > 0 && (
                       <>
                         <CommandItem
                           onSelect={handleClear}
-                          className="flex-1 justify-center cursor-pointer"
+                          className="flex-1 justify-center cursor-pointer rounded-md border border-border bg-muted/50 px-3 py-2 text-sm font-medium transition-colors hover:bg-muted focus:bg-muted data-[selected=true]:bg-muted"
                         >
                           Clear
                         </CommandItem>
-                        <Separator orientation="vertical" className="flex min-h-6 h-full" />
                       </>
                     )}
                     <CommandItem
                       onSelect={() => setIsPopoverOpen(false)}
-                      className="flex-1 justify-center cursor-pointer max-w-full"
+                      className="flex-1 justify-center cursor-pointer rounded-md border border-primary/20 bg-primary/10 px-3 py-2 text-sm font-medium transition-colors hover:bg-primary/15 focus:bg-primary/15 data-[selected=true]:bg-primary/15 text-black"
                     >
                       Close
                     </CommandItem>
                   </div>
-                </CommandGroup>
+                </CommandGroup> */}
               </CommandList>
             </Command>
           </PopoverContent>

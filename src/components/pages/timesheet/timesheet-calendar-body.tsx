@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 
-import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
+import { PERIOD_CALENDAR } from '@/lib/constants/period-calendar';
 
 import { useTimeSheetContext } from './view/timesheet-context';
 import TimeSheetWeekCalendar from './period-calendar/timesheet-week-calendar';
@@ -16,9 +16,9 @@ const TimeSheetCalendarBody = () => {
 
   const renderCalendar = () => {
     switch (period) {
-      case PERIODCALENDAR.WEEK:
+      case PERIOD_CALENDAR.WEEK:
         return <TimeSheetWeekCalendar />;
-      case PERIODCALENDAR.MONTH:
+      case PERIOD_CALENDAR.MONTH:
       default:
         return <TimeSheetMonthCalendar />;
     }

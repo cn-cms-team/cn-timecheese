@@ -86,7 +86,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
     return Response.json(
       {
-        message: 'Update success',
+        message: 'Updated successfully',
         data: { id: result.id },
       },
       { status: 201 }

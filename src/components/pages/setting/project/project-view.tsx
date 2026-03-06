@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/table';
 import { taskTypeOption } from '@/lib/constants/task';
 import { calcTotalDays, formatDate } from '@/lib/functions/date-format';
-import { getProjectStatus } from '@/lib/functions/enum-mapping';
+import { getIsCompanyProject, getProjectStatus } from '@/lib/functions/enum-mapping';
 import { IProject, IProjectTaskType } from '@/types/setting/project';
 import { useEffect, useState } from 'react';
 
@@ -57,9 +57,9 @@ const ProjectViewDetail = ({
       <Table>
         <TableHeader>
           <TableRow className="bg-[#f2f4f7]">
-            <TableHead className="w-[100px]">หมวดหมู่</TableHead>
-            <TableHead className="w-[100px]">ประเภทงาน</TableHead>
-            <TableHead className="w-[100px]">คำอธิบาย</TableHead>
+            <TableHead className="w-25">หมวดหมู่</TableHead>
+            <TableHead className="w-25">ประเภทงาน</TableHead>
+            <TableHead className="w-50">คำอธิบาย</TableHead>
           </TableRow>
         </TableHeader>
 
@@ -93,9 +93,13 @@ const ProjectViewDetail = ({
         <div>
           <TitleGroup title="ข้อมูลโครงการ" />
           <div className="flex flex-col lg:px-8 gap-5 mb-10">
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
+            <div className="grid grid-cols-4 sm:grid-cols-4 gap-5">
+              <LabelGroup
+                label="โครงการภายในบริษัท"
+                value={getIsCompanyProject(projectData?.is_company_project ?? false) || '-'}
+              />
               <LabelGroup label="รหัสโครงการ" value={projectData?.code} />
-              <LabelGroup label="ชื่อ" value={projectData?.name} className="col-span-3" />
+              <LabelGroup label="ชื่อ" value={projectData?.name} className="col-span-2" />
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
               <LabelGroup
@@ -126,19 +130,19 @@ const ProjectViewDetail = ({
             <Table>
               <TableHeader>
                 <TableRow className="bg-[#f2f4f7]">
-                  <TableHead className="w-[100px]">ชื่อ-สกุล</TableHead>
-                  <TableHead className="w-[100px]">ตำแหน่ง</TableHead>
-                  <TableHead className="w-[100px]">ค่าใช้จ่ายต่อวัน</TableHead>
-                  <TableHead className="w-[100px]">วันที่เริ่มต้น</TableHead>
-                  <TableHead className="w-[100px]">วันที่สิ้นสุด</TableHead>
-                  <TableHead className="w-[100px]">จำนวนวัน</TableHead>
-                  <TableHead className="w-[100px]">ค่าใช้จ่ายโดยประมาณ</TableHead>
+                  <TableHead className="w-25">ชื่อ-สกุล</TableHead>
+                  <TableHead className="w-25">ตำแหน่ง</TableHead>
+                  <TableHead className="w-25">ค่าใช้จ่ายต่อวัน</TableHead>
+                  <TableHead className="w-25">วันที่เริ่มต้น</TableHead>
+                  <TableHead className="w-25">วันที่สิ้นสุด</TableHead>
+                  <TableHead className="w-25">จำนวนวัน</TableHead>
+                  <TableHead className="w-25">ค่าใช้จ่ายโดยประมาณ</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {projectData?.member.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={3} className="h-24 text-center text-muted-foreground">
+                    <TableCell colSpan={7} className="h-24 text-center text-muted-foreground">
                       ไม่มีข้อมูล
                     </TableCell>
                   </TableRow>

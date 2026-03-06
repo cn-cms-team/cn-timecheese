@@ -69,64 +69,61 @@ const ResetPasswordForm = ({ userData }: ResetPasswordFormProps) => {
         <form
           id="user-reset-password-form"
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 gap-x-6 gap-y-5 px-8"
+          className="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
-          <div className="flex flex-col gap-5">
-            <LabelGroup label="อีเมล" value={userData?.email} />
-            <div className="flex flex-wrap items-baseline">
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem className="w-full sm:w-1/2">
-                    <FormLabel>
-                      รหัสผ่าน
-                      <Required />
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        autoComplete="new-password"
-                        maxLength={MAX_LENGTH_255}
-                        disabled={isLoading}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="confirm_password"
-                render={({ field }) => (
-                  <FormItem className="w-full sm:w-1/2">
-                    <FormLabel>
-                      ยืนยันรหัสผ่าน
-                      <Required />
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        autoComplete="new-password"
-                        maxLength={MAX_LENGTH_255}
-                        disabled={isLoading}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <ul className="text-sm text-gray-500 list-disc pl-4">
-              <li>ควรมีความยาวที่เหมาะสม ไม่น้อยกว่า 6 หลัก</li>
-              <li>
-                ประกอบด้วยตัวอักษรภาษาอังกฤษ ตัวพิมพ์ใหญ่ (A-Z) ตัวพิมพ์เล็ก (a-z) ตัวเลข (0-9)
-                และอักขระพิเศษ (@, $, !, ?, #)
-              </li>
-            </ul>
-          </div>
+          <LabelGroup label="อีเมล" value={userData?.email} />
+          <div />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  รหัสผ่าน
+                  <Required />
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    autoComplete="new-password"
+                    maxLength={MAX_LENGTH_255}
+                    disabled={isLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="confirm_password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  ยืนยันรหัสผ่าน
+                  <Required />
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    autoComplete="new-password"
+                    maxLength={MAX_LENGTH_255}
+                    disabled={isLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <ul className="text-sm text-gray-500 list-disc pl-4">
+            <li>ควรมีความยาวที่เหมาะสม ไม่น้อยกว่า 6 หลัก</li>
+            <li>
+              ประกอบด้วยตัวอักษรภาษาอังกฤษ ตัวพิมพ์ใหญ่ (A-Z) ตัวพิมพ์เล็ก (a-z) ตัวเลข (0-9)
+              และอักขระพิเศษ (@, $, !, ?, #)
+            </li>
+          </ul>
         </form>
       </Form>
     </div>

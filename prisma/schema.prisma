@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id                  String    @id @default(uuid()) @db.Uuid
+  id                  String    @id @default(uuid(7)) @db.Uuid
   code                String    @unique @db.VarChar(50)
   email               String    @unique @db.VarChar(255)
   password            String    @db.VarChar(255)
@@ -56,7 +56,7 @@ model User {
 }
 
 model Role {
-  id          String  @id @default(uuid()) @db.Uuid
+  id          String  @id @default(uuid(7)) @db.Uuid
   name        String  @db.VarChar(100)
   description String? @db.VarChar(255)
 
@@ -125,7 +125,7 @@ model ModulePermission {
 }
 
 model Team {
-  id          String  @id @default(uuid()) @db.Uuid
+  id          String  @id @default(uuid(7)) @db.Uuid
   name        String  @db.VarChar(100)
   description String? @db.VarChar(255)
 
@@ -145,7 +145,7 @@ model Team {
 }
 
 model TeamLeader {
-  id      String @id @default(uuid()) @db.Uuid
+  id      String @id @default(uuid(7)) @db.Uuid
   user_id String @db.Uuid
   team_id String @db.Uuid
 
@@ -156,7 +156,7 @@ model TeamLeader {
 }
 
 model Position {
-  id          String  @id @default(uuid()) @db.Uuid
+  id          String  @id @default(uuid(7)) @db.Uuid
   name        String  @db.VarChar(100)
   description String? @db.VarChar(255)
 
@@ -174,7 +174,7 @@ model Position {
 }
 
 model PositionLevel {
-  id          String   @id @default(uuid()) @db.Uuid
+  id          String   @id @default(uuid(7)) @db.Uuid
   name        String   @db.VarChar(100)
   description String?  @db.VarChar(255)
   position_id String   @db.Uuid
@@ -188,7 +188,7 @@ model PositionLevel {
 }
 
 model TaskType {
-  id          String       @id @default(uuid()) @db.Uuid
+  id          String       @id @default(uuid(7)) @db.Uuid
   type        TaskTypeCode
   name        String       @db.VarChar(100)
   description String?      @db.VarChar(255)
@@ -216,7 +216,7 @@ enum TaskTypeCode {
 }
 
 model Project {
-  id                  String        @id @default(uuid()) @db.Uuid
+  id                  String        @id @default(uuid(7)) @db.Uuid
   name                String        @db.VarChar(255)
   code                String?       @db.VarChar(25)
   description         String?       @db.VarChar(255)
@@ -226,6 +226,7 @@ model Project {
   start_date          DateTime?
   end_date            DateTime?
   status              ProjectStatus @default(IN_PROGRESS)
+  is_company_project  Boolean       @default(false)
 
   created_at DateTime  @default(now())
   created_by String    @db.Uuid
@@ -270,7 +271,7 @@ model ProjectMember {
 }
 
 model ProjectTaskType {
-  id           String       @id @default(uuid()) @db.Uuid
+  id           String       @id @default(uuid(7)) @db.Uuid
   project_id   String       @db.Uuid
   task_type_id String?      @db.Uuid
   type         TaskTypeCode
@@ -285,7 +286,7 @@ model ProjectTaskType {
 }
 
 model TimeSheet {
-  id                   String           @id @default(uuid()) @db.Uuid
+  id                   String           @id @default(uuid(7)) @db.Uuid
   user_id              String           @db.Uuid
   user                 User             @relation(fields: [user_id], references: [id])
   project_id           String           @db.Uuid

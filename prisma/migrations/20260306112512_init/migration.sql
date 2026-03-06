@@ -156,6 +156,7 @@ CREATE TABLE "projects" (
     "start_date" TIMESTAMP(3),
     "end_date" TIMESTAMP(3),
     "status" "ProjectStatus" NOT NULL DEFAULT 'IN_PROGRESS',
+    "is_company_project" BOOLEAN NOT NULL DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "created_by" UUID NOT NULL,
     "updated_at" TIMESTAMP(3),

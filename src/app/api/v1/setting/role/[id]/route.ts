@@ -151,7 +151,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
     return Response.json(
       {
-        message: 'Update success',
+        message: 'Updated successfully',
         data: { id: role.id },
       },
       { status: 200 }

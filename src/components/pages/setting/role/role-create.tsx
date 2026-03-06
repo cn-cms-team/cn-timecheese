@@ -435,9 +435,7 @@ const RoleCreate = ({ id }: { id?: string }) => {
                                   <div className="flex items-center space-x-2">
                                     <span>{permissions.name}</span>
                                     {(permissions.children ?? []).length > 0 && (
-                                      <Button className="flex items-center justify-center">
-                                        <ChevronDown className="h-4 w-4" />
-                                      </Button>
+                                      <ChevronDown className="h-4 w-4" />
                                     )}
                                   </div>
                                 </TableCell>

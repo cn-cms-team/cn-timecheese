@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { PERIODCALENDAR } from '@/lib/constants/period-calendar';
+import { PERIOD_CALENDAR } from '@/lib/constants/period-calendar';
 
 import { Button } from '@/components/ui/button';
 import TimeSheetColorLegend from './timesheet-color-legend';
@@ -10,8 +10,8 @@ import { useTimeSheetContext } from '../view/timesheet-context';
 import PeriodInput from '@/components/ui/custom/input/period-input';
 
 const options = [
-  { label: 'สัปดาห์', value: PERIODCALENDAR.WEEK },
-  { label: 'เดือน', value: PERIODCALENDAR.MONTH },
+  { label: 'สัปดาห์', value: PERIOD_CALENDAR.WEEK },
+  { label: 'เดือน', value: PERIOD_CALENDAR.MONTH },
 ];
 
 const TimeSheetPeriodSelection = () => {
@@ -30,7 +30,7 @@ const TimeSheetPeriodSelection = () => {
     setSelectedYear,
   } = useTimeSheetContext();
 
-  const onSelectPeriod = (period: PERIODCALENDAR) => {
+  const onSelectPeriod = (period: PERIOD_CALENDAR) => {
     setPeriod(period);
     resetSelectCaledar();
     getTask();
@@ -48,9 +48,9 @@ const TimeSheetPeriodSelection = () => {
   useEffect(() => {
     if (periodParam && periodParam !== null) {
       router.replace(`/timesheet?period=${periodParam}`);
-      setPeriod(periodParam as PERIODCALENDAR);
+      setPeriod(periodParam as PERIOD_CALENDAR);
     } else {
-      router.replace(`/timesheet?period=${PERIODCALENDAR.WEEK}`);
+      router.replace(`/timesheet?period=${PERIOD_CALENDAR.WEEK}`);
     }
   }, []);
   return (
@@ -60,7 +60,7 @@ const TimeSheetPeriodSelection = () => {
           <PeriodInput
             value={period}
             options={options}
-            onSelect={(value) => onSelectPeriod(value as PERIODCALENDAR)}
+            onSelect={(value) => onSelectPeriod(value as PERIOD_CALENDAR)}
           />
           <Button
             onClick={handleToday}

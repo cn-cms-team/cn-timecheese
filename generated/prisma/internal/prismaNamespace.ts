@@ -1793,6 +1793,7 @@ export const ProjectScalarFieldEnum = {
   start_date: 'start_date',
   end_date: 'end_date',
   status: 'status',
+  is_company_project: 'is_company_project',
   created_at: 'created_at',
   created_by: 'created_by',
   updated_at: 'updated_at',
