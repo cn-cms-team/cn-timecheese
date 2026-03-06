@@ -12,7 +12,7 @@ const RoleViewButton = ({ id }: { id: string }): React.ReactNode => {
   const { account } = useAccount();
   const router = useRouter();
   const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role/${id}`;
-  const deleteUser = async () => {
+  const deleteRole = async () => {
     await fetch(fetchUrl, { method: 'DELETE' }).then(() => {
       router.push('/setting/role');
     });
@@ -27,7 +27,7 @@ const RoleViewButton = ({ id }: { id: string }): React.ReactNode => {
     <div className="flex gap-2 align-middle">
       {canEdit && <Button onClick={() => router.push(`/setting/role/${id}/edit`)}>แก้ไข</Button>}
       {canDelete && (
-        <Button variant={'destructive'} onClick={() => deleteUser()}>
+        <Button variant={'destructive'} onClick={() => deleteRole()}>
           ลบ
         </Button>
       )}
