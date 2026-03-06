@@ -70,7 +70,7 @@ const ProjectTaskTable = ({
                     ) : (
                       fields.map((item, index) => (
                         <TableRow key={`${name}-${index}`}>
-                          <TableCell className="min-w-[90px] max-w-[150px]">
+                          <TableCell className="min-w-22.5 max-w-37.5">
                             {
                               <FormField
                                 control={form.control}
@@ -102,7 +102,7 @@ const ProjectTaskTable = ({
                               />
                             }
                           </TableCell>
-                          <TableCell className="min-w-[150px] ">
+                          <TableCell className="min-w-37.5 ">
                             {name === 'main_task_type' ? (
                               <FormField
                                 control={form.control}
@@ -121,7 +121,7 @@ const ProjectTaskTable = ({
                                   //   });
                                   return (
                                     <FormItem>
-                                      <FormLabel className="block truncate min-w-[150px]">
+                                      <FormLabel className="block truncate min-w-37.5">
                                         {item.name}
                                       </FormLabel>
                                       {/* <FormControl>
