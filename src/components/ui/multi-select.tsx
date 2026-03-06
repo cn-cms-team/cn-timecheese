@@ -1097,8 +1097,8 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                     })}
                   </CommandGroup>
                 )}
-                <CommandSeparator />
-                <CommandGroup>
+                {/* <CommandSeparator /> */}
+                {/* <CommandGroup>
                   <div className="flex items-center gap-2 p-2">
                     {selectedValues.length > 0 && (
                       <>
@@ -1117,7 +1117,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                       Close
                     </CommandItem>
                   </div>
-                </CommandGroup>
+                </CommandGroup> */}
               </CommandList>
             </Command>
           </PopoverContent>

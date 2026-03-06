@@ -92,7 +92,7 @@ export async function POST(request: Request) {
 
     return Response.json(
       {
-        message: 'Create success',
+        message: 'Created successfully',
       },
       { status: 200 }
     );

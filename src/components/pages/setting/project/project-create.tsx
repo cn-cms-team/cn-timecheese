@@ -267,29 +267,32 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
               <TitleGroup title="ข้อมูลโครงการ" />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {!id && (
-                  <FormField
-                    control={form.control}
-                    name="is_company_project"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>โครงการภายในบริษัท</FormLabel>
-                        <FormControl>
-                          <div className="flex items-center space-x-2 mt-2">
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                              aria-readonly
-                              id="is-company-project"
-                            />
-                            <Label htmlFor="is-company-project" className="mb-0">
-                              {getIsCompanyProject(isCompanyProjectWatch as boolean)}
-                            </Label>
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <>
+                    <FormField
+                      control={form.control}
+                      name="is_company_project"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>โครงการภายในบริษัท</FormLabel>
+                          <FormControl>
+                            <div className="flex items-center space-x-2 mt-2">
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                                aria-readonly
+                                id="is-company-project"
+                              />
+                              <Label htmlFor="is-company-project" className="mb-0">
+                                {getIsCompanyProject(isCompanyProjectWatch as boolean)}
+                              </Label>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div />
+                  </>
                 )}
                 <FormField
                   control={form.control}

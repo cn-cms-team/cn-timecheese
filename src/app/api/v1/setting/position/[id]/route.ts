@@ -116,7 +116,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       });
     });
 
-    return Response.json({ message: 'Update success', data: { id: result.id } });
+    return Response.json({ message: 'Updated successfully', data: { id: result.id } });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'Update failed' },

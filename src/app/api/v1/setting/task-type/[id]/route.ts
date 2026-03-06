@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 
     return Response.json(
       {
-        message: 'Update success',
+        message: 'Updated successfully',
         data: { id: result.id },
       },
       { status: 200 }
