@@ -120,68 +120,70 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
   };
 
   return (
-    <>
+    <div className="cev-box">
       <Form {...form}>
         <form id="position-create-form" onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="w-full px-6 py-5 rounded-lg ">
-            <TitleGroup title="ข้อมูลตำแหน่ง" />
-            <div className="flex flex-col gap-5 mt-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>
-                      ชื่อตำแหน่ง
-                      <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        maxLength={MAX_LENGTH_100}
-                        {...field}
-                        autoComplete="off"
-                        placeholder="กรุณากรอกชื่อตำแหน่ง"
-                        onInput={(e) => {
-                          field.onChange(e);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>คำอธิบาย</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        maxLength={MAX_LENGTH_255}
-                        {...field}
-                        value={field.value}
-                        className="h-20"
-                        autoComplete="off"
-                        placeholder="กรุณากรอกคำอธิบายตำแหน่ง"
-                        onInput={(e) => {
-                          field.onChange(e);
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <div className="grid grid-cols-1 gap-3">
+            <div>
+              <TitleGroup title="ข้อมูลตำแหน่ง" />
+              <div className="flex flex-col gap-5 mt-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>
+                        ชื่อตำแหน่ง
+                        <span className="text-red-500">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          maxLength={MAX_LENGTH_100}
+                          {...field}
+                          autoComplete="off"
+                          placeholder="กรุณากรอกชื่อตำแหน่ง"
+                          onInput={(e) => {
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>คำอธิบาย</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          maxLength={MAX_LENGTH_255}
+                          {...field}
+                          value={field.value}
+                          className="h-20"
+                          autoComplete="off"
+                          placeholder="กรุณากรอกคำอธิบายตำแหน่ง"
+                          onInput={(e) => {
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
-            <div className="w-full mt-4">
+            <div className="">
               <TitleGroup title="ระดับตำแหน่ง" />
               <PositionFormTable data={data} form={form} />
             </div>
           </div>
         </form>
       </Form>
-    </>
+    </div>
   );
 };
 

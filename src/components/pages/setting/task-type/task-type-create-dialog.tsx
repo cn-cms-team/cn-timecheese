@@ -99,77 +99,72 @@ const TaskTypeCreateDialog = ({
   };
   return (
     <Dialog open={open}>
-      <DialogContent className={cn(sizeClass, 'p-0 bg-white')} showCloseButton={false}>
-        <DialogHeader className="min-h-12 rounded-t-[.45rem] items-start p-3 text-lg font-bold text-dark justify-center">
-          <DialogTitle className="font-bold mb-0">
-            {taskItem.id ? 'แก้ไขประเภทงาน' : 'เพิ่มประเภทงาน'}
-          </DialogTitle>
+      <DialogContent showCloseButton={false}>
+        <DialogHeader>
+          <DialogTitle>{taskItem.id ? 'แก้ไขประเภทงาน' : 'เพิ่มประเภทงาน'}</DialogTitle>
         </DialogHeader>
-
         <Form {...form}>
           <form
             id="task-type-create-dialog-form"
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-x-6 space-y-5"
+            className="flex flex-col gap-2"
           >
-            <div className="text-start flex flex-col px-5 py-3 gap-3">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      ชื่อ
-                      <Required />
-                    </FormLabel>
-                    <FormControl>
-                      <Input {...field} maxLength={MAX_LENGTH_100} onChange={field.onChange} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>คำอธิบาย</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        value={field.value || ''}
-                        maxLength={MAX_LENGTH_255}
-                        onChange={field.onChange}
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    ชื่อ
+                    <Required />
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} maxLength={MAX_LENGTH_100} onChange={field.onChange} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>คำอธิบาย</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      value={field.value || ''}
+                      maxLength={MAX_LENGTH_255}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="is_active"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="flex items-center space-x-2">
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                        aria-readonly
+                        id="is-active"
                       />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="is_active"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="flex items-center space-x-2">
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          aria-readonly
-                          id="is-active"
-                        />
-                        <Label htmlFor="is-active" className="mb-0">
-                          {getIsActive(field.value as boolean)}
-                        </Label>
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
+                      <Label htmlFor="is-active" className="mb-0">
+                        {getIsActive(field.value as boolean)}
+                      </Label>
+                    </div>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
           </form>
         </Form>
-        <DialogFooter className="p-3">
+        <DialogFooter className="">
           <DialogClose asChild>
             <Button
               variant="outline"
