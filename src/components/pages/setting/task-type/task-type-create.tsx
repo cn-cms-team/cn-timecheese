@@ -73,12 +73,12 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
       await fetch(fetchUrl, { method: 'DELETE' }).then(async (res) => {
         const result = await res.json();
         if (res.ok) {
-          toast(result.message);
+          toast.success(result.message);
           await fetchTaskTypeData(id);
         }
       });
     } catch (error) {
-      toast(error as string);
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }

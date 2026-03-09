@@ -137,13 +137,13 @@ const TimeSheetForm = ({
 
       const result = await response.json();
       if (response.ok) {
-        toast(result.message);
+        toast.success(result.message);
         await getUserInfo();
         await getTask();
         close();
       }
     } catch (error) {
-      console.error('Error fetching options: ', error);
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -327,7 +327,7 @@ const TimeSheetForm = ({
                               }
                             }}
                           />
-                          <Label htmlFor="exclude" className="pb-1 cursor-pointer">
+                          <Label htmlFor="exclude" className="cursor-pointer">
                             รวมเวลาพัก
                           </Label>
                         </div>

@@ -87,12 +87,12 @@ const TaskTypeCreateDialog = ({
       });
       if (response.ok) {
         const result = await response.json();
-        toast(result.message);
+        toast.success(result.message);
         await getData(type);
         onOpen(false);
       }
     } catch (error) {
-      toast(error as string);
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
