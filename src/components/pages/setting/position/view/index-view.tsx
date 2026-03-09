@@ -7,7 +7,7 @@ import { Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 import { createColumns } from '../position-list-columns';
-import { PositionList } from '../postion-list';
+import { PositionList } from '../position-list';
 import { IPosition } from '@/types/setting/position';
 import { toast } from 'sonner';
 import { Account, useAccount, useLoading } from '@/components/context/app-context';
