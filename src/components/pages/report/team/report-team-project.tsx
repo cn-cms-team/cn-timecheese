@@ -8,11 +8,7 @@ import {
 } from '@/components/ui/card';
 import { LabelGroup } from '@/components/ui/custom/form';
 import { Label } from '@/components/ui/label';
-import {
-  calcTotalYearAndMonthAndDays,
-  formatDate,
-  secondsToDuration,
-} from '@/lib/functions/date-format';
+import { formatDate, secondsToDuration } from '@/lib/functions/date-format';
 import { numberWithCommas } from '@/lib/functions/number-format';
 import { IUserReportProject } from '@/types/report/team';
 import { useEffect, useState } from 'react';
