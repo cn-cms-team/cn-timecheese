@@ -104,8 +104,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
               ...item,
               project_id: id,
               day_price: item.day_price ?? 0,
-              start_date: new Date(item.start_date),
-              end_date: new Date(item.end_date),
+              start_date: item.start_date ? new Date(item.start_date) : undefined,
+              end_date: item.end_date ? new Date(item.end_date) : undefined,
             })),
           });
         }
