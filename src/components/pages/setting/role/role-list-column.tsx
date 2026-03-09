@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/custom/data-table';
 import LinkTable from '@/components/ui/custom/data-table/link';
 import { EModules } from '@/lib/constants/module';
+import { buddhistFormatDate } from '@/lib/functions/date-format';
 import { renderByPermission } from '@/lib/functions/ui-manage';
 import { IRole } from '@/types/setting/role';
 import { ColumnDef } from '@tanstack/react-table';
@@ -69,7 +70,7 @@ export const createColumns = ({
         const { updatedAt } = row.original;
         return (
           <div className="text-center">
-            {updatedAt ? new Date(updatedAt).toLocaleDateString() : '-'}
+            {updatedAt ? buddhistFormatDate(updatedAt, 'dd mmm yyyy') : '-'}
           </div>
         );
       },

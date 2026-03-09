@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/custom/data-table';
 import LinkTable from '@/components/ui/custom/data-table/link';
 import { IProject } from '@/types/setting/project';
-import { formatDate } from '@/lib/functions/date-format';
+import { buddhistFormatDate, formatDate } from '@/lib/functions/date-format';
 import { Account } from '@/components/context/app-context';
 import { renderByPermission } from '@/lib/functions/ui-manage';
 import { EModules } from '@/lib/constants/module';
@@ -53,7 +53,7 @@ export const createColumns = ({
       size: 200,
       cell: ({ row }) => {
         const { start_date } = row.original;
-        return start_date ? formatDate(start_date, 'dd/mm/yyyy') : '-';
+        return start_date ? buddhistFormatDate(start_date, 'dd mmm yyyy') : '-';
       },
     },
     {
@@ -61,7 +61,7 @@ export const createColumns = ({
       size: 200,
       cell: ({ row }) => {
         const { end_date } = row.original;
-        return end_date ? formatDate(end_date, 'dd/mm/yyyy') : '-';
+        return end_date ? buddhistFormatDate(end_date, 'dd mmm yyyy') : '-';
       },
     },
     {
