@@ -416,7 +416,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                   <DatePickerInput
                     {...field}
                     value={field.value}
-                    startMonth={undefined}
+                    startMonth={new Date(new Date().getFullYear() - 30, 0)}
                     endMonth={undefined}
                     placeholder="กรุณาเลือกวันที่เริ่มต้นของคุณ"
                     isError={form.formState.errors.start_date ? true : false}

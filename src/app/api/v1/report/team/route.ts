@@ -52,6 +52,12 @@ export async function GET(request: Request) {
             start_date: true,
           },
         },
+        timeSheets: {
+          where: { user_id: currentUser.id },
+          select: {
+            total_seconds: true,
+          },
+        },
       },
     });
 
@@ -66,6 +72,7 @@ export async function GET(request: Request) {
           value: project.value,
           position: memberInfo?.role || '-',
           join_date: memberInfo?.start_date || '-',
+          spent_times: project.timeSheets.reduce((acc, curr) => acc + (curr.total_seconds ?? 0), 0),
         };
       }
     });

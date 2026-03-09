@@ -24,4 +24,5 @@ export type IUserReportProject = {
   value: number;
   position: string;
   join_date: string;
+  spent_times: number;
 };
