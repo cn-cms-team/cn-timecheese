@@ -19,7 +19,8 @@ interface IProps {
 
 const TimeSheetWeekCalendarBody = ({ weekDays, loading = false }: IProps) => {
   const currentDate = new Date();
-  const { tasks, isPopoverEdit, setIsPopoverEdit } = useTimeSheetContext();
+  const { tasks, isPopoverEdit, setIsPopoverEdit, selectedMonth, selectedYear } =
+    useTimeSheetContext();
   const [selectedDay, setSelectedDay] = useState<Date | null>(null);
   const [selectHr, setSelectHr] = useState<{ start: number; end: number } | null>(null);
 
@@ -34,6 +35,15 @@ const TimeSheetWeekCalendarBody = ({ weekDays, loading = false }: IProps) => {
     end: addHours(startOfDay(currentDate), 23),
   });
 
+  const checkIsNotToday = (dateToCompare: Date, day: number) => {
+    const year = selectedYear;
+    const month = selectedMonth.getMonth();
+    return (
+      dateToCompare.getDate() !== day ||
+      dateToCompare.getMonth() !== month ||
+      dateToCompare.getFullYear() !== year
+    );
+  };
   return (
     <div className="flex min-h-[600px] relative">
       <div className="w-[55px] shrink-0 bg-transparent border-r border-neutral-300 text-xs text-neutral-500 font-mono text-center sticky left-0 z-50">
@@ -113,6 +123,9 @@ const TimeSheetWeekCalendarBody = ({ weekDays, loading = false }: IProps) => {
                           <TimeSheetForm
                             startTime={start || undefined}
                             endTime={end || undefined}
+                            dayTasks={tasks.filter(
+                              (task) => !checkIsNotToday(new Date(task.stamp_date), day.getDate())
+                            )}
                             close={close}
                           />
                         )}
@@ -172,6 +185,9 @@ const TimeSheetWeekCalendarBody = ({ weekDays, loading = false }: IProps) => {
                     isPopoverEdit ? (
                       <TimeSheetForm
                         data={task}
+                        dayTasks={tasks.filter(
+                          (task) => !checkIsNotToday(new Date(task.stamp_date), day.getDate())
+                        )}
                         close={() => {
                           close();
                           setIsPopoverEdit(false);

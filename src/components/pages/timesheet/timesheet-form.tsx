@@ -19,12 +19,14 @@ import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { useTimeSheetContext } from './view/timesheet-context';
 import TimeInput from '@/components/ui/custom/input/time-input';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { isAfter, isBefore, isWithinInterval } from 'date-fns';
 
 interface IProps {
   close?: () => void;
   data?: Partial<ITimeSheetResponse>;
   startTime?: Date;
   endTime?: Date;
+  dayTasks?: ITimeSheetResponse[];
 }
 
 const TimeSheetForm = ({
@@ -32,6 +34,7 @@ const TimeSheetForm = ({
   startTime = undefined,
   endTime = undefined,
   close = () => {},
+  dayTasks,
 }: IProps) => {
   const { projectOptions, taskTypeOptions, getTask, fetchTaskOption, getUserInfo } =
     useTimeSheetContext();
@@ -76,10 +79,32 @@ const TimeSheetForm = ({
     control: form.control,
     name: 'project_id',
   });
+  function isOverlapping(newStart: Date, newEnd: Date, ranges: any[]) {
+    if (newStart >= newEnd) return true;
 
+    return ranges.some(({ start_date, end_date }) => {
+      const start = new Date(start_date);
+      const end = new Date(end_date);
+
+      return newStart < end && newEnd > start;
+    });
+  }
   const onSubmit = async (value: TimesheetCreateEditSchema) => {
     try {
-      setTimeCollapse({ message: '', isError: false });
+      if (dayTasks && dayTasks.length > 0) {
+        if (
+          isOverlapping(
+            value.start_date,
+            value.end_date,
+            data?.id ? dayTasks.filter((e) => e.id !== data?.id) : dayTasks
+          )
+        ) {
+          setTimeCollapse({ message: 'เวลางานซ้ำกับข้อมูลเดิมในระบบ', isError: true });
+          return;
+        } else {
+          setTimeCollapse({ message: '', isError: false });
+        }
+      }
       setLoading(true);
       const taskId = data ? data.id : null;
       const url = `${baseUrl}/timesheet${taskId ? `/${taskId}` : ''}`;
@@ -116,8 +141,6 @@ const TimeSheetForm = ({
         await getUserInfo();
         await getTask();
         close();
-      } else if (result.error) {
-        setTimeCollapse({ message: result.error, isError: true });
       }
     } catch (error) {
       toast.error('An unexpected error occurred. Please try again.');
@@ -125,7 +148,6 @@ const TimeSheetForm = ({
       setLoading(false);
     }
   };
-
   const calculateHour = () => {
     const startDate = useWatch({ control: form.control, name: 'start_date' });
     const endDate = useWatch({ control: form.control, name: 'end_date' });
