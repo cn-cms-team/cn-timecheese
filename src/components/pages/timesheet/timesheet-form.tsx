@@ -305,7 +305,7 @@ const TimeSheetForm = ({
                               }
                             }}
                           />
-                          <Label htmlFor="exclude" className="pb-1 cursor-pointer">
+                          <Label htmlFor="exclude" className="cursor-pointer">
                             รวมเวลาพัก
                           </Label>
                         </div>
