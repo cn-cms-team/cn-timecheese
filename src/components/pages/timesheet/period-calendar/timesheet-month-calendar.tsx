@@ -71,7 +71,6 @@ const TimeSheetMonthCalendar = () => {
 
           const isSaturday = dayOfMonth.getDay() === 6;
           const dayTasks = tasks.filter((task) => !checkIsNotToday(new Date(task.start_date), day));
-
           const visibleTasks = dayTasks.slice(0, 3);
           const hiddenTasks = dayTasks.slice(3);
 
@@ -92,9 +91,9 @@ const TimeSheetMonthCalendar = () => {
                       'z-10 hover:bg-neutral-200 border-neutral-400 border-t cursor-pointer p-2  transition-colors relative group min-h-36 space-y-1',
                       isSaturday ? '' : 'border-r'
                     )}
-                    onClick={() => {
-                      setSelectedCalendar(new Date(year, month, day));
-                    }}
+                    // onClick={() => {
+                    //   setSelectedCalendar(new Date(year, month, day));
+                    // }}
                   >
                     <div
                       className={cn(
@@ -124,7 +123,7 @@ const TimeSheetMonthCalendar = () => {
                         }
                         popoverContent={(close) =>
                           isEdit ? (
-                            <TimeSheetForm data={task} close={close} />
+                            <TimeSheetForm data={task} dayTasks={dayTasks} close={close} />
                           ) : (
                             <TimeSheetdataDetail
                               data={task}
@@ -161,7 +160,7 @@ const TimeSheetMonthCalendar = () => {
                                 }
                                 popoverContent={(close) =>
                                   isEdit ? (
-                                    <TimeSheetForm data={task} close={close} />
+                                    <TimeSheetForm data={task} dayTasks={dayTasks} close={close} />
                                   ) : (
                                     <TimeSheetdataDetail
                                       data={task}
@@ -182,6 +181,7 @@ const TimeSheetMonthCalendar = () => {
                   <TimeSheetForm
                     startTime={selectedCalendar!}
                     endTime={selectedCalendar!}
+                    dayTasks={dayTasks}
                     close={close}
                   />
                 )}
