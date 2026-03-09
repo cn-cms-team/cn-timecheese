@@ -38,7 +38,18 @@ export async function getReportProjectByUser(projectId: string, memberId: string
         },
       },
     });
-
+    const projectCompany = await prisma.project.findUnique({
+      where: {
+        id: projectId,
+        is_company_project: true,
+      },
+      select: {
+        name: true,
+        code: true,
+        start_date: true,
+        end_date: true,
+      },
+    });
     const timesheetSummary = await prisma.timeSheetSummary.findMany({
       where: {
         user_id: memberId,
@@ -97,7 +108,21 @@ export async function getReportProjectByUser(projectId: string, memberId: string
             spent_times: timesheetSummary.reduce((acc, curr) => acc + (curr.total_seconds ?? 0), 0),
             last_tracked_at: null,
           }
-        : null,
+        : projectCompany
+          ? {
+              name: projectCompany?.name,
+              code: projectCompany?.code,
+              start_date: projectCompany?.start_date,
+              end_date: projectCompany?.end_date,
+              position: '-',
+              day_price: 0,
+              spent_times: timesheetSummary.reduce(
+                (acc, curr) => acc + (curr.total_seconds ?? 0),
+                0
+              ),
+              last_tracked_at: null,
+            }
+          : null,
       timesheet_chart: timesheetGroup.map((ts) => ({
         task_type: taskTypeMap.get(ts.project_task_type_id!) || 'Unknown',
         tracked_hours: ts._sum.total_seconds ?? 0,

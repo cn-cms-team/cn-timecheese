@@ -6,7 +6,18 @@ export async function GET(request: Request) {
 
   try {
     const result = await prisma.project.findMany({
-      where: { is_enabled: true, ...(userId && { projectMembers: { some: { user_id: userId } } }) },
+      where: {
+        is_enabled: true,
+        OR: [
+          {
+            ...(userId && { projectMembers: { some: { user_id: userId } } }),
+          },
+          {
+            is_company_project: true,
+          },
+        ],
+      },
+
       select: {
         id: true,
         name: true,
