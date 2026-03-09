@@ -112,7 +112,7 @@ const TimeSheetForm = ({
 
       const result = await response.json();
       if (response.ok) {
-        toast(result.message);
+        toast.success(result.message);
         await getUserInfo();
         await getTask();
         close();
@@ -120,7 +120,7 @@ const TimeSheetForm = ({
         setTimeCollapse({ message: result.error, isError: true });
       }
     } catch (error) {
-      console.error('Error fetching options: ', error);
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
     }

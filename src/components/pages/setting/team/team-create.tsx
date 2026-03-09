@@ -115,11 +115,11 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
       });
       if (response.ok) {
         const result = await response.json();
-        toast(result.message);
+        toast.success(result.message);
         router.push('/setting/team');
       }
     } catch {
-      toast('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -141,9 +141,9 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
         body: JSON.stringify({ data }),
       });
       const result = await response.json();
-      toast(result.message);
+      toast.success(result.message);
     } catch {
-      toast('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }

@@ -145,11 +145,11 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       if (response.ok) {
         const result = await response.json();
 
-        toast(result.message);
+        toast.success(result.message);
         router.push('/setting/user');
       }
     } catch {
-      toast('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
