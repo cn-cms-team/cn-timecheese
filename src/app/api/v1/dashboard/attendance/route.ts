@@ -1,7 +1,12 @@
+import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 import { endOfMonth, startOfMonth } from 'date-fns';
 
 export async function GET(request: Request) {
+  const session = await auth();
+  if (!session) {
+    return Response.json({ error: 'Unauthorized' }, { status: 401 });
+  }
   const { searchParams } = new URL(request.url);
   const month = searchParams.get('month');
   const year = searchParams.get('year');
@@ -34,6 +39,7 @@ export async function GET(request: Request) {
   try {
     const tasks = await prisma.timeSheet.findMany({
       where: {
+        user_id: session?.user.id,
         stamp_date: {
           gte: monthStart,
           lte: monthEnd,

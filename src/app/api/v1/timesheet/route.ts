@@ -102,6 +102,23 @@ export async function POST(request: Request) {
   const total_seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
 
   try {
+    const existingTimeSheet = await prisma.timeSheet.findFirst({
+      where: {
+        user_id: session.user.id,
+        stamp_date: data.stamp_date,
+        start_date: {
+          gte: start,
+        },
+        end_date: {
+          lte: end,
+        },
+      },
+    });
+
+    if (existingTimeSheet) {
+      return Response.json({ error: 'Time collapse with existing timesheet' }, { status: 400 });
+    }
+
     const result = await prisma.timeSheet.create({
       data: {
         user_id: session.user.id,

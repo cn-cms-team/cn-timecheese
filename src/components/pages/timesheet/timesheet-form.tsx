@@ -18,7 +18,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { useTimeSheetContext } from './view/timesheet-context';
 import TimeInput from '@/components/ui/custom/input/time-input';
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 
 interface IProps {
   close?: () => void;
@@ -37,6 +37,10 @@ const TimeSheetForm = ({
     useTimeSheetContext();
   const [loading, setLoading] = useState(false);
   const [isAllDay, setIsAllDay] = useState(false);
+  const [timeCollapse, setTimeCollapse] = useState<{ message: string; isError: boolean }>({
+    message: '',
+    isError: false,
+  });
 
   const selectedDate = startTime
     ? startTime
@@ -75,6 +79,7 @@ const TimeSheetForm = ({
 
   const onSubmit = async (value: TimesheetCreateEditSchema) => {
     try {
+      setTimeCollapse({ message: '', isError: false });
       setLoading(true);
       const taskId = data ? data.id : null;
       const url = `${baseUrl}/timesheet${taskId ? `/${taskId}` : ''}`;
@@ -105,12 +110,14 @@ const TimeSheetForm = ({
         body: JSON.stringify({ data: params }),
       });
 
+      const result = await response.json();
       if (response.ok) {
-        const result = await response.json();
         toast(result.message);
         await getUserInfo();
         await getTask();
         close();
+      } else if (result.error) {
+        setTimeCollapse({ message: result.error, isError: true });
       }
     } catch (error) {
       console.error('Error fetching options: ', error);
@@ -245,7 +252,9 @@ const TimeSheetForm = ({
                           nextStart.setHours(hh, mm, 0, 0);
                           field.onChange(nextStart);
                         }}
-                        isError={form.formState.errors.start_date ? true : false}
+                        isError={
+                          form.formState.errors.start_date || timeCollapse.isError ? true : false
+                        }
                       />
                     </FormControl>
                   </FormItem>
@@ -268,7 +277,9 @@ const TimeSheetForm = ({
                           nextStart.setHours(hh, mm, 0, 0);
                           field.onChange(nextStart);
                         }}
-                        isError={form.formState.errors.end_date ? true : false}
+                        isError={
+                          form.formState.errors.end_date || timeCollapse.isError ? true : false
+                        }
                       />
                     </FormControl>
                   </FormItem>
@@ -371,6 +382,9 @@ const TimeSheetForm = ({
                 </FormItem>
               )}
             />
+            {timeCollapse.isError && (
+              <span className="text-sm text-destructive">{timeCollapse.message}</span>
+            )}
             <footer className="grid grid-cols-1 space-y-2">
               {Object.values(form.formState.errors) && (
                 <ul className="list-disc pl-5">
