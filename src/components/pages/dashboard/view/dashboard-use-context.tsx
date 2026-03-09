@@ -9,6 +9,7 @@ import { IDashboard } from '@/types/report';
 import { IReportTeam } from '@/types/report/team';
 import { weekDays } from '@/lib/constants/period-calendar';
 import { useLoading } from '@/components/context/app-context';
+import { IOptionGroups } from '@/types/dropdown';
 
 interface IDashboardContextType {
   loading: boolean;
@@ -16,7 +17,7 @@ interface IDashboardContextType {
   selectedMonth: number;
   projectId: string;
   dashboardProjectData: IDashboard;
-  projectOption: IOption[];
+  projectOption: IOptionGroups[];
   yearOption: IOption[];
   selectYear: number;
   userInfo: IReportTeam;
@@ -42,7 +43,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const [userInfo, setUserInfo] = useState<IReportTeam>(null!);
   const [selectYear, setSelectYear] = useState<number>(today.getFullYear());
   const [dashboardProjectData, setDashboardProjectData] = useState<IDashboard>(null!);
-  const [projectOption, setProjectOptions] = useState<IOption[]>([]);
+  const [projectOption, setProjectOptions] = useState<IOptionGroups[]>([]);
   const [selectedMonth, setSelectedMonth] = useState<number>(today.getMonth());
   const [projectId, setProjectId] = useState<string>(null!);
 
@@ -127,14 +128,14 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchUserInfo = async (userId: string) => {
     try {
       setLoading(true);
-      setIsLoading(true);
+      // setIsLoading(true);
       const userInfo = await fetcher<IReportTeam>(`${prefix}/api/v1/report/team?user_id=${userId}`);
 
       setUserInfo(userInfo);
     } catch (error) {
       console.error('Error fetching options:', error);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
       setLoading(false);
     }
   };
@@ -142,7 +143,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchProjectData = async (userId: string, projectId: string) => {
     try {
       setLoading(true);
-      setIsLoading(true);
+      // setIsLoading(true);
       const dashboardData = await fetcher<IDashboard>(
         `${prefix}/api/v1/dashboard?project_id=${projectId}&member_id=${userId}`
       );
@@ -151,16 +152,22 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.error('Error fetching options:', error);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
       setLoading(false);
     }
   };
 
   const fetchProjectsOption = async () => {
     try {
-      const project = await fetcher<IOption[]>(`${prefix}/api/v1/report/project/project-list`);
+      const project = await fetcher<IOptionGroups[]>(
+        `${prefix}/api/v1/report/project/project-list`
+      );
       setProjectOptions(project);
-      if (!projectId) setProjectId((project[0]?.value as string) || '');
+      if (!projectId) {
+        const defaultProject = project.find((e) => e.label === 'PROJECT');
+
+        if (defaultProject) setProjectId((defaultProject.options[0].value as string) || '');
+      }
     } catch (error) {
       console.error('Error fetching options:', error);
     }

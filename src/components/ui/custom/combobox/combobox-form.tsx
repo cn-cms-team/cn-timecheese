@@ -21,12 +21,13 @@ import { CommandEmpty } from 'cmdk';
 type ComboboxFormProps<TFieldValues extends FieldValues> = {
   options: IOptions[] | IOptionGroups[] | undefined;
   placeholder: string;
-  field: ControllerRenderProps<TFieldValues>;
+  field?: ControllerRenderProps<TFieldValues>;
   onSelect: (value: string) => void;
   disabled?: boolean;
   canEmpty?: boolean;
   isError?: boolean;
   isGroup?: boolean;
+  value?: any;
 };
 const ComboboxForm = <TFieldValues extends FieldValues>({
   options,
@@ -37,6 +38,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
   canEmpty = false,
   isError = false,
   isGroup = false,
+  value,
 }: ComboboxFormProps<TFieldValues>) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
@@ -56,14 +58,14 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
             role="combobox"
             className={cn(
               'w-full justify-between bg-white relative px-3 leading-[3]',
-              !field.value && 'text-muted-foreground',
+              ((field && !field.value) || !value) && 'text-muted-foreground',
               open && 'border-primary-light',
               !open && isError && 'boder-1 border-destructive'
             )}
             disabled={disabled}
           >
             <div className="truncate text-sm font-medium max-w-[95%]">
-              {field.value && isGroup
+              {((field && field.value) || value) && isGroup
                 ? options
                     ?.flatMap((item) => {
                       if (item.options && item.options.length > 0) {
@@ -71,22 +73,23 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                       }
                       return item;
                     })
-                    .find((language) => language.value === field.value)?.label
-                : field.value
-                  ? (options as IOptions[])?.find((language) => language.value === field.value)
-                      ?.label
+                    .find((language) => language.value === (field?.value || value))?.label
+                : (field && field.value) || value
+                  ? (options as IOptions[])?.find(
+                      (language) => language.value === (field?.value || value)
+                    )?.label
                   : placeholder}
             </div>
             <div className={`ms-auto ${open ? 'rotate-180' : ''}`}>
               <ChevronDownIcon />
             </div>
           </Button>
-          {canEmpty && field.value && (
+          {canEmpty && ((field && field.value) || value) && (
             <X
               className="absolute right-9 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 cursor-pointer hover:text-black z-10"
               onClick={(e) => {
                 e.stopPropagation();
-                handleOptionClick(typeof field.value === 'string' ? '' : '');
+                handleOptionClick(typeof (field?.value || value) === 'string' ? '' : '');
               }}
             />
           )}
@@ -108,7 +111,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                       value={item.label}
                       key={`${item.value}-${index}`}
                       className={`tc-dropdown-item ps-5 mt-1 ${
-                        item.value === field.value ? 'active' : ''
+                        item.value === (field?.value || value) ? 'active' : ''
                       }`}
                       onSelect={() => {
                         onSelect(item.value as string);
@@ -129,7 +132,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                       value={item.label}
                       key={`${item.value}-${index}`}
                       className={`tc-dropdown-item mt-1 ${
-                        item.value === field.value ? 'active' : ''
+                        item.value === (field?.value || value) ? 'active' : ''
                       }`}
                       disabled={item.is_active != null && item.is_active === false}
                       onSelect={() => {
