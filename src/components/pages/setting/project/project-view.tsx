@@ -92,10 +92,10 @@ const ProjectViewDetail = ({
       <div className="flex flex-col gap-5">
         <div>
           <TitleGroup title="ข้อมูลโครงการ" />
-          <div className="flex flex-col lg:px-8 gap-5 mb-10">
+          <div className="flex flex-col gap-5">
             <div className="grid grid-cols-4 sm:grid-cols-4 gap-5">
               <LabelGroup
-                label="โครงการภายในบริษัท"
+                label="ประเภทโครงการ"
                 value={getIsCompanyProject(projectData?.is_company_project ?? false) || '-'}
               />
               <LabelGroup label="รหัสโครงการ" value={projectData?.code} />

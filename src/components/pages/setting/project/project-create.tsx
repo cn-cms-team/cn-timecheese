@@ -273,7 +273,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                       name="is_company_project"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>โครงการภายในบริษัท</FormLabel>
+                          <FormLabel>ประเภทโครงการ</FormLabel>
                           <FormControl>
                             <div className="flex items-center space-x-2 mt-2">
                               <Switch
