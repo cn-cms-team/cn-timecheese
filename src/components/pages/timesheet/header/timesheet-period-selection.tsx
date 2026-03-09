@@ -54,7 +54,7 @@ const TimeSheetPeriodSelection = () => {
     }
   }, []);
   return (
-    <div className="p-4 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.2)] z-50 bg-white">
+    <div className="p-4 z-50 bg-white">
       <div className=" flex lg:flex-row flex-col gap-4 justify-between">
         <div className="w-full flex gap-2 items-center">
           <PeriodInput

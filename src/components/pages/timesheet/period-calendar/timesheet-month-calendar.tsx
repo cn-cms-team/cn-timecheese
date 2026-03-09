@@ -46,7 +46,7 @@ const TimeSheetMonthCalendar = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto relative custom-scrollbar bg-[#F5F6F8]">
+    <div className="flex-1 overflow-y-auto relative custom-scrollbar bg-(--color-dash-bg)">
       <div className="grid grid-cols-7 bg-white border border-neutral-400 rounded-lg overflow-hidden shadow-lg">
         {DAYS.map((d) => (
           <div

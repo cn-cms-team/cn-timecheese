@@ -24,7 +24,11 @@ const TimeSheetCalendarBody = () => {
     }
   };
 
-  return <div className="py-3 px-2 lg:py-4 lg:px-4 bg-[#F5F6F8] h-full ">{renderCalendar()}</div>;
+  return (
+    <div className="py-3 px-2 lg:py-4 lg:px-4 bg-(--color-dash-bg) h-full rounded-lg">
+      {renderCalendar()}
+    </div>
+  );
 };
 
 export default TimeSheetCalendarBody;
