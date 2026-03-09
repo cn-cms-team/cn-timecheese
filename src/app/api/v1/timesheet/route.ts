@@ -102,21 +102,21 @@ export async function POST(request: Request) {
   const total_seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
 
   try {
-    const existingTimeSheet = await prisma.timeSheet.findFirst({
+    const existingTimeSheet = await prisma.timeSheet.findMany({
       where: {
         user_id: session.user.id,
         stamp_date: data.stamp_date,
         start_date: {
-          gte: start,
+          lt: end,
         },
         end_date: {
-          lte: end,
+          gt: start,
         },
       },
     });
 
-    if (existingTimeSheet) {
-      return Response.json({ error: 'Time collapse with existing timesheet' }, { status: 400 });
+    if (existingTimeSheet && existingTimeSheet.length > 0) {
+      return Response.json({ error: 'เวลางานซ้ำกับข้อมูลเดิมในระบบ' }, { status: 400 });
     }
 
     const result = await prisma.timeSheet.create({

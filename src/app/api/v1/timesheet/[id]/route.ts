@@ -29,6 +29,26 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       return Response.json({ error: `Task not found` }, { status: 404 });
     }
 
+    const existingTimeSheet = await prisma.timeSheet.findMany({
+      where: {
+        id: {
+          not: id,
+        },
+        user_id: session.user.id,
+        stamp_date: data.stamp_date,
+        start_date: {
+          lt: end,
+        },
+        end_date: {
+          gt: start,
+        },
+      },
+    });
+
+    if (existingTimeSheet && existingTimeSheet.length > 0) {
+      return Response.json({ error: 'เวลางานซ้ำกับข้อมูลเดิมในระบบ' }, { status: 400 });
+    }
+
     const result = await prisma.timeSheet.update({
       where: {
         id: id,
