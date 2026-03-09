@@ -1,6 +1,7 @@
 import { FilterPeriod } from '@/types/period';
 import {
   differenceInBusinessDays,
+  differenceInCalendarDays,
   differenceInCalendarMonths,
   differenceInCalendarYears,
   format,
@@ -381,6 +382,27 @@ export function calcTotalYearAndMonth(start?: string, end?: string): string | nu
   }
   if (month > 0) {
     result += `${month} เดือน`;
+  }
+  return result;
+}
+
+export function calcTotalYearAndMonthAndDays(start?: string, end?: string): string | null {
+  if (!start || !end) return null;
+  let diff = differenceInCalendarDays(end, start);
+  const year = Math.floor(diff / 365);
+  diff %= 365;
+  const month = Math.floor(diff / 30);
+  diff %= 30;
+  const day = diff;
+  let result = '';
+  if (year > 0) {
+    result += `${year} ปี`;
+  }
+  if (month > 0) {
+    result += ` ${month} เดือน`;
+  }
+  if (day > 0) {
+    result += ` ${day} วัน`;
   }
   return result;
 }

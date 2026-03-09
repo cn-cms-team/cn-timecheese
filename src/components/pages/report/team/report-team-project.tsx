@@ -8,9 +8,10 @@ import {
 } from '@/components/ui/card';
 import { LabelGroup } from '@/components/ui/custom/form';
 import { Label } from '@/components/ui/label';
-import { formatDate } from '@/lib/functions/date-format';
+import { formatDate, secondsToDuration } from '@/lib/functions/date-format';
 import { numberWithCommas } from '@/lib/functions/number-format';
 import { IUserReportProject } from '@/types/report/team';
+import { useEffect, useState } from 'react';
 
 const ReportTeamProject = ({
   name,
@@ -20,7 +21,14 @@ const ReportTeamProject = ({
   value,
   position,
   join_date,
+  spent_times,
 }: IUserReportProject & { loading: boolean }) => {
+  const [workDuration, setWorkDuration] = useState(secondsToDuration(spent_times || 0));
+
+  useEffect(() => {
+    setWorkDuration(secondsToDuration(spent_times || 0));
+  }, [spent_times]);
+
   return (
     <Card className="w-full justify-between max-w-full">
       <CardHeader>
@@ -38,9 +46,19 @@ const ReportTeamProject = ({
       <CardFooter className="flex-col gap-2 border-t">
         <div className="flex justify-between w-full mb-2">
           <div className="flex flex-col w-full gap-3 items-center">
-            <Label className="text-label text-sm text-[#999999]">จำนวนวัน</Label>
+            <Label className="text-label text-sm text-[#999999]">เวลาที่ใช้ในโครงการ</Label>
             <Label className="select-text break-all flex-wrap text-base font-bold">
-              {numberWithCommas(value) || '-'}
+              {spent_times != 0 ? (
+                <>
+                  {workDuration.year ? `${workDuration.year} ปี` : ''}
+                  {workDuration.month ? ` ${workDuration.month} เดือน` : ''}
+                  {workDuration.day ? ` ${workDuration.day} วัน` : ''}
+                  {workDuration.hour ? ` ${workDuration.hour} ชั่วโมง` : ''}
+                  {workDuration.minute ? ` ${workDuration.minute} นาที` : ''}
+                </>
+              ) : (
+                '-'
+              )}
             </Label>
           </div>
           <div className="flex flex-col w-full gap-3 items-center">
