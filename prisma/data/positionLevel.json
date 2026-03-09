@@ -3,24 +3,28 @@
     "id": "01955b5a-91a3-7d18-ab62-5f3e9c1a4b70",
     "name": "Junior Developer",
     "description": "Entry-level position for developers.",
-    "position_id": "01955b5a-91a6-7c84-bf36-5c0b7a21e864"
+    "position_id": "01955b5a-91a6-7c84-bf36-5c0b7a21e864",
+    "ord": 1
   },
   {
     "id": "b2a1c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
     "name": "Mid-level Developer",
     "description": "Developer with some experience.",
-    "position_id": "01955b5a-91a6-7c84-bf36-5c0b7a21e864"
+    "position_id": "01955b5a-91a6-7c84-bf36-5c0b7a21e864",
+    "ord": 2
   },
   {
     "id": "01955b5a-91a7-7e5b-8f7c-1a2b3c4d5e6f",
     "name": "Senior Developer",
     "description": "Experienced developer with advanced skills.",
-    "position_id": "01955b5a-91a6-7c84-bf36-5c0b7a21e864"
+    "position_id": "01955b5a-91a6-7c84-bf36-5c0b7a21e864",
+    "ord": 3
   },
   {
     "id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
     "name": "Lead Developer",
     "description": "Leads development teams and projects.",
-    "position_id": "01955b5a-91a6-7c84-bf36-5c0b7a21e864"
+    "position_id": "01955b5a-91a6-7c84-bf36-5c0b7a21e864",
+    "ord": 4
   }
 ]
