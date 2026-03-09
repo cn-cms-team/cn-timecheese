@@ -108,42 +108,11 @@ const ProjectTaskTable = ({
                                 control={form.control}
                                 name={`${name}.${index}.task_type_id`}
                                 render={({ field }) => {
-                                  // const selectedType = form.watch(`${name}.${index}.type`);
-                                  // const filteredTask = taskOption
-                                  //   .filter((u) => u.type === selectedType)
-                                  //   .map((e) => {
-                                  //     return {
-                                  //       ...e,
-                                  //       is_active: fields.some((x) => x.task_type_id === e.value)
-                                  //         ? false
-                                  //         : true,
-                                  //     };
-                                  //   });
                                   return (
                                     <FormItem>
                                       <FormLabel className="block truncate min-w-37.5">
                                         {item.name}
                                       </FormLabel>
-                                      {/* <FormControl>
-                                        <ComboboxForm
-                                          placeholder={
-                                            selectedType ? 'เลือกประเภท' : 'กรุณาเลือกหมวดหมู่'
-                                          }
-                                          options={filteredTask}
-                                          field={field}
-                                          disabled={!selectedType}
-                                          isError={
-                                            !!form.formState.errors[name]?.[index]?.task_type_id
-                                          }
-                                          onSelect={(value) => {
-                                            const taskName =
-                                              filteredTask.find((f) => f.value === value)?.label ??
-                                              '';
-                                            form.setValue(`${name}.${index}.name`, taskName);
-                                            field.onChange(value);
-                                          }}
-                                        />
-                                      </FormControl> */}
                                     </FormItem>
                                   );
                                 }}
@@ -197,7 +166,7 @@ const ProjectTaskTable = ({
                                 remove(index);
                               }}
                             >
-                              <Trash2 width={20} height={20} />
+                              <Trash2 width={20} height={20} className={'text-red-700'} />
                             </Button>
                           </TableCell>
                         </TableRow>

@@ -12,7 +12,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { taskTypeOption } from '@/lib/constants/task';
-import { calcTotalDays, formatDate } from '@/lib/functions/date-format';
+import { buddhistFormatDate, calcTotalDays, formatDate } from '@/lib/functions/date-format';
 import { getIsCompanyProject, getProjectStatus } from '@/lib/functions/enum-mapping';
 import { IProject, IProjectTaskType } from '@/types/setting/project';
 import { useEffect, useState } from 'react';
@@ -104,11 +104,11 @@ const ProjectViewDetail = ({
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
               <LabelGroup
                 label="วันที่เริ่มต้น"
-                value={formatDate(projectData?.start_date, 'dd/mm/yyyy') || '-'}
+                value={buddhistFormatDate(projectData?.start_date, 'dd mmm yyyy') || '-'}
               />
               <LabelGroup
                 label="วันที่สิ้นสุด"
-                value={formatDate(projectData?.end_date, 'dd/mm/yyyy') || '-'}
+                value={buddhistFormatDate(projectData?.end_date, 'dd mmm yyyy') || '-'}
               />
               <LabelGroup
                 label="สถานะโครงการ"
