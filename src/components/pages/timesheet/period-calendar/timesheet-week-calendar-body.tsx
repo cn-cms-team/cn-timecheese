@@ -11,6 +11,7 @@ import TimeSheetPopover from '../timesheet-popover';
 import TimeSheetEventCard from '../timesheet-event-card';
 import TimeSheetdataDetail from '../timesheet-task-detail';
 import { useTimeSheetContext } from '../view/timesheet-context';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface IProps {
   weekDays: Date[];
@@ -44,6 +45,8 @@ const TimeSheetWeekCalendarBody = ({ weekDays, loading = false }: IProps) => {
       dateToCompare.getFullYear() !== year
     );
   };
+  const isMobile = useIsMobile();
+
   return (
     <div className="flex min-h-[600px] relative">
       <div className="w-[55px] shrink-0 bg-transparent border-r border-neutral-300 text-xs text-neutral-500 font-mono text-center sticky left-0 z-50">
@@ -160,7 +163,7 @@ const TimeSheetWeekCalendarBody = ({ weekDays, loading = false }: IProps) => {
                 <TimeSheetPopover
                   key={task.id}
                   align="center"
-                  side="right"
+                  side={isMobile ? 'bottom' : 'right'}
                   className={`w-full p-0`}
                   setIsEdit={setIsPopoverEdit}
                   contentProps={{
