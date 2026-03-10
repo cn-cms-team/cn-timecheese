@@ -394,17 +394,17 @@ export function calcTotalYearAndMonthAndDays(start?: string, end?: string): stri
   const month = Math.floor(diff / 30);
   diff %= 30;
   const day = diff;
-  let result = '';
+  const parts: string[] = [];
   if (year > 0) {
-    result += `${year} ปี`;
+    parts.push(`${year} ปี`);
   }
   if (month > 0) {
-    result += ` ${month} เดือน`;
+    parts.push(`${month} เดือน`);
   }
   if (day > 0) {
-    result += ` ${day} วัน`;
+    parts.push(`${day} วัน`);
   }
-  return result;
+  return parts.join(' ') || '-';
 }
 
 export const formatHours = (seconds: number) => {

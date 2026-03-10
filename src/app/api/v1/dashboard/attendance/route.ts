@@ -39,7 +39,7 @@ export async function GET(request: Request) {
   try {
     const tasks = await prisma.timeSheet.findMany({
       where: {
-        user_id: session?.user.id,
+        user_id: session.user.id,
         stamp_date: {
           gte: monthStart,
           lte: monthEnd,

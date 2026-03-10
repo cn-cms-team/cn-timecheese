@@ -58,9 +58,9 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
             role="combobox"
             className={cn(
               'w-full justify-between bg-white relative px-3 leading-[3]',
-              ((field && !field.value) || !value) && 'text-muted-foreground',
+              !(field?.value || value) && 'text-muted-foreground',
               open && 'border-primary-light',
-              !open && isError && 'boder-1 border-destructive'
+              !open && isError && 'border border-destructive'
             )}
             disabled={disabled}
           >
@@ -89,7 +89,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
               className="absolute right-9 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 cursor-pointer hover:text-black z-10"
               onClick={(e) => {
                 e.stopPropagation();
-                handleOptionClick(typeof (field?.value || value) === 'string' ? '' : '');
+                handleOptionClick('');
               }}
             />
           )}
