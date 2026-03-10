@@ -66,7 +66,6 @@ const ProjectView = ({ id }: { id: string }) => {
           router.push(`/setting/project/${id}/edit`);
         }
       } else {
-        setIsLoading(true);
         setConfirmState({
           title: 'ลบข้อมูล',
           message: `คุณยืนยันที่จะลบข้อมูลโครงการ : ${projectName} ใช่หรือไม่ ?`,
@@ -75,6 +74,7 @@ const ProjectView = ({ id }: { id: string }) => {
 
         const result = await getConfirmation();
         if (result && id) {
+          setIsLoading(true);
           const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/project/${id}`;
           const res = await fetch(fetchUrl, { method: 'DELETE' });
           const data = await res.json();
