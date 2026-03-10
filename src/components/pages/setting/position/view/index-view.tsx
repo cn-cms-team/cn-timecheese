@@ -59,14 +59,14 @@ const PositionListView = () => {
       const res = await fetch(fetchUrl, { method: 'DELETE' });
       const data = await res.json();
       if (!res.ok) {
-        toast(data.message);
+        toast.error(data.message);
         return;
       } else {
         router.push('/setting/position');
-        toast('Delete success');
+        toast.success(data.message);
       }
     } catch (error) {
-      console.error('Failed to delete position:', error);
+      toast.error('An error occurred while deleting the position.');
     } finally {
       setIsLoading(false);
     }

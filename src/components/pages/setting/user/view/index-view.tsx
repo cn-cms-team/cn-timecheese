@@ -57,10 +57,10 @@ const UserListView = () => {
       await fetch(fetchUrl, { method: 'DELETE' }).then(async (res) => {
         const data = await res.json();
         if (!res.ok) {
-          toast(data.message);
+          toast.error(data.message);
           return;
         } else {
-          toast(data.message);
+          toast.success(data.message);
           router.push('/setting/user');
         }
       });

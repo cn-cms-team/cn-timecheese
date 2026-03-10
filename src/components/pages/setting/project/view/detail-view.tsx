@@ -79,11 +79,11 @@ const ProjectView = ({ id }: { id: string }) => {
           const res = await fetch(fetchUrl, { method: 'DELETE' });
           const data = await res.json();
           if (!res.ok) {
-            toast(data.message);
+            toast.error(data.message);
             return;
           } else {
             router.push('/setting/project');
-            toast('Delete success');
+            toast.success(data.message);
           }
         }
       }

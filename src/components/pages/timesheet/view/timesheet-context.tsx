@@ -194,7 +194,7 @@ const TimeSheetProvider = ({ children }: ITimeSheetProviderProps) => {
       if (!res.ok) {
         throw new Error('Failed to delete task');
       } else {
-        toast(json.message);
+        toast.success(json.message);
       }
 
       await getTask();
