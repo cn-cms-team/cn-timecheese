@@ -51,13 +51,13 @@ const ResetPasswordForm = ({ userData }: ResetPasswordFormProps) => {
       setIsLoading(true);
       const result = await handleResetPasswordUser(userData.id, values);
       if (result?.message) {
-        toast(result.message);
+        toast.success(result.message);
       }
       if (result?.success) {
         handleSignout(userData?.id, '/');
       }
     } catch (error) {
-      toast('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }

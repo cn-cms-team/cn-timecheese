@@ -10,6 +10,8 @@ import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
 import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
 import TableListTimesheet from '@/components/ui/custom/report/table-list-timesheet';
 import DonutChartTimesheet from '@/components/ui/custom/report/donut-chart-timesheet';
+import { ComboboxForm } from '@/components/ui/custom/combobox';
+import { IOptionGroups } from '@/types/dropdown';
 
 const DashboardContent = () => {
   const { data: session } = useSession();
@@ -55,13 +57,22 @@ const DashboardContent = () => {
       <DashboardBarChart />
       <div className="space-y-1 max-w-sm">
         <Label>โครงการ</Label>
-        <Dropdown
+        <ComboboxForm
+          value={projectId}
+          isGroup={true}
+          placeholder="เลือกโครงการ"
+          options={projectOption}
+          onSelect={(value) => {
+            setProjectId(value);
+          }}
+        />
+        {/* <Dropdown
           value={projectId}
           options={projectOption}
           isAllPlaceHolder={false}
           placeholder="เลือกโครงการ"
           onChange={(value) => setProjectId(value)}
-        />
+        /> */}
       </div>
       <CardProjectInfo project={dashboardProjectData?.project || {}} loading={loading} />
       <DonutChartTimesheet

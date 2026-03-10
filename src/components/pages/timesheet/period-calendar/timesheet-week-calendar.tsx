@@ -61,11 +61,11 @@ const TimeSheetWeekCalendar = () => {
   }, [selectedMonth, selectedYear]);
 
   return (
-    <div className="flex flex-col h-full bg-[#F5F6F8] overflow-hidden">
-      <div className="flex items-center border-b border-neutral-300 bg-[#F5F6F8] sticky top-0 z-10">
+    <div className="flex flex-col h-full bg-(--color-dash-bg) overflow-hidden">
+      <div className="flex items-center border-b border-neutral-300 bg-(--color-dash-bg) sticky top-0 z-10">
         <Button
           onClick={handlePrevWeek}
-          className="px-3 absolute left-13 h-full flex items-center min-w-[54px] cursor-pointer p-0 bg-transparent hover:bg-transparent"
+          className="px-3 absolute left-13 h-full flex items-center min-w-13.5 cursor-pointer p-0 bg-transparent hover:bg-transparent"
         >
           <ChevronLeft stroke="#000" />
         </Button>
@@ -114,12 +114,12 @@ const TimeSheetWeekCalendar = () => {
 
         <Button
           onClick={handleNextWeek}
-          className="px-3 absolute -right-3 h-full flex items-center min-w-[54px] cursor-pointer p-0 bg-transparent hover:bg-transparent "
+          className="px-3 absolute -right-3 h-full flex items-center min-w-13.5 cursor-pointer p-0 bg-transparent hover:bg-transparent "
         >
           <ChevronRight stroke="#000" />
         </Button>
       </div>
-      <div className="flex-1 relative bg-[#F5F6F8] overflow-y-auto max-h-150">
+      <div className="flex-1 relative bg-(--color-dash-bg) overflow-y-auto max-h-150">
         <ScrollArea>
           <TimeSheetWeekCalendarBody weekDays={weekDays} loading={loading} />
           <ScrollBar orientation="vertical" />

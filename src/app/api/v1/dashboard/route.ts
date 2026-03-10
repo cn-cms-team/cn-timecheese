@@ -14,7 +14,8 @@ export async function GET(request: Request) {
     if (result instanceof Response) {
       return result;
     }
-
+    const spent_times =
+      (result?.project?.spent_times || 0) - (result?.project?.exclude_seconds || 0);
     const resultData = {
       project_id: projectId,
       user: {
@@ -31,7 +32,7 @@ export async function GET(request: Request) {
         end_date: result.project.end_date,
         position: result.project.position,
         last_tracked_at: null,
-        spent_times: result.project.spent_times || 0,
+        spent_times: spent_times > 0 ? spent_times : 0,
       },
       timesheet_chart: result.timesheet_chart,
     };

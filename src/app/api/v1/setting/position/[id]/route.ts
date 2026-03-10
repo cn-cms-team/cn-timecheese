@@ -171,7 +171,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 
     return Response.json(
       {
-        message: `Delete success `,
+        message: `Deleted successfully`,
         data: { id: result.id },
       },
       { status: 200 }

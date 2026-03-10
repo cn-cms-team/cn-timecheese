@@ -55,7 +55,7 @@ const TeamViewDetail = ({ id }: { id: string }): React.ReactNode => {
   return (
     <div className="cev-box">
       <TitleGroup title="ข้อมูลทีม" />
-      <div className="flex flex-col px-8 gap-5">
+      <div className="flex flex-col gap-5">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <LabelGroup label="ชื่อ" value={teamData?.name} />
           <LabelGroup label="สถานะการใช้งาน" value="">

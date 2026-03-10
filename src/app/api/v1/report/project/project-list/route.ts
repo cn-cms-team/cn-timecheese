@@ -7,6 +7,20 @@ export async function GET() {
     if (!session) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
+    const projectCompany = await prisma.project.findMany({
+      where: {
+        is_enabled: true,
+        is_company_project: true,
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    const companyOptions = projectCompany.map((item) => ({
+      label: item.name,
+      value: String(item.id),
+    }));
     const project = await prisma.projectMember.findMany({
       where: { user_id: session.user?.id },
       select: {
@@ -20,11 +34,21 @@ export async function GET() {
       orderBy: { project: { name: 'asc' } },
       distinct: ['project_id'],
     });
-    const options = project.map((item) => ({
+    const projectOptions = project.map((item) => ({
       label: item.project.name,
       value: String(item.project_id),
     }));
-    return Response.json({ data: options, status: 200 });
+    const optinoGroup = [
+      {
+        label: 'COMPANY',
+        options: companyOptions,
+      },
+      {
+        label: 'PROJECT',
+        options: projectOptions,
+      },
+    ];
+    return Response.json({ data: optinoGroup, status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },

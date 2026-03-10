@@ -145,11 +145,11 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       if (response.ok) {
         const result = await response.json();
 
-        toast(result.message);
+        toast.success(result.message);
         router.push('/setting/user');
       }
     } catch {
-      toast('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -416,7 +416,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                   <DatePickerInput
                     {...field}
                     value={field.value}
-                    startMonth={undefined}
+                    startMonth={new Date(new Date().getFullYear() - 30, 0)}
                     endMonth={undefined}
                     placeholder="กรุณาเลือกวันที่เริ่มต้นของคุณ"
                     isError={form.formState.errors.start_date ? true : false}

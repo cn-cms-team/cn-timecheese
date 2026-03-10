@@ -41,7 +41,7 @@ const TimeSheetMonthPicker = ({ current, className, onSelect }: IProps) => {
   const currentMonth = current ? current : selectedMonth.getMonth() - 1;
 
   return (
-    <div className={cn('w-full h-full p-2 bg-white rounded-lg', className)}>
+    <div className={cn('w-full h-full p-2 bg-white rounded-lg shadow-sm', className)}>
       <div className="flex justify-center gap-x-4 items-center w-full">
         <Button
           className="cursor-pointer font-bold bg-transparent p-0 hover:bg-transparent"

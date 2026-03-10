@@ -7,7 +7,7 @@ const TimeSheetTimeSummary = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-      <div className="flex flex-col justify-center gap-2 bg-white p-2 md:col-span-2 col-span-1 text-center rounded-md">
+      <div className="flex flex-col justify-center gap-2 bg-white p-2 md:col-span-2 col-span-1 text-center rounded-md shadow-sm">
         <span>เวลาทั้งหมด</span>
         {userInfoLoading ? (
           <div className="w-full h-6 bg-gray-300 animate-pulse rounded-md mt-2" />
@@ -17,7 +17,7 @@ const TimeSheetTimeSummary = () => {
           </span>
         )}
       </div>
-      <div className="flex flex-col justify-center gap-2 bg-white p-2 rounded-md text-center">
+      <div className="flex flex-col justify-center gap-2 bg-white p-2 rounded-md text-center shadow-sm">
         <span>ล่วงเวลา</span>
         {userInfoLoading ? (
           <div className="w-full h-6 bg-gray-300 animate-pulse rounded-md mt-2" />
@@ -27,7 +27,7 @@ const TimeSheetTimeSummary = () => {
           </span>
         )}
       </div>
-      <div className="flex flex-col justify-center gap-2 bg-white p-2 rounded-md text-center">
+      <div className="flex flex-col justify-center gap-2 bg-white p-2 rounded-md text-center shadow-sm">
         <span>โครงการทั้งหมด</span>
         {userInfoLoading ? (
           <div className="w-full h-6 bg-gray-300 animate-pulse rounded-md mt-2" />

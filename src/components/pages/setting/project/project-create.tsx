@@ -104,8 +104,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
               ...item,
               project_id: id,
               day_price: item.day_price ?? 0,
-              start_date: new Date(item.start_date),
-              end_date: new Date(item.end_date),
+              start_date: item.start_date ? new Date(item.start_date) : undefined,
+              end_date: item.end_date ? new Date(item.end_date) : undefined,
             })),
           });
         }
@@ -161,11 +161,11 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
       });
       if (response.ok) {
         const result = await response.json();
-        toast(result.message);
+        toast.success(result.message);
         router.push('/setting/project');
       }
     } catch {
-      console.error('An unexpected error occurred. Please try again.');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -273,7 +273,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                       name="is_company_project"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>โครงการภายในบริษัท</FormLabel>
+                          <FormLabel>ประเภทโครงการ</FormLabel>
                           <FormControl>
                             <div className="flex items-center space-x-2 mt-2">
                               <Switch

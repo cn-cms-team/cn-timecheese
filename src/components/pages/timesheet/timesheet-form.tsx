@@ -18,13 +18,15 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { useTimeSheetContext } from './view/timesheet-context';
 import TimeInput from '@/components/ui/custom/input/time-input';
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { isAfter, isBefore, isWithinInterval } from 'date-fns';
 
 interface IProps {
   close?: () => void;
   data?: Partial<ITimeSheetResponse>;
   startTime?: Date;
   endTime?: Date;
+  dayTasks?: ITimeSheetResponse[];
 }
 
 const TimeSheetForm = ({
@@ -32,11 +34,16 @@ const TimeSheetForm = ({
   startTime = undefined,
   endTime = undefined,
   close = () => {},
+  dayTasks,
 }: IProps) => {
   const { projectOptions, taskTypeOptions, getTask, fetchTaskOption, getUserInfo } =
     useTimeSheetContext();
   const [loading, setLoading] = useState(false);
   const [isAllDay, setIsAllDay] = useState(false);
+  const [timeCollapse, setTimeCollapse] = useState<{ message: string; isError: boolean }>({
+    message: '',
+    isError: false,
+  });
 
   const selectedDate = startTime
     ? startTime
@@ -72,9 +79,32 @@ const TimeSheetForm = ({
     control: form.control,
     name: 'project_id',
   });
+  function isOverlapping(newStart: Date, newEnd: Date, ranges: any[]) {
+    if (newStart >= newEnd) return true;
 
+    return ranges.some(({ start_date, end_date }) => {
+      const start = new Date(start_date);
+      const end = new Date(end_date);
+
+      return newStart < end && newEnd > start;
+    });
+  }
   const onSubmit = async (value: TimesheetCreateEditSchema) => {
     try {
+      if (dayTasks && dayTasks.length > 0) {
+        if (
+          isOverlapping(
+            value.start_date,
+            value.end_date,
+            data?.id ? dayTasks.filter((e) => e.id !== data?.id) : dayTasks
+          )
+        ) {
+          setTimeCollapse({ message: 'เวลางานซ้ำกับข้อมูลเดิมในระบบ', isError: true });
+          return;
+        } else {
+          setTimeCollapse({ message: '', isError: false });
+        }
+      }
       setLoading(true);
       const taskId = data ? data.id : null;
       const url = `${baseUrl}/timesheet${taskId ? `/${taskId}` : ''}`;
@@ -105,20 +135,19 @@ const TimeSheetForm = ({
         body: JSON.stringify({ data: params }),
       });
 
+      const result = await response.json();
       if (response.ok) {
-        const result = await response.json();
-        toast(result.message);
+        toast.success(result.message);
         await getUserInfo();
         await getTask();
         close();
       }
     } catch (error) {
-      console.error('Error fetching options: ', error);
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setLoading(false);
     }
   };
-
   const calculateHour = () => {
     const startDate = useWatch({ control: form.control, name: 'start_date' });
     const endDate = useWatch({ control: form.control, name: 'end_date' });
@@ -173,6 +202,11 @@ const TimeSheetForm = ({
     }
   }, [isAllDay]);
 
+  useEffect(() => {
+    if (!projectId) return;
+    fetchTaskOption(projectId);
+  }, [projectId]);
+
   return (
     <div className="flex flex-col w-full p-4 space-y-4">
       <main className="w-full space-y-4">
@@ -195,7 +229,7 @@ const TimeSheetForm = ({
                         options={projectOptions}
                         onSelect={(value) => {
                           field.onChange(value);
-                          fetchTaskOption(value);
+                          // fetchTaskOption(value);
                           form.resetField('project_task_type_id');
                         }}
                         isError={form.formState.errors.project_id ? true : false}
@@ -245,7 +279,9 @@ const TimeSheetForm = ({
                           nextStart.setHours(hh, mm, 0, 0);
                           field.onChange(nextStart);
                         }}
-                        isError={form.formState.errors.start_date ? true : false}
+                        isError={
+                          form.formState.errors.start_date || timeCollapse.isError ? true : false
+                        }
                       />
                     </FormControl>
                   </FormItem>
@@ -268,7 +304,9 @@ const TimeSheetForm = ({
                           nextStart.setHours(hh, mm, 0, 0);
                           field.onChange(nextStart);
                         }}
-                        isError={form.formState.errors.end_date ? true : false}
+                        isError={
+                          form.formState.errors.end_date || timeCollapse.isError ? true : false
+                        }
                       />
                     </FormControl>
                   </FormItem>
@@ -294,7 +332,7 @@ const TimeSheetForm = ({
                               }
                             }}
                           />
-                          <Label htmlFor="exclude" className="pb-1 cursor-pointer">
+                          <Label htmlFor="exclude" className="cursor-pointer">
                             รวมเวลาพัก
                           </Label>
                         </div>
@@ -371,6 +409,9 @@ const TimeSheetForm = ({
                 </FormItem>
               )}
             />
+            {timeCollapse.isError && (
+              <span className="text-sm text-destructive">{timeCollapse.message}</span>
+            )}
             <footer className="grid grid-cols-1 space-y-2">
               {Object.values(form.formState.errors) && (
                 <ul className="list-disc pl-5">

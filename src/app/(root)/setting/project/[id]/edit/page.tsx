@@ -1,5 +1,4 @@
 import { ProjectCreateView } from '@/components/pages/setting/project/view';
-import { UserCreateView } from '@/components/pages/setting/user/view';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
