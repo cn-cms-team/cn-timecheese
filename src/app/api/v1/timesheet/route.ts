@@ -135,7 +135,7 @@ export async function POST(request: Request) {
         year: start.getFullYear(),
         month: start.getMonth() + 1,
         stamp_at: start,
-        total_seconds,
+        total_seconds: data.exclude_seconds ? total_seconds - data.exclude_seconds : total_seconds,
         updated_at: new Date(),
       },
     });

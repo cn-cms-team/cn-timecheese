@@ -68,6 +68,7 @@ export async function getReportProjectByUser(projectId: string, memberId: string
       by: ['project_task_type_id'],
       _sum: {
         total_seconds: true,
+        exclude_seconds: true,
       },
     });
 
@@ -106,6 +107,10 @@ export async function getReportProjectByUser(projectId: string, memberId: string
             position: project?.role,
             day_price: project?.day_price,
             spent_times: timesheetSummary.reduce((acc, curr) => acc + (curr.total_seconds ?? 0), 0),
+            exclude_seconds: timesheetGroup.reduce(
+              (acc, curr) => acc + (curr._sum.exclude_seconds ?? 0),
+              0
+            ),
             last_tracked_at: null,
           }
         : projectCompany
@@ -120,12 +125,16 @@ export async function getReportProjectByUser(projectId: string, memberId: string
                 (acc, curr) => acc + (curr.total_seconds ?? 0),
                 0
               ),
+              exclude_seconds: timesheetGroup.reduce(
+                (acc, curr) => acc + (curr._sum.exclude_seconds ?? 0),
+                0
+              ),
               last_tracked_at: null,
             }
           : null,
       timesheet_chart: timesheetGroup.map((ts) => ({
         task_type: taskTypeMap.get(ts.project_task_type_id!) || 'Unknown',
-        tracked_hours: ts._sum.total_seconds ?? 0,
+        tracked_hours: (ts._sum.total_seconds ?? 0) - (ts._sum.exclude_seconds ?? 0),
       })),
     };
 

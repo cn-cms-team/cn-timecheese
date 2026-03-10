@@ -52,6 +52,7 @@ export async function GET(request: Request) {
         start_date: true,
         end_date: true,
         total_seconds: true,
+        exclude_seconds: true,
       },
       orderBy: {
         stamp_date: 'asc',
@@ -76,7 +77,7 @@ export async function GET(request: Request) {
         });
       }
 
-      summaryMap.get(dateKey)!.total_seconds += task.total_seconds;
+      summaryMap.get(dateKey)!.total_seconds += task.total_seconds - (task.exclude_seconds ?? 0);
     }
 
     const result = Array.from(summaryMap.values());
