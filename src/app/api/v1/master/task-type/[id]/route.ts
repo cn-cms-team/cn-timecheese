@@ -1,3 +1,4 @@
+import { getPascalCase } from '@/lib/functions/string-format';
 import prisma from '@/lib/prisma';
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -19,21 +20,24 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     });
 
     const options = Object.values(
-      result.reduce((acc, item) => {
-        if (!acc[item.type]) {
-          acc[item.type] = {
-            label: item.type,
-            options: [],
-          };
-        }
+      result.reduce(
+        (acc, item) => {
+          if (!acc[item.type]) {
+            acc[item.type] = {
+              label: getPascalCase(item.type.toLocaleLowerCase()),
+              options: [],
+            };
+          }
 
-        acc[item.type].options.push({
-          label: item?.name ?? '',
-          value: item.id!,
-        });
+          acc[item.type].options.push({
+            label: item?.name ?? '',
+            value: item.id!,
+          });
 
-        return acc;
-      }, {} as Record<string, { label: string; options: { label: string; value: string }[] }>)
+          return acc;
+        },
+        {} as Record<string, { label: string; options: { label: string; value: string }[] }>
+      )
     );
 
     return Response.json({ data: options }, { status: 200 });
