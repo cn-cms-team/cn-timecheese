@@ -93,33 +93,37 @@ const ProjectViewDetail = ({
         <div>
           <TitleGroup title="ข้อมูลโครงการ" />
           <div className="flex flex-col gap-5">
-            <div className="grid grid-cols-4 sm:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <LabelGroup
                 label="ประเภทโครงการ"
                 value={getIsCompanyProject(projectData?.is_company_project ?? false) || '-'}
               />
+              <LabelGroup label="รหัส Pre-Sale" value={projectData?.pre_sale_code} />
               <LabelGroup label="รหัสโครงการ" value={projectData?.code} />
-              <LabelGroup label="ชื่อ" value={projectData?.name} className="col-span-2" />
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+
+              <LabelGroup label="ชื่อโครงการ" value={projectData?.name} />
               <LabelGroup
-                label="วันที่เริ่มต้น"
+                label="วันที่เริ่มต้นโครงการ"
                 value={buddhistFormatDate(projectData?.start_date, 'dd mmm yyyy') || '-'}
               />
               <LabelGroup
-                label="วันที่สิ้นสุด"
+                label="วันที่สิ้นสุดโครงการ"
                 value={buddhistFormatDate(projectData?.end_date, 'dd mmm yyyy') || '-'}
+              />
+              <LabelGroup
+                label="วันที่เริ่มต้นการบำรุงรักษา"
+                value={
+                  buddhistFormatDate(projectData?.maintenance_start_date, 'dd mmm yyyy') || '-'
+                }
+              />
+              <LabelGroup
+                label="วันที่สิ้นสุดการบำรุงรักษา"
+                value={buddhistFormatDate(projectData?.maintenance_end_date, 'dd mmm yyyy') || '-'}
               />
               <LabelGroup
                 label="สถานะโครงการ"
                 value={getProjectStatus(projectData?.status!) || '-'}
               />
-              <LabelGroup
-                label="มูลค่าโครงการ"
-                value={projectData?.value?.toLocaleString() || '-'}
-              />
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
               <LabelGroup label="คำอธิบาย" value={projectData?.description} />
             </div>
           </div>
@@ -132,11 +136,8 @@ const ProjectViewDetail = ({
                 <TableRow className="bg-[#f2f4f7]">
                   <TableHead className="w-25">ชื่อ-สกุล</TableHead>
                   <TableHead className="w-25">ตำแหน่ง</TableHead>
-                  <TableHead className="w-25">ค่าใช้จ่ายต่อวัน</TableHead>
                   <TableHead className="w-25">วันที่เริ่มต้น</TableHead>
                   <TableHead className="w-25">วันที่สิ้นสุด</TableHead>
-                  <TableHead className="w-25">จำนวนวัน</TableHead>
-                  <TableHead className="w-25">ค่าใช้จ่ายโดยประมาณ</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -158,15 +159,14 @@ const ProjectViewDetail = ({
                       <TableRow key={item.user_id}>
                         <TableCell>{item.name}</TableCell>
                         <TableCell>{item.role}</TableCell>
-                        <TableCell>{item.day_price?.toLocaleString() ?? 0}</TableCell>
                         <TableCell>
-                          {item.start_date ? formatDate(item.start_date, 'dd/mm/yyyy') : '-'}
+                          {item.start_date
+                            ? buddhistFormatDate(item.start_date, 'dd mmm yyyy')
+                            : '-'}
                         </TableCell>
                         <TableCell>
-                          {item.end_date ? formatDate(item.end_date, 'dd/mm/yyyy') : '-'}
+                          {item.end_date ? buddhistFormatDate(item.end_date, 'dd mmm yyyy') : '-'}
                         </TableCell>
-                        <TableCell>{totalDays}</TableCell>
-                        <TableCell>{estimatedCost.toLocaleString() ?? 0}</TableCell>
                       </TableRow>
                     );
                   })

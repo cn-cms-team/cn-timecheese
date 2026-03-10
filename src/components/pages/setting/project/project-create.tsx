@@ -100,6 +100,12 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
             ...projectData,
             start_date: new Date(projectData.start_date),
             end_date: projectData.end_date ? new Date(projectData.end_date) : undefined,
+            maintenance_start_date: projectData.maintenance_start_date
+              ? new Date(projectData.maintenance_start_date)
+              : undefined,
+            maintenance_end_date: projectData.maintenance_end_date
+              ? new Date(projectData.maintenance_end_date)
+              : undefined,
             member: projectData.member.map((item) => ({
               ...item,
               project_id: id,
@@ -132,13 +138,13 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         id: id,
         name: values.name,
         code: values.code,
+        pre_sale_code: values.pre_sale_code,
         start_date: values.start_date,
         end_date: values.end_date,
+        maintenance_start_date: values.maintenance_start_date,
+        maintenance_end_date: values.maintenance_end_date,
         status: values.status,
         description: values.description,
-        value: values.value,
-        people_cost: values.people_cost,
-        people_cost_percent: values.people_cost_percent,
         created_by: session?.user?.id,
         is_company_project: values.is_company_project,
         member: values.member.map((item) => ({
@@ -174,11 +180,8 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   const headersTableMember = [
     { label: 'ชื่อ-นามสกุล', className: 'text-center min-w-60 max-w-60' },
     { label: 'ตำแหน่ง', className: 'text-center min-w-60 max-w-60' },
-    { label: 'ค่าใช้จ่ายต่อวัน', className: 'text-center min-w-60 max-w-60' },
     { label: 'วันที่เข้าร่วม', className: 'text-center min-w-60 max-w-60' },
     { label: 'วันที่สิ้นสุด', className: 'text-center min-w-60 max-w-60' },
-    { label: 'จำนวนวัน', className: 'text-center min-w-20 max-w-20' },
-    { label: 'ค่าใช้จ่ายโดยประมาณ', className: 'text-center min-w-60 max-w-60' },
     { label: '', className: 'text-center' },
   ];
 
@@ -222,42 +225,6 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     form.setValue('optional_task_type', [...form.getValues('optional_task_type'), defaultTaskType]);
   };
 
-  const [lastChanged, setLastChanged] = useState<'people_cost' | 'people_cost_percent' | null>(
-    null
-  );
-
-  const projectCost = form.watch('value') ?? 0;
-  const peopleCost = form.watch('people_cost') ?? 0;
-  const peopleCostPercent = form.watch('people_cost_percent') ?? 0;
-  const formMember = form.watch('member');
-  const allMemberCost = formMember.reduce((acc, cur) => acc + (cur.estimated_cost ?? 0), 0);
-
-  useEffect(() => {
-    if (lastChanged !== 'people_cost' || !projectCost || peopleCost === undefined) {
-      return;
-    }
-
-    const percent = (peopleCost! / projectCost) * 100;
-
-    form.setValue('people_cost_percent', Number(percent.toFixed(2)), {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  }, [peopleCost, projectCost, lastChanged]);
-
-  useEffect(() => {
-    if (lastChanged !== 'people_cost_percent' || !projectCost || peopleCostPercent === undefined) {
-      return;
-    }
-
-    const cost = (projectCost * peopleCostPercent!) / 100;
-
-    form.setValue('people_cost', Math.round(cost), {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  }, [peopleCostPercent, projectCost, lastChanged]);
-
   return (
     <div className="cev-box">
       <Form {...form}>
@@ -266,34 +233,54 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
             <div>
               <TitleGroup title="ข้อมูลโครงการ" />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {!id && (
-                  <>
-                    <FormField
-                      control={form.control}
-                      name="is_company_project"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>ประเภทโครงการ</FormLabel>
-                          <FormControl>
-                            <div className="flex items-center space-x-2 mt-2">
-                              <Switch
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                                aria-readonly
-                                id="is-company-project"
-                              />
-                              <Label htmlFor="is-company-project" className="mb-0">
-                                {getIsCompanyProject(isCompanyProjectWatch as boolean)}
-                              </Label>
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <div />
-                  </>
-                )}
+                <FormField
+                  control={form.control}
+                  name="is_company_project"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>ประเภทโครงการ</FormLabel>
+                      <FormControl>
+                        <div className="flex items-center space-x-2 mt-2">
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            aria-readonly
+                            id="is-company-project"
+                            disabled={id ? true : false}
+                          />
+                          <Label htmlFor="is-company-project" className="mb-0">
+                            {getIsCompanyProject(isCompanyProjectWatch as boolean)}
+                          </Label>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="pre_sale_code"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        รหัส Pre-Sale
+                        <Required />
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          autoComplete="off"
+                          placeholder="รหัส Pre-Sale"
+                          maxLength={MAX_LENGTH_25}
+                          {...field}
+                          onInput={(e) => {
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="code"
@@ -347,7 +334,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        วันที่เริ่มต้น
+                        วันที่เริ่มต้นโครงการ
                         <Required />
                       </FormLabel>
                       <FormControl>
@@ -368,13 +355,51 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                   name="end_date"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>วันที่สิ้นสุด</FormLabel>
+                      <FormLabel>วันที่สิ้นสุดโครงการ</FormLabel>
                       <FormControl>
                         <DatePickerInput
                           {...field}
                           value={field.value ? new Date(field.value) : undefined}
                           placeholder="วันที่สิ้นสุดโครงการ"
                           isError={form.formState.errors.start_date ? true : false}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="maintenance_start_date"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>วันที่เริ่มต้นการบำรุงรักษา</FormLabel>
+                      <FormControl>
+                        <DatePickerInput
+                          {...field}
+                          value={field.value ? new Date(field.value) : undefined}
+                          placeholder="วันที่เริ่มต้นการบำรุงรักษา"
+                          isError={form.formState.errors.maintenance_start_date ? true : false}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="maintenance_end_date"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>วันที่สิ้นสุดการบำรุงรักษา</FormLabel>
+                      <FormControl>
+                        <DatePickerInput
+                          {...field}
+                          value={field.value ? new Date(field.value) : undefined}
+                          placeholder="วันที่สิ้นสุดการบำรุงรักษา"
+                          isError={form.formState.errors.maintenance_end_date ? true : false}
                           onChange={field.onChange}
                         />
                       </FormControl>
@@ -404,79 +429,6 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="value"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        มูลค่าโครงการ
-                        <Required />
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="มูลค่าโครงการ"
-                          value={field.value ?? ''}
-                          onChange={(e) =>
-                            field.onChange(e.target.value === '' ? '' : e.target.valueAsNumber)
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {!isCompanyProjectWatch && (
-                  <>
-                    <FormField
-                      control={form.control}
-                      name="people_cost"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>งบประมาณบุคลากรสำหรับโครงการ (บาท)</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              placeholder="งบประมาณบุคลากรสำหรับโครงการ"
-                              {...field}
-                              value={field.value ?? ''}
-                              onChange={(e) => {
-                                setLastChanged('people_cost');
-                                field.onChange(e.target.value === '' ? '' : e.target.valueAsNumber);
-                              }}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="people_cost_percent"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>สัดส่วนงบประมาณบุคลากร (%)</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              min={0}
-                              max={100}
-                              {...field}
-                              value={field.value ?? ''}
-                              placeholder="สัดส่วนงบประมาณบุคลากร"
-                              onChange={(e) => {
-                                setLastChanged('people_cost_percent');
-                                field.onChange(e.target.value === '' ? '' : e.target.valueAsNumber);
-                              }}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </>
-                )}
                 <FormField
                   control={form.control}
                   name="description"
@@ -545,28 +497,6 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                 <Button type="button" onClick={handleAddOptionalTaskType}>
                   เพิ่มข้อมูล
                 </Button>
-              </div>
-            </div>
-            <div className="flex justify-end font-bold lg:col-span-2">
-              <div className="flex flex-col w-[50%] lg:w-[25%]">
-                <div className="flex justify-between py-1 text-blue-600">
-                  <div>มูลค่าบุคลากรที่ตั้งไว้</div>
-                  <div>{peopleCost.toLocaleString() ?? 0}</div>
-                </div>
-                <hr className="my-2" />
-                <div className="flex justify-between py-1 text-blue-600">
-                  <div>มูลค่าบุคลากรที่เลือก</div>
-                  <div>{allMemberCost.toLocaleString() ?? 0}</div>
-                </div>
-                <hr className="my-2" />
-                <div className="flex justify-between py-1">
-                  <div>มูลค่าแตกต่าง</div>
-                  <div className={peopleCost - allMemberCost < 0 ? 'text-red-500' : ''}>
-                    {(peopleCost - allMemberCost).toLocaleString()}
-                  </div>
-                </div>
-                <hr className="my-1" />
-                <hr className="my-1" />
               </div>
             </div>
           </div>

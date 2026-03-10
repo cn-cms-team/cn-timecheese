@@ -5,8 +5,11 @@ export type IProject = {
   id: string;
   name: string;
   code: string;
+  pre_sale_code: string;
   start_date: string;
   end_date: string;
+  maintenance_start_date?: string;
+  maintenance_end_date?: string;
   status: ProjectStatus;
   value: number;
   description: string;
