@@ -86,7 +86,7 @@ const PositionFormTable = ({ form, data }: IProps) => {
             onDragEnd={handleDragEnd}
             sensors={sensors}
           >
-            <Table className="min-w-[1000px]">
+            <Table className="w-full">
               <TableHeader>
                 <TableRow className="bg-[#f2f4f7]">
                   <TableHead className="w-10"></TableHead>

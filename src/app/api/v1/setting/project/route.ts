@@ -10,6 +10,7 @@ export async function GET() {
         id: true,
         name: true,
         code: true,
+        is_company_project: true,
         start_date: true,
         end_date: true,
         _count: {

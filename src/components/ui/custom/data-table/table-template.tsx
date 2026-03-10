@@ -64,7 +64,7 @@ export default function DataTable<TData, TValue>({
               ) : (
                 <TableRow>
                   <TableCell colSpan={columns.length} className="h-24 text-center">
-                    <div className="flex flex-col justify-center items-center min-h-[300px]">
+                    <div className="flex flex-col justify-center items-center min-h-75">
                       <Image
                         src="/img/general/md-no-data.png"
                         width={150}

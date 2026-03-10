@@ -16,10 +16,11 @@ import { EModules } from '@/lib/constants/module';
 
 const nameColumn = SortColumn<IProject>('name', 'ชื่อโครงการ');
 const codeColumn = SortColumn<IProject>('code', 'รหัสโครงการ');
-const startDateColumn = SortColumn<IProject>('start_date', 'วันที่เริ่มต้น');
-const endDateColumn = SortColumn<IProject>('end_date', 'วันที่สิ้นสุด');
+const startDateColumn = SortColumn<IProject>('start_date', 'วันที่เริ่มต้น', 'center');
+const endDateColumn = SortColumn<IProject>('end_date', 'วันที่สิ้นสุด', 'center');
 const actionColumn = ActionColumn<IProject>('actions', 'จัดการ');
 const membersColumn = SortColumn<IProject>('members_count', 'จำนวนสมาชิก', 'center');
+const projectTypeColumn = SortColumn<IProject>('is_company_project', 'ประเภทโครงการ', 'center');
 
 type createColumnsProps = {
   account: Account;
@@ -33,7 +34,6 @@ export const createColumns = ({
   const baseColumns: ColumnDef<IProject>[] = [
     {
       ...nameColumn,
-      size: 200,
       cell: ({ row }) => {
         const { name, id } = row.original;
         const viewLink = `/setting/project/${id}`;
@@ -42,7 +42,7 @@ export const createColumns = ({
     },
     {
       ...codeColumn,
-      size: 200,
+      size: 100,
       cell: ({ row }) => {
         const { code } = row.original;
         return <div>{code || '-'}</div>;
@@ -50,18 +50,26 @@ export const createColumns = ({
     },
     {
       ...startDateColumn,
-      size: 200,
+      size: 100,
       cell: ({ row }) => {
         const { start_date } = row.original;
-        return start_date ? buddhistFormatDate(start_date, 'dd mmm yyyy') : '-';
+        return (
+          <div className="text-center">
+            {start_date ? buddhistFormatDate(start_date, 'dd mmm yyyy') : '-'}
+          </div>
+        );
       },
     },
     {
       ...endDateColumn,
-      size: 200,
+      size: 100,
       cell: ({ row }) => {
         const { end_date } = row.original;
-        return end_date ? buddhistFormatDate(end_date, 'dd mmm yyyy') : '-';
+        return (
+          <div className="text-center">
+            {end_date ? buddhistFormatDate(end_date, 'dd mmm yyyy') : '-'}
+          </div>
+        );
       },
     },
     {
@@ -70,6 +78,18 @@ export const createColumns = ({
       cell: ({ row }) => {
         const { members_count } = row.original;
         return <div className="text-center">{members_count || '-'}</div>;
+      },
+    },
+    {
+      ...projectTypeColumn,
+      size: 100,
+      cell: ({ row }) => {
+        const { is_company_project } = row.original;
+        return (
+          <div className="text-center">
+            {is_company_project ? 'โครงการภายในบริษัท' : 'โครงการลูกค้า'}
+          </div>
+        );
       },
     },
   ];
