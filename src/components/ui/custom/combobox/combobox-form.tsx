@@ -65,7 +65,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
             disabled={disabled}
           >
             <div className="truncate text-sm font-medium max-w-[95%]">
-              {((field && field.value) || value) && isGroup
+              {(field?.value || value) && isGroup
                 ? options
                     ?.flatMap((item) => {
                       if (item.options && item.options.length > 0) {
@@ -74,7 +74,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                       return item;
                     })
                     .find((language) => language.value === (field?.value || value))?.label
-                : (field && field.value) || value
+                : field?.value || value
                   ? (options as IOptions[])?.find(
                       (language) => language.value === (field?.value || value)
                     )?.label
@@ -84,7 +84,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
               <ChevronDownIcon />
             </div>
           </Button>
-          {canEmpty && ((field && field.value) || value) && (
+          {canEmpty && (field?.value || value) && (
             <X
               className="absolute right-9 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 cursor-pointer hover:text-black z-10"
               onClick={(e) => {
