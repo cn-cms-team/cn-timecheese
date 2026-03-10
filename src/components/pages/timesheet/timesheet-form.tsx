@@ -202,6 +202,11 @@ const TimeSheetForm = ({
     }
   }, [isAllDay]);
 
+  useEffect(() => {
+    if (!projectId) return;
+    fetchTaskOption(projectId);
+  }, [projectId]);
+
   return (
     <div className="flex flex-col w-full p-4 space-y-4">
       <main className="w-full space-y-4">
@@ -224,7 +229,7 @@ const TimeSheetForm = ({
                         options={projectOptions}
                         onSelect={(value) => {
                           field.onChange(value);
-                          fetchTaskOption(value);
+                          // fetchTaskOption(value);
                           form.resetField('project_task_type_id');
                         }}
                         isError={form.formState.errors.project_id ? true : false}
