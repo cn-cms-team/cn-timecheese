@@ -9,7 +9,7 @@ import { buddhistFormatDate } from '@/lib/functions/date-format';
 import TimeSheetForm from '../timesheet-form';
 import TimeSheetPopover from '../timesheet-popover';
 import TimeSheetEventCard from '../timesheet-event-card';
-import TimeSheetdataDetail from '../timesheet-task-detail';
+import TimeSheetDataDetail from '../timesheet-task-detail';
 import { useTimeSheetContext } from '../view/timesheet-context';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -197,7 +197,7 @@ const TimeSheetWeekCalendarBody = ({ weekDays, loading = false }: IProps) => {
                         }}
                       />
                     ) : (
-                      <TimeSheetdataDetail
+                      <TimeSheetDataDetail
                         data={task}
                         setIsPopoverEdit={setIsPopoverEdit}
                         close={close}

@@ -8,7 +8,7 @@ import { DAYS, DAY_TASK_STATUS } from '@/lib/constants/period-calendar';
 
 import TimeSheetForm from '../timesheet-form';
 import TimeSheetPopover from '../timesheet-popover';
-import TimeSheetdataDetail from '../timesheet-task-detail';
+import TimeSheetDataDetail from '../timesheet-task-detail';
 import { useTimeSheetContext } from '../view/timesheet-context';
 
 const TimeSheetMonthCalendar = () => {
@@ -125,7 +125,7 @@ const TimeSheetMonthCalendar = () => {
                           isEdit ? (
                             <TimeSheetForm data={task} dayTasks={dayTasks} close={close} />
                           ) : (
-                            <TimeSheetdataDetail
+                            <TimeSheetDataDetail
                               data={task}
                               setIsPopoverEdit={setIsEdit}
                               close={close}
@@ -162,7 +162,7 @@ const TimeSheetMonthCalendar = () => {
                                   isEdit ? (
                                     <TimeSheetForm data={task} dayTasks={dayTasks} close={close} />
                                   ) : (
-                                    <TimeSheetdataDetail
+                                    <TimeSheetDataDetail
                                       data={task}
                                       setIsPopoverEdit={setIsEdit}
                                       close={close}
