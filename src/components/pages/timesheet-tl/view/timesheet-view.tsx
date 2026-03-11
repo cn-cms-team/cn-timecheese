@@ -39,9 +39,9 @@ type TimelineItem = {
   tone: TimelineCardTone;
 };
 
-const MOCK_MONTH_YEAR = 2026;
-const MOCK_MONTH_INDEX = 3;
-const DEFAULT_SELECTED_DAY_ID = '2026-03-10';
+const today = new Date();
+const DEFAULT_MONTH_DATE = new Date(today.getFullYear(), today.getMonth(), 1);
+const DEFAULT_SELECTED_DAY_ID = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 
 const DAY_LABELS = ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
 
@@ -67,6 +67,11 @@ const HOURS_BY_DAY_ID: Record<string, number> = {
 
 const getDayId = (year: number, month: number, date: number) =>
   `${year}-${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+
+const parseDayId = (dayId: string) => {
+  const [year, month, date] = dayId.split('-').map(Number);
+  return new Date(year, month - 1, date);
+};
 
 const getDaysForMonth = (year: number, monthIndex: number): DayItem[] =>
   Array.from({ length: new Date(year, monthIndex + 1, 0).getDate() }, (_, index) => {
@@ -220,9 +225,7 @@ const getDayStatusBadge = (hours: number) => {
 };
 
 const TimeSheetView = () => {
-  const [currentMonth, setCurrentMonth] = useState(
-    new Date(MOCK_MONTH_YEAR, MOCK_MONTH_INDEX - 1, 1)
-  );
+  const [currentMonth, setCurrentMonth] = useState(DEFAULT_MONTH_DATE);
 
   const days = useMemo(
     () => getDaysForMonth(currentMonth.getFullYear(), currentMonth.getMonth()),
@@ -254,6 +257,18 @@ const TimeSheetView = () => {
     () => TIMELINE_ITEMS.filter((item) => item.dayId === selectedDayId),
     [selectedDayId]
   );
+
+  const handleDayNavigate = (offset: number) => {
+    const selectedDate = parseDayId(selectedDayId);
+    const nextDate = new Date(
+      selectedDate.getFullYear(),
+      selectedDate.getMonth(),
+      selectedDate.getDate() + offset
+    );
+
+    setCurrentMonth(new Date(nextDate.getFullYear(), nextDate.getMonth(), 1));
+    setSelectedDayId(getDayId(nextDate.getFullYear(), nextDate.getMonth() + 1, nextDate.getDate()));
+  };
 
   const daySelector = (
     <>
@@ -307,69 +322,34 @@ const TimeSheetView = () => {
   return (
     <div className="m-3 flex h-[calc(100dvh-1.5rem)] min-h-0 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white/90 shadow-sm">
       <div className="border-b border-slate-200 bg-slate-50/60 px-4 py-4 xl:hidden">
-        <div className="flex items-center justify-between">
+        <p className="text-base font-semibold text-slate-500">{monthLabel}</p>
+
+        <div className="mt-3 flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-3 py-3 shadow-sm">
           <button
-            className="text-slate-500 hover:text-slate-800"
-            onClick={() => handleMonthChange(-1)}
+            aria-label="วันก่อนหน้า"
+            className="rounded-xl p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+            onClick={() => handleDayNavigate(-1)}
             type="button"
           >
             <ChevronLeft className="size-5" />
           </button>
-          <p className="text-xl font-bold text-slate-900">{monthLabel}</p>
+
+          <div className="text-center">
+            <p className="text-sm text-slate-500">{selectedDay.dayLabel}</p>
+            <p className="text-4xl leading-none font-black text-slate-900">{selectedDay.date}</p>
+            <p className="mt-1 text-sm text-slate-500">
+              รวมเวลา {formatTotalHours(selectedDay.totalHours)}
+            </p>
+          </div>
+
           <button
-            className="text-slate-500 hover:text-slate-800"
-            onClick={() => handleMonthChange(1)}
+            aria-label="วันถัดไป"
+            className="rounded-xl p-2 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+            onClick={() => handleDayNavigate(1)}
             type="button"
           >
             <ChevronRight className="size-5" />
           </button>
-        </div>
-
-        <div className="mt-4 grid grid-cols-7 gap-2">
-          {days.map((day) => {
-            const isActive = day.id === selectedDayId;
-            const isWeekend = day.dayLabel === 'อา.' || day.dayLabel === 'ส.';
-            const dayBadge = getDayStatusBadge(day.totalHours);
-            const DayBadgeIcon = dayBadge.icon;
-
-            return (
-              <button
-                className={cn(
-                  'grid min-h-20 grid-rows-[auto_1fr_auto] place-items-center rounded-2xl px-1 py-2 shadow-sm transition-all',
-                  isActive
-                    ? isWeekend
-                      ? 'bg-rose-600 text-white shadow-md'
-                      : 'bg-black text-white shadow-md'
-                    : isWeekend
-                      ? 'bg-rose-50/70 text-rose-700 hover:bg-rose-100'
-                      : 'text-slate-700 hover:bg-white'
-                )}
-                key={day.id}
-                onClick={() => setSelectedDayId(day.id)}
-                type="button"
-              >
-                <span
-                  className={cn(
-                    'text-xs',
-                    isActive ? 'text-white/80' : isWeekend ? 'text-rose-500' : 'text-slate-500'
-                  )}
-                >
-                  {day.dayLabel}
-                </span>
-                <span className="mt-1 text-4xl leading-none font-bold">{day.date}</span>
-                <span
-                  className={cn(
-                    'mt-1 inline-flex items-center gap-1 rounded-lg px-2 py-0.5 text-[10px] font-semibold sm:text-xs',
-                    isActive ? dayBadge.activeClassName : dayBadge.className
-                  )}
-                  aria-label={dayBadge.ariaLabel}
-                >
-                  <DayBadgeIcon className="size-3" />
-                  {dayBadge.value && <span>{dayBadge.value}</span>}
-                </span>
-              </button>
-            );
-          })}
         </div>
       </div>
 
