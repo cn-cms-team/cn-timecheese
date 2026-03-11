@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   AlertTriangle,
   ArrowUp,
@@ -39,50 +39,53 @@ type TimelineItem = {
   tone: TimelineCardTone;
 };
 
-const MONTH_LABEL = 'มีนาคม 2569';
-
 const MOCK_MONTH_YEAR = 2026;
 const MOCK_MONTH_INDEX = 3;
 const DEFAULT_SELECTED_DAY_ID = '2026-03-10';
 
 const DAY_LABELS = ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
 
-const HOURS_BY_DAY: Record<number, number> = {
-  3: 6,
-  4: 7.5,
-  5: 8,
-  6: 7,
-  10: 7.5,
-  11: 8,
-  12: 6.5,
-  13: 7,
-  17: 8,
-  18: 8,
-  19: 7,
-  20: 6,
-  24: 8,
-  25: 7.5,
-  26: 8,
-  27: 6.5,
-  31: 9,
+const HOURS_BY_DAY_ID: Record<string, number> = {
+  '2026-03-03': 6,
+  '2026-03-04': 7.5,
+  '2026-03-05': 8,
+  '2026-03-06': 7,
+  '2026-03-10': 7.5,
+  '2026-03-11': 8,
+  '2026-03-12': 6.5,
+  '2026-03-13': 7,
+  '2026-03-17': 8,
+  '2026-03-18': 8,
+  '2026-03-19': 7,
+  '2026-03-20': 6,
+  '2026-03-24': 8,
+  '2026-03-25': 7.5,
+  '2026-03-26': 8,
+  '2026-03-27': 6.5,
+  '2026-03-31': 9,
 };
 
 const getDayId = (year: number, month: number, date: number) =>
   `${year}-${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
 
-const DAYS: DayItem[] = Array.from(
-  { length: new Date(MOCK_MONTH_YEAR, MOCK_MONTH_INDEX, 0).getDate() },
-  (_, index) => {
+const getDaysForMonth = (year: number, monthIndex: number): DayItem[] =>
+  Array.from({ length: new Date(year, monthIndex + 1, 0).getDate() }, (_, index) => {
     const date = index + 1;
+    const id = getDayId(year, monthIndex + 1, date);
 
     return {
-      id: getDayId(MOCK_MONTH_YEAR, MOCK_MONTH_INDEX, date),
-      dayLabel: DAY_LABELS[new Date(MOCK_MONTH_YEAR, MOCK_MONTH_INDEX - 1, date).getDay()],
+      id,
+      dayLabel: DAY_LABELS[new Date(year, monthIndex, date).getDay()],
       date,
-      totalHours: HOURS_BY_DAY[date] ?? 0,
+      totalHours: HOURS_BY_DAY_ID[id] ?? 0,
     };
-  }
-);
+  });
+
+const formatMonthLabel = (date: Date) =>
+  new Intl.DateTimeFormat('th-TH-u-ca-buddhist', {
+    month: 'long',
+    year: 'numeric',
+  }).format(date);
 
 const TIMELINE_ITEMS: TimelineItem[] = [
   {
@@ -217,13 +220,34 @@ const getDayStatusBadge = (hours: number) => {
 };
 
 const TimeSheetView = () => {
-  const [selectedDayId, setSelectedDayId] = useState<DayItem['id']>(
-    DAYS.find((day) => day.id === DEFAULT_SELECTED_DAY_ID)?.id ?? DAYS[0].id
+  const [currentMonth, setCurrentMonth] = useState(
+    new Date(MOCK_MONTH_YEAR, MOCK_MONTH_INDEX - 1, 1)
   );
 
+  const days = useMemo(
+    () => getDaysForMonth(currentMonth.getFullYear(), currentMonth.getMonth()),
+    [currentMonth]
+  );
+
+  const [selectedDayId, setSelectedDayId] = useState<DayItem['id']>(
+    days.find((day) => day.id === DEFAULT_SELECTED_DAY_ID)?.id ?? days[0].id
+  );
+
+  useEffect(() => {
+    if (!days.some((day) => day.id === selectedDayId)) {
+      setSelectedDayId(days[0].id);
+    }
+  }, [days, selectedDayId]);
+
+  const monthLabel = useMemo(() => formatMonthLabel(currentMonth), [currentMonth]);
+
+  const handleMonthChange = (offset: number) => {
+    setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + offset, 1));
+  };
+
   const selectedDay = useMemo(
-    () => DAYS.find((day) => day.id === selectedDayId) ?? DAYS[0],
-    [selectedDayId]
+    () => days.find((day) => day.id === selectedDayId) ?? days[0],
+    [days, selectedDayId]
   );
 
   const timelineItems = useMemo(
@@ -233,7 +257,7 @@ const TimeSheetView = () => {
 
   const daySelector = (
     <>
-      {DAYS.map((day) => {
+      {days.map((day) => {
         const isActive = day.id === selectedDayId;
         const isWeekend = day.dayLabel === 'อา.' || day.dayLabel === 'ส.';
         const dayBadge = getDayStatusBadge(day.totalHours);
@@ -284,17 +308,25 @@ const TimeSheetView = () => {
     <div className="m-3 flex h-[calc(100dvh-1.5rem)] min-h-0 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white/90 shadow-sm">
       <div className="border-b border-slate-200 bg-slate-50/60 px-4 py-4 xl:hidden">
         <div className="flex items-center justify-between">
-          <button className="text-slate-500 hover:text-slate-800" type="button">
+          <button
+            className="text-slate-500 hover:text-slate-800"
+            onClick={() => handleMonthChange(-1)}
+            type="button"
+          >
             <ChevronLeft className="size-5" />
           </button>
-          <p className="text-xl font-bold text-slate-900">{MONTH_LABEL}</p>
-          <button className="text-slate-500 hover:text-slate-800" type="button">
+          <p className="text-xl font-bold text-slate-900">{monthLabel}</p>
+          <button
+            className="text-slate-500 hover:text-slate-800"
+            onClick={() => handleMonthChange(1)}
+            type="button"
+          >
             <ChevronRight className="size-5" />
           </button>
         </div>
 
         <div className="mt-4 grid grid-cols-7 gap-2">
-          {DAYS.map((day) => {
+          {days.map((day) => {
             const isActive = day.id === selectedDayId;
             const isWeekend = day.dayLabel === 'อา.' || day.dayLabel === 'ส.';
             const dayBadge = getDayStatusBadge(day.totalHours);
@@ -344,11 +376,19 @@ const TimeSheetView = () => {
       <div className="flex min-h-0 flex-1 flex-col xl:flex-row">
         <aside className="hidden min-h-0 w-82.5 shrink-0 border-r border-slate-200 bg-slate-50/60 xl:flex xl:flex-col">
           <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-            <button className="text-slate-500 hover:text-slate-800" type="button">
+            <button
+              className="text-slate-500 hover:text-slate-800"
+              onClick={() => handleMonthChange(-1)}
+              type="button"
+            >
               <ChevronLeft className="size-5" />
             </button>
-            <p className="text-2xl font-bold text-slate-900">{MONTH_LABEL}</p>
-            <button className="text-slate-500 hover:text-slate-800" type="button">
+            <p className="text-2xl font-bold text-slate-900">{monthLabel}</p>
+            <button
+              className="text-slate-500 hover:text-slate-800"
+              onClick={() => handleMonthChange(1)}
+              type="button"
+            >
               <ChevronRight className="size-5" />
             </button>
           </div>
