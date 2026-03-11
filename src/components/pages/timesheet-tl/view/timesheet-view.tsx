@@ -166,6 +166,8 @@ const formatTotalHours = (hours: number) => {
   return `${hours} ชั่วโมง`;
 };
 
+const formatHourValue = (hours: number) => hours.toFixed(1);
+
 const getDayTimesheetStatus = (hours: number): DayTimesheetStatus => {
   if (!hours) {
     return 'none';
@@ -198,7 +200,7 @@ const getDayStatusBadge = (hours: number) => {
   if (status === 'under') {
     return {
       icon: AlertTriangle,
-      value: `${hours}h`,
+      value: `${formatHourValue(hours)}h`,
       className: 'bg-amber-100 text-amber-700',
       activeClassName: 'bg-amber-400/25 text-white',
       ariaLabel: `ลงเวลา ${hours} ชั่วโมง ยังไม่ครบ`,
@@ -208,7 +210,7 @@ const getDayStatusBadge = (hours: number) => {
   if (status === 'exact') {
     return {
       icon: Check,
-      value: '8h',
+      value: `${formatHourValue(hours)}h`,
       className: 'bg-emerald-100 text-emerald-700',
       activeClassName: 'bg-emerald-400/25 text-white',
       ariaLabel: 'ลงเวลาครบ 8 ชั่วโมง',
@@ -217,7 +219,7 @@ const getDayStatusBadge = (hours: number) => {
 
   return {
     icon: ArrowUp,
-    value: `${hours}h`,
+    value: `${formatHourValue(hours)}h`,
     className: 'bg-sky-100 text-sky-700',
     activeClassName: 'bg-sky-400/25 text-white',
     ariaLabel: `ลงเวลาเกิน 8 ชั่วโมง ${hours} ชั่วโมง`,
