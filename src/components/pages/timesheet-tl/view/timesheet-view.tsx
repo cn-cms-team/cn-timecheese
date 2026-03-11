@@ -10,6 +10,7 @@ import {
   ChevronRight,
   Circle,
   Clock3,
+  Trash2,
   Pencil,
   Plus,
 } from 'lucide-react';
@@ -452,14 +453,25 @@ const TimeSheetView = () => {
                             {item.title}
                           </h3>
 
-                          <button
-                            aria-label={`แก้ไขกิจกรรม ${item.title}`}
-                            className="inline-flex shrink-0 items-center gap-1 rounded-full border border-slate-300 bg-white/80 px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-white sm:px-3 sm:text-sm"
-                            type="button"
-                          >
-                            <Pencil className="size-3.5 sm:size-4" />
-                            แก้ไข
-                          </button>
+                          <div className="flex shrink-0 items-center gap-2">
+                            <button
+                              aria-label={`แก้ไขกิจกรรม ${item.title}`}
+                              className="inline-flex items-center gap-1 rounded-full border border-slate-300 bg-white/80 px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-white sm:px-3 sm:text-sm"
+                              type="button"
+                            >
+                              <Pencil className="size-3.5 sm:size-4" />
+                              แก้ไข
+                            </button>
+
+                            <button
+                              aria-label={`ลบกิจกรรม ${item.title}`}
+                              className="inline-flex items-center gap-1 rounded-full border border-rose-200 bg-rose-50/80 px-2.5 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:bg-rose-100 sm:px-3 sm:text-sm"
+                              type="button"
+                            >
+                              <Trash2 className="size-3.5 sm:size-4" />
+                              ลบ
+                            </button>
+                          </div>
                         </div>
 
                         <p className="mt-3 text-sm leading-relaxed wrap-break-word whitespace-pre-wrap text-slate-700 sm:text-base">
