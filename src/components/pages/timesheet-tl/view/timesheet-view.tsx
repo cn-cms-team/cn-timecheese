@@ -1,7 +1,17 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { BriefcaseBusiness, ChevronLeft, ChevronRight, Clock3, Plus } from 'lucide-react';
+import {
+  AlertTriangle,
+  ArrowUp,
+  BriefcaseBusiness,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Circle,
+  Clock3,
+  Plus,
+} from 'lucide-react';
 
 import ModuleLayout from '@/components/layouts/ModuleLayout';
 import { Button } from '@/components/ui/button';
@@ -13,6 +23,8 @@ type DayItem = {
   date: number;
   totalHours: number;
 };
+
+type DayTimesheetStatus = 'none' | 'under' | 'exact' | 'over';
 
 type TimelineCardTone = 'blue' | 'violet' | 'slate' | 'green';
 
@@ -52,7 +64,7 @@ const HOURS_BY_DAY: Record<number, number> = {
   25: 7.5,
   26: 8,
   27: 6.5,
-  31: 5,
+  31: 9,
 };
 
 const getDayId = (year: number, month: number, date: number) =>
@@ -146,6 +158,64 @@ const formatTotalHours = (hours: number) => {
   return `${hours} ชั่วโมง`;
 };
 
+const getDayTimesheetStatus = (hours: number): DayTimesheetStatus => {
+  if (!hours) {
+    return 'none';
+  }
+
+  if (hours < 8) {
+    return 'under';
+  }
+
+  if (hours === 8) {
+    return 'exact';
+  }
+
+  return 'over';
+};
+
+const getDayStatusBadge = (hours: number) => {
+  const status = getDayTimesheetStatus(hours);
+
+  if (status === 'none') {
+    return {
+      icon: Circle,
+      value: null,
+      className: 'bg-slate-100 text-slate-500',
+      activeClassName: 'bg-white/15 text-white',
+      ariaLabel: 'ยังไม่มีการลงเวลา',
+    };
+  }
+
+  if (status === 'under') {
+    return {
+      icon: AlertTriangle,
+      value: `${hours}h`,
+      className: 'bg-amber-100 text-amber-700',
+      activeClassName: 'bg-amber-400/25 text-white',
+      ariaLabel: `ลงเวลา ${hours} ชั่วโมง ยังไม่ครบ`,
+    };
+  }
+
+  if (status === 'exact') {
+    return {
+      icon: Check,
+      value: '8h',
+      className: 'bg-emerald-100 text-emerald-700',
+      activeClassName: 'bg-emerald-400/25 text-white',
+      ariaLabel: 'ลงเวลาครบ 8 ชั่วโมง',
+    };
+  }
+
+  return {
+    icon: ArrowUp,
+    value: `${hours}h`,
+    className: 'bg-sky-100 text-sky-700',
+    activeClassName: 'bg-sky-400/25 text-white',
+    ariaLabel: `ลงเวลาเกิน 8 ชั่วโมง ${hours} ชั่วโมง`,
+  };
+};
+
 const TimeSheetView = () => {
   const [selectedDayId, setSelectedDayId] = useState<DayItem['id']>(
     DAYS.find((day) => day.id === DEFAULT_SELECTED_DAY_ID)?.id ?? DAYS[0].id
@@ -166,12 +236,14 @@ const TimeSheetView = () => {
       {DAYS.map((day) => {
         const isActive = day.id === selectedDayId;
         const isWeekend = day.dayLabel === 'อา.' || day.dayLabel === 'ส.';
+        const dayBadge = getDayStatusBadge(day.totalHours);
+        const DayBadgeIcon = dayBadge.icon;
 
         return (
           <button
             key={day.id}
             className={cn(
-              'grid w-full grid-cols-[44px_1fr_auto] items-center rounded-2xl px-4 py-3 text-left transition-all focus-visible:ring-2 focus-visible:ring-blue-200 focus-visible:outline-none',
+              'grid w-full grid-cols-[44px_1fr_auto] items-center rounded-2xl px-4 py-3 text-left shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-blue-200 focus-visible:outline-none',
               isActive
                 ? isWeekend
                   ? 'bg-rose-600 text-white shadow-lg'
@@ -194,15 +266,13 @@ const TimeSheetView = () => {
             <span className="text-3xl leading-none font-bold">{day.date}</span>
             <span
               className={cn(
-                'justify-self-end rounded-full px-2 py-1 text-sm font-semibold',
-                isActive
-                  ? 'bg-white/10 text-white'
-                  : isWeekend
-                    ? 'bg-rose-100 text-rose-600'
-                    : 'bg-slate-100 text-slate-500'
+                'justify-self-end inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-sm font-semibold',
+                isActive ? dayBadge.activeClassName : dayBadge.className
               )}
+              aria-label={dayBadge.ariaLabel}
             >
-              {day.totalHours ? `${day.totalHours}h` : '-'}
+              <DayBadgeIcon className="size-3.5" />
+              {dayBadge.value && <span>{dayBadge.value}</span>}
             </span>
           </button>
         );
@@ -227,11 +297,13 @@ const TimeSheetView = () => {
           {DAYS.map((day) => {
             const isActive = day.id === selectedDayId;
             const isWeekend = day.dayLabel === 'อา.' || day.dayLabel === 'ส.';
+            const dayBadge = getDayStatusBadge(day.totalHours);
+            const DayBadgeIcon = dayBadge.icon;
 
             return (
               <button
                 className={cn(
-                  'grid min-h-20 grid-rows-[auto_1fr_auto] place-items-center rounded-2xl px-1 py-2 transition-all',
+                  'grid min-h-20 grid-rows-[auto_1fr_auto] place-items-center rounded-2xl px-1 py-2 shadow-sm transition-all',
                   isActive
                     ? isWeekend
                       ? 'bg-rose-600 text-white shadow-md'
@@ -253,11 +325,16 @@ const TimeSheetView = () => {
                   {day.dayLabel}
                 </span>
                 <span className="mt-1 text-4xl leading-none font-bold">{day.date}</span>
-                {isActive && (
-                  <span className="mt-1 rounded-full bg-white/15 px-2 py-0.5 text-xs">
-                    {day.totalHours}h
-                  </span>
-                )}
+                <span
+                  className={cn(
+                    'mt-1 inline-flex items-center gap-1 rounded-lg px-2 py-0.5 text-[10px] font-semibold sm:text-xs',
+                    isActive ? dayBadge.activeClassName : dayBadge.className
+                  )}
+                  aria-label={dayBadge.ariaLabel}
+                >
+                  <DayBadgeIcon className="size-3" />
+                  {dayBadge.value && <span>{dayBadge.value}</span>}
+                </span>
               </button>
             );
           })}
