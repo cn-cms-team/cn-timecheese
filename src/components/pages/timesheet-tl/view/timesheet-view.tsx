@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { ChevronLeft, ChevronRight, Clock3, Plus } from 'lucide-react';
+import { CalendarDays, ChevronLeft, ChevronRight, Clock3, Plus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { TIMELINE_ITEMS } from '@/lib/constants/timesheet';
@@ -67,10 +67,29 @@ const TimeSheetView = () => {
     setSelectedDayId(getDayId(nextDate.getFullYear(), nextDate.getMonth() + 1, nextDate.getDate()));
   };
 
+  const handleGoToToday = () => {
+    const now = new Date();
+    setCurrentMonth(new Date(now.getFullYear(), now.getMonth(), 1));
+    setSelectedDayId(getDayId(now.getFullYear(), now.getMonth() + 1, now.getDate()));
+  };
+
   return (
     <div className="m-3 flex h-[calc(100dvh-1.5rem)] min-h-0 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white/90 shadow-sm">
       <div className="border-b border-slate-200 bg-slate-50/60 px-4 py-4 xl:hidden">
-        <HeaderTitle title={monthLabel} leaveUrl="/" />
+        <div className="flex justify-between align-middle">
+          <HeaderTitle title={monthLabel} leaveUrl="/" />
+          <div className="">
+            <Button
+              aria-label="Today"
+              className="h-10 w-10 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
+              onClick={handleGoToToday}
+              size="icon"
+              type="button"
+            >
+              <CalendarDays className="size-5" />
+            </Button>
+          </div>
+        </div>
 
         <div className="mt-3 flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-3 py-3 shadow-sm">
           <button
@@ -111,14 +130,27 @@ const TimeSheetView = () => {
             >
               <ChevronLeft className="size-5" />
             </button>
-            <p className="text-2xl font-bold text-slate-900">{monthLabel}</p>
-            <button
-              className="text-slate-500 hover:text-slate-800 cursor-pointer"
-              onClick={() => handleMonthChange(1)}
-              type="button"
-            >
-              <ChevronRight className="size-5" />
-            </button>
+
+            <div className="flex items-center gap-3">
+              <p className="text-2xl font-bold text-slate-900">{monthLabel}</p>
+              <Button
+                aria-label="Today"
+                className="h-9 w-9 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-100"
+                onClick={handleGoToToday}
+                size="icon"
+                type="button"
+              >
+                <CalendarDays className="size-4.5" />
+              </Button>
+
+              <button
+                className="text-slate-500 hover:text-slate-800 cursor-pointer"
+                onClick={() => handleMonthChange(1)}
+                type="button"
+              >
+                <ChevronRight className="size-5" />
+              </button>
+            </div>
           </div>
 
           <div className="min-h-0 space-y-2 overflow-y-auto p-4">
