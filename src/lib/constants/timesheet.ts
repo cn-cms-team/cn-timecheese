@@ -94,4 +94,19 @@ export const toneClasses: Record<TimelineCardTone, { panel: string; badge: strin
       badge: 'bg-emerald-100/80 text-emerald-700',
       text: 'text-emerald-700',
     },
+    red: {
+      panel: 'border-rose-200/80 bg-rose-50/70',
+      badge: 'bg-rose-100/80 text-rose-700',
+      text: 'text-rose-700',
+    },
+    yellow: {
+      panel: 'border-yellow-200/80 bg-yellow-50/70',
+      badge: 'bg-yellow-100/80 text-yellow-700',
+      text: 'text-yellow-700',
+    },
+    orange: {
+      panel: 'border-orange-200/80 bg-orange-50/70',
+      badge: 'bg-orange-100/80 text-orange-700',
+      text: 'text-orange-700',
+    },
   };

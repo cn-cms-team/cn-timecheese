@@ -49,7 +49,7 @@ export type DayItem = {
 
 export type DayTimeSheetStatus = 'none' | 'under' | 'exact' | 'over';
 
-export type TimelineCardTone = 'blue' | 'violet' | 'slate' | 'green';
+export type TimelineCardTone = 'blue' | 'violet' | 'slate' | 'green' | 'red' | 'yellow' | 'orange';
 
 export type TimelineItem = {
   id: string;
