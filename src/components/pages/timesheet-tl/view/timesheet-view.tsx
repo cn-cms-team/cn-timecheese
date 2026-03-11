@@ -10,6 +10,7 @@ import {
   ChevronRight,
   Circle,
   Clock3,
+  Pencil,
   Plus,
 } from 'lucide-react';
 
@@ -35,6 +36,7 @@ type TimelineItem = {
   endTime: string;
   durationLabel: string;
   title: string;
+  description: string;
   category: string;
   tone: TimelineCardTone;
 };
@@ -100,6 +102,8 @@ const TIMELINE_ITEMS: TimelineItem[] = [
     endTime: '10:30',
     durationLabel: '1.5 ชม.',
     title: 'ประชุมทีมประจำสัปดาห์',
+    description:
+      'อัปเดตสถานะงานของแต่ละทีมย่อย สรุปงานที่ติดบล็อก และวางแผนลำดับความสำคัญของงานในสปรินต์ถัดไปร่วมกับทีม UX และทีม Backend',
     category: 'Internal',
     tone: 'blue',
   },
@@ -110,6 +114,8 @@ const TIMELINE_ITEMS: TimelineItem[] = [
     endTime: '12:00',
     durationLabel: '1.5 ชม.',
     title: 'ออกแบบหน้า UI ใหม่',
+    description:
+      'ปรับโครงร่างหน้าจอ timesheet ให้รองรับการใช้งานบนมือถือและ desktop โดยเน้นลำดับข้อมูลที่อ่านง่าย เพิ่มสถานะรายวัน และออกแบบคอมโพเนนต์การ์ดกิจกรรมให้ขยายตามเนื้อหาได้',
     category: 'Design System',
     tone: 'violet',
   },
@@ -120,6 +126,7 @@ const TIMELINE_ITEMS: TimelineItem[] = [
     endTime: '13:00',
     durationLabel: '1 ชม.',
     title: 'พักเที่ยง',
+    description: 'พักรับประทานอาหารและเตรียมงานสำหรับช่วงบ่าย',
     category: 'Personal',
     tone: 'slate',
   },
@@ -130,6 +137,8 @@ const TIMELINE_ITEMS: TimelineItem[] = [
     endTime: '16:30',
     durationLabel: '3.5 ชม.',
     title: 'เขียนโค้ด React Component',
+    description:
+      'พัฒนา timeline card component พร้อมสถานะสี, เพิ่มฟิลด์รายละเอียดกิจกรรม, ปรับปรุงการจัดวางในหน้าจอเล็ก และทดสอบการแสดงผลกรณีข้อความยาวหลายบรรทัดให้ไม่ถูกตัด',
     category: 'Frontend',
     tone: 'green',
   },
@@ -433,11 +442,30 @@ const TimeSheetView = () => {
                       </div>
 
                       <article className={cn('rounded-3xl border p-4 sm:p-6', tone.panel)}>
-                        <h3
-                          className={cn('text-xl font-bold wrap-break-word sm:text-3xl', tone.text)}
-                        >
-                          {item.title}
-                        </h3>
+                        <div className="flex items-start justify-between gap-3">
+                          <h3
+                            className={cn(
+                              'text-xl font-bold wrap-break-word sm:text-3xl',
+                              tone.text
+                            )}
+                          >
+                            {item.title}
+                          </h3>
+
+                          <button
+                            aria-label={`แก้ไขกิจกรรม ${item.title}`}
+                            className="inline-flex shrink-0 items-center gap-1 rounded-full border border-slate-300 bg-white/80 px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-white sm:px-3 sm:text-sm"
+                            type="button"
+                          >
+                            <Pencil className="size-3.5 sm:size-4" />
+                            แก้ไข
+                          </button>
+                        </div>
+
+                        <p className="mt-3 text-sm leading-relaxed wrap-break-word whitespace-pre-wrap text-slate-700 sm:text-base">
+                          {item.description}
+                        </p>
+
                         <div className="mt-3 flex flex-wrap items-center gap-2 text-sm sm:gap-3 sm:text-xl">
                           <span
                             className={cn(
