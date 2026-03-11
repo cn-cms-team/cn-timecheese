@@ -1,6 +1,6 @@
 'use client';
-import { Card, CardContent, CardTitle } from '../ui/card';
-import { Header, HeaderTitle } from '../ui/custom/header';
+import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { Header, HeaderTitle } from '@/components/ui/custom/header';
 
 interface LayoutProps {
   headerTitle: string;

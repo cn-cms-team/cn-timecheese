@@ -39,3 +39,26 @@ export interface ITimeSheetUserInfoResponse {
   total_trakced_overtimes: number;
   total_projects: number;
 }
+
+export type DayItem = {
+  id: string;
+  dayLabel: string;
+  date: number;
+  totalHours: number;
+};
+
+export type DayTimeSheetStatus = 'none' | 'under' | 'exact' | 'over';
+
+export type TimelineCardTone = 'blue' | 'violet' | 'slate' | 'green';
+
+export type TimelineItem = {
+  id: string;
+  dayId: DayItem['id'];
+  startTime: string;
+  endTime: string;
+  durationLabel: string;
+  title: string;
+  description: string;
+  category: string;
+  tone: TimelineCardTone;
+};

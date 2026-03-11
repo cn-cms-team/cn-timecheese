@@ -1,4 +1,4 @@
-import { TimeSheetView } from '@/components/pages/timesheet-tl';
+import { TimeSheetView } from '@/components/pages/timesheet-tl/view';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
