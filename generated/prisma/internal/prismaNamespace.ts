@@ -1854,10 +1854,10 @@ export type TimeSheetScalarFieldEnum = (typeof TimeSheetScalarFieldEnum)[keyof t
 export const TimeSheetSummaryScalarFieldEnum = {
   user_id: 'user_id',
   project_id: 'project_id',
-  stamp_date: 'stamp_date',
+  sum_date: 'sum_date',
   total_seconds: 'total_seconds',
   stamp_at: 'stamp_at',
-  updated_at: 'updated_at'
+  created_at: 'created_at'
 } as const
 
 export type TimeSheetSummaryScalarFieldEnum = (typeof TimeSheetSummaryScalarFieldEnum)[keyof typeof TimeSheetSummaryScalarFieldEnum]

@@ -313,12 +313,12 @@ model TimeSheet {
 model TimeSheetSummary {
   user_id       String   @db.Uuid
   project_id    String   @db.Uuid
-  stamp_date    DateTime @db.Date
+  sum_date      DateTime @db.Date
   total_seconds Int
 
   stamp_at   DateTime // last time of engagement in the project
-  updated_at DateTime
+  created_at DateTime @default(now())
 
-  @@id([user_id, project_id, stamp_date])
+  @@id([user_id, project_id, sum_date])
   @@map("time_sheet_summaries")
 }
