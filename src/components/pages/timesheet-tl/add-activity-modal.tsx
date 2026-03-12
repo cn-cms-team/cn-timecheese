@@ -17,11 +17,20 @@ import {
 import { Label } from '@/components/ui/label';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { Textarea } from '@/components/ui/textarea';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormGroup,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import TimeInput from '@/components/ui/custom/input/time-input';
 import { parseDayId } from '@/lib/functions/timesheet-manage';
 import { TimeSheetCreateEditSchema, timeSheetCreateEditSchema } from './schema';
 import { useTimeSheetMasterContext } from './view/timesheet-master-context';
+import { Required } from '@/components/ui/custom/form';
 
 interface AddActivityModalProps {
   selectedDayId: string;
@@ -198,7 +207,7 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
 
         <Form {...form}>
           <form
-            className="space-y-4 px-4 pb-4"
+            className="space-y-4 px-4 pb-4 min-w-0"
             onSubmit={form.handleSubmit(handleSubmitAddActivity)}
           >
             <FormField
@@ -206,25 +215,31 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
               name="project_id"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl>
-                    <ComboboxForm
-                      disabled={isProjectOptionsLoading}
-                      field={field}
-                      options={projectOptions}
-                      placeholder="เลือกโครงการ"
-                      value={projectId}
-                      isGroup
-                      isModal
-                      isError={Boolean(form.formState.errors.project_id)}
-                      onSelect={(value) => {
-                        field.onChange(value);
-                        form.setValue('project_task_type_id', undefined, {
-                          shouldDirty: true,
-                          shouldValidate: true,
-                        });
-                      }}
-                    />
-                  </FormControl>
+                  <FormGroup>
+                    <FormLabel>
+                      โครงการ
+                      <Required />
+                    </FormLabel>
+                    <FormControl>
+                      <ComboboxForm
+                        disabled={isProjectOptionsLoading}
+                        field={field}
+                        options={projectOptions}
+                        placeholder="เลือกโครงการ"
+                        value={projectId}
+                        isGroup
+                        isModal
+                        isError={Boolean(form.formState.errors.project_id)}
+                        onSelect={(value) => {
+                          field.onChange(value);
+                          form.setValue('project_task_type_id', undefined, {
+                            shouldDirty: true,
+                            shouldValidate: true,
+                          });
+                        }}
+                      />
+                    </FormControl>
+                  </FormGroup>
                   <FormMessage />
                 </FormItem>
               )}
@@ -337,24 +352,30 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
               name="project_task_type_id"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl>
-                    <ComboboxForm
-                      disabled={!projectId}
-                      field={field}
-                      options={taskTypeOptions}
-                      placeholder="เลือกประเภทงาน"
-                      isGroup
-                      isModal
-                      isError={Boolean(form.formState.errors.project_task_type_id)}
-                      onSelect={(value) => {
-                        form.setValue('project_task_type_id', value, {
-                          shouldDirty: true,
-                          shouldValidate: true,
-                        });
-                        form.clearErrors('project_task_type_id');
-                      }}
-                    />
-                  </FormControl>
+                  <FormGroup>
+                    <FormLabel>
+                      ประเภทงาน
+                      <Required />
+                    </FormLabel>
+                    <FormControl>
+                      <ComboboxForm
+                        disabled={!projectId}
+                        field={field}
+                        options={taskTypeOptions}
+                        placeholder="เลือกประเภทงาน"
+                        isGroup
+                        isModal
+                        isError={Boolean(form.formState.errors.project_task_type_id)}
+                        onSelect={(value) => {
+                          form.setValue('project_task_type_id', value, {
+                            shouldDirty: true,
+                            shouldValidate: true,
+                          });
+                          form.clearErrors('project_task_type_id');
+                        }}
+                      />
+                    </FormControl>
+                  </FormGroup>
                   <FormMessage />
                 </FormItem>
               )}
@@ -365,15 +386,21 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
               name="detail"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl>
-                    <Textarea
-                      className="min-h-20 rounded-lg border-slate-200 px-3 py-2 text-base"
-                      isError={Boolean(form.formState.errors.detail)}
-                      onChange={(event) => field.onChange(event.target.value)}
-                      placeholder="กรอกรายละเอียดการทำงาน"
-                      value={field.value}
-                    />
-                  </FormControl>
+                  <FormGroup>
+                    <FormLabel>
+                      รายละเอียดการทำงาน
+                      <Required />
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="min-h-20 rounded-lg border-slate-200 px-3 py-2 text-base"
+                        isError={Boolean(form.formState.errors.detail)}
+                        onChange={(event) => field.onChange(event.target.value)}
+                        placeholder="กรอกรายละเอียดการทำงาน"
+                        value={field.value}
+                      />
+                    </FormControl>
+                  </FormGroup>
                   <FormMessage />
                 </FormItem>
               )}
