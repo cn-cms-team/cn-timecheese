@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CalendarIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -31,6 +31,8 @@ import { parseDayId } from '@/lib/functions/timesheet-manage';
 import { TimeSheetCreateEditSchema, timeSheetCreateEditSchema } from './schema';
 import { useTimeSheetMasterContext } from './view/timesheet-master-context';
 import { Required } from '@/components/ui/custom/form';
+import { toast } from 'sonner';
+import { handleAddTimeSheet, handleEditTimeSheet } from './actions';
 
 interface AddActivityModalProps {
   selectedDayId: string;
@@ -38,21 +40,26 @@ interface AddActivityModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
+const START_TIME_HOUR = 9;
+const END_TIME_HOUR = 18;
+const DEFAULT_END_TIME_HOUR = 10;
+
 const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModalProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { isProjectOptionsLoading, projectOptions, getTaskTypeOptionsByProjectId } =
     useTimeSheetMasterContext();
 
   const defaultStartDate = useMemo(() => {
     const selectedDate = parseDayId(selectedDayId);
     const start = new Date(selectedDate);
-    start.setHours(9, 0, 0, 0);
+    start.setHours(START_TIME_HOUR, 0, 0, 0);
     return start;
   }, [selectedDayId]);
 
   const defaultEndDate = useMemo(() => {
     const selectedDate = parseDayId(selectedDayId);
     const end = new Date(selectedDate);
-    end.setHours(10, 0, 0, 0);
+    end.setHours(DEFAULT_END_TIME_HOUR, 0, 0, 0);
     return end;
   }, [selectedDayId]);
 
@@ -77,12 +84,15 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
       detail: '',
 
       break_time: defaultBreakTime,
-      is_all_day: defaultStartDate.getHours() === 9 && defaultEndDate.getHours() === 18,
+      is_all_day:
+        defaultStartDate.getHours() === START_TIME_HOUR &&
+        defaultEndDate.getHours() === END_TIME_HOUR,
     },
     mode: 'onSubmit',
     reValidateMode: 'onChange',
   });
 
+  const id = form.watch('id');
   const projectId = form.watch('project_id');
   const projectTaskTypeId = form.watch('project_task_type_id');
   const startDate = form.watch('start_date');
@@ -164,8 +174,32 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
     return (Math.max(totalSeconds, 0) / 3600).toFixed(2);
   }, [breakTime, includeBreakTime, startDate, endDate]);
 
-  const handleSubmitAddActivity = () => {
-    onOpenChange(false);
+  const handleSubmitAddActivity = async (values: TimeSheetCreateEditSchema) => {
+    try {
+      setIsLoading(true);
+
+      console.log('Submitting form with values:', values);
+      values.exclude = values.is_include_breaking_time
+        ? breakTime.getHours() * 3600 + breakTime.getMinutes() * 60
+        : 0;
+
+      const result = id ? await handleEditTimeSheet(id, values) : await handleAddTimeSheet(values);
+      if (result?.success && result?.message) {
+        toast(result.message);
+      }
+      if (result?.success) {
+        onOpenChange(false);
+      } else {
+        if (result.code === 'XXX') {
+          toast(result.message);
+        }
+      }
+    } catch (error) {
+      console.error('OnSubmit Error:', error);
+      toast('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleAllDayChange = (checked: boolean) => {
@@ -222,7 +256,7 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
                     </FormLabel>
                     <FormControl>
                       <ComboboxForm
-                        disabled={isProjectOptionsLoading}
+                        disabled={isProjectOptionsLoading || isLoading}
                         field={field}
                         options={projectOptions}
                         placeholder="เลือกโครงการ"
@@ -262,6 +296,7 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
                           checked={field.value}
                           id="is-all-day"
                           onCheckedChange={(checked) => handleAllDayChange(Boolean(checked))}
+                          disabled={isLoading}
                         />
                         <Label
                           className="cursor-pointer text-lg font-medium text-slate-800"
@@ -283,7 +318,12 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <TimeInput onChange={field.onChange} value={field.value} />
+                      <TimeInput
+                        onChange={field.onChange}
+                        value={field.value}
+                        disabled={isLoading}
+                        isModal
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -296,7 +336,12 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <TimeInput onChange={field.onChange} value={field.value} />
+                      <TimeInput
+                        onChange={field.onChange}
+                        value={field.value}
+                        disabled={isLoading}
+                        isModal
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -316,6 +361,7 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
                           checked={field.value}
                           id="include-break-time"
                           onCheckedChange={(checked) => field.onChange(Boolean(checked))}
+                          disabled={isLoading}
                         />
                         <Label
                           className="cursor-pointer text-lg font-medium text-slate-800"
@@ -336,9 +382,10 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
                   <FormItem>
                     <FormControl>
                       <TimeInput
-                        disabled={!includeBreakTime}
+                        disabled={!includeBreakTime || isLoading}
                         onChange={field.onChange}
                         value={field.value || defaultBreakTime}
+                        isModal
                       />
                     </FormControl>
                     <FormMessage />
@@ -359,7 +406,7 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
                     </FormLabel>
                     <FormControl>
                       <ComboboxForm
-                        disabled={!projectId}
+                        disabled={!projectId || isLoading}
                         field={field}
                         options={taskTypeOptions}
                         placeholder="เลือกประเภทงาน"
@@ -398,6 +445,7 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
                         onChange={(event) => field.onChange(event.target.value)}
                         placeholder="กรอกรายละเอียดการทำงาน"
                         value={field.value}
+                        disabled={isLoading}
                       />
                     </FormControl>
                   </FormGroup>
@@ -407,10 +455,17 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
             />
 
             <DialogFooter className="grid grid-cols-2 gap-3 sm:grid-cols-2">
-              <Button variant={'outline'} onClick={() => onOpenChange(false)} type="button">
+              <Button
+                variant={'outline'}
+                onClick={() => onOpenChange(false)}
+                type="button"
+                disabled={isLoading}
+              >
                 ยกเลิก
               </Button>
-              <Button type="submit">บันทึก ({formattedCalculatedHours} ชม)</Button>
+              <Button type="submit" disabled={isLoading}>
+                บันทึก ({formattedCalculatedHours} ชม)
+              </Button>
             </DialogFooter>
           </form>
         </Form>

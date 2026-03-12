@@ -1,0 +1,144 @@
+'use server';
+import { auth } from '@/auth';
+import { timeSheetCreateEditSchema, TimeSheetCreateEditSchema } from './schema';
+import { ExecuteAction } from '@/lib/execute-actions';
+import prisma from '@/lib/prisma';
+
+export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
+  const session = await auth();
+  if (!session) {
+    throw new Error('Unauthorized');
+  }
+  return ExecuteAction({
+    actionFn: async () => {
+      const validatedData = timeSheetCreateEditSchema.parse(formData);
+
+      if (!validatedData.project_id) throw new Error('Project ID is required');
+
+      const start = new Date(validatedData.start_date);
+      const end = new Date(validatedData.end_date);
+      const total_seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
+
+      const result = await prisma.timeSheet.create({
+        data: {
+          user_id: session.user.id,
+          project_id: validatedData.project_id,
+          project_task_type_id: validatedData.project_task_type_id,
+          stamp_date: validatedData.stamp_date,
+          start_date: start,
+          end_date: end,
+          detail: validatedData.detail || '',
+          exclude_seconds: validatedData.exclude ?? 0,
+          total_seconds,
+        },
+      });
+      await prisma.timeSheetSummary.upsert({
+        where: {
+          user_id_project_id_sum_date: {
+            user_id: session.user.id,
+            project_id: validatedData.project_id,
+            sum_date: validatedData.stamp_date,
+          },
+        },
+        update: {
+          total_seconds: {
+            increment: total_seconds,
+          },
+          stamp_at: new Date(),
+        },
+        create: {
+          user_id: session.user.id,
+          project_id: validatedData.project_id,
+          sum_date: validatedData.stamp_date,
+          total_seconds: validatedData.exclude
+            ? total_seconds - validatedData.exclude
+            : total_seconds,
+          stamp_at: new Date(),
+        },
+      });
+
+      return { id: result.id };
+    },
+    successMessage: 'Added successfully',
+  });
+}
+
+export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateEditSchema) {
+  const session = await auth();
+  if (!session) {
+    throw new Error('Unauthorized');
+  }
+  return ExecuteAction({
+    actionFn: async () => {
+      const validatedData = timeSheetCreateEditSchema.parse(formData);
+
+      if (!validatedData.project_id) throw new Error('Project ID is required');
+
+      const ts = await prisma.timeSheet.findUnique({
+        where: { id },
+      });
+
+      if (!ts) {
+        throw new Error('TimeSheet not found');
+      }
+
+      const start = new Date(validatedData.start_date);
+      const end = new Date(validatedData.end_date);
+      const total_seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
+
+      await prisma.timeSheet.update({
+        where: {
+          id: id,
+        },
+        data: {
+          user_id: session.user.id,
+          project_id: validatedData.project_id,
+          project_task_type_id: validatedData.project_task_type_id,
+          stamp_date: validatedData.stamp_date,
+          start_date: start,
+          end_date: end,
+          detail: validatedData.detail || '',
+          exclude_seconds: validatedData.exclude ?? 0,
+          total_seconds,
+        },
+      });
+
+      let isIncrement: boolean | null = null;
+      const currentTotalSecond = total_seconds;
+      const oldTotalSecond = ts.total_seconds;
+
+      switch (true) {
+        case oldTotalSecond > currentTotalSecond:
+          isIncrement = false;
+          break;
+        case oldTotalSecond < currentTotalSecond:
+          isIncrement = true;
+          break;
+        default:
+          isIncrement = null;
+          break;
+      }
+
+      const diffSeconds = Math.abs(currentTotalSecond - oldTotalSecond);
+
+      await prisma.timeSheetSummary.update({
+        where: {
+          user_id_project_id_sum_date: {
+            user_id: session.user.id,
+            project_id: validatedData.project_id,
+            sum_date: validatedData.stamp_date,
+          },
+        },
+        data: {
+          ...(diffSeconds !== 0 && {
+            total_seconds: isIncrement ? { increment: diffSeconds } : { decrement: diffSeconds },
+          }),
+          stamp_at: new Date(),
+        },
+      });
+
+      return { id: ts.id };
+    },
+    successMessage: 'Updated successfully',
+  });
+}

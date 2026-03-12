@@ -16,6 +16,7 @@ interface IProps {
   placeholder?: string;
   disabled?: boolean;
   isError?: boolean;
+  isModal?: boolean;
   onChange?: (date: Date) => void;
 }
 
@@ -24,6 +25,7 @@ export default function TimeInput({
   placeholder = 'เลือกเวลา',
   disabled = false,
   isError = false,
+  isModal = false,
   onChange = () => {},
 }: IProps) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -44,7 +46,7 @@ export default function TimeInput({
   };
 
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
+    <Popover open={isOpen} onOpenChange={setIsOpen} modal={isModal}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -61,7 +63,7 @@ export default function TimeInput({
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <div className="sm:flex">
-          <div className="flex flex-col sm:flex-row sm:h-[300px] divide-y sm:divide-y-0 sm:divide-x">
+          <div className="flex flex-col sm:flex-row sm:h-75 divide-y sm:divide-y-0 sm:divide-x">
             <ScrollArea className="w-64 sm:w-auto">
               <div className="flex sm:flex-col p-2">
                 {hours.map((hour) => (
