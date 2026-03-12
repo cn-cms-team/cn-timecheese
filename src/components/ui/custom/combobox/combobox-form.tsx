@@ -28,6 +28,7 @@ type ComboboxFormProps<TFieldValues extends FieldValues> = {
   isError?: boolean;
   isGroup?: boolean;
   value?: any;
+  isModal?: boolean;
 };
 const ComboboxForm = <TFieldValues extends FieldValues>({
   options,
@@ -39,6 +40,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
   isError = false,
   isGroup = false,
   value,
+  isModal = false,
 }: ComboboxFormProps<TFieldValues>) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
@@ -48,7 +50,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
   };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} modal={isModal}>
       <PopoverTrigger asChild disabled={disabled}>
         <div className="relative">
           <Button

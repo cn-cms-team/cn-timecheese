@@ -211,9 +211,10 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
                       disabled={isProjectOptionsLoading}
                       field={field}
                       options={projectOptions}
-                      placeholder="เลือกโปรเจค"
+                      placeholder="เลือกโครงการ"
                       value={projectId}
-                      isGroup={true}
+                      isGroup
+                      isModal
                       isError={Boolean(form.formState.errors.project_id)}
                       onSelect={(value) => {
                         field.onChange(value);
@@ -343,6 +344,7 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
                       options={taskTypeOptions}
                       placeholder="เลือกประเภทงาน"
                       isGroup
+                      isModal
                       isError={Boolean(form.formState.errors.project_task_type_id)}
                       onSelect={(value) => {
                         form.setValue('project_task_type_id', value, {

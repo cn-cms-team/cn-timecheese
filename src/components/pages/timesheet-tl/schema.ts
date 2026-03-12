@@ -7,7 +7,7 @@ const schema = z
       .string()
       .optional()
       .refine((val) => !!val && val !== 'none', {
-        message: 'กรุณาเลือกโปรเจค',
+        message: 'กรุณาเลือกโครงการ',
       }),
     project_task_type_id: z
       .string()
