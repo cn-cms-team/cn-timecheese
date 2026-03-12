@@ -140,6 +140,14 @@ function FormMessage({ className, ...props }: React.ComponentProps<'p'>) {
   );
 }
 
+function FormGroup({ className, children, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div data-slot="form-group" className={cn('flex flex-col gap-2', className)} {...props}>
+      {children}
+    </div>
+  );
+}
+
 export {
   useFormField,
   Form,
@@ -149,4 +157,5 @@ export {
   FormDescription,
   FormMessage,
   FormField,
+  FormGroup,
 };

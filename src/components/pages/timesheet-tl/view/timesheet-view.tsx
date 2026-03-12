@@ -17,12 +17,13 @@ import {
   parseDayId,
 } from '@/lib/functions/timesheet-manage';
 import { HeaderTitle } from '@/components/ui/custom/header';
+import { TimeSheetMasterProvider } from './timesheet-master-context';
 
 const today = new Date();
 const DEFAULT_MONTH_DATE = new Date(today.getFullYear(), today.getMonth(), 1);
 const DEFAULT_SELECTED_DAY_ID = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
 
-const TimeSheetView = () => {
+const TimeSheetViewContent = () => {
   const [currentMonth, setCurrentMonth] = useState(DEFAULT_MONTH_DATE);
   const [isAddActivityOpen, setIsAddActivityOpen] = useState(false);
 
@@ -218,6 +219,14 @@ const TimeSheetView = () => {
         onOpenChange={setIsAddActivityOpen}
       />
     </div>
+  );
+};
+
+const TimeSheetView = () => {
+  return (
+    <TimeSheetMasterProvider>
+      <TimeSheetViewContent />
+    </TimeSheetMasterProvider>
   );
 };
 

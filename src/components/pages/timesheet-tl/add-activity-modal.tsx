@@ -21,6 +21,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import TimeInput from '@/components/ui/custom/input/time-input';
 import { parseDayId } from '@/lib/functions/timesheet-manage';
 import { TimeSheetCreateEditSchema, timeSheetCreateEditSchema } from './schema';
+import { useTimeSheetMasterContext } from './view/timesheet-master-context';
 
 interface AddActivityModalProps {
   selectedDayId: string;
@@ -29,6 +30,9 @@ interface AddActivityModalProps {
 }
 
 const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModalProps) => {
+  const { isProjectOptionsLoading, projectOptions, getTaskTypeOptionsByProjectId } =
+    useTimeSheetMasterContext();
+
   const defaultStartDate = useMemo(() => {
     const selectedDate = parseDayId(selectedDayId);
     const start = new Date(selectedDate);
@@ -64,18 +68,23 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
       detail: '',
 
       break_time: defaultBreakTime,
-      is_all_day: false,
+      is_all_day: defaultStartDate.getHours() === 9 && defaultEndDate.getHours() === 18,
     },
     mode: 'onSubmit',
     reValidateMode: 'onChange',
   });
 
   const projectId = form.watch('project_id');
+  const projectTaskTypeId = form.watch('project_task_type_id');
   const startDate = form.watch('start_date');
   const endDate = form.watch('end_date');
   const includeBreakTime = form.watch('is_include_breaking_time');
   const breakTime = form.watch('break_time') || defaultBreakTime;
-  const isAllDay = form.watch('is_all_day');
+
+  const taskTypeOptions = useMemo(
+    () => getTaskTypeOptionsByProjectId(projectId),
+    [getTaskTypeOptionsByProjectId, projectId]
+  );
 
   useEffect(() => {
     if (!open) {
@@ -99,6 +108,23 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
     });
   }, [open, selectedDayId]);
 
+  useEffect(() => {
+    if (!projectTaskTypeId) {
+      return;
+    }
+
+    const isValidTaskType = taskTypeOptions.some((group) =>
+      group.options.some((taskType) => taskType.value === projectTaskTypeId)
+    );
+
+    if (!isValidTaskType) {
+      form.setValue('project_task_type_id', undefined, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    }
+  }, [form, projectTaskTypeId, taskTypeOptions]);
+
   const selectedDateLabel = useMemo(() => {
     const selectedDate = parseDayId(selectedDayId);
     return selectedDate.toLocaleDateString('th-TH', {
@@ -108,40 +134,6 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
       year: 'numeric',
     });
   }, [selectedDayId]);
-
-  const projectOptions = useMemo(
-    () => [
-      {
-        label: 'โปรเจคภายใน',
-        options: [
-          { label: 'Project A', value: 'project-a' },
-          { label: 'Project B', value: 'project-b' },
-        ],
-      },
-      {
-        label: 'โปรเจคภายนอก',
-        options: [{ label: 'Project C', value: 'project-c' }],
-      },
-    ],
-    []
-  );
-
-  const taskTypeOptions = useMemo(
-    () => [
-      {
-        label: 'งานหลัก',
-        options: [
-          { label: 'Development', value: 'dev' },
-          { label: 'Support', value: 'support' },
-        ],
-      },
-      {
-        label: 'งานประสานงาน',
-        options: [{ label: 'Meeting', value: 'meeting' }],
-      },
-    ],
-    []
-  );
 
   const formattedCalculatedHours = useMemo(() => {
     const start = new Date(startDate);
@@ -199,7 +191,7 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-110 p-0" showCloseButton={false}>
+      <DialogContent className="sm:max-w-md p-0" showCloseButton={false}>
         <DialogHeader className="px-4 pt-4 pb-0">
           <DialogTitle className="text-xl font-bold text-slate-900">เพิ่มกิจกรรม</DialogTitle>
         </DialogHeader>
@@ -216,13 +208,20 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
                 <FormItem>
                   <FormControl>
                     <ComboboxForm
+                      disabled={isProjectOptionsLoading}
                       field={field}
                       options={projectOptions}
                       placeholder="เลือกโปรเจค"
                       value={projectId}
-                      isGroup
+                      isGroup={true}
                       isError={Boolean(form.formState.errors.project_id)}
-                      onSelect={field.onChange}
+                      onSelect={(value) => {
+                        field.onChange(value);
+                        form.setValue('project_task_type_id', undefined, {
+                          shouldDirty: true,
+                          shouldValidate: true,
+                        });
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -339,12 +338,19 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
                 <FormItem>
                   <FormControl>
                     <ComboboxForm
+                      disabled={!projectId}
                       field={field}
                       options={taskTypeOptions}
                       placeholder="เลือกประเภทงาน"
                       isGroup
                       isError={Boolean(form.formState.errors.project_task_type_id)}
-                      onSelect={field.onChange}
+                      onSelect={(value) => {
+                        form.setValue('project_task_type_id', value, {
+                          shouldDirty: true,
+                          shouldValidate: true,
+                        });
+                        form.clearErrors('project_task_type_id');
+                      }}
                     />
                   </FormControl>
                   <FormMessage />

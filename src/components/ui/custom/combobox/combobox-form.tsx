@@ -50,7 +50,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild disabled={disabled}>
-        <div className="relative truncate">
+        <div className="relative">
           <Button
             type="button"
             ref={buttonRef}
@@ -64,7 +64,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
             )}
             disabled={disabled}
           >
-            <div className="truncate text-sm font-medium max-w-[95%]">
+            <div className="truncate text-sm font-medium">
               {(field?.value || value) && isGroup
                 ? options
                     ?.flatMap((item) => {
@@ -95,7 +95,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
           )}
         </div>
       </PopoverTrigger>
-      <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 min-w-[300px]">
+      <PopoverContent className="w-(--radix-popover-trigger-width) p-0">
         <Command>
           {options && options.length > 0 && (
             <CommandInput placeholder={placeholder} className="h-9 leading-[3]" />
@@ -110,7 +110,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                     <CommandItem
                       value={item.label}
                       key={`${item.value}-${index}`}
-                      className={`tc-dropdown-item ps-5 mt-1 ${
+                      className={`ps-5 mt-1 ${
                         item.value === (field?.value || value) ? 'active' : ''
                       }`}
                       onSelect={() => {
@@ -131,9 +131,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                     <CommandItem
                       value={item.label}
                       key={`${item.value}-${index}`}
-                      className={`tc-dropdown-item mt-1 ${
-                        item.value === (field?.value || value) ? 'active' : ''
-                      }`}
+                      className={`mt-1 ${item.value === (field?.value || value) ? 'active' : ''}`}
                       disabled={item.is_active != null && item.is_active === false}
                       onSelect={() => {
                         onSelect(item.value as string);
@@ -144,9 +142,7 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                     </CommandItem>
                   ))
                 ) : (
-                  <CommandItem disabled className="tc-dropdown-item">
-                    ไม่มีข้อมูล
-                  </CommandItem>
+                  <CommandItem disabled>ไม่มีข้อมูล</CommandItem>
                 )}
               </CommandGroup>
             )}
