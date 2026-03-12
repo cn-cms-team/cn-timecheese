@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { TIMELINE_ITEMS } from '@/lib/constants/timesheet';
 import DaySelector from '../day-selector';
 import TimelineList from '../timeline-list';
+import AddActivityModal from '../add-activity-modal';
 import type { DayItem } from '@/types/timesheet';
 import {
   formatMonthLabel,
@@ -23,6 +24,7 @@ const DEFAULT_SELECTED_DAY_ID = `${today.getFullYear()}-${String(today.getMonth(
 
 const TimeSheetView = () => {
   const [currentMonth, setCurrentMonth] = useState(DEFAULT_MONTH_DATE);
+  const [isAddActivityOpen, setIsAddActivityOpen] = useState(false);
 
   const days = useMemo(
     () => getDaysForMonth(currentMonth.getFullYear(), currentMonth.getMonth()),
@@ -49,6 +51,15 @@ const TimeSheetView = () => {
     () => days.find((day) => day.id === selectedDayId) ?? days[0],
     [days, selectedDayId]
   );
+
+  const selectedDayLabel = useMemo(() => {
+    const selectedDate = parseDayId(selectedDayId);
+    return selectedDate.toLocaleDateString('th-TH', {
+      day: 'numeric',
+      month: 'short',
+      year: '2-digit',
+    });
+  }, [selectedDayId]);
 
   const timelineItems = useMemo(
     () => TIMELINE_ITEMS.filter((item) => item.dayId === selectedDayId),
@@ -172,12 +183,17 @@ const TimeSheetView = () => {
               </div>
 
               <>
-                <Button className="hidden rounded-2xl bg-black px-5 py-6 text-base font-semibold text-white hover:bg-black/90 sm:inline-flex">
+                <Button
+                  className="hidden rounded-2xl bg-black px-5 py-6 text-base font-semibold text-white hover:bg-black/90 sm:inline-flex"
+                  onClick={() => setIsAddActivityOpen(true)}
+                >
                   <Plus className="size-5" />
-                  เพิ่มกิจกรรม
+                  {`เพิ่มกิจกรรม ${selectedDayLabel}`}
                 </Button>
                 <Button
+                  aria-label={`เพิ่มกิจกรรมวันที่ ${selectedDayLabel}`}
                   className="rounded-2xl bg-black text-white hover:bg-black/90 sm:hidden"
+                  onClick={() => setIsAddActivityOpen(true)}
                   size="icon"
                 >
                   <Plus className="size-5" />
@@ -195,6 +211,12 @@ const TimeSheetView = () => {
           </div>
         </section>
       </div>
+
+      <AddActivityModal
+        selectedDayId={selectedDayId}
+        open={isAddActivityOpen}
+        onOpenChange={setIsAddActivityOpen}
+      />
     </div>
   );
 };
