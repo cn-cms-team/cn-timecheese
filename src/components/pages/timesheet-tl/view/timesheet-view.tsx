@@ -8,7 +8,7 @@ import { TIMELINE_ITEMS } from '@/lib/constants/timesheet';
 import DaySelector from '../day-selector';
 import TimelineList from '../timeline-list';
 import AddActivityModal from '../add-activity-modal';
-import type { DayItem } from '@/types/timesheet';
+import type { DayItem, TimeSheetsResponse } from '@/types/timesheet';
 import {
   formatMonthLabel,
   formatTotalHours,
@@ -18,6 +18,7 @@ import {
 } from '@/lib/functions/timesheet-manage';
 import { HeaderTitle } from '@/components/ui/custom/header';
 import { TimeSheetMasterProvider } from './timesheet-master-context';
+import { fetcher } from '@/lib/fetcher';
 
 const today = new Date();
 const DEFAULT_MONTH_DATE = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -26,10 +27,12 @@ const DEFAULT_SELECTED_DAY_ID = `${today.getFullYear()}-${String(today.getMonth(
 const TimeSheetViewContent = () => {
   const [currentMonth, setCurrentMonth] = useState(DEFAULT_MONTH_DATE);
   const [isAddActivityOpen, setIsAddActivityOpen] = useState(false);
+  const [hourByDate, setHourByDate] = useState<Record<string, number>>({});
+  const [isHoursLoading, setIsHoursLoading] = useState(false);
 
   const days = useMemo(
-    () => getDaysForMonth(currentMonth.getFullYear(), currentMonth.getMonth(), {}),
-    [currentMonth]
+    () => getDaysForMonth(currentMonth.getFullYear(), currentMonth.getMonth(), hourByDate),
+    [currentMonth, hourByDate]
   );
 
   const [selectedDayId, setSelectedDayId] = useState<DayItem['id']>(
@@ -41,6 +44,44 @@ const TimeSheetViewContent = () => {
       setSelectedDayId(days[0].id);
     }
   }, [days, selectedDayId]);
+
+  useEffect(() => {
+    let isActive = true;
+
+    const loadHoursByMonth = async () => {
+      const year = currentMonth.getFullYear();
+      const month = currentMonth.getMonth();
+      const startDate = getDayId(year, month + 1, 1);
+      const endDate = getDayId(year, month + 1, new Date(year, month + 1, 0).getDate());
+
+      try {
+        setIsHoursLoading(true);
+        const query = new URLSearchParams({ startDate, endDate }).toString();
+        const response = await fetcher<TimeSheetsResponse>(`/api/v1/timesheets?${query}`);
+
+        if (!isActive) {
+          return;
+        }
+
+        setHourByDate(response.hourData ?? {});
+      } catch (error) {
+        if (isActive) {
+          console.error('Error fetching monthly timesheet summary:', error);
+          setHourByDate({});
+        }
+      } finally {
+        if (isActive) {
+          setIsHoursLoading(false);
+        }
+      }
+    };
+
+    loadHoursByMonth();
+
+    return () => {
+      isActive = false;
+    };
+  }, [currentMonth]);
 
   const monthLabel = useMemo(() => formatMonthLabel(currentMonth), [currentMonth]);
 
@@ -166,7 +207,12 @@ const TimeSheetViewContent = () => {
           </div>
 
           <div className="min-h-0 space-y-2 overflow-y-auto p-4">
-            <DaySelector days={days} selectedDayId={selectedDayId} onSelectDay={setSelectedDayId} />
+            <DaySelector
+              days={days}
+              selectedDayId={selectedDayId}
+              onSelectDay={setSelectedDayId}
+              isLoading={isHoursLoading}
+            />
           </div>
         </aside>
 

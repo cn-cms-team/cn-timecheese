@@ -9,8 +9,31 @@ export async function GET(request: Request) {
       return Response.json({ message: 'Unauthorize', status: 401 });
     }
 
-    const body = await request.json();
-    const data = body.data as TimeSheetsRequest;
+    const { searchParams } = new URL(request.url);
+    const queryStartDate = searchParams.get('startDate');
+    const queryEndDate = searchParams.get('endDate');
+
+    let data: TimeSheetsRequest;
+
+    if (queryStartDate && queryEndDate) {
+      data = {
+        startDate: queryStartDate,
+        endDate: queryEndDate,
+      };
+    } else {
+      const rawBody = await request.text();
+      const body = rawBody ? (JSON.parse(rawBody) as { data?: TimeSheetsRequest }) : {};
+
+      if (!body.data?.startDate || !body.data?.endDate) {
+        return Response.json(
+          { message: 'Missing startDate or endDate', status: 400 },
+          { status: 400 }
+        );
+      }
+
+      data = body.data;
+    }
+
     const tsSummary = await prisma.timeSheetSummary.findMany({
       where: {
         user_id: session.user.id,
