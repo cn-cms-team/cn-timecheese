@@ -190,7 +190,7 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
       if (result?.success) {
         onOpenChange(false);
       } else {
-        if (result.code === 'XXX') {
+        if (result.code === 'DUPLICATED_CODE') {
           toast(result.message);
         }
       }

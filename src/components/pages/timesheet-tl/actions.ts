@@ -17,6 +17,35 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
 
       const start = new Date(validatedData.start_date);
       const end = new Date(validatedData.end_date);
+
+      if (start >= end) {
+        throw new Error('Start time must be earlier than end time');
+      }
+
+      const overlappedTimeSheet = await prisma.timeSheet.findFirst({
+        where: {
+          user_id: session.user.id,
+          stamp_date: validatedData.stamp_date,
+          start_date: {
+            lt: end,
+          },
+          end_date: {
+            gt: start,
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (overlappedTimeSheet) {
+        return {
+          success: false,
+          code: 'DUPLICATED_CODE',
+          message: `กรุณากรอกข้อมูลใหม่ เนื่องจากช่วงเวลานี้มีอยู่ในระบบแล้ว`,
+        };
+      }
+
       const total_seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
 
       const result = await prisma.timeSheet.create({
@@ -76,6 +105,10 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
 
       const ts = await prisma.timeSheet.findUnique({
         where: { id },
+        select: {
+          id: true,
+          total_seconds: true,
+        },
       });
 
       if (!ts) {
@@ -85,6 +118,35 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
       const start = new Date(validatedData.start_date);
       const end = new Date(validatedData.end_date);
       const total_seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
+
+      if (start >= end) {
+        throw new Error('Start time must be earlier than end time');
+      }
+
+      const overlappedTimeSheet = await prisma.timeSheet.findFirst({
+        where: {
+          user_id: session.user.id,
+          id: { not: id },
+          stamp_date: validatedData.stamp_date,
+          start_date: {
+            lt: end,
+          },
+          end_date: {
+            gt: start,
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (overlappedTimeSheet) {
+        return {
+          success: false,
+          code: 'DUPLICATED_CODE',
+          message: `กรุณากรอกข้อมูลใหม่ เนื่องจากช่วงเวลานี้มีอยู่ในระบบแล้ว`,
+        };
+      }
 
       await prisma.timeSheet.update({
         where: {
