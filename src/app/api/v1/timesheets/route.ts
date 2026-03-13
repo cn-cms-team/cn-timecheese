@@ -26,11 +26,11 @@ export async function GET(request: Request) {
       },
     });
 
-    // Transform the data into grouped sum_date with total_seconds and return as response Record<string, number> key is date in format YYYY-MM-DD and value is total_seconds
+    // Transform the data into grouped sum_date with total_seconds and return as response Record<string, number> key is date in format YYYY-MM-DD and value is total_seconds in hours
     const hourData: Record<string, number> = {};
     tsSummary.forEach((item) => {
       const dateKey = item.sum_date.toISOString().split('T')[0];
-      hourData[dateKey] = (hourData[dateKey] || 0) + item.total_seconds;
+      hourData[dateKey] = (hourData[dateKey] || 0) + item.total_seconds / 3600;
     });
     const result = { hourData };
 
