@@ -88,7 +88,24 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
         },
       });
 
-      return { id: result.id };
+      const tsSummary = await prisma.timeSheetSummary.findMany({
+        where: {
+          user_id: session.user.id,
+          sum_date: stampDate,
+        },
+        select: {
+          sum_date: true,
+          total_seconds: true,
+        },
+      });
+
+      const hourData = tsSummary.reduce<Record<string, number>>((acc, item) => {
+        const dateKey = item.sum_date.toISOString().split('T')[0];
+        acc[dateKey] = (acc[dateKey] || 0) + item.total_seconds / 3600;
+        return acc;
+      }, {});
+
+      return { id: result.id, hourData };
     },
     successMessage: 'Added successfully',
   });
@@ -203,7 +220,24 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
         },
       });
 
-      return { id: ts.id };
+      const tsSummary = await prisma.timeSheetSummary.findMany({
+        where: {
+          user_id: session.user.id,
+          sum_date: stampDate,
+        },
+        select: {
+          sum_date: true,
+          total_seconds: true,
+        },
+      });
+
+      const hourData = tsSummary.reduce<Record<string, number>>((acc, item) => {
+        const dateKey = item.sum_date.toISOString().split('T')[0];
+        acc[dateKey] = (acc[dateKey] || 0) + item.total_seconds / 3600;
+        return acc;
+      }, {});
+
+      return { id: ts.id, hourData };
     },
     successMessage: 'Updated successfully',
   });

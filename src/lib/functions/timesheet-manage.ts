@@ -39,7 +39,7 @@ export const formatTotalHours = (hours: number) => {
     return '0 ชั่วโมง';
   }
 
-  return `${hours} ชั่วโมง`;
+  return `${hours.toFixed(2)} ชั่วโมง`;
 };
 
 export const formatHourValue = (hours: number) => hours.toFixed(1);

@@ -30,6 +30,7 @@ const TimeSheetViewContent = () => {
   const [isHoursLoading, setIsHoursLoading] = useState(false);
   const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
   const [isTimelineLoading, setIsTimelineLoading] = useState(false);
+  // const [timelineRefreshToken, setTimelineRefreshToken] = useState(0);
 
   const days = useMemo(
     () => getDaysForMonth(currentMonth.getFullYear(), currentMonth.getMonth(), hourByDate),
@@ -104,32 +105,30 @@ const TimeSheetViewContent = () => {
     });
   }, [selectedDayId]);
 
+  const loadTimeSheetsByDate = async (isActive: boolean) => {
+    try {
+      setIsTimelineLoading(true);
+      const response = await fetcher<TimelineItem[]>(`/api/v1/timesheets/${selectedDayId}`);
+
+      if (!isActive) {
+        return;
+      }
+
+      setTimelineItems(response ?? []);
+    } catch (error) {
+      if (isActive) {
+        setTimelineItems([]);
+      }
+    } finally {
+      if (isActive) {
+        setIsTimelineLoading(false);
+      }
+    }
+  };
+
   useEffect(() => {
     let isActive = true;
-
-    const loadTimeSheetsByDate = async () => {
-      try {
-        setIsTimelineLoading(true);
-        const response = await fetcher<TimelineItem[]>(`/api/v1/timesheets/${selectedDayId}`);
-
-        if (!isActive) {
-          return;
-        }
-
-        setTimelineItems(response ?? []);
-      } catch (error) {
-        if (isActive) {
-          console.error('Error fetching timesheet timeline:', error);
-          setTimelineItems([]);
-        }
-      } finally {
-        if (isActive) {
-          setIsTimelineLoading(false);
-        }
-      }
-    };
-
-    loadTimeSheetsByDate();
+    loadTimeSheetsByDate(isActive);
 
     return () => {
       isActive = false;
@@ -152,6 +151,21 @@ const TimeSheetViewContent = () => {
     const now = new Date();
     setCurrentMonth(new Date(now.getFullYear(), now.getMonth(), 1));
     setSelectedDayId(getDayId(now.getFullYear(), now.getMonth() + 1, now.getDate()));
+  };
+
+  const handleActivitySaved = (savedHourData: Record<string, number>, savedDayId: string) => {
+    setHourByDate((prev) => ({
+      ...prev,
+      ...savedHourData,
+    }));
+
+    if (savedDayId !== selectedDayId) {
+      const savedDate = parseDayId(savedDayId);
+      setCurrentMonth(new Date(savedDate.getFullYear(), savedDate.getMonth(), 1));
+      setSelectedDayId(savedDayId);
+    } else {
+      loadTimeSheetsByDate(true);
+    }
   };
 
   return (
@@ -291,6 +305,7 @@ const TimeSheetViewContent = () => {
         selectedDayId={selectedDayId}
         open={isAddActivityOpen}
         onOpenChange={setIsAddActivityOpen}
+        onSaved={handleActivitySaved}
       />
     </div>
   );

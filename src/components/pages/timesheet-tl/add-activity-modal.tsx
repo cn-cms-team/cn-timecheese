@@ -39,13 +39,19 @@ interface AddActivityModalProps {
   selectedDayId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onSaved?: (hourData: Record<string, number>, dayId: string) => void;
 }
 
 const START_TIME_HOUR = 9;
 const END_TIME_HOUR = 18;
 const DEFAULT_END_TIME_HOUR = 10;
 
-const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModalProps) => {
+const AddActivityModal = ({
+  selectedDayId,
+  open,
+  onOpenChange,
+  onSaved,
+}: AddActivityModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { isProjectOptionsLoading, projectOptions, getTaskTypeOptionsByProjectId } =
     useTimeSheetMasterContext();
@@ -189,15 +195,17 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
         if (result.success) {
           toast.success(result.message);
         } else {
-          toast.error(result.message);
+          if (result.code === 'DUPLICATED_CODE') {
+            toast.warning(result.message);
+          } else {
+            toast.error(result.message);
+          }
         }
       }
       if (result?.success) {
+        const savedHourData = (result as { hourData?: Record<string, number> }).hourData ?? {};
+        onSaved?.(savedHourData, selectedDayId);
         onOpenChange(false);
-      } else {
-        if (result.code === 'DUPLICATED_CODE') {
-          toast.warning(result.message);
-        }
       }
     } catch (error) {
       console.error('OnSubmit Error:', error);

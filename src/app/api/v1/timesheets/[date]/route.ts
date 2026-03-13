@@ -48,16 +48,16 @@ export async function GET(request: Request, { params }: { params: Promise<{ date
 
     const result = timeSheet.map((item) => ({
       id: item.id,
-      stamp_date: item.stamp_date.toISOString().split('T')[0], // dayId
-      start_date: item.start_date, // startTime
-      end_date: item.end_date, // endTime
+      stamp_date: item.stamp_date.toISOString().split('T')[0],
+      start_date: item.start_date,
+      end_date: item.end_date,
       total_seconds: item.total_seconds,
       exclude_seconds: item.exclude_seconds,
       project_id: item.project_id,
       project_task_type_id: item.project_task_type_id,
-      project_name: item.project.name, // title
-      detail: item.detail, // description
-      task_type_name: item?.project_task_type?.name, // category
+      project_name: item.project.name,
+      detail: item.detail,
+      task_type_name: item?.project_task_type?.name,
       tone: 'blue',
     }));
 

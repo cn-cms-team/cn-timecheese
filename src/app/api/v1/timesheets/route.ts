@@ -1,46 +1,76 @@
 import prisma from '@/lib/prisma';
 import { auth } from '@/auth';
 import { TimeSheetsRequest } from '@/types/timesheet';
-import { startOfDay, endOfDay } from 'date-fns';
+import { parseDate, toUtcDayBounds } from '@/lib/functions/date-format';
+
+type TimeSheetBody = {
+  data?: TimeSheetsRequest;
+};
+
+async function extractRequestDates(request: Request): Promise<TimeSheetsRequest | null> {
+  const { searchParams } = new URL(request.url);
+  const queryStartDate = searchParams.get('startDate');
+  const queryEndDate = searchParams.get('endDate');
+
+  if (queryStartDate && queryEndDate) {
+    return {
+      startDate: queryStartDate,
+      endDate: queryEndDate,
+    };
+  }
+
+  const rawBody = await request.text();
+  if (!rawBody) {
+    return null;
+  }
+
+  const body = JSON.parse(rawBody) as TimeSheetBody;
+  if (!body.data?.startDate || !body.data?.endDate) {
+    return null;
+  }
+
+  return body.data;
+}
 
 export async function GET(request: Request) {
   try {
     const session = await auth();
     if (!session) {
-      return Response.json({ message: 'Unauthorize', status: 401 });
+      return Response.json({ message: 'Unauthorized', status: 401 }, { status: 401 });
     }
 
-    const { searchParams } = new URL(request.url);
-    const queryStartDate = searchParams.get('startDate');
-    const queryEndDate = searchParams.get('endDate');
-
-    let data: TimeSheetsRequest;
-
-    if (queryStartDate && queryEndDate) {
-      data = {
-        startDate: queryStartDate,
-        endDate: queryEndDate,
-      };
-    } else {
-      const rawBody = await request.text();
-      const body = rawBody ? (JSON.parse(rawBody) as { data?: TimeSheetsRequest }) : {};
-
-      if (!body.data?.startDate || !body.data?.endDate) {
-        return Response.json(
-          { message: 'Missing startDate or endDate', status: 400 },
-          { status: 400 }
-        );
-      }
-
-      data = body.data;
+    let data: TimeSheetsRequest | null;
+    try {
+      data = await extractRequestDates(request);
+    } catch {
+      return Response.json({ message: 'Invalid JSON body', status: 400 }, { status: 400 });
     }
+
+    if (!data?.startDate || !data?.endDate) {
+      return Response.json(
+        { message: 'Missing startDate or endDate', status: 400 },
+        { status: 400 }
+      );
+    }
+
+    const parsedStartDate = parseDate(data.startDate);
+    const parsedEndDate = parseDate(data.endDate);
+
+    if (!parsedStartDate || !parsedEndDate) {
+      return Response.json(
+        { message: 'Invalid startDate or endDate', status: 400 },
+        { status: 400 }
+      );
+    }
+
+    const { start, end } = toUtcDayBounds(parsedStartDate, parsedEndDate);
 
     const tsSummary = await prisma.timeSheetSummary.findMany({
       where: {
         user_id: session.user.id,
         sum_date: {
-          gte: startOfDay(new Date(data.startDate)),
-          lte: endOfDay(new Date(data.endDate)),
+          gte: start,
+          lte: end,
         },
       },
 
@@ -50,17 +80,19 @@ export async function GET(request: Request) {
       },
     });
 
-    const hourData: Record<string, number> = {};
-    tsSummary.forEach((item) => {
+    const hourData = tsSummary.reduce<Record<string, number>>((acc, item) => {
       const dateKey = item.sum_date.toISOString().split('T')[0];
-      hourData[dateKey] = (hourData[dateKey] || 0) + item.total_seconds / 3600;
-    });
-    const result = { hourData };
+      acc[dateKey] = (acc[dateKey] || 0) + item.total_seconds / 3600;
+      return acc;
+    }, {});
 
-    return Response.json({ data: result, status: 200 });
+    return Response.json({ data: { hourData }, status: 200 }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      {
+        message: error instanceof Error ? error.message : 'An unknown error occurred',
+        status: 500,
+      },
       { status: 500 }
     );
   }
