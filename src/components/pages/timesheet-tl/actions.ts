@@ -15,6 +15,11 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
 
       if (!validatedData.project_id) throw new Error('Project ID is required');
 
+      console.log('validatedData.stamp_date)', validatedData.stamp_date);
+      console.log('validatedData.start_date)', validatedData.start_date);
+      console.log('new Date(validatedData.stamp_date)', new Date(validatedData.stamp_date));
+      console.log('new Date(validatedData.start_date)', new Date(validatedData.start_date));
+
       const stampDate = new Date(validatedData.stamp_date);
       const start = new Date(validatedData.start_date);
       const end = new Date(validatedData.end_date);

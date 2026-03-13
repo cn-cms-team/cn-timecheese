@@ -4,11 +4,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { CalendarDays, ChevronLeft, ChevronRight, Clock3, Plus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { TIMELINE_ITEMS } from '@/lib/constants/timesheet';
 import DaySelector from '../day-selector';
 import TimelineList from '../timeline-list';
 import AddActivityModal from '../add-activity-modal';
-import type { DayItem, TimeSheetsResponse } from '@/types/timesheet';
+import type { DayItem, TimeSheetsResponse, TimelineItem } from '@/types/timesheet';
 import {
   formatMonthLabel,
   formatTotalHours,
@@ -29,6 +28,8 @@ const TimeSheetViewContent = () => {
   const [isAddActivityOpen, setIsAddActivityOpen] = useState(false);
   const [hourByDate, setHourByDate] = useState<Record<string, number>>({});
   const [isHoursLoading, setIsHoursLoading] = useState(false);
+  const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
+  const [isTimelineLoading, setIsTimelineLoading] = useState(false);
 
   const days = useMemo(
     () => getDaysForMonth(currentMonth.getFullYear(), currentMonth.getMonth(), hourByDate),
@@ -103,10 +104,37 @@ const TimeSheetViewContent = () => {
     });
   }, [selectedDayId]);
 
-  const timelineItems = useMemo(
-    () => TIMELINE_ITEMS.filter((item) => item.dayId === selectedDayId),
-    [selectedDayId]
-  );
+  useEffect(() => {
+    let isActive = true;
+
+    const loadTimeSheetsByDate = async () => {
+      try {
+        setIsTimelineLoading(true);
+        const response = await fetcher<TimelineItem[]>(`/api/v1/timesheets/${selectedDayId}`);
+
+        if (!isActive) {
+          return;
+        }
+
+        setTimelineItems(response ?? []);
+      } catch (error) {
+        if (isActive) {
+          console.error('Error fetching timesheet timeline:', error);
+          setTimelineItems([]);
+        }
+      } finally {
+        if (isActive) {
+          setIsTimelineLoading(false);
+        }
+      }
+    };
+
+    loadTimeSheetsByDate();
+
+    return () => {
+      isActive = false;
+    };
+  }, [selectedDayId]);
 
   const handleDayNavigate = (offset: number) => {
     const selectedDate = parseDayId(selectedDayId);
@@ -253,7 +281,7 @@ const TimeSheetViewContent = () => {
             <div className="absolute top-0 bottom-0 left-18.75 w-px bg-slate-200 sm:left-24" />
 
             <div className="space-y-4 pb-6">
-              <TimelineList timelineItems={timelineItems} />
+              <TimelineList timelineItems={timelineItems} isLoading={isTimelineLoading} />
             </div>
           </div>
         </section>

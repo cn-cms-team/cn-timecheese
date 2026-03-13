@@ -53,13 +53,16 @@ export type TimelineCardTone = 'blue' | 'violet' | 'slate' | 'green' | 'red' | '
 
 export type TimelineItem = {
   id: string;
-  dayId: DayItem['id'];
-  startTime: string;
-  endTime: string;
-  durationLabel: string;
-  title: string;
-  description: string;
-  category: string;
+  stamp_date: DayItem['id'];
+  start_date: string;
+  end_date: string;
+  total_seconds: number;
+  exclude_seconds: number;
+  project_id: string;
+  project_task_type_id: string;
+  project_name: string;
+  detail: string;
+  task_type_name: string | null;
   tone: TimelineCardTone;
 };
 

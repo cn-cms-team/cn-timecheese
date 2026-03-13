@@ -1,6 +1,6 @@
 import { AlertTriangle, ArrowUp, Check, Circle } from 'lucide-react';
 
-import { DAY_LABELS, HOURS_BY_DAY_ID } from '@/lib/constants/timesheet';
+import { DAY_LABELS } from '@/lib/constants/timesheet';
 import type { DayItem, DayTimeSheetStatus } from '@/types/timesheet';
 
 export const getDayId = (year: number, month: number, date: number) =>

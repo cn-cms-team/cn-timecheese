@@ -1,6 +1,7 @@
 import prisma from '@/lib/prisma';
 import { auth } from '@/auth';
 import { TimeSheetsRequest } from '@/types/timesheet';
+import { startOfDay, endOfDay } from 'date-fns';
 
 export async function GET(request: Request) {
   try {
@@ -38,8 +39,8 @@ export async function GET(request: Request) {
       where: {
         user_id: session.user.id,
         sum_date: {
-          gte: new Date(data.startDate),
-          lte: new Date(data.endDate),
+          gte: startOfDay(new Date(data.startDate)),
+          lte: endOfDay(new Date(data.endDate)),
         },
       },
 
@@ -49,7 +50,6 @@ export async function GET(request: Request) {
       },
     });
 
-    // Transform the data into grouped sum_date with total_seconds and return as response Record<string, number> key is date in format YYYY-MM-DD and value is total_seconds in hours
     const hourData: Record<string, number> = {};
     tsSummary.forEach((item) => {
       const dateKey = item.sum_date.toISOString().split('T')[0];
