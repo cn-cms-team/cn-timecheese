@@ -87,6 +87,16 @@ const TimeSheetViewContent = () => {
 
   const monthLabel = useMemo(() => formatMonthLabel(currentMonth), [currentMonth]);
 
+  const setCurrentMonthIfDifferent = (date: Date) => {
+    setCurrentMonth((prev) => {
+      if (prev.getFullYear() === date.getFullYear() && prev.getMonth() === date.getMonth()) {
+        return prev;
+      }
+
+      return new Date(date.getFullYear(), date.getMonth(), 1);
+    });
+  };
+
   const handleMonthChange = (offset: number) => {
     setCurrentMonth((prev) => new Date(prev.getFullYear(), prev.getMonth() + offset, 1));
   };
@@ -143,13 +153,13 @@ const TimeSheetViewContent = () => {
       selectedDate.getDate() + offset
     );
 
-    setCurrentMonth(new Date(nextDate.getFullYear(), nextDate.getMonth(), 1));
+    setCurrentMonthIfDifferent(nextDate);
     setSelectedDayId(getDayId(nextDate.getFullYear(), nextDate.getMonth() + 1, nextDate.getDate()));
   };
 
   const handleGoToToday = () => {
     const now = new Date();
-    setCurrentMonth(new Date(now.getFullYear(), now.getMonth(), 1));
+    setCurrentMonthIfDifferent(now);
     setSelectedDayId(getDayId(now.getFullYear(), now.getMonth() + 1, now.getDate()));
   };
 
@@ -161,7 +171,7 @@ const TimeSheetViewContent = () => {
 
     if (savedDayId !== selectedDayId) {
       const savedDate = parseDayId(savedDayId);
-      setCurrentMonth(new Date(savedDate.getFullYear(), savedDate.getMonth(), 1));
+      setCurrentMonthIfDifferent(savedDate);
       setSelectedDayId(savedDayId);
     } else {
       loadTimeSheetsByDate(true);

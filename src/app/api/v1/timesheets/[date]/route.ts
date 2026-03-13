@@ -58,7 +58,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ date
       project_name: item.project.name,
       detail: item.detail,
       task_type_name: item?.project_task_type?.name,
-      tone: 'blue',
+      tone: 'violet',
     }));
 
     return Response.json({ data: result, status: 200 });

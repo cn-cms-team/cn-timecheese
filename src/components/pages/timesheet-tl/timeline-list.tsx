@@ -113,7 +113,7 @@ const TimelineList = ({ timelineItems, isLoading = false }: TimelineListProps) =
                 <div className="flex shrink-0 items-center gap-2">
                   <button
                     aria-label={`แก้ไขกิจกรรม ${item.project_name}`}
-                    className="inline-flex items-center gap-1 rounded-full border border-slate-300 bg-white/80 px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-white sm:px-3 sm:text-sm"
+                    className="inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white/80 px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-white sm:px-3 sm:text-sm"
                     type="button"
                   >
                     <Pencil className="size-3.5 sm:size-4" />
@@ -122,7 +122,7 @@ const TimelineList = ({ timelineItems, isLoading = false }: TimelineListProps) =
 
                   <button
                     aria-label={`ลบกิจกรรม ${item.project_name}`}
-                    className="inline-flex items-center gap-1 rounded-full border border-rose-200 bg-rose-50/80 px-2.5 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:bg-rose-100 sm:px-3 sm:text-sm"
+                    className="inline-flex items-center gap-1 rounded-lg border border-rose-200 bg-rose-50/80 px-2.5 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:bg-rose-100 sm:px-3 sm:text-sm"
                     type="button"
                   >
                     <Trash2 className="size-3.5 sm:size-4" />
@@ -138,7 +138,7 @@ const TimelineList = ({ timelineItems, isLoading = false }: TimelineListProps) =
               <div className="mt-3 flex flex-wrap items-center gap-2 text-sm sm:gap-3 sm:text-xl">
                 <span
                   className={cn(
-                    'inline-flex items-center gap-1 rounded-full px-2 py-1 font-semibold sm:gap-2 sm:px-3',
+                    'inline-flex items-center gap-1 rounded-lg px-2 py-1 font-semibold sm:gap-2 sm:px-3',
                     tone.badge
                   )}
                 >
@@ -148,7 +148,7 @@ const TimelineList = ({ timelineItems, isLoading = false }: TimelineListProps) =
 
                 <span
                   className={cn(
-                    'inline-flex items-center gap-1 rounded-full px-2 py-1 sm:gap-2 sm:px-3',
+                    'inline-flex items-center gap-1 rounded-lg px-2 py-1 sm:gap-2 sm:px-3',
                     tone.badge
                   )}
                 >
