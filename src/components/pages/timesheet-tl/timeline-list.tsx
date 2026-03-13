@@ -9,6 +9,7 @@ import type { TimelineItem } from '@/types/timesheet';
 type TimelineListProps = {
   timelineItems: TimelineItem[];
   isLoading?: boolean;
+  onEditItem?: (item: TimelineItem) => void;
 };
 
 const formatTime = (value: string) => {
@@ -30,7 +31,7 @@ const formatDurationLabel = (seconds: number) => {
   return `${Number.isInteger(hours) ? hours : hours.toFixed(1)} ชม.`;
 };
 
-const TimelineList = ({ timelineItems, isLoading = false }: TimelineListProps) => {
+const TimelineList = ({ timelineItems, isLoading = false, onEditItem }: TimelineListProps) => {
   if (isLoading) {
     return (
       <>
@@ -113,7 +114,8 @@ const TimelineList = ({ timelineItems, isLoading = false }: TimelineListProps) =
                 <div className="flex shrink-0 items-center gap-2">
                   <button
                     aria-label={`แก้ไขกิจกรรม ${item.project_name}`}
-                    className="inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white/80 px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-white sm:px-3 sm:text-sm"
+                    className="cursor-pointer inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white/80 px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-white sm:px-3 sm:text-sm"
+                    onClick={() => onEditItem?.(item)}
                     type="button"
                   >
                     <Pencil className="size-3.5 sm:size-4" />
@@ -122,7 +124,7 @@ const TimelineList = ({ timelineItems, isLoading = false }: TimelineListProps) =
 
                   <button
                     aria-label={`ลบกิจกรรม ${item.project_name}`}
-                    className="inline-flex items-center gap-1 rounded-lg border border-rose-200 bg-rose-50/80 px-2.5 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:bg-rose-100 sm:px-3 sm:text-sm"
+                    className="cursor-pointer inline-flex items-center gap-1 rounded-lg border border-rose-200 bg-rose-50/80 px-2.5 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:bg-rose-100 sm:px-3 sm:text-sm"
                     type="button"
                   >
                     <Trash2 className="size-3.5 sm:size-4" />

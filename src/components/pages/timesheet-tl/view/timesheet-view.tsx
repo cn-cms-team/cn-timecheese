@@ -30,6 +30,7 @@ const TimeSheetViewContent = () => {
   const [isHoursLoading, setIsHoursLoading] = useState(false);
   const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
   const [isTimelineLoading, setIsTimelineLoading] = useState(false);
+  const [editingItem, setEditingItem] = useState<TimelineItem | null>(null);
   // const [timelineRefreshToken, setTimelineRefreshToken] = useState(0);
 
   const days = useMemo(
@@ -163,6 +164,24 @@ const TimeSheetViewContent = () => {
     setSelectedDayId(getDayId(now.getFullYear(), now.getMonth() + 1, now.getDate()));
   };
 
+  const handleAddActivityOpen = () => {
+    setEditingItem(null);
+    setIsAddActivityOpen(true);
+  };
+
+  const handleEditActivityOpen = (item: TimelineItem) => {
+    setEditingItem(item);
+    setIsAddActivityOpen(true);
+  };
+
+  const handleActivityModalOpenChange = (open: boolean) => {
+    setIsAddActivityOpen(open);
+
+    if (!open) {
+      setEditingItem(null);
+    }
+  };
+
   const handleActivitySaved = (savedHourData: Record<string, number>, savedDayId: string) => {
     setHourByDate((prev) => ({
       ...prev,
@@ -190,6 +209,7 @@ const TimeSheetViewContent = () => {
               onClick={handleGoToToday}
               size="icon"
               type="button"
+              title="Today"
             >
               <CalendarDays className="size-5" />
             </Button>
@@ -244,6 +264,7 @@ const TimeSheetViewContent = () => {
                 onClick={handleGoToToday}
                 size="icon"
                 type="button"
+                title="Today"
               >
                 <CalendarDays className="size-4.5" />
               </Button>
@@ -284,7 +305,7 @@ const TimeSheetViewContent = () => {
               <>
                 <Button
                   className="hidden rounded-2xl bg-black px-5 py-6 text-base font-semibold text-white hover:bg-black/90 sm:inline-flex"
-                  onClick={() => setIsAddActivityOpen(true)}
+                  onClick={handleAddActivityOpen}
                 >
                   <Plus className="size-5" />
                   {`เพิ่มกิจกรรม ${selectedDayLabel}`}
@@ -292,7 +313,7 @@ const TimeSheetViewContent = () => {
                 <Button
                   aria-label={`เพิ่มกิจกรรมวันที่ ${selectedDayLabel}`}
                   className="rounded-2xl bg-black text-white hover:bg-black/90 sm:hidden"
-                  onClick={() => setIsAddActivityOpen(true)}
+                  onClick={handleAddActivityOpen}
                   size="icon"
                 >
                   <Plus className="size-5" />
@@ -305,7 +326,11 @@ const TimeSheetViewContent = () => {
             <div className="absolute top-0 bottom-0 left-18.75 w-px bg-slate-200 sm:left-24" />
 
             <div className="space-y-4 pb-6">
-              <TimelineList timelineItems={timelineItems} isLoading={isTimelineLoading} />
+              <TimelineList
+                timelineItems={timelineItems}
+                isLoading={isTimelineLoading}
+                onEditItem={handleEditActivityOpen}
+              />
             </div>
           </div>
         </section>
@@ -314,7 +339,8 @@ const TimeSheetViewContent = () => {
       <AddActivityModal
         selectedDayId={selectedDayId}
         open={isAddActivityOpen}
-        onOpenChange={setIsAddActivityOpen}
+        initialItem={editingItem}
+        onOpenChange={handleActivityModalOpenChange}
         onSaved={handleActivitySaved}
       />
     </div>

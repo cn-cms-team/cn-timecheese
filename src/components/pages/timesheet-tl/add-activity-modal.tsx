@@ -34,10 +34,12 @@ import { Required } from '@/components/ui/custom/form';
 import { toast } from 'sonner';
 import { handleAddTimeSheet, handleEditTimeSheet } from './actions';
 import { getThaiDateString } from '@/lib/functions/date-format';
+import type { TimelineItem } from '@/types/timesheet';
 
 interface AddActivityModalProps {
   selectedDayId: string;
   open: boolean;
+  initialItem?: TimelineItem | null;
   onOpenChange: (open: boolean) => void;
   onSaved?: (hourData: Record<string, number>, dayId: string) => void;
 }
@@ -49,6 +51,7 @@ const DEFAULT_END_TIME_HOUR = 10;
 const AddActivityModal = ({
   selectedDayId,
   open,
+  initialItem,
   onOpenChange,
   onSaved,
 }: AddActivityModalProps) => {
@@ -112,8 +115,45 @@ const AddActivityModal = ({
     [getTaskTypeOptionsByProjectId, projectId]
   );
 
+  const isEditMode = Boolean(initialItem?.id);
+
   useEffect(() => {
     if (!open) {
+      return;
+    }
+
+    if (initialItem) {
+      const startDate = new Date(initialItem.start_date);
+      const endDate = new Date(initialItem.end_date);
+      const breakDate = new Date(parseDayId(initialItem.stamp_date));
+      const hasBreakTime = initialItem.exclude_seconds > 0;
+
+      if (hasBreakTime) {
+        breakDate.setHours(
+          Math.floor(initialItem.exclude_seconds / 3600),
+          Math.floor((initialItem.exclude_seconds % 3600) / 60),
+          0,
+          0
+        );
+      } else {
+        breakDate.setHours(0, 0, 0, 0);
+      }
+
+      form.reset({
+        id: initialItem.id,
+        project_task_type_id: initialItem.project_task_type_id,
+        project_id: initialItem.project_id,
+        is_include_breaking_time: hasBreakTime,
+        exclude: initialItem.exclude_seconds,
+        stamp_date: parseDayId(initialItem.stamp_date),
+        start_date: startDate,
+        end_date: endDate,
+        detail: initialItem.detail,
+        break_time: breakDate,
+        is_all_day:
+          startDate.getHours() === START_TIME_HOUR && endDate.getHours() === END_TIME_HOUR,
+      });
+
       return;
     }
 
@@ -132,7 +172,7 @@ const AddActivityModal = ({
       break_time: defaultBreakTime,
       is_all_day: false,
     });
-  }, [open, selectedDayId]);
+  }, [defaultBreakTime, defaultEndDate, defaultStartDate, form, initialItem, open, selectedDayId]);
 
   useEffect(() => {
     if (!projectTaskTypeId) {
@@ -249,7 +289,9 @@ const AddActivityModal = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md p-0" showCloseButton={false}>
         <DialogHeader className="px-4 pt-4 pb-0">
-          <DialogTitle className="text-xl font-bold text-slate-900">เพิ่มกิจกรรม</DialogTitle>
+          <DialogTitle className="text-xl font-bold text-slate-900">
+            {isEditMode ? 'แก้ไขกิจกรรม' : 'เพิ่มกิจกรรม'}
+          </DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -257,41 +299,6 @@ const AddActivityModal = ({
             className="space-y-4 px-4 pb-4 min-w-0"
             onSubmit={form.handleSubmit(handleSubmitAddActivity)}
           >
-            <FormField
-              control={form.control}
-              name="project_id"
-              render={({ field }) => (
-                <FormItem>
-                  <FormGroup>
-                    <FormLabel>
-                      โครงการ
-                      <Required />
-                    </FormLabel>
-                    <FormControl>
-                      <ComboboxForm
-                        disabled={isProjectOptionsLoading || isLoading}
-                        field={field}
-                        options={projectOptions}
-                        placeholder="เลือกโครงการ"
-                        value={projectId}
-                        isGroup
-                        isModal
-                        isError={Boolean(form.formState.errors.project_id)}
-                        onSelect={(value) => {
-                          field.onChange(value);
-                          form.setValue('project_task_type_id', undefined, {
-                            shouldDirty: true,
-                            shouldValidate: true,
-                          });
-                        }}
-                      />
-                    </FormControl>
-                  </FormGroup>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-2 text-lg font-semibold text-slate-900">
                 <CalendarIcon className="size-5 text-slate-600" />
@@ -406,7 +413,40 @@ const AddActivityModal = ({
                 )}
               />
             </div>
-
+            <FormField
+              control={form.control}
+              name="project_id"
+              render={({ field }) => (
+                <FormItem>
+                  <FormGroup>
+                    <FormLabel>
+                      โครงการ
+                      <Required />
+                    </FormLabel>
+                    <FormControl>
+                      <ComboboxForm
+                        disabled={isProjectOptionsLoading || isLoading}
+                        field={field}
+                        options={projectOptions}
+                        placeholder="เลือกโครงการ"
+                        value={projectId}
+                        isGroup
+                        isModal
+                        isError={Boolean(form.formState.errors.project_id)}
+                        onSelect={(value) => {
+                          field.onChange(value);
+                          form.setValue('project_task_type_id', undefined, {
+                            shouldDirty: true,
+                            shouldValidate: true,
+                          });
+                        }}
+                      />
+                    </FormControl>
+                  </FormGroup>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="project_task_type_id"
