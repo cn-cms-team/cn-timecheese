@@ -28,7 +28,7 @@ const TimeSheetViewContent = () => {
   const [isAddActivityOpen, setIsAddActivityOpen] = useState(false);
 
   const days = useMemo(
-    () => getDaysForMonth(currentMonth.getFullYear(), currentMonth.getMonth()),
+    () => getDaysForMonth(currentMonth.getFullYear(), currentMonth.getMonth(), {}),
     [currentMonth]
   );
 

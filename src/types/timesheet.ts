@@ -62,3 +62,12 @@ export type TimelineItem = {
   category: string;
   tone: TimelineCardTone;
 };
+
+export type TimeSheetsRequest = {
+  startDate: string;
+  endDate: string;
+};
+
+export type TimeSheetsResponse = {
+  hourData: Record<string, number>;
+};

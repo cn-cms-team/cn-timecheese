@@ -15,6 +15,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
 
       if (!validatedData.project_id) throw new Error('Project ID is required');
 
+      const stampDate = new Date(validatedData.stamp_date);
       const start = new Date(validatedData.start_date);
       const end = new Date(validatedData.end_date);
 
@@ -25,7 +26,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
       const overlappedTimeSheet = await prisma.timeSheet.findFirst({
         where: {
           user_id: session.user.id,
-          stamp_date: validatedData.stamp_date,
+          stamp_date: stampDate,
           start_date: {
             lt: end,
           },
@@ -42,7 +43,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
         return {
           success: false,
           code: 'DUPLICATED_CODE',
-          message: `กรุณากรอกข้อมูลใหม่ เนื่องจากช่วงเวลานี้มีอยู่ในระบบแล้ว`,
+          message: `This time range overlaps with an existing time sheet entry. Please adjust the start and end times.`,
         };
       }
 
@@ -53,7 +54,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
           user_id: session.user.id,
           project_id: validatedData.project_id,
           project_task_type_id: validatedData.project_task_type_id,
-          stamp_date: validatedData.stamp_date,
+          stamp_date: stampDate,
           start_date: start,
           end_date: end,
           detail: validatedData.detail || '',
@@ -66,7 +67,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
           user_id_project_id_sum_date: {
             user_id: session.user.id,
             project_id: validatedData.project_id,
-            sum_date: validatedData.stamp_date,
+            sum_date: stampDate,
           },
         },
         update: {
@@ -78,7 +79,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
         create: {
           user_id: session.user.id,
           project_id: validatedData.project_id,
-          sum_date: validatedData.stamp_date,
+          sum_date: stampDate,
           total_seconds: validatedData.exclude
             ? total_seconds - validatedData.exclude
             : total_seconds,
@@ -115,6 +116,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
         throw new Error('TimeSheet not found');
       }
 
+      const stampDate = new Date(validatedData.stamp_date);
       const start = new Date(validatedData.start_date);
       const end = new Date(validatedData.end_date);
       const total_seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
@@ -127,7 +129,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
         where: {
           user_id: session.user.id,
           id: { not: id },
-          stamp_date: validatedData.stamp_date,
+          stamp_date: stampDate,
           start_date: {
             lt: end,
           },
@@ -144,7 +146,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
         return {
           success: false,
           code: 'DUPLICATED_CODE',
-          message: `กรุณากรอกข้อมูลใหม่ เนื่องจากช่วงเวลานี้มีอยู่ในระบบแล้ว`,
+          message: `This time range overlaps with an existing time sheet entry. Please adjust the start and end times.`,
         };
       }
 
@@ -156,7 +158,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
           user_id: session.user.id,
           project_id: validatedData.project_id,
           project_task_type_id: validatedData.project_task_type_id,
-          stamp_date: validatedData.stamp_date,
+          stamp_date: stampDate,
           start_date: start,
           end_date: end,
           detail: validatedData.detail || '',
@@ -188,7 +190,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
           user_id_project_id_sum_date: {
             user_id: session.user.id,
             project_id: validatedData.project_id,
-            sum_date: validatedData.stamp_date,
+            sum_date: stampDate,
           },
         },
         data: {
