@@ -12,7 +12,6 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
   return ExecuteAction({
     actionFn: async () => {
       const validatedData = timeSheetCreateEditSchema.parse(formData);
-      console.log('Validated data:', validatedData);
 
       if (!validatedData.project_id) throw new Error('Project ID is required');
       if (!validatedData.stamp_date_string) throw new Error('Stamp date is required');
