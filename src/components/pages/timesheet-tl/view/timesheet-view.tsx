@@ -272,7 +272,7 @@ const TimeSheetViewContent = () => {
           <div className="border-b border-slate-200 px-4 py-4 sm:px-6 sm:py-6">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-4xl leading-tight font-extrabold text-slate-950 sm:text-5xl">
+                <h2 className="text-3xl leading-tight font-extrabold text-slate-950 sm:text-4xl">
                   Activities
                 </h2>
                 <div className="mt-2 flex items-center gap-2 text-sm text-slate-500 sm:text-base">

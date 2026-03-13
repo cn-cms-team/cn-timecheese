@@ -106,7 +106,7 @@ const TimelineList = ({ timelineItems, isLoading = false }: TimelineListProps) =
 
             <article className={cn('rounded-3xl border p-4 sm:p-6', tone.panel)}>
               <div className="flex items-start justify-between gap-3">
-                <h3 className={cn('text-xl font-bold wrap-break-word sm:text-3xl', tone.text)}>
+                <h3 className={cn('text-xl font-bold wrap-break-word sm:text-2xl', tone.text)}>
                   {item.project_name}
                 </h3>
 
@@ -135,7 +135,7 @@ const TimelineList = ({ timelineItems, isLoading = false }: TimelineListProps) =
                 {item.detail}
               </p>
 
-              <div className="mt-3 flex flex-wrap items-center gap-2 text-sm sm:gap-3 sm:text-xl">
+              <div className="mt-3 flex flex-wrap items-center gap-2 text-sm sm:gap-3 sm:text-base">
                 <span
                   className={cn(
                     'inline-flex items-center gap-1 rounded-lg px-2 py-1 font-semibold sm:gap-2 sm:px-3',

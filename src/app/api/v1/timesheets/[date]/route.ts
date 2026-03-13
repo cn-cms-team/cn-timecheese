@@ -46,7 +46,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ date
       orderBy: { start_date: 'asc' },
     });
 
-    const result = timeSheet.map((item) => ({
+    const result = timeSheet.map((item, index) => ({
       id: item.id,
       stamp_date: item.stamp_date.toISOString().split('T')[0],
       start_date: item.start_date,
@@ -58,7 +58,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ date
       project_name: item.project.name,
       detail: item.detail,
       task_type_name: item?.project_task_type?.name,
-      tone: 'violet',
+      tone: ['blue', 'green', 'slate', 'violet', 'yellow'][index % 5],
     }));
 
     return Response.json({ data: result, status: 200 });
