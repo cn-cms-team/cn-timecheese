@@ -12,15 +12,12 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
   return ExecuteAction({
     actionFn: async () => {
       const validatedData = timeSheetCreateEditSchema.parse(formData);
+      console.log('Validated data:', validatedData);
 
       if (!validatedData.project_id) throw new Error('Project ID is required');
+      if (!validatedData.stamp_date_string) throw new Error('Stamp date is required');
 
-      console.log('validatedData.stamp_date)', validatedData.stamp_date);
-      console.log('validatedData.start_date)', validatedData.start_date);
-      console.log('new Date(validatedData.stamp_date)', new Date(validatedData.stamp_date));
-      console.log('new Date(validatedData.start_date)', new Date(validatedData.start_date));
-
-      const stampDate = new Date(validatedData.stamp_date);
+      const stampDate = new Date(validatedData.stamp_date_string);
       const start = new Date(validatedData.start_date);
       const end = new Date(validatedData.end_date);
 
@@ -108,6 +105,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
       const validatedData = timeSheetCreateEditSchema.parse(formData);
 
       if (!validatedData.project_id) throw new Error('Project ID is required');
+      if (!validatedData.stamp_date_string) throw new Error('Stamp date is required');
 
       const ts = await prisma.timeSheet.findUnique({
         where: { id },
@@ -121,7 +119,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
         throw new Error('TimeSheet not found');
       }
 
-      const stampDate = new Date(validatedData.stamp_date);
+      const stampDate = new Date(validatedData.stamp_date_string);
       const start = new Date(validatedData.start_date);
       const end = new Date(validatedData.end_date);
       const total_seconds = Math.floor((end.getTime() - start.getTime()) / 1000);

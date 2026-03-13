@@ -33,6 +33,7 @@ import { useTimeSheetMasterContext } from './view/timesheet-master-context';
 import { Required } from '@/components/ui/custom/form';
 import { toast } from 'sonner';
 import { handleAddTimeSheet, handleEditTimeSheet } from './actions';
+import { getThaiDateString } from '@/lib/functions/date-format';
 
 interface AddActivityModalProps {
   selectedDayId: string;
@@ -178,20 +179,24 @@ const AddActivityModal = ({ selectedDayId, open, onOpenChange }: AddActivityModa
     try {
       setIsLoading(true);
 
-      console.log('Submitting form with values:', values);
       values.exclude = values.is_include_breaking_time
         ? breakTime.getHours() * 3600 + breakTime.getMinutes() * 60
         : 0;
+      values.stamp_date_string = getThaiDateString(values.stamp_date);
 
       const result = id ? await handleEditTimeSheet(id, values) : await handleAddTimeSheet(values);
-      if (result?.success && result?.message) {
-        toast(result.message);
+      if (result?.message) {
+        if (result.success) {
+          toast.success(result.message);
+        } else {
+          toast.error(result.message);
+        }
       }
       if (result?.success) {
         onOpenChange(false);
       } else {
         if (result.code === 'DUPLICATED_CODE') {
-          toast(result.message);
+          toast.warning(result.message);
         }
       }
     } catch (error) {
