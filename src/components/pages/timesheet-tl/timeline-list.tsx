@@ -33,6 +33,19 @@ const formatDurationLabel = (seconds: number) => {
   return `${Number.isInteger(hours) ? hours : hours.toFixed(1)} ชม.`;
 };
 
+const formatBreakDurationLabel = (seconds: number) => {
+  if (seconds <= 0) {
+    return '0 นาที';
+  }
+
+  if (seconds < 3600) {
+    return `${Math.round(seconds / 60)} นาที`;
+  }
+
+  const hours = seconds / 3600;
+  return `${Number.isInteger(hours) ? hours : hours.toFixed(1)} ชม.`;
+};
+
 const TimelineList = ({
   timelineItems,
   isLoading = false,
@@ -167,6 +180,15 @@ const TimelineList = ({
                 >
                   <Clock3 className="size-3 sm:size-4" />
                   {startTime} - {endTime}
+                </span>
+
+                <span
+                  className={cn(
+                    'inline-flex items-center gap-1 rounded-lg px-2 py-1 sm:gap-2 sm:px-3',
+                    tone.badge
+                  )}
+                >
+                  เวลาพักรวม {formatBreakDurationLabel(item.exclude_seconds)}
                 </span>
               </div>
             </article>
