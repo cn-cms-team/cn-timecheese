@@ -110,6 +110,19 @@ const AddActivityModal = ({
   const includeBreakTime = form.watch('is_include_breaking_time');
   const breakTime = form.watch('break_time') || defaultBreakTime;
 
+  useEffect(() => {
+    const excludeSeconds = includeBreakTime
+      ? breakTime.getHours() * 3600 + breakTime.getMinutes() * 60
+      : 0;
+
+    if (form.getValues('exclude') !== excludeSeconds) {
+      form.setValue('exclude', excludeSeconds, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    }
+  }, [breakTime, form, includeBreakTime]);
+
   const taskTypeOptions = useMemo(
     () => getTaskTypeOptionsByProjectId(projectId),
     [getTaskTypeOptionsByProjectId, projectId]
@@ -506,7 +519,9 @@ const AddActivityModal = ({
                 </FormItem>
               )}
             />
-
+            {form.formState.errors.exclude && (
+              <div className="text-red-500 text-sm">{form.formState.errors.exclude.message}</div>
+            )}
             <DialogFooter className="grid grid-cols-2 gap-3 sm:grid-cols-2">
               <Button
                 variant={'outline'}

@@ -83,7 +83,7 @@ const schema = z
       if (finalSeconds <= 0) {
         ctx.addIssue({
           path: ['exclude'],
-          message: 'รวมเวลาทำงานทั้งหมดห้ามติดลบ',
+          message: 'เวลารวมกิจกรรมต้องมากกว่าหรือเท่ากับ 1 นาที',
           code: 'custom',
         });
       }
