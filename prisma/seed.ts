@@ -20,7 +20,8 @@ const prisma = new PrismaClient({
 });
 
 export async function main() {
-  const ADMIN_ID = '018f1e50-8b2a-7c3d-9f1a-6e2b7d4c9a10';
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL!;
+  const ADMIN_ID = process.env.ADMIN_ID!;
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
   const hashedPassword = await bcrypt.hash(ADMIN_PASSWORD, 10);
 
@@ -28,6 +29,7 @@ export async function main() {
     data: userData.map((user) => ({
       ...user,
       id: user.id === 'ADMIN_ID' ? ADMIN_ID : user.id,
+      email: user.id === 'ADMIN_ID' ? ADMIN_EMAIL : user?.email,
       created_by: ADMIN_ID,
       password: hashedPassword,
     })),

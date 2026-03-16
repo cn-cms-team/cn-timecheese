@@ -9,8 +9,9 @@ import { buddhistFormatDate } from '@/lib/functions/date-format';
 import TimeSheetForm from '../timesheet-form';
 import TimeSheetPopover from '../timesheet-popover';
 import TimeSheetEventCard from '../timesheet-event-card';
-import TimeSheetdataDetail from '../timesheet-task-detail';
+import TimeSheetDataDetail from '../timesheet-task-detail';
 import { useTimeSheetContext } from '../view/timesheet-context';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface IProps {
   weekDays: Date[];
@@ -44,9 +45,11 @@ const TimeSheetWeekCalendarBody = ({ weekDays, loading = false }: IProps) => {
       dateToCompare.getFullYear() !== year
     );
   };
+  const isMobile = useIsMobile();
+
   return (
-    <div className="flex min-h-[600px] relative">
-      <div className="w-[55px] shrink-0 bg-transparent border-r border-neutral-300 text-xs text-neutral-500 font-mono text-center sticky left-0 z-50">
+    <div className="flex min-h-150 relative">
+      <div className="w-13.75 shrink-0 bg-transparent border-r border-neutral-300 text-xs text-neutral-500 font-mono text-center sticky left-0 z-50">
         {loading
           ? Array.from({ length: 24 }).map((_, index) => (
               <div
@@ -69,7 +72,7 @@ const TimeSheetWeekCalendarBody = ({ weekDays, loading = false }: IProps) => {
           <div
             key={index}
             className={cn(
-              'flex-1 border-l border-neutral-300 relative min-w-[100px]',
+              'flex-1 border-l border-neutral-300 relative min-w-25',
               index === 0 ? 'border-0' : '',
               isSaturday && 'border-r border-neutral-300'
             )}
@@ -160,7 +163,7 @@ const TimeSheetWeekCalendarBody = ({ weekDays, loading = false }: IProps) => {
                 <TimeSheetPopover
                   key={task.id}
                   align="center"
-                  side="right"
+                  side={isMobile ? 'bottom' : 'right'}
                   className={`w-full p-0`}
                   setIsEdit={setIsPopoverEdit}
                   contentProps={{
@@ -194,7 +197,7 @@ const TimeSheetWeekCalendarBody = ({ weekDays, loading = false }: IProps) => {
                         }}
                       />
                     ) : (
-                      <TimeSheetdataDetail
+                      <TimeSheetDataDetail
                         data={task}
                         setIsPopoverEdit={setIsPopoverEdit}
                         close={close}

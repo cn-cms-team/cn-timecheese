@@ -2,7 +2,7 @@
 
 import { buddhistFormatDate } from '@/lib/functions/date-format';
 import { ITimeSheetResponse } from '@/types/timesheet';
-import { Pencil, Trash2, X } from 'lucide-react';
+import { CircleUserRound, Pencil, TextAlignStart, Timer, Trash2, X } from 'lucide-react';
 import { useTimeSheetContext } from './view/timesheet-context';
 import useDialogConfirm from '@/hooks/use-dialog-confirm';
 import TimeSheetPopover from './timesheet-popover';
@@ -13,7 +13,7 @@ interface IProps {
   setIsPopoverEdit: (value: boolean) => void;
 }
 
-const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
+const TimeSheetDataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
   const { deleteTask } = useTimeSheetContext();
   const [getConfirmation, Confirmation] = useDialogConfirm();
 
@@ -30,30 +30,28 @@ const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
   };
 
   return (
-    <div className="grid grid-cols-1 p-4 max-w-[320px] overflow-hidden">
-      <header className="flex items-center justify-between w-full gap-2">
-        <div>
-          <TimeSheetPopover
-            triggerContent={
-              <h3 className="font-bold max-w-52 line-clamp-2 cursor-pointer">
-                {data.project_name}
-              </h3>
-            }
-            popoverContent={() => <>{data.project_name}</>}
-          />
+    <div className="grid grid-cols-1 p-4 max-w-100 overflow-hidden">
+      <header className="flex items-center justify-between w-full gap-2 mb-3">
+        <div className="text-xs text-gray-700">
+          {new Date(data.stamp_date).toLocaleDateString('th-TH', {
+            weekday: 'short',
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          })}
         </div>
         <div className="flex items-center gap-2">
           <button
             className="bg-transparent border-transparent hover:bg-transparent cursor-pointer pe-0 focus:border-none"
             onClick={() => setIsPopoverEdit(true)}
           >
-            <Pencil stroke="#000" strokeWidth={2} width={16} />
+            <Pencil className=" text-gray-400" strokeWidth={2} width={16} />
           </button>
           <button
             className="bg-transparent border-transparent hover:bg-transparent cursor-pointer pe-0 focus:border-none"
             onClick={() => onDeleteTask(data)}
           >
-            <Trash2 stroke="#ff0000" strokeWidth={2} width={16} />
+            <Trash2 className=" text-gray-400" strokeWidth={2} width={16} />
           </button>
           <button
             className="bg-transparent border-transparent hover:bg-transparent cursor-pointer p-0 focus:border-none"
@@ -62,22 +60,32 @@ const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
               setIsPopoverEdit(false);
             }}
           >
-            <X stroke="#000" strokeWidth={2} width={16} />
+            <X className=" text-gray-400" strokeWidth={2} width={16} />
           </button>
         </div>
       </header>
-      <main className="grid grid-cols-1">
-        <p>{data.task_type_name}</p>
-        <div className="text-sm">
-          <span>{buddhistFormatDate(data.start_date, 'HH:ii น.')}</span>
-          {' - '}
-          <span>{buddhistFormatDate(data.end_date, 'HH:ii น.')}</span>
+      <main className="grid grid-cols-1 gap-2 w-full">
+        <div>
+          <TimeSheetPopover
+            triggerContent={
+              <h3 className="font-semibold line-clamp-2 cursor-pointer border-b border-gray-100 pb-1">
+                {data.project_name}
+              </h3>
+            }
+            popoverContent={() => <>{data.project_name}</>}
+          />
         </div>
-        <div className="text-sm">
-          <span className="font-semibold">รายละเอียดการทำงาน</span>
-          <p className="text-sm text-neutral-800 whitespace-pre-wrap text-wrap w-full ps-1">
-            {data.detail || '-'}
-          </p>
+        <div className="grid grid-cols-[16px_1fr] gap-2 text-xs">
+          <Timer width={16} height={16} className="text-gray-400" />
+          <p className="text-neutral-700">{`${buddhistFormatDate(data.start_date, 'HH:ii น.')} - ${buddhistFormatDate(data.end_date, 'HH:ii น.')}`}</p>
+        </div>
+        <div className="grid grid-cols-[16px_1fr] gap-2 text-xs">
+          <CircleUserRound width={16} height={16} className="text-gray-400" />
+          <p className="text-neutral-700">{data.task_type_name}</p>
+        </div>
+        <div className="grid grid-cols-[16px_1fr] gap-2 text-xs">
+          <TextAlignStart width={16} height={16} className="text-gray-400" />
+          <p className="text-neutral-700">{data.detail}</p>
         </div>
       </main>
       <Confirmation />
@@ -85,4 +93,4 @@ const TimeSheetdataDetail = ({ data, close, setIsPopoverEdit }: IProps) => {
   );
 };
 
-export default TimeSheetdataDetail;
+export default TimeSheetDataDetail;

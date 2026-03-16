@@ -93,7 +93,6 @@ export const createColumns = ({
               {canDelete && (
                 <ButtonDelete
                   onOpenDialog={(id, data) => {
-                    console.log('DELETE CLICKED', { id, data });
                     onOpenDialog('delete', id, data);
                   }}
                   id={id}

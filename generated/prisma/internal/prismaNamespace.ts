@@ -1786,6 +1786,7 @@ export const ProjectScalarFieldEnum = {
   id: 'id',
   name: 'name',
   code: 'code',
+  pre_sale_code: 'pre_sale_code',
   description: 'description',
   value: 'value',
   people_cost_percent: 'people_cost_percent',
@@ -1794,6 +1795,8 @@ export const ProjectScalarFieldEnum = {
   end_date: 'end_date',
   status: 'status',
   is_company_project: 'is_company_project',
+  maintenance_start_date: 'maintenance_start_date',
+  maintenance_end_date: 'maintenance_end_date',
   created_at: 'created_at',
   created_by: 'created_by',
   updated_at: 'updated_at',
@@ -1851,11 +1854,10 @@ export type TimeSheetScalarFieldEnum = (typeof TimeSheetScalarFieldEnum)[keyof t
 export const TimeSheetSummaryScalarFieldEnum = {
   user_id: 'user_id',
   project_id: 'project_id',
-  year: 'year',
-  month: 'month',
+  sum_date: 'sum_date',
   total_seconds: 'total_seconds',
   stamp_at: 'stamp_at',
-  updated_at: 'updated_at'
+  created_at: 'created_at'
 } as const
 
 export type TimeSheetSummaryScalarFieldEnum = (typeof TimeSheetSummaryScalarFieldEnum)[keyof typeof TimeSheetSummaryScalarFieldEnum]

@@ -17,7 +17,7 @@ const buttonVariants = cva(
         ghost:
           'hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground',
         destructive:
-          'text-primary-foreground bg-destructive/80 hover:bg-destructive/60 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/20 focus-visible:border-destructive/40 dark:hover:bg-destructive/30',
+          'text-destructive-foreground bg-destructive/80 hover:bg-destructive/60 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/20 focus-visible:border-destructive/40 dark:hover:bg-destructive/30',
         link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
@@ -46,6 +46,7 @@ function Button({
   variant = 'default',
   size = 'default',
   asChild = false,
+  type = 'button',
   ...props
 }: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
@@ -59,6 +60,7 @@ function Button({
       data-variant={variant}
       data-size={size}
       className={cn(buttonVariants({ variant, size, className }), 'cursor-pointer px-4')}
+      type={type}
       {...props}
     />
   );

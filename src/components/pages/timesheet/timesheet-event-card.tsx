@@ -13,7 +13,7 @@ const TimeSheetEventCard = ({ data }: IProps) => {
   return (
     <div className="w-full h-full border px-3 py-2 rounded-lg bg-primary shadow-lg cursor-pointer overflow-hidden flex justify-between flex-col ">
       <header>
-        <span className="truncate font-bold text-base">{data.task_type_name}</span>
+        <div className="truncate font-bold text-base">{data.task_type_name}</div>
         <div className="text-xs font-semibold truncate">
           {buddhistFormatDate(data.start_date, 'HH:ii')} -{' '}
           {buddhistFormatDate(data.end_date, 'HH:ii')}

@@ -21,34 +21,10 @@ export interface ProjectMemberTableProps {
 }
 
 const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberTableProps) => {
-  const startDate = useWatch({
-    control: form.control,
-    name: `member.${index}.start_date`,
-  });
-
-  const endDate = useWatch({
-    control: form.control,
-    name: `member.${index}.end_date`,
-  });
-
-  const costPerDay = useWatch({
-    control: form.control,
-    name: `member.${index}.day_price`,
-  });
-
   const isUsing = useWatch({
     control: form.control,
     name: `member.${index}.is_using`,
   });
-
-  useEffect(() => {
-    const totalDays =
-      startDate && endDate ? calcTotalDays(startDate.toString(), endDate.toString()) : 0;
-    const estimatedCost = totalDays && costPerDay ? totalDays * costPerDay : 0;
-
-    form.setValue(`member.${index}.work_day`, totalDays ?? 0);
-    form.setValue(`member.${index}.estimated_cost`, estimatedCost);
-  }, [startDate, endDate, costPerDay, index, form]);
 
   return (
     <TableRow key={index}>
@@ -94,34 +70,13 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
       <TableCell>
         <FormField
           control={form.control}
-          name={`member.${index}.day_price`}
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  type="number"
-                  maxLength={MAX_LENGTH_20}
-                  min={0}
-                  value={field.value}
-                  onChange={(e) =>
-                    field.onChange(e.target.value === '' ? undefined : e.target.valueAsNumber)
-                  }
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-      </TableCell>
-      <TableCell>
-        <FormField
-          control={form.control}
           name={`member.${index}.start_date`}
           render={({ field }) => (
             <FormItem>
               <FormControl>
                 <DatePickerInput
                   {...field}
-                  value={field.value}
+                  value={field.value ? new Date(field.value) : undefined}
                   placeholder="วันที่เริ่มต้น"
                   onChange={field.onChange}
                 />
@@ -148,22 +103,9 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
           )}
         />
       </TableCell>
-      <TableCell className="text-center">
-        <FormField
-          control={form.control}
-          name={`member.${index}.work_day`}
-          render={({ field }) => <div>{field.value ? field.value.toLocaleString() : 0}</div>}
-        />
-      </TableCell>
-      <TableCell className="text-center">
-        <FormField
-          control={form.control}
-          name={`member.${index}.estimated_cost`}
-          render={({ field }) => <div>{field.value ? field.value.toLocaleString() : 0}</div>}
-        />
-      </TableCell>
       <TableCell>
         <Button
+          type="button"
           variant={'ghost'}
           disabled={isUsing}
           onClick={() => {

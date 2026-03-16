@@ -417,3 +417,37 @@ export const formatHours = (seconds: number) => {
 
   return duration;
 };
+
+export const getThaiDateString = (date: Date): string => {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Bangkok',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date);
+};
+
+export const parseDate = (value: string): Date | null => {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+};
+
+export const toUtcDayBounds = (startDate: Date, endDate: Date) => {
+  const start = new Date(
+    Date.UTC(
+      startDate.getUTCFullYear(),
+      startDate.getUTCMonth(),
+      startDate.getUTCDate(),
+      0,
+      0,
+      0,
+      0
+    )
+  );
+
+  const end = new Date(
+    Date.UTC(endDate.getUTCFullYear(), endDate.getUTCMonth(), endDate.getUTCDate(), 23, 59, 59, 999)
+  );
+
+  return { start, end };
+};

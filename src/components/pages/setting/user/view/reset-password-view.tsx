@@ -46,7 +46,7 @@ const ResetPasswordView = ({ id }: { id?: string }) => {
         const userData = await fetcher<IUser>(fetchUrl);
         if (userData) setUser(userData);
       } catch (error) {
-        console.log(error);
+        console.log(error instanceof Error ? error.message : 'Unknown error');
       }
     };
     getUserDetail();

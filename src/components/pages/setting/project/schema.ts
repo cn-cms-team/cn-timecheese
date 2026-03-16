@@ -1,4 +1,3 @@
-import { is } from 'date-fns/locale';
 import z from 'zod';
 
 const memberDetailSchema = z.object({
@@ -6,7 +5,7 @@ const memberDetailSchema = z.object({
   user_id: z.string(),
   role: z.string().nonempty('กรุณากรอกตำแหน่ง'),
   day_price: z.number().optional(),
-  start_date: z.date('กรุณากรอกวันที่เริ่มต้น').optional(),
+  start_date: z.date().nullable().optional(),
   end_date: z.date().nullable().optional(),
   work_day: z.number().optional(),
   work_hours: z.number().optional(),
@@ -26,14 +25,14 @@ const taskTypeSchema = z.object({
 const baseSchema = {
   is_company_project: z.boolean(),
   code: z.string().nonempty('กรุณากรอกรหัสโครงการ'),
+  pre_sale_code: z.string().nonempty('กรุณากรอกรหัส Pre-Sale'),
   name: z.string().nonempty('กรุณากรอกชื่อโครงการ'),
   start_date: z.date('กรุณากรอกวันที่เริ่มต้น'),
   end_date: z.date().nullable().optional(),
+  maintenance_start_date: z.date().nullable().optional(),
+  maintenance_end_date: z.date().nullable().optional(),
   status: z.string().nonempty('กรุณากรอกสถานะโครงการ'),
   description: z.string().nullable().optional(),
-  value: z.number('กรุณากรอกมูลค่าโครงการ'),
-  people_cost: z.number().nullable().optional(),
-  people_cost_percent: z.number().nullable().optional(),
   member: z.array(memberDetailSchema),
   main_task_type: z.array(taskTypeSchema),
   optional_task_type: z.array(taskTypeSchema),

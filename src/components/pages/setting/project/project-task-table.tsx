@@ -16,6 +16,7 @@ import { Trash2 } from 'lucide-react';
 import { MAX_LENGTH_100, MAX_LENGTH_255 } from '@/lib/constants/validation';
 import { IOptions } from '@/types/dropdown';
 import { TaskOptions } from '@/types/setting/project';
+import { getPascalCase } from '@/lib/functions/string-format';
 
 export type TaskArrayName = 'main_task_type' | 'optional_task_type';
 
@@ -78,7 +79,9 @@ const ProjectTaskTable = ({
                                 render={({ field }) => (
                                   <FormItem>
                                     {name === 'main_task_type' ? (
-                                      <FormLabel className="truncate">{item.type}</FormLabel>
+                                      <FormLabel className="truncate">
+                                        {getPascalCase(item.type)}
+                                      </FormLabel>
                                     ) : (
                                       <FormControl>
                                         <ComboboxForm

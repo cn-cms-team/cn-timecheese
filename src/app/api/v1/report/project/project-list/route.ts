@@ -38,17 +38,17 @@ export async function GET() {
       label: item.project.name,
       value: String(item.project_id),
     }));
-    const optinoGroup = [
+    const optionGroup = [
       {
-        label: 'COMPANY',
+        label: 'Internal',
         options: companyOptions,
       },
       {
-        label: 'PROJECT',
+        label: 'Projects',
         options: projectOptions,
       },
     ];
-    return Response.json({ data: optinoGroup, status: 200 });
+    return Response.json({ data: optionGroup, status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },

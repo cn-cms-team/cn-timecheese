@@ -119,14 +119,11 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
   return (
     <div className="cev-box">
       <TitleGroup title="ข้อมูลหมวดหมู่งาน" />
-      <div className="flex flex-col space-y-5 px-8 mb-5">
-        <LabelGroup label="ชื่อ" className="w-full sm:w-1/2" value={taskItem?.name} />
-
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <LabelGroup label="ชื่อ" value={taskItem?.name} />
         <LabelGroup label="คำอธิบาย" value={taskItem?.description || '-'} />
       </div>
-      <h2 className="font-medium text-lg mb-0">ข้อมูลประเภทงาน</h2>
-      <hr className="mt-2 mb-5" />
-
+      <TitleGroup title="ข้อมูลประเภทงาน" className="mt-5" />
       <TaskTypeCreateTable
         data={taskItem?.task_type as ITaskType[]}
         onOpenDialog={handleOpenDialog}

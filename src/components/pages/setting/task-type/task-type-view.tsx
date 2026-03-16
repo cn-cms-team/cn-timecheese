@@ -45,11 +45,9 @@ const TaskTypeViewDetail = ({ id }: { id: string }): React.ReactNode => {
   return (
     <div className="cev-box">
       <TitleGroup title="ข้อมูลหมวดหมู่งาน" />
-      <div className="flex flex-wrap space-y-5">
-        <div className="flex w-full">
-          <LabelGroup label="ชื่อ" className="w-full sm:w-1/2" value={taskTypeData?.name} />
-          <LabelGroup label="ประเภท" className="w-full sm:w-1/2" value={taskTypeData?.id} />
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <LabelGroup label="ชื่อ" value={taskTypeData?.name} />
+        <LabelGroup label="ประเภท" value={taskTypeData?.id} />
         <LabelGroup label="คำอธิบาย" value={taskTypeData?.description} />
       </div>
       <TitleGroup title="ข้อมูลประเภทงาน" className="mt-5" />
