@@ -182,14 +182,16 @@ const TimelineList = ({
                   {startTime} - {endTime}
                 </span>
 
-                <span
-                  className={cn(
-                    'inline-flex items-center gap-1 rounded-lg px-2 py-1 sm:gap-2 sm:px-3',
-                    tone.badge
-                  )}
-                >
-                  เวลาพักรวม {formatBreakDurationLabel(item.exclude_seconds)}
-                </span>
+                {item.exclude_seconds > 0 ? (
+                  <span
+                    className={cn(
+                      'inline-flex items-center gap-1 rounded-lg px-2 py-1 sm:gap-2 sm:px-3',
+                      tone.badge
+                    )}
+                  >
+                    เวลาพักรวม {formatBreakDurationLabel(item.exclude_seconds)}
+                  </span>
+                ) : null}
               </div>
             </article>
           </div>
