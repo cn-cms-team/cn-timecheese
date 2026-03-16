@@ -63,6 +63,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
           total_seconds,
         },
       });
+      const totalSeconds = total_seconds - (validatedData.exclude ?? 0);
       await prisma.timeSheetSummary.upsert({
         where: {
           user_id_project_id_sum_date: {
@@ -73,7 +74,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
         },
         update: {
           total_seconds: {
-            increment: total_seconds,
+            increment: totalSeconds,
           },
           stamp_at: new Date(),
         },
@@ -81,9 +82,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
           user_id: session.user.id,
           project_id: validatedData.project_id,
           sum_date: stampDate,
-          total_seconds: validatedData.exclude
-            ? total_seconds - validatedData.exclude
-            : total_seconds,
+          total_seconds: totalSeconds,
           stamp_at: new Date(),
         },
       });
@@ -128,6 +127,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
         select: {
           id: true,
           total_seconds: true,
+          exclude_seconds: true,
         },
       });
 
@@ -187,8 +187,8 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
       });
 
       let isIncrement: boolean | null = null;
-      const currentTotalSecond = total_seconds;
-      const oldTotalSecond = ts.total_seconds;
+      const currentTotalSecond = total_seconds - (validatedData.exclude ?? 0);
+      const oldTotalSecond = ts.total_seconds - (ts.exclude_seconds ?? 0);
 
       switch (true) {
         case oldTotalSecond > currentTotalSecond:
@@ -204,7 +204,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
 
       const diffSeconds = Math.abs(currentTotalSecond - oldTotalSecond);
 
-      await prisma.timeSheetSummary.update({
+      await prisma.timeSheetSummary.upsert({
         where: {
           user_id_project_id_sum_date: {
             user_id: session.user.id,
@@ -212,7 +212,14 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
             sum_date: stampDate,
           },
         },
-        data: {
+        create: {
+          user_id: session.user.id,
+          project_id: validatedData.project_id,
+          sum_date: stampDate,
+          total_seconds: currentTotalSecond,
+          stamp_at: new Date(),
+        },
+        update: {
           ...(diffSeconds !== 0 && {
             total_seconds: isIncrement ? { increment: diffSeconds } : { decrement: diffSeconds },
           }),
@@ -257,6 +264,7 @@ export async function handleDeleteTimeSheet(id: string) {
           project_id: true,
           stamp_date: true,
           total_seconds: true,
+          exclude_seconds: true,
         },
       });
       if (!ts) {
@@ -277,7 +285,10 @@ export async function handleDeleteTimeSheet(id: string) {
             sum_date: ts.stamp_date,
           },
         },
-        data: { total_seconds: { decrement: ts.total_seconds }, stamp_at: new Date() },
+        data: {
+          total_seconds: { decrement: ts.total_seconds - (ts.exclude_seconds || 0) },
+          stamp_at: new Date(),
+        },
       });
 
       const tsSummary = await prisma.timeSheetSummary.findMany({

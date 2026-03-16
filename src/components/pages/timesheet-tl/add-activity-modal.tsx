@@ -136,7 +136,7 @@ const AddActivityModal = ({
           0
         );
       } else {
-        breakDate.setHours(0, 0, 0, 0);
+        breakDate.setHours(1, 0, 0, 0);
       }
 
       form.reset({
