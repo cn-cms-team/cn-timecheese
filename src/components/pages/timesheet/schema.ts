@@ -7,7 +7,7 @@ const schema = z
       .string()
       .optional()
       .refine((val) => !!val && val !== 'none', {
-        message: 'กรุณาเลือกโปรเจค',
+        message: 'กรุณาเลือกโครงการ',
       }),
     project_task_type_id: z
       .string()
@@ -21,6 +21,14 @@ const schema = z
     start_date: z.date('กรุณาเลือกกรอกเริ่มต้น'),
     end_date: z.date('กรุณากรอกวันที่สิ้นสุด'),
     detail: z.string().nonempty('กรุณากรอกรายละเอียดการทำงาน'),
+    break_time: z.date().optional(),
+    is_all_day: z.boolean().optional(),
+    stamp_date_string: z
+      .string()
+      .refine((val) => /^\d{4}-\d{2}-\d{2}$/.test(val), {
+        message: 'Invalid date format, expected YYYY-MM-DD',
+      })
+      .optional(),
   })
   .superRefine(({ is_include_breaking_time, exclude }, ctx) => {
     if (is_include_breaking_time) {
@@ -75,7 +83,7 @@ const schema = z
       if (finalSeconds <= 0) {
         ctx.addIssue({
           path: ['exclude'],
-          message: 'รวมเวลาทำงานทั้งหมดห้ามติดลบ',
+          message: 'เวลารวมกิจกรรมต้องมากกว่าหรือเท่ากับ 1 นาที',
           code: 'custom',
         });
       }
@@ -84,4 +92,4 @@ const schema = z
 
 type Schema = z.infer<typeof schema>;
 
-export { schema as timesheetCreateEditSchema, type Schema as TimesheetCreateEditSchema };
+export { schema as timeSheetCreateEditSchema, type Schema as TimeSheetCreateEditSchema };

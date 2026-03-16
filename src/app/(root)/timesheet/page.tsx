@@ -1,9 +1,9 @@
-import { TimeSheetView } from '@/components/pages/timesheet-tl/view';
+import { TimeSheetView } from '@/components/pages/timesheet/view';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Time Sheet - CN Time Cheese',
-  description: 'CN Timesheet',
+  description: 'CN TimeSheet',
 };
 
 const TimeSheetPage = () => {
