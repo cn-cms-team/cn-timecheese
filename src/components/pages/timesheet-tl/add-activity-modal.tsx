@@ -40,6 +40,7 @@ interface AddActivityModalProps {
   selectedDayId: string;
   open: boolean;
   initialItem?: TimelineItem | null;
+  latestActivityEndDate?: Date | null;
   onOpenChange: (open: boolean) => void;
   onSaved?: (hourData: Record<string, number>, dayId: string) => void;
 }
@@ -52,6 +53,7 @@ const AddActivityModal = ({
   selectedDayId,
   open,
   initialItem,
+  latestActivityEndDate,
   onOpenChange,
   onSaved,
 }: AddActivityModalProps) => {
@@ -62,16 +64,33 @@ const AddActivityModal = ({
   const defaultStartDate = useMemo(() => {
     const selectedDate = parseDayId(selectedDayId);
     const start = new Date(selectedDate);
+
+    if (latestActivityEndDate) {
+      start.setHours(
+        latestActivityEndDate.getHours(),
+        latestActivityEndDate.getMinutes(),
+        latestActivityEndDate.getSeconds(),
+        latestActivityEndDate.getMilliseconds()
+      );
+
+      return start;
+    }
+
     start.setHours(START_TIME_HOUR, 0, 0, 0);
     return start;
-  }, [selectedDayId]);
+  }, [latestActivityEndDate, selectedDayId]);
 
   const defaultEndDate = useMemo(() => {
-    const selectedDate = parseDayId(selectedDayId);
-    const end = new Date(selectedDate);
+    const end = new Date(defaultStartDate);
+
+    if (latestActivityEndDate) {
+      end.setHours(end.getHours() + 1);
+      return end;
+    }
+
     end.setHours(DEFAULT_END_TIME_HOUR, 0, 0, 0);
     return end;
-  }, [selectedDayId]);
+  }, [defaultStartDate, latestActivityEndDate]);
 
   const defaultBreakTime = useMemo(() => {
     const selectedDate = parseDayId(selectedDayId);

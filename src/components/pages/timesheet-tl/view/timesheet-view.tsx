@@ -130,6 +130,22 @@ const TimeSheetViewContent = () => {
     });
   }, [selectedDayId]);
 
+  const latestActivityEndDate = useMemo(() => {
+    if (timelineItems.length === 0) {
+      return null;
+    }
+
+    return timelineItems.reduce<Date | null>((latest, item) => {
+      const currentEndDate = new Date(item.end_date);
+
+      if (!latest || currentEndDate.getTime() > latest.getTime()) {
+        return currentEndDate;
+      }
+
+      return latest;
+    }, null);
+  }, [timelineItems]);
+
   const loadTimeSheetsByDate = async (isActive: boolean) => {
     try {
       setIsTimelineLoading(true);
@@ -400,6 +416,7 @@ const TimeSheetViewContent = () => {
         selectedDayId={selectedDayId}
         open={isAddActivityOpen}
         initialItem={editingItem}
+        latestActivityEndDate={latestActivityEndDate}
         onOpenChange={handleActivityModalOpenChange}
         onSaved={handleActivitySaved}
       />
