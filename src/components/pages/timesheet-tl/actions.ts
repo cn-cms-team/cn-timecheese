@@ -242,3 +242,63 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
     successMessage: 'Updated successfully',
   });
 }
+
+export async function handleDeleteTimeSheet(id: string) {
+  const session = await auth();
+  if (!session) {
+    throw new Error('Unauthorized');
+  }
+  return ExecuteAction({
+    actionFn: async () => {
+      const ts = await prisma.timeSheet.findUnique({
+        where: { id },
+        select: {
+          id: true,
+          project_id: true,
+          stamp_date: true,
+          total_seconds: true,
+        },
+      });
+      if (!ts) {
+        throw new Error('TimeSheet not found');
+      }
+
+      await prisma.timeSheet.delete({
+        where: {
+          id: id,
+        },
+      });
+
+      await prisma.timeSheetSummary.update({
+        where: {
+          user_id_project_id_sum_date: {
+            user_id: session.user.id,
+            project_id: ts.project_id,
+            sum_date: ts.stamp_date,
+          },
+        },
+        data: { total_seconds: { decrement: ts.total_seconds }, stamp_at: new Date() },
+      });
+
+      const tsSummary = await prisma.timeSheetSummary.findMany({
+        where: {
+          user_id: session.user.id,
+          sum_date: ts.stamp_date,
+        },
+        select: {
+          sum_date: true,
+          total_seconds: true,
+        },
+      });
+
+      const hourData = tsSummary.reduce<Record<string, number>>((acc, item) => {
+        const dateKey = item.sum_date.toISOString().split('T')[0];
+        acc[dateKey] = (acc[dateKey] || 0) + item.total_seconds / 3600;
+        return acc;
+      }, {});
+
+      return { id: ts.id, hourData };
+    },
+    successMessage: 'Deleted successfully',
+  });
+}

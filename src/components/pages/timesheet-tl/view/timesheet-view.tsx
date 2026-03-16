@@ -18,6 +18,9 @@ import {
 import { HeaderTitle } from '@/components/ui/custom/header';
 import { TimeSheetMasterProvider } from './timesheet-master-context';
 import { fetcher } from '@/lib/fetcher';
+import { handleDeleteTimeSheet } from '../actions';
+import { toast } from 'sonner';
+import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
 
 const today = new Date();
 const DEFAULT_MONTH_DATE = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -30,7 +33,18 @@ const TimeSheetViewContent = () => {
   const [isHoursLoading, setIsHoursLoading] = useState(false);
   const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
   const [isTimelineLoading, setIsTimelineLoading] = useState(false);
+  const [deletingItemId, setDeletingItemId] = useState<string | null>(null);
   const [editingItem, setEditingItem] = useState<TimelineItem | null>(null);
+  const [confirmState, setConfirmState] = useState<{
+    title: string;
+    message: string;
+    confirmType?: ConfirmType;
+  }>({
+    title: '',
+    message: '',
+    confirmType: ConfirmType.DELETE,
+  });
+  const [getConfirmation, Confirmation] = useDialogConfirm();
   // const [timelineRefreshToken, setTimelineRefreshToken] = useState(0);
 
   const days = useMemo(
@@ -197,6 +211,50 @@ const TimeSheetViewContent = () => {
     }
   };
 
+  const handleDeleteActivity = async (item: TimelineItem) => {
+    setConfirmState({
+      title: 'ลบกิจกรรม',
+      message: `คุณยืนยันที่จะลบกิจกรรม ${item.project_name} ใช่หรือไม่ ?`,
+      confirmType: ConfirmType.DELETE,
+    });
+
+    const isConfirmed = await getConfirmation();
+    if (!isConfirmed) {
+      return;
+    }
+
+    try {
+      setDeletingItemId(item.id);
+      const result = await handleDeleteTimeSheet(item.id);
+
+      if (result?.message) {
+        if (result.success) {
+          toast.success(result.message);
+        } else {
+          toast.error(result.message);
+        }
+      }
+
+      if (!result?.success) {
+        return;
+      }
+
+      const savedHourData = (result as { hourData?: Record<string, number> }).hourData ?? {};
+      setHourByDate((prev) => ({
+        ...prev,
+        [selectedDayId]: savedHourData[selectedDayId] ?? 0,
+        ...savedHourData,
+      }));
+
+      await loadTimeSheetsByDate(true);
+    } catch (error) {
+      console.error('Delete activity error:', error);
+      toast.error('An unexpected error occurred. Please try again.');
+    } finally {
+      setDeletingItemId(null);
+    }
+  };
+
   return (
     <div className="m-3 flex h-[calc(100dvh-1.5rem)] min-h-0 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white/90 shadow-sm">
       <div className="border-b border-slate-200 bg-slate-50/60 px-4 py-4 xl:hidden">
@@ -330,6 +388,8 @@ const TimeSheetViewContent = () => {
                 timelineItems={timelineItems}
                 isLoading={isTimelineLoading}
                 onEditItem={handleEditActivityOpen}
+                onDeleteItem={handleDeleteActivity}
+                deletingItemId={deletingItemId}
               />
             </div>
           </div>
@@ -342,6 +402,12 @@ const TimeSheetViewContent = () => {
         initialItem={editingItem}
         onOpenChange={handleActivityModalOpenChange}
         onSaved={handleActivitySaved}
+      />
+
+      <Confirmation
+        title={confirmState.title}
+        message={confirmState.message}
+        confirmType={confirmState.confirmType}
       />
     </div>
   );

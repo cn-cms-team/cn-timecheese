@@ -10,6 +10,8 @@ type TimelineListProps = {
   timelineItems: TimelineItem[];
   isLoading?: boolean;
   onEditItem?: (item: TimelineItem) => void;
+  onDeleteItem?: (item: TimelineItem) => void;
+  deletingItemId?: string | null;
 };
 
 const formatTime = (value: string) => {
@@ -31,7 +33,13 @@ const formatDurationLabel = (seconds: number) => {
   return `${Number.isInteger(hours) ? hours : hours.toFixed(1)} ชม.`;
 };
 
-const TimelineList = ({ timelineItems, isLoading = false, onEditItem }: TimelineListProps) => {
+const TimelineList = ({
+  timelineItems,
+  isLoading = false,
+  onEditItem,
+  onDeleteItem,
+  deletingItemId,
+}: TimelineListProps) => {
   if (isLoading) {
     return (
       <>
@@ -86,6 +94,7 @@ const TimelineList = ({ timelineItems, isLoading = false, onEditItem }: Timeline
         const tone = toneClasses[item.tone ?? 'blue'];
         const startTime = formatTime(item.start_date);
         const endTime = formatTime(item.end_date);
+        const isDeleting = deletingItemId === item.id;
 
         return (
           <div
@@ -124,11 +133,13 @@ const TimelineList = ({ timelineItems, isLoading = false, onEditItem }: Timeline
 
                   <button
                     aria-label={`ลบกิจกรรม ${item.project_name}`}
-                    className="cursor-pointer inline-flex items-center gap-1 rounded-lg border border-rose-200 bg-rose-50/80 px-2.5 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:bg-rose-100 sm:px-3 sm:text-sm"
+                    className="cursor-pointer inline-flex items-center gap-1 rounded-lg border border-rose-200 bg-rose-50/80 px-2.5 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-60 sm:px-3 sm:text-sm"
+                    disabled={isDeleting}
+                    onClick={() => onDeleteItem?.(item)}
                     type="button"
                   >
                     <Trash2 className="size-3.5 sm:size-4" />
-                    ลบ
+                    {isDeleting ? 'กำลังลบ...' : 'ลบ'}
                   </button>
                 </div>
               </div>
