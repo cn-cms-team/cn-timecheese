@@ -8,7 +8,6 @@ export type UserAvatarDetailProps = {
   position: string;
   code: string;
   start_date: string;
-  salary_range?: string;
   loading?: boolean;
 };
 
@@ -17,7 +16,6 @@ const AvatarDetail = ({
   position,
   code,
   start_date,
-  salary_range,
   loading = false,
 }: UserAvatarDetailProps) => {
   return (
@@ -55,12 +53,6 @@ const AvatarDetail = ({
           </div>
         )}
       </div>
-      {salary_range && !loading && (
-        <div className="flex flex-col justify-end ms-auto">
-          <div className="text-normal mb-3 font-bold">เงินเดือนโดยประมาณ</div>
-          <div className="text-normal font-bold">{numberWithCommas(Number(salary_range))}</div>
-        </div>
-      )}
     </div>
   );
 };

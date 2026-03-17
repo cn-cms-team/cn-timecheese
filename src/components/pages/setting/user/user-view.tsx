@@ -50,12 +50,6 @@ const UserViewDetail = ({ id }: { id: string }): React.ReactNode => {
           <LabelGroup label="วันที่เริ่มงาน" value={formatDate(userData?.start_date) || '-'} />
           <LabelGroup label="วันที่สิ้นสุด" value={formatDate(userData?.end_date) || '-'} />
           <LabelGroup label="สิทธิ์การใช้งาน" value={userData?.role?.name} />
-          <LabelGroup
-            label="ช่วงเงินเดือนโดยประมาณ"
-            value={
-              userData?.salary_range ? formatRangeNumberWithComma(userData?.salary_range) : '-'
-            }
-          />
           <LabelGroup label="สถานะการใช้งาน" value="">
             <div className="flex items-center space-x-2">
               <Switch

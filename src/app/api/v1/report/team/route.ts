@@ -20,9 +20,7 @@ export async function GET(request: Request) {
           },
         },
         start_date: true,
-        salary_range: true,
         team_id: true,
-        // image: true,
       },
     });
     if (!currentUser) {

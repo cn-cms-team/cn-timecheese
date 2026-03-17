@@ -10,7 +10,6 @@ export async function getReportProjectByUser(projectId: string, memberId: string
         last_name: true,
         code: true,
         start_date: true,
-        salary_range: true,
         position_level: {
           select: {
             name: true,
@@ -95,7 +94,6 @@ export async function getReportProjectByUser(projectId: string, memberId: string
         position: user?.position_level?.name || '',
         code: user?.code,
         start_date: user?.start_date,
-        saraly_range: user?.salary_range || '',
         full_name: `${user?.first_name} ${user?.last_name}`,
       },
       project: project

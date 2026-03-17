@@ -19,7 +19,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         is_active: true,
         start_date: true,
         end_date: true,
-        salary_range: true,
         code: true,
         team: {
           select: {
