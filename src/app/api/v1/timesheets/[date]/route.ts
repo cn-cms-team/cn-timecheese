@@ -40,6 +40,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ date
             type: true,
             name: true,
             description: true,
+            task_type: {
+              select: {
+                id: true,
+                tone_color: true,
+              },
+            },
           },
         },
       },
@@ -58,7 +64,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ date
       project_name: item.project.name,
       detail: item.detail,
       task_type_name: item?.project_task_type?.name,
-      tone: ['blue', 'green', 'slate', 'violet', 'yellow'][index % 5],
+      tone: item.project_task_type?.task_type?.tone_color || 'slate',
     }));
 
     return Response.json({ data: result, status: 200 });
