@@ -24,6 +24,14 @@ export async function GET() {
         id: true,
         name: true,
         is_company_project: true,
+        start_date: true,
+        end_date: true,
+        projectMembers: {
+          select: {
+            start_date: true,
+            end_date: true,
+          },
+        },
         projectTaskTypes: {
           select: {
             id: true,
@@ -50,6 +58,8 @@ export async function GET() {
           description: task.description,
         })),
       })),
+      startDate: item.projectMembers[0]?.start_date || item.start_date,
+      endDate: item.projectMembers[0]?.end_date || item.end_date,
     }));
 
     const optionGroup = [
@@ -61,6 +71,8 @@ export async function GET() {
             label: option.label,
             value: option.value,
             taskTypes: option.taskTypes,
+            startDate: option.startDate,
+            endDate: option.endDate,
           })),
       },
       {
@@ -71,9 +83,13 @@ export async function GET() {
             label: option.label,
             value: option.value,
             taskTypes: option.taskTypes,
+            startDate: option.startDate,
+            endDate: option.endDate,
           })),
       },
     ];
+
+    console.log('Option Group:', optionGroup);
 
     return Response.json({ data: optionGroup, status: 200 });
   } catch (error) {

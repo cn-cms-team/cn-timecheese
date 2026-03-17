@@ -6,7 +6,7 @@ import { CalendarDays, ChevronLeft, ChevronRight, Clock3, Plus } from 'lucide-re
 import { Button } from '@/components/ui/button';
 import DaySelector from '../day-selector';
 import TimelineList from '../timeline-list';
-import AddActivityModal from '../add-activity-modal';
+import AddActivityModal from '../activity-modal';
 import type { DayItem, TimeSheetsResponse, TimelineItem } from '@/types/timesheet';
 import {
   formatMonthLabel,
