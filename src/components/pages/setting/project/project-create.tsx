@@ -363,6 +363,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                           placeholder="วันที่สิ้นสุดโครงการ"
                           isError={form.formState.errors.start_date ? true : false}
                           onChange={field.onChange}
+                          allowClear
                         />
                       </FormControl>
                       <FormMessage />
@@ -382,6 +383,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                           placeholder="วันที่เริ่มต้นการบำรุงรักษา"
                           isError={form.formState.errors.maintenance_start_date ? true : false}
                           onChange={field.onChange}
+                          allowClear
                         />
                       </FormControl>
                       <FormMessage />
@@ -401,6 +403,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                           placeholder="วันที่สิ้นสุดการบำรุงรักษา"
                           isError={form.formState.errors.maintenance_end_date ? true : false}
                           onChange={field.onChange}
+                          allowClear
                         />
                       </FormControl>
                       <FormMessage />
