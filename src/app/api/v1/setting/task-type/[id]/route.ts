@@ -63,11 +63,15 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
       return Response.json({ message: 'Task Type ID is required' }, { status: 400 });
     }
 
-    const timeSheet = await prisma.projectTaskType.findFirst({
+    const isInAnyProject = await prisma.projectTaskType.findFirst({
       where: { task_type_id: id },
+      select: { id: true },
     });
-    if (timeSheet) {
-      return Response.json({ message: 'This task type have been used' }, { status: 400 });
+    if (isInAnyProject) {
+      return Response.json(
+        { message: 'Cannot delete task type because it is in use by some projects' },
+        { status: 400 }
+      );
     }
 
     const result = await prisma.taskType.delete({
