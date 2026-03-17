@@ -22,7 +22,7 @@ export async function GET() {
       value: String(item.id),
     }));
     const project = await prisma.projectMember.findMany({
-      where: { user_id: session.user?.id },
+      where: { user_id: session.user?.id, project: { is_enabled: true } },
       select: {
         project_id: true,
         project: {

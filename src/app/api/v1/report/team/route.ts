@@ -34,6 +34,7 @@ export async function GET(request: Request) {
 
     const userProjects = await prisma.project.findMany({
       where: {
+        is_enabled: true,
         projectMembers: {
           some: { user_id: currentUser.id },
         },
