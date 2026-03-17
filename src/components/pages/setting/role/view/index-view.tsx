@@ -55,16 +55,17 @@ const RoleListView = () => {
       const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/role/${id}`;
       await fetch(fetchUrl, { method: 'DELETE' }).then(async (res) => {
         const data = await res.json();
-        if (!res.ok) {
-          toast.error(data.message);
-          return;
-        } else {
-          toast.success(data.message);
+        if (res.ok) {
+          if (data.message) {
+            toast.success(data.message);
+          }
           router.push('/setting/role');
+        } else {
+          toast.warning(data.message);
         }
       });
     } catch (error) {
-      console.log(error instanceof Error ? error.message : 'Unknown error');
+      toast.warning(error instanceof Error ? error.message : 'Unknown error');
     } finally {
       setIsLoading(false);
     }

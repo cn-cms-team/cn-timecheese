@@ -5,7 +5,7 @@ import { endOfMonth, startOfMonth } from 'date-fns';
 export async function GET(request: Request) {
   const session = await auth();
   if (!session) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    return Response.json({ message: 'Unauthorized' }, { status: 401 });
   }
   const { searchParams } = new URL(request.url);
   const month = searchParams.get('month');
@@ -85,7 +85,7 @@ export async function GET(request: Request) {
     return Response.json({ data: result }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
