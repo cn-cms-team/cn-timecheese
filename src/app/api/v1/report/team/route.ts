@@ -8,9 +8,14 @@ export async function GET(request: Request) {
       return Response.json({ message: 'Unauthorized' }, { status: 401 });
     }
     const searchParams = new URL(request.url).searchParams;
-    const user_id = searchParams.get('user_id');
+    const userId = searchParams.get('user_id');
+
+    if (!userId) {
+      return Response.json({ message: 'User ID is required' }, { status: 400 });
+    }
+
     const currentUser = await prisma.user.findUnique({
-      where: { id: user_id || '' },
+      where: { id: userId },
       select: {
         id: true,
         first_name: true,
@@ -27,10 +32,10 @@ export async function GET(request: Request) {
       },
     });
     if (!currentUser) {
-      return Response.json({ message: 'User not found' }, { status: 400 });
+      return Response.json({ message: 'User not found' }, { status: 404 });
     }
     if (currentUser.team_id !== session?.user.team_id) {
-      return Response.json({ message: 'User not in your team' }, { status: 404 });
+      return Response.json({ message: 'User not in your team' }, { status: 403 });
     }
 
     const userProjects = await prisma.project.findMany({
