@@ -31,6 +31,7 @@ import { Required } from '@/components/ui/custom/form';
 import { useLoading } from '@/components/context/app-context';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { MAX_LENGTH_255 } from '@/lib/constants/validation';
 
 type OutputItem = {
   code: string;
@@ -401,6 +402,8 @@ const RoleCreate = ({ id }: { id?: string }) => {
                       onInput={(e) => {
                         field.onChange(e);
                       }}
+                      maxLength={MAX_LENGTH_255}
+                      showMaxLengthCounter
                     />
                   </FormControl>
                   <FormMessage />

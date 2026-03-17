@@ -166,6 +166,7 @@ const TaskTypeCreateDialog = ({
                       value={field.value || ''}
                       maxLength={MAX_LENGTH_255}
                       onChange={field.onChange}
+                      showMaxLengthCounter
                     />
                   </FormControl>
                 </FormItem>

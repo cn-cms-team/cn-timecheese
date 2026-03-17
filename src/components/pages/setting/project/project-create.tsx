@@ -449,6 +449,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                           {...field}
                           value={field.value ?? ''}
                           onChange={field.onChange}
+                          showMaxLengthCounter
                         />
                       </FormControl>
                       <FormMessage />

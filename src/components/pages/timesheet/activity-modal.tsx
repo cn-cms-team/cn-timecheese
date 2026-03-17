@@ -612,6 +612,7 @@ const AddActivityModal = ({
                         value={field.value}
                         disabled={isLoading}
                         maxLength={1000}
+                        showMaxLengthCounter
                       />
                     </FormControl>
                   </FormGroup>

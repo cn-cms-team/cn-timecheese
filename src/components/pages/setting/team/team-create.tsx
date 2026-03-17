@@ -227,6 +227,7 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
                     onInput={(e) => {
                       field.onChange(e);
                     }}
+                    showMaxLengthCounter
                   />
                 </FormControl>
                 <FormMessage />
