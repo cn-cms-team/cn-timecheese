@@ -165,10 +165,14 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         },
         body: JSON.stringify({ data }),
       });
+      const result = await response.json();
       if (response.ok) {
-        const result = await response.json();
-        toast.success(result.message);
+        if (result.message) {
+          toast.success(result.message);
+        }
         router.push('/setting/project');
+      } else {
+        toast.warning(result.message || 'An unexpected error occurred. Please try again.');
       }
     } catch {
       toast.error('An unexpected error occurred. Please try again.');

@@ -303,7 +303,7 @@ model TimeSheet {
   end_date             DateTime
   exclude_seconds      Int?
   total_seconds        Int
-  detail               String?          @db.VarChar(500)
+  detail               String?          @db.VarChar(1000)
   remark               String?          @db.VarChar(255)
 
   created_at DateTime @default(now())

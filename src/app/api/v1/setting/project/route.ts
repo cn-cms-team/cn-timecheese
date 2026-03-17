@@ -21,19 +21,10 @@ export async function GET() {
       },
     });
 
-    const referenceProject = await prisma.timeSheet.findMany({
-      select: {
-        project_id: true,
-      },
-      distinct: 'project_id',
-    });
-
-    const usingProjectIds = new Set(referenceProject.map((r) => r.project_id));
-
     const result = project.map((item) => ({
       ...item,
       members_count: item._count.projectMembers,
-      is_using: !!usingProjectIds.has(item.id),
+      is_using: false,
     }));
 
     return Response.json({ data: result }, { status: 200 });

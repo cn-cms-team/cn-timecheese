@@ -277,11 +277,12 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
       return Response.json({ message: 'Project ID is required' }, { status: 400 });
     }
 
-    const hasReference = await prisma.timeSheet.findFirst({
+    const isInAnyTimeSheet = await prisma.timeSheet.findFirst({
       where: { project_id: id },
+      select: { id: true },
     });
 
-    if (hasReference) {
+    if (isInAnyTimeSheet) {
       return Response.json(
         {
           message: `Cannot delete this project while it is currently in use.`,

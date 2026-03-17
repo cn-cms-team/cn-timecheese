@@ -582,6 +582,7 @@ const AddActivityModal = ({
                         placeholder="กรอกรายละเอียดการทำงาน"
                         value={field.value}
                         disabled={isLoading}
+                        maxLength={1000}
                       />
                     </FormControl>
                   </FormGroup>
