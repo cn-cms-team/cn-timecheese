@@ -19,10 +19,12 @@ const TeamViewButton = ({ id }: { id: string }): React.ReactNode => {
       const response = await fetch(fetchUrl, {
         method: 'DELETE',
       });
+      const result = await response.json();
       if (response.ok) {
-        const result = await response.json();
         toast.success(result.message);
         router.push('/setting/team');
+      } else {
+        toast.warning(result.message || 'An unexpected error occurred. Please try again.');
       }
     } catch {
       toast.error('An unexpected error occurred. Please try again.');
