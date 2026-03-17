@@ -173,12 +173,12 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     }
 
     // Check if user has role assigned
-    const userWithRole = await prisma.user.findFirst({
+    const isInAnyUser = await prisma.user.findFirst({
       where: { role_id: id },
       select: { id: true },
     });
 
-    if (userWithRole) {
+    if (isInAnyUser) {
       return Response.json({ message: 'Cannot delete role assigned to a user' }, { status: 400 });
     }
 

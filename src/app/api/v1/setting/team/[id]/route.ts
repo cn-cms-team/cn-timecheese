@@ -98,11 +98,11 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     }
 
     // Check if team is in use by users
-    const teamUser = await prisma.user.findFirst({ where: { team_id: id, is_enabled: true } });
-    if (teamUser) {
+    const isInAnyUser = await prisma.user.findFirst({ where: { team_id: id, is_enabled: true } });
+    if (isInAnyUser) {
       return Response.json(
         {
-          message: 'This team cannot be deleted because it is currently assigned to active users.',
+          message: 'Cannot delete team as it is assigned to a user',
         },
         { status: 400 }
       );

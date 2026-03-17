@@ -127,7 +127,10 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     });
 
     if (isInAnyProject) {
-      return Response.json({ message: 'User is in use in project' }, { status: 400 });
+      return Response.json(
+        { message: 'Cannot delete user as they are part of a project' },
+        { status: 400 }
+      );
     }
 
     const result = await prisma.user.update({
