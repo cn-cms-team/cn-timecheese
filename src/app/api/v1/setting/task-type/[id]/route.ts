@@ -16,6 +16,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         name: true,
         description: true,
         type: true,
+        tone_color: true,
         is_active: true,
       },
     });
@@ -34,12 +35,16 @@ export async function POST(request: NextRequest) {
     const result = await prisma.taskType.update({
       where: { id: body.data.id },
       data: { ...body.data },
+      select: {
+        id: true,
+        tone_color: true,
+      },
     });
 
     return Response.json(
       {
         message: 'Updated successfully',
-        data: { id: result.id },
+        data: { id: result.id, tone_color: result.tone_color },
       },
       { status: 200 }
     );

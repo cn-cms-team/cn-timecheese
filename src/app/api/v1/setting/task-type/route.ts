@@ -10,6 +10,7 @@ export async function GET() {
         name: true,
         description: true,
         type: true,
+        tone_color: true,
         is_active: true,
       },
       orderBy: { name: 'desc' },
@@ -28,11 +29,15 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const result = await prisma.taskType.create({
       data: { ...body.data },
+      select: {
+        id: true,
+        tone_color: true,
+      },
     });
     return Response.json(
       {
         message: 'Created successfully',
-        data: { id: result.id },
+        data: { id: result.id, tone_color: result.tone_color },
       },
       { status: 200 }
     );

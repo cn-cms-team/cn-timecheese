@@ -31,7 +31,7 @@ const AppSidebarUser = ({ user }: AppSidebarUserProps) => {
   const [open, setOpen] = useState(false);
   const handleClickResetPassword = () => {
     setOpen(false);
-    redirect(`/setting/user/${session?.user.id}/reset-password`);
+    redirect(`/change-password`);
   };
   return (
     <SidebarMenu>

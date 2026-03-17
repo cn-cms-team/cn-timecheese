@@ -19,6 +19,8 @@ import { MAX_LENGTH_100, MAX_LENGTH_255 } from '@/lib/constants/validation';
 import { getIsActive } from '@/lib/functions/enum-mapping';
 import { cn } from '@/lib/utils';
 import { ITaskType } from '@/types/setting/task-type';
+import { TimelineCardTone } from '@/types/timesheet';
+import { TIMELINE_CARD_TONES } from '@/lib/constants/timesheet';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { taskTypeSchema, TaskTypeSchemaType } from './schema';
@@ -26,6 +28,26 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { TaskTypeCode } from '../../../../../generated/prisma/enums';
 import { Required } from '@/components/ui/custom/form';
 import { useEffect } from 'react';
+
+const toneLabels: Record<TimelineCardTone, string> = {
+  blue: 'น้ำเงิน',
+  violet: 'ม่วง',
+  slate: 'เทา',
+  green: 'เขียว',
+  red: 'แดง',
+  yellow: 'เหลือง',
+  orange: 'ส้ม',
+};
+
+const toneSwatchClasses: Record<TimelineCardTone, string> = {
+  blue: 'bg-blue-500',
+  violet: 'bg-violet-500',
+  slate: 'bg-slate-500',
+  green: 'bg-emerald-500',
+  red: 'bg-rose-500',
+  yellow: 'bg-yellow-500',
+  orange: 'bg-orange-500',
+};
 
 type TaskTypeCreateDialogProps = {
   open: boolean;
@@ -49,11 +71,17 @@ const TaskTypeCreateDialog = ({
 
   const form = useForm<TaskTypeSchemaType>({
     resolver: zodResolver(taskTypeSchema),
-    defaultValues: taskItem,
+    defaultValues: {
+      ...taskItem,
+      tone_color: taskItem.tone_color ?? 'slate',
+    },
   });
 
   useEffect(() => {
-    form.reset(taskItem);
+    form.reset({
+      ...taskItem,
+      tone_color: taskItem.tone_color ?? 'slate',
+    });
   }, [taskItem]);
 
   const onSubmit = async (values: TaskTypeSchemaType) => {
@@ -68,6 +96,7 @@ const TaskTypeCreateDialog = ({
           name: values.name,
           description: values.description,
           type,
+          tone_color: values.tone_color,
           is_active: values.is_active,
         };
       } else {
@@ -75,6 +104,7 @@ const TaskTypeCreateDialog = ({
           name: values.name,
           description: values.description,
           type,
+          tone_color: values.tone_color,
           is_active: values.is_active,
         };
       }
@@ -99,7 +129,7 @@ const TaskTypeCreateDialog = ({
   };
   return (
     <Dialog open={open}>
-      <DialogContent showCloseButton={false}>
+      <DialogContent showCloseButton={false} className={cn(sizeClass)}>
         <DialogHeader>
           <DialogTitle>{taskItem.id ? 'แก้ไขประเภทงาน' : 'เพิ่มประเภทงาน'}</DialogTitle>
         </DialogHeader>
@@ -137,6 +167,37 @@ const TaskTypeCreateDialog = ({
                       maxLength={MAX_LENGTH_255}
                       onChange={field.onChange}
                     />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="tone_color"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    สี
+                    <Required />
+                  </FormLabel>
+                  <FormControl>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {TIMELINE_CARD_TONES.map((tone) => (
+                        <Button
+                          key={tone}
+                          type="button"
+                          variant="outline"
+                          className={cn(
+                            'justify-start gap-2 bg-white',
+                            field.value === tone && 'border-primary ring-1 ring-primary'
+                          )}
+                          onClick={() => field.onChange(tone)}
+                        >
+                          <span className={cn('size-3 rounded-full', toneSwatchClasses[tone])} />
+                          {toneLabels[tone]}
+                        </Button>
+                      ))}
+                    </div>
                   </FormControl>
                 </FormItem>
               )}
