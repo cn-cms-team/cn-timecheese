@@ -15,7 +15,7 @@ export async function GET() {
       },
       orderBy: { name: 'desc' },
     });
-    return Response.json({ data: taskTypes, status: 200 });
+    return Response.json({ data: taskTypes }, { status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },

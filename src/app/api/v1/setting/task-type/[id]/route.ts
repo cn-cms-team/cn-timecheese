@@ -6,7 +6,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const { id } = await params;
   const taskTypeId = id as TaskTypeCode;
   if (!taskTypeId) {
-    return Response.json({ error: 'Task Type ID is required' }, { status: 400 });
+    return Response.json({ message: 'Task Type ID is required' }, { status: 400 });
   }
   try {
     const taskType = await prisma.taskType.findMany({
@@ -20,7 +20,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         is_active: true,
       },
     });
-    return Response.json({ data: taskType, status: 200 });
+    return Response.json({ data: taskType }, { status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -60,14 +60,14 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   try {
     const { id } = await params;
     if (!id) {
-      return Response.json({ error: 'Task Type ID is required' }, { status: 400 });
+      return Response.json({ message: 'Task Type ID is required' }, { status: 400 });
     }
 
     const timeSheet = await prisma.projectTaskType.findFirst({
       where: { task_type_id: id },
     });
     if (timeSheet) {
-      return Response.json({ message: 'This task type have been used' }, { status: 402 });
+      return Response.json({ message: 'This task type have been used' }, { status: 400 });
     }
 
     const result = await prisma.taskType.delete({
@@ -83,7 +83,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

@@ -82,7 +82,7 @@ export async function GET(request: Request) {
 
     const result = Array.from(summaryMap.values());
 
-    return Response.json({ data: result, status: 200 });
+    return Response.json({ data: result }, { status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },

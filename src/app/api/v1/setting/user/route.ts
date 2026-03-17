@@ -34,10 +34,10 @@ export async function GET() {
         fullName: [user.first_name, user.last_name].join(' ').trim(),
       };
     });
-    return Response.json({ data: userMaps, status: 200 });
+    return Response.json({ data: userMaps }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -50,7 +50,6 @@ export async function POST(request: Request) {
     if (!session || !session.user) {
       return Response.json(
         {
-          success: false,
           message: 'Unauthorized',
         },
         { status: 401 }
@@ -82,13 +81,12 @@ export async function POST(request: Request) {
       {
         message: 'Created successfully',
         data: { id: result.id },
-        success: true,
       },
       { status: 200 }
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

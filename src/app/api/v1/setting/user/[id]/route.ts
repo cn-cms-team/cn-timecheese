@@ -53,7 +53,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       role_id: user?.role?.id,
       position_level_id: user?.position_level?.id,
     };
-    return Response.json({ data: userData, status: 200 });
+    return Response.json({ data: userData }, { status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
@@ -70,7 +70,6 @@ export async function POST(request: NextRequest) {
       return Response.json(
         {
           message: 'Unauthorized',
-          success: false,
         },
         { status: 401 }
       );
@@ -84,7 +83,6 @@ export async function POST(request: NextRequest) {
       return Response.json(
         {
           message: 'Email already exists',
-          success: false,
         },
         { status: 400 }
       );
@@ -97,7 +95,6 @@ export async function POST(request: NextRequest) {
 
     return Response.json(
       {
-        success: true,
         message: 'Updated successfully',
         data: { id: result.id },
       },
@@ -105,7 +102,7 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -116,7 +113,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     const { id } = await params;
 
     if (!id) {
-      return Response.json({ error: 'User ID is required' }, { status: 400 });
+      return Response.json({ message: 'User ID is required' }, { status: 400 });
     }
     const isInAnyProject = await prisma.project.findFirst({
       where: {
@@ -129,7 +126,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     });
 
     if (isInAnyProject) {
-      return Response.json({ message: 'User is in use in project' }, { status: 409 });
+      return Response.json({ message: 'User is in use in project' }, { status: 400 });
     }
 
     const result = await prisma.user.update({
@@ -148,7 +145,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

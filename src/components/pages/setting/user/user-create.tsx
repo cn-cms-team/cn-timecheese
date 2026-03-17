@@ -143,12 +143,13 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       if (response.ok) {
         const result = await response.json();
 
-        if (result.success) {
+        if (result.message) {
           toast.success(result.message);
-          router.push('/setting/user');
-        } else {
-          toast.warning(result.message || 'An error occurred while saving the user.');
         }
+        router.push('/setting/user');
+      } else {
+        const errorResult = await response.json();
+        toast.error(errorResult.message || 'An unexpected error occurred. Please try again.');
       }
     } catch {
       toast.error('An unexpected error occurred. Please try again.');

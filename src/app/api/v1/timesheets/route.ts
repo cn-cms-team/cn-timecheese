@@ -36,31 +36,25 @@ export async function GET(request: Request) {
   try {
     const session = await auth();
     if (!session) {
-      return Response.json({ message: 'Unauthorized', status: 401 }, { status: 401 });
+      return Response.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
     let data: TimeSheetsRequest | null;
     try {
       data = await extractRequestDates(request);
     } catch {
-      return Response.json({ message: 'Invalid JSON body', status: 400 }, { status: 400 });
+      return Response.json({ message: 'Invalid JSON body' }, { status: 400 });
     }
 
     if (!data?.startDate || !data?.endDate) {
-      return Response.json(
-        { message: 'Missing startDate or endDate', status: 400 },
-        { status: 400 }
-      );
+      return Response.json({ message: 'Missing startDate or endDate' }, { status: 400 });
     }
 
     const parsedStartDate = parseDate(data.startDate);
     const parsedEndDate = parseDate(data.endDate);
 
     if (!parsedStartDate || !parsedEndDate) {
-      return Response.json(
-        { message: 'Invalid startDate or endDate', status: 400 },
-        { status: 400 }
-      );
+      return Response.json({ message: 'Invalid startDate or endDate' }, { status: 400 });
     }
 
     const { start, end } = toUtcDayBounds(parsedStartDate, parsedEndDate);
@@ -86,12 +80,11 @@ export async function GET(request: Request) {
       return acc;
     }, {});
 
-    return Response.json({ data: { hourData }, status: 200 }, { status: 200 });
+    return Response.json({ data: { hourData } }, { status: 200 });
   } catch (error) {
     return Response.json(
       {
         message: error instanceof Error ? error.message : 'An unknown error occurred',
-        status: 500,
       },
       { status: 500 }
     );

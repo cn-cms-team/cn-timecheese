@@ -24,7 +24,7 @@ export async function GET(request: Request) {
       label: `${item.user.first_name} ${item.user.last_name}`,
       value: String(item.user_id),
     }));
-    return Response.json({ data: options, status: 200 });
+    return Response.json({ data: options }, { status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },

@@ -16,20 +16,7 @@ export async function GET() {
       },
       orderBy: { name: 'asc' },
     });
-    // const result = await prisma.positionLevel.findMany({
-    //   where: { is_enabled: true },
-    //   select: {
-    //     id: true,
-    //     name: true,
-    //     position: {
-    //       select: {
-    //         id: true,
-    //         name: true,
-    //       },
-    //     },
-    //   },
-    //   orderBy: { name: 'asc' },
-    // });
+
     const options = result.map((item) => ({
       label: `${item.name}`,
       id: item.id,
@@ -39,7 +26,7 @@ export async function GET() {
       })),
     }));
 
-    return Response.json({ data: options, status: 200 });
+    return Response.json({ data: options }, { status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },

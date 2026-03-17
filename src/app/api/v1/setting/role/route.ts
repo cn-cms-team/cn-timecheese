@@ -36,7 +36,7 @@ export async function GET() {
         used_count: role._count.User,
       };
     });
-    return Response.json({ data: roleMaps, status: 200 });
+    return Response.json({ data: roleMaps }, { status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },

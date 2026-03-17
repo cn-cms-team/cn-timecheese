@@ -10,7 +10,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ date
 
     const { date } = await params;
     if (!date) {
-      return Response.json({ error: 'Date is required' }, { status: 400 });
+      return Response.json({ message: 'Date is required' }, { status: 400 });
     }
 
     const timeSheet = await prisma.timeSheet.findMany({
@@ -67,10 +67,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ date
       tone: item.project_task_type?.task_type?.tone_color || 'slate',
     }));
 
-    return Response.json({ data: result, status: 200 });
+    return Response.json({ data: result }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

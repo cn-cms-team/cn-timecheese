@@ -63,7 +63,7 @@ export async function GET() {
       used_count: position.positionLevels.reduce((acc, level) => acc + level._count.users, 0),
     }));
 
-    return Response.json({ data: positionMaps, status: 200 });
+    return Response.json({ data: positionMaps }, { status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },

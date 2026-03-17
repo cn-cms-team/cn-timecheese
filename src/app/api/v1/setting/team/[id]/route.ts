@@ -4,7 +4,7 @@ import { NextRequest } from 'next/server';
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!id) {
-    return Response.json({ error: 'Team ID is required' }, { status: 400 });
+    return Response.json({ message: 'Team ID is required' }, { status: 400 });
   }
   try {
     const team = await prisma.team.findUnique({
@@ -57,12 +57,12 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         teamLeaders: team.teamLeaders,
       };
 
-      return Response.json({ data: payload, status: 200 });
+      return Response.json({ data: payload }, { status: 200 });
     }
-    return Response.json({ data: null, status: 200 });
+    return Response.json({ data: null }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -96,6 +96,20 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     if (!id) {
       return Response.json({ error: 'team ID is required' }, { status: 400 });
     }
+
+    // Check if team is in use by users
+    const teamUser = await prisma.user.findFirst({ where: { team_id: id, is_enabled: true } });
+    if (teamUser) {
+      return Response.json(
+        {
+          message:
+            'This team cannot be deleted because it is currently assigned to active users. Please reassign or deactivate those users before deleting the team.',
+          success: false,
+        },
+        { status: 400 }
+      );
+    }
+
     const existingCount = await prisma.teamLeader.count({ where: { team_id: id } });
     let leaderDeletedCount = 0;
     if (existingCount > 0) {
@@ -121,7 +135,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

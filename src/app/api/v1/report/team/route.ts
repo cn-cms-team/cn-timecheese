@@ -80,7 +80,7 @@ export async function GET(request: Request) {
       projects: projects,
     };
 
-    return Response.json({ data: data, status: 200 });
+    return Response.json({ data: data }, { status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },

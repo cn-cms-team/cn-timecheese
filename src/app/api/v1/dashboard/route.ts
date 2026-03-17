@@ -35,7 +35,7 @@ export async function GET(request: Request) {
       timesheet_chart: result.timesheet_chart,
     };
 
-    return Response.json({ data: resultData, status: 200 });
+    return Response.json({ data: resultData }, { status: 200 });
   } catch (error) {
     return Response.json(
       { error: error instanceof Error ? error.message : 'An unknown error occurred' },
