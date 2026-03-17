@@ -5,7 +5,7 @@ import { NextRequest } from 'next/server';
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!id) {
-    return Response.json({ error: 'Project ID is required' }, { status: 400 });
+    return Response.json({ message: 'Project ID is required' }, { status: 400 });
   }
   try {
     const project = await prisma.project.findUnique({
@@ -59,7 +59,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     });
 
     if (!project) {
-      return Response.json({ error: 'Project Not Found', status: 404 });
+      return Response.json({ message: 'Project Not Found', status: 404 });
     }
 
     const referenceMember = await prisma.timeSheet.findMany({
@@ -274,7 +274,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     const { id } = await params;
 
     if (!id) {
-      return Response.json({ error: 'Project ID is required' }, { status: 400 });
+      return Response.json({ message: 'Project ID is required' }, { status: 400 });
     }
 
     const hasReference = await prisma.timeSheet.findFirst({

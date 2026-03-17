@@ -24,10 +24,10 @@ export async function GET(request: Request) {
       },
     });
     if (!currentUser) {
-      return Response.json({ error: 'User not found' }, { status: 400 });
+      return Response.json({ message: 'User not found' }, { status: 400 });
     }
     if (currentUser.team_id !== session?.user.team_id) {
-      return Response.json({ error: 'User not in your team' }, { status: 404 });
+      return Response.json({ message: 'User not in your team' }, { status: 404 });
     }
 
     const userProjects = await prisma.project.findMany({

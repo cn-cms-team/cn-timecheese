@@ -6,7 +6,7 @@ export async function GET(request: Request) {
   const memberId = searchParams.get('member_id') || '';
   try {
     if (!memberId) {
-      return Response.json({ error: 'Member ID is required' }, { status: 400 });
+      return Response.json({ message: 'Member ID is required' }, { status: 400 });
     }
 
     const result = await getReportProjectByUser(projectId, memberId);

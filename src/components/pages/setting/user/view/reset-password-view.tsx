@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import ModuleLayout from '@/components/layouts/ModuleLayout';
 import { useLoading } from '@/components/context/app-context';
 import ResetPasswordForm from '../reset-password-form';
+import { toast } from 'sonner';
 
 type ButtonProps = {
   handleCancel: () => void;
@@ -46,7 +47,7 @@ const ResetPasswordView = ({ id }: { id?: string }) => {
         const userData = await fetcher<IUser>(fetchUrl);
         if (userData) setUser(userData);
       } catch (error) {
-        console.log(error instanceof Error ? error.message : 'Unknown error');
+        toast.error('An unexpected error occurred. Please try again.');
       }
     };
     getUserDetail();

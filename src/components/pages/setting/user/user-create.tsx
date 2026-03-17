@@ -140,15 +140,14 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
         },
         body: JSON.stringify({ data }),
       });
+      const result = await response.json();
       if (response.ok) {
-        const result = await response.json();
         if (result.message) {
           toast.success(result.message);
         }
         router.push('/setting/user');
       } else {
-        const errorResult = await response.json();
-        toast.warning(errorResult.message || 'An unexpected error occurred. Please try again.');
+        toast.warning(result.message || 'An unexpected error occurred. Please try again.');
       }
     } catch {
       toast.error('An unexpected error occurred. Please try again.');

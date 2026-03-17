@@ -19,7 +19,7 @@ export async function getReportProjectByUser(projectId: string, memberId: string
     });
 
     if (!user) {
-      return Response.json({ error: 'Member not found' }, { status: 404 });
+      return Response.json({ message: 'Member not found' }, { status: 404 });
     }
 
     const project = await prisma.projectMember.findUnique({

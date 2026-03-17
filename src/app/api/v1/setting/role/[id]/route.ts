@@ -75,7 +75,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     ]);
 
     if (!role) {
-      return Response.json({ error: 'Role not found' }, { status: 404 });
+      return Response.json({ message: 'Role not found' }, { status: 404 });
     }
 
     const rolesPermissionMaps = rolePermission.map((rolePermission) => ({
@@ -169,7 +169,17 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     const { id } = await params;
 
     if (!id) {
-      return Response.json({ error: 'Role ID is required' }, { status: 400 });
+      return Response.json({ message: 'Role ID is required' }, { status: 400 });
+    }
+
+    // Check if user has role assigned
+    const userWithRole = await prisma.user.findFirst({
+      where: { role_id: id },
+      select: { id: true },
+    });
+
+    if (userWithRole) {
+      return Response.json({ message: 'Cannot delete role assigned to a user' }, { status: 400 });
     }
 
     await prisma.$transaction([

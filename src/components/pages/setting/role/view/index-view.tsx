@@ -61,11 +61,11 @@ const RoleListView = () => {
           }
           router.push('/setting/role');
         } else {
-          toast.warning(data.message);
+          toast.warning(data.message || 'An unexpected error occurred. Please try again.');
         }
       });
     } catch (error) {
-      toast.warning(error instanceof Error ? error.message : 'Unknown error');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }

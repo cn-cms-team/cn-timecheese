@@ -12,11 +12,11 @@ export async function GET(request: Request) {
   const year = searchParams.get('year');
 
   if (!month) {
-    return Response.json({ error: 'Month parameter is required' }, { status: 400 });
+    return Response.json({ message: 'Month parameter is required' }, { status: 400 });
   }
 
   if (!year) {
-    return Response.json({ error: 'Year parameter is required' }, { status: 400 });
+    return Response.json({ message: 'Year parameter is required' }, { status: 400 });
   }
 
   const monthNumber = Number(month);
@@ -30,7 +30,7 @@ export async function GET(request: Request) {
   }
 
   if (isNaN(yearNumber)) {
-    return Response.json({ error: 'Invalid year parameter' }, { status: 400 });
+    return Response.json({ message: 'Invalid year parameter' }, { status: 400 });
   }
 
   const monthStart = startOfMonth(new Date(yearNumber, monthNumber));

@@ -5,7 +5,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
     if (!id) {
-      return Response.json({ error: 'Position ID is required' }, { status: 400 });
+      return Response.json({ message: 'Position ID is required' }, { status: 400 });
     }
 
     const position = await prisma.position.findUnique({
@@ -33,7 +33,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     });
 
     if (!position) {
-      return Response.json({ error: 'Position not found' }, { status: 404 });
+      return Response.json({ message: 'Position not found' }, { status: 404 });
     }
 
     const formattedData = {
@@ -129,7 +129,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   try {
     const { id } = await params;
     if (!id) {
-      return Response.json({ error: 'Position ID is required' }, { status: 400 });
+      return Response.json({ message: 'Position ID is required' }, { status: 400 });
     }
 
     const position = await prisma.position.findUnique({

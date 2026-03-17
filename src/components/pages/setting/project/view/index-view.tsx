@@ -65,7 +65,7 @@ const ProjectListView = () => {
         }
       });
     } catch (error) {
-      console.log(error instanceof Error ? error.message : 'Unknown error');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }

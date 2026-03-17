@@ -5,7 +5,7 @@ export async function GET(request: Request) {
   const projectId = searchParams.get('project_id');
   try {
     if (!projectId) {
-      return Response.json({ error: 'Project ID is required' }, { status: 400 });
+      return Response.json({ message: 'Project ID is required' }, { status: 400 });
     }
     const project = await prisma.projectMember.findMany({
       where: { project_id: projectId },
