@@ -3,6 +3,7 @@ import { auth } from '@/auth';
 import { timeSheetCreateEditSchema, TimeSheetCreateEditSchema } from './schema';
 import { ExecuteAction } from '@/lib/execute-actions';
 import prisma from '@/lib/prisma';
+import { get } from 'http';
 
 export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
   const session = await auth();
@@ -48,7 +49,8 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
         };
       }
 
-      const total_seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
+      const totalSeconds =
+        Math.floor((end.getTime() - start.getTime()) / 1000) - (validatedData.exclude ?? 0);
 
       const result = await prisma.timeSheet.create({
         data: {
@@ -61,10 +63,9 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
           detail: validatedData.detail || '',
           exclude_seconds: validatedData.exclude ?? 0,
           is_work_from_home: validatedData.isWorkFromHome ?? false,
-          total_seconds,
+          total_seconds: totalSeconds,
         },
       });
-      const totalSeconds = total_seconds - (validatedData.exclude ?? 0);
       await prisma.timeSheetSummary.upsert({
         where: {
           user_id_project_id_sum_date: {
@@ -88,23 +89,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
         },
       });
 
-      const tsSummary = await prisma.timeSheetSummary.findMany({
-        where: {
-          user_id: session.user.id,
-          sum_date: stampDate,
-        },
-        select: {
-          sum_date: true,
-          total_seconds: true,
-        },
-      });
-
-      const hourData = tsSummary.reduce<Record<string, number>>((acc, item) => {
-        const dateKey = item.sum_date.toISOString().split('T')[0];
-        acc[dateKey] = (acc[dateKey] || 0) + item.total_seconds / 3600;
-        return acc;
-      }, {});
-
+      const hourData = await getHourData(session.user.id, stampDate);
       return { id: result.id, hourData };
     },
     successMessage: 'Added successfully',
@@ -139,7 +124,8 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
       const stampDate = new Date(validatedData.stamp_date_string);
       const start = new Date(validatedData.start_date);
       const end = new Date(validatedData.end_date);
-      const total_seconds = Math.floor((end.getTime() - start.getTime()) / 1000);
+      const totalSeconds =
+        Math.floor((end.getTime() - start.getTime()) / 1000) - (validatedData.exclude ?? 0);
 
       if (start >= end) {
         throw new Error('Start time must be earlier than end time');
@@ -166,7 +152,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
         return {
           success: false,
           code: 'DUPLICATED_CODE',
-          message: `This time range overlaps with an existing time sheet entry. Please adjust the start and end times.`,
+          message: `This time range overlaps with an existing time sheet entry.`,
         };
       }
 
@@ -184,13 +170,13 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
           detail: validatedData.detail || '',
           exclude_seconds: validatedData.exclude ?? 0,
           is_work_from_home: validatedData.isWorkFromHome ?? false,
-          total_seconds,
+          total_seconds: totalSeconds,
         },
       });
 
       let isIncrement: boolean | null = null;
-      const currentTotalSecond = total_seconds - (validatedData.exclude ?? 0);
-      const oldTotalSecond = ts.total_seconds - (ts.exclude_seconds ?? 0);
+      const currentTotalSecond = totalSeconds;
+      const oldTotalSecond = ts.total_seconds;
 
       switch (true) {
         case oldTotalSecond > currentTotalSecond:
@@ -229,23 +215,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
         },
       });
 
-      const tsSummary = await prisma.timeSheetSummary.findMany({
-        where: {
-          user_id: session.user.id,
-          sum_date: stampDate,
-        },
-        select: {
-          sum_date: true,
-          total_seconds: true,
-        },
-      });
-
-      const hourData = tsSummary.reduce<Record<string, number>>((acc, item) => {
-        const dateKey = item.sum_date.toISOString().split('T')[0];
-        acc[dateKey] = (acc[dateKey] || 0) + item.total_seconds / 3600;
-        return acc;
-      }, {});
-
+      const hourData = getHourData(session.user.id, stampDate);
       return { id: ts.id, hourData };
     },
     successMessage: 'Updated successfully',
@@ -288,30 +258,33 @@ export async function handleDeleteTimeSheet(id: string) {
           },
         },
         data: {
-          total_seconds: { decrement: ts.total_seconds - (ts.exclude_seconds || 0) },
+          total_seconds: { decrement: ts.total_seconds },
           stamp_at: new Date(),
         },
       });
 
-      const tsSummary = await prisma.timeSheetSummary.findMany({
-        where: {
-          user_id: session.user.id,
-          sum_date: ts.stamp_date,
-        },
-        select: {
-          sum_date: true,
-          total_seconds: true,
-        },
-      });
-
-      const hourData = tsSummary.reduce<Record<string, number>>((acc, item) => {
-        const dateKey = item.sum_date.toISOString().split('T')[0];
-        acc[dateKey] = (acc[dateKey] || 0) + item.total_seconds / 3600;
-        return acc;
-      }, {});
-
+      const hourData = getHourData(session.user.id, ts.stamp_date);
       return { id: ts.id, hourData };
     },
     successMessage: 'Deleted successfully',
   });
+}
+
+async function getHourData(userId: string, stampDate: Date) {
+  const tsSummary = await prisma.timeSheetSummary.findMany({
+    where: {
+      user_id: userId,
+      sum_date: stampDate,
+    },
+    select: {
+      sum_date: true,
+      total_seconds: true,
+    },
+  });
+
+  return tsSummary.reduce<Record<string, number>>((acc, item) => {
+    const dateKey = item.sum_date.toISOString().split('T')[0];
+    acc[dateKey] = (acc[dateKey] || 0) + item.total_seconds / 3600;
+    return acc;
+  }, {});
 }

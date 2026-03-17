@@ -4,6 +4,9 @@ import prisma from '@/lib/prisma';
 export async function GET(request: Request) {
   try {
     const session = await auth();
+    if (!session) {
+      return Response.json({ message: 'Unauthorized' }, { status: 401 });
+    }
     const searchParams = new URL(request.url).searchParams;
     const user_id = searchParams.get('user_id');
     const currentUser = await prisma.user.findUnique({

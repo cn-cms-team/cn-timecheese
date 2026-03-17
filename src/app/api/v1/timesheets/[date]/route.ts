@@ -5,7 +5,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ date
   try {
     const session = await auth();
     if (!session) {
-      return Response.json({ message: 'Unauthorize', status: 401 });
+      return Response.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
     const { date } = await params;
