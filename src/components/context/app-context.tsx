@@ -63,10 +63,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
         if (
           resetPasswordDateSession == null ||
-          (resetPasswordDateSession == '' && !pathname.includes('reset-password'))
+          (resetPasswordDateSession == '' && !pathname.includes('change-password'))
         ) {
           // redirect to change password page
-          window.location.href = `/setting/user/${user_id}/reset-password`;
+          window.location.href = `/change-password`;
         }
         const lastLoginAt = session?.user?.lastLoginAt || '';
         if (lastLoginAt && lastLoginAt !== last_login_at) {

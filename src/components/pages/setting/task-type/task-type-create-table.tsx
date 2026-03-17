@@ -11,6 +11,7 @@ import {
 import { ITaskType } from '@/types/setting/task-type';
 import BadgeTable from '@/components/ui/custom/data-table/badge';
 import { ButtonDelete, ButtonEdit } from '@/components/ui/custom/data-table';
+import { toneLabels, toneSwatchClasses } from '@/lib/constants/task';
 
 export type TaskArrayName = 'task_type';
 
@@ -24,6 +25,7 @@ const TaskTypeCreateTable = ({ data, onOpenDialog, mode }: TaskTypeTableProps) =
   const header = [
     { label: 'ประเภทงาน', className: 'text-start min-w-[100px]' },
     { label: 'คำอธิบาย', className: 'text-start min-w-[200px]' },
+    { label: 'สี', className: 'text-center min-w-[120px]' },
     { label: 'สถานะ', className: 'text-center' },
   ];
   if (mode === 'edit') {
@@ -61,6 +63,20 @@ const TaskTypeCreateTable = ({ data, onOpenDialog, mode }: TaskTypeTableProps) =
                   </TableCell>
                   <TableCell>
                     <div className="text-start">{item.description || '-'}</div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center justify-center gap-2">
+                      {item.tone_color ? (
+                        <>
+                          <span
+                            className={`inline-block h-3 w-3 rounded-full ${toneSwatchClasses[item.tone_color]}`}
+                          />
+                          <span>{toneLabels[item.tone_color]}</span>
+                        </>
+                      ) : (
+                        <span>-</span>
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell>
                     <div className="text-center">

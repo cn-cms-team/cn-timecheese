@@ -1,4 +1,5 @@
 import { TaskTypeCode } from '../../../generated/prisma/enums';
+import { TimelineCardTone } from '../timesheet';
 
 export type ITaskMenu = {
   id: TaskTypeCode;
@@ -11,6 +12,7 @@ export type ITaskType = {
   type: TaskTypeCode;
   name: string;
   description?: string;
+  tone_color?: TimelineCardTone | null;
   is_active: boolean;
 };
 

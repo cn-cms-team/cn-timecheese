@@ -1,6 +1,7 @@
 import { IOptions } from '@/types/dropdown';
 import { TaskTypeCode } from '../../../generated/prisma/enums';
 import { ITaskMenu } from '@/types/setting/task-type';
+import { TimelineCardTone } from '@/types/timesheet';
 
 export const taskTypeOption: IOptions[] = [
   {
@@ -121,3 +122,23 @@ export const taskTypeMenu: ITaskMenu[] = [
     is_project_task: true,
   },
 ];
+
+export const toneLabels: Record<TimelineCardTone, string> = {
+  blue: 'น้ำเงิน',
+  violet: 'ม่วง',
+  slate: 'เทา',
+  green: 'เขียว',
+  red: 'แดง',
+  yellow: 'เหลือง',
+  orange: 'ส้ม',
+};
+
+export const toneSwatchClasses: Record<TimelineCardTone, string> = {
+  blue: 'bg-blue-500',
+  violet: 'bg-violet-500',
+  slate: 'bg-slate-500',
+  green: 'bg-emerald-500',
+  red: 'bg-rose-500',
+  yellow: 'bg-yellow-500',
+  orange: 'bg-orange-500',
+};

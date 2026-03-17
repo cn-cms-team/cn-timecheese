@@ -29,6 +29,7 @@ export type TaskTypeMinAggregateOutputType = {
   type: $Enums.TaskTypeCode | null
   name: string | null
   description: string | null
+  tone_color: string | null
   is_active: boolean | null
 }
 
@@ -37,6 +38,7 @@ export type TaskTypeMaxAggregateOutputType = {
   type: $Enums.TaskTypeCode | null
   name: string | null
   description: string | null
+  tone_color: string | null
   is_active: boolean | null
 }
 
@@ -45,6 +47,7 @@ export type TaskTypeCountAggregateOutputType = {
   type: number
   name: number
   description: number
+  tone_color: number
   is_active: number
   _all: number
 }
@@ -55,6 +58,7 @@ export type TaskTypeMinAggregateInputType = {
   type?: true
   name?: true
   description?: true
+  tone_color?: true
   is_active?: true
 }
 
@@ -63,6 +67,7 @@ export type TaskTypeMaxAggregateInputType = {
   type?: true
   name?: true
   description?: true
+  tone_color?: true
   is_active?: true
 }
 
@@ -71,6 +76,7 @@ export type TaskTypeCountAggregateInputType = {
   type?: true
   name?: true
   description?: true
+  tone_color?: true
   is_active?: true
   _all?: true
 }
@@ -152,6 +158,7 @@ export type TaskTypeGroupByOutputType = {
   type: $Enums.TaskTypeCode
   name: string
   description: string | null
+  tone_color: string | null
   is_active: boolean
   _count: TaskTypeCountAggregateOutputType | null
   _min: TaskTypeMinAggregateOutputType | null
@@ -181,6 +188,7 @@ export type TaskTypeWhereInput = {
   type?: Prisma.EnumTaskTypeCodeFilter<"TaskType"> | $Enums.TaskTypeCode
   name?: Prisma.StringFilter<"TaskType"> | string
   description?: Prisma.StringNullableFilter<"TaskType"> | string | null
+  tone_color?: Prisma.StringNullableFilter<"TaskType"> | string | null
   is_active?: Prisma.BoolFilter<"TaskType"> | boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeListRelationFilter
 }
@@ -190,6 +198,7 @@ export type TaskTypeOrderByWithRelationInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  tone_color?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrder
   projectTaskTypes?: Prisma.ProjectTaskTypeOrderByRelationAggregateInput
 }
@@ -202,6 +211,7 @@ export type TaskTypeWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.EnumTaskTypeCodeFilter<"TaskType"> | $Enums.TaskTypeCode
   name?: Prisma.StringFilter<"TaskType"> | string
   description?: Prisma.StringNullableFilter<"TaskType"> | string | null
+  tone_color?: Prisma.StringNullableFilter<"TaskType"> | string | null
   is_active?: Prisma.BoolFilter<"TaskType"> | boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeListRelationFilter
 }, "id">
@@ -211,6 +221,7 @@ export type TaskTypeOrderByWithAggregationInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
+  tone_color?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrder
   _count?: Prisma.TaskTypeCountOrderByAggregateInput
   _max?: Prisma.TaskTypeMaxOrderByAggregateInput
@@ -225,6 +236,7 @@ export type TaskTypeScalarWhereWithAggregatesInput = {
   type?: Prisma.EnumTaskTypeCodeWithAggregatesFilter<"TaskType"> | $Enums.TaskTypeCode
   name?: Prisma.StringWithAggregatesFilter<"TaskType"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"TaskType"> | string | null
+  tone_color?: Prisma.StringNullableWithAggregatesFilter<"TaskType"> | string | null
   is_active?: Prisma.BoolWithAggregatesFilter<"TaskType"> | boolean
 }
 
@@ -233,6 +245,7 @@ export type TaskTypeCreateInput = {
   type: $Enums.TaskTypeCode
   name: string
   description?: string | null
+  tone_color?: string | null
   is_active?: boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeCreateNestedManyWithoutTask_typeInput
 }
@@ -242,6 +255,7 @@ export type TaskTypeUncheckedCreateInput = {
   type: $Enums.TaskTypeCode
   name: string
   description?: string | null
+  tone_color?: string | null
   is_active?: boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedCreateNestedManyWithoutTask_typeInput
 }
@@ -251,6 +265,7 @@ export type TaskTypeUpdateInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tone_color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeUpdateManyWithoutTask_typeNestedInput
 }
@@ -260,6 +275,7 @@ export type TaskTypeUncheckedUpdateInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tone_color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedUpdateManyWithoutTask_typeNestedInput
 }
@@ -269,6 +285,7 @@ export type TaskTypeCreateManyInput = {
   type: $Enums.TaskTypeCode
   name: string
   description?: string | null
+  tone_color?: string | null
   is_active?: boolean
 }
 
@@ -277,6 +294,7 @@ export type TaskTypeUpdateManyMutationInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tone_color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -285,6 +303,7 @@ export type TaskTypeUncheckedUpdateManyInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tone_color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -293,6 +312,7 @@ export type TaskTypeCountOrderByAggregateInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  tone_color?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
 }
 
@@ -301,6 +321,7 @@ export type TaskTypeMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  tone_color?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
 }
 
@@ -309,6 +330,7 @@ export type TaskTypeMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  tone_color?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
 }
 
@@ -342,6 +364,7 @@ export type TaskTypeCreateWithoutProjectTaskTypesInput = {
   type: $Enums.TaskTypeCode
   name: string
   description?: string | null
+  tone_color?: string | null
   is_active?: boolean
 }
 
@@ -350,6 +373,7 @@ export type TaskTypeUncheckedCreateWithoutProjectTaskTypesInput = {
   type: $Enums.TaskTypeCode
   name: string
   description?: string | null
+  tone_color?: string | null
   is_active?: boolean
 }
 
@@ -374,6 +398,7 @@ export type TaskTypeUpdateWithoutProjectTaskTypesInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tone_color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -382,6 +407,7 @@ export type TaskTypeUncheckedUpdateWithoutProjectTaskTypesInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tone_color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -421,6 +447,7 @@ export type TaskTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   type?: boolean
   name?: boolean
   description?: boolean
+  tone_color?: boolean
   is_active?: boolean
   projectTaskTypes?: boolean | Prisma.TaskType$projectTaskTypesArgs<ExtArgs>
   _count?: boolean | Prisma.TaskTypeCountOutputTypeDefaultArgs<ExtArgs>
@@ -431,6 +458,7 @@ export type TaskTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   type?: boolean
   name?: boolean
   description?: boolean
+  tone_color?: boolean
   is_active?: boolean
 }, ExtArgs["result"]["taskType"]>
 
@@ -439,6 +467,7 @@ export type TaskTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   type?: boolean
   name?: boolean
   description?: boolean
+  tone_color?: boolean
   is_active?: boolean
 }, ExtArgs["result"]["taskType"]>
 
@@ -447,10 +476,11 @@ export type TaskTypeSelectScalar = {
   type?: boolean
   name?: boolean
   description?: boolean
+  tone_color?: boolean
   is_active?: boolean
 }
 
-export type TaskTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "name" | "description" | "is_active", ExtArgs["result"]["taskType"]>
+export type TaskTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "name" | "description" | "tone_color" | "is_active", ExtArgs["result"]["taskType"]>
 export type TaskTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   projectTaskTypes?: boolean | Prisma.TaskType$projectTaskTypesArgs<ExtArgs>
   _count?: boolean | Prisma.TaskTypeCountOutputTypeDefaultArgs<ExtArgs>
@@ -468,6 +498,7 @@ export type $TaskTypePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     type: $Enums.TaskTypeCode
     name: string
     description: string | null
+    tone_color: string | null
     is_active: boolean
   }, ExtArgs["result"]["taskType"]>
   composites: {}
@@ -897,6 +928,7 @@ export interface TaskTypeFieldRefs {
   readonly type: Prisma.FieldRef<"TaskType", 'TaskTypeCode'>
   readonly name: Prisma.FieldRef<"TaskType", 'String'>
   readonly description: Prisma.FieldRef<"TaskType", 'String'>
+  readonly tone_color: Prisma.FieldRef<"TaskType", 'String'>
   readonly is_active: Prisma.FieldRef<"TaskType", 'Boolean'>
 }
     

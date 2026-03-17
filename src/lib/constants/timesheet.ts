@@ -40,3 +40,13 @@ export const toneClasses: Record<TimelineCardTone, { panel: string; badge: strin
       text: 'text-orange-700',
     },
   };
+
+export const TIMELINE_CARD_TONES = [
+  'blue',
+  'violet',
+  'slate',
+  'green',
+  'red',
+  'yellow',
+  'orange',
+] as const;

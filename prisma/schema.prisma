@@ -192,6 +192,7 @@ model TaskType {
   type        TaskTypeCode
   name        String       @db.VarChar(100)
   description String?      @db.VarChar(255)
+  tone_color  String?      @default("slate") @db.VarChar(12)
 
   is_active        Boolean           @default(true)
   projectTaskTypes ProjectTaskType[]

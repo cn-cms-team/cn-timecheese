@@ -19,6 +19,7 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
     name: '',
     description: '',
     type: id as TaskTypeCode,
+    tone_color: 'slate',
     is_active: true,
   });
   const [taskItem, setTaskItem] = useState<ITaskView>();
@@ -138,6 +139,7 @@ const TaskTypeCreate = ({ id }: { id: string }): React.ReactNode => {
               name: '',
               description: '',
               type: id as TaskTypeCode,
+              tone_color: 'slate',
               is_active: true,
             });
             setOpen(true);
