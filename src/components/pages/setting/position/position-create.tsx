@@ -105,8 +105,12 @@ const PositionCreate = ({ id }: { id?: string }): React.ReactNode => {
       });
       const result = await response.json();
       if (response.ok) {
-        toast.success(result.message);
+        if (result.message) {
+          toast.success(result.message);
+        }
         router.push('/setting/position');
+      } else {
+        toast.warning(result.message || 'An unexpected error occurred. Please try again.');
       }
     } catch {
       toast.error('An unexpected error occurred. Please try again.');

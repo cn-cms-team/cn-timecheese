@@ -36,7 +36,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       return Response.json({ message: 'Position not found' }, { status: 404 });
     }
 
-    const formattedData = {
+    const result = {
       id: position.id,
       name: position.name,
       description: position.description,
@@ -49,7 +49,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       })),
     };
 
-    return Response.json({ data: formattedData }, { status: 200 });
+    return Response.json({ data: result }, { status: 200 });
   } catch (error) {
     return Response.json(
       { message: error instanceof Error ? error.message : 'An unknown error occurred' },
@@ -119,7 +119,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     return Response.json({ message: 'Updated successfully', data: { id: result.id } });
   } catch (error) {
     return Response.json(
-      { message: error instanceof Error ? error.message : 'Update failed' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -153,7 +153,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 
     if (levelsIsUsed) {
       return Response.json(
-        { message: 'ระดับตำแหน่งถูกใช้งานอยู่ ไม่สามารถลบได้' },
+        { message: 'Cannot delete position because it is in use by some users' },
         { status: 400 }
       );
     }

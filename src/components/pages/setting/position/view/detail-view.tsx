@@ -74,18 +74,19 @@ const PositionView = ({ id }: { id: string }) => {
           setIsLoading(true);
           const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/position/${id}`;
           const res = await fetch(fetchUrl, { method: 'DELETE' });
-          const data = await res.json();
-          if (!res.ok) {
-            toast.error(data.message);
-            return;
-          } else {
+          const result = await res.json();
+          if (res.ok) {
+            if (result.message) {
+              toast.success(result.message);
+            }
             router.push('/setting/position');
-            toast.success(data.message);
+          } else {
+            toast.error(result.message || 'An unexpected error occurred. Please try again.');
           }
         }
       }
     } catch (error) {
-      console.error(error);
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }

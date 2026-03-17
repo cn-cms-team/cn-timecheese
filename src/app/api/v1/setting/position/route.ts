@@ -12,14 +12,14 @@ export async function POST(request: Request) {
     const result = await prisma.position.create({
       data: {
         name: body.data.name,
-        description: body.data.description || null,
+        description: body.data.description,
         is_enabled: true,
         created_by: session?.user?.id,
         positionLevels: {
           create: body.data.levels.map((level: IPositionLevelRequest) => ({
             ord: level.ord,
             name: level.name,
-            description: level.description || null,
+            description: level.description,
             is_enabled: true,
           })),
         },
