@@ -70,12 +70,26 @@ export async function POST(request: NextRequest) {
       return Response.json(
         {
           message: 'Unauthorized',
+          success: false,
         },
         { status: 401 }
       );
     }
 
     const body = await request.json();
+    const existingUser = await prisma.user.findFirst({
+      where: { email: body.data.email, is_enabled: true, id: { not: body.data.id } },
+    });
+    if (existingUser) {
+      return Response.json(
+        {
+          message: 'Email already exists',
+          success: false,
+        },
+        { status: 400 }
+      );
+    }
+
     const result = await prisma.user.update({
       where: { id: body.data.id },
       data: { ...body.data, updated_by: session?.user.id },
@@ -83,6 +97,7 @@ export async function POST(request: NextRequest) {
 
     return Response.json(
       {
+        success: true,
         message: 'Updated successfully',
         data: { id: result.id },
       },

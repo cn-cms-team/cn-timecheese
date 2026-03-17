@@ -38,7 +38,7 @@ const UserViewDetail = ({ id }: { id: string }): React.ReactNode => {
   return (
     <div className="cev-box">
       <TitleGroup title="ข้อมูลผู้ใช้งาน" />
-      <div className="flex flex-col px-0 lg:px-8 gap-5">
+      <div className="flex flex-col gap-5">
         <LabelGroup label="อีเมล" value={userData?.email} />
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
           <LabelGroup label="ชื่อ" value={userData?.first_name} />

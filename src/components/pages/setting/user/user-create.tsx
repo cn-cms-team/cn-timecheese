@@ -143,8 +143,12 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       if (response.ok) {
         const result = await response.json();
 
-        toast.success(result.message);
-        router.push('/setting/user');
+        if (result.success) {
+          toast.success(result.message);
+          router.push('/setting/user');
+        } else {
+          toast.warning(result.message || 'An error occurred while saving the user.');
+        }
       }
     } catch {
       toast.error('An unexpected error occurred. Please try again.');
@@ -439,6 +443,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                     endMonth={undefined}
                     placeholder="กรุณาเลือกวันที่สิ้นสุดของคุณ"
                     onChange={field.onChange}
+                    allowClear
                   />
                 </FormControl>
                 <FormMessage />
