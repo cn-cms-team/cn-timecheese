@@ -94,7 +94,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   try {
     const { id } = await params;
     if (!id) {
-      return Response.json({ error: 'team ID is required' }, { status: 400 });
+      return Response.json({ message: 'Team ID is required' }, { status: 400 });
     }
 
     // Check if team is in use by users
@@ -102,9 +102,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     if (teamUser) {
       return Response.json(
         {
-          message:
-            'This team cannot be deleted because it is currently assigned to active users. Please reassign or deactivate those users before deleting the team.',
-          success: false,
+          message: 'This team cannot be deleted because it is currently assigned to active users.',
         },
         { status: 400 }
       );

@@ -57,8 +57,13 @@ const TeamListView = () => {
       });
       if (response.ok) {
         const result = await response.json();
-        toast.success(result.message);
+        if (result.message) {
+          toast.success(result.message);
+        }
         router.push('/setting/team');
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.message || 'Failed to delete team');
       }
     } catch {
       toast.error('An unexpected error occurred. Please try again.');
