@@ -1846,6 +1846,7 @@ export const TimeSheetScalarFieldEnum = {
   total_seconds: 'total_seconds',
   detail: 'detail',
   remark: 'remark',
+  is_work_from_home: 'is_work_from_home',
   created_at: 'created_at'
 } as const
 

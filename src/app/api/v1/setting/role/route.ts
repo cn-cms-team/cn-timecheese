@@ -36,10 +36,10 @@ export async function GET() {
         used_count: role._count.User,
       };
     });
-    return Response.json({ data: roleMaps, status: 200 });
+    return Response.json({ data: roleMaps }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -52,7 +52,11 @@ export async function POST(request: Request) {
     const { name, description, permissions = [] } = body.data ?? {};
 
     if (!session?.user?.id) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+      return Response.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    if (permissions.length === 0) {
+      return Response.json({ message: 'Permissions are required' }, { status: 400 });
     }
 
     const result = await prisma.role.create({
@@ -64,10 +68,6 @@ export async function POST(request: Request) {
       },
     });
 
-    if (!result) {
-      return Response.json({ error: 'Failed to create role' }, { status: 500 });
-    }
-
     const rolePermissions = permissions.flatMap(
       (permission: { code: string; checked?: string[] }) =>
         (permission.checked ?? []).map((pmsCode) => ({
@@ -77,17 +77,9 @@ export async function POST(request: Request) {
         }))
     );
 
-    if (rolePermissions.length === 0) {
-      return Response.json({ error: 'No permissions provided' }, { status: 404 });
-    }
-
-    const rolePermissionRes = await prisma.rolePermission.createMany({
+    await prisma.rolePermission.createMany({
       data: rolePermissions,
     });
-
-    if (!rolePermissionRes) {
-      return Response.json({ error: 'Failed to assign permissions' }, { status: 500 });
-    }
 
     return Response.json(
       {
@@ -98,7 +90,7 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

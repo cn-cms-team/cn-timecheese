@@ -12,13 +12,12 @@ const ReportTeamDetail = ({ user, projects, loading }: IReportTeam & { loading: 
         position={user.position_level?.name}
         code={user?.code}
         start_date={user?.start_date}
-        salary_range={user?.salary_range}
         loading={loading}
       />
       <div className="flex flex-col gap-4 border-t py-4">
         <h3 className="text-lg font-medium">โครงการที่รับผิดชอบ</h3>
         {loading ? (
-          <Skeleton className="w-full h-[500px] rounded-md bg-gray-400" />
+          <Skeleton className="w-full h-125 rounded-md bg-gray-400" />
         ) : projects && projects.length > 0 && !loading ? (
           <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 justify-start gap-3">
             {projects.map((project: IUserReportProject, index: number) => (

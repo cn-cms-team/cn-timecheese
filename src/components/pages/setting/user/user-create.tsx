@@ -54,7 +54,6 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
       team_id: '',
       position_level_id: '',
       role_id: '',
-      salary_range: '',
       is_active: true,
     },
   });
@@ -132,7 +131,6 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
         start_date: values.start_date,
         end_date: values.end_date,
         is_active: values.is_active,
-        salary_range: values.salary_range,
         code: values.code,
       };
       const response = await fetch(fetchUrl, {
@@ -142,11 +140,14 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
         },
         body: JSON.stringify({ data }),
       });
+      const result = await response.json();
       if (response.ok) {
-        const result = await response.json();
-
-        toast.success(result.message);
+        if (result.message) {
+          toast.success(result.message);
+        }
         router.push('/setting/user');
+      } else {
+        toast.warning(result.message || 'An unexpected error occurred. Please try again.');
       }
     } catch {
       toast.error('An unexpected error occurred. Please try again.');
@@ -441,27 +442,7 @@ const UserCreate = ({ id }: { id?: string }): React.ReactNode => {
                     endMonth={undefined}
                     placeholder="กรุณาเลือกวันที่สิ้นสุดของคุณ"
                     onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="salary_range"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>ช่วงเงินเดือนโดยประมาณ</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="กรุณากรอกช่วงเงินเดือนโดยประมาณ"
-                    {...field}
-                    value={field.value || ''}
-                    maxLength={MAX_LENGTH_100}
-                    onInput={(e) => {
-                      field.onChange(e);
-                    }}
+                    allowClear
                   />
                 </FormControl>
                 <FormMessage />

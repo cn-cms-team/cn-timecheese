@@ -60,6 +60,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
           end_date: end,
           detail: validatedData.detail || '',
           exclude_seconds: validatedData.exclude ?? 0,
+          is_work_from_home: validatedData.isWorkFromHome ?? false,
           total_seconds,
         },
       });
@@ -182,6 +183,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
           end_date: end,
           detail: validatedData.detail || '',
           exclude_seconds: validatedData.exclude ?? 0,
+          is_work_from_home: validatedData.isWorkFromHome ?? false,
           total_seconds,
         },
       });

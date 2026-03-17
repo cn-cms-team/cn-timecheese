@@ -30,6 +30,8 @@ import TitleGroup from '@/components/ui/custom/cev/title-group';
 import { Required } from '@/components/ui/custom/form';
 import { useLoading } from '@/components/context/app-context';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
+import { MAX_LENGTH_255 } from '@/lib/constants/validation';
 
 type OutputItem = {
   code: string;
@@ -90,7 +92,7 @@ const RoleCreate = ({ id }: { id?: string }) => {
           permissions: transformData(data.permissions ?? []),
         });
       } catch (error) {
-        console.log(error instanceof Error ? error.message : 'Unknown error');
+        toast.error('An unexpected error occurred. Please try again.');
       } finally {
         setIsLoading(false);
       }
@@ -118,7 +120,6 @@ const RoleCreate = ({ id }: { id?: string }) => {
         name: values.name,
         description: values.description,
         permissions: values.permissions,
-        // created_by: session.user?.id as String,
       };
       const response = await fetch(fetchUrl, {
         method: 'POST',
@@ -129,10 +130,17 @@ const RoleCreate = ({ id }: { id?: string }) => {
       });
 
       if (response.ok) {
+        const result = await response.json();
+        if (result.message) {
+          toast.success(result.message);
+        }
         router.push('/setting/role');
+      } else {
+        const errorResult = await response.json();
+        toast.warning(errorResult.message || 'An unexpected error occurred. Please try again.');
       }
     } catch (err) {
-      console.error('Error saving role:', err);
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -394,6 +402,8 @@ const RoleCreate = ({ id }: { id?: string }) => {
                       onInput={(e) => {
                         field.onChange(e);
                       }}
+                      maxLength={MAX_LENGTH_255}
+                      showMaxLengthCounter
                     />
                   </FormControl>
                   <FormMessage />

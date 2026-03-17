@@ -28,7 +28,7 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function RoleList<TData, TValue>({ columns, data, loading }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'email', desc: false }]);
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'name', desc: false }]);
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState<{
     search: string;

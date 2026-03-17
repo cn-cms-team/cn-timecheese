@@ -90,6 +90,7 @@ const SortableRow = <T extends FieldValues>({ id, index, form, data, onDelete }:
                   onInput={(e) => {
                     field.onChange(e);
                   }}
+                  showMaxLengthCounter
                 />
               </FormControl>
               <FormMessage />

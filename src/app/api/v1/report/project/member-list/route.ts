@@ -5,7 +5,7 @@ export async function GET(request: Request) {
   const projectId = searchParams.get('project_id');
   try {
     if (!projectId) {
-      return Response.json({ error: 'Project ID is required' }, { status: 400 });
+      return Response.json({ message: 'Project ID is required' }, { status: 400 });
     }
     const project = await prisma.projectMember.findMany({
       where: { project_id: projectId },
@@ -24,10 +24,10 @@ export async function GET(request: Request) {
       label: `${item.user.first_name} ${item.user.last_name}`,
       value: String(item.user_id),
     }));
-    return Response.json({ data: options, status: 200 });
+    return Response.json({ data: options }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

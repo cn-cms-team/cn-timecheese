@@ -8,7 +8,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const userId = body.data?.user_id;
     const isLeader = Boolean(body.data?.status);
     if (!id || !userId) {
-      return Response.json({ error: 'teamId and userId  are required' }, { status: 400 });
+      return Response.json({ message: 'teamId and userId  are required' }, { status: 400 });
     }
     if (isLeader) {
       const exists = await prisma.teamLeader.findFirst({
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     }
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

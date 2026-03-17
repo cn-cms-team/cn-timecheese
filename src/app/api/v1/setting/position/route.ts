@@ -12,14 +12,14 @@ export async function POST(request: Request) {
     const result = await prisma.position.create({
       data: {
         name: body.data.name,
-        description: body.data.description || null,
+        description: body.data.description,
         is_enabled: true,
         created_by: session?.user?.id,
         positionLevels: {
           create: body.data.levels.map((level: IPositionLevelRequest) => ({
             ord: level.ord,
             name: level.name,
-            description: level.description || null,
+            description: level.description,
             is_enabled: true,
           })),
         },
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     return Response.json({ message: 'Created successfully', data: result });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -63,10 +63,10 @@ export async function GET() {
       used_count: position.positionLevels.reduce((acc, level) => acc + level._count.users, 0),
     }));
 
-    return Response.json({ data: positionMaps, status: 200 });
+    return Response.json({ data: positionMaps }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

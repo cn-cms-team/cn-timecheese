@@ -15,10 +15,10 @@ export async function GET() {
       },
       orderBy: { name: 'desc' },
     });
-    return Response.json({ data: taskTypes, status: 200 });
+    return Response.json({ data: taskTypes }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

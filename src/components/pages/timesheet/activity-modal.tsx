@@ -61,8 +61,15 @@ const AddActivityModal = ({
   const { isProjectOptionsLoading, projectOptions, getTaskTypeOptionsByProjectId } =
     useTimeSheetMasterContext();
 
+  const selectedDate = useMemo(() => parseDayId(selectedDayId), [selectedDayId]);
+
+  const normalizedSelectedDate = useMemo(() => {
+    const date = new Date(selectedDate);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }, [selectedDate]);
+
   const defaultStartDate = useMemo(() => {
-    const selectedDate = parseDayId(selectedDayId);
     const start = new Date(selectedDate);
 
     if (latestActivityEndDate) {
@@ -78,7 +85,7 @@ const AddActivityModal = ({
 
     start.setHours(START_TIME_HOUR, 0, 0, 0);
     return start;
-  }, [latestActivityEndDate, selectedDayId]);
+  }, [latestActivityEndDate, selectedDate]);
 
   const defaultEndDate = useMemo(() => {
     const end = new Date(defaultStartDate);
@@ -93,11 +100,10 @@ const AddActivityModal = ({
   }, [defaultStartDate, latestActivityEndDate]);
 
   const defaultBreakTime = useMemo(() => {
-    const selectedDate = parseDayId(selectedDayId);
     const breakTime = new Date(selectedDate);
     breakTime.setHours(1, 0, 0, 0);
     return breakTime;
-  }, [selectedDayId]);
+  }, [selectedDate]);
 
   const form = useForm<TimeSheetCreateEditSchema>({
     resolver: zodResolver(timeSheetCreateEditSchema),
@@ -113,6 +119,7 @@ const AddActivityModal = ({
       detail: '',
 
       break_time: defaultBreakTime,
+      isWorkFromHome: false,
       is_all_day:
         defaultStartDate.getHours() === START_TIME_HOUR &&
         defaultEndDate.getHours() === END_TIME_HOUR,
@@ -146,6 +153,34 @@ const AddActivityModal = ({
     () => getTaskTypeOptionsByProjectId(projectId),
     [getTaskTypeOptionsByProjectId, projectId]
   );
+
+  const filteredProjectOptions = useMemo(() => {
+    return projectOptions
+      .map((group) => ({
+        ...group,
+        options: group.options.filter((project) => {
+          const projectStartDate = project.startDate ? new Date(project.startDate) : null;
+          const projectEndDate = project.endDate ? new Date(project.endDate) : null;
+
+          if (projectStartDate) {
+            projectStartDate.setHours(0, 0, 0, 0);
+            if (normalizedSelectedDate < projectStartDate) {
+              return false;
+            }
+          }
+
+          if (projectEndDate) {
+            projectEndDate.setHours(23, 59, 59, 999);
+            if (normalizedSelectedDate > projectEndDate) {
+              return false;
+            }
+          }
+
+          return true;
+        }),
+      }))
+      .filter((group) => group.options.length > 0);
+  }, [normalizedSelectedDate, projectOptions]);
 
   const isEditMode = Boolean(initialItem?.id);
 
@@ -182,14 +217,13 @@ const AddActivityModal = ({
         end_date: endDate,
         detail: initialItem.detail,
         break_time: breakDate,
+        isWorkFromHome: initialItem.isWorkFromHome ?? false,
         is_all_day:
           startDate.getHours() === START_TIME_HOUR && endDate.getHours() === END_TIME_HOUR,
       });
 
       return;
     }
-
-    const selectedDate = parseDayId(selectedDayId);
 
     form.reset({
       id: undefined,
@@ -202,9 +236,10 @@ const AddActivityModal = ({
       end_date: defaultEndDate,
       detail: '',
       break_time: defaultBreakTime,
+      isWorkFromHome: false,
       is_all_day: false,
     });
-  }, [defaultBreakTime, defaultEndDate, defaultStartDate, form, initialItem, open, selectedDayId]);
+  }, [defaultBreakTime, defaultEndDate, defaultStartDate, form, initialItem, open, selectedDate]);
 
   useEffect(() => {
     if (!projectTaskTypeId) {
@@ -223,15 +258,35 @@ const AddActivityModal = ({
     }
   }, [form, projectTaskTypeId, taskTypeOptions]);
 
+  useEffect(() => {
+    if (!projectId) {
+      return;
+    }
+
+    const isValidProject = filteredProjectOptions.some((group) =>
+      group.options.some((project) => project.value === projectId)
+    );
+
+    if (!isValidProject) {
+      form.setValue('project_id', undefined, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+      form.setValue('project_task_type_id', undefined, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    }
+  }, [filteredProjectOptions, form, projectId]);
+
   const selectedDateLabel = useMemo(() => {
-    const selectedDate = parseDayId(selectedDayId);
     return selectedDate.toLocaleDateString('th-TH', {
       weekday: 'long',
       day: 'numeric',
       month: 'long',
       year: 'numeric',
     });
-  }, [selectedDayId]);
+  }, [selectedDate]);
 
   const formattedCalculatedHours = useMemo(() => {
     const start = new Date(startDate);
@@ -293,7 +348,6 @@ const AddActivityModal = ({
       shouldValidate: true,
     });
 
-    const selectedDate = parseDayId(selectedDayId);
     if (checked) {
       form.setValue('is_include_breaking_time', true, {
         shouldDirty: true,
@@ -445,6 +499,32 @@ const AddActivityModal = ({
                 )}
               />
             </div>
+
+            <FormField
+              control={form.control}
+              name="isWorkFromHome"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="flex items-center gap-2">
+                      <Checkbox
+                        checked={field.value}
+                        id="is-work-from-home"
+                        onCheckedChange={(checked) => field.onChange(Boolean(checked))}
+                        disabled={isLoading}
+                      />
+                      <Label
+                        className="cursor-pointer text-lg font-medium text-slate-800"
+                        htmlFor="is-work-from-home"
+                      >
+                        ทำงานที่บ้าน
+                      </Label>
+                    </div>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <hr className="border-slate-200" />
             <FormField
               control={form.control}
               name="project_id"
@@ -459,7 +539,7 @@ const AddActivityModal = ({
                       <ComboboxForm
                         disabled={isProjectOptionsLoading || isLoading}
                         field={field}
-                        options={projectOptions}
+                        options={filteredProjectOptions}
                         placeholder="เลือกโครงการ"
                         value={projectId}
                         isGroup
@@ -531,6 +611,8 @@ const AddActivityModal = ({
                         placeholder="กรอกรายละเอียดการทำงาน"
                         value={field.value}
                         disabled={isLoading}
+                        maxLength={1000}
+                        showMaxLengthCounter
                       />
                     </FormControl>
                   </FormGroup>

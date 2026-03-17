@@ -14,6 +14,8 @@ type TaskTypeOption = {
 type ProjectOption = {
   label: string;
   value: string;
+  startDate?: string | Date | null;
+  endDate?: string | Date | null;
   taskTypes: {
     label: string;
     options: TaskTypeOption[];

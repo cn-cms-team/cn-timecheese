@@ -165,10 +165,14 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         },
         body: JSON.stringify({ data }),
       });
+      const result = await response.json();
       if (response.ok) {
-        const result = await response.json();
-        toast.success(result.message);
+        if (result.message) {
+          toast.success(result.message);
+        }
         router.push('/setting/project');
+      } else {
+        toast.warning(result.message || 'An unexpected error occurred. Please try again.');
       }
     } catch {
       toast.error('An unexpected error occurred. Please try again.');
@@ -363,6 +367,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                           placeholder="วันที่สิ้นสุดโครงการ"
                           isError={form.formState.errors.start_date ? true : false}
                           onChange={field.onChange}
+                          allowClear
                         />
                       </FormControl>
                       <FormMessage />
@@ -382,6 +387,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                           placeholder="วันที่เริ่มต้นการบำรุงรักษา"
                           isError={form.formState.errors.maintenance_start_date ? true : false}
                           onChange={field.onChange}
+                          allowClear
                         />
                       </FormControl>
                       <FormMessage />
@@ -401,6 +407,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                           placeholder="วันที่สิ้นสุดการบำรุงรักษา"
                           isError={form.formState.errors.maintenance_end_date ? true : false}
                           onChange={field.onChange}
+                          allowClear
                         />
                       </FormControl>
                       <FormMessage />
@@ -442,6 +449,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                           {...field}
                           value={field.value ?? ''}
                           onChange={field.onChange}
+                          showMaxLengthCounter
                         />
                       </FormControl>
                       <FormMessage />

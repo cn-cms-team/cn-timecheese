@@ -113,10 +113,14 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
         },
         body: JSON.stringify(baseData),
       });
+      const result = await response.json();
       if (response.ok) {
-        const result = await response.json();
-        toast.success(result.message);
+        if (result.message) {
+          toast.success(result.message);
+        }
         router.push('/setting/team');
+      } else {
+        toast.error(result.message || 'An unexpected error occurred. Please try again.');
       }
     } catch {
       toast.error('An unexpected error occurred. Please try again.');
@@ -223,6 +227,7 @@ const TeamCreate = ({ id }: { id?: string }): React.ReactNode => {
                     onInput={(e) => {
                       field.onChange(e);
                     }}
+                    showMaxLengthCounter
                   />
                 </FormControl>
                 <FormMessage />

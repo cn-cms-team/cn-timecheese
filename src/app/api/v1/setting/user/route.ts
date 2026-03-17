@@ -34,10 +34,10 @@ export async function GET() {
         fullName: [user.first_name, user.last_name].join(' ').trim(),
       };
     });
-    return Response.json({ data: userMaps, status: 200 });
+    return Response.json({ data: userMaps }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -48,14 +48,19 @@ export async function POST(request: Request) {
     const session = await auth();
 
     if (!session || !session.user) {
-      return Response.json(
-        {
-          message: 'Unauthorized',
-        },
-        { status: 401 }
-      );
+      return Response.json({ message: 'Unauthorized' }, { status: 401 });
     }
+
+    // check if email already exists
     const body = await request.json();
+    const existingUser = await prisma.user.findUnique({
+      where: { email: body.data.email, is_enabled: true },
+      select: { id: true },
+    });
+    if (existingUser) {
+      return Response.json({ message: 'Email already exists' }, { status: 400 });
+    }
+
     const hashedPassword = await bcrypt.hash(body.data.password, 10);
 
     const result = await prisma.user.create({
@@ -71,7 +76,7 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

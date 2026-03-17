@@ -5,7 +5,7 @@ import { NextRequest } from 'next/server';
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!id) {
-    return Response.json({ error: 'Project ID is required' }, { status: 400 });
+    return Response.json({ message: 'Project ID is required' }, { status: 400 });
   }
   try {
     const project = await prisma.project.findUnique({
@@ -59,7 +59,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     });
 
     if (!project) {
-      return Response.json({ error: 'Project Not Found', status: 404 });
+      return Response.json({ message: 'Project Not Found', status: 404 });
     }
 
     const referenceMember = await prisma.timeSheet.findMany({
@@ -116,10 +116,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         })),
     };
 
-    return Response.json({ data: result, status: 200 });
+    return Response.json({ data: result }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -263,7 +263,7 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -274,14 +274,15 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     const { id } = await params;
 
     if (!id) {
-      return Response.json({ error: 'Project ID is required' }, { status: 400 });
+      return Response.json({ message: 'Project ID is required' }, { status: 400 });
     }
 
-    const hasReference = await prisma.timeSheet.findFirst({
+    const isInAnyTimeSheet = await prisma.timeSheet.findFirst({
       where: { project_id: id },
+      select: { id: true },
     });
 
-    if (hasReference) {
+    if (isInAnyTimeSheet) {
       return Response.json(
         {
           message: `Cannot delete this project while it is currently in use.`,
@@ -306,7 +307,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

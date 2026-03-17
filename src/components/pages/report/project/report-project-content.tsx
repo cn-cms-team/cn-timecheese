@@ -119,7 +119,6 @@ const ReportProjectContent = () => {
               position={reportProjectData.user.position}
               code={reportProjectData.user?.code}
               start_date={reportProjectData.user?.start_date}
-              salary_range={reportProjectData.user?.saraly_range}
               loading={isLoading}
             />
           </div>

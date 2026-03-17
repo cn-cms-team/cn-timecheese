@@ -6,7 +6,7 @@ import { IPermissionId } from '@/types/permission';
 export async function GET() {
   const session = await auth();
   if (!session) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    return Response.json({ message: 'Unauthorized' }, { status: 401 });
   }
   try {
     const user = await prisma.user.findUnique({
@@ -58,7 +58,7 @@ export async function GET() {
     });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

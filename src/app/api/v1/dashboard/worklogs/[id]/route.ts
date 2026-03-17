@@ -4,7 +4,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const { searchParams } = new URL(request.url);
   const userId = (await params).id;
   if (!userId) {
-    return Response.json({ error: 'User ID parameter is required' }, { status: 400 });
+    return Response.json({ message: 'User ID parameter is required' }, { status: 400 });
   }
 
   const search = searchParams.get('search')?.trim() || '';
@@ -16,7 +16,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const skip = (page - 1) * limit;
 
   if (!projectId) {
-    return Response.json({ error: 'Project ID parameter is required' }, { status: 400 });
+    return Response.json({ message: 'Project ID parameter is required' }, { status: 400 });
   }
 
   //ใช้ en-CA เพื่อทำให้รูปแบบ ISO โดยไม่แปลงเป็น UTC
@@ -122,6 +122,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     return Response.json({ data, total_items: totalTask || 0 }, { status: 200 });
   } catch (error) {
     console.log(error);
-    return Response.json({ error: 'Internal Server Error' }, { status: 500 });
+    return Response.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }

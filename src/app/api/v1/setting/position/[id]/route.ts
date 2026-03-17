@@ -5,7 +5,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
     if (!id) {
-      return Response.json({ error: 'Position ID is required' }, { status: 400 });
+      return Response.json({ message: 'Position ID is required' }, { status: 400 });
     }
 
     const position = await prisma.position.findUnique({
@@ -33,10 +33,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     });
 
     if (!position) {
-      return Response.json({ error: 'Position not found' }, { status: 404 });
+      return Response.json({ message: 'Position not found' }, { status: 404 });
     }
 
-    const formattedData = {
+    const result = {
       id: position.id,
       name: position.name,
       description: position.description,
@@ -49,10 +49,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       })),
     };
 
-    return Response.json({ data: formattedData, status: 200 });
+    return Response.json({ data: result }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -119,7 +119,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
     return Response.json({ message: 'Updated successfully', data: { id: result.id } });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'Update failed' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -129,7 +129,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   try {
     const { id } = await params;
     if (!id) {
-      return Response.json({ error: 'Position ID is required' }, { status: 400 });
+      return Response.json({ message: 'Position ID is required' }, { status: 400 });
     }
 
     const position = await prisma.position.findUnique({
@@ -153,7 +153,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 
     if (levelsIsUsed) {
       return Response.json(
-        { message: 'ระดับตำแหน่งถูกใช้งานอยู่ ไม่สามารถลบได้' },
+        { message: 'Cannot delete position because it is in use by some users' },
         { status: 400 }
       );
     }
@@ -178,7 +178,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

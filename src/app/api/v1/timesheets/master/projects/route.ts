@@ -5,7 +5,7 @@ import { auth } from '@/auth';
 export async function GET() {
   const session = await auth();
   if (!session) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    return Response.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -24,6 +24,14 @@ export async function GET() {
         id: true,
         name: true,
         is_company_project: true,
+        start_date: true,
+        end_date: true,
+        projectMembers: {
+          select: {
+            start_date: true,
+            end_date: true,
+          },
+        },
         projectTaskTypes: {
           select: {
             id: true,
@@ -50,6 +58,8 @@ export async function GET() {
           description: task.description,
         })),
       })),
+      startDate: item.projectMembers[0]?.start_date || item.start_date,
+      endDate: item.projectMembers[0]?.end_date || item.end_date,
     }));
 
     const optionGroup = [
@@ -61,6 +71,8 @@ export async function GET() {
             label: option.label,
             value: option.value,
             taskTypes: option.taskTypes,
+            startDate: option.startDate,
+            endDate: option.endDate,
           })),
       },
       {
@@ -71,14 +83,16 @@ export async function GET() {
             label: option.label,
             value: option.value,
             taskTypes: option.taskTypes,
+            startDate: option.startDate,
+            endDate: option.endDate,
           })),
       },
     ];
 
-    return Response.json({ data: optionGroup, status: 200 });
+    return Response.json({ data: optionGroup }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

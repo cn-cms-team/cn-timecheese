@@ -39,15 +39,10 @@ export async function fetcher<TResponse, TBody = unknown>(
   const response = await fetch(url, config);
 
   if (!response.ok) {
-    const errorText = await response.text();
+    const errorText = (await response.statusText) || 'Unknown error';
     throw new Error(`Error ${response.status}: ${errorText}`);
   }
 
   const result: ApiResponse<TResponse> = await response.json();
-
-  if (result.status !== 200) {
-    throw new Error(`API Error: ${result.status}`);
-  }
-
   return result.data;
 }

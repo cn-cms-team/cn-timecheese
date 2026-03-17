@@ -5,18 +5,18 @@ import { endOfMonth, startOfMonth } from 'date-fns';
 export async function GET(request: Request) {
   const session = await auth();
   if (!session) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    return Response.json({ message: 'Unauthorized' }, { status: 401 });
   }
   const { searchParams } = new URL(request.url);
   const month = searchParams.get('month');
   const year = searchParams.get('year');
 
   if (!month) {
-    return Response.json({ error: 'Month parameter is required' }, { status: 400 });
+    return Response.json({ message: 'Month parameter is required' }, { status: 400 });
   }
 
   if (!year) {
-    return Response.json({ error: 'Year parameter is required' }, { status: 400 });
+    return Response.json({ message: 'Year parameter is required' }, { status: 400 });
   }
 
   const monthNumber = Number(month);
@@ -30,7 +30,7 @@ export async function GET(request: Request) {
   }
 
   if (isNaN(yearNumber)) {
-    return Response.json({ error: 'Invalid year parameter' }, { status: 400 });
+    return Response.json({ message: 'Invalid year parameter' }, { status: 400 });
   }
 
   const monthStart = startOfMonth(new Date(yearNumber, monthNumber));
@@ -82,10 +82,10 @@ export async function GET(request: Request) {
 
     const result = Array.from(summaryMap.values());
 
-    return Response.json({ data: result, status: 200 });
+    return Response.json({ data: result }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

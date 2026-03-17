@@ -79,6 +79,7 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
                   value={field.value ? new Date(field.value) : undefined}
                   placeholder="วันที่เริ่มต้น"
                   onChange={field.onChange}
+                  allowClear
                 />
               </FormControl>
             </FormItem>
@@ -97,6 +98,7 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
                   value={field.value ? new Date(field.value) : undefined}
                   placeholder="วันที่สิ้นสุด"
                   onChange={field.onChange}
+                  allowClear
                 />
               </FormControl>
             </FormItem>

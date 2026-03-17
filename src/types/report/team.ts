@@ -12,7 +12,6 @@ export type IUserReport = {
   code: string;
   position_level: IPositionLevel;
   start_date: string;
-  salary_range?: string;
   image?: string;
 };
 

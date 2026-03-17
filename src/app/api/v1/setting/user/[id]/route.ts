@@ -5,7 +5,7 @@ import { NextRequest } from 'next/server';
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   if (!id) {
-    return Response.json({ error: 'User ID is required' }, { status: 400 });
+    return Response.json({ message: 'User ID is required' }, { status: 400 });
   }
   try {
     const user = await prisma.user.findUnique({
@@ -19,7 +19,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         is_active: true,
         start_date: true,
         end_date: true,
-        salary_range: true,
         code: true,
         team: {
           select: {
@@ -54,10 +53,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       role_id: user?.role?.id,
       position_level_id: user?.position_level?.id,
     };
-    return Response.json({ data: userData, status: 200 });
+    return Response.json({ data: userData }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -77,6 +76,18 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const existingUser = await prisma.user.findFirst({
+      where: { email: body.data.email, is_enabled: true, id: { not: body.data.id } },
+    });
+    if (existingUser) {
+      return Response.json(
+        {
+          message: 'Email already exists',
+        },
+        { status: 400 }
+      );
+    }
+
     const result = await prisma.user.update({
       where: { id: body.data.id },
       data: { ...body.data, updated_by: session?.user.id },
@@ -91,7 +102,7 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -102,7 +113,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     const { id } = await params;
 
     if (!id) {
-      return Response.json({ error: 'User ID is required' }, { status: 400 });
+      return Response.json({ message: 'User ID is required' }, { status: 400 });
     }
     const isInAnyProject = await prisma.project.findFirst({
       where: {
@@ -112,10 +123,14 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
           },
         },
       },
+      select: { id: true },
     });
 
     if (isInAnyProject) {
-      return Response.json({ message: 'User is in use in project' }, { status: 409 });
+      return Response.json(
+        { message: 'Cannot delete user as they are part of a project' },
+        { status: 400 }
+      );
     }
 
     const result = await prisma.user.update({
@@ -134,7 +149,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

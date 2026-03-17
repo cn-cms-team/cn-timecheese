@@ -20,20 +20,19 @@ export async function GET(request: Request) {
           },
         },
         start_date: true,
-        salary_range: true,
         team_id: true,
-        // image: true,
       },
     });
     if (!currentUser) {
-      return Response.json({ error: 'User not found' }, { status: 400 });
+      return Response.json({ message: 'User not found' }, { status: 400 });
     }
     if (currentUser.team_id !== session?.user.team_id) {
-      return Response.json({ error: 'User not in your team' }, { status: 404 });
+      return Response.json({ message: 'User not in your team' }, { status: 404 });
     }
 
     const userProjects = await prisma.project.findMany({
       where: {
+        is_enabled: true,
         projectMembers: {
           some: { user_id: currentUser.id },
         },
@@ -81,10 +80,10 @@ export async function GET(request: Request) {
       projects: projects,
     };
 
-    return Response.json({ data: data, status: 200 });
+    return Response.json({ data: data }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

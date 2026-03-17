@@ -55,17 +55,18 @@ const ProjectListView = () => {
       setIsLoading(true);
       const fetchUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/v1/setting/project/${id}`;
       await fetch(fetchUrl, { method: 'DELETE' }).then(async (res) => {
-        const data = await res.json();
-        if (!res.ok) {
-          toast.error(data.message);
-          return;
-        } else {
-          toast.success(data.message);
+        const result = await res.json();
+        if (res.ok) {
+          if (result.message) {
+            toast.success(result.message);
+          }
           router.push('/setting/project');
+        } else {
+          toast.warning(result.message || 'An unexpected error occurred. Please try again.');
         }
       });
     } catch (error) {
-      console.log(error instanceof Error ? error.message : 'Unknown error');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }

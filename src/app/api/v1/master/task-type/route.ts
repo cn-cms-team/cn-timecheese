@@ -16,10 +16,10 @@ export async function GET() {
       type: item.type,
     }));
 
-    return Response.json({ data: options, status: 200 });
+    return Response.json({ data: options }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

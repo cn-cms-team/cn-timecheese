@@ -75,7 +75,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     ]);
 
     if (!role) {
-      return Response.json({ error: 'Role not found' }, { status: 404 });
+      return Response.json({ message: 'Role not found' }, { status: 404 });
     }
 
     const rolesPermissionMaps = rolePermission.map((rolePermission) => ({
@@ -97,10 +97,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       permissions: rolesPermissionMaps,
     };
 
-    return Response.json({ data: result, status: 200 });
+    return Response.json({ data: result }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
@@ -114,10 +114,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const { name, description, permissions = [] } = body.data ?? {};
 
     if (!session?.user?.id) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+      return Response.json({ message: 'Unauthorized' }, { status: 401 });
     }
     if (!id) {
-      return Response.json({ error: 'Role id is required' }, { status: 400 });
+      return Response.json({ message: 'Role id is required' }, { status: 400 });
     }
 
     const role = await prisma.role.update({
@@ -158,7 +158,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     );
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'Unexpected error' },
+      { message: error instanceof Error ? error.message : 'Unexpected error' },
       { status: 500 }
     );
   }
@@ -169,7 +169,17 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     const { id } = await params;
 
     if (!id) {
-      return Response.json({ error: 'Role ID is required' }, { status: 400 });
+      return Response.json({ message: 'Role ID is required' }, { status: 400 });
+    }
+
+    // Check if user has role assigned
+    const isInAnyUser = await prisma.user.findFirst({
+      where: { role_id: id },
+      select: { id: true },
+    });
+
+    if (isInAnyUser) {
+      return Response.json({ message: 'Cannot delete role assigned to a user' }, { status: 400 });
     }
 
     await prisma.$transaction([
@@ -189,12 +199,8 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
       { status: 200 }
     );
   } catch (error) {
-    console.error('DELETE ROLE ERROR:', error);
-
     return Response.json(
-      {
-        error: error instanceof Error ? error.message : 'An unknown error occurred',
-      },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }

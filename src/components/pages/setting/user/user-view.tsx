@@ -38,7 +38,7 @@ const UserViewDetail = ({ id }: { id: string }): React.ReactNode => {
   return (
     <div className="cev-box">
       <TitleGroup title="ข้อมูลผู้ใช้งาน" />
-      <div className="flex flex-col px-0 lg:px-8 gap-5">
+      <div className="flex flex-col gap-5">
         <LabelGroup label="อีเมล" value={userData?.email} />
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
           <LabelGroup label="ชื่อ" value={userData?.first_name} />
@@ -50,12 +50,6 @@ const UserViewDetail = ({ id }: { id: string }): React.ReactNode => {
           <LabelGroup label="วันที่เริ่มงาน" value={formatDate(userData?.start_date) || '-'} />
           <LabelGroup label="วันที่สิ้นสุด" value={formatDate(userData?.end_date) || '-'} />
           <LabelGroup label="สิทธิ์การใช้งาน" value={userData?.role?.name} />
-          <LabelGroup
-            label="ช่วงเงินเดือนโดยประมาณ"
-            value={
-              userData?.salary_range ? formatRangeNumberWithComma(userData?.salary_range) : '-'
-            }
-          />
           <LabelGroup label="สถานะการใช้งาน" value="">
             <div className="flex items-center space-x-2">
               <Switch

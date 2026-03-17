@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const session = await auth();
     if (!session) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+      return Response.json({ message: 'Unauthorized' }, { status: 401 });
     }
     const result = await prisma.user.findMany({
       where: { is_enabled: true, is_active: true, team_id: session.user.team_id },
@@ -22,10 +22,10 @@ export async function GET() {
       // image: item.image || undefined,
     }));
 
-    return Response.json({ data: options, status: 200 });
+    return Response.json({ data: options }, { status: 200 });
   } catch (error) {
     return Response.json(
-      { error: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
       { status: 500 }
     );
   }
