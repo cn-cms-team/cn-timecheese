@@ -305,7 +305,7 @@ model TimeSheet {
   total_seconds        Int
   detail               String?          @db.VarChar(1000)
   remark               String?          @db.VarChar(255)
-  isWorkFromHome       Boolean          @default(false)
+  is_work_from_home    Boolean          @default(false)
 
   created_at DateTime @default(now())
 

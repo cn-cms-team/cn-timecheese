@@ -23,6 +23,7 @@ const schema = z
     detail: z.string().nonempty('กรุณากรอกรายละเอียดการทำงาน'),
     break_time: z.date().optional(),
     is_all_day: z.boolean().optional(),
+    isWorkFromHome: z.boolean().optional(),
     stamp_date_string: z
       .string()
       .refine((val) => /^\d{4}-\d{2}-\d{2}$/.test(val), {

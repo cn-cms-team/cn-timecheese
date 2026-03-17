@@ -48,7 +48,7 @@ export type TimeSheetMinAggregateOutputType = {
   total_seconds: number | null
   detail: string | null
   remark: string | null
-  isWorkFromHome: boolean | null
+  is_work_from_home: boolean | null
   created_at: Date | null
 }
 
@@ -64,7 +64,7 @@ export type TimeSheetMaxAggregateOutputType = {
   total_seconds: number | null
   detail: string | null
   remark: string | null
-  isWorkFromHome: boolean | null
+  is_work_from_home: boolean | null
   created_at: Date | null
 }
 
@@ -80,7 +80,7 @@ export type TimeSheetCountAggregateOutputType = {
   total_seconds: number
   detail: number
   remark: number
-  isWorkFromHome: number
+  is_work_from_home: number
   created_at: number
   _all: number
 }
@@ -108,7 +108,7 @@ export type TimeSheetMinAggregateInputType = {
   total_seconds?: true
   detail?: true
   remark?: true
-  isWorkFromHome?: true
+  is_work_from_home?: true
   created_at?: true
 }
 
@@ -124,7 +124,7 @@ export type TimeSheetMaxAggregateInputType = {
   total_seconds?: true
   detail?: true
   remark?: true
-  isWorkFromHome?: true
+  is_work_from_home?: true
   created_at?: true
 }
 
@@ -140,7 +140,7 @@ export type TimeSheetCountAggregateInputType = {
   total_seconds?: true
   detail?: true
   remark?: true
-  isWorkFromHome?: true
+  is_work_from_home?: true
   created_at?: true
   _all?: true
 }
@@ -243,7 +243,7 @@ export type TimeSheetGroupByOutputType = {
   total_seconds: number
   detail: string | null
   remark: string | null
-  isWorkFromHome: boolean
+  is_work_from_home: boolean
   created_at: Date
   _count: TimeSheetCountAggregateOutputType | null
   _avg: TimeSheetAvgAggregateOutputType | null
@@ -282,7 +282,7 @@ export type TimeSheetWhereInput = {
   total_seconds?: Prisma.IntFilter<"TimeSheet"> | number
   detail?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
   remark?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
-  isWorkFromHome?: Prisma.BoolFilter<"TimeSheet"> | boolean
+  is_work_from_home?: Prisma.BoolFilter<"TimeSheet"> | boolean
   created_at?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
@@ -301,7 +301,7 @@ export type TimeSheetOrderByWithRelationInput = {
   total_seconds?: Prisma.SortOrder
   detail?: Prisma.SortOrderInput | Prisma.SortOrder
   remark?: Prisma.SortOrderInput | Prisma.SortOrder
-  isWorkFromHome?: Prisma.SortOrder
+  is_work_from_home?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   project?: Prisma.ProjectOrderByWithRelationInput
@@ -323,7 +323,7 @@ export type TimeSheetWhereUniqueInput = Prisma.AtLeast<{
   total_seconds?: Prisma.IntFilter<"TimeSheet"> | number
   detail?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
   remark?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
-  isWorkFromHome?: Prisma.BoolFilter<"TimeSheet"> | boolean
+  is_work_from_home?: Prisma.BoolFilter<"TimeSheet"> | boolean
   created_at?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
@@ -342,7 +342,7 @@ export type TimeSheetOrderByWithAggregationInput = {
   total_seconds?: Prisma.SortOrder
   detail?: Prisma.SortOrderInput | Prisma.SortOrder
   remark?: Prisma.SortOrderInput | Prisma.SortOrder
-  isWorkFromHome?: Prisma.SortOrder
+  is_work_from_home?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   _count?: Prisma.TimeSheetCountOrderByAggregateInput
   _avg?: Prisma.TimeSheetAvgOrderByAggregateInput
@@ -366,7 +366,7 @@ export type TimeSheetScalarWhereWithAggregatesInput = {
   total_seconds?: Prisma.IntWithAggregatesFilter<"TimeSheet"> | number
   detail?: Prisma.StringNullableWithAggregatesFilter<"TimeSheet"> | string | null
   remark?: Prisma.StringNullableWithAggregatesFilter<"TimeSheet"> | string | null
-  isWorkFromHome?: Prisma.BoolWithAggregatesFilter<"TimeSheet"> | boolean
+  is_work_from_home?: Prisma.BoolWithAggregatesFilter<"TimeSheet"> | boolean
   created_at?: Prisma.DateTimeWithAggregatesFilter<"TimeSheet"> | Date | string
 }
 
@@ -379,7 +379,7 @@ export type TimeSheetCreateInput = {
   total_seconds: number
   detail?: string | null
   remark?: string | null
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTimeSheetsInput
   project: Prisma.ProjectCreateNestedOneWithoutTimeSheetsInput
@@ -398,7 +398,7 @@ export type TimeSheetUncheckedCreateInput = {
   total_seconds: number
   detail?: string | null
   remark?: string | null
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: Date | string
 }
 
@@ -411,7 +411,7 @@ export type TimeSheetUpdateInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isWorkFromHome?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTimeSheetsNestedInput
   project?: Prisma.ProjectUpdateOneRequiredWithoutTimeSheetsNestedInput
@@ -430,7 +430,7 @@ export type TimeSheetUncheckedUpdateInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isWorkFromHome?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -446,7 +446,7 @@ export type TimeSheetCreateManyInput = {
   total_seconds: number
   detail?: string | null
   remark?: string | null
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: Date | string
 }
 
@@ -459,7 +459,7 @@ export type TimeSheetUpdateManyMutationInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isWorkFromHome?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -475,7 +475,7 @@ export type TimeSheetUncheckedUpdateManyInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isWorkFromHome?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -501,7 +501,7 @@ export type TimeSheetCountOrderByAggregateInput = {
   total_seconds?: Prisma.SortOrder
   detail?: Prisma.SortOrder
   remark?: Prisma.SortOrder
-  isWorkFromHome?: Prisma.SortOrder
+  is_work_from_home?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
@@ -522,7 +522,7 @@ export type TimeSheetMaxOrderByAggregateInput = {
   total_seconds?: Prisma.SortOrder
   detail?: Prisma.SortOrder
   remark?: Prisma.SortOrder
-  isWorkFromHome?: Prisma.SortOrder
+  is_work_from_home?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
@@ -538,7 +538,7 @@ export type TimeSheetMinOrderByAggregateInput = {
   total_seconds?: Prisma.SortOrder
   detail?: Prisma.SortOrder
   remark?: Prisma.SortOrder
-  isWorkFromHome?: Prisma.SortOrder
+  is_work_from_home?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
@@ -682,7 +682,7 @@ export type TimeSheetCreateWithoutUserInput = {
   total_seconds: number
   detail?: string | null
   remark?: string | null
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutTimeSheetsInput
   project_task_type?: Prisma.ProjectTaskTypeCreateNestedOneWithoutTimeSheetsInput
@@ -699,7 +699,7 @@ export type TimeSheetUncheckedCreateWithoutUserInput = {
   total_seconds: number
   detail?: string | null
   remark?: string | null
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: Date | string
 }
 
@@ -744,7 +744,7 @@ export type TimeSheetScalarWhereInput = {
   total_seconds?: Prisma.IntFilter<"TimeSheet"> | number
   detail?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
   remark?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
-  isWorkFromHome?: Prisma.BoolFilter<"TimeSheet"> | boolean
+  is_work_from_home?: Prisma.BoolFilter<"TimeSheet"> | boolean
   created_at?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
 }
 
@@ -757,7 +757,7 @@ export type TimeSheetCreateWithoutProjectInput = {
   total_seconds: number
   detail?: string | null
   remark?: string | null
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTimeSheetsInput
   project_task_type?: Prisma.ProjectTaskTypeCreateNestedOneWithoutTimeSheetsInput
@@ -774,7 +774,7 @@ export type TimeSheetUncheckedCreateWithoutProjectInput = {
   total_seconds: number
   detail?: string | null
   remark?: string | null
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: Date | string
 }
 
@@ -813,7 +813,7 @@ export type TimeSheetCreateWithoutProject_task_typeInput = {
   total_seconds: number
   detail?: string | null
   remark?: string | null
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTimeSheetsInput
   project: Prisma.ProjectCreateNestedOneWithoutTimeSheetsInput
@@ -830,7 +830,7 @@ export type TimeSheetUncheckedCreateWithoutProject_task_typeInput = {
   total_seconds: number
   detail?: string | null
   remark?: string | null
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: Date | string
 }
 
@@ -871,7 +871,7 @@ export type TimeSheetCreateManyUserInput = {
   total_seconds: number
   detail?: string | null
   remark?: string | null
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: Date | string
 }
 
@@ -884,7 +884,7 @@ export type TimeSheetUpdateWithoutUserInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isWorkFromHome?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutTimeSheetsNestedInput
   project_task_type?: Prisma.ProjectTaskTypeUpdateOneWithoutTimeSheetsNestedInput
@@ -901,7 +901,7 @@ export type TimeSheetUncheckedUpdateWithoutUserInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isWorkFromHome?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -916,7 +916,7 @@ export type TimeSheetUncheckedUpdateManyWithoutUserInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isWorkFromHome?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -931,7 +931,7 @@ export type TimeSheetCreateManyProjectInput = {
   total_seconds: number
   detail?: string | null
   remark?: string | null
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: Date | string
 }
 
@@ -944,7 +944,7 @@ export type TimeSheetUpdateWithoutProjectInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isWorkFromHome?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTimeSheetsNestedInput
   project_task_type?: Prisma.ProjectTaskTypeUpdateOneWithoutTimeSheetsNestedInput
@@ -961,7 +961,7 @@ export type TimeSheetUncheckedUpdateWithoutProjectInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isWorkFromHome?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -976,7 +976,7 @@ export type TimeSheetUncheckedUpdateManyWithoutProjectInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isWorkFromHome?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -991,7 +991,7 @@ export type TimeSheetCreateManyProject_task_typeInput = {
   total_seconds: number
   detail?: string | null
   remark?: string | null
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: Date | string
 }
 
@@ -1004,7 +1004,7 @@ export type TimeSheetUpdateWithoutProject_task_typeInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isWorkFromHome?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTimeSheetsNestedInput
   project?: Prisma.ProjectUpdateOneRequiredWithoutTimeSheetsNestedInput
@@ -1021,7 +1021,7 @@ export type TimeSheetUncheckedUpdateWithoutProject_task_typeInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isWorkFromHome?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1036,7 +1036,7 @@ export type TimeSheetUncheckedUpdateManyWithoutProject_task_typeInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   detail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  isWorkFromHome?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1054,7 +1054,7 @@ export type TimeSheetSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   total_seconds?: boolean
   detail?: boolean
   remark?: boolean
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -1073,7 +1073,7 @@ export type TimeSheetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   total_seconds?: boolean
   detail?: boolean
   remark?: boolean
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -1092,7 +1092,7 @@ export type TimeSheetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   total_seconds?: boolean
   detail?: boolean
   remark?: boolean
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -1111,11 +1111,11 @@ export type TimeSheetSelectScalar = {
   total_seconds?: boolean
   detail?: boolean
   remark?: boolean
-  isWorkFromHome?: boolean
+  is_work_from_home?: boolean
   created_at?: boolean
 }
 
-export type TimeSheetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "project_id" | "project_task_type_id" | "stamp_date" | "start_date" | "end_date" | "exclude_seconds" | "total_seconds" | "detail" | "remark" | "isWorkFromHome" | "created_at", ExtArgs["result"]["timeSheet"]>
+export type TimeSheetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "project_id" | "project_task_type_id" | "stamp_date" | "start_date" | "end_date" | "exclude_seconds" | "total_seconds" | "detail" | "remark" | "is_work_from_home" | "created_at", ExtArgs["result"]["timeSheet"]>
 export type TimeSheetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -1151,7 +1151,7 @@ export type $TimeSheetPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     total_seconds: number
     detail: string | null
     remark: string | null
-    isWorkFromHome: boolean
+    is_work_from_home: boolean
     created_at: Date
   }, ExtArgs["result"]["timeSheet"]>
   composites: {}
@@ -1590,7 +1590,7 @@ export interface TimeSheetFieldRefs {
   readonly total_seconds: Prisma.FieldRef<"TimeSheet", 'Int'>
   readonly detail: Prisma.FieldRef<"TimeSheet", 'String'>
   readonly remark: Prisma.FieldRef<"TimeSheet", 'String'>
-  readonly isWorkFromHome: Prisma.FieldRef<"TimeSheet", 'Boolean'>
+  readonly is_work_from_home: Prisma.FieldRef<"TimeSheet", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"TimeSheet", 'DateTime'>
 }
     

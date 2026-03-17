@@ -119,6 +119,7 @@ const AddActivityModal = ({
       detail: '',
 
       break_time: defaultBreakTime,
+      isWorkFromHome: false,
       is_all_day:
         defaultStartDate.getHours() === START_TIME_HOUR &&
         defaultEndDate.getHours() === END_TIME_HOUR,
@@ -216,6 +217,7 @@ const AddActivityModal = ({
         end_date: endDate,
         detail: initialItem.detail,
         break_time: breakDate,
+        isWorkFromHome: initialItem.isWorkFromHome ?? false,
         is_all_day:
           startDate.getHours() === START_TIME_HOUR && endDate.getHours() === END_TIME_HOUR,
       });
@@ -234,6 +236,7 @@ const AddActivityModal = ({
       end_date: defaultEndDate,
       detail: '',
       break_time: defaultBreakTime,
+      isWorkFromHome: false,
       is_all_day: false,
     });
   }, [defaultBreakTime, defaultEndDate, defaultStartDate, form, initialItem, open, selectedDate]);
@@ -496,6 +499,32 @@ const AddActivityModal = ({
                 )}
               />
             </div>
+
+            <FormField
+              control={form.control}
+              name="isWorkFromHome"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <div className="flex items-center gap-2">
+                      <Checkbox
+                        checked={field.value}
+                        id="is-work-from-home"
+                        onCheckedChange={(checked) => field.onChange(Boolean(checked))}
+                        disabled={isLoading}
+                      />
+                      <Label
+                        className="cursor-pointer text-lg font-medium text-slate-800"
+                        htmlFor="is-work-from-home"
+                      >
+                        ทำงานที่บ้าน
+                      </Label>
+                    </div>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <hr className="border-slate-200" />
             <FormField
               control={form.control}
               name="project_id"

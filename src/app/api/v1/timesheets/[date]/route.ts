@@ -26,6 +26,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ date
         exclude_seconds: true,
         total_seconds: true,
         detail: true,
+        is_work_from_home: true,
         project_id: true,
         project_task_type_id: true,
         project: {
@@ -63,6 +64,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ date
       project_task_type_id: item.project_task_type_id,
       project_name: item.project.name,
       detail: item.detail,
+      isWorkFromHome: item.is_work_from_home,
       task_type_name: item?.project_task_type?.name,
       tone: item.project_task_type?.task_type?.tone_color || 'slate',
     }));

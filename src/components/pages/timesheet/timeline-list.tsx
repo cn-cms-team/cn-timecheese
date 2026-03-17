@@ -1,4 +1,4 @@
-import { BriefcaseBusiness, Clock3, Pencil, Trash2 } from 'lucide-react';
+import { BriefcaseBusiness, Clock3, House, Pencil, Trash2 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -181,6 +181,18 @@ const TimelineList = ({
                   <Clock3 className="size-3 sm:size-4" />
                   {startTime} - {endTime}
                 </span>
+
+                {item.isWorkFromHome ? (
+                  <span
+                    className={cn(
+                      'inline-flex items-center gap-1 rounded-lg px-2 py-1 sm:gap-2 sm:px-3',
+                      tone.badge
+                    )}
+                  >
+                    <House className="size-3 sm:size-4" />
+                    ทำงานที่บ้าน
+                  </span>
+                ) : null}
 
                 {item.exclude_seconds > 0 ? (
                   <span
