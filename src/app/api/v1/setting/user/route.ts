@@ -48,27 +48,17 @@ export async function POST(request: Request) {
     const session = await auth();
 
     if (!session || !session.user) {
-      return Response.json(
-        {
-          message: 'Unauthorized',
-        },
-        { status: 401 }
-      );
+      return Response.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
     // check if email already exists
     const body = await request.json();
     const existingUser = await prisma.user.findUnique({
       where: { email: body.data.email, is_enabled: true },
+      select: { id: true },
     });
     if (existingUser) {
-      return Response.json(
-        {
-          success: false,
-          message: 'Email already exists',
-        },
-        { status: 400 }
-      );
+      return Response.json({ message: 'Email already exists' }, { status: 400 });
     }
 
     const hashedPassword = await bcrypt.hash(body.data.password, 10);

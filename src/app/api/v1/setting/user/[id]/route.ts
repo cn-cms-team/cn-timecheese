@@ -123,6 +123,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
           },
         },
       },
+      select: { id: true },
     });
 
     if (isInAnyProject) {
