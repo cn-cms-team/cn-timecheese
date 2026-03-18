@@ -22,6 +22,24 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
     control: form.control,
     name: `member.${index}.is_using`,
   });
+  const members = useWatch({
+    control: form.control,
+    name: 'member',
+  });
+
+  const selectedUserId = members?.[index]?.user_id;
+  const selectedUserIdsInOtherRows = new Set(
+    (members ?? [])
+      .map((member, memberIndex) => (memberIndex === index ? '' : member?.user_id))
+      .filter((userId): userId is string => Boolean(userId))
+  );
+
+  const availableUserOptions = userOptions.map((group) => ({
+    ...group,
+    options: group.options.filter(
+      (option) => option.value === selectedUserId || !selectedUserIdsInOtherRows.has(option.value)
+    ),
+  }));
 
   return (
     <TableRow key={index}>
@@ -37,7 +55,7 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
                   isGroup={true}
                   field={field}
                   placeholder="เลือกพนักงาน"
-                  options={userOptions}
+                  options={availableUserOptions}
                   onSelect={(value) => {
                     field.onChange(value);
                     const selectedUser = userOptions
