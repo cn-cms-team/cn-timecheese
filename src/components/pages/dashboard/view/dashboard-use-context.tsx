@@ -6,7 +6,7 @@ import { createContext, useContext, useState } from 'react';
 import { fetcher } from '@/lib/fetcher';
 import { IOption } from '@/types/option';
 import { IDashboard } from '@/types/report';
-import { IReportTeam } from '@/types/report/team';
+import { IUserReport } from '@/types/report/team';
 import { weekDays } from '@/lib/constants/period-calendar';
 import { IOptionGroups } from '@/types/dropdown';
 import { DD_PROJECT_LABEL } from '@/lib/constants/dropdown';
@@ -21,7 +21,7 @@ interface IDashboardContextType {
   projectOption: IOptionGroups[];
   yearOption: IOption[];
   selectYear: number;
-  userInfo: IReportTeam;
+  userInfo: IUserReport;
   setSelectedMonth: (month: number) => void;
   setLoading: (loading: boolean) => void;
   setProjectId: (projectId: string) => void;
@@ -38,7 +38,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const today = new Date();
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const [loading, setLoading] = useState<boolean>(false);
-  const [userInfo, setUserInfo] = useState<IReportTeam>(null!);
+  const [userInfo, setUserInfo] = useState<IUserReport>(null!);
   const [selectYear, setSelectYear] = useState<number>(today.getFullYear());
   const [dashboardProjectData, setDashboardProjectData] = useState<IDashboard>(null!);
   const [projectOption, setProjectOptions] = useState<IOptionGroups[]>([]);
@@ -47,7 +47,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
 
   const days = weekDays(selectedMonth);
 
-  const userStartDate = userInfo?.user?.start_date;
+  const userStartDate = userInfo?.start_date;
 
   const yearOption = Array.from(
     { length: today.getFullYear() - new Date(userStartDate).getFullYear() + 1 },
@@ -117,7 +117,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchUserInfo = async (userId: string) => {
     try {
       setLoading(true);
-      const userInfo = await fetcher<IReportTeam>(`${prefix}/api/v1/report/team?user_id=${userId}`);
+      const userInfo = await fetcher<IUserReport>(`${prefix}/api/v1/dashboard/user-info`);
 
       setUserInfo(userInfo);
     } catch (error) {

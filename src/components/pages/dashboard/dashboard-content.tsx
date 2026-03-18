@@ -8,7 +8,7 @@ import { useDashboardContext } from './view/dashboard-use-context';
 import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
 import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
 import TableListTimesheet from '@/components/ui/custom/report/table-list-timesheet';
-import DonutChartTimesheet from '@/components/ui/custom/report/donut-chart-timesheet';
+import DonutChartTimeSheet from '@/components/ui/custom/report/donut-chart-timesheet';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
 
 const DashboardContent = () => {
@@ -46,10 +46,10 @@ const DashboardContent = () => {
     <div className="w-full gap-4 flex flex-col">
       <div className="border rounded-lg shadow">
         <AvatarDetail
-          name={userInfo?.user ? `${userInfo.user.first_name} ${userInfo.user.last_name}` : '-'}
-          position={userInfo?.user?.position_level?.name ?? '-'}
-          code={userInfo?.user?.code ?? '-'}
-          start_date={userInfo?.user?.start_date ?? '-'}
+          name={userInfo ? `${userInfo.first_name} ${userInfo.last_name}` : '-'}
+          position={userInfo?.position_level?.name ?? '-'}
+          code={userInfo?.code ?? '-'}
+          start_date={userInfo?.start_date ?? '-'}
         />
       </div>
       <DashboardBarChart />
@@ -66,7 +66,7 @@ const DashboardContent = () => {
         />
       </div>
       <CardProjectInfo project={dashboardProjectData?.project || {}} loading={loading} />
-      <DonutChartTimesheet
+      <DonutChartTimeSheet
         donutLabel={dashboardProjectData?.timesheet_chart || []}
         donutHeight={400}
       />

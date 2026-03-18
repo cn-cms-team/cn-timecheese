@@ -9,7 +9,7 @@ import { UserAvatarProps } from '@/components/ui/custom/avatar/user-avatar';
 import { IOption } from '@/types/option';
 import { fetcher } from '@/lib/fetcher';
 import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
-import DonutChartTimesheet from '@/components/ui/custom/report/donut-chart-timesheet';
+import DonutChartTimeSheet from '@/components/ui/custom/report/donut-chart-timesheet';
 import TableListTimesheet from '@/components/ui/custom/report/table-list-timesheet';
 import EmptyFolderIcon from '@/components/ui/icons/empty-folder';
 import { Label } from '@/components/ui/label';
@@ -127,7 +127,7 @@ const ReportProjectContent = () => {
             displayCost={true}
             loading={isLoading}
           />
-          <DonutChartTimesheet donutLabel={reportProjectData.timesheet_chart} loading={isLoading} />
+          <DonutChartTimeSheet donutLabel={reportProjectData.timesheet_chart} loading={isLoading} />
           <TableListTimesheet projectId={projectId} userId={reportProjectData.user.id} />
         </>
       ) : projectId && memberId && !reportProjectData && !isLoading ? (

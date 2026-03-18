@@ -14,15 +14,15 @@ interface IProps {
   loading?: boolean;
 }
 
-const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300, loading = false }: IProps) => {
+const DonutChartTimeSheet = ({ donutLabel = [], donutHeight = 300, loading = false }: IProps) => {
   const data = useMemo(() => {
     const totalHours = donutLabel.reduce((acc, curr) => acc + curr.tracked_hours, 0);
-    const series = donutLabel.map((item) => item.tracked_hours);
+    const series = donutLabel.map((item) => item.tracked_hours / 3600);
     const label = donutLabel.map((item) => {
       const trackedHours = item.tracked_hours;
       const percentage =
-        totalHours > 0 ? `${((trackedHours / totalHours) * 100).toFixed(1)}%` : '0.0%';
-      const duration = formatTotalHours(trackedHours);
+        totalHours > 0 ? `${((trackedHours / totalHours) * 100).toFixed(2)}%` : '0.0%';
+      const duration = formatTotalHours(trackedHours / 3600);
 
       return {
         percentage,
@@ -86,4 +86,4 @@ const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300, loading = fal
     </>
   );
 };
-export default DonutChartTimesheet;
+export default DonutChartTimeSheet;
