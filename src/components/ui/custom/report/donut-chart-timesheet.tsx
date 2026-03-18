@@ -4,9 +4,9 @@ import Image from 'next/image';
 import { ApexOptions } from 'apexcharts';
 
 import { ITimeSheetDonutChart } from '@/types/report';
-import { formatHours } from '@/lib/functions/date-format';
 
 import ApexChart from '../chart/apex-chart';
+import { formatTotalHours } from '@/lib/functions/timesheet-manage';
 
 interface IProps {
   donutHeight?: number;
@@ -22,7 +22,7 @@ const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300, loading = fal
       const trackedHours = item.tracked_hours;
       const percentage =
         totalHours > 0 ? `${((trackedHours / totalHours) * 100).toFixed(1)}%` : '0.0%';
-      const duration = formatHours(trackedHours);
+      const duration = formatTotalHours(trackedHours);
 
       return {
         percentage,
@@ -45,7 +45,7 @@ const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300, loading = fal
     tooltip: {
       y: {
         formatter: function (val) {
-          const formattedDuration = formatHours(val);
+          const formattedDuration = formatTotalHours(val);
           return formattedDuration;
         },
       },
@@ -71,7 +71,7 @@ const DonutChartTimesheet = ({ donutLabel = [], donutHeight = 300, loading = fal
           ) : (
             <>
               <div className="text-base font-semibold mb-4">สัดส่วนงาน</div>
-              <main className="max-w-[600px] mx-auto">
+              <main className="max-w-150 mx-auto">
                 <ApexChart
                   options={donutChartOption}
                   series={data.series}

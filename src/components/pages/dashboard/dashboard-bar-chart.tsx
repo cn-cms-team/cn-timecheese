@@ -40,9 +40,7 @@ const DashboardBarChart = () => {
   }, [selectedMonth, selectYear]);
 
   const series = useMemo(() => {
-    const dateMap = new Map(
-      data.map((item) => [new Date(item.date).getDate(), item.total_seconds])
-    );
+    const dateMap = new Map(data.map((item) => [new Date(item.date).getDate(), item.totalSeconds]));
 
     return [
       {

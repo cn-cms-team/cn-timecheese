@@ -10,6 +10,7 @@ import { IReportTeam } from '@/types/report/team';
 import { weekDays } from '@/lib/constants/period-calendar';
 import { IOptionGroups } from '@/types/dropdown';
 import { DD_PROJECT_LABEL } from '@/lib/constants/dropdown';
+import { formatTotalHours } from '@/lib/functions/timesheet-manage';
 
 interface IDashboardContextType {
   loading: boolean;
@@ -28,7 +29,6 @@ interface IDashboardContextType {
   fetchProjectData: (userId: string, projectId: string) => Promise<void>;
   fetchProjectsOption: () => Promise<void>;
   fetchUserInfo: (userId: string) => Promise<void>;
-  formatHours: (seconds: number) => string;
   setSelectYear: (year: number) => void;
 }
 
@@ -45,16 +45,6 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const [selectedMonth, setSelectedMonth] = useState<number>(today.getMonth());
   const [projectId, setProjectId] = useState<string>(null!);
 
-  const formatHours = (hours: number) => {
-    const minutes = Math.floor((hours % 3600) / 60);
-
-    const duration = `${hours} ชม ${
-      minutes === 0 ? '' : minutes.toString().padStart(2, '0') + 'น'
-    } `;
-
-    return duration;
-  };
-
   const days = weekDays(selectedMonth);
 
   const userStartDate = userInfo?.user?.start_date;
@@ -70,6 +60,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const barChartOption: ApexOptions = {
     chart: {
       type: 'bar',
+      stacked: false,
       toolbar: {
         show: false,
       },
@@ -117,7 +108,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
         },
         formatter: function (value, option) {
           const dataIndex = option.dataPointIndex;
-          return `วันที่ ${days[dataIndex]}: ${formatHours(value)}`;
+          return `วันที่ ${days[dataIndex]}: ${formatTotalHours(value)}`;
         },
       },
     },
@@ -185,7 +176,6 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
         fetchProjectData,
         fetchProjectsOption,
         fetchUserInfo,
-        formatHours,
       }}
     >
       {children}

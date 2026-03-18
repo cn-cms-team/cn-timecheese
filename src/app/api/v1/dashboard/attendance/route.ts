@@ -2,6 +2,11 @@ import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 import { endOfMonth, startOfMonth } from 'date-fns';
 
+type Summary = {
+  date: string;
+  totalSeconds: number;
+};
+
 export async function GET(request: Request) {
   const session = await auth();
   if (!session) {
@@ -24,7 +29,7 @@ export async function GET(request: Request) {
 
   if (isNaN(monthNumber) || monthNumber < 0 || monthNumber > 11) {
     return Response.json(
-      { error: 'Invalid month parameter. Must be between 0 and 11' },
+      { message: 'Invalid month parameter. Must be between 0 and 11' },
       { status: 400 }
     );
   }
@@ -37,50 +42,37 @@ export async function GET(request: Request) {
   const monthEnd = endOfMonth(new Date(yearNumber, monthNumber));
 
   try {
-    const tasks = await prisma.timeSheet.findMany({
+    const tasks = await prisma.timeSheetSummary.findMany({
       where: {
         user_id: session.user.id,
-        stamp_date: {
+        sum_date: {
           gte: monthStart,
           lte: monthEnd,
         },
       },
       select: {
-        id: true,
-        project_task_type: true,
-        stamp_date: true,
-        start_date: true,
-        end_date: true,
+        sum_date: true,
         total_seconds: true,
-        exclude_seconds: true,
       },
       orderBy: {
-        stamp_date: 'asc',
+        sum_date: 'asc',
       },
     });
 
-    type Summary = {
-      date: string;
-      task_name?: string;
-      total_seconds: number;
-    };
-
-    const summaryMap = new Map<string, Summary>();
-
-    for (const task of tasks) {
-      const dateKey = task.stamp_date.toISOString().split('T')[0];
-
-      if (!summaryMap.has(dateKey)) {
-        summaryMap.set(dateKey, {
-          date: dateKey,
-          total_seconds: 0,
-        });
+    // Group by date and sum total_seconds
+    const summaryMap: Record<string, number> = {};
+    tasks.forEach((task) => {
+      const dateKey = task.sum_date.toISOString().split('T')[0];
+      if (!summaryMap[dateKey]) {
+        summaryMap[dateKey] = 0;
       }
+      summaryMap[dateKey] += task.total_seconds;
+    });
 
-      summaryMap.get(dateKey)!.total_seconds += task.total_seconds - (task.exclude_seconds ?? 0);
-    }
-
-    const result = Array.from(summaryMap.values());
+    const result: Summary[] = Object.entries(summaryMap).map(([date, totalSeconds]) => ({
+      date,
+      totalSeconds,
+    }));
 
     return Response.json({ data: result }, { status: 200 });
   } catch (error) {
