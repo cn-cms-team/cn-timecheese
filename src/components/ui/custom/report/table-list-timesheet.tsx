@@ -71,7 +71,7 @@ const TableListTimesheet = ({ projectId, userId }: IProps) => {
 
     try {
       setLoading(true);
-      const url = `${prefix}/api/v1/dashboard/worklogs/${userId}?${params.toString()}`;
+      const url = `${prefix}/api/v1/dashboard/work-logs/${userId}?${params.toString()}`;
       const res = await fetch(url);
       const json = (await res.json()) as ITimeSheetData;
       setData(json);
