@@ -4,14 +4,12 @@ import { useSession } from 'next-auth/react';
 
 import DashboardBarChart from './dashboard-bar-chart';
 import { Label } from '@/components/ui/label';
-import Dropdown from '@/components/ui/custom/input/dropdown';
 import { useDashboardContext } from './view/dashboard-use-context';
 import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
 import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
 import TableListTimesheet from '@/components/ui/custom/report/table-list-timesheet';
 import DonutChartTimesheet from '@/components/ui/custom/report/donut-chart-timesheet';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
-import { IOptionGroups } from '@/types/dropdown';
 
 const DashboardContent = () => {
   const { data: session } = useSession();

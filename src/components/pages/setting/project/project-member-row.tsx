@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useFieldArray, UseFormReturn, useWatch } from 'react-hook-form';
+import { UseFormReturn, useWatch } from 'react-hook-form';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { FormControl, FormField, FormItem } from '@/components/ui/form';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
@@ -8,8 +7,6 @@ import { DatePickerInput } from '@/components/ui/custom/input/date-picker';
 import { IOptionGroups, IOptions } from '@/types/dropdown';
 import { UserInfo } from '@/types/setting/project';
 import { CreateProjectSchemaType, EditProjectSchemaType } from './schema';
-import { MAX_LENGTH_20 } from '@/lib/constants/validation';
-import { calcTotalDays } from '@/lib/functions/date-format';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 
