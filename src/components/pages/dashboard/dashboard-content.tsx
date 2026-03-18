@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { useDashboardContext } from './view/dashboard-use-context';
 import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
 import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
-import TableListTimesheet from '@/components/ui/custom/report/table-list-timesheet';
+import TableListTimeSheet from '@/components/ui/custom/report/table-list-timesheet';
 import DonutChartTimeSheet from '@/components/ui/custom/report/donut-chart-timesheet';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
 
@@ -67,10 +67,10 @@ const DashboardContent = () => {
       </div>
       <CardProjectInfo project={dashboardProjectData?.project || {}} loading={loading} />
       <DonutChartTimeSheet
-        donutLabel={dashboardProjectData?.timesheet_chart || []}
+        donutLabel={dashboardProjectData?.timeSheetChart || []}
         donutHeight={400}
       />
-      <TableListTimesheet projectId={projectId} />
+      <TableListTimeSheet projectId={projectId} />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
+import { getReportUserInfo } from '@/lib/report-utils';
 
 export async function GET(request: Request) {
   try {
@@ -8,23 +8,7 @@ export async function GET(request: Request) {
       return Response.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    const data = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: {
-        id: true,
-        first_name: true,
-        last_name: true,
-        code: true,
-        position_level: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        start_date: true,
-        team_id: true,
-      },
-    });
+    const data = await getReportUserInfo(session.user.id);
 
     return Response.json({ data }, { status: 200 });
   } catch (error) {

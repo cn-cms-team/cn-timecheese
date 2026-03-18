@@ -32,7 +32,7 @@ const toDateOnly = (date: Date) => {
   return `${year}-${month}-${day}`;
 };
 
-const TableListTimesheet = ({ projectId, userId }: IProps) => {
+const TableListTimeSheet = ({ projectId, userId }: IProps) => {
   const { data: session } = useSession();
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const [rowSelection, setRowSelection] = useState({});
@@ -150,4 +150,4 @@ const TableListTimesheet = ({ projectId, userId }: IProps) => {
     </div>
   );
 };
-export default React.memo(TableListTimesheet);
+export default React.memo(TableListTimeSheet);

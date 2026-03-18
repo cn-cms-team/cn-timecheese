@@ -10,7 +10,7 @@ import { IOption } from '@/types/option';
 import { fetcher } from '@/lib/fetcher';
 import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
 import DonutChartTimeSheet from '@/components/ui/custom/report/donut-chart-timesheet';
-import TableListTimesheet from '@/components/ui/custom/report/table-list-timesheet';
+import TableListTimeSheet from '@/components/ui/custom/report/table-list-timesheet';
 import EmptyFolderIcon from '@/components/ui/icons/empty-folder';
 import { Label } from '@/components/ui/label';
 
@@ -127,8 +127,8 @@ const ReportProjectContent = () => {
             displayCost={true}
             loading={isLoading}
           />
-          <DonutChartTimeSheet donutLabel={reportProjectData.timesheet_chart} loading={isLoading} />
-          <TableListTimesheet projectId={projectId} userId={reportProjectData.user.id} />
+          <DonutChartTimeSheet donutLabel={reportProjectData.timeSheetChart} loading={isLoading} />
+          <TableListTimeSheet projectId={projectId} userId={reportProjectData.user.id} />
         </>
       ) : projectId && memberId && !reportProjectData && !isLoading ? (
         <div className="flex w-full justify-center">ไม่พบข้อมูลรายงานโครงการ</div>
