@@ -348,11 +348,14 @@ export function secondsToDuration(sec: number) {
 
   let remaining = Math.floor(sec);
 
-  const YEAR = 365 * 24 * 60 * 60;
-  const MONTH = 30 * 24 * 60 * 60;
-  const DAY = 24 * 60 * 60;
-  const HOUR = 60 * 60;
+  // 8 ชั่วโมง = 1 วัน
+  // 30 วัน = 1 เดือน
+  // 12 เดือน = 1 ปี
   const MINUTE = 60;
+  const HOUR = 60 * MINUTE;
+  const DAY = 8 * HOUR;
+  const MONTH = 30 * DAY;
+  const YEAR = 12 * MONTH;
 
   const year = Math.floor(remaining / YEAR);
   remaining %= YEAR;

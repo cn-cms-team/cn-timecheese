@@ -46,6 +46,7 @@ const DashboardContent = () => {
     <div className="w-full gap-4 flex flex-col">
       <div className="border rounded-lg shadow">
         <AvatarDetail
+          id={userInfo?.id || ''}
           name={userInfo ? `${userInfo.first_name} ${userInfo.last_name}` : '-'}
           position={userInfo?.position_level?.name ?? '-'}
           code={userInfo?.code ?? '-'}

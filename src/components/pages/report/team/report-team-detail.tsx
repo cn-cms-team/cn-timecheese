@@ -8,6 +8,7 @@ const ReportTeamDetail = ({ user, projects, loading }: IReportTeam & { loading: 
   return (
     <div className="flex flex-col gap-5">
       <AvatarDetail
+        id={user?.id || ''}
         name={`${user.first_name} ${user.last_name}`}
         position={user.position_level?.name}
         code={user?.code}
