@@ -9,6 +9,7 @@ import { IDashboard } from '@/types/report';
 import { IReportTeam } from '@/types/report/team';
 import { weekDays } from '@/lib/constants/period-calendar';
 import { IOptionGroups } from '@/types/dropdown';
+import { DD_PROJECT_LABEL } from '@/lib/constants/dropdown';
 
 interface IDashboardContextType {
   loading: boolean;
@@ -155,7 +156,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
       const project = await fetcher<IOptionGroups[]>(`${prefix}/api/v1/dashboard/master/project`);
       setProjectOptions(project);
       if (!projectId) {
-        const defaultProject = project.find((e) => e.label === 'Projects');
+        const defaultProject = project.find((e) => e.label === DD_PROJECT_LABEL);
 
         if (defaultProject) setProjectId((defaultProject.options[0].value as string) || '');
       }

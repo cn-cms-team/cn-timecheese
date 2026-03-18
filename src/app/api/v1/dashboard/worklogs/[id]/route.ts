@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma';
+import { toDateOnly, toUtcDayBoundary } from '@/lib/functions/date-format';
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { searchParams } = new URL(request.url);
@@ -19,14 +20,18 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     return Response.json({ message: 'Project ID parameter is required' }, { status: 400 });
   }
 
-  //ใช้ en-CA เพื่อทำให้รูปแบบ ISO โดยไม่แปลงเป็น UTC
-  const startDateOnly = start_date
-    ? new Date(start_date).toLocaleDateString('en-CA').split('T')[0]
-    : null;
+  const startDateOnly = toDateOnly(start_date);
+  const endDateOnly = toDateOnly(end_date);
 
-  const endDateOnly = end_date
-    ? new Date(end_date).toLocaleDateString('en-CA').split('T')[0]
-    : null;
+  console.log('date range:', { startDateOnly, endDateOnly });
+
+  const stampDateFilter =
+    startDateOnly && endDateOnly
+      ? {
+          gte: toUtcDayBoundary(startDateOnly),
+          lte: toUtcDayBoundary(endDateOnly, true),
+        }
+      : undefined;
 
   try {
     const totalTask = await prisma.timeSheet.count({
@@ -49,13 +54,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             },
           ],
         }),
-        ...(startDateOnly &&
-          endDateOnly && {
-            stamp_date: {
-              gte: new Date(startDateOnly),
-              lte: new Date(endDateOnly),
-            },
-          }),
+        ...(stampDateFilter && {
+          stamp_date: stampDateFilter,
+        }),
       },
     });
 
@@ -79,13 +80,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             },
           ],
         }),
-        ...(startDateOnly &&
-          endDateOnly && {
-            stamp_date: {
-              gte: new Date(startDateOnly),
-              lte: new Date(endDateOnly),
-            },
-          }),
+        ...(stampDateFilter && {
+          stamp_date: stampDateFilter,
+        }),
       },
       select: {
         id: true,

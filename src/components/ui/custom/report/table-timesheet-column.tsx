@@ -3,8 +3,7 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { SortColumn } from '../data-table';
 import { ITimeSheetTable } from '@/types/report';
-import { formatDate } from '@/lib/functions/date-format';
-import { Popover, PopoverContent, PopoverTrigger } from '../../popover';
+import { buddhistFormatDate, formatDate } from '@/lib/functions/date-format';
 import ColumnTooltip from '../data-table/column-tooltip';
 
 type createColumnsProps = {
@@ -26,7 +25,7 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
       size: 150,
       cell: ({ row }) => {
         const { date } = row.original;
-        return <div>{formatDate(date, 'dd/mm/yyyy') || '-'}</div>;
+        return <div>{buddhistFormatDate(date, 'dd mmm yyyy') || '-'}</div>;
       },
     },
     {

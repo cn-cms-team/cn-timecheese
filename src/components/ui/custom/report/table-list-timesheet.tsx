@@ -25,6 +25,13 @@ interface IProps {
   userId?: string;
 }
 
+const toDateOnly = (date: Date) => {
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, '0');
+  const day = `${date.getDate()}`.padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 const TableListTimesheet = ({ projectId, userId }: IProps) => {
   const { data: session } = useSession();
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
@@ -59,8 +66,8 @@ const TableListTimesheet = ({ projectId, userId }: IProps) => {
 
     if (projectId) params.append('project_id', projectId);
     if (tempFilter.search) params.append('search', tempFilter.search);
-    if (tempFilter.date?.from) params.append('start_date', tempFilter.date?.from.toISOString());
-    if (tempFilter.date?.to) params.append('end_date', tempFilter.date?.to.toISOString());
+    if (tempFilter.date?.from) params.append('start_date', toDateOnly(tempFilter.date.from));
+    if (tempFilter.date?.to) params.append('end_date', toDateOnly(tempFilter.date.to));
 
     try {
       setLoading(true);

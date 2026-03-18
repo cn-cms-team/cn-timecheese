@@ -66,13 +66,6 @@ const DashboardContent = () => {
             setProjectId(value);
           }}
         />
-        {/* <Dropdown
-          value={projectId}
-          options={projectOption}
-          isAllPlaceHolder={false}
-          placeholder="เลือกโครงการ"
-          onChange={(value) => setProjectId(value)}
-        /> */}
       </div>
       <CardProjectInfo project={dashboardProjectData?.project || {}} loading={loading} />
       <DonutChartTimesheet

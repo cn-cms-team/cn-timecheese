@@ -451,3 +451,18 @@ export const toUtcDayBounds = (startDate: Date, endDate: Date) => {
 
   return { start, end };
 };
+
+export const DATE_ONLY_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+
+export const toDateOnly = (value: string | null) => {
+  if (!value) return null;
+  const normalized = value.includes('T') ? value.slice(0, 10) : value;
+  return DATE_ONLY_REGEX.test(normalized) ? normalized : null;
+};
+
+export const toUtcDayBoundary = (dateOnly: string, endOfDay = false) => {
+  const [year, month, day] = dateOnly.split('-').map(Number);
+  return endOfDay
+    ? new Date(Date.UTC(year, month - 1, day, 23, 59, 59, 999))
+    : new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
+};

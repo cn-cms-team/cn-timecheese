@@ -58,6 +58,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     reValidateMode: 'onChange',
     defaultValues: {
       is_company_project: false,
+      pre_sale_code: '',
       code: '',
       name: '',
       status: '',
@@ -98,6 +99,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
           const projectData = result.data as IProject;
           form.reset({
             ...projectData,
+            pre_sale_code: projectData.pre_sale_code ?? '',
             start_date: new Date(projectData.start_date),
             end_date: projectData.end_date ? new Date(projectData.end_date) : undefined,
             maintenance_start_date: projectData.maintenance_start_date
@@ -266,10 +268,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                   name="pre_sale_code"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>
-                        รหัส Pre-Sale
-                        <Required />
-                      </FormLabel>
+                      <FormLabel>รหัส Pre-Sale</FormLabel>
                       <FormControl>
                         <Input
                           autoComplete="off"

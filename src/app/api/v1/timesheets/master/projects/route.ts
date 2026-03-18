@@ -1,6 +1,7 @@
 import { getPascalCase } from '@/lib/functions/string-format';
 import prisma from '@/lib/prisma';
 import { auth } from '@/auth';
+import { DD_INTERNAL_LABEL, DD_PROJECT_LABEL } from '@/lib/constants/dropdown';
 
 export async function GET() {
   const session = await auth();
@@ -22,6 +23,7 @@ export async function GET() {
 
       select: {
         id: true,
+        code: true,
         name: true,
         is_company_project: true,
         start_date: true,
@@ -45,7 +47,7 @@ export async function GET() {
     });
 
     const options = result.map((item) => ({
-      label: item.name,
+      label: item.code ? `[${item.code}] ${item.name}` : item.name,
       value: String(item.id),
       isCompanyProject: item.is_company_project,
       taskTypes: Object.entries(
@@ -64,7 +66,7 @@ export async function GET() {
 
     const optionGroup = [
       {
-        label: 'Internal',
+        label: DD_INTERNAL_LABEL,
         options: options
           .filter((option) => option.isCompanyProject)
           .map((option) => ({
@@ -76,7 +78,7 @@ export async function GET() {
           })),
       },
       {
-        label: 'Projects',
+        label: DD_PROJECT_LABEL,
         options: options
           .filter((option) => !option.isCompanyProject)
           .map((option) => ({

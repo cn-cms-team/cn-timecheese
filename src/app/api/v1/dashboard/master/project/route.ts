@@ -1,4 +1,5 @@
 import { auth } from '@/auth';
+import { DD_INTERNAL_LABEL, DD_PROJECT_LABEL } from '@/lib/constants/dropdown';
 import prisma from '@/lib/prisma';
 
 type Option = { label: string; value: string };
@@ -53,11 +54,11 @@ export async function GET() {
 
     const optionGroup: OptionGroup[] = [
       {
-        label: 'Internal',
+        label: DD_INTERNAL_LABEL,
         options: toOptions(companyProjects),
       },
       {
-        label: 'Projects',
+        label: DD_PROJECT_LABEL,
         options: memberProjects.map((item) => ({
           label: item.project.code
             ? `[${item.project.code}] ${item.project.name}`

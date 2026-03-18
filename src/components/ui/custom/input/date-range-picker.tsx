@@ -8,7 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../../popover';
 import { Button } from '../../button';
 import { cn } from '@/lib/utils';
 import { Calendar1, X } from 'lucide-react';
-import { formatDate } from '@/lib/functions/date-format';
+import { buddhistFormatDate } from '@/lib/functions/date-format';
 
 interface IProps {
   className?: string;
@@ -56,9 +56,9 @@ export function DateRangePicker({
           >
             <span className={cn('truncate', selected ? '' : 'text-gray-500')}>
               {selected
-                ? `${formatDate(selected.from, 'dd/mm/yyyy')} - ${formatDate(
+                ? `${buddhistFormatDate(selected.from, 'dd mmm yy')} - ${buddhistFormatDate(
                     selected.to,
-                    'dd/mm/yyyy'
+                    'dd mmm yy'
                   )}`
                 : placeholder}
             </span>
