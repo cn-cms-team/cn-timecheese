@@ -1,0 +1,77 @@
+import { auth } from '@/auth';
+import prisma from '@/lib/prisma';
+
+type Option = { label: string; value: string };
+type OptionGroup = { label: string; options: Option[] };
+
+const toOptions = <T extends { id: number | string; name: string; code: string | null }>(
+  items: T[]
+): Option[] =>
+  items.map(({ id, name, code }) => ({
+    label: code ? `[${code}] ${name}` : name,
+    value: String(id),
+  }));
+
+export async function GET() {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return Response.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
+    const [companyProjects, memberProjects] = await Promise.all([
+      prisma.project.findMany({
+        where: {
+          is_enabled: true,
+          is_company_project: true,
+        },
+        select: {
+          id: true,
+          code: true,
+          name: true,
+        },
+        orderBy: { name: 'asc' },
+      }),
+      prisma.projectMember.findMany({
+        where: {
+          user_id: session.user.id,
+          project: { is_enabled: true, is_company_project: false },
+        },
+        select: {
+          project_id: true,
+          project: {
+            select: {
+              code: true,
+              name: true,
+            },
+          },
+        },
+        orderBy: { project: { name: 'asc' } },
+        distinct: ['project_id'],
+      }),
+    ]);
+
+    const optionGroup: OptionGroup[] = [
+      {
+        label: 'Internal',
+        options: toOptions(companyProjects),
+      },
+      {
+        label: 'Projects',
+        options: memberProjects.map((item) => ({
+          label: item.project.code
+            ? `[${item.project.code}] ${item.project.name}`
+            : item.project.name,
+          value: String(item.project_id),
+        })),
+      },
+    ];
+
+    return Response.json({ data: optionGroup }, { status: 200 });
+  } catch (error) {
+    return Response.json(
+      { message: error instanceof Error ? error.message : 'An unknown error occurred' },
+      { status: 500 }
+    );
+  }
+}

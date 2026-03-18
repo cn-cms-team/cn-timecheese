@@ -12,7 +12,7 @@ import { Label } from '@/components/ui/label';
 
 const DashboardBarChart = () => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
-  const { barchartOption, selectedMonth, selectYear, yearOption, setSelectYear, setSelectedMonth } =
+  const { barChartOption, selectedMonth, selectYear, yearOption, setSelectYear, setSelectedMonth } =
     useDashboardContext();
 
   const [loading, setLoading] = useState(false);
@@ -90,7 +90,7 @@ const DashboardBarChart = () => {
           <div className="w-full h-64 bg-gray-300 animate-pulse rounded-lg mt-4" />
         ) : (
           <div className="min-w-150 overflow-x-auto">
-            <ApexChart options={barchartOption} series={series} type="bar" height={250} />
+            <ApexChart options={barChartOption} series={series} type="bar" height={250} />
           </div>
         )}
       </main>

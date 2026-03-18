@@ -8,12 +8,11 @@ import { IOption } from '@/types/option';
 import { IDashboard } from '@/types/report';
 import { IReportTeam } from '@/types/report/team';
 import { weekDays } from '@/lib/constants/period-calendar';
-import { useLoading } from '@/components/context/app-context';
 import { IOptionGroups } from '@/types/dropdown';
 
 interface IDashboardContextType {
   loading: boolean;
-  barchartOption: ApexOptions;
+  barChartOption: ApexOptions;
   selectedMonth: number;
   projectId: string;
   dashboardProjectData: IDashboard;
@@ -37,9 +36,7 @@ const DashboardContext = createContext<IDashboardContextType | undefined>(undefi
 const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const today = new Date();
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
-  const { setIsLoading } = useLoading();
   const [loading, setLoading] = useState<boolean>(false);
-  const [userInfoLoading, setUserInfoLoading] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IReportTeam>(null!);
   const [selectYear, setSelectYear] = useState<number>(today.getFullYear());
   const [dashboardProjectData, setDashboardProjectData] = useState<IDashboard>(null!);
@@ -69,7 +66,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     })
   );
 
-  const barchartOption: ApexOptions = {
+  const barChartOption: ApexOptions = {
     chart: {
       type: 'bar',
       toolbar: {
@@ -128,14 +125,12 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchUserInfo = async (userId: string) => {
     try {
       setLoading(true);
-      // setIsLoading(true);
       const userInfo = await fetcher<IReportTeam>(`${prefix}/api/v1/report/team?user_id=${userId}`);
 
       setUserInfo(userInfo);
     } catch (error) {
       console.error('Error fetching options:', error);
     } finally {
-      // setIsLoading(false);
       setLoading(false);
     }
   };
@@ -143,7 +138,6 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchProjectData = async (userId: string, projectId: string) => {
     try {
       setLoading(true);
-      // setIsLoading(true);
       const dashboardData = await fetcher<IDashboard>(
         `${prefix}/api/v1/dashboard?project_id=${projectId}&member_id=${userId}`
       );
@@ -152,19 +146,16 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.error('Error fetching options:', error);
     } finally {
-      // setIsLoading(false);
       setLoading(false);
     }
   };
 
   const fetchProjectsOption = async () => {
     try {
-      const project = await fetcher<IOptionGroups[]>(
-        `${prefix}/api/v1/report/project/project-list`
-      );
+      const project = await fetcher<IOptionGroups[]>(`${prefix}/api/v1/dashboard/master/project`);
       setProjectOptions(project);
       if (!projectId) {
-        const defaultProject = project.find((e) => e.label === 'PROJECT');
+        const defaultProject = project.find((e) => e.label === 'Projects');
 
         if (defaultProject) setProjectId((defaultProject.options[0].value as string) || '');
       }
@@ -177,7 +168,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     <DashboardContext.Provider
       value={{
         loading,
-        barchartOption,
+        barChartOption,
         selectedMonth,
         projectId,
         dashboardProjectData,
