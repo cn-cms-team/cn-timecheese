@@ -228,11 +228,6 @@ export async function POST(request: NextRequest) {
     const updateTasks = payloadTasks.filter((t): t is typeof t & { id: string } => Boolean(t.id));
     const createTasks = payloadTasks.filter((t) => !t.id);
 
-    console.log('payloadTasks', payloadTasks);
-    console.log('deleteTaskIds', deleteTaskIds);
-    console.log('updateTasks', updateTasks);
-    console.log('createTasks', createTasks);
-
     await prisma.$transaction(async (tx) => {
       if (deleteTaskIds.length) {
         await tx.projectTaskType.deleteMany({
