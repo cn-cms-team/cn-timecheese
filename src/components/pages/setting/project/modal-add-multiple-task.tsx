@@ -47,22 +47,31 @@ export function ModalAddMultipleTask({
     .filter((e) => e.options.length > 0);
 
   const handleAddMultipleTaskType = () => {
-    form.setValue('main_task_type', []);
-    selectedValues.forEach((value) => {
-      const task = taskOption.find((task) => task.value === value);
-      if (task) {
-        const type = typeOption.find((type) => type.value === task.type);
-        if (type) {
-          const taskType = {
-            name: task.label,
-            type: task.type,
-            task_type_id: task.value,
-            description: '',
-          };
-          form.setValue('main_task_type', [...form.getValues('main_task_type'), taskType]);
-        }
-      }
-    });
+    const existingMainTaskType = form.getValues('main_task_type') ?? [];
+    const existingTaskByTaskTypeId = new Map(
+      existingMainTaskType
+        .filter((item) => item.task_type_id)
+        .map((item) => [item.task_type_id as string, item])
+    );
+
+    const nextMainTaskType = selectedValues
+      .map((value) => {
+        const task = taskOption.find((taskItem) => taskItem.value === value);
+        if (!task) return null;
+
+        const existingTask = existingTaskByTaskTypeId.get(value);
+
+        return {
+          ...existingTask,
+          name: task.label,
+          type: task.type,
+          task_type_id: task.value,
+          description: existingTask?.description ?? '',
+        };
+      })
+      .filter((item): item is NonNullable<typeof item> => Boolean(item));
+
+    form.setValue('main_task_type', nextMainTaskType);
     onOpenChange(false);
   };
 

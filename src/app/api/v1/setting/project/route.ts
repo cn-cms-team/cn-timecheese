@@ -38,49 +38,58 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const data = body.data as IProject;
+    const { data } = (await request.json()) as {
+      data: IProject & { member?: ProjectMemberSchemaType[] };
+    };
 
-    const project = await prisma.project.create({
-      data: {
-        name: data.name,
-        code: data.code,
-        pre_sale_code: data.pre_sale_code,
-        description: data.description,
-        value: data.value,
-        start_date: data.start_date,
-        end_date: data.end_date,
-        maintenance_start_date: data.maintenance_start_date,
-        maintenance_end_date: data.maintenance_end_date,
-        status: data.status,
-        is_company_project: data.is_company_project,
-        created_at: new Date(),
-        created_by: data.created_by,
-      },
-    });
+    const { member = [], main_task_type = [], optional_task_type = [], ...projectData } = data;
 
-    const memberMap = body.data.member.map((item: ProjectMemberSchemaType) => ({
-      project_id: project.id,
-      user_id: item.user_id,
-      role: item.role,
-      day_price: item.day_price,
-      start_date: item.start_date,
-      end_date: item.end_date,
-      work_hours: item.work_hours,
-      hour_price: item.hour_price,
-    }));
+    await prisma.$transaction(async (tx) => {
+      const project = await tx.project.create({
+        data: {
+          name: projectData.name,
+          code: projectData.code,
+          pre_sale_code: projectData.pre_sale_code,
+          description: projectData.description,
+          value: projectData.value,
+          start_date: projectData.start_date,
+          end_date: projectData.end_date,
+          maintenance_start_date: projectData.maintenance_start_date,
+          maintenance_end_date: projectData.maintenance_end_date,
+          status: projectData.status,
+          is_company_project: projectData.is_company_project,
+          created_at: new Date(),
+          created_by: projectData.created_by,
+        },
+      });
 
-    await prisma.projectMember.createMany({
-      data: memberMap,
-    });
+      const members = member.map((item) => ({
+        project_id: project.id,
+        user_id: item.user_id,
+        role: item.role,
+        day_price: item.day_price,
+        start_date: item.start_date,
+        end_date: item.end_date,
+        work_hours: item.work_hours,
+        hour_price: item.hour_price,
+      }));
 
-    const task = [...data.main_task_type, ...data.optional_task_type].map((item) => ({
-      ...item,
-      project_id: project.id,
-    }));
+      if (members.length) {
+        await tx.projectMember.createMany({
+          data: members,
+        });
+      }
 
-    await prisma.projectTaskType.createMany({
-      data: task,
+      const tasks = [...main_task_type, ...optional_task_type].map((item) => ({
+        ...item,
+        project_id: project.id,
+      }));
+
+      if (tasks.length) {
+        await tx.projectTaskType.createMany({
+          data: tasks,
+        });
+      }
     });
 
     return Response.json(
