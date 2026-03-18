@@ -20,6 +20,7 @@ const taskTypeSchema = z.object({
   type: z.string(),
   name: z.string(),
   description: z.string().nullable().optional(),
+  is_using: z.boolean(),
 });
 
 const baseSchema = {

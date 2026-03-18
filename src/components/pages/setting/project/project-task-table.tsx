@@ -168,8 +168,13 @@ const ProjectTaskTable = ({
                               onClick={() => {
                                 remove(index);
                               }}
+                              disabled={item.is_using}
                             >
-                              <Trash2 width={20} height={20} className={'text-red-700'} />
+                              <Trash2
+                                width={20}
+                                height={20}
+                                className={item.is_using ? 'text-gray-700' : 'text-red-700'}
+                              />
                             </Button>
                           </TableCell>
                         </TableRow>

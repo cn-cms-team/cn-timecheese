@@ -47,6 +47,7 @@ export type ProjectMemberMinAggregateOutputType = {
   work_hours: number | null
   start_date: Date | null
   end_date: Date | null
+  is_using: boolean | null
 }
 
 export type ProjectMemberMaxAggregateOutputType = {
@@ -58,6 +59,7 @@ export type ProjectMemberMaxAggregateOutputType = {
   work_hours: number | null
   start_date: Date | null
   end_date: Date | null
+  is_using: boolean | null
 }
 
 export type ProjectMemberCountAggregateOutputType = {
@@ -69,6 +71,7 @@ export type ProjectMemberCountAggregateOutputType = {
   work_hours: number
   start_date: number
   end_date: number
+  is_using: number
   _all: number
 }
 
@@ -94,6 +97,7 @@ export type ProjectMemberMinAggregateInputType = {
   work_hours?: true
   start_date?: true
   end_date?: true
+  is_using?: true
 }
 
 export type ProjectMemberMaxAggregateInputType = {
@@ -105,6 +109,7 @@ export type ProjectMemberMaxAggregateInputType = {
   work_hours?: true
   start_date?: true
   end_date?: true
+  is_using?: true
 }
 
 export type ProjectMemberCountAggregateInputType = {
@@ -116,6 +121,7 @@ export type ProjectMemberCountAggregateInputType = {
   work_hours?: true
   start_date?: true
   end_date?: true
+  is_using?: true
   _all?: true
 }
 
@@ -214,6 +220,7 @@ export type ProjectMemberGroupByOutputType = {
   work_hours: number
   start_date: Date | null
   end_date: Date | null
+  is_using: boolean
   _count: ProjectMemberCountAggregateOutputType | null
   _avg: ProjectMemberAvgAggregateOutputType | null
   _sum: ProjectMemberSumAggregateOutputType | null
@@ -248,6 +255,7 @@ export type ProjectMemberWhereInput = {
   work_hours?: Prisma.IntFilter<"ProjectMember"> | number
   start_date?: Prisma.DateTimeNullableFilter<"ProjectMember"> | Date | string | null
   end_date?: Prisma.DateTimeNullableFilter<"ProjectMember"> | Date | string | null
+  is_using?: Prisma.BoolFilter<"ProjectMember"> | boolean
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -261,6 +269,7 @@ export type ProjectMemberOrderByWithRelationInput = {
   work_hours?: Prisma.SortOrder
   start_date?: Prisma.SortOrderInput | Prisma.SortOrder
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_using?: Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -278,6 +287,7 @@ export type ProjectMemberWhereUniqueInput = Prisma.AtLeast<{
   work_hours?: Prisma.IntFilter<"ProjectMember"> | number
   start_date?: Prisma.DateTimeNullableFilter<"ProjectMember"> | Date | string | null
   end_date?: Prisma.DateTimeNullableFilter<"ProjectMember"> | Date | string | null
+  is_using?: Prisma.BoolFilter<"ProjectMember"> | boolean
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "project_id_user_id">
@@ -291,6 +301,7 @@ export type ProjectMemberOrderByWithAggregationInput = {
   work_hours?: Prisma.SortOrder
   start_date?: Prisma.SortOrderInput | Prisma.SortOrder
   end_date?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_using?: Prisma.SortOrder
   _count?: Prisma.ProjectMemberCountOrderByAggregateInput
   _avg?: Prisma.ProjectMemberAvgOrderByAggregateInput
   _max?: Prisma.ProjectMemberMaxOrderByAggregateInput
@@ -310,6 +321,7 @@ export type ProjectMemberScalarWhereWithAggregatesInput = {
   work_hours?: Prisma.IntWithAggregatesFilter<"ProjectMember"> | number
   start_date?: Prisma.DateTimeNullableWithAggregatesFilter<"ProjectMember"> | Date | string | null
   end_date?: Prisma.DateTimeNullableWithAggregatesFilter<"ProjectMember"> | Date | string | null
+  is_using?: Prisma.BoolWithAggregatesFilter<"ProjectMember"> | boolean
 }
 
 export type ProjectMemberCreateInput = {
@@ -319,6 +331,7 @@ export type ProjectMemberCreateInput = {
   work_hours: number
   start_date?: Date | string | null
   end_date?: Date | string | null
+  is_using?: boolean
   project: Prisma.ProjectCreateNestedOneWithoutProjectMembersInput
   user: Prisma.UserCreateNestedOneWithoutProjectMembersInput
 }
@@ -332,6 +345,7 @@ export type ProjectMemberUncheckedCreateInput = {
   work_hours: number
   start_date?: Date | string | null
   end_date?: Date | string | null
+  is_using?: boolean
 }
 
 export type ProjectMemberUpdateInput = {
@@ -341,6 +355,7 @@ export type ProjectMemberUpdateInput = {
   work_hours?: Prisma.IntFieldUpdateOperationsInput | number
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
   project?: Prisma.ProjectUpdateOneRequiredWithoutProjectMembersNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutProjectMembersNestedInput
 }
@@ -354,6 +369,7 @@ export type ProjectMemberUncheckedUpdateInput = {
   work_hours?: Prisma.IntFieldUpdateOperationsInput | number
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ProjectMemberCreateManyInput = {
@@ -365,6 +381,7 @@ export type ProjectMemberCreateManyInput = {
   work_hours: number
   start_date?: Date | string | null
   end_date?: Date | string | null
+  is_using?: boolean
 }
 
 export type ProjectMemberUpdateManyMutationInput = {
@@ -374,6 +391,7 @@ export type ProjectMemberUpdateManyMutationInput = {
   work_hours?: Prisma.IntFieldUpdateOperationsInput | number
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ProjectMemberUncheckedUpdateManyInput = {
@@ -385,6 +403,7 @@ export type ProjectMemberUncheckedUpdateManyInput = {
   work_hours?: Prisma.IntFieldUpdateOperationsInput | number
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ProjectMemberListRelationFilter = {
@@ -411,6 +430,7 @@ export type ProjectMemberCountOrderByAggregateInput = {
   work_hours?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
+  is_using?: Prisma.SortOrder
 }
 
 export type ProjectMemberAvgOrderByAggregateInput = {
@@ -428,6 +448,7 @@ export type ProjectMemberMaxOrderByAggregateInput = {
   work_hours?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
+  is_using?: Prisma.SortOrder
 }
 
 export type ProjectMemberMinOrderByAggregateInput = {
@@ -439,6 +460,7 @@ export type ProjectMemberMinOrderByAggregateInput = {
   work_hours?: Prisma.SortOrder
   start_date?: Prisma.SortOrder
   end_date?: Prisma.SortOrder
+  is_using?: Prisma.SortOrder
 }
 
 export type ProjectMemberSumOrderByAggregateInput = {
@@ -538,6 +560,7 @@ export type ProjectMemberCreateWithoutUserInput = {
   work_hours: number
   start_date?: Date | string | null
   end_date?: Date | string | null
+  is_using?: boolean
   project: Prisma.ProjectCreateNestedOneWithoutProjectMembersInput
 }
 
@@ -549,6 +572,7 @@ export type ProjectMemberUncheckedCreateWithoutUserInput = {
   work_hours: number
   start_date?: Date | string | null
   end_date?: Date | string | null
+  is_using?: boolean
 }
 
 export type ProjectMemberCreateOrConnectWithoutUserInput = {
@@ -589,6 +613,7 @@ export type ProjectMemberScalarWhereInput = {
   work_hours?: Prisma.IntFilter<"ProjectMember"> | number
   start_date?: Prisma.DateTimeNullableFilter<"ProjectMember"> | Date | string | null
   end_date?: Prisma.DateTimeNullableFilter<"ProjectMember"> | Date | string | null
+  is_using?: Prisma.BoolFilter<"ProjectMember"> | boolean
 }
 
 export type ProjectMemberCreateWithoutProjectInput = {
@@ -598,6 +623,7 @@ export type ProjectMemberCreateWithoutProjectInput = {
   work_hours: number
   start_date?: Date | string | null
   end_date?: Date | string | null
+  is_using?: boolean
   user: Prisma.UserCreateNestedOneWithoutProjectMembersInput
 }
 
@@ -609,6 +635,7 @@ export type ProjectMemberUncheckedCreateWithoutProjectInput = {
   work_hours: number
   start_date?: Date | string | null
   end_date?: Date | string | null
+  is_using?: boolean
 }
 
 export type ProjectMemberCreateOrConnectWithoutProjectInput = {
@@ -645,6 +672,7 @@ export type ProjectMemberCreateManyUserInput = {
   work_hours: number
   start_date?: Date | string | null
   end_date?: Date | string | null
+  is_using?: boolean
 }
 
 export type ProjectMemberUpdateWithoutUserInput = {
@@ -654,6 +682,7 @@ export type ProjectMemberUpdateWithoutUserInput = {
   work_hours?: Prisma.IntFieldUpdateOperationsInput | number
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
   project?: Prisma.ProjectUpdateOneRequiredWithoutProjectMembersNestedInput
 }
 
@@ -665,6 +694,7 @@ export type ProjectMemberUncheckedUpdateWithoutUserInput = {
   work_hours?: Prisma.IntFieldUpdateOperationsInput | number
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ProjectMemberUncheckedUpdateManyWithoutUserInput = {
@@ -675,6 +705,7 @@ export type ProjectMemberUncheckedUpdateManyWithoutUserInput = {
   work_hours?: Prisma.IntFieldUpdateOperationsInput | number
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ProjectMemberCreateManyProjectInput = {
@@ -685,6 +716,7 @@ export type ProjectMemberCreateManyProjectInput = {
   work_hours: number
   start_date?: Date | string | null
   end_date?: Date | string | null
+  is_using?: boolean
 }
 
 export type ProjectMemberUpdateWithoutProjectInput = {
@@ -694,6 +726,7 @@ export type ProjectMemberUpdateWithoutProjectInput = {
   work_hours?: Prisma.IntFieldUpdateOperationsInput | number
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
   user?: Prisma.UserUpdateOneRequiredWithoutProjectMembersNestedInput
 }
 
@@ -705,6 +738,7 @@ export type ProjectMemberUncheckedUpdateWithoutProjectInput = {
   work_hours?: Prisma.IntFieldUpdateOperationsInput | number
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ProjectMemberUncheckedUpdateManyWithoutProjectInput = {
@@ -715,6 +749,7 @@ export type ProjectMemberUncheckedUpdateManyWithoutProjectInput = {
   work_hours?: Prisma.IntFieldUpdateOperationsInput | number
   start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -728,6 +763,7 @@ export type ProjectMemberSelect<ExtArgs extends runtime.Types.Extensions.Interna
   work_hours?: boolean
   start_date?: boolean
   end_date?: boolean
+  is_using?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["projectMember"]>
@@ -741,6 +777,7 @@ export type ProjectMemberSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   work_hours?: boolean
   start_date?: boolean
   end_date?: boolean
+  is_using?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["projectMember"]>
@@ -754,6 +791,7 @@ export type ProjectMemberSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   work_hours?: boolean
   start_date?: boolean
   end_date?: boolean
+  is_using?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["projectMember"]>
@@ -767,9 +805,10 @@ export type ProjectMemberSelectScalar = {
   work_hours?: boolean
   start_date?: boolean
   end_date?: boolean
+  is_using?: boolean
 }
 
-export type ProjectMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"project_id" | "user_id" | "role" | "day_price" | "hour_price" | "work_hours" | "start_date" | "end_date", ExtArgs["result"]["projectMember"]>
+export type ProjectMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"project_id" | "user_id" | "role" | "day_price" | "hour_price" | "work_hours" | "start_date" | "end_date" | "is_using", ExtArgs["result"]["projectMember"]>
 export type ProjectMemberInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -798,6 +837,7 @@ export type $ProjectMemberPayload<ExtArgs extends runtime.Types.Extensions.Inter
     work_hours: number
     start_date: Date | null
     end_date: Date | null
+    is_using: boolean
   }, ExtArgs["result"]["projectMember"]>
   composites: {}
 }
@@ -1231,6 +1271,7 @@ export interface ProjectMemberFieldRefs {
   readonly work_hours: Prisma.FieldRef<"ProjectMember", 'Int'>
   readonly start_date: Prisma.FieldRef<"ProjectMember", 'DateTime'>
   readonly end_date: Prisma.FieldRef<"ProjectMember", 'DateTime'>
+  readonly is_using: Prisma.FieldRef<"ProjectMember", 'Boolean'>
 }
     
 

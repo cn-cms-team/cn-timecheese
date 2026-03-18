@@ -38,6 +38,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             day_price: true,
             start_date: true,
             end_date: true,
+            is_using: true,
           },
         },
         projectTaskTypes: {
@@ -47,6 +48,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             type: true,
             task_type_id: true,
             description: true,
+            is_using: true,
             task_type: {
               select: {
                 id: true,
@@ -61,25 +63,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     if (!project) {
       return Response.json({ message: 'Project Not Found', status: 404 });
     }
-
-    const referenceMember = await prisma.timeSheet.findMany({
-      where: { project_id: id },
-      select: {
-        user_id: true,
-      },
-      distinct: 'user_id',
-    });
-
-    const referenceTask = await prisma.timeSheet.findMany({
-      where: { project_id: id },
-      select: {
-        id: true,
-      },
-      distinct: 'id',
-    });
-
-    const usingUserIds = new Set(referenceMember.map((r) => r.user_id));
-    const usingTaskTypeIds = new Set(referenceTask.filter((r) => r.id).map((r) => r.id));
 
     const result = {
       id: project.id,
@@ -99,20 +82,17 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       member: project.projectMembers.map(({ user, ...rest }) => ({
         ...rest,
         name: `${user.first_name} ${user.last_name}`,
-        is_using: usingUserIds.has(rest.user_id),
       })),
       main_task_type: project.projectTaskTypes
         .filter((f) => f.task_type_id)
         .map((item) => ({
           ...item,
           description: item?.task_type?.description,
-          is_using: usingTaskTypeIds.has(item.id),
         })),
       optional_task_type: project.projectTaskTypes
         .filter((f) => !f.task_type_id)
         .map((item) => ({
           ...item,
-          is_using: usingTaskTypeIds.has(item.id),
         })),
     };
 

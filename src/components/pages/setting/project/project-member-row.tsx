@@ -129,7 +129,6 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
             onDelete(index);
           }}
         >
-          {isUsing}
           <Trash2 width={20} height={20} className={isUsing ? 'text-gray-700' : 'text-red-700'} />
         </Button>
       </TableCell>

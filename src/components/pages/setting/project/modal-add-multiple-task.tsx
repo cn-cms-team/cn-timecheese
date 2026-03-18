@@ -67,6 +67,7 @@ export function ModalAddMultipleTask({
           type: task.type,
           task_type_id: task.value,
           description: existingTask?.description ?? '',
+          is_using: existingTask ? existingTask.is_using : false,
         };
       })
       .filter((item): item is NonNullable<typeof item> => Boolean(item));

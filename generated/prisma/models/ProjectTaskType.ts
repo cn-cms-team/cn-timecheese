@@ -31,6 +31,7 @@ export type ProjectTaskTypeMinAggregateOutputType = {
   type: $Enums.TaskTypeCode | null
   name: string | null
   description: string | null
+  is_using: boolean | null
 }
 
 export type ProjectTaskTypeMaxAggregateOutputType = {
@@ -40,6 +41,7 @@ export type ProjectTaskTypeMaxAggregateOutputType = {
   type: $Enums.TaskTypeCode | null
   name: string | null
   description: string | null
+  is_using: boolean | null
 }
 
 export type ProjectTaskTypeCountAggregateOutputType = {
@@ -49,6 +51,7 @@ export type ProjectTaskTypeCountAggregateOutputType = {
   type: number
   name: number
   description: number
+  is_using: number
   _all: number
 }
 
@@ -60,6 +63,7 @@ export type ProjectTaskTypeMinAggregateInputType = {
   type?: true
   name?: true
   description?: true
+  is_using?: true
 }
 
 export type ProjectTaskTypeMaxAggregateInputType = {
@@ -69,6 +73,7 @@ export type ProjectTaskTypeMaxAggregateInputType = {
   type?: true
   name?: true
   description?: true
+  is_using?: true
 }
 
 export type ProjectTaskTypeCountAggregateInputType = {
@@ -78,6 +83,7 @@ export type ProjectTaskTypeCountAggregateInputType = {
   type?: true
   name?: true
   description?: true
+  is_using?: true
   _all?: true
 }
 
@@ -160,6 +166,7 @@ export type ProjectTaskTypeGroupByOutputType = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  is_using: boolean
   _count: ProjectTaskTypeCountAggregateOutputType | null
   _min: ProjectTaskTypeMinAggregateOutputType | null
   _max: ProjectTaskTypeMaxAggregateOutputType | null
@@ -190,6 +197,7 @@ export type ProjectTaskTypeWhereInput = {
   type?: Prisma.EnumTaskTypeCodeFilter<"ProjectTaskType"> | $Enums.TaskTypeCode
   name?: Prisma.StringFilter<"ProjectTaskType"> | string
   description?: Prisma.StringFilter<"ProjectTaskType"> | string
+  is_using?: Prisma.BoolFilter<"ProjectTaskType"> | boolean
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   task_type?: Prisma.XOR<Prisma.TaskTypeNullableScalarRelationFilter, Prisma.TaskTypeWhereInput> | null
   timeSheets?: Prisma.TimeSheetListRelationFilter
@@ -202,6 +210,7 @@ export type ProjectTaskTypeOrderByWithRelationInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  is_using?: Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
   task_type?: Prisma.TaskTypeOrderByWithRelationInput
   timeSheets?: Prisma.TimeSheetOrderByRelationAggregateInput
@@ -217,6 +226,7 @@ export type ProjectTaskTypeWhereUniqueInput = Prisma.AtLeast<{
   type?: Prisma.EnumTaskTypeCodeFilter<"ProjectTaskType"> | $Enums.TaskTypeCode
   name?: Prisma.StringFilter<"ProjectTaskType"> | string
   description?: Prisma.StringFilter<"ProjectTaskType"> | string
+  is_using?: Prisma.BoolFilter<"ProjectTaskType"> | boolean
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
   task_type?: Prisma.XOR<Prisma.TaskTypeNullableScalarRelationFilter, Prisma.TaskTypeWhereInput> | null
   timeSheets?: Prisma.TimeSheetListRelationFilter
@@ -229,6 +239,7 @@ export type ProjectTaskTypeOrderByWithAggregationInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  is_using?: Prisma.SortOrder
   _count?: Prisma.ProjectTaskTypeCountOrderByAggregateInput
   _max?: Prisma.ProjectTaskTypeMaxOrderByAggregateInput
   _min?: Prisma.ProjectTaskTypeMinOrderByAggregateInput
@@ -244,6 +255,7 @@ export type ProjectTaskTypeScalarWhereWithAggregatesInput = {
   type?: Prisma.EnumTaskTypeCodeWithAggregatesFilter<"ProjectTaskType"> | $Enums.TaskTypeCode
   name?: Prisma.StringWithAggregatesFilter<"ProjectTaskType"> | string
   description?: Prisma.StringWithAggregatesFilter<"ProjectTaskType"> | string
+  is_using?: Prisma.BoolWithAggregatesFilter<"ProjectTaskType"> | boolean
 }
 
 export type ProjectTaskTypeCreateInput = {
@@ -251,6 +263,7 @@ export type ProjectTaskTypeCreateInput = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  is_using?: boolean
   project: Prisma.ProjectCreateNestedOneWithoutProjectTaskTypesInput
   task_type?: Prisma.TaskTypeCreateNestedOneWithoutProjectTaskTypesInput
   timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutProject_task_typeInput
@@ -263,6 +276,7 @@ export type ProjectTaskTypeUncheckedCreateInput = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  is_using?: boolean
   timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutProject_task_typeInput
 }
 
@@ -271,6 +285,7 @@ export type ProjectTaskTypeUpdateInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
   project?: Prisma.ProjectUpdateOneRequiredWithoutProjectTaskTypesNestedInput
   task_type?: Prisma.TaskTypeUpdateOneWithoutProjectTaskTypesNestedInput
   timeSheets?: Prisma.TimeSheetUpdateManyWithoutProject_task_typeNestedInput
@@ -283,6 +298,7 @@ export type ProjectTaskTypeUncheckedUpdateInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutProject_task_typeNestedInput
 }
 
@@ -293,6 +309,7 @@ export type ProjectTaskTypeCreateManyInput = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  is_using?: boolean
 }
 
 export type ProjectTaskTypeUpdateManyMutationInput = {
@@ -300,6 +317,7 @@ export type ProjectTaskTypeUpdateManyMutationInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ProjectTaskTypeUncheckedUpdateManyInput = {
@@ -309,6 +327,7 @@ export type ProjectTaskTypeUncheckedUpdateManyInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ProjectTaskTypeListRelationFilter = {
@@ -328,6 +347,7 @@ export type ProjectTaskTypeCountOrderByAggregateInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  is_using?: Prisma.SortOrder
 }
 
 export type ProjectTaskTypeMaxOrderByAggregateInput = {
@@ -337,6 +357,7 @@ export type ProjectTaskTypeMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  is_using?: Prisma.SortOrder
 }
 
 export type ProjectTaskTypeMinOrderByAggregateInput = {
@@ -346,6 +367,7 @@ export type ProjectTaskTypeMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  is_using?: Prisma.SortOrder
 }
 
 export type ProjectTaskTypeNullableScalarRelationFilter = {
@@ -458,6 +480,7 @@ export type ProjectTaskTypeCreateWithoutTask_typeInput = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  is_using?: boolean
   project: Prisma.ProjectCreateNestedOneWithoutProjectTaskTypesInput
   timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutProject_task_typeInput
 }
@@ -468,6 +491,7 @@ export type ProjectTaskTypeUncheckedCreateWithoutTask_typeInput = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  is_using?: boolean
   timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutProject_task_typeInput
 }
 
@@ -507,6 +531,7 @@ export type ProjectTaskTypeScalarWhereInput = {
   type?: Prisma.EnumTaskTypeCodeFilter<"ProjectTaskType"> | $Enums.TaskTypeCode
   name?: Prisma.StringFilter<"ProjectTaskType"> | string
   description?: Prisma.StringFilter<"ProjectTaskType"> | string
+  is_using?: Prisma.BoolFilter<"ProjectTaskType"> | boolean
 }
 
 export type ProjectTaskTypeCreateWithoutProjectInput = {
@@ -514,6 +539,7 @@ export type ProjectTaskTypeCreateWithoutProjectInput = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  is_using?: boolean
   task_type?: Prisma.TaskTypeCreateNestedOneWithoutProjectTaskTypesInput
   timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutProject_task_typeInput
 }
@@ -524,6 +550,7 @@ export type ProjectTaskTypeUncheckedCreateWithoutProjectInput = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  is_using?: boolean
   timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutProject_task_typeInput
 }
 
@@ -558,6 +585,7 @@ export type ProjectTaskTypeCreateWithoutTimeSheetsInput = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  is_using?: boolean
   project: Prisma.ProjectCreateNestedOneWithoutProjectTaskTypesInput
   task_type?: Prisma.TaskTypeCreateNestedOneWithoutProjectTaskTypesInput
 }
@@ -569,6 +597,7 @@ export type ProjectTaskTypeUncheckedCreateWithoutTimeSheetsInput = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  is_using?: boolean
 }
 
 export type ProjectTaskTypeCreateOrConnectWithoutTimeSheetsInput = {
@@ -592,6 +621,7 @@ export type ProjectTaskTypeUpdateWithoutTimeSheetsInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
   project?: Prisma.ProjectUpdateOneRequiredWithoutProjectTaskTypesNestedInput
   task_type?: Prisma.TaskTypeUpdateOneWithoutProjectTaskTypesNestedInput
 }
@@ -603,6 +633,7 @@ export type ProjectTaskTypeUncheckedUpdateWithoutTimeSheetsInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ProjectTaskTypeCreateManyTask_typeInput = {
@@ -611,6 +642,7 @@ export type ProjectTaskTypeCreateManyTask_typeInput = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  is_using?: boolean
 }
 
 export type ProjectTaskTypeUpdateWithoutTask_typeInput = {
@@ -618,6 +650,7 @@ export type ProjectTaskTypeUpdateWithoutTask_typeInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
   project?: Prisma.ProjectUpdateOneRequiredWithoutProjectTaskTypesNestedInput
   timeSheets?: Prisma.TimeSheetUpdateManyWithoutProject_task_typeNestedInput
 }
@@ -628,6 +661,7 @@ export type ProjectTaskTypeUncheckedUpdateWithoutTask_typeInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutProject_task_typeNestedInput
 }
 
@@ -637,6 +671,7 @@ export type ProjectTaskTypeUncheckedUpdateManyWithoutTask_typeInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type ProjectTaskTypeCreateManyProjectInput = {
@@ -645,6 +680,7 @@ export type ProjectTaskTypeCreateManyProjectInput = {
   type: $Enums.TaskTypeCode
   name: string
   description: string
+  is_using?: boolean
 }
 
 export type ProjectTaskTypeUpdateWithoutProjectInput = {
@@ -652,6 +688,7 @@ export type ProjectTaskTypeUpdateWithoutProjectInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
   task_type?: Prisma.TaskTypeUpdateOneWithoutProjectTaskTypesNestedInput
   timeSheets?: Prisma.TimeSheetUpdateManyWithoutProject_task_typeNestedInput
 }
@@ -662,6 +699,7 @@ export type ProjectTaskTypeUncheckedUpdateWithoutProjectInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
   timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutProject_task_typeNestedInput
 }
 
@@ -671,6 +709,7 @@ export type ProjectTaskTypeUncheckedUpdateManyWithoutProjectInput = {
   type?: Prisma.EnumTaskTypeCodeFieldUpdateOperationsInput | $Enums.TaskTypeCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  is_using?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -711,6 +750,7 @@ export type ProjectTaskTypeSelect<ExtArgs extends runtime.Types.Extensions.Inter
   type?: boolean
   name?: boolean
   description?: boolean
+  is_using?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   task_type?: boolean | Prisma.ProjectTaskType$task_typeArgs<ExtArgs>
   timeSheets?: boolean | Prisma.ProjectTaskType$timeSheetsArgs<ExtArgs>
@@ -724,6 +764,7 @@ export type ProjectTaskTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   type?: boolean
   name?: boolean
   description?: boolean
+  is_using?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   task_type?: boolean | Prisma.ProjectTaskType$task_typeArgs<ExtArgs>
 }, ExtArgs["result"]["projectTaskType"]>
@@ -735,6 +776,7 @@ export type ProjectTaskTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   type?: boolean
   name?: boolean
   description?: boolean
+  is_using?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   task_type?: boolean | Prisma.ProjectTaskType$task_typeArgs<ExtArgs>
 }, ExtArgs["result"]["projectTaskType"]>
@@ -746,9 +788,10 @@ export type ProjectTaskTypeSelectScalar = {
   type?: boolean
   name?: boolean
   description?: boolean
+  is_using?: boolean
 }
 
-export type ProjectTaskTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "project_id" | "task_type_id" | "type" | "name" | "description", ExtArgs["result"]["projectTaskType"]>
+export type ProjectTaskTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "project_id" | "task_type_id" | "type" | "name" | "description" | "is_using", ExtArgs["result"]["projectTaskType"]>
 export type ProjectTaskTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   task_type?: boolean | Prisma.ProjectTaskType$task_typeArgs<ExtArgs>
@@ -778,6 +821,7 @@ export type $ProjectTaskTypePayload<ExtArgs extends runtime.Types.Extensions.Int
     type: $Enums.TaskTypeCode
     name: string
     description: string
+    is_using: boolean
   }, ExtArgs["result"]["projectTaskType"]>
   composites: {}
 }
@@ -1210,6 +1254,7 @@ export interface ProjectTaskTypeFieldRefs {
   readonly type: Prisma.FieldRef<"ProjectTaskType", 'TaskTypeCode'>
   readonly name: Prisma.FieldRef<"ProjectTaskType", 'String'>
   readonly description: Prisma.FieldRef<"ProjectTaskType", 'String'>
+  readonly is_using: Prisma.FieldRef<"ProjectTaskType", 'Boolean'>
 }
     
 

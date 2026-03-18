@@ -221,6 +221,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     type: '',
     name: '',
     description: '',
+    is_using: false,
   };
 
   const handleAddMember = () => {
