@@ -1,6 +1,5 @@
 'use client';
 import { calcTotalYearAndMonth } from '@/lib/functions/date-format';
-import { numberWithCommas } from '@/lib/functions/number-format';
 import { Skeleton } from '../../skeleton';
 
 export type UserAvatarDetailProps = {

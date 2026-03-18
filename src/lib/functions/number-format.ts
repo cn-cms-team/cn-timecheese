@@ -1,4 +1,5 @@
-export function numberWithCommas(value: number, digits = 0) {
+export function numberWithCommas(value: number = 0, digits = 0) {
+  if (!value) return '-';
   return value.toLocaleString(undefined, {
     minimumFractionDigits: digits,
     maximumFractionDigits: digits,
