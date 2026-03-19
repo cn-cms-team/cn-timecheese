@@ -18,6 +18,7 @@ interface TableTemplateProps<TData, TValue> {
   isShowHeader?: boolean;
   isPagination?: boolean;
   loading?: boolean;
+  containerClassName?: string;
 }
 export default function DataTable<TData, TValue>({
   table,
@@ -25,10 +26,11 @@ export default function DataTable<TData, TValue>({
   isShowHeader = true,
   isPagination = true,
   loading = false,
+  containerClassName = '',
 }: TableTemplateProps<TData, TValue>) {
   return (
     <>
-      <div className="rounded-lg border">
+      <div className={`rounded-lg border ${containerClassName}`}>
         {!loading ? (
           <TableUI>
             {isShowHeader && (

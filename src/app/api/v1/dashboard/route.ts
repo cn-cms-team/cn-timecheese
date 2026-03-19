@@ -1,4 +1,4 @@
-import { getReportProjectByUser } from '@/lib/report-utils';
+import { getReportProjectByUser, getReportUserInfo } from '@/lib/report-utils';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -9,30 +9,32 @@ export async function GET(request: Request) {
       return Response.json({ message: 'Member ID is required' }, { status: 400 });
     }
 
-    const result = await getReportProjectByUser(projectId, memberId);
+    const userInfo = await getReportUserInfo(memberId);
 
-    if (result instanceof Response) {
-      return result;
+    if (!userInfo) {
+      return Response.json({ message: 'User not found' }, { status: 404 });
     }
+    const project = await getReportProjectByUser(projectId, memberId);
+
     const resultData = {
       project_id: projectId,
       user: {
-        id: result.user.id,
-        position: result.user.position || '',
-        code: result.user.code,
-        start_date: result.user.start_date,
-        full_name: result.user.full_name,
+        id: userInfo.id,
+        position: userInfo.position_level?.name || '',
+        code: userInfo.code,
+        start_date: userInfo.start_date,
+        full_name: `${userInfo.first_name} ${userInfo.last_name}`,
       },
-      project: result.project && {
-        name: result.project.name,
-        code: result.project.code,
-        start_date: result.project.start_date,
-        end_date: result.project.end_date,
-        position: result.project.position,
+      project: project.project && {
+        name: project.project.name,
+        code: project.project.code,
+        start_date: project.project.start_date,
+        end_date: project.project.end_date,
+        position: project.project.position,
         last_tracked_at: null,
-        spent_times: result.project?.spent_times || 0,
+        spent_times: project.project?.spent_times || 0,
       },
-      timesheet_chart: result.timesheet_chart,
+      timeSheetChart: project.timeSheetChart,
     };
 
     return Response.json({ data: resultData }, { status: 200 });

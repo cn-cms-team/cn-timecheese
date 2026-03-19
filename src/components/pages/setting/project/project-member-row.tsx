@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useFieldArray, UseFormReturn, useWatch } from 'react-hook-form';
+import { UseFormReturn, useWatch } from 'react-hook-form';
 import { TableCell, TableRow } from '@/components/ui/table';
 import { FormControl, FormField, FormItem } from '@/components/ui/form';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
@@ -8,8 +7,6 @@ import { DatePickerInput } from '@/components/ui/custom/input/date-picker';
 import { IOptionGroups, IOptions } from '@/types/dropdown';
 import { UserInfo } from '@/types/setting/project';
 import { CreateProjectSchemaType, EditProjectSchemaType } from './schema';
-import { MAX_LENGTH_20 } from '@/lib/constants/validation';
-import { calcTotalDays } from '@/lib/functions/date-format';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 
@@ -25,6 +22,24 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
     control: form.control,
     name: `member.${index}.is_using`,
   });
+  const members = useWatch({
+    control: form.control,
+    name: 'member',
+  });
+
+  const selectedUserId = members?.[index]?.user_id;
+  const selectedUserIdsInOtherRows = new Set(
+    (members ?? [])
+      .map((member, memberIndex) => (memberIndex === index ? '' : member?.user_id))
+      .filter((userId): userId is string => Boolean(userId))
+  );
+
+  const availableUserOptions = userOptions.map((group) => ({
+    ...group,
+    options: group.options.filter(
+      (option) => option.value === selectedUserId || !selectedUserIdsInOtherRows.has(option.value)
+    ),
+  }));
 
   return (
     <TableRow key={index}>
@@ -40,7 +55,7 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
                   isGroup={true}
                   field={field}
                   placeholder="เลือกพนักงาน"
-                  options={userOptions}
+                  options={availableUserOptions}
                   onSelect={(value) => {
                     field.onChange(value);
                     const selectedUser = userOptions
@@ -114,7 +129,6 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
             onDelete(index);
           }}
         >
-          {isUsing}
           <Trash2 width={20} height={20} className={isUsing ? 'text-gray-700' : 'text-red-700'} />
         </Button>
       </TableCell>

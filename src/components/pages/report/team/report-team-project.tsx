@@ -6,73 +6,98 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { LabelGroup } from '@/components/ui/custom/form';
 import { Label } from '@/components/ui/label';
-import { formatDate, secondsToDuration } from '@/lib/functions/date-format';
-import { numberWithCommas } from '@/lib/functions/number-format';
+import { buddhistFormatDate, secondsToDuration } from '@/lib/functions/date-format';
 import { IUserReportProject } from '@/types/report/team';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
+import ReportTeamProjectFullDialog from '@/components/pages/report/team/report-team-project-full-dialog';
 
 const ReportTeamProject = ({
+  id,
   name,
   code,
   start_date,
   end_date,
-  value,
   position,
   join_date,
   spent_times,
-}: IUserReportProject & { loading: boolean }) => {
-  const [workDuration, setWorkDuration] = useState(secondsToDuration(spent_times || 0));
+  userId,
+}: IUserReportProject & { loading: boolean; userId: string }) => {
+  const spentTimeInSeconds = spent_times ?? 0;
+  const workDuration = useMemo(() => secondsToDuration(spentTimeInSeconds), [spentTimeInSeconds]);
+  const hasSpentTime = spentTimeInSeconds > 0;
 
-  useEffect(() => {
-    setWorkDuration(secondsToDuration(spent_times || 0));
-  }, [spent_times]);
+  const durationText = [
+    workDuration.year ? `${workDuration.year} ปี` : null,
+    workDuration.month ? `${workDuration.month} เดือน` : null,
+    workDuration.day ? `${workDuration.day} วัน` : null,
+    workDuration.hour ? `${workDuration.hour} ชั่วโมง` : null,
+    workDuration.minute ? `${workDuration.minute} นาที` : null,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <Card className="w-full justify-between max-w-full">
-      <CardHeader>
-        <CardTitle>โครงการ</CardTitle>
-        <CardDescription className="font-medium text-black">{name || '-'}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <LabelGroup label="รหัสโครงการ" value={code || '-'} className="mb-3" />
-        <div className="flex mb-3">
-          <LabelGroup label="วันที่เข้าร่วม" value={start_date ? formatDate(start_date) : '-'} />
-          <LabelGroup label="วันที่สิ้นสุด" value={end_date ? formatDate(end_date) : '-'} />
-        </div>
-        <LabelGroup label="ตำแหน่งโครงการ" value={position || '-'} />
-      </CardContent>
-      <CardFooter className="flex-col gap-2 border-t">
-        <div className="flex justify-between w-full mb-2">
-          <div className="flex flex-col w-full gap-3 items-center">
-            <Label className="text-label text-sm text-[#999999]">เวลาที่ใช้ในโครงการ</Label>
-            <Label className="select-text break-all flex-wrap text-base font-bold">
-              {spent_times != 0 ? (
-                <>
-                  {workDuration.year ? `${workDuration.year} ปี` : ''}
-                  {workDuration.month ? ` ${workDuration.month} เดือน` : ''}
-                  {workDuration.day ? ` ${workDuration.day} วัน` : ''}
-                  {workDuration.hour ? ` ${workDuration.hour} ชั่วโมง` : ''}
-                  {workDuration.minute ? ` ${workDuration.minute} นาที` : ''}
-                </>
-              ) : (
-                '-'
-              )}
-            </Label>
-          </div>
-          <div className="flex flex-col w-full gap-3 items-center">
-            <Label className="text-label text-sm text-[#999999]">ค่าใช้จ่าย</Label>
-            <Label className="select-text break-all flex-wrap text-base font-bold">
-              {numberWithCommas(value) || '-'}
-            </Label>
-          </div>
-        </div>
-        <div className="text-xs text-gray-400 text-end w-full">
-          วันที่เข้าร่วมล่าสุด: {join_date ? formatDate(join_date) : '-'}
-        </div>
-      </CardFooter>
-    </Card>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Card className="relative flex h-full w-full max-w-full cursor-pointer flex-col overflow-hidden border-0 bg-linear-to-br from-slate-50 via-white to-emerald-50 shadow-[0_14px_45px_-30px_rgba(15,23,42,0.65)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_50px_-28px_rgba(15,23,42,0.72)]">
+          <div className="pointer-events-none absolute -right-12 -top-14 h-36 w-36 rounded-full bg-emerald-200/30 blur-2xl" />
+          <div className="pointer-events-none absolute -left-8 bottom-0 h-28 w-28 rounded-full bg-cyan-200/30 blur-2xl" />
+
+          <CardHeader className="relative pb-4">
+            <div className="flex items-start justify-between gap-3">
+              <CardDescription className="mt-1 text-lg font-semibold bg-linear-to-r from-yellow-500 via-pink-500  to-indigo-500 bg-clip-text text-transparent">
+                {name || '-'}
+              </CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent className="relative flex-1 space-y-3">
+            <div className="rounded-xl border border-white/70 bg-white/75 px-4 py-3 shadow-sm backdrop-blur-sm">
+              <LabelGroup label="รหัสโครงการ" value={code || '-'} className="mb-0" />
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              <div className="rounded-xl border border-white/70 bg-white/75 px-4 py-3 shadow-sm backdrop-blur-sm">
+                <LabelGroup
+                  label="วันที่เข้าร่วม"
+                  value={start_date ? buddhistFormatDate(start_date, 'dd mmm yyyy') : '-'}
+                />
+              </div>
+              <div className="rounded-xl border border-white/70 bg-white/75 px-4 py-3 shadow-sm backdrop-blur-sm">
+                <LabelGroup
+                  label="วันที่สิ้นสุด"
+                  value={end_date ? buddhistFormatDate(end_date, 'dd mmm yyyy') : '-'}
+                />
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-white/70 bg-white/75 px-4 py-3 shadow-sm backdrop-blur-sm">
+              <LabelGroup label="ตำแหน่งโครงการ" value={position || '-'} className="mb-0" />
+            </div>
+          </CardContent>
+
+          <CardFooter className="relative mt-auto flex-col gap-3 border-t border-emerald-100/70 bg-white/60 pt-4">
+            <div className="w-full rounded-xl bg-linear-to-r from-emerald-500 to-cyan-500 p-px">
+              <div className="flex w-full flex-col items-center gap-2 rounded-[11px] bg-white/95 px-4 py-4">
+                <Label className="text-sm font-medium text-slate-500">เวลาที่ใช้ในโครงการ</Label>
+                <Label className="select-text break-all text-center text-2xl font-extrabold text-slate-900">
+                  {hasSpentTime ? durationText || '-' : '-'}
+                </Label>
+              </div>
+            </div>
+
+            <div className="w-full text-end text-xs text-slate-500">
+              อัพเดตข้อมูลล่าสุด:{' '}
+              {join_date ? buddhistFormatDate(join_date, 'dd mmm yy เวลา HH:ii') : '-'}
+            </div>
+          </CardFooter>
+        </Card>
+      </DialogTrigger>
+
+      <ReportTeamProjectFullDialog project_name={name || ''} projectId={id} userId={userId} />
+    </Dialog>
   );
 };
 export default ReportTeamProject;

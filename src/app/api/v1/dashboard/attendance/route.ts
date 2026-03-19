@@ -2,6 +2,11 @@ import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
 import { endOfMonth, startOfMonth } from 'date-fns';
 
+type Summary = {
+  date: string;
+  series: Array<{ name: string; data: number }>;
+};
+
 export async function GET(request: Request) {
   const session = await auth();
   if (!session) {
@@ -10,6 +15,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const month = searchParams.get('month');
   const year = searchParams.get('year');
+  const userId = searchParams.get('user_id');
 
   if (!month) {
     return Response.json({ message: 'Month parameter is required' }, { status: 400 });
@@ -19,12 +25,16 @@ export async function GET(request: Request) {
     return Response.json({ message: 'Year parameter is required' }, { status: 400 });
   }
 
+  if (!userId) {
+    return Response.json({ message: 'User ID parameter is required' }, { status: 400 });
+  }
+
   const monthNumber = Number(month);
   const yearNumber = Number(year);
 
   if (isNaN(monthNumber) || monthNumber < 0 || monthNumber > 11) {
     return Response.json(
-      { error: 'Invalid month parameter. Must be between 0 and 11' },
+      { message: 'Invalid month parameter. Must be between 0 and 11' },
       { status: 400 }
     );
   }
@@ -37,50 +47,61 @@ export async function GET(request: Request) {
   const monthEnd = endOfMonth(new Date(yearNumber, monthNumber));
 
   try {
-    const tasks = await prisma.timeSheet.findMany({
+    const tasks = await prisma.timeSheetSummary.findMany({
       where: {
-        user_id: session.user.id,
-        stamp_date: {
+        user_id: userId,
+        sum_date: {
           gte: monthStart,
           lte: monthEnd,
         },
       },
       select: {
-        id: true,
-        project_task_type: true,
-        stamp_date: true,
-        start_date: true,
-        end_date: true,
+        sum_date: true,
         total_seconds: true,
-        exclude_seconds: true,
+        project_id: true,
       },
       orderBy: {
-        stamp_date: 'asc',
+        sum_date: 'asc',
       },
     });
 
-    type Summary = {
-      date: string;
-      task_name?: string;
-      total_seconds: number;
+    const projectIds = tasks.map((task) => task.project_id);
+    const projects = await prisma.project.findMany({
+      where: {
+        id: {
+          in: projectIds,
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    // Group by date and sum total_seconds
+    type Serie = {
+      name: string;
+      data: number;
     };
-
-    const summaryMap = new Map<string, Summary>();
-
-    for (const task of tasks) {
-      const dateKey = task.stamp_date.toISOString().split('T')[0];
-
-      if (!summaryMap.has(dateKey)) {
-        summaryMap.set(dateKey, {
-          date: dateKey,
-          total_seconds: 0,
-        });
+    const summaryMap: Record<string, Array<Serie>> = {};
+    tasks.forEach((task) => {
+      const dateKey = task.sum_date.toISOString().split('T')[0];
+      const projectName = projects.find((project) => project.id === task.project_id)?.name!;
+      if (!summaryMap[dateKey]) {
+        summaryMap[dateKey] = [{ name: projectName, data: task.total_seconds }];
+      } else {
+        const existingProjectIndex = summaryMap[dateKey].findIndex((e) => e.name === projectName);
+        if (existingProjectIndex !== -1) {
+          summaryMap[dateKey][existingProjectIndex].data += task.total_seconds;
+        } else {
+          summaryMap[dateKey].push({ name: projectName, data: task.total_seconds });
+        }
       }
+    });
 
-      summaryMap.get(dateKey)!.total_seconds += task.total_seconds - (task.exclude_seconds ?? 0);
-    }
-
-    const result = Array.from(summaryMap.values());
+    const result: Summary[] = Object.entries(summaryMap).map(([date, series]) => ({
+      date,
+      series,
+    }));
 
     return Response.json({ data: result }, { status: 200 });
   } catch (error) {

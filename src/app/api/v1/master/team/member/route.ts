@@ -13,13 +13,13 @@ export async function GET() {
         id: true,
         first_name: true,
         last_name: true,
-        // image: true,
+        nick_name: true,
       },
+      orderBy: { first_name: 'asc' },
     });
     const options = result.map((item) => ({
-      label: `${item.first_name} ${item.last_name}`,
+      label: `${item.first_name} ${item.last_name} ${item.nick_name ? `(${item.nick_name})` : ''}`,
       value: String(item.id),
-      // image: item.image || undefined,
     }));
 
     return Response.json({ data: options }, { status: 200 });

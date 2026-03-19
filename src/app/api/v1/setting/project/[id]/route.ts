@@ -38,6 +38,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             day_price: true,
             start_date: true,
             end_date: true,
+            is_using: true,
           },
         },
         projectTaskTypes: {
@@ -47,6 +48,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             type: true,
             task_type_id: true,
             description: true,
+            is_using: true,
             task_type: {
               select: {
                 id: true,
@@ -61,25 +63,6 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     if (!project) {
       return Response.json({ message: 'Project Not Found', status: 404 });
     }
-
-    const referenceMember = await prisma.timeSheet.findMany({
-      where: { project_id: id },
-      select: {
-        user_id: true,
-      },
-      distinct: 'user_id',
-    });
-
-    const referenceTask = await prisma.timeSheet.findMany({
-      where: { project_id: id },
-      select: {
-        id: true,
-      },
-      distinct: 'id',
-    });
-
-    const usingUserIds = new Set(referenceMember.map((r) => r.user_id));
-    const usingTaskTypeIds = new Set(referenceTask.filter((r) => r.id).map((r) => r.id));
 
     const result = {
       id: project.id,
@@ -99,20 +82,17 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       member: project.projectMembers.map(({ user, ...rest }) => ({
         ...rest,
         name: `${user.first_name} ${user.last_name}`,
-        is_using: usingUserIds.has(rest.user_id),
       })),
       main_task_type: project.projectTaskTypes
         .filter((f) => f.task_type_id)
         .map((item) => ({
           ...item,
           description: item?.task_type?.description,
-          is_using: usingTaskTypeIds.has(item.id),
         })),
       optional_task_type: project.projectTaskTypes
         .filter((f) => !f.task_type_id)
         .map((item) => ({
           ...item,
-          is_using: usingTaskTypeIds.has(item.id),
         })),
     };
 
@@ -149,110 +129,120 @@ export async function POST(request: NextRequest) {
     // section member
     const existingMembers = await prisma.projectMember.findMany({
       where: { project_id: result.id },
+      select: { user_id: true },
     });
 
-    const toKey = (m: { project_id: string; user_id: string }) => `${m.project_id}_${m.user_id}`;
-    const payloadKeys = data.member.map(toKey);
-    const dbKeys = existingMembers.map(toKey);
+    const existingUserIds = new Set(existingMembers.map((m) => m.user_id));
+    const payloadMembers = data.member.map((m) => ({
+      ...m,
+      project_id: result.id,
+    }));
+    const payloadUserIds = new Set(payloadMembers.map((m) => m.user_id));
 
-    const deleteMembers = existingMembers.filter((m) => !payloadKeys.includes(toKey(m)));
-    if (deleteMembers.length) {
-      await prisma.projectMember.deleteMany({
-        where: {
-          OR: deleteMembers.map((m) => ({
-            project_id: m.project_id,
-            user_id: m.user_id,
-          })),
-        },
-      });
-    }
+    const deleteUserIds = [...existingUserIds].filter((userId) => !payloadUserIds.has(userId));
+    const updateMembers = payloadMembers.filter((m) => existingUserIds.has(m.user_id));
+    const createMembers = payloadMembers.filter((m) => !existingUserIds.has(m.user_id));
 
-    const updateMembers = data.member.filter((m) => dbKeys.includes(toKey(m)));
-
-    const createMembers = data.member.filter((m) => !dbKeys.includes(toKey(m)));
-
-    for (const member of updateMembers) {
-      await prisma.projectMember.update({
-        where: {
-          project_id_user_id: {
-            project_id: member.project_id,
-            user_id: member.user_id,
+    await prisma.$transaction(async (tx) => {
+      if (deleteUserIds.length) {
+        await tx.projectMember.deleteMany({
+          where: {
+            project_id: result.id,
+            user_id: { in: deleteUserIds },
           },
-        },
-        data: {
-          user_id: member.user_id,
-          role: member.role,
-          day_price: member.day_price,
-          start_date: member.start_date,
-          end_date: member.end_date,
-          work_hours: member.work_hours,
-          hour_price: member.hour_price,
-        },
-      });
-    }
+        });
+      }
 
-    if (createMembers.length) {
-      await prisma.projectMember.createMany({
-        data: createMembers.map((item) => ({
-          project_id: result.id,
-          user_id: item.user_id,
-          role: item.role,
-          day_price: item.day_price,
-          start_date: item.start_date,
-          end_date: item.end_date,
-          work_hours: item.work_hours,
-          hour_price: item.hour_price,
-        })),
-      });
-    }
+      if (updateMembers.length) {
+        await Promise.all(
+          updateMembers.map((member) =>
+            tx.projectMember.update({
+              where: {
+                project_id_user_id: {
+                  project_id: result.id,
+                  user_id: member.user_id,
+                },
+              },
+              data: {
+                role: member.role,
+                day_price: member.day_price,
+                start_date: member.start_date,
+                end_date: member.end_date,
+                work_hours: member.work_hours,
+                hour_price: member.hour_price,
+              },
+            })
+          )
+        );
+      }
+
+      if (createMembers.length) {
+        await tx.projectMember.createMany({
+          data: createMembers.map((member) => ({
+            project_id: result.id,
+            user_id: member.user_id,
+            role: member.role,
+            day_price: member.day_price,
+            start_date: member.start_date,
+            end_date: member.end_date,
+            work_hours: member.work_hours,
+            hour_price: member.hour_price,
+          })),
+        });
+      }
+    });
 
     // section task
-    const existingTask = await prisma.projectTaskType.findMany({
+    const existingTasks = await prisma.projectTaskType.findMany({
       where: { project_id: result.id },
+      select: { id: true },
     });
 
-    const payloadTasks = [...data.main_task_type, ...data.optional_task_type].map((t) => ({
-      ...t,
-    }));
+    const payloadTasks = [...data.main_task_type, ...data.optional_task_type];
 
-    const taskIds = payloadTasks.filter((t) => t.id).map((t) => t.id);
+    const payloadTaskIds = new Set(
+      payloadTasks.map((t) => t.id).filter((id): id is string => Boolean(id))
+    );
 
-    const deleteTaskIds = existingTask
-      .filter((dbTask) => !taskIds.includes(dbTask.id))
-      .map((t) => t.id);
-
-    if (deleteTaskIds.length) {
-      await prisma.projectTaskType.deleteMany({
-        where: { id: { in: deleteTaskIds } },
-      });
-    }
-
-    const updateTasks = payloadTasks.filter((t) => t.id);
+    const deleteTaskIds = existingTasks.map((t) => t.id).filter((id) => !payloadTaskIds.has(id));
+    const updateTasks = payloadTasks.filter((t): t is typeof t & { id: string } => Boolean(t.id));
     const createTasks = payloadTasks.filter((t) => !t.id);
 
-    for (const task of updateTasks) {
-      await prisma.projectTaskType.update({
-        where: { id: task.id },
-        data: {
-          type: task.type,
-          task_type_id: task.task_type_id,
-          name: task.name,
-          description: task.description,
-        },
-      });
-    }
+    await prisma.$transaction(async (tx) => {
+      if (deleteTaskIds.length) {
+        await tx.projectTaskType.deleteMany({
+          where: { id: { in: deleteTaskIds } },
+        });
+      }
 
-    if (createTasks.length) {
-      await prisma.projectTaskType.createMany({
-        data: createTasks.map((task) => ({
-          type: task.type,
-          project_id: result.id,
-          task_type_id: task.task_type_id,
-          name: task.name,
-          description: task.description,
-        })),
-      });
-    }
+      if (updateTasks.length) {
+        await Promise.all(
+          updateTasks.map((task) =>
+            tx.projectTaskType.update({
+              where: { id: task.id },
+              data: {
+                type: task.type,
+                task_type_id: task.task_type_id,
+                name: task.name,
+                description: task.description,
+              },
+            })
+          )
+        );
+      }
+
+      if (createTasks.length) {
+        await tx.projectTaskType.createMany({
+          data: createTasks.map((task) => ({
+            project_id: result.id,
+            type: task.type,
+            task_type_id: task.task_type_id,
+            name: task.name,
+            description: task.description,
+          })),
+        });
+      }
+    });
 
     return Response.json(
       {

@@ -1,5 +1,8 @@
 export interface IDashboardAttendance {
-  date: string,
-  task_name: string
-  total_seconds: number
+  date: string;
+  series: IDashboardAttendanceSeries[];
+}
+export interface IDashboardAttendanceSeries {
+  name: string;
+  data: number[];
 }

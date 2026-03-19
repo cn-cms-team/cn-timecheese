@@ -20,12 +20,13 @@ const taskTypeSchema = z.object({
   type: z.string(),
   name: z.string(),
   description: z.string().nullable().optional(),
+  is_using: z.boolean(),
 });
 
 const baseSchema = {
   is_company_project: z.boolean(),
   code: z.string().nonempty('กรุณากรอกรหัสโครงการ'),
-  pre_sale_code: z.string().nonempty('กรุณากรอกรหัส Pre-Sale'),
+  pre_sale_code: z.string().optional(),
   name: z.string().nonempty('กรุณากรอกชื่อโครงการ'),
   start_date: z.date('กรุณากรอกวันที่เริ่มต้น'),
   end_date: z.date().nullable().optional(),

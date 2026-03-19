@@ -1816,7 +1816,8 @@ export const ProjectMemberScalarFieldEnum = {
   hour_price: 'hour_price',
   work_hours: 'work_hours',
   start_date: 'start_date',
-  end_date: 'end_date'
+  end_date: 'end_date',
+  is_using: 'is_using'
 } as const
 
 export type ProjectMemberScalarFieldEnum = (typeof ProjectMemberScalarFieldEnum)[keyof typeof ProjectMemberScalarFieldEnum]
@@ -1828,7 +1829,8 @@ export const ProjectTaskTypeScalarFieldEnum = {
   task_type_id: 'task_type_id',
   type: 'type',
   name: 'name',
-  description: 'description'
+  description: 'description',
+  is_using: 'is_using'
 } as const
 
 export type ProjectTaskTypeScalarFieldEnum = (typeof ProjectTaskTypeScalarFieldEnum)[keyof typeof ProjectTaskTypeScalarFieldEnum]

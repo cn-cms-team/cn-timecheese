@@ -4,14 +4,12 @@ import { useSession } from 'next-auth/react';
 
 import DashboardBarChart from './dashboard-bar-chart';
 import { Label } from '@/components/ui/label';
-import Dropdown from '@/components/ui/custom/input/dropdown';
 import { useDashboardContext } from './view/dashboard-use-context';
 import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
 import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
-import TableListTimesheet from '@/components/ui/custom/report/table-list-timesheet';
-import DonutChartTimesheet from '@/components/ui/custom/report/donut-chart-timesheet';
+import TableListTimeSheet from '@/components/ui/custom/report/table-list-timesheet';
+import DonutChartTimeSheet from '@/components/ui/custom/report/donut-chart-timesheet';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
-import { IOptionGroups } from '@/types/dropdown';
 
 const DashboardContent = () => {
   const { data: session } = useSession();
@@ -48,13 +46,14 @@ const DashboardContent = () => {
     <div className="w-full gap-4 flex flex-col">
       <div className="border rounded-lg shadow">
         <AvatarDetail
-          name={userInfo?.user ? `${userInfo.user.first_name} ${userInfo.user.last_name}` : '-'}
-          position={userInfo?.user?.position_level?.name ?? '-'}
-          code={userInfo?.user?.code ?? '-'}
-          start_date={userInfo?.user?.start_date ?? '-'}
+          id={userInfo?.id || ''}
+          name={userInfo ? `${userInfo.first_name} ${userInfo.last_name}` : '-'}
+          position={userInfo?.position_level?.name ?? '-'}
+          code={userInfo?.code ?? '-'}
+          start_date={userInfo?.start_date ?? '-'}
         />
       </div>
-      <DashboardBarChart />
+      <DashboardBarChart userId={userInfo?.id || ''} />
       <div className="space-y-1 max-w-sm">
         <Label>โครงการ</Label>
         <ComboboxForm
@@ -66,20 +65,15 @@ const DashboardContent = () => {
             setProjectId(value);
           }}
         />
-        {/* <Dropdown
-          value={projectId}
-          options={projectOption}
-          isAllPlaceHolder={false}
-          placeholder="เลือกโครงการ"
-          onChange={(value) => setProjectId(value)}
-        /> */}
       </div>
       <CardProjectInfo project={dashboardProjectData?.project || {}} loading={loading} />
-      <DonutChartTimesheet
-        donutLabel={dashboardProjectData?.timesheet_chart || []}
+      <DonutChartTimeSheet
+        donutLabel={dashboardProjectData?.timeSheetChart || []}
         donutHeight={400}
       />
-      <TableListTimesheet projectId={projectId} />
+      {projectId && userInfo?.id ? (
+        <TableListTimeSheet projectId={projectId} userId={userInfo?.id || ''} />
+      ) : null}
     </div>
   );
 };

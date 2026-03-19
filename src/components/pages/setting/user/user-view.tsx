@@ -5,7 +5,7 @@ import TitleGroup from '@/components/ui/custom/cev/title-group';
 import LabelGroup from '@/components/ui/custom/form/label-group';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { formatDate } from '@/lib/functions/date-format';
+import { buddhistFormatDate, formatDate } from '@/lib/functions/date-format';
 import { getIsActive } from '@/lib/functions/enum-mapping';
 import { formatRangeNumberWithComma } from '@/lib/functions/number-format';
 import { IUser } from '@/types/setting/user';
@@ -47,8 +47,14 @@ const UserViewDetail = ({ id }: { id: string }): React.ReactNode => {
           <LabelGroup label="รหัสพนักงาน" value={userData?.code} />
           <LabelGroup label="ทีม" value={userData?.team.name} />
           <LabelGroup label="ตำแหน่ง" value={userData?.position_level?.name} />
-          <LabelGroup label="วันที่เริ่มงาน" value={formatDate(userData?.start_date) || '-'} />
-          <LabelGroup label="วันที่สิ้นสุด" value={formatDate(userData?.end_date) || '-'} />
+          <LabelGroup
+            label="วันที่เริ่มงาน"
+            value={buddhistFormatDate(userData?.start_date, 'dd mmm yyyy') || '-'}
+          />
+          <LabelGroup
+            label="วันที่สิ้นสุด"
+            value={buddhistFormatDate(userData?.end_date, 'dd mmm yyyy') || '-'}
+          />
           <LabelGroup label="สิทธิ์การใช้งาน" value={userData?.role?.name} />
           <LabelGroup label="สถานะการใช้งาน" value="">
             <div className="flex items-center space-x-2">

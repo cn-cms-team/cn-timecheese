@@ -12,10 +12,10 @@ export type IUserReport = {
   code: string;
   position_level: IPositionLevel;
   start_date: string;
-  image?: string;
 };
 
 export type IUserReportProject = {
+  id: string;
   name: string;
   code: string;
   start_date: string;

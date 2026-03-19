@@ -348,11 +348,14 @@ export function secondsToDuration(sec: number) {
 
   let remaining = Math.floor(sec);
 
-  const YEAR = 365 * 24 * 60 * 60;
-  const MONTH = 30 * 24 * 60 * 60;
-  const DAY = 24 * 60 * 60;
-  const HOUR = 60 * 60;
+  // 8 ชั่วโมง = 1 วัน
+  // 30 วัน = 1 เดือน
+  // 12 เดือน = 1 ปี
   const MINUTE = 60;
+  const HOUR = 60 * MINUTE;
+  const DAY = 8 * HOUR;
+  const MONTH = 30 * DAY;
+  const YEAR = 12 * MONTH;
 
   const year = Math.floor(remaining / YEAR);
   remaining %= YEAR;
@@ -450,4 +453,19 @@ export const toUtcDayBounds = (startDate: Date, endDate: Date) => {
   );
 
   return { start, end };
+};
+
+export const DATE_ONLY_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+
+export const toDateOnly = (value: string | null) => {
+  if (!value) return null;
+  const normalized = value.includes('T') ? value.slice(0, 10) : value;
+  return DATE_ONLY_REGEX.test(normalized) ? normalized : null;
+};
+
+export const toUtcDayBoundary = (dateOnly: string, endOfDay = false) => {
+  const [year, month, day] = dateOnly.split('-').map(Number);
+  return endOfDay
+    ? new Date(Date.UTC(year, month - 1, day, 23, 59, 59, 999))
+    : new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));
 };

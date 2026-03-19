@@ -1,9 +1,9 @@
 'use client';
 import { calcTotalYearAndMonth } from '@/lib/functions/date-format';
-import { numberWithCommas } from '@/lib/functions/number-format';
 import { Skeleton } from '../../skeleton';
 
 export type UserAvatarDetailProps = {
+  id: string;
   name: string;
   position: string;
   code: string;
@@ -12,6 +12,7 @@ export type UserAvatarDetailProps = {
 };
 
 const AvatarDetail = ({
+  id,
   name,
   position,
   code,
@@ -25,7 +26,8 @@ const AvatarDetail = ({
       ) : (
         <img
           className="w-32 h-32 rounded-full bg-gray-400"
-          src={`${process.env.NEXT_PUBLIC_DICEBEAR_URL}${name.trim()}`}
+          src={`${process.env.NEXT_PUBLIC_DICEBEAR_URL}${id}`}
+          alt={name}
           loading="lazy"
         />
       )}

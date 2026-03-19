@@ -1,6 +1,5 @@
-export interface IDashboard extends IProjectReportBase {
-  timesheet_monthly_column_chart: ITimeSheetMontlyColumnChart;
-}
+import { IPositionLevel } from '@/types/setting/position';
+export interface IDashboard extends IProjectReportBase {}
 export interface IReportProject extends IProjectReportBase {}
 export interface IReportTeam {
   user: IReportUserInfo;
@@ -11,29 +10,28 @@ export interface IProjectReportBase {
   project_id: string;
   user: IReportUserInfo;
   project: IProjectInfoByUser;
-  timesheet_chart: ITimeSheetDonutChart[];
-  timesheet_table: ITimeSheetTable[];
+  timeSheetChart: ITimeSheetDonutChart[];
+  timeSheetTable: ITimeSheetTable[];
 }
 
 export interface IReportUserInfo {
   id: string;
-  full_name: string;
-  position: string;
+  first_name: string;
+  last_name: string;
   code: string;
+  position_level: IPositionLevel;
   start_date: string;
-  saraly_range?: string;
-  image: string;
 }
 
 export interface IProjectInfoByUser {
   name: string;
   code: string;
-  start_date?: string;
-  end_date?: string;
+  start_date?: Date | null;
+  end_date?: Date | null;
   position: string;
-  day_price?: number;
+  day_price?: number | null;
   spent_times: number;
-  last_tracked_at?: string;
+  last_tracked_at?: string | null;
 }
 
 export interface ITimeSheetDonutChart {
@@ -54,6 +52,5 @@ export interface ITimeSheetTable {
   tracked_hours: number;
   task_type: string;
   detail: string;
+  is_work_from_home: boolean;
 }
-
-export interface ITimeSheetMontlyColumnChart {}

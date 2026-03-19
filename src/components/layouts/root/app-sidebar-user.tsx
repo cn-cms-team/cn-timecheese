@@ -46,9 +46,7 @@ const AppSidebarUser = ({ user }: AppSidebarUserProps) => {
                 <Avatar>
                   <AvatarImage
                     src={
-                      user && user.name
-                        ? `${process.env.NEXT_PUBLIC_DICEBEAR_URL}${user.name.trim()}`
-                        : ''
+                      user && user.name ? `${process.env.NEXT_PUBLIC_DICEBEAR_URL}${user.id}` : ''
                     }
                     alt={user.name}
                   />

@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   try {
     const session = await auth();
     if (!session) {
-      return Response.json({ message: 'Unauthorize', status: 401 });
+      return Response.json({ message: 'Unauthorized' }, { status: 401 });
     }
     const body = await request.json();
     const result = await prisma.position.create({
