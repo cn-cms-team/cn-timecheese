@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { ApexOptions } from 'apexcharts';
 import { fetcher } from '@/lib/fetcher';
-import { IDashboardAttendance } from '@/types/dashboard';
+import { IDashboardAttendance, IDashboardAttendanceSeries } from '@/types/dashboard';
 import { monthOption, weekDays } from '@/lib/constants/period-calendar';
 import { formatTotalHours } from '@/lib/functions/timesheet-manage';
 
@@ -24,26 +24,81 @@ const DashboardBarChart = ({ userId }: { userId: string }) => {
     value: today.getFullYear() - i,
   }));
 
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<IDashboardAttendance[]>([]);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      if (!userId) return;
+      const res = await fetcher<IDashboardAttendance[]>(
+        `${prefix}/api/v1/dashboard/attendance?month=${selectedMonth}&year=${selectYear}&user_id=${userId}`
+      );
+
+      setData(res);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedMonth === null) return;
+
+    fetchData();
+  }, [selectedMonth, selectYear, userId]);
+
+  const series = useMemo(() => {
+    const series: Map<string, Array<number>> = new Map();
+    data.forEach((item) => {
+      item.series.forEach((s) => {
+        if (!series.has(s.name)) {
+          series.set(s.name, Array(weekDays(selectedMonth).length).fill(0));
+        }
+      });
+    });
+    data.forEach((item) => {
+      item.series.forEach((s) => {
+        series.get(s.name)![new Date(item.date).getDate() - 1] = s.data ? Number(s.data) / 3600 : 0;
+      });
+    });
+    return Array.from(series.entries()).map(([name, data]) => ({
+      name,
+      data,
+    }));
+  }, [data, weekDays]);
+
   const barChartOption: ApexOptions = {
     chart: {
       type: 'bar',
-      stacked: false,
+      stacked: true,
       toolbar: {
         show: false,
       },
     },
     plotOptions: {
       bar: {
+        horizontal: false,
         columnWidth: '80%',
         borderRadius: 4,
-        distributed: true,
+        // distributed: true,
+        borderRadiusApplication: 'end',
+        borderRadiusWhenStacked: 'last',
       },
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
+      style: {
+        fontSize: '10px',
+        fontWeight: 700,
+      },
+      formatter: function (value) {
+        return Number(value) % 1 === 0 ? Number(value) : Number(value).toFixed(2);
+      },
     },
     legend: {
-      show: false,
+      position: 'bottom',
     },
     xaxis: {
       categories: days,
@@ -75,49 +130,11 @@ const DashboardBarChart = ({ userId }: { userId: string }) => {
         },
         formatter: function (value, option) {
           const dataIndex = option.dataPointIndex;
-          return `วันที่ ${days[dataIndex]}: ${formatTotalHours(value)}`;
+          return `วันที่ ${days[dataIndex]} ${option.w.config.series[option.seriesIndex].name} : ${formatTotalHours(value)}`;
         },
       },
     },
   };
-
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<IDashboardAttendance[]>([]);
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      if (!userId) return;
-      const res = await fetcher<IDashboardAttendance[]>(
-        `${prefix}/api/v1/dashboard/attendance?month=${selectedMonth}&year=${selectYear}&user_id=${userId}`
-      );
-
-      setData(res);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (selectedMonth === null) return;
-
-    fetchData();
-  }, [selectedMonth, selectYear, userId]);
-
-  const series = useMemo(() => {
-    const dateMap = new Map(data.map((item) => [new Date(item.date).getDate(), item.totalSeconds]));
-
-    return [
-      {
-        data: weekDays(selectedMonth).map((day) => {
-          const totalSeconds = dateMap.get(Number(day));
-          return totalSeconds ? totalSeconds / 3600 : 0;
-        }),
-      },
-    ];
-  }, [data, weekDays]);
 
   return (
     <div className="w-full border rounded-md p-3 shadow-sm">
