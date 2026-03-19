@@ -174,7 +174,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 
     // Check if user has role assigned
     const isInAnyUser = await prisma.user.findFirst({
-      where: { role_id: id },
+      where: { role_id: id, is_enabled: true },
       select: { id: true },
     });
 

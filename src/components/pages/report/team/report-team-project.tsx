@@ -43,8 +43,8 @@ const ReportTeamProject = ({
       <CardHeader className="relative pb-4">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <CardTitle className="text-base font-semibold text-slate-700">โครงการ</CardTitle>
-            <CardDescription className="mt-1 text-lg font-bold text-slate-900">
+            {/* <CardTitle className="text-base font-semibold text-slate-700">โครงการ</CardTitle> */}
+            <CardDescription className="mt-1 text-lg font-medium text-slate-900">
               {name || '-'}
             </CardDescription>
           </div>
@@ -86,7 +86,8 @@ const ReportTeamProject = ({
         </div>
 
         <div className="w-full text-end text-xs text-slate-500">
-          วันที่เข้าร่วมล่าสุด: {join_date ? buddhistFormatDate(join_date, 'dd mmm yy') : '-'}
+          อัพเดตข้อมูลล่าสุด:{' '}
+          {join_date ? buddhistFormatDate(join_date, 'dd mmm yy เวลา HH:ii') : '-'}
         </div>
       </CardFooter>
     </Card>
