@@ -66,16 +66,24 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
           total_seconds: totalSeconds,
         },
       });
+
       // Stamp is_using in ProjectMember and ProjectTaskType
-      await prisma.projectMember.update({
-        where: {
-          project_id_user_id: {
-            project_id: validatedData.project_id,
-            user_id: session.user.id,
-          },
-        },
-        data: { is_using: true },
+      const project = await prisma.project.findUnique({
+        where: { id: validatedData.project_id },
+        select: { is_company_project: true },
       });
+      if (!project?.is_company_project) {
+        await prisma.projectMember.update({
+          where: {
+            project_id_user_id: {
+              project_id: validatedData.project_id,
+              user_id: session.user.id,
+            },
+          },
+          data: { is_using: true },
+        });
+      }
+
       await prisma.projectTaskType.update({
         where: { id: validatedData.project_task_type_id },
         data: { is_using: true },
