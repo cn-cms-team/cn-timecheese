@@ -1,6 +1,5 @@
-export interface IDashboard extends IProjectReportBase {
-  timesheet_monthly_column_chart: ITimeSheetMonthlyColumnChart;
-}
+import { IPositionLevel } from '@/types/setting/position';
+export interface IDashboard extends IProjectReportBase {}
 export interface IReportProject extends IProjectReportBase {}
 export interface IReportTeam {
   user: IReportUserInfo;
@@ -17,11 +16,11 @@ export interface IProjectReportBase {
 
 export interface IReportUserInfo {
   id: string;
-  full_name: string;
-  position: string;
+  first_name: string;
+  last_name: string;
   code: string;
+  position_level: IPositionLevel;
   start_date: string;
-  image: string;
 }
 
 export interface IProjectInfoByUser {
@@ -55,5 +54,3 @@ export interface ITimeSheetTable {
   detail: string;
   is_work_from_home: boolean;
 }
-
-export interface ITimeSheetMonthlyColumnChart {}

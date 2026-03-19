@@ -121,8 +121,8 @@ const ReportProjectContent = () => {
           <div className="border rounded-lg shadow">
             <AvatarDetail
               id={reportProjectData.user.id}
-              name={reportProjectData.user.full_name}
-              position={reportProjectData.user.position}
+              name={`${reportProjectData.user.first_name} ${reportProjectData.user.last_name}`}
+              position={reportProjectData.user.position_level?.name}
               code={reportProjectData.user?.code}
               start_date={reportProjectData.user?.start_date}
               loading={isLoading}

@@ -119,31 +119,6 @@ const CardProjectInfo = ({
               </div>
             </div>
           </div>
-          {displayCost && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div className="flex flex-col border rounded-lg p-3 shadow">
-                <div className="mb-3">จำนวนวัน</div>
-                <div className="flex flex-nowrap items-baseline justify-center py-3">
-                  <div className="text-2xl md:text-3xl font-semibold">
-                    {workedDays}/{totalDays}
-                  </div>{' '}
-                  <div className="ms-2">วัน</div>
-                </div>
-              </div>
-              <div className="flex flex-col border rounded-lg p-3 shadow">
-                <div className="flex justify-between">
-                  <div className="mb-3">ค่าใช้จ่าย</div>
-                  <div>{costPercentage}% ของโครงการ</div>
-                </div>
-                <div className="flex flex-nowrap items-baseline justify-center py-3">
-                  <div className="text-2xl md:text-3xl font-semibold">
-                    {numberWithCommas(usedCost)}/{numberWithCommas(totalCost)}
-                  </div>{' '}
-                  <div className="ms-2">บาท</div>
-                </div>
-              </div>
-            </div>
-          )}
         </>
       )}
     </>

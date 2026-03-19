@@ -1,4 +1,4 @@
-import { getReportProjectByUser } from '@/lib/report-utils';
+import { getReportProjectByUser, getReportUserInfo } from '@/lib/report-utils';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -9,9 +9,14 @@ export async function GET(request: Request) {
       return Response.json({ message: 'Member ID is required' }, { status: 400 });
     }
 
-    const result = await getReportProjectByUser(projectId, memberId);
+    const userInfo = await getReportUserInfo(memberId);
 
-    return Response.json({ data: result }, { status: 200 });
+    if (!userInfo) {
+      return Response.json({ message: 'User not found' }, { status: 404 });
+    }
+    const project = await getReportProjectByUser(projectId, memberId);
+
+    return Response.json({ data: { user: userInfo, ...project } }, { status: 200 });
   } catch (error) {
     return Response.json(
       { message: error instanceof Error ? error.message : 'An unknown error occurred' },
