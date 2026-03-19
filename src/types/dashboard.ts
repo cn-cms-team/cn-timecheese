@@ -1,4 +1,8 @@
 export interface IDashboardAttendance {
   date: string;
-  totalSeconds: number;
+  series: IDashboardAttendanceSeries[];
+}
+export interface IDashboardAttendanceSeries {
+  name: string;
+  data: number[];
 }
