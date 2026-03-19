@@ -114,7 +114,7 @@ export async function GET(request: Request) {
 
     const timeSheetSummaryMap = timeSheetSummary.reduce(
       (map, summary) => {
-        map[summary.project_id] = summary.total_seconds;
+        map[summary.project_id] = (map[summary.project_id] || 0) + summary.total_seconds;
         return map;
       },
       {} as Record<string, number>

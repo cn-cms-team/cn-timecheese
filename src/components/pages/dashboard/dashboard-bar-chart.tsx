@@ -87,6 +87,7 @@ const DashboardBarChart = ({ userId }: { userId: string }) => {
   const fetchData = async () => {
     try {
       setLoading(true);
+      if (!userId) return;
       const res = await fetcher<IDashboardAttendance[]>(
         `${prefix}/api/v1/dashboard/attendance?month=${selectedMonth}&year=${selectYear}&user_id=${userId}`
       );

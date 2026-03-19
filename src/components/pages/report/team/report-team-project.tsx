@@ -42,7 +42,7 @@ const ReportTeamProject = ({
 
       <CardHeader className="relative pb-4">
         <div className="flex items-start justify-between gap-3">
-          <CardDescription className="mt-1 text-lg font-medium text-slate-900">
+          <CardDescription className="mt-1 text-lg font-semibold bg-linear-to-r from-yellow-500 via-pink-500  to-indigo-500 bg-clip-text text-transparent">
             {name || '-'}
           </CardDescription>
         </div>
