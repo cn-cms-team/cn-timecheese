@@ -69,6 +69,7 @@ const ReportProjectContent = () => {
             is_active: item.value === memberId,
           }))
         );
+        onChangeProject(projectId);
       } catch (error) {
         console.error('Error fetching member options:', error);
       }
