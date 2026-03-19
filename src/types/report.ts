@@ -53,6 +53,7 @@ export interface ITimeSheetTable {
   tracked_hours: number;
   task_type: string;
   detail: string;
+  is_work_from_home: boolean;
 }
 
 export interface ITimeSheetMonthlyColumnChart {}

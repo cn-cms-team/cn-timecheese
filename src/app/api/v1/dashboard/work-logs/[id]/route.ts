@@ -70,6 +70,7 @@ export async function GET(request: Request, { params }: RouteContext) {
           total_seconds: true,
           exclude_seconds: true,
           detail: true,
+          is_work_from_home: true,
         },
         orderBy: [{ stamp_date: 'desc' }, { start_date: 'desc' }],
         skip,
@@ -85,6 +86,7 @@ export async function GET(request: Request, { params }: RouteContext) {
       tracked_hours: task.total_seconds,
       task_type: task.project_task_type?.name ?? null,
       detail: task.detail,
+      is_work_from_home: task.is_work_from_home,
     }));
 
     return Response.json({ data, total_items: totalItems }, { status: 200 });

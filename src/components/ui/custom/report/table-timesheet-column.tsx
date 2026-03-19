@@ -5,6 +5,7 @@ import { SortColumn } from '../data-table';
 import { ITimeSheetTable } from '@/types/report';
 import { buddhistFormatDate, formatDate } from '@/lib/functions/date-format';
 import ColumnTooltip from '../data-table/column-tooltip';
+import { House } from 'lucide-react';
 
 type createColumnsProps = {
   data: any;
@@ -17,6 +18,7 @@ const breakDurationColumn = SortColumn<ITimeSheetTable>('exclude_seconds', 'ช�
 const totalTrackedColumn = SortColumn<ITimeSheetTable>('summary_seconds', 'รวมเวลา');
 const taskTypeColumn = SortColumn<ITimeSheetTable>('task_type_name', 'ประเภทงาน');
 const detailColumn = SortColumn<ITimeSheetTable>('detail', 'รายละเอียดงาน');
+const workFromHomeColumn = SortColumn<ITimeSheetTable>('is_work_from_home', 'ทำงานจากบ้าน');
 
 export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeSheetTable>[] => {
   const baseColumns: ColumnDef<ITimeSheetTable>[] = [
@@ -26,6 +28,18 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
       cell: ({ row }) => {
         const { date } = row.original;
         return <div>{buddhistFormatDate(date, 'dd mmm yyyy') || '-'}</div>;
+      },
+    },
+    {
+      ...workFromHomeColumn,
+      size: 150,
+      cell: ({ row }) => {
+        const { is_work_from_home } = row.original;
+        return (
+          <div>
+            {is_work_from_home ? <House className="size-4" aria-label="ทำงานจากบ้าน" /> : '-'}
+          </div>
+        );
       },
     },
     {
