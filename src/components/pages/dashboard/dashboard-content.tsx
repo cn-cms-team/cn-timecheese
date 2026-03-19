@@ -53,7 +53,7 @@ const DashboardContent = () => {
           start_date={userInfo?.start_date ?? '-'}
         />
       </div>
-      <DashboardBarChart />
+      <DashboardBarChart userId={userInfo?.id || ''} />
       <div className="space-y-1 max-w-sm">
         <Label>โครงการ</Label>
         <ComboboxForm

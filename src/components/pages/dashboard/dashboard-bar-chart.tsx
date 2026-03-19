@@ -1,19 +1,85 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
+import { ApexOptions } from 'apexcharts';
 import { fetcher } from '@/lib/fetcher';
 import { IDashboardAttendance } from '@/types/dashboard';
 import { monthOption, weekDays } from '@/lib/constants/period-calendar';
+import { formatTotalHours } from '@/lib/functions/timesheet-manage';
 
 import Dropdown from '@/components/ui/custom/input/dropdown';
 import ApexChart from '@/components/ui/custom/chart/apex-chart';
-import { useDashboardContext } from './view/dashboard-use-context';
 import { Label } from '@/components/ui/label';
 
-const DashboardBarChart = () => {
+const DashboardBarChart = ({ userId }: { userId: string }) => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
-  const { barChartOption, selectedMonth, selectYear, yearOption, setSelectYear, setSelectedMonth } =
-    useDashboardContext();
+  const today = new Date();
+
+  const [selectedMonth, setSelectedMonth] = useState<number>(today.getMonth());
+  const [selectYear, setSelectYear] = useState<number>(today.getFullYear());
+  const days = weekDays(selectedMonth);
+
+  const yearOption = Array.from({ length: 3 }, (_, i) => ({
+    label: (today.getFullYear() - i).toString(),
+    value: today.getFullYear() - i,
+  }));
+
+  const barChartOption: ApexOptions = {
+    chart: {
+      type: 'bar',
+      stacked: false,
+      toolbar: {
+        show: false,
+      },
+    },
+    plotOptions: {
+      bar: {
+        columnWidth: '80%',
+        borderRadius: 4,
+        distributed: true,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    legend: {
+      show: false,
+    },
+    xaxis: {
+      categories: days,
+    },
+    yaxis: {
+      title: {
+        text: 'ชั่วโมง',
+      },
+      forceNiceScale: false,
+      tickAmount: 4,
+      labels: {
+        formatter: function (value) {
+          return value.toFixed(0);
+        },
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
+    tooltip: {
+      x: {
+        show: false,
+      },
+      y: {
+        title: {
+          formatter: function () {
+            return '';
+          },
+        },
+        formatter: function (value, option) {
+          const dataIndex = option.dataPointIndex;
+          return `วันที่ ${days[dataIndex]}: ${formatTotalHours(value)}`;
+        },
+      },
+    },
+  };
 
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<IDashboardAttendance[]>([]);
@@ -22,7 +88,7 @@ const DashboardBarChart = () => {
     try {
       setLoading(true);
       const res = await fetcher<IDashboardAttendance[]>(
-        `${prefix}/api/v1/dashboard/attendance?month=${selectedMonth}&year=${selectYear}`
+        `${prefix}/api/v1/dashboard/attendance?month=${selectedMonth}&year=${selectYear}&user_id=${userId}`
       );
 
       setData(res);
@@ -37,7 +103,7 @@ const DashboardBarChart = () => {
     if (selectedMonth === null) return;
 
     fetchData();
-  }, [selectedMonth, selectYear]);
+  }, [selectedMonth, selectYear, userId]);
 
   const series = useMemo(() => {
     const dateMap = new Map(data.map((item) => [new Date(item.date).getDate(), item.totalSeconds]));
@@ -96,4 +162,4 @@ const DashboardBarChart = () => {
   );
 };
 
-export default DashboardBarChart;
+export default React.memo(DashboardBarChart);

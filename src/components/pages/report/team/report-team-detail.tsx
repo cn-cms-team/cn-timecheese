@@ -3,6 +3,7 @@ import ReportTeamProject from './report-team-project';
 import { IReportTeam, IUserReportProject } from '@/types/report/team';
 import Image from 'next/image';
 import { Skeleton } from '@/components/ui/skeleton';
+import { DashboardBarChart } from '../../dashboard';
 
 const ReportTeamDetail = ({ user, projects, loading }: IReportTeam & { loading: boolean }) => {
   return (
@@ -17,9 +18,10 @@ const ReportTeamDetail = ({ user, projects, loading }: IReportTeam & { loading: 
           loading={loading}
         />
       </div>
+      <DashboardBarChart userId={user?.id || ''} />
       <div className="border rounded-lg shadow p-4">
         <div className="flex flex-col gap-4">
-          <h3 className="text-lg font-bold">โครงการที่รับผิดชอบ</h3>
+          <h3 className="text-base font-semibold">โครงการที่รับผิดชอบ</h3>
           {loading ? (
             <Skeleton className="w-full h-125 rounded-md bg-gray-400" />
           ) : projects && projects.length > 0 && !loading ? (

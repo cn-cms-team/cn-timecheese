@@ -15,6 +15,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const month = searchParams.get('month');
   const year = searchParams.get('year');
+  const userId = searchParams.get('user_id');
 
   if (!month) {
     return Response.json({ message: 'Month parameter is required' }, { status: 400 });
@@ -22,6 +23,10 @@ export async function GET(request: Request) {
 
   if (!year) {
     return Response.json({ message: 'Year parameter is required' }, { status: 400 });
+  }
+
+  if (!userId) {
+    return Response.json({ message: 'User ID parameter is required' }, { status: 400 });
   }
 
   const monthNumber = Number(month);
@@ -44,7 +49,7 @@ export async function GET(request: Request) {
   try {
     const tasks = await prisma.timeSheetSummary.findMany({
       where: {
-        user_id: session.user.id,
+        user_id: userId,
         sum_date: {
           gte: monthStart,
           lte: monthEnd,

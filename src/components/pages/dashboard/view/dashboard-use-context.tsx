@@ -4,115 +4,34 @@ import { ApexOptions } from 'apexcharts';
 import { createContext, useContext, useState } from 'react';
 
 import { fetcher } from '@/lib/fetcher';
-import { IOption } from '@/types/option';
 import { IDashboard } from '@/types/report';
 import { IUserReport } from '@/types/report/team';
-import { weekDays } from '@/lib/constants/period-calendar';
 import { IOptionGroups } from '@/types/dropdown';
 import { DD_PROJECT_LABEL } from '@/lib/constants/dropdown';
-import { formatTotalHours } from '@/lib/functions/timesheet-manage';
 
 interface IDashboardContextType {
   loading: boolean;
-  barChartOption: ApexOptions;
-  selectedMonth: number;
   projectId: string;
   dashboardProjectData: IDashboard;
   projectOption: IOptionGroups[];
-  yearOption: IOption[];
-  selectYear: number;
   userInfo: IUserReport;
-  setSelectedMonth: (month: number) => void;
   setLoading: (loading: boolean) => void;
   setProjectId: (projectId: string) => void;
   setDashboardProjectData: (data: IDashboard) => void;
   fetchProjectData: (userId: string, projectId: string) => Promise<void>;
   fetchProjectsOption: () => Promise<void>;
   fetchUserInfo: (userId: string) => Promise<void>;
-  setSelectYear: (year: number) => void;
 }
 
 const DashboardContext = createContext<IDashboardContextType | undefined>(undefined);
 
 const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
-  const today = new Date();
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const [loading, setLoading] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IUserReport>(null!);
-  const [selectYear, setSelectYear] = useState<number>(today.getFullYear());
   const [dashboardProjectData, setDashboardProjectData] = useState<IDashboard>(null!);
   const [projectOption, setProjectOptions] = useState<IOptionGroups[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState<number>(today.getMonth());
   const [projectId, setProjectId] = useState<string>(null!);
-
-  const days = weekDays(selectedMonth);
-
-  const userStartDate = userInfo?.start_date;
-
-  const yearOption = Array.from(
-    { length: today.getFullYear() - new Date(userStartDate).getFullYear() + 1 },
-    (_, i) => ({
-      label: (new Date(userStartDate).getFullYear() + i).toString(),
-      value: new Date(userStartDate).getFullYear() + i,
-    })
-  );
-
-  const barChartOption: ApexOptions = {
-    chart: {
-      type: 'bar',
-      stacked: false,
-      toolbar: {
-        show: false,
-      },
-    },
-    plotOptions: {
-      bar: {
-        columnWidth: '80%',
-        borderRadius: 4,
-        distributed: true,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    legend: {
-      show: false,
-    },
-    xaxis: {
-      categories: days,
-    },
-    yaxis: {
-      title: {
-        text: 'ชั่วโมง',
-      },
-      forceNiceScale: false,
-      tickAmount: 4,
-      labels: {
-        formatter: function (value) {
-          return value.toFixed(0);
-        },
-      },
-    },
-    fill: {
-      opacity: 1,
-    },
-    tooltip: {
-      x: {
-        show: false,
-      },
-      y: {
-        title: {
-          formatter: function () {
-            return '';
-          },
-        },
-        formatter: function (value, option) {
-          const dataIndex = option.dataPointIndex;
-          return `วันที่ ${days[dataIndex]}: ${formatTotalHours(value)}`;
-        },
-      },
-    },
-  };
 
   const fetchUserInfo = async (userId: string) => {
     try {
@@ -160,16 +79,10 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
     <DashboardContext.Provider
       value={{
         loading,
-        barChartOption,
-        selectedMonth,
         projectId,
         dashboardProjectData,
         projectOption,
-        yearOption,
-        selectYear,
         userInfo,
-        setSelectYear,
-        setSelectedMonth,
         setProjectId,
         setLoading,
         setDashboardProjectData,

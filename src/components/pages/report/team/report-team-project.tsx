@@ -42,12 +42,9 @@ const ReportTeamProject = ({
 
       <CardHeader className="relative pb-4">
         <div className="flex items-start justify-between gap-3">
-          <div>
-            {/* <CardTitle className="text-base font-semibold text-slate-700">โครงการ</CardTitle> */}
-            <CardDescription className="mt-1 text-lg font-medium text-slate-900">
-              {name || '-'}
-            </CardDescription>
-          </div>
+          <CardDescription className="mt-1 text-lg font-medium text-slate-900">
+            {name || '-'}
+          </CardDescription>
         </div>
       </CardHeader>
       <CardContent className="relative flex-1 space-y-3">
