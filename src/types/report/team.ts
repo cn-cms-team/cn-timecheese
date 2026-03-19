@@ -15,6 +15,7 @@ export type IUserReport = {
 };
 
 export type IUserReportProject = {
+  id: string;
   name: string;
   code: string;
   start_date: string;

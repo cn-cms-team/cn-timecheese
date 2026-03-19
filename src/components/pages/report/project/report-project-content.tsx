@@ -129,7 +129,9 @@ const ReportProjectContent = () => {
             loading={isLoading}
           />
           <DonutChartTimeSheet donutLabel={reportProjectData.timeSheetChart} loading={isLoading} />
-          <TableListTimeSheet projectId={projectId} userId={reportProjectData.user.id} />
+          {projectId && reportProjectData.user.id ? (
+            <TableListTimeSheet projectId={projectId} userId={reportProjectData.user.id} />
+          ) : null}
         </>
       ) : projectId && memberId && !reportProjectData && !isLoading ? (
         <div className="flex w-full justify-center">ไม่พบข้อมูลรายงานโครงการ</div>

@@ -71,7 +71,9 @@ const DashboardContent = () => {
         donutLabel={dashboardProjectData?.timeSheetChart || []}
         donutHeight={400}
       />
-      <TableListTimeSheet projectId={projectId} />
+      {projectId && userInfo?.id ? (
+        <TableListTimeSheet projectId={projectId} userId={userInfo?.id || ''} />
+      ) : null}
     </div>
   );
 };

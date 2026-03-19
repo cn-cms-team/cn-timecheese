@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -33,7 +32,6 @@ const toDateOnly = (date: Date) => {
 };
 
 const TableListTimeSheet = ({ projectId, userId }: IProps) => {
-  const { data: session } = useSession();
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const [rowSelection, setRowSelection] = useState({});
   const [data, setData] = useState<ITimeSheetData>({
@@ -59,6 +57,7 @@ const TableListTimeSheet = ({ projectId, userId }: IProps) => {
   });
 
   const fetchData = async (userId: string) => {
+    console.log('fetchData with params:', userId, projectId, pagination, tempFilter);
     const params = new URLSearchParams({
       page: (pagination.pageIndex + 1).toString(),
       limit: pagination.pageSize.toString(),
@@ -81,10 +80,10 @@ const TableListTimeSheet = ({ projectId, userId }: IProps) => {
   };
 
   useEffect(() => {
-    if (!session?.user?.id || !projectId) return;
+    if (!userId || !projectId) return;
 
-    fetchData(userId ? userId : session.user.id);
-  }, [pagination.pageIndex, pagination.pageSize, session?.user?.id, projectId, userId]);
+    fetchData(userId);
+  }, [pagination.pageIndex, pagination.pageSize, projectId, userId]);
 
   const table = useReactTable({
     data: data.data,
@@ -118,7 +117,7 @@ const TableListTimeSheet = ({ projectId, userId }: IProps) => {
             disabled={loading}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                fetchData(session?.user?.id!);
+                fetchData(userId!);
               }
             }}
             onChange={(e) => {
@@ -140,13 +139,18 @@ const TableListTimeSheet = ({ projectId, userId }: IProps) => {
         <Button
           className="md:max-w-20 w-full"
           type="button"
-          onClick={() => fetchData(session?.user?.id!)}
+          onClick={() => fetchData(userId!)}
           disabled={loading}
         >
           ค้นหา
         </Button>
       </header>
-      <DataTable table={table} columns={columns} loading={loading} />
+      <DataTable
+        table={table}
+        columns={columns}
+        loading={loading}
+        containerClassName="max-h-[60vh] overflow-auto"
+      />
     </div>
   );
 };

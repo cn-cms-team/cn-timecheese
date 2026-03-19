@@ -27,7 +27,12 @@ const ReportTeamDetail = ({ user, projects, loading }: IReportTeam & { loading: 
           ) : projects && projects.length > 0 && !loading ? (
             <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 justify-start gap-3">
               {projects.map((project: IUserReportProject, index: number) => (
-                <ReportTeamProject key={index} {...project} loading={true} />
+                <ReportTeamProject
+                  key={index}
+                  {...project}
+                  loading={true}
+                  userId={user?.id || ''}
+                />
               ))}
             </div>
           ) : (

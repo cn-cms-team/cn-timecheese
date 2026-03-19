@@ -137,6 +137,7 @@ export async function GET(request: Request) {
       const memberInfo = project.projectMembers[0];
 
       return {
+        id: project.id,
         name: project.name,
         code: project.code,
         start_date: memberInfo?.start_date ?? project.start_date,
