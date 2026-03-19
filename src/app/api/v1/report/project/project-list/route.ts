@@ -1,4 +1,5 @@
 import { auth } from '@/auth';
+import { DD_INTERNAL_LABEL, DD_PROJECT_LABEL } from '@/lib/constants/dropdown';
 import prisma from '@/lib/prisma';
 
 export async function GET() {
@@ -7,27 +8,15 @@ export async function GET() {
     if (!session) {
       return Response.json({ message: 'Unauthorized' }, { status: 401 });
     }
-    const projectCompany = await prisma.project.findMany({
-      where: {
-        is_enabled: true,
-        is_company_project: true,
-      },
-      select: {
-        id: true,
-        name: true,
-      },
-    });
-    const companyOptions = projectCompany.map((item) => ({
-      label: item.name,
-      value: String(item.id),
-    }));
     const project = await prisma.projectMember.findMany({
       where: { user_id: session.user?.id, project: { is_enabled: true } },
       select: {
         project_id: true,
         project: {
           select: {
+            code: true,
             name: true,
+            is_company_project: true,
           },
         },
       },
@@ -35,17 +24,20 @@ export async function GET() {
       distinct: ['project_id'],
     });
     const projectOptions = project.map((item) => ({
-      label: item.project.name,
+      label: item.project.code ? `[${item.project.code}] ${item.project.name}` : item.project.name,
       value: String(item.project_id),
+      is_company_project: item.project.is_company_project,
     }));
+    const internalProject = projectOptions.filter((option) => option.is_company_project);
+    const customerProject = projectOptions.filter((option) => !option.is_company_project);
     const optionGroup = [
-      {
-        label: 'Internal',
-        options: companyOptions,
+      internalProject.length > 0 && {
+        label: DD_INTERNAL_LABEL,
+        options: internalProject,
       },
-      {
-        label: 'Projects',
-        options: projectOptions,
+      customerProject.length > 0 && {
+        label: DD_PROJECT_LABEL,
+        options: customerProject,
       },
     ];
     return Response.json({ data: optionGroup }, { status: 200 });

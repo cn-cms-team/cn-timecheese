@@ -48,25 +48,26 @@ export async function GET() {
           },
         },
         orderBy: { project: { name: 'asc' } },
-        distinct: ['project_id'],
       }),
     ]);
 
+    const internalProject = toOptions(companyProjects);
+    const customerProject = memberProjects.map((item) => ({
+      label: item.project.code ? `[${item.project.code}] ${item.project.name}` : item.project.name,
+      value: String(item.project_id),
+    }));
     const optionGroup: OptionGroup[] = [
-      {
+      internalProject.length > 0 && {
         label: DD_INTERNAL_LABEL,
-        options: toOptions(companyProjects),
+        options: internalProject,
       },
-      {
-        label: DD_PROJECT_LABEL,
-        options: memberProjects.map((item) => ({
-          label: item.project.code
-            ? `[${item.project.code}] ${item.project.name}`
-            : item.project.name,
-          value: String(item.project_id),
-        })),
-      },
-    ];
+      customerProject.length > 0
+        ? {
+            label: DD_PROJECT_LABEL,
+            options: customerProject,
+          }
+        : null,
+    ].filter(Boolean) as OptionGroup[];
 
     return Response.json({ data: optionGroup }, { status: 200 });
   } catch (error) {
