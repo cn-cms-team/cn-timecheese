@@ -20,7 +20,13 @@ import {
 import { Label } from '@/components/ui/label';
 import DataTable from '@/components/ui/custom/data-table/table-template';
 import InputSearch from '@/components/ui/custom/data-table/input/input-search';
-import SearchButton from '@/components/ui/custom/button/search-button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { IUser } from '@/types/setting/user';
 import { IProject } from '@/types/setting/project';
 
@@ -39,14 +45,18 @@ export function ProjectList<TData, TValue>({
   const [rowSelection, setRowSelection] = useState({});
   const [globalFilter, setGlobalFilter] = useState<{
     search: string;
+    projectType: string;
   }>({
     search: '',
+    projectType: 'unspecified',
   });
 
   const [tempFilter, setTempFilter] = useState<{
     search: string;
+    projectType: string;
   }>({
     search: '',
+    projectType: 'unspecified',
   });
 
   const handleSearch = () => {
@@ -55,14 +65,20 @@ export function ProjectList<TData, TValue>({
 
   const multiColumnGlobalFilter = (
     row: Row<TData>,
-    columnId: string,
-    filterValue: { search: string; userType: string; roles: string }
+    _columnId: string,
+    filterValue: { search: string; projectType: string }
   ) => {
     const search = filterValue.search.toLowerCase().trim();
-    const { name } = row.original as IProject;
-    const searchMatch = name?.toLowerCase().includes(search);
+    const { name, code, is_company_project } = row.original as IProject;
+    const searchMatch =
+      name?.toLowerCase().includes(search) || code?.toLowerCase().includes(search);
 
-    return searchMatch;
+    const projectTypeMatch =
+      filterValue.projectType === 'unspecified' ||
+      (filterValue.projectType === 'company' && is_company_project) ||
+      (filterValue.projectType === 'customer' && !is_company_project);
+
+    return searchMatch && projectTypeMatch;
   };
 
   const table = useReactTable({
@@ -90,9 +106,9 @@ export function ProjectList<TData, TValue>({
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-end pb-4 gap-4">
-        <div className="w-full h-full ">
-          <Label>ค้นหา</Label>
+      <div className="grid grid-cols-1 md:grid-cols-3 items-end pb-4 gap-4">
+        <div className="w-full md:col-span-2">
+          <Label className="mb-2 block">ค้นหา</Label>
           <InputSearch
             isMaxWidthSm={false}
             placeholder="ชื่อโครงการ, รหัสโครงการ"
@@ -102,6 +118,25 @@ export function ProjectList<TData, TValue>({
             }
             onEnter={handleSearch}
           />
+        </div>
+        <div className="w-full md:col-span-1">
+          <Label className="mb-2 block">ประเภทโครงการ</Label>
+          <Select
+            value={tempFilter.projectType}
+            onValueChange={(value) => {
+              setTempFilter((prev) => ({ ...prev, projectType: value }));
+              setGlobalFilter((prev) => ({ ...prev, projectType: value }));
+            }}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="ไม่ระบุ" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="unspecified">ไม่ระบุ</SelectItem>
+              <SelectItem value="company">โครงการภายในบริษัท</SelectItem>
+              <SelectItem value="customer">โครงการลูกค้า</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
       <DataTable table={table} columns={columns} loading={loading} />
