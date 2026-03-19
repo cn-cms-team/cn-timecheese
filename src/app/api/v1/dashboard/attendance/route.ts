@@ -4,7 +4,7 @@ import { endOfMonth, startOfMonth } from 'date-fns';
 
 type Summary = {
   date: string;
-  totalSeconds: number;
+  series: Array<{ name: string; data: number }>;
 };
 
 export async function GET(request: Request) {
@@ -58,25 +58,49 @@ export async function GET(request: Request) {
       select: {
         sum_date: true,
         total_seconds: true,
+        project_id: true,
       },
       orderBy: {
         sum_date: 'asc',
       },
     });
 
+    const projectIds = tasks.map((task) => task.project_id);
+    const projects = await prisma.project.findMany({
+      where: {
+        id: {
+          in: projectIds,
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
     // Group by date and sum total_seconds
-    const summaryMap: Record<string, number> = {};
+    type Serie = {
+      name: string;
+      data: number;
+    };
+    const summaryMap: Record<string, Array<Serie>> = {};
     tasks.forEach((task) => {
       const dateKey = task.sum_date.toISOString().split('T')[0];
+      const projectName = projects.find((project) => project.id === task.project_id)?.name!;
       if (!summaryMap[dateKey]) {
-        summaryMap[dateKey] = 0;
+        summaryMap[dateKey] = [{ name: projectName, data: task.total_seconds }];
+      } else {
+        const existingProjectIndex = summaryMap[dateKey].findIndex((e) => e.name === projectName);
+        if (existingProjectIndex !== -1) {
+          summaryMap[dateKey][existingProjectIndex].data += task.total_seconds;
+        } else {
+          summaryMap[dateKey].push({ name: projectName, data: task.total_seconds });
+        }
       }
-      summaryMap[dateKey] += task.total_seconds;
     });
 
-    const result: Summary[] = Object.entries(summaryMap).map(([date, totalSeconds]) => ({
+    const result: Summary[] = Object.entries(summaryMap).map(([date, series]) => ({
       date,
-      totalSeconds,
+      series,
     }));
 
     return Response.json({ data: result }, { status: 200 });
