@@ -13,6 +13,8 @@ export async function GET() {
         is_company_project: true,
         start_date: true,
         end_date: true,
+        maintenance_start_date: true,
+        maintenance_end_date: true,
         _count: {
           select: {
             projectMembers: true,
