@@ -42,7 +42,7 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
   }));
 
   return (
-    <TableRow key={index}>
+    <TableRow>
       <TableCell>
         <FormField
           control={form.control}
@@ -51,7 +51,6 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
             <FormItem>
               <FormControl>
                 <ComboboxForm
-                  key={index}
                   isGroup={true}
                   field={field}
                   placeholder="เลือกพนักงาน"
