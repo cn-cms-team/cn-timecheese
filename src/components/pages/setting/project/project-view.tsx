@@ -22,7 +22,7 @@ const ProjectViewDetail = ({
   onDataLoaded,
 }: {
   id: string;
-  onDataLoaded: (name: string) => void;
+  onDataLoaded: (name: string, reportMembers: IProject['report_members']) => void;
 }): React.ReactNode => {
   const { setIsLoading } = useLoading();
   const [projectData, setProjectData] = useState<IProject>();
@@ -35,7 +35,7 @@ const ProjectViewDetail = ({
           const result = await response.json();
           const data = result.data;
           setProjectData(data);
-          onDataLoaded(data.name);
+          onDataLoaded(data.name, data.report_members ?? []);
         }
       } catch (error) {
         console.error('Failed to fetch user data:', error);
