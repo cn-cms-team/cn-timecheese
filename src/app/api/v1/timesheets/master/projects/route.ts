@@ -42,9 +42,10 @@ export async function GET() {
             name: true,
             description: true,
           },
+          orderBy: { name: 'asc' },
         },
       },
-      orderBy: { name: 'asc' },
+      orderBy: { code: 'asc' },
     });
 
     const options = result.map((item) => ({
