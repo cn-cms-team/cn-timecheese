@@ -1927,6 +1927,7 @@ export const TaskTypeScalarFieldEnum = {
   name: 'name',
   description: 'description',
   tone_color: 'tone_color',
+  is_skill_upgraded: 'is_skill_upgraded',
   is_active: 'is_active'
 } as const
 
