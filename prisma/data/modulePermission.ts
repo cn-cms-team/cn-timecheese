@@ -177,4 +177,24 @@ export const modulePermission = [
     pms_code: EPermissions.EXPORT,
     order: 2,
   },
+  {
+    module_code: EModules.ADMIN_HOLIDAYS,
+    pms_code: EPermissions.VIEW,
+    order: 1,
+  },
+  {
+    module_code: EModules.ADMIN_HOLIDAYS,
+    pms_code: EPermissions.CREATE,
+    order: 2,
+  },
+  {
+    module_code: EModules.ADMIN_HOLIDAYS,
+    pms_code: EPermissions.EDIT,
+    order: 3,
+  },
+  {
+    module_code: EModules.ADMIN_HOLIDAYS,
+    pms_code: EPermissions.DELETE,
+    order: 4,
+  },
 ];
