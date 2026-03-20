@@ -13,7 +13,8 @@ export type IMenuId =
   | 'ADMIN_TASK_TYPE'
   | 'ADMIN_TEAM'
   | 'ADMIN_POSITION'
-  | 'ADMIN_ACTIVITY_LOG';
+  | 'ADMIN_ACTIVITY_LOG'
+  | 'ADMIN_HOLIDAYS';
 
 export type IMenu = {
   menuId?: IMenuId;
