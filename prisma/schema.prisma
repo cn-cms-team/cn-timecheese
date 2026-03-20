@@ -339,3 +339,14 @@ model TimeSheetSummary {
   @@id([user_id, project_id, sum_date])
   @@map("time_sheet_summaries")
 }
+
+model Holiday {
+  id          String   @id @default(uuid(7)) @db.Uuid
+  name        String   @db.VarChar(100)
+  description String?  @db.VarChar(255)
+  date        DateTime @db.Date
+
+  is_enabled Boolean @default(true)
+
+  @@map("holidays")
+}

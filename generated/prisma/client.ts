@@ -126,3 +126,8 @@ export type TimeSheet = Prisma.TimeSheetModel
  * 
  */
 export type TimeSheetSummary = Prisma.TimeSheetSummaryModel
+/**
+ * Model Holiday
+ * 
+ */
+export type Holiday = Prisma.HolidayModel
