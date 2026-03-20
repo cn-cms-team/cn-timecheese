@@ -548,8 +548,8 @@ const AddActivityModal = ({
                         onSelect={(value) => {
                           field.onChange(value);
                           form.setValue('project_task_type_id', undefined, {
-                            shouldDirty: true,
-                            shouldValidate: true,
+                            shouldDirty: false,
+                            shouldValidate: false,
                           });
                         }}
                       />
