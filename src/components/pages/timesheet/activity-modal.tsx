@@ -73,6 +73,17 @@ const AddActivityModal = ({
     const start = new Date(selectedDate);
 
     if (latestActivityEndDate) {
+      const isExactlyNoon =
+        latestActivityEndDate.getHours() === 12 &&
+        latestActivityEndDate.getMinutes() === 0 &&
+        latestActivityEndDate.getSeconds() === 0 &&
+        latestActivityEndDate.getMilliseconds() === 0;
+
+      if (isExactlyNoon) {
+        start.setHours(13, 0, 0, 0);
+        return start;
+      }
+
       start.setHours(
         latestActivityEndDate.getHours(),
         latestActivityEndDate.getMinutes(),
