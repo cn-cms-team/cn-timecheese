@@ -41,7 +41,11 @@ export async function GET(request: Request) {
       where: {
         is_enabled: true,
         is_company_project: true,
-        OR: [{ end_date: { gte: new Date() } }, { end_date: null }],
+        OR: [
+          { end_date: { gte: new Date() } },
+          { end_date: null },
+          { maintenance_end_date: { gte: new Date() } },
+        ],
       },
       select: {
         id: true,
@@ -49,6 +53,8 @@ export async function GET(request: Request) {
         code: true,
         start_date: true,
         end_date: true,
+        maintenance_start_date: true,
+        maintenance_end_date: true,
         value: true,
         projectMembers: {
           where: { user_id: currentUser.id },
@@ -67,7 +73,11 @@ export async function GET(request: Request) {
         project: {
           is_enabled: true,
           is_company_project: false,
-          OR: [{ end_date: { gte: new Date() } }, { end_date: null }],
+          OR: [
+            { end_date: { gte: new Date() } },
+            { end_date: null },
+            { maintenance_end_date: { gte: new Date() } },
+          ],
         },
       },
       select: {
@@ -81,6 +91,8 @@ export async function GET(request: Request) {
             code: true,
             start_date: true,
             end_date: true,
+            maintenance_start_date: true,
+            maintenance_end_date: true,
             value: true,
           },
         },
@@ -142,6 +154,8 @@ export async function GET(request: Request) {
         code: project.code,
         start_date: memberInfo?.start_date ?? project.start_date,
         end_date: memberInfo?.end_date ?? project.end_date,
+        maintenance_start_date: project.maintenance_start_date,
+        maintenance_end_date: project.maintenance_end_date,
         value: project.value,
         position: memberInfo?.role ?? '-',
         join_date: lastStampAtMap[project.id],

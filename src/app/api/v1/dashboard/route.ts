@@ -30,6 +30,8 @@ export async function GET(request: Request) {
         code: project.project.code,
         start_date: project.project.start_date,
         end_date: project.project.end_date,
+        maintenance_start_date: project.project.maintenance_start_date,
+        maintenance_end_date: project.project.maintenance_end_date,
         position: project.project.position,
         last_tracked_at: null,
         spent_times: project.project?.spent_times || 0,

@@ -20,6 +20,8 @@ const ReportTeamProject = ({
   code,
   start_date,
   end_date,
+  maintenance_start_date,
+  maintenance_end_date,
   position,
   join_date,
   spent_times,
@@ -69,6 +71,28 @@ const ReportTeamProject = ({
                 <LabelGroup
                   label="วันที่สิ้นสุด"
                   value={end_date ? buddhistFormatDate(end_date, 'dd mmm yyyy') : '-'}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              <div className="rounded-xl border border-white/70 bg-white/75 px-4 py-3 shadow-sm backdrop-blur-sm">
+                <LabelGroup
+                  label="วันที่เริ่ม MA"
+                  value={
+                    maintenance_start_date
+                      ? buddhistFormatDate(maintenance_start_date, 'dd mmm yyyy')
+                      : '-'
+                  }
+                />
+              </div>
+              <div className="rounded-xl border border-white/70 bg-white/75 px-4 py-3 shadow-sm backdrop-blur-sm">
+                <LabelGroup
+                  label="วันที่สิ้นสุด MA"
+                  value={
+                    maintenance_end_date
+                      ? buddhistFormatDate(maintenance_end_date, 'dd mmm yyyy')
+                      : '-'
+                  }
                 />
               </div>
             </div>

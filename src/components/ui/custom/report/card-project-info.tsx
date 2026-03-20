@@ -1,5 +1,4 @@
-import { calcTotalDays, formatDate, secondsToDuration } from '@/lib/functions/date-format';
-import { numberWithCommas } from '@/lib/functions/number-format';
+import { formatDate, secondsToDuration } from '@/lib/functions/date-format';
 import { IProjectInfoByUser } from '@/types/report';
 import { Skeleton } from '../../skeleton';
 import { useEffect, useState } from 'react';
@@ -11,14 +10,6 @@ interface CardProjectInfoProps {
 
 const CardProjectInfo = ({ project, loading = false }: CardProjectInfoProps) => {
   const [workDuration, setWorkDuration] = useState(secondsToDuration(project.spent_times || 0));
-  const workedDays = Math.floor((project.spent_times || 0) / 28800); // assuming 8 hours per day
-  const totalDays =
-    project.start_date && project.end_date
-      ? calcTotalDays(project.start_date.toString(), project.end_date.toString())
-      : 0;
-  const totalCost = (project.day_price || 0) * (totalDays || 0);
-  const usedCost = (project.day_price || 0) * workedDays;
-  const costPercentage = totalCost ? ((usedCost / totalCost) * 100).toFixed(2) : '0.00';
 
   useEffect(() => {
     if (setWorkDuration) setWorkDuration(secondsToDuration(project.spent_times || 0));
@@ -56,6 +47,22 @@ const CardProjectInfo = ({ project, loading = false }: CardProjectInfoProps) => 
                   <label className="text-gray-500 mb-10">วันที่สิ้นสุด</label>
                   <div className="mt-1">
                     {project.end_date ? formatDate(project.end_date, 'dd mmm yyyy') : '-'}
+                  </div>
+                </div>
+                <div>
+                  <label className="text-gray-500 mb-10">วันที่เริ่มบำรุงรักษา</label>
+                  <div className="mt-1">
+                    {project.maintenance_start_date
+                      ? formatDate(project.maintenance_start_date, 'dd mmm yyyy')
+                      : '-'}
+                  </div>
+                </div>
+                <div>
+                  <label className="text-gray-500 mb-10">วันที่สิ้นสุดการบำรุงรักษา</label>
+                  <div className="mt-1">
+                    {project.maintenance_end_date
+                      ? formatDate(project.maintenance_end_date, 'dd mmm yyyy')
+                      : '-'}
                   </div>
                 </div>
                 <div>
