@@ -77,6 +77,8 @@ export default function ModalProjectReportMembers({
           .map((option) => ({
             label: option.label,
             value: option.value,
+            team: group.label,
+            position: option.position,
           })),
       }))
       .filter((group) => group.options.length > 0);
@@ -113,6 +115,8 @@ export default function ModalProjectReportMembers({
         {
           user_id: userId,
           name: selectedUser.label,
+          team: selectedUser.team,
+          position: selectedUser.position ?? '-',
         },
       ]);
       setSelectedUserId('');

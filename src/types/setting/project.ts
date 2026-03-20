@@ -29,6 +29,8 @@ export type IProject = {
 export type IProjectReportMember = {
   user_id: string;
   name: string;
+  team?: string;
+  position?: string;
 };
 
 export type IProjectMember = {

@@ -64,6 +64,16 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
               select: {
                 first_name: true,
                 last_name: true,
+                team: {
+                  select: {
+                    name: true,
+                  },
+                },
+                position_level: {
+                  select: {
+                    name: true,
+                  },
+                },
               },
             },
           },
@@ -108,6 +118,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       report_members: project.projectReportMembers.map(({ user, user_id }) => ({
         user_id,
         name: `${user.first_name} ${user.last_name}`.trim(),
+        team: user.team?.name ?? '-',
+        position: user.position_level?.name ?? '-',
       })),
     };
 
