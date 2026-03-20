@@ -74,13 +74,34 @@ export async function GET(request: Request) {
       },
     });
 
+    const holidays = await prisma.holiday.findMany({
+      where: {
+        is_enabled: true,
+        date: {
+          gte: start,
+          lte: end,
+        },
+      },
+      select: {
+        date: true,
+        name: true,
+      },
+    });
+
     const hourData = tsSummary.reduce<Record<string, number>>((acc, item) => {
       const dateKey = item.sum_date.toISOString().split('T')[0];
       acc[dateKey] = (acc[dateKey] || 0) + item.total_seconds / 3600;
       return acc;
     }, {});
 
-    return Response.json({ data: { hourData } }, { status: 200 });
+    const holidayDates = holidays.map((holiday) => holiday.date.toISOString().split('T')[0]);
+    const holidayNamesByDate = holidays.reduce<Record<string, string>>((acc, holiday) => {
+      const dateKey = holiday.date.toISOString().split('T')[0];
+      acc[dateKey] = holiday.name;
+      return acc;
+    }, {});
+
+    return Response.json({ data: { hourData, holidayDates, holidayNamesByDate } }, { status: 200 });
   } catch (error) {
     return Response.json(
       {

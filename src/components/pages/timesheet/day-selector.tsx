@@ -53,6 +53,7 @@ const DaySelector = ({ days, selectedDayId, onSelectDay, isLoading = false }: Da
       {days.map((day) => {
         const isActive = day.id === selectedDayId;
         const isToday = day.id === todayId;
+        const isHoliday = day.isHoliday;
         const isWeekend = day.dayLabel === 'อา.' || day.dayLabel === 'ส.';
         const dayBadge = getDayStatusBadge(day.totalHours);
         const DayBadgeIcon = dayBadge.icon;
@@ -66,14 +67,18 @@ const DaySelector = ({ days, selectedDayId, onSelectDay, isLoading = false }: Da
               isActive
                 ? isToday
                   ? 'bg-blue-700 text-white shadow-lg'
-                  : isWeekend
-                    ? 'bg-rose-600 text-white shadow-lg'
-                    : 'bg-black text-white shadow-lg'
+                  : isHoliday
+                    ? 'bg-amber-500 text-white shadow-lg'
+                    : isWeekend
+                      ? 'bg-rose-600 text-white shadow-lg'
+                      : 'bg-black text-white shadow-lg'
                 : isToday
                   ? 'bg-blue-50 text-blue-900 ring-1 ring-blue-200 hover:bg-blue-100'
-                  : isWeekend
-                    ? 'bg-rose-50/70 text-rose-700 hover:bg-rose-100'
-                    : 'bg-white text-slate-700 hover:bg-slate-100'
+                  : isHoliday
+                    ? 'bg-amber-50 text-amber-800 ring-1 ring-amber-200 hover:bg-amber-100'
+                    : isWeekend
+                      ? 'bg-rose-50/70 text-rose-700 hover:bg-rose-100'
+                      : 'bg-white text-slate-700 hover:bg-slate-100'
             )}
             onClick={() => onSelectDay(day.id)}
             type="button"
@@ -85,14 +90,29 @@ const DaySelector = ({ days, selectedDayId, onSelectDay, isLoading = false }: Da
                   ? 'text-white/85'
                   : isToday
                     ? 'text-blue-600'
-                    : isWeekend
-                      ? 'text-rose-500'
-                      : 'text-slate-500'
+                    : isHoliday
+                      ? 'text-amber-600'
+                      : isWeekend
+                        ? 'text-rose-500'
+                        : 'text-slate-500'
               )}
             >
               {day.dayLabel}
             </span>
-            <span className="text-3xl leading-none font-bold">{day.date}</span>
+            <div className="min-w-0">
+              <span className="block text-3xl leading-none font-bold">{day.date}</span>
+              {day.isHoliday && day.holidayName && (
+                <span
+                  className={cn(
+                    'mt-1 block truncate text-xs font-medium',
+                    isActive ? 'text-white/90' : 'text-amber-700'
+                  )}
+                  title={day.holidayName}
+                >
+                  {day.holidayName}
+                </span>
+              )}
+            </div>
             <span
               className={cn(
                 'justify-self-end inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-sm font-semibold',

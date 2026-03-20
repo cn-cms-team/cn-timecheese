@@ -89,5 +89,12 @@
     "parent_code": "ADMIN",
     "order": 7,
     "is_active": true
+  },
+  {
+    "code": "ADMIN_HOLIDAYS",
+    "name": "วันหยุดประจำปี",
+    "parent_code": "ADMIN",
+    "order": 8,
+    "is_active": true
   }
 ]

@@ -66,6 +66,11 @@ export const menuItems: IMenu[] = [
         name: 'ตำแหน่งงาน',
         url: '/setting/position',
       },
+      {
+        menuId: 'ADMIN_HOLIDAYS',
+        name: 'วันหยุดประจำปี',
+        url: '/setting/holidays',
+      },
     ],
   },
 ];

@@ -30,6 +30,7 @@ export type TaskTypeMinAggregateOutputType = {
   name: string | null
   description: string | null
   tone_color: string | null
+  is_skill_upgraded: boolean | null
   is_active: boolean | null
 }
 
@@ -39,6 +40,7 @@ export type TaskTypeMaxAggregateOutputType = {
   name: string | null
   description: string | null
   tone_color: string | null
+  is_skill_upgraded: boolean | null
   is_active: boolean | null
 }
 
@@ -48,6 +50,7 @@ export type TaskTypeCountAggregateOutputType = {
   name: number
   description: number
   tone_color: number
+  is_skill_upgraded: number
   is_active: number
   _all: number
 }
@@ -59,6 +62,7 @@ export type TaskTypeMinAggregateInputType = {
   name?: true
   description?: true
   tone_color?: true
+  is_skill_upgraded?: true
   is_active?: true
 }
 
@@ -68,6 +72,7 @@ export type TaskTypeMaxAggregateInputType = {
   name?: true
   description?: true
   tone_color?: true
+  is_skill_upgraded?: true
   is_active?: true
 }
 
@@ -77,6 +82,7 @@ export type TaskTypeCountAggregateInputType = {
   name?: true
   description?: true
   tone_color?: true
+  is_skill_upgraded?: true
   is_active?: true
   _all?: true
 }
@@ -159,6 +165,7 @@ export type TaskTypeGroupByOutputType = {
   name: string
   description: string | null
   tone_color: string | null
+  is_skill_upgraded: boolean
   is_active: boolean
   _count: TaskTypeCountAggregateOutputType | null
   _min: TaskTypeMinAggregateOutputType | null
@@ -189,6 +196,7 @@ export type TaskTypeWhereInput = {
   name?: Prisma.StringFilter<"TaskType"> | string
   description?: Prisma.StringNullableFilter<"TaskType"> | string | null
   tone_color?: Prisma.StringNullableFilter<"TaskType"> | string | null
+  is_skill_upgraded?: Prisma.BoolFilter<"TaskType"> | boolean
   is_active?: Prisma.BoolFilter<"TaskType"> | boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeListRelationFilter
 }
@@ -199,6 +207,7 @@ export type TaskTypeOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   tone_color?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_skill_upgraded?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   projectTaskTypes?: Prisma.ProjectTaskTypeOrderByRelationAggregateInput
 }
@@ -212,6 +221,7 @@ export type TaskTypeWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"TaskType"> | string
   description?: Prisma.StringNullableFilter<"TaskType"> | string | null
   tone_color?: Prisma.StringNullableFilter<"TaskType"> | string | null
+  is_skill_upgraded?: Prisma.BoolFilter<"TaskType"> | boolean
   is_active?: Prisma.BoolFilter<"TaskType"> | boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeListRelationFilter
 }, "id">
@@ -222,6 +232,7 @@ export type TaskTypeOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   tone_color?: Prisma.SortOrderInput | Prisma.SortOrder
+  is_skill_upgraded?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   _count?: Prisma.TaskTypeCountOrderByAggregateInput
   _max?: Prisma.TaskTypeMaxOrderByAggregateInput
@@ -237,6 +248,7 @@ export type TaskTypeScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"TaskType"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"TaskType"> | string | null
   tone_color?: Prisma.StringNullableWithAggregatesFilter<"TaskType"> | string | null
+  is_skill_upgraded?: Prisma.BoolWithAggregatesFilter<"TaskType"> | boolean
   is_active?: Prisma.BoolWithAggregatesFilter<"TaskType"> | boolean
 }
 
@@ -246,6 +258,7 @@ export type TaskTypeCreateInput = {
   name: string
   description?: string | null
   tone_color?: string | null
+  is_skill_upgraded?: boolean
   is_active?: boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeCreateNestedManyWithoutTask_typeInput
 }
@@ -256,6 +269,7 @@ export type TaskTypeUncheckedCreateInput = {
   name: string
   description?: string | null
   tone_color?: string | null
+  is_skill_upgraded?: boolean
   is_active?: boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedCreateNestedManyWithoutTask_typeInput
 }
@@ -266,6 +280,7 @@ export type TaskTypeUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tone_color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_skill_upgraded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeUpdateManyWithoutTask_typeNestedInput
 }
@@ -276,6 +291,7 @@ export type TaskTypeUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tone_color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_skill_upgraded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedUpdateManyWithoutTask_typeNestedInput
 }
@@ -286,6 +302,7 @@ export type TaskTypeCreateManyInput = {
   name: string
   description?: string | null
   tone_color?: string | null
+  is_skill_upgraded?: boolean
   is_active?: boolean
 }
 
@@ -295,6 +312,7 @@ export type TaskTypeUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tone_color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_skill_upgraded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -304,6 +322,7 @@ export type TaskTypeUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tone_color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_skill_upgraded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -313,6 +332,7 @@ export type TaskTypeCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   tone_color?: Prisma.SortOrder
+  is_skill_upgraded?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
 }
 
@@ -322,6 +342,7 @@ export type TaskTypeMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   tone_color?: Prisma.SortOrder
+  is_skill_upgraded?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
 }
 
@@ -331,6 +352,7 @@ export type TaskTypeMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   tone_color?: Prisma.SortOrder
+  is_skill_upgraded?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
 }
 
@@ -365,6 +387,7 @@ export type TaskTypeCreateWithoutProjectTaskTypesInput = {
   name: string
   description?: string | null
   tone_color?: string | null
+  is_skill_upgraded?: boolean
   is_active?: boolean
 }
 
@@ -374,6 +397,7 @@ export type TaskTypeUncheckedCreateWithoutProjectTaskTypesInput = {
   name: string
   description?: string | null
   tone_color?: string | null
+  is_skill_upgraded?: boolean
   is_active?: boolean
 }
 
@@ -399,6 +423,7 @@ export type TaskTypeUpdateWithoutProjectTaskTypesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tone_color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_skill_upgraded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -408,6 +433,7 @@ export type TaskTypeUncheckedUpdateWithoutProjectTaskTypesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tone_color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_skill_upgraded?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -448,6 +474,7 @@ export type TaskTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name?: boolean
   description?: boolean
   tone_color?: boolean
+  is_skill_upgraded?: boolean
   is_active?: boolean
   projectTaskTypes?: boolean | Prisma.TaskType$projectTaskTypesArgs<ExtArgs>
   _count?: boolean | Prisma.TaskTypeCountOutputTypeDefaultArgs<ExtArgs>
@@ -459,6 +486,7 @@ export type TaskTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   name?: boolean
   description?: boolean
   tone_color?: boolean
+  is_skill_upgraded?: boolean
   is_active?: boolean
 }, ExtArgs["result"]["taskType"]>
 
@@ -468,6 +496,7 @@ export type TaskTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   name?: boolean
   description?: boolean
   tone_color?: boolean
+  is_skill_upgraded?: boolean
   is_active?: boolean
 }, ExtArgs["result"]["taskType"]>
 
@@ -477,10 +506,11 @@ export type TaskTypeSelectScalar = {
   name?: boolean
   description?: boolean
   tone_color?: boolean
+  is_skill_upgraded?: boolean
   is_active?: boolean
 }
 
-export type TaskTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "name" | "description" | "tone_color" | "is_active", ExtArgs["result"]["taskType"]>
+export type TaskTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "name" | "description" | "tone_color" | "is_skill_upgraded" | "is_active", ExtArgs["result"]["taskType"]>
 export type TaskTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   projectTaskTypes?: boolean | Prisma.TaskType$projectTaskTypesArgs<ExtArgs>
   _count?: boolean | Prisma.TaskTypeCountOutputTypeDefaultArgs<ExtArgs>
@@ -499,6 +529,7 @@ export type $TaskTypePayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     name: string
     description: string | null
     tone_color: string | null
+    is_skill_upgraded: boolean
     is_active: boolean
   }, ExtArgs["result"]["taskType"]>
   composites: {}
@@ -929,6 +960,7 @@ export interface TaskTypeFieldRefs {
   readonly name: Prisma.FieldRef<"TaskType", 'String'>
   readonly description: Prisma.FieldRef<"TaskType", 'String'>
   readonly tone_color: Prisma.FieldRef<"TaskType", 'String'>
+  readonly is_skill_upgraded: Prisma.FieldRef<"TaskType", 'Boolean'>
   readonly is_active: Prisma.FieldRef<"TaskType", 'Boolean'>
 }
     
