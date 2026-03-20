@@ -85,7 +85,7 @@ export async function handleAddProjectReportMember(projectId: string, userId: st
         name: `${user.first_name} ${user.last_name}`.trim(),
       };
     },
-    successMessage: 'Added successfully',
+    successMessage: 'Created successfully',
   });
 }
 

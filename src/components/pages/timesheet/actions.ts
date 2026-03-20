@@ -116,7 +116,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
       const hourData = await getHourData(session.user.id, stampDate);
       return { id: result.id, hourData };
     },
-    successMessage: 'Added successfully',
+    successMessage: 'Created successfully',
   });
 }
 
