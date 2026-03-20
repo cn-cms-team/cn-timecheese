@@ -398,6 +398,7 @@ export const ModelName = {
   Project: 'Project',
   ProjectMember: 'ProjectMember',
   ProjectTaskType: 'ProjectTaskType',
+  ProjectReportMember: 'ProjectReportMember',
   TimeSheet: 'TimeSheet',
   TimeSheetSummary: 'TimeSheetSummary'
 } as const
@@ -415,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "role" | "rolePermission" | "permission" | "module" | "modulePermission" | "team" | "teamLeader" | "position" | "positionLevel" | "taskType" | "project" | "projectMember" | "projectTaskType" | "timeSheet" | "timeSheetSummary"
+    modelProps: "user" | "role" | "rolePermission" | "permission" | "module" | "modulePermission" | "team" | "teamLeader" | "position" | "positionLevel" | "taskType" | "project" | "projectMember" | "projectTaskType" | "projectReportMember" | "timeSheet" | "timeSheetSummary"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1455,6 +1456,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ProjectReportMember: {
+      payload: Prisma.$ProjectReportMemberPayload<ExtArgs>
+      fields: Prisma.ProjectReportMemberFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProjectReportMemberFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectReportMemberPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProjectReportMemberFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectReportMemberPayload>
+        }
+        findFirst: {
+          args: Prisma.ProjectReportMemberFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectReportMemberPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProjectReportMemberFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectReportMemberPayload>
+        }
+        findMany: {
+          args: Prisma.ProjectReportMemberFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectReportMemberPayload>[]
+        }
+        create: {
+          args: Prisma.ProjectReportMemberCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectReportMemberPayload>
+        }
+        createMany: {
+          args: Prisma.ProjectReportMemberCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProjectReportMemberCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectReportMemberPayload>[]
+        }
+        delete: {
+          args: Prisma.ProjectReportMemberDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectReportMemberPayload>
+        }
+        update: {
+          args: Prisma.ProjectReportMemberUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectReportMemberPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProjectReportMemberDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProjectReportMemberUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProjectReportMemberUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectReportMemberPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProjectReportMemberUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectReportMemberPayload>
+        }
+        aggregate: {
+          args: Prisma.ProjectReportMemberAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProjectReportMember>
+        }
+        groupBy: {
+          args: Prisma.ProjectReportMemberGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectReportMemberGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProjectReportMemberCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectReportMemberCountAggregateOutputType> | number
+        }
+      }
+    }
     TimeSheet: {
       payload: Prisma.$TimeSheetPayload<ExtArgs>
       fields: Prisma.TimeSheetFieldRefs
@@ -1836,6 +1911,14 @@ export const ProjectTaskTypeScalarFieldEnum = {
 export type ProjectTaskTypeScalarFieldEnum = (typeof ProjectTaskTypeScalarFieldEnum)[keyof typeof ProjectTaskTypeScalarFieldEnum]
 
 
+export const ProjectReportMemberScalarFieldEnum = {
+  project_id: 'project_id',
+  user_id: 'user_id'
+} as const
+
+export type ProjectReportMemberScalarFieldEnum = (typeof ProjectReportMemberScalarFieldEnum)[keyof typeof ProjectReportMemberScalarFieldEnum]
+
+
 export const TimeSheetScalarFieldEnum = {
   id: 'id',
   user_id: 'user_id',
@@ -2096,6 +2179,7 @@ export type GlobalOmitConfig = {
   project?: Prisma.ProjectOmit
   projectMember?: Prisma.ProjectMemberOmit
   projectTaskType?: Prisma.ProjectTaskTypeOmit
+  projectReportMember?: Prisma.ProjectReportMemberOmit
   timeSheet?: Prisma.TimeSheetOmit
   timeSheetSummary?: Prisma.TimeSheetSummaryOmit
 }
