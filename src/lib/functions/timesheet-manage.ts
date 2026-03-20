@@ -14,9 +14,13 @@ export const parseDayId = (dayId: string) => {
 export const getDaysForMonth = (
   year: number,
   monthIndex: number,
-  hoursByDate: Record<string, number>
-): DayItem[] =>
-  Array.from({ length: new Date(year, monthIndex + 1, 0).getDate() }, (_, index) => {
+  hoursByDate: Record<string, number>,
+  holidayDates: string[] = [],
+  holidayNamesByDate: Record<string, string> = {}
+): DayItem[] => {
+  const holidaySet = new Set(holidayDates);
+
+  return Array.from({ length: new Date(year, monthIndex + 1, 0).getDate() }, (_, index) => {
     const date = index + 1;
     const id = getDayId(year, monthIndex + 1, date);
 
@@ -25,8 +29,11 @@ export const getDaysForMonth = (
       dayLabel: DAY_LABELS[new Date(year, monthIndex, date).getDay()],
       date,
       totalHours: hoursByDate[id] ?? 0,
+      isHoliday: holidaySet.has(id),
+      holidayName: holidayNamesByDate[id] ?? null,
     };
   });
+};
 
 export const formatMonthLabel = (date: Date) =>
   new Intl.DateTimeFormat('th-TH-u-ca-buddhist', {

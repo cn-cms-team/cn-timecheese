@@ -30,6 +30,8 @@ const TimeSheetViewContent = () => {
   const [currentMonth, setCurrentMonth] = useState(DEFAULT_MONTH_DATE);
   const [isAddActivityOpen, setIsAddActivityOpen] = useState(false);
   const [hourByDate, setHourByDate] = useState<Record<string, number>>({});
+  const [holidayDates, setHolidayDates] = useState<string[]>([]);
+  const [holidayNamesByDate, setHolidayNamesByDate] = useState<Record<string, string>>({});
   const [isHoursLoading, setIsHoursLoading] = useState(false);
   const [timelineItems, setTimelineItems] = useState<TimelineItem[]>([]);
   const [isTimelineLoading, setIsTimelineLoading] = useState(false);
@@ -48,8 +50,15 @@ const TimeSheetViewContent = () => {
   // const [timelineRefreshToken, setTimelineRefreshToken] = useState(0);
 
   const days = useMemo(
-    () => getDaysForMonth(currentMonth.getFullYear(), currentMonth.getMonth(), hourByDate),
-    [currentMonth, hourByDate]
+    () =>
+      getDaysForMonth(
+        currentMonth.getFullYear(),
+        currentMonth.getMonth(),
+        hourByDate,
+        holidayDates,
+        holidayNamesByDate
+      ),
+    [currentMonth, hourByDate, holidayDates, holidayNamesByDate]
   );
 
   const [selectedDayId, setSelectedDayId] = useState<DayItem['id']>(
@@ -81,10 +90,14 @@ const TimeSheetViewContent = () => {
         }
 
         setHourByDate(response.hourData ?? {});
+        setHolidayDates(response.holidayDates ?? []);
+        setHolidayNamesByDate(response.holidayNamesByDate ?? {});
       } catch (error) {
         if (isActive) {
           console.error('Error fetching monthly timesheet summary:', error);
           setHourByDate({});
+          setHolidayDates([]);
+          setHolidayNamesByDate({});
         }
       } finally {
         if (isActive) {
