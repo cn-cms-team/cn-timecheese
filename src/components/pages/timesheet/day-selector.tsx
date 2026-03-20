@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import { cn } from '@/lib/utils';
 
 import type { DayItem } from '@/types/timesheet';
@@ -12,8 +14,22 @@ type DaySelectorProps = {
 };
 
 const DaySelector = ({ days, selectedDayId, onSelectDay, isLoading = false }: DaySelectorProps) => {
+  const todayButtonRef = useRef<HTMLButtonElement | null>(null);
+  const hasTriedInitialScrollRef = useRef(false);
   const now = new Date();
   const todayId = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
+  useEffect(() => {
+    if (hasTriedInitialScrollRef.current || isLoading || days.length === 0) {
+      return;
+    }
+
+    hasTriedInitialScrollRef.current = true;
+    todayButtonRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    });
+  }, [days, isLoading]);
 
   if (isLoading) {
     return (
@@ -44,6 +60,7 @@ const DaySelector = ({ days, selectedDayId, onSelectDay, isLoading = false }: Da
         return (
           <button
             key={day.id}
+            ref={isToday ? todayButtonRef : null}
             className={cn(
               'grid w-full grid-cols-[44px_1fr_auto] cursor-pointer items-center rounded-2xl px-4 py-3 text-left shadow-sm transition-all focus-visible:ring-2 focus-visible:ring-blue-200 focus-visible:outline-none',
               isActive
