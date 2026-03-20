@@ -129,11 +129,7 @@ const ReportProjectContent = () => {
               loading={isLoading}
             />
           </div>
-          <CardProjectInfo
-            project={reportProjectData.project}
-            displayCost={true}
-            loading={isLoading}
-          />
+          <CardProjectInfo project={reportProjectData.project} loading={isLoading} />
           <DonutChartTimeSheet donutLabel={reportProjectData.timeSheetChart} loading={isLoading} />
           {projectId && reportProjectData.user.id ? (
             <TableListTimeSheet projectId={projectId} userId={reportProjectData.user.id} />

@@ -28,6 +28,7 @@ export async function GET() {
         is_company_project: true,
         start_date: true,
         end_date: true,
+        maintenance_end_date: true,
         projectMembers: {
           select: {
             start_date: true,
@@ -61,7 +62,7 @@ export async function GET() {
         })),
       })),
       startDate: item.projectMembers[0]?.start_date || item.start_date,
-      endDate: item.projectMembers[0]?.end_date || item.end_date,
+      endDate: item.projectMembers[0]?.end_date || item.maintenance_end_date || item.end_date,
     }));
 
     const optionGroup = [

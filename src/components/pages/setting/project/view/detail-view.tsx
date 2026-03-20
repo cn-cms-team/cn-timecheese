@@ -9,13 +9,15 @@ import { EModules } from '@/lib/constants/module';
 import { useAccount, useLoading } from '@/components/context/app-context';
 import { useState } from 'react';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
+import ModalProjectReportMembers from './modal-project-report-members';
+import { IProjectReportMember } from '@/types/setting/project';
 
 const ProjectViewButton = ({
-  id,
   onOpenDialog,
+  onAddPMUser,
 }: {
-  id: string;
   onOpenDialog: (mode: 'edit' | 'delete') => void;
+  onAddPMUser: () => void;
 }): React.ReactNode => {
   const { account } = useAccount();
   const canEdit = renderByPermission(account, EModules.ADMIN_PROJECT, 'EDIT');
@@ -25,6 +27,7 @@ const ProjectViewButton = ({
   }
   return (
     <div className="flex gap-3 items-middle">
+      {canEdit && <Button onClick={() => onAddPMUser()}>เพิ่มสิทธิ์ดูรายงาน</Button>}
       {canEdit && <Button onClick={() => onOpenDialog('edit')}>แก้ไข</Button>}
       {canDelete && (
         <Button variant={'destructive'} onClick={() => onOpenDialog('delete')}>
@@ -40,6 +43,8 @@ const ProjectView = ({ id }: { id: string }) => {
   const { setIsLoading } = useLoading();
 
   const [projectName, setProjectName] = useState<string>('');
+  const [projectReportMembers, setProjectReportMembers] = useState<IProjectReportMember[]>([]);
+  const [isOpenReportMemberModal, setIsOpenReportMemberModal] = useState(false);
   const [confirmState, setConfirmState] = useState<{
     title: string;
     message: string;
@@ -94,18 +99,40 @@ const ProjectView = ({ id }: { id: string }) => {
       setIsLoading(false);
     }
   };
+
+  const onAddPMUser = () => {
+    setIsOpenReportMemberModal(true);
+  };
+
   return (
     <>
       <ModuleLayout
         headerTitle={'รายละเอียดโครงการ'}
         leaveUrl={'/setting/project'}
-        headerButton={<ProjectViewButton id={id} onOpenDialog={handleOpenDialog} />}
-        content={<ProjectViewDetail id={id} onDataLoaded={(name) => setProjectName(name)} />}
+        headerButton={
+          <ProjectViewButton onOpenDialog={handleOpenDialog} onAddPMUser={onAddPMUser} />
+        }
+        content={
+          <ProjectViewDetail
+            id={id}
+            onDataLoaded={(name, reportMembers) => {
+              setProjectName(name);
+              setProjectReportMembers(reportMembers ?? []);
+            }}
+          />
+        }
       ></ModuleLayout>
       <Confirmation
         title={confirmState.title}
         message={confirmState.message}
         confirmType={confirmState.confirmType}
+      />
+      <ModalProjectReportMembers
+        open={isOpenReportMemberModal}
+        onOpenChange={setIsOpenReportMemberModal}
+        projectId={id}
+        members={projectReportMembers}
+        onMembersChanged={setProjectReportMembers}
       />
     </>
   );

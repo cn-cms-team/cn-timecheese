@@ -1,29 +1,15 @@
-import { calcTotalDays, formatDate, secondsToDuration } from '@/lib/functions/date-format';
-import { numberWithCommas } from '@/lib/functions/number-format';
+import { formatDate, secondsToDuration } from '@/lib/functions/date-format';
 import { IProjectInfoByUser } from '@/types/report';
 import { Skeleton } from '../../skeleton';
 import { useEffect, useState } from 'react';
 
 interface CardProjectInfoProps {
   project: IProjectInfoByUser;
-  displayCost?: boolean;
   loading?: boolean;
 }
 
-const CardProjectInfo = ({
-  project,
-  displayCost = false,
-  loading = false,
-}: CardProjectInfoProps) => {
+const CardProjectInfo = ({ project, loading = false }: CardProjectInfoProps) => {
   const [workDuration, setWorkDuration] = useState(secondsToDuration(project.spent_times || 0));
-  const workedDays = Math.floor((project.spent_times || 0) / 28800); // assuming 8 hours per day
-  const totalDays =
-    project.start_date && project.end_date
-      ? calcTotalDays(project.start_date.toString(), project.end_date.toString())
-      : 0;
-  const totalCost = (project.day_price || 0) * (totalDays || 0);
-  const usedCost = (project.day_price || 0) * workedDays;
-  const costPercentage = totalCost ? ((usedCost / totalCost) * 100).toFixed(2) : '0.00';
 
   useEffect(() => {
     if (setWorkDuration) setWorkDuration(secondsToDuration(project.spent_times || 0));
@@ -36,12 +22,6 @@ const CardProjectInfo = ({
             <Skeleton className="col-span-3 h-47 w-full animate-pulse rounded-md bg-gray-200" />
             <Skeleton className="col-span-2 h-47 w-full animate-pulse rounded-md bg-gray-200" />
           </div>
-          {displayCost && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <Skeleton className="h-23 w-full animate-pulse rounded-md bg-gray-200" />
-              <Skeleton className="h-23 w-full animate-pulse rounded-md bg-gray-200" />
-            </div>
-          )}
         </>
       ) : (
         <>
@@ -70,17 +50,25 @@ const CardProjectInfo = ({
                   </div>
                 </div>
                 <div>
+                  <label className="text-gray-500 mb-10">วันที่เริ่มบำรุงรักษา</label>
+                  <div className="mt-1">
+                    {project.maintenance_start_date
+                      ? formatDate(project.maintenance_start_date, 'dd mmm yyyy')
+                      : '-'}
+                  </div>
+                </div>
+                <div>
+                  <label className="text-gray-500 mb-10">วันที่สิ้นสุดการบำรุงรักษา</label>
+                  <div className="mt-1">
+                    {project.maintenance_end_date
+                      ? formatDate(project.maintenance_end_date, 'dd mmm yyyy')
+                      : '-'}
+                  </div>
+                </div>
+                <div>
                   <label className="text-gray-500 mb-10">ตำแหน่งในโครงการ</label>
                   <div className="mt-1">{project.position}</div>
                 </div>
-                {displayCost && (
-                  <div>
-                    <label className="text-gray-500 mb-10">ค่าใช้จ่ายต่อวัน</label>
-                    <div className="mt-1">
-                      {project.day_price ? numberWithCommas(project.day_price) : 0} บาท
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
             <div className="border rounded-lg col-span-2 p-3 flex flex-col h-full shadow">

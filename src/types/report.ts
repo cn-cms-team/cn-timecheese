@@ -28,6 +28,8 @@ export interface IProjectInfoByUser {
   code: string;
   start_date?: Date | null;
   end_date?: Date | null;
+  maintenance_start_date?: Date | null;
+  maintenance_end_date?: Date | null;
   position: string;
   day_price?: number | null;
   spent_times: number;

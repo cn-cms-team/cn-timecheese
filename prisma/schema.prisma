@@ -38,19 +38,20 @@ model User {
   is_active  Boolean @default(false)
   is_enabled Boolean @default(true)
 
-  createdByUser     User[]          @relation("UserCreatedBy")
-  updatedByUser     User[]          @relation("UserUpdatedBy")
-  createdByRole     Role[]          @relation("RoleCreatedBy")
-  updatedByRole     Role[]          @relation("RoleUpdatedBy")
-  createdByTeams    Team[]          @relation("TeamCreatedBy")
-  updatedByTeams    Team[]          @relation("TeamUpdatedBy")
-  createdByPosition Position[]      @relation("PositionCreatedBy")
-  updatedByPosition Position[]      @relation("PositionUpdatedBy")
-  createdByProjects Project[]       @relation("ProjectCreatedBy")
-  updatedByProjects Project[]       @relation("ProjectUpdatedBy")
-  projectMembers    ProjectMember[]
-  timeSheets        TimeSheet[]
-  teamLeaders       TeamLeader[]
+  createdByUser        User[]                @relation("UserCreatedBy")
+  updatedByUser        User[]                @relation("UserUpdatedBy")
+  createdByRole        Role[]                @relation("RoleCreatedBy")
+  updatedByRole        Role[]                @relation("RoleUpdatedBy")
+  createdByTeams       Team[]                @relation("TeamCreatedBy")
+  updatedByTeams       Team[]                @relation("TeamUpdatedBy")
+  createdByPosition    Position[]            @relation("PositionCreatedBy")
+  updatedByPosition    Position[]            @relation("PositionUpdatedBy")
+  createdByProjects    Project[]             @relation("ProjectCreatedBy")
+  updatedByProjects    Project[]             @relation("ProjectUpdatedBy")
+  projectMembers       ProjectMember[]
+  timeSheets           TimeSheet[]
+  teamLeaders          TeamLeader[]
+  projectReportMembers ProjectReportMember[]
 
   @@map("users")
 }
@@ -240,10 +241,11 @@ model Project {
   createdBy  User      @relation("ProjectCreatedBy", fields: [created_by], references: [id])
   updatedBy  User?     @relation("ProjectUpdatedBy", fields: [updated_by], references: [id])
 
-  is_enabled       Boolean           @default(true)
-  projectMembers   ProjectMember[]
-  projectTaskTypes ProjectTaskType[]
-  timeSheets       TimeSheet[]
+  is_enabled           Boolean               @default(true)
+  projectMembers       ProjectMember[]
+  projectTaskTypes     ProjectTaskType[]
+  timeSheets           TimeSheet[]
+  projectReportMembers ProjectReportMember[]
 
   @@map("projects")
 }
@@ -290,6 +292,17 @@ model ProjectTaskType {
   timeSheets TimeSheet[]
 
   @@map("project_task_types")
+}
+
+model ProjectReportMember {
+  project_id String @db.Uuid
+  user_id    String @db.Uuid
+
+  project Project @relation(fields: [project_id], references: [id])
+  user    User    @relation(fields: [user_id], references: [id])
+
+  @@id([project_id, user_id])
+  @@map("project_report_members")
 }
 
 model TimeSheet {

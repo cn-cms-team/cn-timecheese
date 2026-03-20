@@ -23,6 +23,14 @@ export type IProject = {
   is_using?: boolean;
   members_count?: number;
   is_company_project: boolean;
+  report_members?: IProjectReportMember[];
+};
+
+export type IProjectReportMember = {
+  user_id: string;
+  name: string;
+  team?: string;
+  position?: string;
 };
 
 export type IProjectMember = {

@@ -22,7 +22,7 @@ const ProjectViewDetail = ({
   onDataLoaded,
 }: {
   id: string;
-  onDataLoaded: (name: string) => void;
+  onDataLoaded: (name: string, reportMembers: IProject['report_members']) => void;
 }): React.ReactNode => {
   const { setIsLoading } = useLoading();
   const [projectData, setProjectData] = useState<IProject>();
@@ -35,7 +35,7 @@ const ProjectViewDetail = ({
           const result = await response.json();
           const data = result.data;
           setProjectData(data);
-          onDataLoaded(data.name);
+          onDataLoaded(data.name, data.report_members ?? []);
         }
       } catch (error) {
         console.error('Failed to fetch user data:', error);
@@ -185,6 +185,37 @@ const ProjectViewDetail = ({
           <TitleGroup title="ประเภทงานจำเพาะ" />
           <div className="rounded-lg border overflow-auto">
             <TaskTable tasks={projectData?.optional_task_type ?? []} />
+          </div>
+        </div>
+        <div>
+          <TitleGroup title="ผู้มีสิทธิ์ดูรายงาน" />
+          <div className="rounded-lg border overflow-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-[#f2f4f7]">
+                  <TableHead className="w-1/3">ชื่อ-สกุล</TableHead>
+                  <TableHead className="w-1/3">ทีม</TableHead>
+                  <TableHead className="w-1/3">ตำแหน่ง</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {projectData?.report_members?.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={3} className="h-24 text-center text-muted-foreground">
+                      ไม่มีข้อมูล
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  projectData?.report_members?.map((item) => (
+                    <TableRow key={item.user_id}>
+                      <TableCell>{item.name || '-'}</TableCell>
+                      <TableCell>{item.team || '-'}</TableCell>
+                      <TableCell>{item.position || '-'}</TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
           </div>
         </div>
       </div>

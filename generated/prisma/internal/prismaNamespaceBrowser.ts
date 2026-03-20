@@ -65,6 +65,7 @@ export const ModelName = {
   Project: 'Project',
   ProjectMember: 'ProjectMember',
   ProjectTaskType: 'ProjectTaskType',
+  ProjectReportMember: 'ProjectReportMember',
   TimeSheet: 'TimeSheet',
   TimeSheetSummary: 'TimeSheetSummary'
 } as const
@@ -277,6 +278,14 @@ export const ProjectTaskTypeScalarFieldEnum = {
 } as const
 
 export type ProjectTaskTypeScalarFieldEnum = (typeof ProjectTaskTypeScalarFieldEnum)[keyof typeof ProjectTaskTypeScalarFieldEnum]
+
+
+export const ProjectReportMemberScalarFieldEnum = {
+  project_id: 'project_id',
+  user_id: 'user_id'
+} as const
+
+export type ProjectReportMemberScalarFieldEnum = (typeof ProjectReportMemberScalarFieldEnum)[keyof typeof ProjectReportMemberScalarFieldEnum]
 
 
 export const TimeSheetScalarFieldEnum = {

@@ -20,6 +20,8 @@ export type IUserReportProject = {
   code: string;
   start_date: string;
   end_date: string;
+  maintenance_start_date: string;
+  maintenance_end_date: string;
   value: number;
   position: string;
   join_date: string;

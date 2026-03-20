@@ -8,7 +8,7 @@ export async function GET() {
     if (!session) {
       return Response.json({ message: 'Unauthorized' }, { status: 401 });
     }
-    const project = await prisma.projectMember.findMany({
+    const project = await prisma.projectReportMember.findMany({
       where: { user_id: session.user?.id, project: { is_enabled: true } },
       select: {
         project_id: true,

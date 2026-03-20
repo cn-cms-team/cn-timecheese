@@ -58,7 +58,7 @@ const ProjectMemberTable = ({ header, userOptions, form }: ProjectMemberTablePro
                           index={index}
                           form={form}
                           userOptions={userOptions}
-                          key={index}
+                          key={item.id}
                           onDelete={remove}
                         />
                       ))

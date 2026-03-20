@@ -112,6 +112,11 @@ export type ProjectMember = Prisma.ProjectMemberModel
  */
 export type ProjectTaskType = Prisma.ProjectTaskTypeModel
 /**
+ * Model ProjectReportMember
+ * 
+ */
+export type ProjectReportMember = Prisma.ProjectReportMemberModel
+/**
  * Model TimeSheet
  * 
  */
