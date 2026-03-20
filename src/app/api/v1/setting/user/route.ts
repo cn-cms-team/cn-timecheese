@@ -13,6 +13,12 @@ export async function GET() {
         last_name: true,
         nick_name: true,
         is_active: true,
+        role: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
         team: {
           select: {
             id: true,

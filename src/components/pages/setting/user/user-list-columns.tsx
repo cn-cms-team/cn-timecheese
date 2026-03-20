@@ -17,7 +17,8 @@ import { Account } from '@/components/context/app-context';
 const nameColumn = SortColumn<IUser>('fullName', 'ชื่อ - นามสกุล');
 const nickNameColumn = SortColumn<IUser>('nickName', 'ชื่อเล่น');
 const teamColumn = SortColumn<IUser>('team', 'ทีม');
-const positionColumn = SortColumn<IUser>('role', 'ตำแหน่ง');
+const positionColumn = SortColumn<IUser>('position_level', 'ตำแหน่ง');
+const permissionColumn = SortColumn<IUser>('role', 'สิทธิ์การใช้งาน');
 const emailColumn = SortColumn<IUser>('email', 'อีเมล');
 const activeColumn = SortColumn<IUser>('is_active', 'สถานะ');
 const actionColumn = ActionColumn<IUser>('actions', 'จัดการ');
@@ -63,6 +64,14 @@ export const createColumns = ({
       cell: ({ row }) => {
         const { position_level } = row.original;
         return <div>{position_level?.name || '-'}</div>;
+      },
+    },
+    {
+      ...permissionColumn,
+
+      cell: ({ row }) => {
+        const { role } = row.original;
+        return <div>{role?.name || '-'}</div>;
       },
     },
     {
