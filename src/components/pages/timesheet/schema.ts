@@ -1,4 +1,5 @@
 import z from 'zod';
+import { hasUnsafeRichTextContent, sanitizePlainTextInput } from '@/lib/functions/input-security';
 
 const schema = z
   .object({
@@ -20,7 +21,18 @@ const schema = z
     stamp_date: z.date('กรุณาเลือกวันที่บันทึกเวลา'),
     start_date: z.date('กรุณาเลือกกรอกเริ่มต้น'),
     end_date: z.date('กรุณากรอกวันที่สิ้นสุด'),
-    detail: z.string().nonempty('กรุณากรอกรายละเอียดการทำงาน'),
+    detail: z
+      .string()
+      .transform((value) => sanitizePlainTextInput(value))
+      .refine((value) => value.length > 0, {
+        message: 'กรุณากรอกรายละเอียดการทำงาน',
+      })
+      .refine((value) => value.length <= 1000, {
+        message: 'รายละเอียดการทำงานต้องไม่เกิน 1000 ตัวอักษร',
+      })
+      .refine((value) => !hasUnsafeRichTextContent(value), {
+        message: 'ไม่อนุญาตให้กรอก HTML หรือ Script ที่อาจไม่ปลอดภัย',
+      }),
     break_time: z.date().optional(),
     is_all_day: z.boolean().optional(),
     isWorkFromHome: z.boolean().optional(),

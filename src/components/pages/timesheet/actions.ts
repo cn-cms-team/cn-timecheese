@@ -3,7 +3,7 @@ import { auth } from '@/auth';
 import { timeSheetCreateEditSchema, TimeSheetCreateEditSchema } from './schema';
 import { ExecuteAction } from '@/lib/execute-actions';
 import prisma from '@/lib/prisma';
-import { get } from 'http';
+import { sanitizePlainTextInput } from '@/lib/functions/input-security';
 
 export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
   const session = await auth();
@@ -13,6 +13,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
   return ExecuteAction({
     actionFn: async () => {
       const validatedData = timeSheetCreateEditSchema.parse(formData);
+      const safeDetail = sanitizePlainTextInput(validatedData.detail || '');
 
       if (!validatedData.project_id) throw new Error('Project ID is required');
       if (!validatedData.stamp_date_string) throw new Error('Stamp date is required');
@@ -60,7 +61,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
           stamp_date: stampDate,
           start_date: start,
           end_date: end,
-          detail: validatedData.detail || '',
+          detail: safeDetail,
           exclude_seconds: validatedData.exclude ?? 0,
           is_work_from_home: validatedData.isWorkFromHome ?? false,
           total_seconds: totalSeconds,
@@ -127,6 +128,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
   return ExecuteAction({
     actionFn: async () => {
       const validatedData = timeSheetCreateEditSchema.parse(formData);
+      const safeDetail = sanitizePlainTextInput(validatedData.detail || '');
 
       if (!validatedData.project_id) throw new Error('Project ID is required');
       if (!validatedData.stamp_date_string) throw new Error('Stamp date is required');
@@ -190,7 +192,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
           stamp_date: stampDate,
           start_date: start,
           end_date: end,
-          detail: validatedData.detail || '',
+          detail: safeDetail,
           exclude_seconds: validatedData.exclude ?? 0,
           is_work_from_home: validatedData.isWorkFromHome ?? false,
           total_seconds: totalSeconds,
