@@ -1,12 +1,12 @@
 import prisma from '@/lib/prisma';
 
-type MemberOption = { label: string; value: string };
 type FlatMember = {
   user_id: string;
   code: string;
   first_name: string;
   last_name: string;
   nick_name: string;
+  team_name: string;
   start_date: Date | null;
   position_level?: { name: string } | null;
 };
@@ -41,6 +41,7 @@ export async function GET(request: Request, { params }: RouteContext) {
               last_name: true,
               nick_name: true,
               start_date: true,
+              team: { select: { name: true } },
               position_level: { select: { name: true } },
             },
             orderBy: { first_name: 'asc' },
@@ -50,6 +51,7 @@ export async function GET(request: Request, { params }: RouteContext) {
         where: { project_id: projectId, project: { is_enabled: true } },
         select: {
           user_id: true,
+          role: true,
           user: {
             select: {
               code: true,
@@ -57,6 +59,7 @@ export async function GET(request: Request, { params }: RouteContext) {
               last_name: true,
               nick_name: true,
               start_date: true,
+              team: { select: { name: true } },
               position_level: { select: { name: true } },
             },
           },
@@ -74,6 +77,7 @@ export async function GET(request: Request, { params }: RouteContext) {
         nick_name: m.nick_name || '',
         start_date: m.start_date,
         position_level: m.position_level,
+        team_name: m.team?.name || '',
       })),
       ...customerMembers.map((m) => ({
         user_id: m.user_id,
@@ -82,7 +86,8 @@ export async function GET(request: Request, { params }: RouteContext) {
         last_name: m.user.last_name,
         nick_name: m.user.nick_name || '',
         start_date: m.user.start_date,
-        position_level: m.user.position_level,
+        position_level: m.role ? { name: m.role } : m.user.position_level,
+        team_name: m.user.team?.name || '',
       })),
     ];
 
