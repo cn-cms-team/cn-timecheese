@@ -145,7 +145,12 @@ export async function GET(request: Request) {
       {} as Record<string, string>
     );
 
-    const projects = userProjects.map((project) => {
+    const userProjectOrderByLastTracked = [...userProjects].sort((a, b) => {
+      const aLastTracked = new Date(lastStampAtMap[a.id] || 0).getTime();
+      const bLastTracked = new Date(lastStampAtMap[b.id] || 0).getTime();
+      return bLastTracked - aLastTracked;
+    });
+    const projects = userProjectOrderByLastTracked.map((project) => {
       const memberInfo = project.projectMembers[0];
 
       return {
