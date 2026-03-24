@@ -12,7 +12,7 @@ import {
   handleAddProjectReportMember,
   handleRemoveProjectReportMember,
 } from '@/components/pages/setting/project/actions';
-import SingleSelectRadio from '@/components/ui/custom/single-select-radio';
+import { ComboboxSingle } from '@/components/ui/custom/combobox';
 
 interface ModalProjectReportMembersProps {
   open: boolean;
@@ -160,7 +160,7 @@ export default function ModalProjectReportMembers({
         <div className="grid gap-3">
           <div className="text-sm font-medium">เพิ่มผู้ใช้งาน</div>
           <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
-            <SingleSelectRadio
+            <ComboboxSingle
               options={availableUserOptions}
               placeholder={
                 isLoadingUsers ? 'กำลังโหลดรายชื่อผู้ใช้งาน...' : 'เลือกผู้ใช้งานที่ต้องการเพิ่ม'

@@ -15,19 +15,19 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
-export interface SingleSelectRadioOption {
+export interface ComboboxSingleOption {
   label: string;
   value: string;
   disabled?: boolean;
 }
 
-export interface SingleSelectRadioGroup {
+export interface ComboboxSingleGroup {
   heading: string;
-  options: SingleSelectRadioOption[];
+  options: ComboboxSingleOption[];
 }
 
-interface SingleSelectRadioProps {
-  options: SingleSelectRadioGroup[];
+interface ComboboxSingleProps {
+  options: ComboboxSingleGroup[];
   value?: string;
   placeholder?: string;
   searchPlaceholder?: string;
@@ -39,7 +39,7 @@ interface SingleSelectRadioProps {
   onValueChange: (value: string) => void;
 }
 
-export default function SingleSelectRadio({
+export default function ComboboxSingle({
   options,
   value = '',
   placeholder = 'Select option',
@@ -50,7 +50,7 @@ export default function SingleSelectRadio({
   emptyText = 'No results found.',
   modalPopover = true,
   onValueChange,
-}: SingleSelectRadioProps) {
+}: ComboboxSingleProps) {
   const [open, setOpen] = useState(false);
 
   const selectedOption = useMemo(
@@ -86,7 +86,6 @@ export default function SingleSelectRadio({
             {options.map((group) => (
               <CommandGroup key={group.heading} heading={group.heading}>
                 {group.options.map((option) => {
-                  const isChecked = option.value === value;
                   return (
                     <CommandItem
                       key={option.value}
@@ -100,16 +99,7 @@ export default function SingleSelectRadio({
                       }}
                       className="cursor-pointer"
                     >
-                      <label className="flex w-full items-center gap-2 cursor-pointer">
-                        <input
-                          type="radio"
-                          checked={isChecked}
-                          readOnly
-                          className="h-4 w-4"
-                          aria-label={option.label}
-                        />
-                        <span className="truncate">{option.label}</span>
-                      </label>
+                      <span className="truncate">{option.label}</span>
                     </CommandItem>
                   );
                 })}

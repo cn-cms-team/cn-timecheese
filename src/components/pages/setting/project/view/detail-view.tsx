@@ -9,7 +9,7 @@ import { EModules } from '@/lib/constants/module';
 import { useAccount, useLoading } from '@/components/context/app-context';
 import { useState } from 'react';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
-import ModalProjectReportMembers from './modal-project-report-members';
+import ModalProjectReportMembers from '../modal-project-report-members';
 import { IProjectReportMember } from '@/types/setting/project';
 
 const ProjectViewButton = ({
@@ -44,6 +44,7 @@ const ProjectView = ({ id }: { id: string }) => {
 
   const [projectName, setProjectName] = useState<string>('');
   const [projectReportMembers, setProjectReportMembers] = useState<IProjectReportMember[]>([]);
+  const [projectRefreshKey, setProjectRefreshKey] = useState(0);
   const [isOpenReportMemberModal, setIsOpenReportMemberModal] = useState(false);
   const [confirmState, setConfirmState] = useState<{
     title: string;
@@ -115,6 +116,7 @@ const ProjectView = ({ id }: { id: string }) => {
         content={
           <ProjectViewDetail
             id={id}
+            refreshKey={projectRefreshKey}
             onDataLoaded={(name, reportMembers) => {
               setProjectName(name);
               setProjectReportMembers(reportMembers ?? []);
@@ -132,7 +134,10 @@ const ProjectView = ({ id }: { id: string }) => {
         onOpenChange={setIsOpenReportMemberModal}
         projectId={id}
         members={projectReportMembers}
-        onMembersChanged={setProjectReportMembers}
+        onMembersChanged={(members) => {
+          setProjectReportMembers(members);
+          setProjectRefreshKey((prev) => prev + 1);
+        }}
       />
     </>
   );
