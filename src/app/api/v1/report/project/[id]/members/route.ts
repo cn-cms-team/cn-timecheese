@@ -1,7 +1,15 @@
 import prisma from '@/lib/prisma';
 
 type MemberOption = { label: string; value: string };
-type FlatMember = { user_id: string; first_name: string; last_name: string; nick_name: string };
+type FlatMember = {
+  user_id: string;
+  code: string;
+  first_name: string;
+  last_name: string;
+  nick_name: string;
+  start_date: Date | null;
+  position_level?: { name: string } | null;
+};
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -26,7 +34,15 @@ export async function GET(request: Request, { params }: RouteContext) {
       project.is_company_project
         ? prisma.user.findMany({
             where: { is_enabled: true, is_active: true },
-            select: { id: true, first_name: true, last_name: true, nick_name: true },
+            select: {
+              id: true,
+              code: true,
+              first_name: true,
+              last_name: true,
+              nick_name: true,
+              start_date: true,
+              position_level: { select: { name: true } },
+            },
             orderBy: { first_name: 'asc' },
           })
         : Promise.resolve([]),
@@ -34,7 +50,16 @@ export async function GET(request: Request, { params }: RouteContext) {
         where: { project_id: projectId, project: { is_enabled: true } },
         select: {
           user_id: true,
-          user: { select: { first_name: true, last_name: true, nick_name: true } },
+          user: {
+            select: {
+              code: true,
+              first_name: true,
+              last_name: true,
+              nick_name: true,
+              start_date: true,
+              position_level: { select: { name: true } },
+            },
+          },
         },
         orderBy: { user: { first_name: 'asc' } },
       }),
@@ -43,15 +68,21 @@ export async function GET(request: Request, { params }: RouteContext) {
     const normalized: FlatMember[] = [
       ...companyMembers.map((m) => ({
         user_id: m.id,
+        code: m.code,
         first_name: m.first_name,
         last_name: m.last_name,
         nick_name: m.nick_name || '',
+        start_date: m.start_date,
+        position_level: m.position_level,
       })),
       ...customerMembers.map((m) => ({
         user_id: m.user_id,
+        code: m.user.code,
         first_name: m.user.first_name,
         last_name: m.user.last_name,
         nick_name: m.user.nick_name || '',
+        start_date: m.user.start_date,
+        position_level: m.user.position_level,
       })),
     ];
 
@@ -61,14 +92,7 @@ export async function GET(request: Request, { params }: RouteContext) {
       unique.set(member.user_id, member);
     }
 
-    const options: MemberOption[] = [...unique.values()]
-      .sort((a, b) => a.first_name.localeCompare(b.first_name))
-      .map((m) => ({
-        label: `${m.first_name} ${m.last_name} ${m.nick_name ? `(${m.nick_name})` : ''}`.trim(),
-        value: m.user_id,
-      }));
-
-    return Response.json({ data: options }, { status: 200 });
+    return Response.json({ data: Array.from(unique.values()) }, { status: 200 });
   } catch (error) {
     return Response.json(
       { message: error instanceof Error ? error.message : 'An unknown error occurred' },

@@ -1,46 +1,26 @@
 'use client';
-import Dropdown from '@/components/ui/custom/input/dropdown';
-import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
 
-import { IProjectInfoByUser, IReportProject } from '@/types/report';
+import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
+import { IProjectInfoByUser } from '@/types/report';
 import { useEffect, useState } from 'react';
-import ReportUsersButton from '../report-users-button';
-import { UserAvatarProps } from '@/components/ui/custom/avatar/user-avatar';
-import { IOption } from '@/types/option';
 import { fetcher } from '@/lib/fetcher';
-import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
-import DonutChartTimeSheet from '@/components/ui/custom/report/donut-chart-timesheet';
-import TableListTimeSheet from '@/components/ui/custom/report/table-list-timesheet';
 import EmptyFolderIcon from '@/components/ui/icons/empty-folder';
 import { Label } from '@/components/ui/label';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { IOptionGroups } from '@/types/dropdown';
 import ReportProjectBarChart from './report-project-bar-chart';
+import { IReportProjectMember } from '@/types/report/project';
 
 const ReportProjectContent = () => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const [projectId, setProjectId] = useState<string>(null!);
   const [projectOptions, setProjectOptions] = useState<IOptionGroups[]>([]);
-  const [memberId, setMemberId] = useState<string>(null!);
-  const [memberOptions, setMemberOptions] = useState<(IOption & UserAvatarProps)[]>([]);
-  const [reportProjectData, setReportProjectData] = useState<IReportProject>(null!);
+  const [projectMember, setProjectMember] = useState<IReportProjectMember[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [projectInfo, setProjectInfo] = useState<IProjectInfoByUser>(null!);
 
-  const onClickUser = (id: string) => {
-    setMemberOptions(
-      memberOptions.map((u) => ({
-        ...u,
-        is_active: u.value === id,
-      }))
-    );
-    setMemberId(id);
-  };
-
   const onChangeProject = (id: string) => {
     setProjectId(id);
-    setMemberId(null!);
-    setReportProjectData(null!);
     setProjectInfo(null!);
   };
 
@@ -59,63 +39,40 @@ const ReportProjectContent = () => {
   }, []);
 
   useEffect(() => {
-    // const fetchMembers = async () => {
-    //   try {
-    //     const user = await fetcher<(IOption & UserAvatarProps)[]>(
-    //       `${prefix}/api/v1/report/project/${projectId}/members`
-    //     );
-    //     setMemberOptions(
-    //       user.map((item) => ({
-    //         ...item,
-    //         name: item.label,
-    //         image: '',
-    //         is_active: item.value === memberId,
-    //       }))
-    //     );
-    //     onChangeProject(projectId);
-    //   } catch (error) {
-    //     console.error('Error fetching member options:', error);
-    //   }
-    // };
-    // if (projectId) {
-    //   fetchMembers();
-    // }
-    const fetchProjectInfo = async () => {
-      try {
-        setIsLoading(true);
-        const projectData = await fetcher<IProjectInfoByUser>(
-          `${prefix}/api/v1/report/project/${projectId}`
-        );
-        setProjectInfo(projectData);
-      } catch (error) {
-        console.error('Error fetching project data:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    if (projectId) {
-      fetchProjectInfo();
+    if (!projectId) {
+      setProjectInfo(null!);
+      setProjectMember([]);
+      return;
     }
-  }, [projectId]);
 
-  useEffect(() => {
+    let cancelled = false;
+
     const fetchProjectData = async () => {
       try {
         setIsLoading(true);
-        const projectData = await fetcher<IReportProject>(
-          `${prefix}/api/v1/report/project?project_id=${projectId}&member_id=${memberId}`
-        );
-        setReportProjectData(projectData);
+
+        const [projectData, projectMembers] = await Promise.all([
+          fetcher<IProjectInfoByUser>(`${prefix}/api/v1/report/project/${projectId}`),
+          fetcher<IReportProjectMember[]>(`${prefix}/api/v1/report/project/${projectId}/members`),
+        ]);
+
+        if (cancelled) return;
+
+        setProjectInfo(projectData);
+        setProjectMember(projectMembers);
       } catch (error) {
-        console.error('Error fetching project data:', error);
+        console.error('Error fetching project report data:', error);
       } finally {
-        setIsLoading(false);
+        if (!cancelled) setIsLoading(false);
       }
     };
-    if (memberId) {
-      fetchProjectData();
-    }
-  }, [memberId]);
+
+    fetchProjectData();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [projectId, prefix]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -131,9 +88,6 @@ const ReportProjectContent = () => {
               setProjectId(value);
             }}
           />
-        </div>
-        <div className="flex flex-col justify-end">
-          <ReportUsersButton onClick={onClickUser} userList={memberOptions} />
         </div>
       </div>
       {projectId ? (
