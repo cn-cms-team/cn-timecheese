@@ -163,7 +163,12 @@ export async function GET(request: Request) {
       };
     });
 
-    return Response.json({ data: { user: currentUser, projects } }, { status: 200 });
+    const projectsSpentTimesMoreThanZero = projects.filter((project) => project.spent_times > 0);
+
+    return Response.json(
+      { data: { user: currentUser, projects: projectsSpentTimesMoreThanZero } },
+      { status: 200 }
+    );
   } catch (error) {
     return Response.json(
       { message: error instanceof Error ? error.message : 'An unknown error occurred' },
