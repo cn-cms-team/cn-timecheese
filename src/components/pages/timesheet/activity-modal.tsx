@@ -128,6 +128,7 @@ const AddActivityModal = ({
       start_date: defaultStartDate,
       end_date: defaultEndDate,
       detail: '',
+      remark: '',
 
       break_time: defaultBreakTime,
       isWorkFromHome: false,
@@ -227,6 +228,7 @@ const AddActivityModal = ({
         start_date: startDate,
         end_date: endDate,
         detail: initialItem.detail,
+        remark: initialItem.remark ?? '',
         break_time: breakDate,
         isWorkFromHome: initialItem.isWorkFromHome ?? false,
         is_all_day:
@@ -246,6 +248,7 @@ const AddActivityModal = ({
       start_date: defaultStartDate,
       end_date: defaultEndDate,
       detail: '',
+      remark: '',
       break_time: defaultBreakTime,
       isWorkFromHome: false,
       is_all_day: false,
@@ -623,6 +626,30 @@ const AddActivityModal = ({
                         value={field.value}
                         disabled={isLoading}
                         maxLength={1000}
+                        showMaxLengthCounter
+                      />
+                    </FormControl>
+                  </FormGroup>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="remark"
+              render={({ field }) => (
+                <FormItem>
+                  <FormGroup>
+                    <FormLabel>ปัญหาและข้อเสนอแนะ</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="min-h-20 rounded-lg border-slate-200 px-3 py-2 text-base"
+                        isError={Boolean(form.formState.errors.remark)}
+                        onChange={(event) => field.onChange(event.target.value)}
+                        placeholder="กรอกปัญหาและข้อเสนอแนะ"
+                        value={field.value ?? ''}
+                        disabled={isLoading}
+                        maxLength={255}
                         showMaxLengthCounter
                       />
                     </FormControl>

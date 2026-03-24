@@ -33,6 +33,16 @@ const schema = z
       .refine((value) => !hasUnsafeRichTextContent(value), {
         message: 'ไม่อนุญาตให้กรอก HTML หรือ Script ที่อาจไม่ปลอดภัย',
       }),
+    remark: z
+      .string()
+      .transform((value) => sanitizePlainTextInput(value))
+      .refine((value) => value.length <= 255, {
+        message: 'ปัญหาและข้อเสนอแนะต้องไม่เกิน 255 ตัวอักษร',
+      })
+      .refine((value) => !hasUnsafeRichTextContent(value), {
+        message: 'ไม่อนุญาตให้กรอก HTML หรือ Script ที่อาจไม่ปลอดภัย',
+      })
+      .optional(),
     break_time: z.date().optional(),
     is_all_day: z.boolean().optional(),
     isWorkFromHome: z.boolean().optional(),

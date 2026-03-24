@@ -22,6 +22,7 @@ export type TimelineItem = {
   project_task_type_id: string;
   project_name: string;
   detail: string;
+  remark: string | null;
   isWorkFromHome: boolean;
   task_type_name: string | null;
   tone: TimelineCardTone;
