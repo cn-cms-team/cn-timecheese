@@ -6,6 +6,16 @@ export interface IReportTeam {
   projects: IProjectInfoByUser[];
 }
 
+export interface IReportProjectAttendance {
+  date: string;
+  series: IReportProjectAttendanceSeries[];
+}
+
+export interface IReportProjectAttendanceSeries {
+  name: string;
+  data: number;
+}
+
 export interface IProjectReportBase {
   project_id: string;
   user: IReportUserInfo;

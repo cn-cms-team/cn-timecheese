@@ -139,7 +139,7 @@ const ReportProjectContent = () => {
       {projectId ? (
         <div>
           <CardProjectInfo project={projectInfo || {}} isLoading={isLoading} />
-          <ReportProjectBarChart isLoading={isLoading} />
+          <ReportProjectBarChart projectId={projectId} isLoading={isLoading} />
         </div>
       ) : (
         <div className="flex flex-col items-center w-full justify-center p-10 gap-5 border rounded-lg shadow">
