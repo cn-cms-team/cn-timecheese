@@ -54,5 +54,6 @@ export interface ITimeSheetTable {
   tracked_hours: number;
   task_type: string;
   detail: string;
+  remark: string | null;
   is_work_from_home: boolean;
 }
