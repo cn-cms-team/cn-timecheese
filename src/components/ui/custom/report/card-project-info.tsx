@@ -6,10 +6,10 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 
 interface CardProjectInfoProps {
   project: IProjectInfoByUser;
-  loading?: boolean;
+  isLoading?: boolean;
 }
 
-const CardProjectInfo = ({ project, loading = false }: CardProjectInfoProps) => {
+const CardProjectInfo = ({ project, isLoading = false }: CardProjectInfoProps) => {
   const [workDuration, setWorkDuration] = useState(secondsToDuration(project.spent_times || 0));
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const CardProjectInfo = ({ project, loading = false }: CardProjectInfoProps) => 
   }, [project]);
   return (
     <>
-      {loading ? (
+      {isLoading ? (
         <>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
             <Skeleton className="col-span-3 h-47 w-full animate-pulse rounded-md bg-gray-200" />
@@ -66,14 +66,16 @@ const CardProjectInfo = ({ project, loading = false }: CardProjectInfoProps) => 
                       : '-'}
                   </div>
                 </div>
-                <div>
-                  <label className="text-gray-500 mb-10">ตำแหน่งในโครงการ</label>
-                  <div className="mt-1">{project.position}</div>
-                </div>
+                {project.position ? (
+                  <div>
+                    <label className="text-gray-500 mb-10">ตำแหน่งในโครงการ</label>
+                    <div className="mt-1">{project.position}</div>
+                  </div>
+                ) : null}
               </div>
             </div>
             <div className="border rounded-lg col-span-1 md:col-span-2 p-3 flex flex-col h-full shadow">
-              <div className="text-base font-semibold mb-4">เวลาที่ใช้ในโครงการ</div>
+              <div className="text-base font-semibold mb-4">เวลาทั้งหมดที่ใช้ในโครงการ</div>
               <div className="grid grid-cols-6 gap-4 flex-1">
                 <div className="col-span-6 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
                   <div className="flex items-baseline">

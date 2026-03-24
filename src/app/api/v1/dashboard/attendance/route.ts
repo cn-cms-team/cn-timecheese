@@ -78,11 +78,11 @@ export async function GET(request: Request) {
       },
     });
     // Group by date and sum total_seconds
-    type Serie = {
+    type Series = {
       name: string;
       data: number;
     };
-    const summaryMap: Record<string, Array<Serie>> = {};
+    const summaryMap: Record<string, Array<Series>> = {};
     tasks.forEach((task) => {
       const dateKey = task.sum_date.toISOString().split('T')[0];
       const projectName = projects.find((project) => project.id === task.project_id)?.name!;

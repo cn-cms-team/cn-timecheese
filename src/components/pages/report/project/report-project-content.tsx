@@ -2,7 +2,7 @@
 import Dropdown from '@/components/ui/custom/input/dropdown';
 import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
 
-import { IReportProject } from '@/types/report';
+import { IProjectInfoByUser, IReportProject } from '@/types/report';
 import { useEffect, useState } from 'react';
 import ReportUsersButton from '../report-users-button';
 import { UserAvatarProps } from '@/components/ui/custom/avatar/user-avatar';
@@ -15,6 +15,7 @@ import EmptyFolderIcon from '@/components/ui/icons/empty-folder';
 import { Label } from '@/components/ui/label';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { IOptionGroups } from '@/types/dropdown';
+import ReportProjectBarChart from './report-project-bar-chart';
 
 const ReportProjectContent = () => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
@@ -24,6 +25,7 @@ const ReportProjectContent = () => {
   const [memberOptions, setMemberOptions] = useState<(IOption & UserAvatarProps)[]>([]);
   const [reportProjectData, setReportProjectData] = useState<IReportProject>(null!);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [projectInfo, setProjectInfo] = useState<IProjectInfoByUser>(null!);
 
   const onClickUser = (id: string) => {
     setMemberOptions(
@@ -39,6 +41,7 @@ const ReportProjectContent = () => {
     setProjectId(id);
     setMemberId(null!);
     setReportProjectData(null!);
+    setProjectInfo(null!);
   };
 
   useEffect(() => {
@@ -56,26 +59,42 @@ const ReportProjectContent = () => {
   }, []);
 
   useEffect(() => {
-    const fetchMembers = async () => {
+    // const fetchMembers = async () => {
+    //   try {
+    //     const user = await fetcher<(IOption & UserAvatarProps)[]>(
+    //       `${prefix}/api/v1/report/project/${projectId}/members`
+    //     );
+    //     setMemberOptions(
+    //       user.map((item) => ({
+    //         ...item,
+    //         name: item.label,
+    //         image: '',
+    //         is_active: item.value === memberId,
+    //       }))
+    //     );
+    //     onChangeProject(projectId);
+    //   } catch (error) {
+    //     console.error('Error fetching member options:', error);
+    //   }
+    // };
+    // if (projectId) {
+    //   fetchMembers();
+    // }
+    const fetchProjectInfo = async () => {
       try {
-        const user = await fetcher<(IOption & UserAvatarProps)[]>(
-          `${prefix}/api/v1/report/project/member-list?project_id=${projectId}`
+        setIsLoading(true);
+        const projectData = await fetcher<IProjectInfoByUser>(
+          `${prefix}/api/v1/report/project/${projectId}`
         );
-        setMemberOptions(
-          user.map((item) => ({
-            ...item,
-            name: item.label,
-            image: '',
-            is_active: item.value === memberId,
-          }))
-        );
-        onChangeProject(projectId);
+        setProjectInfo(projectData);
       } catch (error) {
-        console.error('Error fetching member options:', error);
+        console.error('Error fetching project data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (projectId) {
-      fetchMembers();
+      fetchProjectInfo();
     }
   }, [projectId]);
 
@@ -117,7 +136,19 @@ const ReportProjectContent = () => {
           <ReportUsersButton onClick={onClickUser} userList={memberOptions} />
         </div>
       </div>
-      {reportProjectData ? (
+      {projectId ? (
+        <div>
+          <CardProjectInfo project={projectInfo || {}} isLoading={isLoading} />
+          <ReportProjectBarChart isLoading={isLoading} />
+        </div>
+      ) : (
+        <div className="flex flex-col items-center w-full justify-center p-10 gap-5 border rounded-lg shadow">
+          <EmptyFolderIcon />
+          <div className="text-xl font-semibold">กรุณาเลือกโครงการ</div>
+        </div>
+      )}
+
+      {/* {reportProjectData ? (
         <>
           <div className="border rounded-lg shadow">
             <AvatarDetail
@@ -129,8 +160,8 @@ const ReportProjectContent = () => {
               loading={isLoading}
             />
           </div>
-          <CardProjectInfo project={reportProjectData.project} loading={isLoading} />
-          <DonutChartTimeSheet donutLabel={reportProjectData.timeSheetChart} loading={isLoading} />
+          <CardProjectInfo project={reportProjectData.project} isLoading={isLoading} />
+          <DonutChartTimeSheet donutLabel={reportProjectData.timeSheetChart} isLoading={isLoading} />
           {projectId && reportProjectData.user.id ? (
             <TableListTimeSheet projectId={projectId} userId={reportProjectData.user.id} />
           ) : null}
@@ -144,7 +175,7 @@ const ReportProjectContent = () => {
           <EmptyFolderIcon />
           <div className="text-xl font-semibold">เลือกโครงการและสมาชิก</div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
