@@ -12,23 +12,27 @@ interface CardProjectInfoProps {
 const TimeTooltipBox = ({ allTime, MATime, isDisplayMATime }: any) => {
   return (
     <div className="text-2xl font-semibold">
-      <Tooltip>
-        <TooltipTrigger>
-          <span>{allTime}</span>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>เวลาทั้งหมดที่ใช้ในโครงการ</p>
-        </TooltipContent>
-      </Tooltip>
-      {isDisplayMATime && (
-        <Tooltip>
-          <TooltipTrigger>
-            <span className="text-sm text-gray-800 pl-1">/ {MATime}</span>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>เวลาที่ใช้ในช่วงบำรุงรักษา</p>
-          </TooltipContent>
-        </Tooltip>
+      {isDisplayMATime ? (
+        <>
+          <Tooltip>
+            <TooltipTrigger>
+              <span>{MATime}</span>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>เวลาที่ใช้ในช่วงบำรุงรักษา</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger>
+              <span className="text-sm text-gray-800 pl-1">/ {allTime}</span>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>เวลาทั้งหมดที่ใช้ในโครงการ</p>
+            </TooltipContent>
+          </Tooltip>
+        </>
+      ) : (
+        <span>{allTime}</span>
       )}
     </div>
   );
