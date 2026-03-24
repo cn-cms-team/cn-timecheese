@@ -387,8 +387,11 @@ const AddActivityModal = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md p-0" showCloseButton={false}>
-        <DialogHeader className="px-4 pt-4 pb-0">
+      <DialogContent
+        className="sm:max-w-md p-0 flex max-h-[calc(100dvh-2rem)] flex-col overflow-hidden"
+        showCloseButton={false}
+      >
+        <DialogHeader className="px-4 pt-4 pb-0 shrink-0">
           <DialogTitle className="text-xl font-bold text-slate-900">
             {isEditMode ? 'แก้ไขกิจกรรม' : 'เพิ่มกิจกรรม'}
           </DialogTitle>
@@ -396,272 +399,273 @@ const AddActivityModal = ({
 
         <Form {...form}>
           <form
-            className="space-y-4 px-4 pb-4 min-w-0"
+            className="min-w-0 flex flex-1 min-h-0 flex-col overflow-hidden"
             onSubmit={form.handleSubmit(handleSubmitAddActivity)}
           >
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2 text-lg font-semibold text-slate-900">
-                <CalendarIcon className="size-5 text-slate-600" />
-                <span>{selectedDateLabel}</span>
+            <div className="space-y-4 px-4 pb-4 overflow-y-auto flex-1 min-h-0">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2 text-lg font-semibold text-slate-900">
+                  <CalendarIcon className="size-5 text-slate-600" />
+                  <span>{selectedDateLabel}</span>
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="is_all_day"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="flex items-center gap-2">
+                          <Checkbox
+                            checked={field.value}
+                            id="is-all-day"
+                            onCheckedChange={(checked) => handleAllDayChange(Boolean(checked))}
+                            disabled={isLoading}
+                          />
+                          <Label
+                            className="cursor-pointer text-lg font-medium text-slate-800"
+                            htmlFor="is-all-day"
+                          >
+                            ทั้งวัน
+                          </Label>
+                        </div>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <FormField
+                  control={form.control}
+                  name="start_date"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <TimeInput
+                          onChange={field.onChange}
+                          value={field.value}
+                          disabled={isLoading}
+                          isModal
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="end_date"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <TimeInput
+                          onChange={field.onChange}
+                          value={field.value}
+                          disabled={isLoading}
+                          isModal
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 items-center gap-3">
+                <FormField
+                  control={form.control}
+                  name="is_include_breaking_time"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="flex items-center gap-2">
+                          <Checkbox
+                            checked={field.value}
+                            id="include-break-time"
+                            onCheckedChange={(checked) => field.onChange(Boolean(checked))}
+                            disabled={isLoading}
+                          />
+                          <Label
+                            className="cursor-pointer text-lg font-medium text-slate-800"
+                            htmlFor="include-break-time"
+                          >
+                            รวมเวลาพัก
+                          </Label>
+                        </div>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="break_time"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <TimeInput
+                          disabled={!includeBreakTime || isLoading}
+                          onChange={field.onChange}
+                          value={field.value || defaultBreakTime}
+                          isModal
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
 
               <FormField
                 control={form.control}
-                name="is_all_day"
+                name="isWorkFromHome"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <div className="flex items-center gap-2">
                         <Checkbox
                           checked={field.value}
-                          id="is-all-day"
-                          onCheckedChange={(checked) => handleAllDayChange(Boolean(checked))}
-                          disabled={isLoading}
-                        />
-                        <Label
-                          className="cursor-pointer text-lg font-medium text-slate-800"
-                          htmlFor="is-all-day"
-                        >
-                          ทั้งวัน
-                        </Label>
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <FormField
-                control={form.control}
-                name="start_date"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <TimeInput
-                        onChange={field.onChange}
-                        value={field.value}
-                        disabled={isLoading}
-                        isModal
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="end_date"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <TimeInput
-                        onChange={field.onChange}
-                        value={field.value}
-                        disabled={isLoading}
-                        isModal
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid grid-cols-2 items-center gap-3">
-              <FormField
-                control={form.control}
-                name="is_include_breaking_time"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="flex items-center gap-2">
-                        <Checkbox
-                          checked={field.value}
-                          id="include-break-time"
+                          id="is-work-from-home"
                           onCheckedChange={(checked) => field.onChange(Boolean(checked))}
                           disabled={isLoading}
                         />
                         <Label
                           className="cursor-pointer text-lg font-medium text-slate-800"
-                          htmlFor="include-break-time"
+                          htmlFor="is-work-from-home"
                         >
-                          รวมเวลาพัก
+                          ทำงานที่บ้าน
                         </Label>
                       </div>
                     </FormControl>
                   </FormItem>
                 )}
               />
-
+              <hr className="border-slate-200" />
               <FormField
                 control={form.control}
-                name="break_time"
+                name="project_id"
                 render={({ field }) => (
                   <FormItem>
-                    <FormControl>
-                      <TimeInput
-                        disabled={!includeBreakTime || isLoading}
-                        onChange={field.onChange}
-                        value={field.value || defaultBreakTime}
-                        isModal
-                      />
-                    </FormControl>
+                    <FormGroup>
+                      <FormLabel>
+                        โครงการ
+                        <Required />
+                      </FormLabel>
+                      <FormControl>
+                        <ComboboxForm
+                          disabled={isProjectOptionsLoading || isLoading}
+                          field={field}
+                          options={filteredProjectOptions}
+                          placeholder="เลือกโครงการ"
+                          value={projectId}
+                          isGroup
+                          isModal
+                          isError={Boolean(form.formState.errors.project_id)}
+                          onSelect={(value) => {
+                            field.onChange(value);
+                            form.setValue('project_task_type_id', undefined, {
+                              shouldDirty: false,
+                              shouldValidate: false,
+                            });
+                          }}
+                        />
+                      </FormControl>
+                    </FormGroup>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="project_task_type_id"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormGroup>
+                      <FormLabel>
+                        ประเภทงาน
+                        <Required />
+                      </FormLabel>
+                      <FormControl>
+                        <ComboboxForm
+                          disabled={!projectId || isLoading}
+                          field={field}
+                          options={taskTypeOptions}
+                          placeholder="เลือกประเภทงาน"
+                          isGroup
+                          isModal
+                          isError={Boolean(form.formState.errors.project_task_type_id)}
+                          onSelect={(value) => {
+                            form.setValue('project_task_type_id', value, {
+                              shouldDirty: true,
+                              shouldValidate: true,
+                            });
+                            form.clearErrors('project_task_type_id');
+                          }}
+                        />
+                      </FormControl>
+                    </FormGroup>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="detail"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormGroup>
+                      <FormLabel>
+                        รายละเอียดการทำงาน
+                        <Required />
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          className="min-h-20 field-sizing-fixed resize-none overflow-y-auto rounded-lg border-slate-200 px-3 text-base"
+                          isError={Boolean(form.formState.errors.detail)}
+                          onChange={(event) => field.onChange(event.target.value)}
+                          placeholder="กรอกรายละเอียดการทำงาน"
+                          value={field.value}
+                          disabled={isLoading}
+                          maxLength={1000}
+                          showMaxLengthCounter
+                        />
+                      </FormControl>
+                    </FormGroup>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="remark"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormGroup>
+                      <FormLabel>ปัญหาและข้อเสนอแนะ</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          className="min-h-20 field-sizing-fixed resize-none overflow-y-auto rounded-lg border-slate-200 px-3 text-base"
+                          isError={Boolean(form.formState.errors.remark)}
+                          onChange={(event) => field.onChange(event.target.value)}
+                          placeholder="กรอกปัญหาและข้อเสนอแนะ"
+                          value={field.value ?? ''}
+                          disabled={isLoading}
+                          maxLength={255}
+                          showMaxLengthCounter
+                        />
+                      </FormControl>
+                    </FormGroup>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {form.formState.errors.exclude && (
+                <div className="text-red-500 text-sm">{form.formState.errors.exclude.message}</div>
+              )}
             </div>
-
-            <FormField
-              control={form.control}
-              name="isWorkFromHome"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <div className="flex items-center gap-2">
-                      <Checkbox
-                        checked={field.value}
-                        id="is-work-from-home"
-                        onCheckedChange={(checked) => field.onChange(Boolean(checked))}
-                        disabled={isLoading}
-                      />
-                      <Label
-                        className="cursor-pointer text-lg font-medium text-slate-800"
-                        htmlFor="is-work-from-home"
-                      >
-                        ทำงานที่บ้าน
-                      </Label>
-                    </div>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <hr className="border-slate-200" />
-            <FormField
-              control={form.control}
-              name="project_id"
-              render={({ field }) => (
-                <FormItem>
-                  <FormGroup>
-                    <FormLabel>
-                      โครงการ
-                      <Required />
-                    </FormLabel>
-                    <FormControl>
-                      <ComboboxForm
-                        disabled={isProjectOptionsLoading || isLoading}
-                        field={field}
-                        options={filteredProjectOptions}
-                        placeholder="เลือกโครงการ"
-                        value={projectId}
-                        isGroup
-                        isModal
-                        isError={Boolean(form.formState.errors.project_id)}
-                        onSelect={(value) => {
-                          field.onChange(value);
-                          form.setValue('project_task_type_id', undefined, {
-                            shouldDirty: false,
-                            shouldValidate: false,
-                          });
-                        }}
-                      />
-                    </FormControl>
-                  </FormGroup>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="project_task_type_id"
-              render={({ field }) => (
-                <FormItem>
-                  <FormGroup>
-                    <FormLabel>
-                      ประเภทงาน
-                      <Required />
-                    </FormLabel>
-                    <FormControl>
-                      <ComboboxForm
-                        disabled={!projectId || isLoading}
-                        field={field}
-                        options={taskTypeOptions}
-                        placeholder="เลือกประเภทงาน"
-                        isGroup
-                        isModal
-                        isError={Boolean(form.formState.errors.project_task_type_id)}
-                        onSelect={(value) => {
-                          form.setValue('project_task_type_id', value, {
-                            shouldDirty: true,
-                            shouldValidate: true,
-                          });
-                          form.clearErrors('project_task_type_id');
-                        }}
-                      />
-                    </FormControl>
-                  </FormGroup>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="detail"
-              render={({ field }) => (
-                <FormItem>
-                  <FormGroup>
-                    <FormLabel>
-                      รายละเอียดการทำงาน
-                      <Required />
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea
-                        className="min-h-20 rounded-lg border-slate-200 px-3 py-2 text-base"
-                        isError={Boolean(form.formState.errors.detail)}
-                        onChange={(event) => field.onChange(event.target.value)}
-                        placeholder="กรอกรายละเอียดการทำงาน"
-                        value={field.value}
-                        disabled={isLoading}
-                        maxLength={1000}
-                        showMaxLengthCounter
-                      />
-                    </FormControl>
-                  </FormGroup>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="remark"
-              render={({ field }) => (
-                <FormItem>
-                  <FormGroup>
-                    <FormLabel>ปัญหาและข้อเสนอแนะ</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        className="min-h-20 rounded-lg border-slate-200 px-3 py-2 text-base"
-                        isError={Boolean(form.formState.errors.remark)}
-                        onChange={(event) => field.onChange(event.target.value)}
-                        placeholder="กรอกปัญหาและข้อเสนอแนะ"
-                        value={field.value ?? ''}
-                        disabled={isLoading}
-                        maxLength={255}
-                        showMaxLengthCounter
-                      />
-                    </FormControl>
-                  </FormGroup>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {form.formState.errors.exclude && (
-              <div className="text-red-500 text-sm">{form.formState.errors.exclude.message}</div>
-            )}
-            <DialogFooter className="grid grid-cols-2 gap-3 sm:grid-cols-2">
+            <DialogFooter className="grid grid-cols-2 gap-3 sm:grid-cols-2 px-4 pb-4 pt-3 border-t border-slate-200 bg-white shrink-0">
               <Button
                 variant={'outline'}
                 onClick={() => onOpenChange(false)}
