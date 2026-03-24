@@ -35,6 +35,7 @@ export async function GET(request: Request) {
         position: project.project.position,
         last_tracked_at: null,
         spent_times: project.project?.spent_times || 0,
+        spent_times_ma_period: project.project?.spent_times_ma_period || 0,
       },
       timeSheetChart: project.timeSheetChart,
     };

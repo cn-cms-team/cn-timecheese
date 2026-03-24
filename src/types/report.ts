@@ -43,6 +43,7 @@ export interface IProjectInfoByUser {
   position: string;
   day_price?: number | null;
   spent_times: number;
+  spent_times_ma_period: number;
   last_tracked_at?: string | null;
 }
 
