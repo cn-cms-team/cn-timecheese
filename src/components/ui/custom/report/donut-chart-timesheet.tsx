@@ -6,7 +6,10 @@ import { ApexOptions } from 'apexcharts';
 import { ITimeSheetDonutChart } from '@/types/report';
 
 import ApexChart from '../chart/apex-chart';
-import { formatTotalHours } from '@/lib/functions/timesheet-manage';
+import {
+  formatTotalHours,
+  formatTotalHoursWithManDayAndHour,
+} from '@/lib/functions/timesheet-manage';
 
 interface IProps {
   donutHeight?: number;
@@ -45,7 +48,7 @@ const DonutChartTimeSheet = ({ donutLabel = [], donutHeight = 300, loading = fal
     tooltip: {
       y: {
         formatter: function (val) {
-          const formattedDuration = formatTotalHours(val);
+          const formattedDuration = formatTotalHoursWithManDayAndHour(val);
           return formattedDuration;
         },
       },
