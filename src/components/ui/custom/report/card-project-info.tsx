@@ -2,6 +2,7 @@ import { formatDate, secondsToDuration } from '@/lib/functions/date-format';
 import { IProjectInfoByUser } from '@/types/report';
 import { Skeleton } from '../../skeleton';
 import { useEffect, useState } from 'react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface CardProjectInfoProps {
   project: IProjectInfoByUser;
@@ -26,7 +27,7 @@ const CardProjectInfo = ({ project, loading = false }: CardProjectInfoProps) => 
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
-            <div className="border rounded-lg col-span-3 shadow p-3">
+            <div className="border rounded-lg col-span-1 md:col-span-3 shadow p-3">
               <div className="text-base font-semibold mb-4">ข้อมูลโครงการ</div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -71,25 +72,20 @@ const CardProjectInfo = ({ project, loading = false }: CardProjectInfoProps) => 
                 </div>
               </div>
             </div>
-            <div className="border rounded-lg col-span-2 p-3 flex flex-col h-full shadow">
+            <div className="border rounded-lg col-span-1 md:col-span-2 p-3 flex flex-col h-full shadow">
               <div className="text-base font-semibold mb-4">เวลาที่ใช้ในโครงการ</div>
               <div className="grid grid-cols-6 gap-4 flex-1">
-                <div className="col-span-2 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
-                  <div className="flex items-baseline">
-                    <div className="text-2xl font-semibold">{workDuration.year}</div>
-                    <div className="ms-2">ปี</div>
-                  </div>
-                </div>
-                <div className="col-span-2 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
-                  <div className="flex items-baseline">
-                    <div className="text-2xl font-semibold">{workDuration.month}</div>
-                    <div className="ms-2">เดือน</div>
-                  </div>
-                </div>
-                <div className="col-span-2 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
+                <div className="col-span-6 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
                   <div className="flex items-baseline">
                     <div className="text-2xl font-semibold">{workDuration.day}</div>
-                    <div className="ms-2">วัน</div>
+                    <div className="ms-2 flex items-center gap-1">
+                      <Tooltip>
+                        <TooltipTrigger>วัน</TooltipTrigger>
+                        <TooltipContent>
+                          <p>1 ManDay = 8 ชั่วโมง</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
                   </div>
                 </div>
                 <div className="col-span-3 border rounded-lg px-3 py-1 flex items-center justify-center text-center">

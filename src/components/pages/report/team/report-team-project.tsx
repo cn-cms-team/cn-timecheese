@@ -32,8 +32,6 @@ const ReportTeamProject = ({
   const hasSpentTime = spentTimeInSeconds > 0;
 
   const durationText = [
-    workDuration.year ? `${workDuration.year} ปี` : null,
-    workDuration.month ? `${workDuration.month} เดือน` : null,
     workDuration.day ? `${workDuration.day} วัน` : null,
     workDuration.hour ? `${workDuration.hour} ชั่วโมง` : null,
     workDuration.minute ? `${workDuration.minute} นาที` : null,

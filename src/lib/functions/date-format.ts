@@ -338,8 +338,6 @@ export function calcTotalDays(start?: string, end?: string): number | null {
 export function secondsToDuration(sec: number) {
   if (!Number.isFinite(sec) || sec < 0) {
     return {
-      year: 0,
-      month: 0,
       day: 0,
       hour: 0,
       minute: 0,
@@ -349,19 +347,9 @@ export function secondsToDuration(sec: number) {
   let remaining = Math.floor(sec);
 
   // 8 ชั่วโมง = 1 วัน
-  // 30 วัน = 1 เดือน
-  // 12 เดือน = 1 ปี
   const MINUTE = 60;
   const HOUR = 60 * MINUTE;
   const DAY = 8 * HOUR;
-  const MONTH = 30 * DAY;
-  const YEAR = 12 * MONTH;
-
-  const year = Math.floor(remaining / YEAR);
-  remaining %= YEAR;
-
-  const month = Math.floor(remaining / MONTH);
-  remaining %= MONTH;
 
   const day = Math.floor(remaining / DAY);
   remaining %= DAY;
@@ -371,7 +359,7 @@ export function secondsToDuration(sec: number) {
 
   const minute = Math.floor(remaining / MINUTE);
 
-  return { year, month, day, hour, minute };
+  return { day, hour, minute };
 }
 
 export function calcTotalYearAndMonth(start?: string, end?: string): string | null {
