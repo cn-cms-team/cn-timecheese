@@ -6,19 +6,7 @@ import { saveAs } from 'file-saver';
 import { fetcher } from '@/lib/fetcher';
 import { Button } from '@/components/ui/button';
 import { getDaysInMonth } from 'date-fns';
-
-export interface IReportProjectMember {
-  user_name: string;
-  timeSheets: number;
-}
-
-export interface IReportProjectMonthly {
-  project_name: string;
-  project_code: string;
-  month: number;
-  year: number;
-  members: IReportProjectMember[];
-}
+import { IReportProjectMonthly } from '@/types/report';
 
 interface ReportProjectGenerateExcelProps {
   projectId: string;
@@ -33,21 +21,16 @@ export default function ReportProjectGenerateExcel({
 }: ReportProjectGenerateExcelProps) {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const [isGenerating, setIsGenerating] = useState(false);
-  const [data, setData] = useState<IReportProjectMonthly>(null!);
 
   const handleGenerateExcel = async () => {
     await fetcher<IReportProjectMonthly>(
       `${prefix}/api/v1/report/project/${projectId}/monthly-report?month=${selectedMonth}&year=${selectYear}`
-    )
-      .then((res) => {
-        setData(res);
-      })
-      .then(async () => {
-        generateExcel();
-      });
+    ).then((res) => {
+      generateExcel(res);
+    });
   };
 
-  const generateExcel = async () => {
+  const generateExcel = async (data: IReportProjectMonthly) => {
     setIsGenerating(true);
     try {
       // 1. Create a blank workbook from scratch
@@ -67,7 +50,7 @@ export default function ReportProjectGenerateExcel({
       worksheet.addRow(['รหัสโครงการ :', data.project_code]).font = {
         bold: true,
       };
-      worksheet.addRow(['ประจำเดือน :', `${data.month}/${data.year}`]).font = {
+      worksheet.addRow(['ประจำเดือน :', `${data.month + 1}/${data.year}`]).font = {
         bold: true,
       };
       worksheet.addRow(['เดือนนี้มีทั้งหมด(วัน) :', `${daysInMonth}`]).font = {
@@ -114,20 +97,24 @@ export default function ReportProjectGenerateExcel({
         const currentRow = startRow + index;
         const totalHours = member.timeSheets / 3600;
         worksheet.addRow([member.user_name, totalHours, daysInMonth * 8, 0]);
+        worksheet.getCell(`D${currentRow}`).numFmt = '#,##0.00';
         // Add FORMULA for Column E (Hourly Rate = Salary / Total Hours)
         // e.g., E9 = D9 / C9
+        worksheet.getCell(`E${currentRow}`).numFmt = '#,##0.00';
         worksheet.getCell(`E${currentRow}`).value = {
           formula: `D${currentRow}/C${currentRow}`,
         };
 
         // Add FORMULA for Column F (Monthly Cost = Hourly Rate * TimeSheets)
         // e.g., F9 = E9 * B9
+        worksheet.getCell(`F${currentRow}`).numFmt = '#,##0.00';
         worksheet.getCell(`F${currentRow}`).value = {
           formula: `E${currentRow}*B${currentRow}`,
         };
       });
 
       const totalRow = worksheet.addRow(['', '', '', '', 'รวม (Total)']);
+      totalRow.getCell(6).numFmt = '#,##0.00';
       totalRow.getCell(6).value = {
         formula: `SUM(F${startRow}:F${startRow + data.members.length - 1})`,
       };
@@ -201,7 +188,6 @@ export default function ReportProjectGenerateExcel({
       saveAs(blob, `Report_${data.project_code}.xlsx`);
     } catch (error) {
       console.error('Error:', error);
-      alert('Failed to generate Excel file');
     } finally {
       setIsGenerating(false);
     }
