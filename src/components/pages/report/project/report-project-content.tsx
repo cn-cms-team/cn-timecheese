@@ -12,6 +12,8 @@ import ReportProjectBarChart from './report-project-bar-chart';
 import { IReportProjectMember } from '@/types/report/project';
 import ReportProjectMemberModal from './report-project-member-modal';
 import ReportProjectMembersSection from './report-project-members-section';
+import { Button } from '@/components/ui/button';
+import { Download } from 'lucide-react';
 
 const ReportProjectContent = () => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
@@ -106,7 +108,7 @@ const ReportProjectContent = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex md:flex-row flex-col gap-3 justify-between content-center">
+      <div className="flex md:flex-row flex-col gap-3 justify-between content-center items-end">
         <div className="w-full md:max-w-sm">
           <Label>โครงการ</Label>
           <ComboboxForm
@@ -119,6 +121,9 @@ const ReportProjectContent = () => {
             }}
           />
         </div>
+        <Button>
+          <Download className="w-4 h-4" /> รายงานการลงเวลาประจำเดือน
+        </Button>
       </div>
       {projectId ? (
         <div>
