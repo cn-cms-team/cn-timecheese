@@ -16,6 +16,14 @@ export interface IReportProjectAttendanceSeries {
   data: number;
 }
 
+export interface IReportProjectCompareTsItem {
+  project_id: string;
+  project_name: string;
+  project_code: string;
+  total_seconds: number;
+  total_hours: number;
+}
+
 export interface IProjectReportBase {
   project_id: string;
   user: IReportUserInfo;
@@ -69,4 +77,17 @@ export interface ITimeSheetTable {
   detail: string;
   remark: string | null;
   is_work_from_home: boolean;
+}
+
+export interface IReportProjectMonthly {
+  project_name: string;
+  project_code: string;
+  month: number;
+  year: number;
+  members: IReportProjectMember[];
+}
+
+export interface IReportProjectMember {
+  user_name: string;
+  timeSheets: number;
 }

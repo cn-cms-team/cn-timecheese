@@ -7,6 +7,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 interface CardProjectInfoProps {
   project: IProjectInfoByUser;
   isLoading?: boolean;
+  showProjectMember?: boolean;
 }
 
 const TimeTooltipBox = ({ allTime, MATime, isDisplayMATime }: any) => {
@@ -38,7 +39,11 @@ const TimeTooltipBox = ({ allTime, MATime, isDisplayMATime }: any) => {
   );
 };
 
-const CardProjectInfo = ({ project, isLoading = false }: CardProjectInfoProps) => {
+const CardProjectInfo = ({
+  project,
+  isLoading = false,
+  showProjectMember = false,
+}: CardProjectInfoProps) => {
   const [workDuration, setWorkDuration] = useState(secondsToDuration(project.spent_times || 0));
   const [workMAPeriodDuration, setWorkMAPeriodDuration] = useState(
     secondsToDuration(project.spent_times_ma_period || 0)
@@ -73,13 +78,17 @@ const CardProjectInfo = ({ project, isLoading = false }: CardProjectInfoProps) =
                   <div className="mt-1">{project.code}</div>
                 </div>
                 <div>
-                  <label className="text-gray-500 mb-10">วันที่เข้าร่วม</label>
+                  <label className="text-gray-500 mb-10">
+                    {showProjectMember ? 'วันที่เข้าร่วม' : 'วันที่เริ่มโครงการ'}
+                  </label>
                   <div className="mt-1">
                     {project.start_date ? formatDate(project.start_date, 'dd mmm yyyy') : '-'}
                   </div>
                 </div>
                 <div>
-                  <label className="text-gray-500 mb-10">วันที่สิ้นสุด</label>
+                  <label className="text-gray-500 mb-10">
+                    {showProjectMember ? 'วันที่สิ้นสุด' : 'วันที่สิ้นสุดโครงการ'}
+                  </label>
                   <div className="mt-1">
                     {project.end_date ? formatDate(project.end_date, 'dd mmm yyyy') : '-'}
                   </div>

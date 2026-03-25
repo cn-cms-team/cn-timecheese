@@ -6,6 +6,7 @@ export type IMenuId =
   | 'REPORT'
   | 'REPORT_PROJECT_STATUS'
   | 'REPORT_TEAM_STATUS'
+  | 'REPORT_PROJECT_COMPARE_TS'
   | 'ADMIN'
   | 'ADMIN_USER'
   | 'ADMIN_ROLE'
