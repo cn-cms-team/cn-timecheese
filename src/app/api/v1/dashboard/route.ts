@@ -16,30 +16,15 @@ export async function GET(request: Request) {
     }
     const project = await getReportProjectByUser(projectId, memberId);
 
-    const resultData = {
-      project_id: projectId,
-      user: {
-        id: userInfo.id,
-        position: userInfo.position_level?.name || '',
-        code: userInfo.code,
-        start_date: userInfo.start_date,
-        full_name: `${userInfo.first_name} ${userInfo.last_name}`,
+    return Response.json(
+      {
+        data: {
+          user: userInfo,
+          ...project,
+        },
       },
-      project: project.project && {
-        name: project.project.name,
-        code: project.project.code,
-        start_date: project.project.start_date,
-        end_date: project.project.end_date,
-        maintenance_start_date: project.project.maintenance_start_date,
-        maintenance_end_date: project.project.maintenance_end_date,
-        position: project.project.position,
-        last_tracked_at: null,
-        spent_times: project.project?.spent_times || 0,
-      },
-      timeSheetChart: project.timeSheetChart,
-    };
-
-    return Response.json({ data: resultData }, { status: 200 });
+      { status: 200 }
+    );
   } catch (error) {
     return Response.json(
       { message: error instanceof Error ? error.message : 'An unknown error occurred' },

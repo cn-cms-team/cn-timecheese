@@ -20,9 +20,11 @@ import { useEffect, useState } from 'react';
 const ProjectViewDetail = ({
   id,
   onDataLoaded,
+  refreshKey,
 }: {
   id: string;
   onDataLoaded: (name: string, reportMembers: IProject['report_members']) => void;
+  refreshKey?: number;
 }): React.ReactNode => {
   const { setIsLoading } = useLoading();
   const [projectData, setProjectData] = useState<IProject>();
@@ -46,7 +48,7 @@ const ProjectViewDetail = ({
     if (id) {
       fetchProjectData();
     }
-  }, [id]);
+  }, [id, refreshKey]);
 
   interface TaskTableProps {
     tasks: IProjectTaskType[];

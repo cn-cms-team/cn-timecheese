@@ -57,7 +57,6 @@ const TableListTimeSheet = ({ projectId, userId }: IProps) => {
   });
 
   const fetchData = async (userId: string) => {
-    console.log('fetchData with params:', userId, projectId, pagination, tempFilter);
     const params = new URLSearchParams({
       page: (pagination.pageIndex + 1).toString(),
       limit: pagination.pageSize.toString(),

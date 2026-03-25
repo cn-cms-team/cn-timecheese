@@ -10,6 +10,7 @@ export async function getReportUserInfo(memberId: string) {
       last_name: true,
       code: true,
       start_date: true,
+      nick_name: true,
       position_level: {
         select: {
           name: true,
@@ -48,7 +49,7 @@ export async function getReportProjectByUser(projectId: string, memberId: string
   });
 
   const taskTypeMap = new Map(taskTypes.map((tt) => [tt.id, tt.name]));
-  const projectInfo = await getProjectInfo(projectId, memberId);
+  const projectInfo = await getProjectInfoWithMember(projectId, memberId);
   const result = {
     project_id: projectId,
     project: projectInfo,
@@ -63,7 +64,7 @@ export async function getReportProjectByUser(projectId: string, memberId: string
   return result;
 }
 
-async function getProjectInfo(
+async function getProjectInfoWithMember(
   projectId: string,
   memberId: string
 ): Promise<IProjectInfoByUser | null> {
@@ -74,6 +75,8 @@ async function getProjectInfo(
     },
     select: {
       is_company_project: true,
+      maintenance_start_date: true,
+      maintenance_end_date: true,
     },
   });
   if (!currentProject) {
@@ -90,7 +93,27 @@ async function getProjectInfo(
       total_seconds: true,
     },
   });
+  const timeSheetSummaryMAPeriod =
+    currentProject.maintenance_start_date && currentProject.maintenance_end_date
+      ? await prisma.timeSheetSummary.groupBy({
+          where: {
+            user_id: memberId,
+            project_id: projectId,
+            sum_date: {
+              gte: currentProject.maintenance_start_date,
+              lte: currentProject.maintenance_end_date,
+            },
+          },
+          by: ['project_id'],
+          _sum: {
+            total_seconds: true,
+          },
+        })
+      : [];
   const spentTimes = timeSheetSummary.length > 0 ? timeSheetSummary[0]._sum.total_seconds : 0;
+  const spentTimesMAPeriod =
+    timeSheetSummaryMAPeriod.length > 0 ? timeSheetSummaryMAPeriod[0]._sum.total_seconds : 0;
+
   if (currentProject.is_company_project) {
     const projectCompany = await prisma.project.findUnique({
       where: {
@@ -111,6 +134,7 @@ async function getProjectInfo(
       return null;
     }
     return {
+      id: projectId,
       name: projectCompany.name,
       code: projectCompany.code || '',
       start_date: projectCompany.start_date,
@@ -120,6 +144,7 @@ async function getProjectInfo(
       position: '-',
       day_price: 0,
       spent_times: spentTimes || 0,
+      spent_times_ma_period: spentTimesMAPeriod || 0,
       last_tracked_at: null,
     };
   } else {
@@ -149,6 +174,7 @@ async function getProjectInfo(
       return null;
     }
     return {
+      id: projectId,
       name: project.project.name,
       code: project.project.code || '',
       start_date: project.start_date || project.project.start_date,
@@ -158,7 +184,73 @@ async function getProjectInfo(
       position: project.role,
       day_price: project.day_price,
       spent_times: spentTimes || 0,
+      spent_times_ma_period: spentTimesMAPeriod || 0,
       last_tracked_at: null,
     };
   }
+}
+
+export async function getProjectInfo(projectId: string): Promise<IProjectInfoByUser | null> {
+  const projectCompany = await prisma.project.findUnique({
+    where: {
+      id: projectId,
+      is_enabled: true,
+    },
+    select: {
+      name: true,
+      code: true,
+      start_date: true,
+      end_date: true,
+      maintenance_start_date: true,
+      maintenance_end_date: true,
+    },
+  });
+  if (!projectCompany) {
+    return null;
+  }
+
+  // For spent times
+  const timeSheetSummary = await prisma.timeSheetSummary.groupBy({
+    where: {
+      project_id: projectId,
+    },
+    by: ['project_id'],
+    _sum: {
+      total_seconds: true,
+    },
+  });
+  const timeSheetSummaryMAPeriod =
+    projectCompany.maintenance_start_date && projectCompany.maintenance_end_date
+      ? await prisma.timeSheetSummary.groupBy({
+          where: {
+            project_id: projectId,
+            sum_date: {
+              gte: projectCompany.maintenance_start_date,
+              lte: projectCompany.maintenance_end_date,
+            },
+          },
+          by: ['project_id'],
+          _sum: {
+            total_seconds: true,
+          },
+        })
+      : [];
+  const spentTimes = timeSheetSummary.length > 0 ? timeSheetSummary[0]._sum.total_seconds : 0;
+  const spentTimesMAPeriod =
+    timeSheetSummaryMAPeriod.length > 0 ? timeSheetSummaryMAPeriod[0]._sum.total_seconds : 0;
+
+  return {
+    id: projectId,
+    name: projectCompany.name,
+    code: projectCompany.code || '',
+    start_date: projectCompany.start_date,
+    end_date: projectCompany.end_date,
+    maintenance_start_date: projectCompany.maintenance_start_date,
+    maintenance_end_date: projectCompany.maintenance_end_date,
+    position: '',
+    day_price: 0,
+    spent_times: spentTimes || 0,
+    spent_times_ma_period: spentTimesMAPeriod || 0,
+    last_tracked_at: null,
+  };
 }

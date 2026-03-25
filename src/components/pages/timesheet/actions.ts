@@ -14,6 +14,8 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
     actionFn: async () => {
       const validatedData = timeSheetCreateEditSchema.parse(formData);
       const safeDetail = sanitizePlainTextInput(validatedData.detail || '');
+      const safeRemark = sanitizePlainTextInput(validatedData.remark || '');
+      const remarkValue = safeRemark.length > 0 ? safeRemark : null;
 
       if (!validatedData.project_id) throw new Error('Project ID is required');
       if (!validatedData.stamp_date_string) throw new Error('Stamp date is required');
@@ -62,6 +64,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
           start_date: start,
           end_date: end,
           detail: safeDetail,
+          remark: remarkValue,
           exclude_seconds: validatedData.exclude ?? 0,
           is_work_from_home: validatedData.isWorkFromHome ?? false,
           total_seconds: totalSeconds,
@@ -129,6 +132,8 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
     actionFn: async () => {
       const validatedData = timeSheetCreateEditSchema.parse(formData);
       const safeDetail = sanitizePlainTextInput(validatedData.detail || '');
+      const safeRemark = sanitizePlainTextInput(validatedData.remark || '');
+      const remarkValue = safeRemark.length > 0 ? safeRemark : null;
 
       if (!validatedData.project_id) throw new Error('Project ID is required');
       if (!validatedData.stamp_date_string) throw new Error('Stamp date is required');
@@ -193,6 +198,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
           start_date: start,
           end_date: end,
           detail: safeDetail,
+          remark: remarkValue,
           exclude_seconds: validatedData.exclude ?? 0,
           is_work_from_home: validatedData.isWorkFromHome ?? false,
           total_seconds: totalSeconds,

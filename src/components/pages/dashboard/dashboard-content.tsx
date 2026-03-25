@@ -51,6 +51,7 @@ const DashboardContent = () => {
           position={userInfo?.position_level?.name ?? '-'}
           code={userInfo?.code ?? '-'}
           start_date={userInfo?.start_date ?? '-'}
+          nickname={userInfo?.nick_name ?? ''}
         />
       </div>
       <DashboardBarChart userId={userInfo?.id || ''} />
@@ -66,7 +67,7 @@ const DashboardContent = () => {
           }}
         />
       </div>
-      <CardProjectInfo project={dashboardProjectData?.project || {}} loading={loading} />
+      <CardProjectInfo project={dashboardProjectData?.project || {}} isLoading={loading} />
       <DonutChartTimeSheet
         donutLabel={dashboardProjectData?.timeSheetChart || []}
         donutHeight={400}

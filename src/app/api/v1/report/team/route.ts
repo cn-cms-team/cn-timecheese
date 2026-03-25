@@ -29,6 +29,7 @@ export async function GET(request: Request) {
         },
         start_date: true,
         team_id: true,
+        nick_name: true,
       },
     });
 
@@ -145,7 +146,12 @@ export async function GET(request: Request) {
       {} as Record<string, string>
     );
 
-    const projects = userProjects.map((project) => {
+    const userProjectOrderByLastTracked = [...userProjects].sort((a, b) => {
+      const aLastTracked = new Date(lastStampAtMap[a.id] || 0).getTime();
+      const bLastTracked = new Date(lastStampAtMap[b.id] || 0).getTime();
+      return bLastTracked - aLastTracked;
+    });
+    const projects = userProjectOrderByLastTracked.map((project) => {
       const memberInfo = project.projectMembers[0];
 
       return {
@@ -163,7 +169,12 @@ export async function GET(request: Request) {
       };
     });
 
-    return Response.json({ data: { user: currentUser, projects } }, { status: 200 });
+    const projectsSpentTimesMoreThanZero = projects.filter((project) => project.spent_times > 0);
+
+    return Response.json(
+      { data: { user: currentUser, projects: projectsSpentTimesMoreThanZero } },
+      { status: 200 }
+    );
   } catch (error) {
     return Response.json(
       { message: error instanceof Error ? error.message : 'An unknown error occurred' },

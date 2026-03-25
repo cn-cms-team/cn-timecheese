@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
-import { ChevronDownIcon } from 'lucide-react';
+import { Check, ChevronDownIcon } from 'lucide-react';
 import {
   Command,
   CommandEmpty,
@@ -102,7 +102,7 @@ const Dropdown = <T extends string | number>({
         )}
         <DropdownMenuContent
           className={cn(
-            'p-0 bg-white rounded-lg shadow-lg w-[var(--radix-dropdown-menu-trigger-width)] border',
+            'p-0 bg-white rounded-lg shadow-lg w-(--radix-dropdown-menu-trigger-width) border',
             menuClassName
           )}
           align="start"
@@ -131,7 +131,10 @@ const Dropdown = <T extends string | number>({
                           setOpen(false);
                         }}
                       >
-                        {item.label}
+                        <div className="flex justify-between w-full items-center">
+                          <p>{item.label}</p>
+                          {item.value === value && <Check className="h-4 w-4" />}
+                        </div>
                       </CommandItem>
                     ))
                   ) : (

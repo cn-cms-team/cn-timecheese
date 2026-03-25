@@ -49,6 +49,18 @@ export const formatTotalHours = (hours: number) => {
   return `${hours.toFixed(2)} ชั่วโมง`;
 };
 
+export const formatTotalHoursWithManDayAndHour = (hours: number) => {
+  if (!hours) {
+    return '0 ชั่วโมง';
+  }
+
+  const manDays = Math.floor(hours / 8);
+  const remainingHours = hours % 8;
+  const manDayPart = manDays > 0 ? `${manDays} วัน` : '';
+  const hourPart = remainingHours > 0 ? `${remainingHours.toFixed(2)} ชั่วโมง` : '';
+  return `${manDayPart} ${hourPart}`.trim();
+};
+
 export const formatHourValue = (hours: number) => hours.toFixed(1);
 
 export const getDayTimeSheetStatus = (hours: number): DayTimeSheetStatus => {

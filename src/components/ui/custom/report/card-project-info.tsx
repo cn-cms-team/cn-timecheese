@@ -2,21 +2,56 @@ import { formatDate, secondsToDuration } from '@/lib/functions/date-format';
 import { IProjectInfoByUser } from '@/types/report';
 import { Skeleton } from '../../skeleton';
 import { useEffect, useState } from 'react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface CardProjectInfoProps {
   project: IProjectInfoByUser;
-  loading?: boolean;
+  isLoading?: boolean;
 }
 
-const CardProjectInfo = ({ project, loading = false }: CardProjectInfoProps) => {
+const TimeTooltipBox = ({ allTime, MATime, isDisplayMATime }: any) => {
+  return (
+    <div className="text-2xl font-semibold">
+      {isDisplayMATime ? (
+        <>
+          <Tooltip>
+            <TooltipTrigger>
+              <span>{MATime}</span>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>เวลาที่ใช้ในช่วงบำรุงรักษา</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger>
+              <span className="text-sm text-gray-800 pl-1">/ {allTime}</span>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>เวลาทั้งหมดที่ใช้ในโครงการ</p>
+            </TooltipContent>
+          </Tooltip>
+        </>
+      ) : (
+        <span>{allTime}</span>
+      )}
+    </div>
+  );
+};
+
+const CardProjectInfo = ({ project, isLoading = false }: CardProjectInfoProps) => {
   const [workDuration, setWorkDuration] = useState(secondsToDuration(project.spent_times || 0));
+  const [workMAPeriodDuration, setWorkMAPeriodDuration] = useState(
+    secondsToDuration(project.spent_times_ma_period || 0)
+  );
 
   useEffect(() => {
     if (setWorkDuration) setWorkDuration(secondsToDuration(project.spent_times || 0));
+    if (setWorkMAPeriodDuration)
+      setWorkMAPeriodDuration(secondsToDuration(project.spent_times_ma_period || 0));
   }, [project]);
   return (
     <>
-      {loading ? (
+      {isLoading ? (
         <>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
             <Skeleton className="col-span-3 h-47 w-full animate-pulse rounded-md bg-gray-200" />
@@ -26,7 +61,7 @@ const CardProjectInfo = ({ project, loading = false }: CardProjectInfoProps) => 
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
-            <div className="border rounded-lg col-span-3 shadow p-3">
+            <div className="border rounded-lg col-span-1 md:col-span-3 shadow p-3">
               <div className="text-base font-semibold mb-4">ข้อมูลโครงการ</div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -65,42 +100,51 @@ const CardProjectInfo = ({ project, loading = false }: CardProjectInfoProps) => 
                       : '-'}
                   </div>
                 </div>
-                <div>
-                  <label className="text-gray-500 mb-10">ตำแหน่งในโครงการ</label>
-                  <div className="mt-1">{project.position}</div>
-                </div>
+                {project.position ? (
+                  <div>
+                    <label className="text-gray-500 mb-10">ตำแหน่งในโครงการ</label>
+                    <div className="mt-1">{project.position}</div>
+                  </div>
+                ) : null}
               </div>
             </div>
-            <div className="border rounded-lg col-span-2 p-3 flex flex-col h-full shadow">
-              <div className="text-base font-semibold mb-4">เวลาที่ใช้ในโครงการ</div>
+            <div className="border rounded-lg col-span-1 md:col-span-2 p-3 flex flex-col h-full shadow">
+              <div className="text-base font-semibold mb-4">เวลาทั้งหมดที่ใช้ในโครงการ</div>
               <div className="grid grid-cols-6 gap-4 flex-1">
-                <div className="col-span-2 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
+                <div className="col-span-6 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
                   <div className="flex items-baseline">
-                    <div className="text-2xl font-semibold">{workDuration.year}</div>
-                    <div className="ms-2">ปี</div>
-                  </div>
-                </div>
-                <div className="col-span-2 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
-                  <div className="flex items-baseline">
-                    <div className="text-2xl font-semibold">{workDuration.month}</div>
-                    <div className="ms-2">เดือน</div>
-                  </div>
-                </div>
-                <div className="col-span-2 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
-                  <div className="flex items-baseline">
-                    <div className="text-2xl font-semibold">{workDuration.day}</div>
-                    <div className="ms-2">วัน</div>
+                    <TimeTooltipBox
+                      allTime={workDuration.day}
+                      MATime={workMAPeriodDuration.day}
+                      isDisplayMATime={project.spent_times_ma_period > 0}
+                    />
+                    <div className="ms-2 flex items-center gap-1">
+                      <Tooltip>
+                        <TooltipTrigger>วัน</TooltipTrigger>
+                        <TooltipContent>
+                          <p>1 ManDay = 8 ชั่วโมง</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
                   </div>
                 </div>
                 <div className="col-span-3 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
                   <div className="flex items-baseline">
-                    <div className="text-2xl font-semibold">{workDuration.hour}</div>
+                    <TimeTooltipBox
+                      allTime={workDuration.hour}
+                      MATime={workMAPeriodDuration.hour}
+                      isDisplayMATime={project.spent_times_ma_period > 0}
+                    />
                     <div className="ms-2">ชั่วโมง</div>
                   </div>
                 </div>
                 <div className="col-span-3 border rounded-lg px-3 py-1 flex items-center justify-center text-center">
                   <div className="flex items-baseline">
-                    <div className="text-2xl font-semibold">{workDuration.minute}</div>
+                    <TimeTooltipBox
+                      allTime={workDuration.minute}
+                      MATime={workMAPeriodDuration.minute}
+                      isDisplayMATime={project.spent_times_ma_period > 0}
+                    />
                     <div className="ms-2">นาที</div>
                   </div>
                 </div>

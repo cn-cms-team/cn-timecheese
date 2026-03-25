@@ -26,14 +26,13 @@ const ReportTeamProject = ({
   join_date,
   spent_times,
   userId,
-}: IUserReportProject & { loading: boolean; userId: string }) => {
+  fullName,
+}: IUserReportProject & { loading: boolean; userId: string; fullName: string }) => {
   const spentTimeInSeconds = spent_times ?? 0;
   const workDuration = useMemo(() => secondsToDuration(spentTimeInSeconds), [spentTimeInSeconds]);
   const hasSpentTime = spentTimeInSeconds > 0;
 
   const durationText = [
-    workDuration.year ? `${workDuration.year} ปี` : null,
-    workDuration.month ? `${workDuration.month} เดือน` : null,
     workDuration.day ? `${workDuration.day} วัน` : null,
     workDuration.hour ? `${workDuration.hour} ชั่วโมง` : null,
     workDuration.minute ? `${workDuration.minute} นาที` : null,
@@ -120,7 +119,12 @@ const ReportTeamProject = ({
         </Card>
       </DialogTrigger>
 
-      <ReportTeamProjectFullDialog project_name={name || ''} projectId={id} userId={userId} />
+      <ReportTeamProjectFullDialog
+        project_name={name || ''}
+        projectId={id}
+        userId={userId}
+        fullName={fullName || ''}
+      />
     </Dialog>
   );
 };

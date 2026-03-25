@@ -6,6 +6,16 @@ export interface IReportTeam {
   projects: IProjectInfoByUser[];
 }
 
+export interface IReportProjectAttendance {
+  date: string;
+  series: IReportProjectAttendanceSeries[];
+}
+
+export interface IReportProjectAttendanceSeries {
+  name: string;
+  data: number;
+}
+
 export interface IProjectReportBase {
   project_id: string;
   user: IReportUserInfo;
@@ -21,9 +31,11 @@ export interface IReportUserInfo {
   code: string;
   position_level: IPositionLevel;
   start_date: string;
+  nick_name?: string;
 }
 
 export interface IProjectInfoByUser {
+  id: string;
   name: string;
   code: string;
   start_date?: Date | null;
@@ -33,6 +45,7 @@ export interface IProjectInfoByUser {
   position: string;
   day_price?: number | null;
   spent_times: number;
+  spent_times_ma_period: number;
   last_tracked_at?: string | null;
 }
 
@@ -54,5 +67,6 @@ export interface ITimeSheetTable {
   tracked_hours: number;
   task_type: string;
   detail: string;
+  remark: string | null;
   is_work_from_home: boolean;
 }

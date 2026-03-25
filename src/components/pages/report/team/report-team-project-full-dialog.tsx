@@ -5,10 +5,12 @@ const ReportTeamProjectFullDialog = ({
   project_name,
   projectId,
   userId,
+  fullName,
 }: {
   project_name: string;
   projectId: string;
   userId: string;
+  fullName: string;
 }) => {
   return (
     <DialogContent
@@ -20,7 +22,8 @@ const ReportTeamProjectFullDialog = ({
       </DialogHeader>
       <div className="h-full w-full p-4">
         <div className="pb-2">
-          <p className="font-semibold text-lg">{`โครงการ: ${project_name}`}</p>
+          <span className="font-semibold text-lg">{`โครงการ: ${project_name}`}</span>
+          <span className="text-sm text-slate-500 pl-2">{`${fullName}`}</span>
         </div>
         <div>
           {projectId && userId ? (

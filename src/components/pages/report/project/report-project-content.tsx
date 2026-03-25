@@ -1,44 +1,59 @@
 'use client';
-import Dropdown from '@/components/ui/custom/input/dropdown';
-import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
 
-import { IReportProject } from '@/types/report';
+import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
+import { IDashboard, IProjectInfoByUser } from '@/types/report';
 import { useEffect, useState } from 'react';
-import ReportUsersButton from '../report-users-button';
-import { UserAvatarProps } from '@/components/ui/custom/avatar/user-avatar';
-import { IOption } from '@/types/option';
 import { fetcher } from '@/lib/fetcher';
-import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
-import DonutChartTimeSheet from '@/components/ui/custom/report/donut-chart-timesheet';
-import TableListTimeSheet from '@/components/ui/custom/report/table-list-timesheet';
 import EmptyFolderIcon from '@/components/ui/icons/empty-folder';
 import { Label } from '@/components/ui/label';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { IOptionGroups } from '@/types/dropdown';
+import ReportProjectBarChart from './report-project-bar-chart';
+import { IReportProjectMember } from '@/types/report/project';
+import ReportProjectMemberModal from './report-project-member-modal';
+import ReportProjectMembersSection from './report-project-members-section';
+import { Button } from '@/components/ui/button';
+import { Download } from 'lucide-react';
 
 const ReportProjectContent = () => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
   const [projectId, setProjectId] = useState<string>(null!);
   const [projectOptions, setProjectOptions] = useState<IOptionGroups[]>([]);
-  const [memberId, setMemberId] = useState<string>(null!);
-  const [memberOptions, setMemberOptions] = useState<(IOption & UserAvatarProps)[]>([]);
-  const [reportProjectData, setReportProjectData] = useState<IReportProject>(null!);
+  const [projectMember, setProjectMember] = useState<IReportProjectMember[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const onClickUser = (id: string) => {
-    setMemberOptions(
-      memberOptions.map((u) => ({
-        ...u,
-        is_active: u.value === id,
-      }))
-    );
-    setMemberId(id);
-  };
+  const [projectInfo, setProjectInfo] = useState<IProjectInfoByUser>(null!);
+  const [isMemberModalOpen, setIsMemberModalOpen] = useState<boolean>(false);
+  const [selectedMemberInfo, setSelectedMemberInfo] = useState<IDashboard>(null!);
+  const [isMemberInfoLoading, setIsMemberInfoLoading] = useState<boolean>(false);
 
   const onChangeProject = (id: string) => {
     setProjectId(id);
-    setMemberId(null!);
-    setReportProjectData(null!);
+    setProjectInfo(null!);
+    setProjectMember([]);
+    setSelectedMemberInfo(null!);
+    setIsMemberModalOpen(false);
+  };
+
+  const handleOpenMemberModal = async (userId: string) => {
+    if (!projectId || !userId) {
+      return;
+    }
+
+    setIsMemberModalOpen(true);
+    setSelectedMemberInfo(null!);
+    setIsMemberInfoLoading(true);
+
+    try {
+      const memberInfo = await fetcher<IDashboard>(
+        `${prefix}/api/v1/dashboard?project_id=${projectId}&member_id=${userId}`
+      );
+      setSelectedMemberInfo(memberInfo);
+    } catch (error) {
+      console.error('Error fetching member info:', error);
+      setSelectedMemberInfo(null!);
+    } finally {
+      setIsMemberInfoLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -56,51 +71,44 @@ const ReportProjectContent = () => {
   }, []);
 
   useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        const user = await fetcher<(IOption & UserAvatarProps)[]>(
-          `${prefix}/api/v1/report/project/member-list?project_id=${projectId}`
-        );
-        setMemberOptions(
-          user.map((item) => ({
-            ...item,
-            name: item.label,
-            image: '',
-            is_active: item.value === memberId,
-          }))
-        );
-        onChangeProject(projectId);
-      } catch (error) {
-        console.error('Error fetching member options:', error);
-      }
-    };
-    if (projectId) {
-      fetchMembers();
+    if (!projectId) {
+      setProjectInfo(null!);
+      setProjectMember([]);
+      return;
     }
-  }, [projectId]);
 
-  useEffect(() => {
+    let cancelled = false;
+
     const fetchProjectData = async () => {
       try {
         setIsLoading(true);
-        const projectData = await fetcher<IReportProject>(
-          `${prefix}/api/v1/report/project?project_id=${projectId}&member_id=${memberId}`
-        );
-        setReportProjectData(projectData);
+
+        const [projectData, projectMembers] = await Promise.all([
+          fetcher<IProjectInfoByUser>(`${prefix}/api/v1/report/project/${projectId}`),
+          fetcher<IReportProjectMember[]>(`${prefix}/api/v1/report/project/${projectId}/members`),
+        ]);
+
+        if (cancelled) return;
+
+        setProjectInfo(projectData);
+        setProjectMember(projectMembers);
       } catch (error) {
-        console.error('Error fetching project data:', error);
+        console.error('Error fetching project report data:', error);
       } finally {
-        setIsLoading(false);
+        if (!cancelled) setIsLoading(false);
       }
     };
-    if (memberId) {
-      fetchProjectData();
-    }
-  }, [memberId]);
+
+    fetchProjectData();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [projectId, prefix]);
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex md:flex-row flex-col gap-3 justify-between content-center">
+      <div className="flex md:flex-row flex-col gap-3 justify-between content-center items-end">
         <div className="w-full md:max-w-sm">
           <Label>โครงการ</Label>
           <ComboboxForm
@@ -109,42 +117,38 @@ const ReportProjectContent = () => {
             placeholder="เลือกโครงการ"
             options={projectOptions}
             onSelect={(value) => {
-              setProjectId(value);
+              onChangeProject(value);
             }}
           />
         </div>
-        <div className="flex flex-col justify-end">
-          <ReportUsersButton onClick={onClickUser} userList={memberOptions} />
-        </div>
+        <Button>
+          <Download className="w-4 h-4" /> รายงานการลงเวลาประจำเดือน
+        </Button>
       </div>
-      {reportProjectData ? (
-        <>
-          <div className="border rounded-lg shadow">
-            <AvatarDetail
-              id={reportProjectData.user.id}
-              name={`${reportProjectData.user.first_name} ${reportProjectData.user.last_name}`}
-              position={reportProjectData.user.position_level?.name}
-              code={reportProjectData.user?.code}
-              start_date={reportProjectData.user?.start_date}
-              loading={isLoading}
-            />
-          </div>
-          <CardProjectInfo project={reportProjectData.project} loading={isLoading} />
-          <DonutChartTimeSheet donutLabel={reportProjectData.timeSheetChart} loading={isLoading} />
-          {projectId && reportProjectData.user.id ? (
-            <TableListTimeSheet projectId={projectId} userId={reportProjectData.user.id} />
-          ) : null}
-        </>
-      ) : projectId && memberId && !reportProjectData && !isLoading ? (
-        <div className="flex w-full justify-center border rounded-lg shadow">
-          ไม่พบข้อมูลรายงานโครงการ
+      {projectId ? (
+        <div>
+          <CardProjectInfo project={projectInfo || {}} isLoading={isLoading} />
+          <ReportProjectBarChart projectId={projectId} isLoading={isLoading} />
+          <ReportProjectMembersSection
+            isLoading={isLoading}
+            projectMember={projectMember}
+            onOpenMemberModal={handleOpenMemberModal}
+          />
         </div>
       ) : (
         <div className="flex flex-col items-center w-full justify-center p-10 gap-5 border rounded-lg shadow">
           <EmptyFolderIcon />
-          <div className="text-xl font-semibold">เลือกโครงการและสมาชิก</div>
+          <div className="text-xl font-semibold">กรุณาเลือกโครงการ</div>
         </div>
       )}
+
+      <ReportProjectMemberModal
+        projectId={projectId}
+        open={isMemberModalOpen}
+        onOpenChange={setIsMemberModalOpen}
+        selectedMemberInfo={selectedMemberInfo}
+        isMemberInfoLoading={isMemberInfoLoading}
+      />
     </div>
   );
 };
