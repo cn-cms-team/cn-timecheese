@@ -35,6 +35,13 @@
     "is_active": true
   },
   {
+    "code": "REPORT_PROJECT_COMPARE_TS",
+    "name": "เปรียบเทียบ TS ระหว่างโครงการ",
+    "parent_code": "REPORT",
+    "order": 3,
+    "is_active": true
+  },
+  {
     "code": "ADMIN",
     "name": "ตั้งค่า",
     "parent_code": null,
