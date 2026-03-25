@@ -10,6 +10,7 @@ export async function getReportUserInfo(memberId: string) {
       last_name: true,
       code: true,
       start_date: true,
+      nick_name: true,
       position_level: {
         select: {
           name: true,

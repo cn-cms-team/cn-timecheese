@@ -31,6 +31,7 @@ export interface IReportUserInfo {
   code: string;
   position_level: IPositionLevel;
   start_date: string;
+  nick_name?: string;
 }
 
 export interface IProjectInfoByUser {

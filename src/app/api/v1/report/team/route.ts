@@ -29,6 +29,7 @@ export async function GET(request: Request) {
         },
         start_date: true,
         team_id: true,
+        nick_name: true,
       },
     });
 

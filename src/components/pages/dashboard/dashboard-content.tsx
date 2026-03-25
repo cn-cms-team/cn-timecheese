@@ -51,6 +51,7 @@ const DashboardContent = () => {
           position={userInfo?.position_level?.name ?? '-'}
           code={userInfo?.code ?? '-'}
           start_date={userInfo?.start_date ?? '-'}
+          nickname={userInfo?.nick_name ?? ''}
         />
       </div>
       <DashboardBarChart userId={userInfo?.id || ''} />

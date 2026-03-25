@@ -39,10 +39,11 @@ const ReportProjectMemberModal = ({
               <AvatarDetail
                 id={user?.id || ''}
                 name={user ? `${user.first_name} ${user.last_name}` : ''}
-                position={user?.position_level.name || ''}
+                position={user?.position_level?.name || ''}
                 code={user?.code || ''}
                 start_date={user?.start_date || ''}
                 loading={isMemberInfoLoading}
+                nickname={user?.nick_name || ''}
               />
             </div>
             <CardProjectInfo project={project} isLoading={isMemberInfoLoading} />

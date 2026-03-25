@@ -8,6 +8,7 @@ export type UserAvatarDetailProps = {
   position: string;
   code: string;
   start_date: string;
+  nickname?: string;
   loading?: boolean;
 };
 
@@ -17,6 +18,7 @@ const AvatarDetail = ({
   position,
   code,
   start_date,
+  nickname,
   loading = false,
 }: UserAvatarDetailProps) => {
   return (
@@ -36,12 +38,14 @@ const AvatarDetail = ({
           {loading ? (
             <Skeleton className="w-28 h-6 bg-gray-400 mb-3" />
           ) : (
-            <div className="text-lg font-bold">{name}</div>
+            <div className="text-lg font-bold">
+              {name} {nickname ? `(${nickname})` : ''}
+            </div>
           )}
           {loading ? (
             <Skeleton className="w-20 h-4 bg-gray-400" />
           ) : (
-            <div className="text-normal font-medium text-gray-500">{position || '-'}</div>
+            <div className="text-normal font-medium text-gray-500">{position || ''}</div>
           )}
         </div>
         {loading ? (
@@ -50,7 +54,7 @@ const AvatarDetail = ({
           <div className="flex gap-3 text-normal  font-bold">
             <span>{code}</span>
             <span>
-              {start_date ? calcTotalYearAndMonth(start_date, new Date().toISOString()) : '-'}
+              {start_date ? calcTotalYearAndMonth(start_date, new Date().toISOString()) : ''}
             </span>
           </div>
         )}

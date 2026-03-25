@@ -16,6 +16,7 @@ const ReportTeamDetail = ({ user, projects, loading }: IReportTeam & { loading: 
           code={user?.code}
           start_date={user?.start_date}
           loading={loading}
+          nickname={user?.nick_name || ''}
         />
       </div>
       <DashboardBarChart userId={user?.id || ''} />
@@ -32,6 +33,7 @@ const ReportTeamDetail = ({ user, projects, loading }: IReportTeam & { loading: 
                   {...project}
                   loading={true}
                   userId={user?.id || ''}
+                  fullName={`${user.first_name} ${user.last_name} ${user.nick_name ? `(${user.nick_name})` : ''}`}
                 />
               ))}
             </div>
