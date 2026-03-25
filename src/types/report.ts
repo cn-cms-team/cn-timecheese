@@ -34,6 +34,7 @@ export interface IReportUserInfo {
 }
 
 export interface IProjectInfoByUser {
+  id: string;
   name: string;
   code: string;
   start_date?: Date | null;

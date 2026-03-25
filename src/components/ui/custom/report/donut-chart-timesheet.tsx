@@ -14,10 +14,10 @@ import {
 interface IProps {
   donutHeight?: number;
   donutLabel?: ITimeSheetDonutChart[];
-  loading?: boolean;
+  isLoading?: boolean;
 }
 
-const DonutChartTimeSheet = ({ donutLabel = [], donutHeight = 300, loading = false }: IProps) => {
+const DonutChartTimeSheet = ({ donutLabel = [], donutHeight = 300, isLoading = false }: IProps) => {
   const data = useMemo(() => {
     const totalHours = donutLabel.reduce((acc, curr) => acc + curr.tracked_hours, 0);
     const series = donutLabel.map((item) => item.tracked_hours / 3600);
@@ -57,7 +57,7 @@ const DonutChartTimeSheet = ({ donutLabel = [], donutHeight = 300, loading = fal
 
   return (
     <>
-      {loading ? (
+      {isLoading ? (
         <div className="w-full border rounded-md p-3">
           <div className="animate-pulse bg-gray-200 h-64 rounded-lg col-span-2 shadow"></div>
         </div>

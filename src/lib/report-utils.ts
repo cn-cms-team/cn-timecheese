@@ -133,6 +133,7 @@ async function getProjectInfoWithMember(
       return null;
     }
     return {
+      id: projectId,
       name: projectCompany.name,
       code: projectCompany.code || '',
       start_date: projectCompany.start_date,
@@ -172,6 +173,7 @@ async function getProjectInfoWithMember(
       return null;
     }
     return {
+      id: projectId,
       name: project.project.name,
       code: project.project.code || '',
       start_date: project.start_date || project.project.start_date,
@@ -237,6 +239,7 @@ export async function getProjectInfo(projectId: string): Promise<IProjectInfoByU
     timeSheetSummaryMAPeriod.length > 0 ? timeSheetSummaryMAPeriod[0]._sum.total_seconds : 0;
 
   return {
+    id: projectId,
     name: projectCompany.name,
     code: projectCompany.code || '',
     start_date: projectCompany.start_date,

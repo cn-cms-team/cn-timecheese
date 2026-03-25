@@ -1,7 +1,7 @@
 'use client';
 
 import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
-import { IProjectInfoByUser } from '@/types/report';
+import { IDashboard, IProjectInfoByUser } from '@/types/report';
 import { useEffect, useMemo, useState } from 'react';
 import { fetcher } from '@/lib/fetcher';
 import EmptyFolderIcon from '@/components/ui/icons/empty-folder';
@@ -10,7 +10,8 @@ import { ComboboxForm } from '@/components/ui/custom/combobox';
 import { IOptionGroups } from '@/types/dropdown';
 import ReportProjectBarChart from './report-project-bar-chart';
 import { IReportProjectMember } from '@/types/report/project';
-import { buddhistFormatDate, calcTotalYearAndMonth } from '@/lib/functions/date-format';
+import { calcTotalYearAndMonth } from '@/lib/functions/date-format';
+import ReportProjectMemberModal from './report-project-member-modal';
 
 const ReportProjectContent = () => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
@@ -19,6 +20,9 @@ const ReportProjectContent = () => {
   const [projectMember, setProjectMember] = useState<IReportProjectMember[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [projectInfo, setProjectInfo] = useState<IProjectInfoByUser>(null!);
+  const [isMemberModalOpen, setIsMemberModalOpen] = useState<boolean>(false);
+  const [selectedMemberInfo, setSelectedMemberInfo] = useState<IDashboard>(null!);
+  const [isMemberInfoLoading, setIsMemberInfoLoading] = useState<boolean>(false);
 
   const groupedMembers = useMemo(() => {
     return projectMember.reduce<Record<string, IReportProjectMember[]>>((acc, member) => {
@@ -37,6 +41,30 @@ const ReportProjectContent = () => {
     setProjectId(id);
     setProjectInfo(null!);
     setProjectMember([]);
+    setSelectedMemberInfo(null!);
+    setIsMemberModalOpen(false);
+  };
+
+  const handleOpenMemberModal = async (userId: string) => {
+    if (!projectId || !userId) {
+      return;
+    }
+
+    setIsMemberModalOpen(true);
+    setSelectedMemberInfo(null!);
+    setIsMemberInfoLoading(true);
+
+    try {
+      const memberInfo = await fetcher<IDashboard>(
+        `${prefix}/api/v1/dashboard?project_id=${projectId}&member_id=${userId}`
+      );
+      setSelectedMemberInfo(memberInfo);
+    } catch (error) {
+      console.error('Error fetching member info:', error);
+      setSelectedMemberInfo(null!);
+    } finally {
+      setIsMemberInfoLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -146,9 +174,11 @@ const ReportProjectContent = () => {
                           `${member.first_name || ''} ${member.last_name || ''}`.trim();
 
                         return (
-                          <article
+                          <button
+                            type="button"
                             key={member.user_id}
-                            className="rounded-lg border bg-background/90 p-4 shadow-xs transition-colors hover:bg-muted/30"
+                            className="w-full text-left rounded-lg border bg-background/90 p-4 shadow-xs transition-colors hover:bg-muted/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
+                            onClick={() => handleOpenMemberModal(member.user_id)}
                           >
                             <div className="flex items-start justify-between gap-2">
                               <div>
@@ -166,10 +196,10 @@ const ReportProjectContent = () => {
 
                             <div className="mt-4 space-y-1 text-sm">
                               <p className="text-muted-foreground">
-                                ตำแหน่ง: {member.position_level?.name || '-'}
+                                ตำแหน่งในโครงการ: {member.position_level?.name || '-'}
                               </p>
                               <p className="text-muted-foreground">
-                                วันที่เข้าร่วม:{' '}
+                                อายุงาน:{' '}
                                 {member.start_date
                                   ? calcTotalYearAndMonth(
                                       `${member.start_date}`,
@@ -178,7 +208,7 @@ const ReportProjectContent = () => {
                                   : '-'}
                               </p>
                             </div>
-                          </article>
+                          </button>
                         );
                       })}
                     </div>
@@ -199,34 +229,13 @@ const ReportProjectContent = () => {
         </div>
       )}
 
-      {/* {reportProjectData ? (
-        <>
-          <div className="border rounded-lg shadow">
-            <AvatarDetail
-              id={reportProjectData.user.id}
-              name={`${reportProjectData.user.first_name} ${reportProjectData.user.last_name}`}
-              position={reportProjectData.user.position_level?.name}
-              code={reportProjectData.user?.code}
-              start_date={reportProjectData.user?.start_date}
-              loading={isLoading}
-            />
-          </div>
-          <CardProjectInfo project={reportProjectData.project} isLoading={isLoading} />
-          <DonutChartTimeSheet donutLabel={reportProjectData.timeSheetChart} isLoading={isLoading} />
-          {projectId && reportProjectData.user.id ? (
-            <TableListTimeSheet projectId={projectId} userId={reportProjectData.user.id} />
-          ) : null}
-        </>
-      ) : projectId && memberId && !reportProjectData && !isLoading ? (
-        <div className="flex w-full justify-center border rounded-lg shadow">
-          ไม่พบข้อมูลรายงานโครงการ
-        </div>
-      ) : (
-        <div className="flex flex-col items-center w-full justify-center p-10 gap-5 border rounded-lg shadow">
-          <EmptyFolderIcon />
-          <div className="text-xl font-semibold">เลือกโครงการและสมาชิก</div>
-        </div>
-      )} */}
+      <ReportProjectMemberModal
+        projectId={projectId}
+        open={isMemberModalOpen}
+        onOpenChange={setIsMemberModalOpen}
+        selectedMemberInfo={selectedMemberInfo}
+        isMemberInfoLoading={isMemberInfoLoading}
+      />
     </div>
   );
 };
