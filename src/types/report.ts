@@ -78,3 +78,16 @@ export interface ITimeSheetTable {
   remark: string | null;
   is_work_from_home: boolean;
 }
+
+export interface IReportProjectMonthly {
+  project_name: string;
+  project_code: string;
+  month: number;
+  year: number;
+  members: IReportProjectMember[];
+}
+
+export interface IReportProjectMember {
+  user_name: string;
+  timeSheets: number;
+}

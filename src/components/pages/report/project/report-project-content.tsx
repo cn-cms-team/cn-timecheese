@@ -12,8 +12,7 @@ import ReportProjectBarChart from './report-project-bar-chart';
 import { IReportProjectMember } from '@/types/report/project';
 import ReportProjectMemberModal from './report-project-member-modal';
 import ReportProjectMembersSection from './report-project-members-section';
-import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
+import ReportProjectGenerateDialog from './report-project-generate-dialog';
 
 const ReportProjectContent = () => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
@@ -121,9 +120,7 @@ const ReportProjectContent = () => {
             }}
           />
         </div>
-        <Button>
-          <Download className="w-4 h-4" /> รายงานการลงเวลาประจำเดือน
-        </Button>
+        {projectId && <ReportProjectGenerateDialog projectId={projectId} />}
       </div>
       {projectId ? (
         <div>
