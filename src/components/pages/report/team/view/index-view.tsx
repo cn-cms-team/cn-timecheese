@@ -9,10 +9,9 @@ import { useSession } from 'next-auth/react';
 import { IReportTeam, IUserReport } from '@/types/report/team';
 import ReportUsersButton from '../../report-users-button';
 import { useRouter } from 'next/navigation';
-import { useLoading } from '@/components/context/app-context';
 
 const ReportTeamView = () => {
-  const { isLoading, setIsLoading } = useLoading();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { data: session } = useSession();
   const router = useRouter();
   const [userList, setUserList] = useState<(IOption & UserAvatarProps)[]>([]);
