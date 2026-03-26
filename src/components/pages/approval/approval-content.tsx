@@ -6,12 +6,10 @@ import { toast } from 'sonner';
 import { handleApproveTimeSheetSummary } from '@/components/pages/approval/actions';
 import ApprovalDetailSection from '@/components/pages/approval/approval-detail-section';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
 import EmptyFolderIcon from '@/components/ui/icons/empty-folder';
 import { Label } from '@/components/ui/label';
 import { fetcher } from '@/lib/fetcher';
-import { formatHours } from '@/lib/functions/date-format';
 import { IOptionGroups } from '@/types/dropdown';
 import {
   IApprovalActionPayload,
@@ -46,7 +44,7 @@ const ApprovalContent = () => {
       );
     } catch (error) {
       console.error('Error fetching project options:', error);
-      toast.error('โหลดรายการโครงการไม่สำเร็จ');
+      toast.error('Loading project options failed');
       setProjectOptions([]);
     } finally {
       setIsProjectLoading(false);
@@ -67,7 +65,7 @@ const ApprovalContent = () => {
       setPendingData(result);
     } catch (error) {
       console.error('Error fetching pending approvals:', error);
-      toast.error('โหลดรายการรออนุมัติไม่สำเร็จ');
+      toast.error('Loading pending approvals failed');
       setPendingData({ members: [], summaries: [] });
     } finally {
       setIsPendingLoading(false);
@@ -106,7 +104,6 @@ const ApprovalContent = () => {
   }, [pendingData.members]);
 
   const handleApprove = async (item: IApprovalPendingSummary) => {
-    const dateLabel = formatDate(item.sum_date);
     const actionPayload: IApprovalActionPayload = {
       user_id: item.user_id,
       project_id: item.project_id,
@@ -122,11 +119,11 @@ const ApprovalContent = () => {
         return;
       }
 
-      toast.success(`อนุมัติรายการวันที่ ${dateLabel} สำเร็จ`);
+      toast.success(result.message);
       await loadPendingApprovals(item.project_id);
     } catch (error) {
       console.error('Error approving summary:', error);
-      toast.error('เกิดข้อผิดพลาดระหว่างอนุมัติรายการ');
+      toast.error('An unexpected error occurred. Please try again.');
     } finally {
       setApprovingKey(null);
     }
