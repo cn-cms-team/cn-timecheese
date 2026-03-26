@@ -48,3 +48,45 @@ infisical login
 
 infisical run -- npm run dev
 ```
+
+## Timesheet Push Reminder Setup
+
+This project supports push reminder notifications for weekdays at 17:50 (Asia/Bangkok).
+
+### 1) Required environment variables
+
+Set these values in your environment (or Infisical):
+
+```
+NEXT_PUBLIC_VAPID_PUBLIC_KEY=<your_vapid_public_key>
+VAPID_PRIVATE_KEY=<your_vapid_private_key>
+VAPID_SUBJECT=mailto:you@example.com
+NOTIFICATION_CRON_SECRET=<random_secret>
+```
+
+If you deploy on Vercel Cron, you can use `CRON_SECRET` instead of `NOTIFICATION_CRON_SECRET`.
+
+### 2) Run DB migration
+
+Apply the migration so `push_subscriptions` table exists:
+
+```bash
+npx prisma migrate deploy
+```
+
+### 3) Generate VAPID keys (one-time)
+
+```bash
+npx web-push generate-vapid-keys
+```
+
+### 4) Browser permission
+
+After login, the app registers service worker and requests notification permission.
+Users must allow notifications once on their browser.
+
+### 5) Cron schedule
+
+For Vercel, `vercel.json` is configured to call:
+
+`/api/v1/notifications/timesheet-reminder` on `50 10 * * 1-5` (UTC), which equals 17:50 Monday-Friday in Thailand.

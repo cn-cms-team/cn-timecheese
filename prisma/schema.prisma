@@ -53,8 +53,27 @@ model User {
   teamLeaders               TeamLeader[]
   projectReportMembers      ProjectReportMember[]
   timeSheetsSummaryApproved TimeSheetSummary[]    @relation("TimeSheetSummaryApprovedBy")
+  pushSubscriptions         PushSubscription[]
 
   @@map("users")
+}
+
+model PushSubscription {
+  id              String  @id @default(uuid(7)) @db.Uuid
+  user_id         String  @db.Uuid
+  endpoint        String  @unique @db.Text
+  p256dh          String  @db.VarChar(255)
+  auth            String  @db.VarChar(255)
+  expiration_time BigInt?
+
+  is_enabled Boolean   @default(true)
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id], map: "idx_push_subscriptions_user_id")
+  @@map("push_subscriptions")
 }
 
 model Role {

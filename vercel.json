@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/v1/notifications/timesheet-reminder",
+      "schedule": "50 10 * * 1-5"
+    }
+  ]
+}
