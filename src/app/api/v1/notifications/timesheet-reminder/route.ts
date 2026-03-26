@@ -59,31 +59,42 @@ export async function POST(request: Request) {
 
     const { start, end } = getTodayRange();
 
-    type PushTarget = {
-      id: string;
-      endpoint: string;
-      p256dh: string;
-      auth: string;
-    };
+    const submittedUsers = await prisma.timeSheetSummary.findMany({
+      where: {
+        sum_date: {
+          gte: start,
+          lte: end,
+        },
+      },
+      select: {
+        user_id: true,
+      },
+      distinct: ['user_id'],
+    });
 
-    const targets = await prisma.$queryRaw<PushTarget[]>`
-      SELECT ps.id, ps.endpoint, ps.p256dh, ps.auth
-      FROM push_subscriptions ps
-      INNER JOIN users u ON u.id = ps.user_id
-      LEFT JOIN (
-        SELECT DISTINCT user_id
-        FROM time_sheet_summaries
-        WHERE sum_date >= ${start}
-          AND sum_date <= ${end}
-      ) submitted ON submitted.user_id = ps.user_id
-      WHERE ps.is_enabled = true
-        AND u.is_enabled = true
-        AND submitted.user_id IS NULL
-    `;
+    const submittedUserIds = submittedUsers.map((summary) => summary.user_id);
+
+    const targets = await prisma.pushSubscription.findMany({
+      where: {
+        is_enabled: true,
+        user: {
+          is_enabled: true,
+        },
+        user_id: {
+          notIn: submittedUserIds,
+        },
+      },
+      select: {
+        id: true,
+        endpoint: true,
+        p256dh: true,
+        auth: true,
+      },
+    });
 
     const payload: NotificationPayload = {
       title: 'แจ้งเตือน Time Sheet',
-      body: 'อย่าลืมกรอก Time Sheet วันนี้ก่อนเลิกงานนะครับ',
+      body: 'อย่าลืมกรอก Time Sheet วันนี้ก่อนเลิกงานนะคะพี่ๆ',
       url: '/timesheet',
       tag: 'timesheet-reminder-weekday-1750',
     };
@@ -111,12 +122,15 @@ export async function POST(request: Request) {
             : null;
 
         if (statusCode === 404 || statusCode === 410) {
-          await prisma.$executeRaw`
-            UPDATE push_subscriptions
-            SET is_enabled = false,
-                updated_at = CURRENT_TIMESTAMP
-            WHERE id = ${subscription.id}::uuid
-          `;
+          await prisma.pushSubscription.updateMany({
+            where: {
+              id: subscription.id,
+            },
+            data: {
+              is_enabled: false,
+              updated_at: new Date(),
+            },
+          });
           disabled += 1;
           continue;
         }
