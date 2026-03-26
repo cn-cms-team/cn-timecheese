@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  PushSubscription: 'PushSubscription',
   Role: 'Role',
   RolePermission: 'RolePermission',
   Permission: 'Permission',
@@ -112,6 +113,21 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const PushSubscriptionScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  endpoint: 'endpoint',
+  p256dh: 'p256dh',
+  auth: 'auth',
+  expiration_time: 'expiration_time',
+  is_enabled: 'is_enabled',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+} as const
+
+export type PushSubscriptionScalarFieldEnum = (typeof PushSubscriptionScalarFieldEnum)[keyof typeof PushSubscriptionScalarFieldEnum]
 
 
 export const RoleScalarFieldEnum = {

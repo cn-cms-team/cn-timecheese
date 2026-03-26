@@ -41,6 +41,7 @@
     "@tanstack/react-table": "^8.21.3",
     "@tidbcloud/prisma-adapter": "^6.17.0",
     "@tidbcloud/serverless": "^0.2.0",
+    "@types/web-push": "^3.6.4",
     "apexcharts": "^5.3.6",
     "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.1",
@@ -68,6 +69,7 @@
     "sonner": "^2.0.7",
     "swr": "^2.3.8",
     "tailwind-merge": "^3.4.0",
+    "web-push": "^3.6.7",
     "zod": "^4.2.1"
   },
   "devDependencies": {
