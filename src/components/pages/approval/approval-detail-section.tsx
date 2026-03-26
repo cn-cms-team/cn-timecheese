@@ -75,7 +75,7 @@ const ApprovalDetailSection = ({
                     </CollapsibleTrigger>
                     <Button
                       size="sm"
-                      disabled={isApproving}
+                      disabled={isApproving || item.time_sheets.length === 0}
                       onClick={() => {
                         onApprove(item);
                       }}

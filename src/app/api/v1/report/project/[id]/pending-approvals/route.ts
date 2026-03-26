@@ -197,11 +197,18 @@ export async function GET(_request: Request, { params }: RouteContext) {
       };
     });
 
+    const summaryDataTimeSheetsNotEmpty = summaryData.filter((item) => item.time_sheets.length > 0);
+    const userIdsUniqueWithTimeSheets = new Set(
+      summaryDataTimeSheetsNotEmpty.map((item) => item.user_id)
+    );
+
     return Response.json(
       {
         data: {
-          members: Array.from(membersMap.values()),
-          summaries: summaryData,
+          members: Array.from(membersMap.values()).filter((member) =>
+            userIdsUniqueWithTimeSheets.has(member.user_id)
+          ),
+          summaries: summaryDataTimeSheetsNotEmpty,
         },
       },
       { status: 200 }
