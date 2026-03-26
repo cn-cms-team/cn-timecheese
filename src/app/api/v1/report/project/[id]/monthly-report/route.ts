@@ -45,32 +45,88 @@ export async function GET(request: Request, { params }: RouteContext) {
     const monthStart = startOfMonth(new Date(yearNumber, monthNumber));
     const monthEnd = endOfMonth(new Date(yearNumber, monthNumber));
 
-    const projectMembers = await prisma.projectMember.findMany({
+    const projectSelected = await prisma.project.findUnique({
       where: {
-        project_id: projectId,
-        project: {
-          is_company_project: false,
-        },
+        id: projectId,
       },
       select: {
-        user_id: true,
-        project_id: true,
-        project: {
-          select: {
-            name: true,
-            code: true,
-          },
-        },
-        user: {
-          select: {
-            first_name: true,
-            last_name: true,
-          },
-        },
+        id: true,
+        name: true,
+        code: true,
+        is_company_project: true,
       },
     });
 
-    const project = await prisma.timeSheetSummary.findMany({
+    if (!projectSelected) {
+      return Response.json({ message: 'Project not found' }, { status: 404 });
+    }
+
+    let projectMembers = [];
+    if (projectSelected.is_company_project) {
+      const users = await prisma.user.findMany({
+        where: {
+          is_active: true,
+          is_enabled: true,
+        },
+        select: {
+          id: true,
+          first_name: true,
+          last_name: true,
+          team: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      });
+
+      projectMembers = users.map((user) => {
+        return {
+          user_id: user.id,
+          project_id: projectSelected.id,
+          project: {
+            name: projectSelected.name,
+            code: projectSelected.code,
+          },
+          user: {
+            first_name: user.first_name,
+            last_name: user.last_name,
+            team: {
+              name: user.team?.name,
+            },
+          },
+        };
+      });
+    } else {
+      projectMembers = await prisma.projectMember.findMany({
+        where: {
+          project_id: projectId,
+        },
+        select: {
+          user_id: true,
+          project_id: true,
+          project: {
+            select: {
+              name: true,
+              code: true,
+            },
+          },
+          user: {
+            select: {
+              first_name: true,
+              last_name: true,
+              team: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      });
+    }
+
+    const projectTimeSheets = await prisma.timeSheetSummary.findMany({
       where: {
         project_id: projectId,
         sum_date: {
@@ -88,6 +144,7 @@ export async function GET(request: Request, { params }: RouteContext) {
         sum_date: 'asc',
       },
     });
+
     const result = {
       project_name: projectMembers[0].project.name,
       project_code: projectMembers[0].project.code,
@@ -95,11 +152,12 @@ export async function GET(request: Request, { params }: RouteContext) {
       year: yearNumber,
       members: projectMembers
         .map((member) => {
-          const userTimeSheets = project.filter(
+          const userTimeSheets = projectTimeSheets.filter(
             (timeSheet) => timeSheet.user_id === member.user_id
           );
           return {
             user_name: `${member.user.first_name} ${member.user.last_name}`,
+            team_name: member.user.team?.name,
             timeSheets: userTimeSheets.reduce((acc, timeSheet) => acc + timeSheet.total_seconds, 0),
           };
         })

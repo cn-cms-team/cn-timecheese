@@ -89,5 +89,6 @@ export interface IReportProjectMonthly {
 
 export interface IReportProjectMember {
   user_name: string;
+  team_name: string;
   timeSheets: number;
 }
