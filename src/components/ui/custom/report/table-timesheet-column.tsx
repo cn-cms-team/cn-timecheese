@@ -5,7 +5,7 @@ import { SortColumn } from '../data-table';
 import { ITimeSheetTable } from '@/types/report';
 import { buddhistFormatDate, formatDate } from '@/lib/functions/date-format';
 import ColumnTooltip from '../data-table/column-tooltip';
-import { Check, House } from 'lucide-react';
+import { Check, House, Clock } from 'lucide-react';
 
 type createColumnsProps = {
   data: any;
@@ -124,12 +124,16 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
     },
     {
       ...approvedColumn,
-      size: 120,
+      size: 50,
       cell: ({ row }) => {
         const { is_approved } = row.original;
         return (
           <div>
-            {is_approved ? <Check className="size-4 text-green-600" aria-label="อนุมัติ" /> : '-'}
+            {is_approved ? (
+              <Check className="size-4 text-green-600" aria-label="อนุมัติ" />
+            ) : (
+              <Clock className="size-4 text-gray-400" aria-label="รออนุมัติ" />
+            )}
           </div>
         );
       },
