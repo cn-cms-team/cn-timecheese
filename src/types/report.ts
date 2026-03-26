@@ -16,6 +16,14 @@ export interface IReportProjectAttendanceSeries {
   data: number;
 }
 
+export interface IReportProjectCompareTsItem {
+  project_id: string;
+  project_name: string;
+  project_code: string;
+  total_seconds: number;
+  total_hours: number;
+}
+
 export interface IProjectReportBase {
   project_id: string;
   user: IReportUserInfo;

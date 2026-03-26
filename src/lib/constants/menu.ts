@@ -29,6 +29,11 @@ export const menuItems: IMenu[] = [
         name: 'สรุป TS สำหรับหัวหน้าทีม',
         url: '/report/team',
       },
+      {
+        menuId: 'REPORT_PROJECT_COMPARE_TS',
+        name: 'สรุป TS ระหว่างโครงการ',
+        url: '/report/project-compare-ts',
+      },
     ],
   },
   {
