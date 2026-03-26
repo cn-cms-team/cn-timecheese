@@ -197,7 +197,7 @@ const ApprovalContent = () => {
                     <button
                       key={member.user_id}
                       type="button"
-                      className={`rounded-md border px-3 py-2 text-left transition ${
+                      className={`rounded-md border px-3 py-2 text-left transition cursor-pointer ${
                         isSelected
                           ? 'border-primary bg-primary/10 shadow-sm'
                           : 'border-border/70 bg-muted/20 hover:bg-muted/40'
