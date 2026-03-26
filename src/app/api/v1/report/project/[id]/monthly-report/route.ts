@@ -161,7 +161,9 @@ export async function GET(request: Request, { params }: RouteContext) {
             timeSheets: userTimeSheets.reduce((acc, timeSheet) => acc + timeSheet.total_seconds, 0),
           };
         })
-        .sort((a, b) => b.timeSheets - a.timeSheets),
+        .sort((a, b) => {
+          return a.team_name!.localeCompare(b.team_name!) || b.timeSheets - a.timeSheets;
+        }),
     };
 
     return Response.json({ data: result }, { status: 200 });
