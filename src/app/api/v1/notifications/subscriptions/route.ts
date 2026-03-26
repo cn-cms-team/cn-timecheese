@@ -45,18 +45,25 @@ export async function POST(request: Request) {
     const expirationTime =
       body.expirationTime === null ? null : BigInt(Math.trunc(body.expirationTime));
 
-    await prisma.$executeRaw`
-      INSERT INTO push_subscriptions (id, user_id, endpoint, p256dh, auth, expiration_time, is_enabled)
-      VALUES (${crypto.randomUUID()}::uuid, ${session.user.id}::uuid, ${body.endpoint}, ${body.keys.p256dh}, ${body.keys.auth}, ${expirationTime}, true)
-      ON CONFLICT (endpoint)
-      DO UPDATE SET
-        user_id = EXCLUDED.user_id,
-        p256dh = EXCLUDED.p256dh,
-        auth = EXCLUDED.auth,
-        expiration_time = EXCLUDED.expiration_time,
-        is_enabled = true,
-        updated_at = CURRENT_TIMESTAMP
-    `;
+    await prisma.pushSubscription.upsert({
+      where: { endpoint: body.endpoint },
+      create: {
+        user_id: session.user.id,
+        endpoint: body.endpoint,
+        p256dh: body.keys.p256dh,
+        auth: body.keys.auth,
+        expiration_time: expirationTime,
+        is_enabled: true,
+      },
+      update: {
+        user_id: session.user.id,
+        p256dh: body.keys.p256dh,
+        auth: body.keys.auth,
+        expiration_time: expirationTime,
+        is_enabled: true,
+        updated_at: new Date(),
+      },
+    });
 
     return Response.json({ message: 'Subscription saved' }, { status: 200 });
   } catch (error) {
@@ -88,13 +95,16 @@ export async function DELETE(request: Request) {
       return Response.json({ message: 'Missing endpoint' }, { status: 400 });
     }
 
-    await prisma.$executeRaw`
-      UPDATE push_subscriptions
-      SET is_enabled = false,
-          updated_at = CURRENT_TIMESTAMP
-      WHERE endpoint = ${endpoint}
-        AND user_id = ${session.user.id}::uuid
-    `;
+    await prisma.pushSubscription.updateMany({
+      where: {
+        endpoint,
+        user_id: session.user.id,
+      },
+      data: {
+        is_enabled: false,
+        updated_at: new Date(),
+      },
+    });
 
     return Response.json({ message: 'Subscription disabled' }, { status: 200 });
   } catch (error) {
