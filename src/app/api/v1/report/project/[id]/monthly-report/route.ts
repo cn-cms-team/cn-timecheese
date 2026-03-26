@@ -161,6 +161,7 @@ export async function GET(request: Request, { params }: RouteContext) {
             timeSheets: userTimeSheets.reduce((acc, timeSheet) => acc + timeSheet.total_seconds, 0),
           };
         })
+        .filter((member) => member.timeSheets > 0)
         .sort((a, b) => {
           return a.team_name!.localeCompare(b.team_name!) || b.timeSheets - a.timeSheets;
         }),
