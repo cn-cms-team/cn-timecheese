@@ -3,6 +3,7 @@ import { IconProps } from './ui';
 export type IMenuId =
   | 'DASHBOARD'
   | 'TIME_SHEET'
+  | 'APPROVAL'
   | 'REPORT'
   | 'REPORT_PROJECT_STATUS'
   | 'REPORT_TEAM_STATUS'
