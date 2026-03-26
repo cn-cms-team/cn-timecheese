@@ -38,20 +38,21 @@ model User {
   is_active  Boolean @default(false)
   is_enabled Boolean @default(true)
 
-  createdByUser        User[]                @relation("UserCreatedBy")
-  updatedByUser        User[]                @relation("UserUpdatedBy")
-  createdByRole        Role[]                @relation("RoleCreatedBy")
-  updatedByRole        Role[]                @relation("RoleUpdatedBy")
-  createdByTeams       Team[]                @relation("TeamCreatedBy")
-  updatedByTeams       Team[]                @relation("TeamUpdatedBy")
-  createdByPosition    Position[]            @relation("PositionCreatedBy")
-  updatedByPosition    Position[]            @relation("PositionUpdatedBy")
-  createdByProjects    Project[]             @relation("ProjectCreatedBy")
-  updatedByProjects    Project[]             @relation("ProjectUpdatedBy")
-  projectMembers       ProjectMember[]
-  timeSheets           TimeSheet[]
-  teamLeaders          TeamLeader[]
-  projectReportMembers ProjectReportMember[]
+  createdByUser             User[]                @relation("UserCreatedBy")
+  updatedByUser             User[]                @relation("UserUpdatedBy")
+  createdByRole             Role[]                @relation("RoleCreatedBy")
+  updatedByRole             Role[]                @relation("RoleUpdatedBy")
+  createdByTeams            Team[]                @relation("TeamCreatedBy")
+  updatedByTeams            Team[]                @relation("TeamUpdatedBy")
+  createdByPosition         Position[]            @relation("PositionCreatedBy")
+  updatedByPosition         Position[]            @relation("PositionUpdatedBy")
+  createdByProjects         Project[]             @relation("ProjectCreatedBy")
+  updatedByProjects         Project[]             @relation("ProjectUpdatedBy")
+  projectMembers            ProjectMember[]
+  timeSheets                TimeSheet[]
+  teamLeaders               TeamLeader[]
+  projectReportMembers      ProjectReportMember[]
+  timeSheetsSummaryApproved TimeSheetSummary[]    @relation("TimeSheetSummaryApprovedBy")
 
   @@map("users")
 }
@@ -323,6 +324,7 @@ model TimeSheet {
   detail               String?          @db.VarChar(1000)
   remark               String?          @db.VarChar(255)
   is_work_from_home    Boolean          @default(false)
+  is_approved          Boolean          @default(false)
 
   created_at DateTime @default(now())
 
@@ -335,8 +337,12 @@ model TimeSheetSummary {
   sum_date      DateTime @db.Date
   total_seconds Int
 
-  stamp_at   DateTime // last time of engagement in the project
-  created_at DateTime @default(now())
+  stamp_at    DateTime // last time of engagement in the project
+  created_at  DateTime  @default(now())
+  is_approved Boolean   @default(false)
+  approved_at DateTime?
+  approved_by String?   @db.Uuid
+  approvedBy  User?     @relation("TimeSheetSummaryApprovedBy", fields: [approved_by], references: [id])
 
   @@id([user_id, project_id, sum_date])
   @@map("time_sheet_summaries")
