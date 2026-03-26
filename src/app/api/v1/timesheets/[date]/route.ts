@@ -28,6 +28,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ date
         detail: true,
         remark: true,
         is_work_from_home: true,
+        is_approved: true,
         project_id: true,
         project_task_type_id: true,
         project: {
@@ -67,6 +68,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ date
       detail: item.detail,
       remark: item.remark,
       isWorkFromHome: item.is_work_from_home,
+      is_approved: item.is_approved,
       task_type_name: item?.project_task_type?.name,
       tone: item.project_task_type?.task_type?.tone_color || 'slate',
     }));

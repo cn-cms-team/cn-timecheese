@@ -108,6 +108,7 @@ const TimelineList = ({
         const startTime = formatTime(item.start_date);
         const endTime = formatTime(item.end_date);
         const isDeleting = deletingItemId === item.id;
+        const isApproved = item.is_approved;
 
         return (
           <div
@@ -136,7 +137,8 @@ const TimelineList = ({
                 <div className="flex shrink-0 items-center gap-2">
                   <button
                     aria-label={`แก้ไขกิจกรรม ${item.project_name}`}
-                    className="cursor-pointer inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white/80 px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-white sm:px-3 sm:text-sm"
+                    className="cursor-pointer inline-flex items-center gap-1 rounded-lg border border-slate-300 bg-white/80 px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:bg-white disabled:cursor-not-allowed disabled:opacity-60 sm:px-3 sm:text-sm"
+                    disabled={isApproved}
                     onClick={() => onEditItem?.(item)}
                     type="button"
                   >
@@ -147,7 +149,7 @@ const TimelineList = ({
                   <button
                     aria-label={`ลบกิจกรรม ${item.project_name}`}
                     className="cursor-pointer inline-flex items-center gap-1 rounded-lg border border-rose-200 bg-rose-50/80 px-2.5 py-1.5 text-xs font-semibold text-rose-700 transition-colors hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-60 sm:px-3 sm:text-sm"
-                    disabled={isDeleting}
+                    disabled={isDeleting || isApproved}
                     onClick={() => onDeleteItem?.(item)}
                     type="button"
                   >
@@ -202,6 +204,12 @@ const TimelineList = ({
                     )}
                   >
                     เวลาพักรวม {formatBreakDurationLabel(item.exclude_seconds)}
+                  </span>
+                ) : null}
+
+                {isApproved ? (
+                  <span className="inline-flex items-center gap-1 rounded-lg bg-emerald-100 px-2 py-1 font-semibold text-emerald-700 sm:gap-2 sm:px-3">
+                    อนุมัติแล้ว
                   </span>
                 ) : null}
               </div>
