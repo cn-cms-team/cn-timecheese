@@ -42,7 +42,7 @@ const ensureVapidConfig = () => {
   webpush.setVapidDetails(subject, publicKey, privateKey);
 };
 
-export async function POST(request: Request) {
+const handleReminderRequest = async (request: Request) => {
   try {
     const authHeader = request.headers.get('authorization');
     const expectedSecret = process.env.NOTIFICATION_CRON_SECRET || process.env.CRON_SECRET;
@@ -156,4 +156,12 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
+};
+
+export async function GET(request: Request) {
+  return handleReminderRequest(request);
+}
+
+export async function POST(request: Request) {
+  return handleReminderRequest(request);
 }
