@@ -14,10 +14,17 @@
     "is_active": true
   },
   {
+    "code": "APPROVAL",
+    "name": "รายการรออนุมัติ",
+    "parent_code": null,
+    "order": 3,
+    "is_active": true
+  },
+  {
     "code": "REPORT",
     "name": "รายงาน",
     "parent_code": null,
-    "order": 3,
+    "order": 4,
     "is_active": true
   },
   {
@@ -45,7 +52,7 @@
     "code": "ADMIN",
     "name": "ตั้งค่า",
     "parent_code": null,
-    "order": 4,
+    "order": 5,
     "is_active": true
   },
   {

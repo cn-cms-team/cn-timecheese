@@ -213,6 +213,11 @@ const TimeSheetViewContent = () => {
   };
 
   const handleEditActivityOpen = (item: TimelineItem) => {
+    if (item.is_approved) {
+      toast.info('รายการนี้อนุมัติแล้ว ไม่สามารถแก้ไขได้');
+      return;
+    }
+
     setEditingItem(item);
     setIsAddActivityOpen(true);
   };
@@ -241,6 +246,11 @@ const TimeSheetViewContent = () => {
   };
 
   const handleDeleteActivity = async (item: TimelineItem) => {
+    if (item.is_approved) {
+      toast.info('รายการนี้อนุมัติแล้ว ไม่สามารถลบได้');
+      return;
+    }
+
     setConfirmState({
       title: 'ลบกิจกรรม',
       message: `คุณยืนยันที่จะลบกิจกรรม ${item.project_name} ใช่หรือไม่ ?`,

@@ -28,6 +28,16 @@ export const modulePermission = [
     order: 4,
   },
   {
+    module_code: EModules.APPROVAL,
+    pms_code: EPermissions.VIEW,
+    order: 1,
+  },
+  {
+    module_code: EModules.APPROVAL,
+    pms_code: EPermissions.CREATE,
+    order: 2,
+  },
+  {
     module_code: EModules.REPORT_PROJECT_STATUS,
     pms_code: EPermissions.VIEW,
     order: 1,

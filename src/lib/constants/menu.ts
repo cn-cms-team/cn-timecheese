@@ -1,5 +1,5 @@
 import { IMenu } from '@/types/menu';
-import { CalendarDays, FileText, Home, Settings2 } from 'lucide-react';
+import { CalendarDays, FileText, Home, Settings2, Clock } from 'lucide-react';
 
 export const menuItems: IMenu[] = [
   {
@@ -13,6 +13,12 @@ export const menuItems: IMenu[] = [
     name: 'บันทึกเวลา',
     url: '/timesheet',
     icon: CalendarDays,
+  },
+  {
+    menuId: 'APPROVAL',
+    name: 'รายการรออนุมัติ',
+    url: '/approval',
+    icon: Clock,
   },
   {
     name: 'รายงาน',

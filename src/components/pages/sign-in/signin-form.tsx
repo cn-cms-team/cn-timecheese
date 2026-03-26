@@ -51,7 +51,7 @@ export default function LoginForm() {
               maxLength={MAX_LENGTH_255}
               disabled={disabled || isPending}
               className="block w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent transition-all outline-none bg-gray-50 focus:bg-white"
-              placeholder="name@example.com"
+              placeholder="name@clicknext.co.th"
               required
               autoComplete="off"
             />

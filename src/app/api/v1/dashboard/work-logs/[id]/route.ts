@@ -72,6 +72,7 @@ export async function GET(request: Request, { params }: RouteContext) {
           detail: true,
           remark: true,
           is_work_from_home: true,
+          is_approved: true,
         },
         orderBy: [{ stamp_date: 'desc' }, { start_date: 'desc' }],
         skip,
@@ -89,6 +90,7 @@ export async function GET(request: Request, { params }: RouteContext) {
       detail: task.detail,
       remark: task.remark,
       is_work_from_home: task.is_work_from_home,
+      is_approved: task.is_approved,
     }));
 
     return Response.json({ data, total_items: totalItems }, { status: 200 });

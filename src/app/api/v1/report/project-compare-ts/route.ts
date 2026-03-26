@@ -32,6 +32,7 @@ export async function GET(request: Request) {
 
     const grouped = await prisma.timeSheetSummary.groupBy({
       where: {
+        is_approved: true,
         sum_date: {
           gte: startDate,
           lte: endDate,

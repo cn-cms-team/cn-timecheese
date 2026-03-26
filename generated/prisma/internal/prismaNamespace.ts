@@ -2008,6 +2008,7 @@ export const TimeSheetScalarFieldEnum = {
   detail: 'detail',
   remark: 'remark',
   is_work_from_home: 'is_work_from_home',
+  is_approved: 'is_approved',
   created_at: 'created_at'
 } as const
 
@@ -2020,7 +2021,10 @@ export const TimeSheetSummaryScalarFieldEnum = {
   sum_date: 'sum_date',
   total_seconds: 'total_seconds',
   stamp_at: 'stamp_at',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  is_approved: 'is_approved',
+  approved_at: 'approved_at',
+  approved_by: 'approved_by'
 } as const
 
 export type TimeSheetSummaryScalarFieldEnum = (typeof TimeSheetSummaryScalarFieldEnum)[keyof typeof TimeSheetSummaryScalarFieldEnum]

@@ -144,11 +144,19 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
           id: true,
           total_seconds: true,
           exclude_seconds: true,
+          is_approved: true,
         },
       });
 
       if (!ts) {
         throw new Error('TimeSheet not found');
+      }
+
+      if (ts.is_approved) {
+        return {
+          success: false,
+          message: 'รายการนี้อนุมัติแล้ว ไม่สามารถแก้ไขได้',
+        };
       }
 
       const stampDate = new Date(validatedData.stamp_date_string);
@@ -268,10 +276,18 @@ export async function handleDeleteTimeSheet(id: string) {
           stamp_date: true,
           total_seconds: true,
           exclude_seconds: true,
+          is_approved: true,
         },
       });
       if (!ts) {
         throw new Error('TimeSheet not found');
+      }
+
+      if (ts.is_approved) {
+        return {
+          success: false,
+          message: 'รายการนี้อนุมัติแล้ว ไม่สามารถลบได้',
+        };
       }
 
       await prisma.timeSheet.delete({

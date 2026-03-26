@@ -41,6 +41,9 @@ export type TimeSheetSummaryMinAggregateOutputType = {
   total_seconds: number | null
   stamp_at: Date | null
   created_at: Date | null
+  is_approved: boolean | null
+  approved_at: Date | null
+  approved_by: string | null
 }
 
 export type TimeSheetSummaryMaxAggregateOutputType = {
@@ -50,6 +53,9 @@ export type TimeSheetSummaryMaxAggregateOutputType = {
   total_seconds: number | null
   stamp_at: Date | null
   created_at: Date | null
+  is_approved: boolean | null
+  approved_at: Date | null
+  approved_by: string | null
 }
 
 export type TimeSheetSummaryCountAggregateOutputType = {
@@ -59,6 +65,9 @@ export type TimeSheetSummaryCountAggregateOutputType = {
   total_seconds: number
   stamp_at: number
   created_at: number
+  is_approved: number
+  approved_at: number
+  approved_by: number
   _all: number
 }
 
@@ -78,6 +87,9 @@ export type TimeSheetSummaryMinAggregateInputType = {
   total_seconds?: true
   stamp_at?: true
   created_at?: true
+  is_approved?: true
+  approved_at?: true
+  approved_by?: true
 }
 
 export type TimeSheetSummaryMaxAggregateInputType = {
@@ -87,6 +99,9 @@ export type TimeSheetSummaryMaxAggregateInputType = {
   total_seconds?: true
   stamp_at?: true
   created_at?: true
+  is_approved?: true
+  approved_at?: true
+  approved_by?: true
 }
 
 export type TimeSheetSummaryCountAggregateInputType = {
@@ -96,6 +111,9 @@ export type TimeSheetSummaryCountAggregateInputType = {
   total_seconds?: true
   stamp_at?: true
   created_at?: true
+  is_approved?: true
+  approved_at?: true
+  approved_by?: true
   _all?: true
 }
 
@@ -192,6 +210,9 @@ export type TimeSheetSummaryGroupByOutputType = {
   total_seconds: number
   stamp_at: Date
   created_at: Date
+  is_approved: boolean
+  approved_at: Date | null
+  approved_by: string | null
   _count: TimeSheetSummaryCountAggregateOutputType | null
   _avg: TimeSheetSummaryAvgAggregateOutputType | null
   _sum: TimeSheetSummarySumAggregateOutputType | null
@@ -224,6 +245,10 @@ export type TimeSheetSummaryWhereInput = {
   total_seconds?: Prisma.IntFilter<"TimeSheetSummary"> | number
   stamp_at?: Prisma.DateTimeFilter<"TimeSheetSummary"> | Date | string
   created_at?: Prisma.DateTimeFilter<"TimeSheetSummary"> | Date | string
+  is_approved?: Prisma.BoolFilter<"TimeSheetSummary"> | boolean
+  approved_at?: Prisma.DateTimeNullableFilter<"TimeSheetSummary"> | Date | string | null
+  approved_by?: Prisma.UuidNullableFilter<"TimeSheetSummary"> | string | null
+  approvedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type TimeSheetSummaryOrderByWithRelationInput = {
@@ -233,6 +258,10 @@ export type TimeSheetSummaryOrderByWithRelationInput = {
   total_seconds?: Prisma.SortOrder
   stamp_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  is_approved?: Prisma.SortOrder
+  approved_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  approved_by?: Prisma.SortOrderInput | Prisma.SortOrder
+  approvedBy?: Prisma.UserOrderByWithRelationInput
 }
 
 export type TimeSheetSummaryWhereUniqueInput = Prisma.AtLeast<{
@@ -246,6 +275,10 @@ export type TimeSheetSummaryWhereUniqueInput = Prisma.AtLeast<{
   total_seconds?: Prisma.IntFilter<"TimeSheetSummary"> | number
   stamp_at?: Prisma.DateTimeFilter<"TimeSheetSummary"> | Date | string
   created_at?: Prisma.DateTimeFilter<"TimeSheetSummary"> | Date | string
+  is_approved?: Prisma.BoolFilter<"TimeSheetSummary"> | boolean
+  approved_at?: Prisma.DateTimeNullableFilter<"TimeSheetSummary"> | Date | string | null
+  approved_by?: Prisma.UuidNullableFilter<"TimeSheetSummary"> | string | null
+  approvedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "user_id_project_id_sum_date">
 
 export type TimeSheetSummaryOrderByWithAggregationInput = {
@@ -255,6 +288,9 @@ export type TimeSheetSummaryOrderByWithAggregationInput = {
   total_seconds?: Prisma.SortOrder
   stamp_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  is_approved?: Prisma.SortOrder
+  approved_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  approved_by?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TimeSheetSummaryCountOrderByAggregateInput
   _avg?: Prisma.TimeSheetSummaryAvgOrderByAggregateInput
   _max?: Prisma.TimeSheetSummaryMaxOrderByAggregateInput
@@ -272,6 +308,9 @@ export type TimeSheetSummaryScalarWhereWithAggregatesInput = {
   total_seconds?: Prisma.IntWithAggregatesFilter<"TimeSheetSummary"> | number
   stamp_at?: Prisma.DateTimeWithAggregatesFilter<"TimeSheetSummary"> | Date | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"TimeSheetSummary"> | Date | string
+  is_approved?: Prisma.BoolWithAggregatesFilter<"TimeSheetSummary"> | boolean
+  approved_at?: Prisma.DateTimeNullableWithAggregatesFilter<"TimeSheetSummary"> | Date | string | null
+  approved_by?: Prisma.UuidNullableWithAggregatesFilter<"TimeSheetSummary"> | string | null
 }
 
 export type TimeSheetSummaryCreateInput = {
@@ -281,6 +320,9 @@ export type TimeSheetSummaryCreateInput = {
   total_seconds: number
   stamp_at: Date | string
   created_at?: Date | string
+  is_approved?: boolean
+  approved_at?: Date | string | null
+  approvedBy?: Prisma.UserCreateNestedOneWithoutTimeSheetsSummaryApprovedInput
 }
 
 export type TimeSheetSummaryUncheckedCreateInput = {
@@ -290,6 +332,9 @@ export type TimeSheetSummaryUncheckedCreateInput = {
   total_seconds: number
   stamp_at: Date | string
   created_at?: Date | string
+  is_approved?: boolean
+  approved_at?: Date | string | null
+  approved_by?: string | null
 }
 
 export type TimeSheetSummaryUpdateInput = {
@@ -299,6 +344,9 @@ export type TimeSheetSummaryUpdateInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   stamp_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approvedBy?: Prisma.UserUpdateOneWithoutTimeSheetsSummaryApprovedNestedInput
 }
 
 export type TimeSheetSummaryUncheckedUpdateInput = {
@@ -308,6 +356,9 @@ export type TimeSheetSummaryUncheckedUpdateInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   stamp_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TimeSheetSummaryCreateManyInput = {
@@ -317,6 +368,9 @@ export type TimeSheetSummaryCreateManyInput = {
   total_seconds: number
   stamp_at: Date | string
   created_at?: Date | string
+  is_approved?: boolean
+  approved_at?: Date | string | null
+  approved_by?: string | null
 }
 
 export type TimeSheetSummaryUpdateManyMutationInput = {
@@ -326,6 +380,8 @@ export type TimeSheetSummaryUpdateManyMutationInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   stamp_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type TimeSheetSummaryUncheckedUpdateManyInput = {
@@ -335,6 +391,19 @@ export type TimeSheetSummaryUncheckedUpdateManyInput = {
   total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
   stamp_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  approved_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type TimeSheetSummaryListRelationFilter = {
+  every?: Prisma.TimeSheetSummaryWhereInput
+  some?: Prisma.TimeSheetSummaryWhereInput
+  none?: Prisma.TimeSheetSummaryWhereInput
+}
+
+export type TimeSheetSummaryOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type TimeSheetSummaryUser_idProject_idSum_dateCompoundUniqueInput = {
@@ -350,6 +419,9 @@ export type TimeSheetSummaryCountOrderByAggregateInput = {
   total_seconds?: Prisma.SortOrder
   stamp_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  is_approved?: Prisma.SortOrder
+  approved_at?: Prisma.SortOrder
+  approved_by?: Prisma.SortOrder
 }
 
 export type TimeSheetSummaryAvgOrderByAggregateInput = {
@@ -363,6 +435,9 @@ export type TimeSheetSummaryMaxOrderByAggregateInput = {
   total_seconds?: Prisma.SortOrder
   stamp_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  is_approved?: Prisma.SortOrder
+  approved_at?: Prisma.SortOrder
+  approved_by?: Prisma.SortOrder
 }
 
 export type TimeSheetSummaryMinOrderByAggregateInput = {
@@ -372,10 +447,162 @@ export type TimeSheetSummaryMinOrderByAggregateInput = {
   total_seconds?: Prisma.SortOrder
   stamp_at?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
+  is_approved?: Prisma.SortOrder
+  approved_at?: Prisma.SortOrder
+  approved_by?: Prisma.SortOrder
 }
 
 export type TimeSheetSummarySumOrderByAggregateInput = {
   total_seconds?: Prisma.SortOrder
+}
+
+export type TimeSheetSummaryCreateNestedManyWithoutApprovedByInput = {
+  create?: Prisma.XOR<Prisma.TimeSheetSummaryCreateWithoutApprovedByInput, Prisma.TimeSheetSummaryUncheckedCreateWithoutApprovedByInput> | Prisma.TimeSheetSummaryCreateWithoutApprovedByInput[] | Prisma.TimeSheetSummaryUncheckedCreateWithoutApprovedByInput[]
+  connectOrCreate?: Prisma.TimeSheetSummaryCreateOrConnectWithoutApprovedByInput | Prisma.TimeSheetSummaryCreateOrConnectWithoutApprovedByInput[]
+  createMany?: Prisma.TimeSheetSummaryCreateManyApprovedByInputEnvelope
+  connect?: Prisma.TimeSheetSummaryWhereUniqueInput | Prisma.TimeSheetSummaryWhereUniqueInput[]
+}
+
+export type TimeSheetSummaryUncheckedCreateNestedManyWithoutApprovedByInput = {
+  create?: Prisma.XOR<Prisma.TimeSheetSummaryCreateWithoutApprovedByInput, Prisma.TimeSheetSummaryUncheckedCreateWithoutApprovedByInput> | Prisma.TimeSheetSummaryCreateWithoutApprovedByInput[] | Prisma.TimeSheetSummaryUncheckedCreateWithoutApprovedByInput[]
+  connectOrCreate?: Prisma.TimeSheetSummaryCreateOrConnectWithoutApprovedByInput | Prisma.TimeSheetSummaryCreateOrConnectWithoutApprovedByInput[]
+  createMany?: Prisma.TimeSheetSummaryCreateManyApprovedByInputEnvelope
+  connect?: Prisma.TimeSheetSummaryWhereUniqueInput | Prisma.TimeSheetSummaryWhereUniqueInput[]
+}
+
+export type TimeSheetSummaryUpdateManyWithoutApprovedByNestedInput = {
+  create?: Prisma.XOR<Prisma.TimeSheetSummaryCreateWithoutApprovedByInput, Prisma.TimeSheetSummaryUncheckedCreateWithoutApprovedByInput> | Prisma.TimeSheetSummaryCreateWithoutApprovedByInput[] | Prisma.TimeSheetSummaryUncheckedCreateWithoutApprovedByInput[]
+  connectOrCreate?: Prisma.TimeSheetSummaryCreateOrConnectWithoutApprovedByInput | Prisma.TimeSheetSummaryCreateOrConnectWithoutApprovedByInput[]
+  upsert?: Prisma.TimeSheetSummaryUpsertWithWhereUniqueWithoutApprovedByInput | Prisma.TimeSheetSummaryUpsertWithWhereUniqueWithoutApprovedByInput[]
+  createMany?: Prisma.TimeSheetSummaryCreateManyApprovedByInputEnvelope
+  set?: Prisma.TimeSheetSummaryWhereUniqueInput | Prisma.TimeSheetSummaryWhereUniqueInput[]
+  disconnect?: Prisma.TimeSheetSummaryWhereUniqueInput | Prisma.TimeSheetSummaryWhereUniqueInput[]
+  delete?: Prisma.TimeSheetSummaryWhereUniqueInput | Prisma.TimeSheetSummaryWhereUniqueInput[]
+  connect?: Prisma.TimeSheetSummaryWhereUniqueInput | Prisma.TimeSheetSummaryWhereUniqueInput[]
+  update?: Prisma.TimeSheetSummaryUpdateWithWhereUniqueWithoutApprovedByInput | Prisma.TimeSheetSummaryUpdateWithWhereUniqueWithoutApprovedByInput[]
+  updateMany?: Prisma.TimeSheetSummaryUpdateManyWithWhereWithoutApprovedByInput | Prisma.TimeSheetSummaryUpdateManyWithWhereWithoutApprovedByInput[]
+  deleteMany?: Prisma.TimeSheetSummaryScalarWhereInput | Prisma.TimeSheetSummaryScalarWhereInput[]
+}
+
+export type TimeSheetSummaryUncheckedUpdateManyWithoutApprovedByNestedInput = {
+  create?: Prisma.XOR<Prisma.TimeSheetSummaryCreateWithoutApprovedByInput, Prisma.TimeSheetSummaryUncheckedCreateWithoutApprovedByInput> | Prisma.TimeSheetSummaryCreateWithoutApprovedByInput[] | Prisma.TimeSheetSummaryUncheckedCreateWithoutApprovedByInput[]
+  connectOrCreate?: Prisma.TimeSheetSummaryCreateOrConnectWithoutApprovedByInput | Prisma.TimeSheetSummaryCreateOrConnectWithoutApprovedByInput[]
+  upsert?: Prisma.TimeSheetSummaryUpsertWithWhereUniqueWithoutApprovedByInput | Prisma.TimeSheetSummaryUpsertWithWhereUniqueWithoutApprovedByInput[]
+  createMany?: Prisma.TimeSheetSummaryCreateManyApprovedByInputEnvelope
+  set?: Prisma.TimeSheetSummaryWhereUniqueInput | Prisma.TimeSheetSummaryWhereUniqueInput[]
+  disconnect?: Prisma.TimeSheetSummaryWhereUniqueInput | Prisma.TimeSheetSummaryWhereUniqueInput[]
+  delete?: Prisma.TimeSheetSummaryWhereUniqueInput | Prisma.TimeSheetSummaryWhereUniqueInput[]
+  connect?: Prisma.TimeSheetSummaryWhereUniqueInput | Prisma.TimeSheetSummaryWhereUniqueInput[]
+  update?: Prisma.TimeSheetSummaryUpdateWithWhereUniqueWithoutApprovedByInput | Prisma.TimeSheetSummaryUpdateWithWhereUniqueWithoutApprovedByInput[]
+  updateMany?: Prisma.TimeSheetSummaryUpdateManyWithWhereWithoutApprovedByInput | Prisma.TimeSheetSummaryUpdateManyWithWhereWithoutApprovedByInput[]
+  deleteMany?: Prisma.TimeSheetSummaryScalarWhereInput | Prisma.TimeSheetSummaryScalarWhereInput[]
+}
+
+export type TimeSheetSummaryCreateWithoutApprovedByInput = {
+  user_id: string
+  project_id: string
+  sum_date: Date | string
+  total_seconds: number
+  stamp_at: Date | string
+  created_at?: Date | string
+  is_approved?: boolean
+  approved_at?: Date | string | null
+}
+
+export type TimeSheetSummaryUncheckedCreateWithoutApprovedByInput = {
+  user_id: string
+  project_id: string
+  sum_date: Date | string
+  total_seconds: number
+  stamp_at: Date | string
+  created_at?: Date | string
+  is_approved?: boolean
+  approved_at?: Date | string | null
+}
+
+export type TimeSheetSummaryCreateOrConnectWithoutApprovedByInput = {
+  where: Prisma.TimeSheetSummaryWhereUniqueInput
+  create: Prisma.XOR<Prisma.TimeSheetSummaryCreateWithoutApprovedByInput, Prisma.TimeSheetSummaryUncheckedCreateWithoutApprovedByInput>
+}
+
+export type TimeSheetSummaryCreateManyApprovedByInputEnvelope = {
+  data: Prisma.TimeSheetSummaryCreateManyApprovedByInput | Prisma.TimeSheetSummaryCreateManyApprovedByInput[]
+  skipDuplicates?: boolean
+}
+
+export type TimeSheetSummaryUpsertWithWhereUniqueWithoutApprovedByInput = {
+  where: Prisma.TimeSheetSummaryWhereUniqueInput
+  update: Prisma.XOR<Prisma.TimeSheetSummaryUpdateWithoutApprovedByInput, Prisma.TimeSheetSummaryUncheckedUpdateWithoutApprovedByInput>
+  create: Prisma.XOR<Prisma.TimeSheetSummaryCreateWithoutApprovedByInput, Prisma.TimeSheetSummaryUncheckedCreateWithoutApprovedByInput>
+}
+
+export type TimeSheetSummaryUpdateWithWhereUniqueWithoutApprovedByInput = {
+  where: Prisma.TimeSheetSummaryWhereUniqueInput
+  data: Prisma.XOR<Prisma.TimeSheetSummaryUpdateWithoutApprovedByInput, Prisma.TimeSheetSummaryUncheckedUpdateWithoutApprovedByInput>
+}
+
+export type TimeSheetSummaryUpdateManyWithWhereWithoutApprovedByInput = {
+  where: Prisma.TimeSheetSummaryScalarWhereInput
+  data: Prisma.XOR<Prisma.TimeSheetSummaryUpdateManyMutationInput, Prisma.TimeSheetSummaryUncheckedUpdateManyWithoutApprovedByInput>
+}
+
+export type TimeSheetSummaryScalarWhereInput = {
+  AND?: Prisma.TimeSheetSummaryScalarWhereInput | Prisma.TimeSheetSummaryScalarWhereInput[]
+  OR?: Prisma.TimeSheetSummaryScalarWhereInput[]
+  NOT?: Prisma.TimeSheetSummaryScalarWhereInput | Prisma.TimeSheetSummaryScalarWhereInput[]
+  user_id?: Prisma.UuidFilter<"TimeSheetSummary"> | string
+  project_id?: Prisma.UuidFilter<"TimeSheetSummary"> | string
+  sum_date?: Prisma.DateTimeFilter<"TimeSheetSummary"> | Date | string
+  total_seconds?: Prisma.IntFilter<"TimeSheetSummary"> | number
+  stamp_at?: Prisma.DateTimeFilter<"TimeSheetSummary"> | Date | string
+  created_at?: Prisma.DateTimeFilter<"TimeSheetSummary"> | Date | string
+  is_approved?: Prisma.BoolFilter<"TimeSheetSummary"> | boolean
+  approved_at?: Prisma.DateTimeNullableFilter<"TimeSheetSummary"> | Date | string | null
+  approved_by?: Prisma.UuidNullableFilter<"TimeSheetSummary"> | string | null
+}
+
+export type TimeSheetSummaryCreateManyApprovedByInput = {
+  user_id: string
+  project_id: string
+  sum_date: Date | string
+  total_seconds: number
+  stamp_at: Date | string
+  created_at?: Date | string
+  is_approved?: boolean
+  approved_at?: Date | string | null
+}
+
+export type TimeSheetSummaryUpdateWithoutApprovedByInput = {
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  project_id?: Prisma.StringFieldUpdateOperationsInput | string
+  sum_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
+  stamp_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type TimeSheetSummaryUncheckedUpdateWithoutApprovedByInput = {
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  project_id?: Prisma.StringFieldUpdateOperationsInput | string
+  sum_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
+  stamp_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type TimeSheetSummaryUncheckedUpdateManyWithoutApprovedByInput = {
+  user_id?: Prisma.StringFieldUpdateOperationsInput | string
+  project_id?: Prisma.StringFieldUpdateOperationsInput | string
+  sum_date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  total_seconds?: Prisma.IntFieldUpdateOperationsInput | number
+  stamp_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  approved_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -387,6 +614,10 @@ export type TimeSheetSummarySelect<ExtArgs extends runtime.Types.Extensions.Inte
   total_seconds?: boolean
   stamp_at?: boolean
   created_at?: boolean
+  is_approved?: boolean
+  approved_at?: boolean
+  approved_by?: boolean
+  approvedBy?: boolean | Prisma.TimeSheetSummary$approvedByArgs<ExtArgs>
 }, ExtArgs["result"]["timeSheetSummary"]>
 
 export type TimeSheetSummarySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -396,6 +627,10 @@ export type TimeSheetSummarySelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   total_seconds?: boolean
   stamp_at?: boolean
   created_at?: boolean
+  is_approved?: boolean
+  approved_at?: boolean
+  approved_by?: boolean
+  approvedBy?: boolean | Prisma.TimeSheetSummary$approvedByArgs<ExtArgs>
 }, ExtArgs["result"]["timeSheetSummary"]>
 
 export type TimeSheetSummarySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -405,6 +640,10 @@ export type TimeSheetSummarySelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   total_seconds?: boolean
   stamp_at?: boolean
   created_at?: boolean
+  is_approved?: boolean
+  approved_at?: boolean
+  approved_by?: boolean
+  approvedBy?: boolean | Prisma.TimeSheetSummary$approvedByArgs<ExtArgs>
 }, ExtArgs["result"]["timeSheetSummary"]>
 
 export type TimeSheetSummarySelectScalar = {
@@ -414,13 +653,27 @@ export type TimeSheetSummarySelectScalar = {
   total_seconds?: boolean
   stamp_at?: boolean
   created_at?: boolean
+  is_approved?: boolean
+  approved_at?: boolean
+  approved_by?: boolean
 }
 
-export type TimeSheetSummaryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_id" | "project_id" | "sum_date" | "total_seconds" | "stamp_at" | "created_at", ExtArgs["result"]["timeSheetSummary"]>
+export type TimeSheetSummaryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"user_id" | "project_id" | "sum_date" | "total_seconds" | "stamp_at" | "created_at" | "is_approved" | "approved_at" | "approved_by", ExtArgs["result"]["timeSheetSummary"]>
+export type TimeSheetSummaryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  approvedBy?: boolean | Prisma.TimeSheetSummary$approvedByArgs<ExtArgs>
+}
+export type TimeSheetSummaryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  approvedBy?: boolean | Prisma.TimeSheetSummary$approvedByArgs<ExtArgs>
+}
+export type TimeSheetSummaryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  approvedBy?: boolean | Prisma.TimeSheetSummary$approvedByArgs<ExtArgs>
+}
 
 export type $TimeSheetSummaryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TimeSheetSummary"
-  objects: {}
+  objects: {
+    approvedBy: Prisma.$UserPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     user_id: string
     project_id: string
@@ -428,6 +681,9 @@ export type $TimeSheetSummaryPayload<ExtArgs extends runtime.Types.Extensions.In
     total_seconds: number
     stamp_at: Date
     created_at: Date
+    is_approved: boolean
+    approved_at: Date | null
+    approved_by: string | null
   }, ExtArgs["result"]["timeSheetSummary"]>
   composites: {}
 }
@@ -822,6 +1078,7 @@ readonly fields: TimeSheetSummaryFieldRefs;
  */
 export interface Prisma__TimeSheetSummaryClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  approvedBy<T extends Prisma.TimeSheetSummary$approvedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TimeSheetSummary$approvedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -857,6 +1114,9 @@ export interface TimeSheetSummaryFieldRefs {
   readonly total_seconds: Prisma.FieldRef<"TimeSheetSummary", 'Int'>
   readonly stamp_at: Prisma.FieldRef<"TimeSheetSummary", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"TimeSheetSummary", 'DateTime'>
+  readonly is_approved: Prisma.FieldRef<"TimeSheetSummary", 'Boolean'>
+  readonly approved_at: Prisma.FieldRef<"TimeSheetSummary", 'DateTime'>
+  readonly approved_by: Prisma.FieldRef<"TimeSheetSummary", 'String'>
 }
     
 
@@ -873,6 +1133,10 @@ export type TimeSheetSummaryFindUniqueArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the TimeSheetSummary
    */
   omit?: Prisma.TimeSheetSummaryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetSummaryInclude<ExtArgs> | null
   /**
    * Filter, which TimeSheetSummary to fetch.
    */
@@ -892,6 +1156,10 @@ export type TimeSheetSummaryFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.
    */
   omit?: Prisma.TimeSheetSummaryOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetSummaryInclude<ExtArgs> | null
+  /**
    * Filter, which TimeSheetSummary to fetch.
    */
   where: Prisma.TimeSheetSummaryWhereUniqueInput
@@ -909,6 +1177,10 @@ export type TimeSheetSummaryFindFirstArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the TimeSheetSummary
    */
   omit?: Prisma.TimeSheetSummaryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetSummaryInclude<ExtArgs> | null
   /**
    * Filter, which TimeSheetSummary to fetch.
    */
@@ -958,6 +1230,10 @@ export type TimeSheetSummaryFindFirstOrThrowArgs<ExtArgs extends runtime.Types.E
    */
   omit?: Prisma.TimeSheetSummaryOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetSummaryInclude<ExtArgs> | null
+  /**
    * Filter, which TimeSheetSummary to fetch.
    */
   where?: Prisma.TimeSheetSummaryWhereInput
@@ -1006,6 +1282,10 @@ export type TimeSheetSummaryFindManyArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.TimeSheetSummaryOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetSummaryInclude<ExtArgs> | null
+  /**
    * Filter, which TimeSheetSummaries to fetch.
    */
   where?: Prisma.TimeSheetSummaryWhereInput
@@ -1049,6 +1329,10 @@ export type TimeSheetSummaryCreateArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.TimeSheetSummaryOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetSummaryInclude<ExtArgs> | null
+  /**
    * The data needed to create a TimeSheetSummary.
    */
   data: Prisma.XOR<Prisma.TimeSheetSummaryCreateInput, Prisma.TimeSheetSummaryUncheckedCreateInput>
@@ -1082,6 +1366,10 @@ export type TimeSheetSummaryCreateManyAndReturnArgs<ExtArgs extends runtime.Type
    */
   data: Prisma.TimeSheetSummaryCreateManyInput | Prisma.TimeSheetSummaryCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetSummaryIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1096,6 +1384,10 @@ export type TimeSheetSummaryUpdateArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the TimeSheetSummary
    */
   omit?: Prisma.TimeSheetSummaryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetSummaryInclude<ExtArgs> | null
   /**
    * The data needed to update a TimeSheetSummary.
    */
@@ -1148,6 +1440,10 @@ export type TimeSheetSummaryUpdateManyAndReturnArgs<ExtArgs extends runtime.Type
    * Limit how many TimeSheetSummaries to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetSummaryIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1162,6 +1458,10 @@ export type TimeSheetSummaryUpsertArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the TimeSheetSummary
    */
   omit?: Prisma.TimeSheetSummaryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetSummaryInclude<ExtArgs> | null
   /**
    * The filter to search for the TimeSheetSummary to update in case it exists.
    */
@@ -1189,6 +1489,10 @@ export type TimeSheetSummaryDeleteArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.TimeSheetSummaryOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetSummaryInclude<ExtArgs> | null
+  /**
    * Filter which TimeSheetSummary to delete.
    */
   where: Prisma.TimeSheetSummaryWhereUniqueInput
@@ -1209,6 +1513,25 @@ export type TimeSheetSummaryDeleteManyArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
+ * TimeSheetSummary.approvedBy
+ */
+export type TimeSheetSummary$approvedByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
  * TimeSheetSummary without action
  */
 export type TimeSheetSummaryDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1220,4 +1543,8 @@ export type TimeSheetSummaryDefaultArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the TimeSheetSummary
    */
   omit?: Prisma.TimeSheetSummaryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeSheetSummaryInclude<ExtArgs> | null
 }

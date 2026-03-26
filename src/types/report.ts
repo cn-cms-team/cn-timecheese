@@ -77,6 +77,7 @@ export interface ITimeSheetTable {
   detail: string;
   remark: string | null;
   is_work_from_home: boolean;
+  is_approved: boolean;
 }
 
 export interface IReportProjectMonthly {
@@ -89,5 +90,6 @@ export interface IReportProjectMonthly {
 
 export interface IReportProjectMember {
   user_name: string;
+  team_name: string;
   timeSheets: number;
 }

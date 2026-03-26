@@ -93,7 +93,7 @@ const ReportProjectCompareTsDetail = () => {
       xaxis: {
         categories: projectLabels,
         title: {
-          text: 'ชั่วโมงรวม',
+          text: 'Man-Day',
         },
         labels: {
           formatter: (value) => Number(value).toFixed(1),
@@ -109,7 +109,7 @@ const ReportProjectCompareTsDetail = () => {
       },
       dataLabels: {
         enabled: true,
-        formatter: (value) => `${Number(value).toFixed(1)} ชม.`,
+        formatter: (value) => `${Number(value).toFixed(1)} ชม. (${getManDayText(Number(value))})`,
         style: {
           fontWeight: 700,
         },
@@ -134,6 +134,14 @@ const ReportProjectCompareTsDetail = () => {
     const manDays = Math.floor(hours / 8);
     const remainingHours = hours % 8;
     return `${manDays > 0 ? `${manDays} วัน` : ''} ${remainingHours.toFixed(1)} ชั่วโมง`;
+  };
+
+  const getManDayText = (hours: number) => {
+    if (!hours) {
+      return '0 วัน';
+    }
+    const manDays = hours / 8;
+    return `~${manDays.toFixed(0)} วัน`;
   };
 
   const chartHeight = Math.max(360, rows.length * 56);

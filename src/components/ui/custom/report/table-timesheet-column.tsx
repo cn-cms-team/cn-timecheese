@@ -5,7 +5,7 @@ import { SortColumn } from '../data-table';
 import { ITimeSheetTable } from '@/types/report';
 import { buddhistFormatDate, formatDate } from '@/lib/functions/date-format';
 import ColumnTooltip from '../data-table/column-tooltip';
-import { House } from 'lucide-react';
+import { Check, House, Clock } from 'lucide-react';
 
 type createColumnsProps = {
   data: any;
@@ -20,6 +20,7 @@ const taskTypeColumn = SortColumn<ITimeSheetTable>('task_type_name', 'ประ�
 const detailColumn = SortColumn<ITimeSheetTable>('detail', 'รายละเอียดงาน');
 const remarkColumn = SortColumn<ITimeSheetTable>('remark', 'ปัญหาและข้อเสนอแนะ');
 const workFromHomeColumn = SortColumn<ITimeSheetTable>('is_work_from_home', 'ทำงานจากบ้าน');
+const approvedColumn = SortColumn<ITimeSheetTable>('is_approved', 'อนุมัติ');
 
 export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeSheetTable>[] => {
   const baseColumns: ColumnDef<ITimeSheetTable>[] = [
@@ -119,6 +120,22 @@ export const createColumns = ({ data }: createColumnsProps): ColumnDef<ITimeShee
         const { remark } = row.original;
 
         return <ColumnTooltip>{remark || '-'}</ColumnTooltip>;
+      },
+    },
+    {
+      ...approvedColumn,
+      size: 50,
+      cell: ({ row }) => {
+        const { is_approved } = row.original;
+        return (
+          <div>
+            {is_approved ? (
+              <Check className="size-4 text-green-600" aria-label="อนุมัติ" />
+            ) : (
+              <Clock className="size-4 text-gray-400" aria-label="รออนุมัติ" />
+            )}
+          </div>
+        );
       },
     },
   ];
