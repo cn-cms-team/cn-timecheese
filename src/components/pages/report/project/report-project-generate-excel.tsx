@@ -39,10 +39,15 @@ export default function ReportProjectGenerateExcel({
 
       const daysInMonth = getDaysInMonth(new Date(data.year, data.month, 1));
       // 2. Build the Headers
-      worksheet.addRow(['รายงานสรุปการลงเวลาประจำเดือน']).font = {
+      const titleRow = worksheet.addRow(['รายงานสรุปการลงเวลาประจำเดือน']);
+      titleRow.height = 50;
+      titleRow.font = {
         bold: true,
         size: 20,
         color: { argb: 'FF00B0F0' },
+      };
+      titleRow.alignment = {
+        vertical: 'middle',
       };
       worksheet.addRow(['โครงการ :', data.project_name]).font = {
         bold: true,
@@ -61,6 +66,7 @@ export default function ReportProjectGenerateExcel({
       // 3. Build Table Headers
       const headerRow = worksheet.addRow([
         'รายชื่อสมาชิกในโครงการ',
+        'ทีม',
         'เวลาที่ใช้ในโครงการ (ชั่วโมง)',
         'จำนวนชั่วโมงทั้งหมด / เดือน',
         'กรอกเงินเดือน',
@@ -96,29 +102,36 @@ export default function ReportProjectGenerateExcel({
       data.members.forEach((member, index) => {
         const currentRow = startRow + index;
         const totalHours = member.timeSheets / 3600;
-        worksheet.addRow([member.user_name, totalHours, daysInMonth * 8, 0]);
-        worksheet.getCell(`D${currentRow}`).numFmt = '#,##0.00';
-        // Add FORMULA for Column E (Hourly Rate = Salary / Total Hours)
-        // e.g., E9 = D9 / C9
-        worksheet.getCell(`E${currentRow}`).numFmt = '#,##0.00';
-        worksheet.getCell(`E${currentRow}`).value = {
-          formula: `D${currentRow}/C${currentRow}`,
+        worksheet.addRow([member.user_name, member.team_name, totalHours, 0, 0]);
+
+        worksheet.getCell(`D${currentRow}`).value = {
+          formula: `B5 * 8`,
         };
 
-        // Add FORMULA for Column F (Monthly Cost = Hourly Rate * TimeSheets)
-        // e.g., F9 = E9 * B9
+        worksheet.getCell(`E${currentRow}`).numFmt = '#,##0.00';
+        // Add FORMULA for Column F (Hourly Rate = Salary / Total Hours)
         worksheet.getCell(`F${currentRow}`).numFmt = '#,##0.00';
         worksheet.getCell(`F${currentRow}`).value = {
-          formula: `E${currentRow}*B${currentRow}`,
+          formula: `E${currentRow}/D${currentRow}`,
+        };
+
+        // Add FORMULA for Column G (Monthly Cost = Hourly Rate * TimeSheets)
+        worksheet.getCell(`G${currentRow}`).numFmt = '#,##0.00';
+        worksheet.getCell(`G${currentRow}`).value = {
+          formula: `F${currentRow}*D${currentRow}`,
         };
       });
 
-      const totalRow = worksheet.addRow(['', '', '', '', 'รวม (Total)']);
-      totalRow.getCell(6).numFmt = '#,##0.00';
-      totalRow.getCell(6).value = {
-        formula: `SUM(F${startRow}:F${startRow + data.members.length - 1})`,
+      const totalRow = worksheet.addRow(['', '', '', '', '', 'รวม (Total)']);
+      totalRow.getCell('G').numFmt = '#,##0.00';
+      totalRow.getCell('G').value = {
+        formula: `SUM(G${startRow}:G${startRow + data.members.length - 1})`,
       };
       totalRow.font = { bold: true };
+      totalRow.alignment = {
+        vertical: 'middle',
+        horizontal: 'right',
+      };
 
       worksheet.getColumn(1).width = 30;
       worksheet.getColumn(2).width = 25;
@@ -185,7 +198,10 @@ export default function ReportProjectGenerateExcel({
       const blob = new Blob([buffer], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
-      saveAs(blob, `Report_${data.project_code}.xlsx`);
+      const monthShort = new Date(new Date().setMonth(data.month)).toLocaleString('en-US', {
+        month: 'short',
+      });
+      saveAs(blob, `Report-${data.project_code}-${data.year}-${monthShort}.xlsx`);
     } catch (error) {
       console.error('Error:', error);
     } finally {
