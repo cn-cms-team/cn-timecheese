@@ -1,3 +1,5 @@
+import { TimelineCardTone } from '@/types/timesheet';
+
 export type IApprovalPendingMember = {
   user_id: string;
   code: string;
@@ -19,6 +21,7 @@ export type IApprovalPendingTimeSheet = {
   remark: string;
   is_work_from_home: boolean;
   task_type_name: string;
+  tone_color: TimelineCardTone;
 };
 
 export type IApprovalPendingSummary = {

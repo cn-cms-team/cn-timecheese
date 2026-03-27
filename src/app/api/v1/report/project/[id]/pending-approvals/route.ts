@@ -6,6 +6,7 @@ import {
   IApprovalPendingResponse,
   IApprovalPendingSummary,
 } from '@/types/report/approval';
+import { TimelineCardTone } from '@/types/timesheet';
 
 const toUtcDateOnly = (date: Date) => {
   const year = date.getUTCFullYear();
@@ -130,6 +131,11 @@ export async function GET(_request: Request, { params }: RouteContext) {
               project_task_type: {
                 select: {
                   name: true,
+                  task_type: {
+                    select: {
+                      tone_color: true,
+                    },
+                  },
                 },
               },
             },
@@ -193,6 +199,8 @@ export async function GET(_request: Request, { params }: RouteContext) {
           remark: item.remark || '',
           is_work_from_home: item.is_work_from_home,
           task_type_name: item.project_task_type?.name || '-',
+          tone_color: (item.project_task_type?.task_type?.tone_color ||
+            'slate') as TimelineCardTone,
         })),
       };
     });

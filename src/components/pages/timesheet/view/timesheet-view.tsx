@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { CalendarDays, ChevronLeft, ChevronRight, Clock3, Plus } from 'lucide-react';
+import { CalendarDays, ChevronLeft, ChevronRight, Clock3, Plus, Timer } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import DaySelector from '../day-selector';
@@ -21,6 +21,7 @@ import { fetcher } from '@/lib/fetcher';
 import { handleDeleteTimeSheet } from '../actions';
 import { toast } from 'sonner';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
+import Link from 'next/link';
 
 const today = new Date();
 const DEFAULT_MONTH_DATE = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -400,21 +401,40 @@ const TimeSheetViewContent = () => {
               </div>
 
               <>
-                <Button
-                  className="hidden rounded-2xl bg-black px-5 py-6 text-base font-semibold text-white hover:bg-black/90 sm:inline-flex"
-                  onClick={handleAddActivityOpen}
-                >
-                  <Plus className="size-5" />
-                  {`เพิ่มกิจกรรม ${selectedDayLabel}`}
-                </Button>
-                <Button
-                  aria-label={`เพิ่มกิจกรรมวันที่ ${selectedDayLabel}`}
-                  className="rounded-2xl bg-black text-white hover:bg-black/90 sm:hidden"
-                  onClick={handleAddActivityOpen}
-                  size="icon"
-                >
-                  <Plus className="size-5" />
-                </Button>
+                <div className="hidden sm:inline-flex">
+                  <div className="flex items-center gap-2">
+                    <Link href="/pomodoro">
+                      <Button className="rounded-2xl px-5 py-6 text-base font-semibold">
+                        <Timer className="size-5" />
+                        Pomodoro
+                      </Button>
+                    </Link>
+                    <Button
+                      className="rounded-2xl bg-black px-5 py-6 text-base font-semibold text-white hover:bg-black/90"
+                      onClick={handleAddActivityOpen}
+                    >
+                      <Plus className="size-5" />
+                      {`เพิ่มกิจกรรม ${selectedDayLabel}`}
+                    </Button>
+                  </div>
+                </div>
+                <div className="sm:hidden">
+                  <div className="flex items-center gap-2">
+                    <Link href="/pomodoro">
+                      <Button className="rounded-2xl" aria-label="Pomodoro" size={'icon'}>
+                        <Timer className="size-5" />
+                      </Button>
+                    </Link>
+                    <Button
+                      aria-label={`เพิ่มกิจกรรมวันที่ ${selectedDayLabel}`}
+                      className="rounded-2xl bg-black text-white hover:bg-black/90"
+                      onClick={handleAddActivityOpen}
+                      size="icon"
+                    >
+                      <Plus className="size-5" />
+                    </Button>
+                  </div>
+                </div>
               </>
             </div>
           </div>

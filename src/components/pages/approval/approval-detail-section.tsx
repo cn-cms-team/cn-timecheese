@@ -5,7 +5,9 @@ import { Check, ChevronDown } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { toneClasses } from '@/lib/constants/timesheet';
 import { formatHours } from '@/lib/functions/date-format';
+import { cn } from '@/lib/utils';
 import { IApprovalPendingResponse, IApprovalPendingSummary } from '@/types/report/approval';
 
 type ApprovalMember = IApprovalPendingResponse['members'][number];
@@ -99,37 +101,44 @@ const ApprovalDetailSection = ({
                       </div>
                     ) : (
                       <div className="space-y-2">
-                        {item.time_sheets.map((timeSheet) => (
-                          <div key={timeSheet.id} className="rounded-md border bg-white p-3">
-                            <div className="flex flex-wrap items-center justify-between gap-2">
-                              <div className="text-sm font-medium">
-                                {formatTime(timeSheet.start_date)} -{' '}
-                                {formatTime(timeSheet.end_date)}
+                        {item.time_sheets.map((timeSheet) => {
+                          const taskTone = toneClasses[timeSheet.tone_color ?? 'slate'];
+
+                          return (
+                            <div key={timeSheet.id} className="rounded-md border bg-white p-3">
+                              <div className="flex flex-wrap items-center justify-between gap-2">
+                                <div className="text-sm font-medium">
+                                  {formatTime(timeSheet.start_date)} -{' '}
+                                  {formatTime(timeSheet.end_date)}
+                                </div>
+                                <div className="text-xs text-muted-foreground">
+                                  {formatHours(timeSheet.total_seconds)}
+                                </div>
                               </div>
-                              <div className="text-xs text-muted-foreground">
-                                {formatHours(timeSheet.total_seconds)}
+                              <div className="mt-1 flex items-center gap-2 text-sm text-foreground/80">
+                                <span>งาน:</span>
+                                <Badge className={cn('border-0 rounded-md', taskTone.badge)}>
+                                  {timeSheet.task_type_name || '-'}
+                                </Badge>
                               </div>
-                            </div>
-                            <div className="mt-1 text-sm text-foreground/80">
-                              งาน: {timeSheet.task_type_name}
-                            </div>
-                            <div className="text-sm text-foreground/80">
-                              รายละเอียด: {timeSheet.detail || '-'}
-                            </div>
-                            {timeSheet.remark && (
-                              <div className="mt-1 text-sm text-foreground/80">
-                                ปัญหาหรือข้อเสนอแนะ: {timeSheet.remark}
+                              <div className="text-sm text-foreground/80">
+                                รายละเอียด: {timeSheet.detail || '-'}
                               </div>
-                            )}
-                            <div className="mt-1">
-                              {timeSheet.is_work_from_home ? (
-                                <Badge variant="outline">WFH</Badge>
-                              ) : (
-                                <Badge variant="secondary">Onsite</Badge>
+                              {timeSheet.remark && (
+                                <div className="mt-1 text-sm text-foreground/80">
+                                  ปัญหาหรือข้อเสนอแนะ: {timeSheet.remark}
+                                </div>
                               )}
+                              <div className="mt-1">
+                                {timeSheet.is_work_from_home ? (
+                                  <Badge variant="outline">WFH</Badge>
+                                ) : (
+                                  <Badge variant="secondary">Onsite</Badge>
+                                )}
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     )}
                   </div>

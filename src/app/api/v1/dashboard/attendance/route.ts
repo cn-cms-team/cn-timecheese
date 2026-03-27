@@ -85,7 +85,9 @@ export async function GET(request: Request) {
     const summaryMap: Record<string, Array<Series>> = {};
     tasks.forEach((task) => {
       const dateKey = task.sum_date.toISOString().split('T')[0];
-      const projectName = projects.find((project) => project.id === task.project_id)?.name!;
+      const projectName = projects.find((project) => project.id === task.project_id)?.name;
+      if (!projectName) return;
+
       if (!summaryMap[dateKey]) {
         summaryMap[dateKey] = [{ name: projectName, data: task.total_seconds }];
       } else {
