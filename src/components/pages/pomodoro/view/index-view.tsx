@@ -1,10 +1,12 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Pause, Play, SkipBack, SkipForward, Volume2, VolumeX } from 'lucide-react';
 
 import ModuleLayout from '@/components/layouts/ModuleLayout';
+import { Button } from '@/components/ui/button';
 
-import { DEFAULT_POMODORO_TITLE, PERIOD_LABELS, PERIOD_SECONDS } from '../constants';
+import { DEFAULT_POMODORO_TITLE, LOFI_PLAYLIST, PERIOD_LABELS, PERIOD_SECONDS } from '../constants';
 import type { PomodoroCounters, PomodoroPeriod, PomodoroTask } from '../types';
 import { formatSecondsToClock } from '../utils';
 import MusicModal from '../components/music-modal';
@@ -28,11 +30,36 @@ const PomodoroView = () => {
   const [tasks, setTasks] = useState<PomodoroTask[]>([]);
   const [isTasksModalOpen, setIsTasksModalOpen] = useState(false);
   const [isMusicModalOpen, setIsMusicModalOpen] = useState(false);
+  const [activeTrackId, setActiveTrackId] = useState<string>(LOFI_PLAYLIST[0]?.id ?? '');
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const [musicVolume, setMusicVolume] = useState(0.6);
+  const [isMusicMuted, setIsMusicMuted] = useState(false);
+  const [musicCurrentTime, setMusicCurrentTime] = useState(0);
+  const [musicDuration, setMusicDuration] = useState(0);
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
+  const musicAudioRef = useRef<HTMLAudioElement | null>(null);
+  const lastVolumeRef = useRef(0.6);
 
   const formattedTime = useMemo(() => formatSecondsToClock(secondsLeft), [secondsLeft]);
+  const activeTrack = useMemo(
+    () => LOFI_PLAYLIST.find((track) => track.id === activeTrackId) ?? LOFI_PLAYLIST[0],
+    [activeTrackId]
+  );
+  const safeMusicDuration = Number.isFinite(musicDuration) ? musicDuration : 0;
+  const safeMusicCurrentTime = Math.min(Math.max(musicCurrentTime, 0), safeMusicDuration || 0);
+  const remainingMusicSeconds = Math.max(safeMusicDuration - safeMusicCurrentTime, 0);
+
+  const formatAudioTime = useCallback((seconds: number) => {
+    const normalizedSeconds = Number.isFinite(seconds) ? Math.max(0, Math.floor(seconds)) : 0;
+    const minutes = Math.floor(normalizedSeconds / 60)
+      .toString()
+      .padStart(2, '0');
+    const secondsPart = (normalizedSeconds % 60).toString().padStart(2, '0');
+
+    return `${minutes}:${secondsPart}`;
+  }, []);
 
   const clearTimer = useCallback(() => {
     if (intervalRef.current) {
@@ -156,6 +183,101 @@ const PomodoroView = () => {
     );
   }, []);
 
+  const handleSelectTrack = useCallback((trackId: string) => {
+    setActiveTrackId(trackId);
+  }, []);
+
+  const handlePlayTrack = useCallback((trackId: string) => {
+    setActiveTrackId(trackId);
+    setIsMusicPlaying(true);
+  }, []);
+
+  const handleToggleMusicPlayback = useCallback(() => {
+    const audioElement = musicAudioRef.current;
+    if (!audioElement) {
+      return;
+    }
+
+    if (audioElement.paused) {
+      void audioElement.play().catch(() => {
+        setIsMusicPlaying(false);
+      });
+      return;
+    }
+
+    audioElement.pause();
+  }, []);
+
+  const handlePlayNextTrack = useCallback(() => {
+    if (!activeTrack || LOFI_PLAYLIST.length === 0) {
+      return;
+    }
+
+    const currentTrackIndex = LOFI_PLAYLIST.findIndex((track) => track.id === activeTrack.id);
+    const safeIndex = currentTrackIndex >= 0 ? currentTrackIndex : 0;
+    const nextTrack = LOFI_PLAYLIST[(safeIndex + 1) % LOFI_PLAYLIST.length];
+
+    setActiveTrackId(nextTrack.id);
+    setIsMusicPlaying(true);
+  }, [activeTrack]);
+
+  const handlePlayPreviousTrack = useCallback(() => {
+    if (!activeTrack || LOFI_PLAYLIST.length === 0) {
+      return;
+    }
+
+    const currentTrackIndex = LOFI_PLAYLIST.findIndex((track) => track.id === activeTrack.id);
+    const safeIndex = currentTrackIndex >= 0 ? currentTrackIndex : 0;
+    const previousTrack =
+      LOFI_PLAYLIST[(safeIndex - 1 + LOFI_PLAYLIST.length) % LOFI_PLAYLIST.length];
+
+    setActiveTrackId(previousTrack.id);
+    setIsMusicPlaying(true);
+  }, [activeTrack]);
+
+  const handleChangeMusicVolume = useCallback((value: number) => {
+    const safeVolume = Math.min(1, Math.max(0, value));
+
+    setMusicVolume(safeVolume);
+    if (safeVolume > 0) {
+      lastVolumeRef.current = safeVolume;
+      setIsMusicMuted(false);
+      return;
+    }
+
+    setIsMusicMuted(true);
+  }, []);
+
+  const handleToggleMusicMute = useCallback(() => {
+    setIsMusicMuted((previousMuted) => {
+      if (previousMuted) {
+        const restoreVolume = lastVolumeRef.current > 0 ? lastVolumeRef.current : 0.6;
+        setMusicVolume(restoreVolume);
+        return false;
+      }
+
+      if (musicVolume > 0) {
+        lastVolumeRef.current = musicVolume;
+      }
+
+      return true;
+    });
+  }, [musicVolume]);
+
+  const handleSeekMusicPosition = useCallback((value: number) => {
+    const audioElement = musicAudioRef.current;
+    if (!audioElement) {
+      return;
+    }
+
+    const safeValue = Math.min(
+      Math.max(value, 0),
+      Number.isFinite(audioElement.duration) ? audioElement.duration : 0
+    );
+    audioElement.currentTime = safeValue;
+    setMusicCurrentTime(safeValue);
+  }, []);
+
   useEffect(() => {
     if (!isRunning) {
       clearTimer();
@@ -211,6 +333,35 @@ const PomodoroView = () => {
 
     document.title = DEFAULT_POMODORO_TITLE;
   }, [currentPeriod, formattedTime, isRunning]);
+
+  useEffect(() => {
+    const audioElement = musicAudioRef.current;
+    if (!audioElement || !activeTrack) {
+      return;
+    }
+
+    setMusicCurrentTime(0);
+    setMusicDuration(0);
+
+    if (isMusicPlaying) {
+      void audioElement.play().catch(() => {
+        setIsMusicPlaying(false);
+      });
+      return;
+    }
+
+    audioElement.pause();
+  }, [activeTrack, isMusicPlaying]);
+
+  useEffect(() => {
+    const audioElement = musicAudioRef.current;
+    if (!audioElement) {
+      return;
+    }
+
+    audioElement.volume = musicVolume;
+    audioElement.muted = isMusicMuted;
+  }, [isMusicMuted, musicVolume]);
 
   useEffect(() => {
     return () => {
@@ -279,7 +430,117 @@ const PomodoroView = () => {
         onToggleTaskComplete={handleToggleTaskComplete}
       />
 
-      <MusicModal open={isMusicModalOpen} onOpenChange={setIsMusicModalOpen} />
+      <MusicModal
+        open={isMusicModalOpen}
+        onOpenChange={setIsMusicModalOpen}
+        playlist={LOFI_PLAYLIST}
+        activeTrackId={activeTrack?.id ?? ''}
+        isPlaying={isMusicPlaying}
+        onSelectTrack={handleSelectTrack}
+        onPlayTrack={handlePlayTrack}
+        currentTime={safeMusicCurrentTime}
+        duration={safeMusicDuration}
+        onSeek={handleSeekMusicPosition}
+        onTogglePlay={handleToggleMusicPlayback}
+        volume={musicVolume}
+        isMuted={isMusicMuted}
+        onChangeVolume={handleChangeMusicVolume}
+        onToggleMute={handleToggleMusicMute}
+      />
+
+      {activeTrack && (
+        <audio
+          ref={musicAudioRef}
+          src={activeTrack.url}
+          preload="none"
+          onPlay={() => setIsMusicPlaying(true)}
+          onPause={() => setIsMusicPlaying(false)}
+          onTimeUpdate={(event) => setMusicCurrentTime(event.currentTarget.currentTime)}
+          onLoadedMetadata={(event) => setMusicDuration(event.currentTarget.duration)}
+          onDurationChange={(event) => setMusicDuration(event.currentTarget.duration)}
+          onEnded={handlePlayNextTrack}
+          className="hidden"
+        />
+      )}
+
+      {isMusicPlaying && activeTrack && (
+        <div className="fixed right-4 bottom-4 z-50 w-[calc(100%-2rem)] max-w-sm rounded-2xl border border-white/20 bg-black/75 p-4 text-white shadow-2xl backdrop-blur-md">
+          <p className="truncate text-sm font-semibold">{activeTrack.title}</p>
+          <p className="truncate text-xs text-white/75">{activeTrack.artist}</p>
+
+          <div className="mt-3 flex items-center justify-end gap-2">
+            <Button
+              variant="secondary"
+              size="icon-sm"
+              className="bg-white/20 text-white hover:bg-white/30"
+              onClick={handleToggleMusicMute}
+            >
+              {isMusicMuted ? <VolumeX /> : <Volume2 />}
+              <span className="sr-only">Toggle mute</span>
+            </Button>
+            <Button
+              variant="secondary"
+              size="icon-sm"
+              className="bg-white/20 text-white hover:bg-white/30"
+              onClick={handlePlayPreviousTrack}
+            >
+              <SkipBack />
+              <span className="sr-only">Previous track</span>
+            </Button>
+            <Button
+              variant="secondary"
+              size="icon-sm"
+              className="bg-white/20 text-white hover:bg-white/30"
+              onClick={handleToggleMusicPlayback}
+            >
+              {isMusicPlaying ? <Pause /> : <Play />}
+              <span className="sr-only">Play or pause music</span>
+            </Button>
+            <Button
+              variant="secondary"
+              size="icon-sm"
+              className="bg-white/20 text-white hover:bg-white/30"
+              onClick={handlePlayNextTrack}
+            >
+              <SkipForward />
+              <span className="sr-only">Next track</span>
+            </Button>
+          </div>
+
+          <div className="mt-3 flex items-center gap-3">
+            <input
+              type="range"
+              min={0}
+              max={safeMusicDuration || 0}
+              step={0.1}
+              value={safeMusicCurrentTime}
+              onChange={(event) => handleSeekMusicPosition(Number(event.target.value))}
+              className="h-2 w-full cursor-pointer accent-white"
+              aria-label="Mini player progress"
+              disabled={safeMusicDuration <= 0}
+            />
+            <span className="w-14 text-right text-xs text-white/80">
+              -{formatAudioTime(remainingMusicSeconds)}
+            </span>
+          </div>
+
+          <div className="mt-2 flex items-center gap-3">
+            <input
+              type="range"
+              min={0}
+              max={1}
+              step={0.01}
+              value={isMusicMuted ? 0 : musicVolume}
+              onChange={(event) => handleChangeMusicVolume(Number(event.target.value))}
+              className="h-2 w-full cursor-pointer accent-white"
+              aria-label="Mini player volume"
+            />
+            <span className="w-10 text-right text-xs text-white/80">
+              {Math.round((isMusicMuted ? 0 : musicVolume) * 100)}%
+            </span>
+          </div>
+        </div>
+      )}
     </>
   );
 };

@@ -12,3 +12,11 @@ export interface PomodoroTask {
   isCompleted: boolean;
   createdAt: number;
 }
+
+export interface LofiTrack {
+  id: string;
+  title: string;
+  artist: string;
+  url: string;
+  license: string;
+}
