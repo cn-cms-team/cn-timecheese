@@ -1,12 +1,9 @@
 import type { PomodoroPeriod } from './types';
 
 export const PERIOD_SECONDS: Record<PomodoroPeriod, number> = {
-  // pomodoro: 25 * 60,
-  // break: 5 * 60,
-  // longBreak: 15 * 60,
-  pomodoro: 3,
-  break: 4,
-  longBreak: 5,
+  pomodoro: 25 * 60,
+  break: 5 * 60,
+  longBreak: 15 * 60,
 };
 
 export const PERIOD_LABELS: Record<PomodoroPeriod, string> = {
