@@ -97,7 +97,7 @@ const MusicModal = ({
                   step={0.1}
                   value={safeCurrentTime}
                   onChange={(event) => onSeek(Number(event.target.value))}
-                  className="h-1.5 w-full cursor-pointer accent-primary"
+                  className="h-1.5 w-full cursor-pointer accent-yellow-800"
                   aria-label="Track progress"
                   disabled={safeDuration <= 0}
                 />
@@ -119,7 +119,7 @@ const MusicModal = ({
                   step={0.01}
                   value={isMuted ? 0 : volume}
                   onChange={(event) => onChangeVolume(Number(event.target.value))}
-                  className="h-1.5 w-full cursor-pointer accent-primary"
+                  className="h-1.5 w-full cursor-pointer accent-neutral-700"
                   aria-label="Music volume"
                 />
                 <span className="w-9 text-right text-[11px] text-muted-foreground">
@@ -134,9 +134,8 @@ const MusicModal = ({
               const isActive = track.id === activeTrackId;
 
               return (
-                <button
+                <div
                   key={track.id}
-                  type="button"
                   className="w-full rounded-xl border border-border/60 bg-background px-3 py-2.5 text-left transition hover:bg-muted/40 shadow-sm"
                   onClick={() => onSelectTrack(track.id)}
                 >
@@ -163,7 +162,7 @@ const MusicModal = ({
                       <span className="sr-only">Play track</span>
                     </Button>
                   </div>
-                </button>
+                </div>
               );
             })}
           </div>

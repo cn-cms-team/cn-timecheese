@@ -27,7 +27,7 @@ const PomodoroControls = ({
         Tasks
       </Button>
       <Button
-        className="h-48 w-48 rounded-full bg-primary p-0 text-slate-800 sm:h-28 sm:w-28"
+        className="h-48 w-48 rounded-2xl bg-primary p-0 text-slate-800 sm:h-28 sm:w-28"
         onClick={onToggleTimer}
       >
         {isRunning ? (
