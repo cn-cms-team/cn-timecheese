@@ -64,7 +64,15 @@ const MusicModal = ({
 
         <div className="space-y-4">
           {activeTrack && (
-            <div className="space-y-3 rounded-2xl border border-border/60 bg-muted/20 p-3 shadow-sm">
+            <div
+              className="space-y-3 rounded-2xl border border-border/60 bg-muted/20 p-3 shadow-sm"
+              style={{
+                backgroundImage: "url('/img/general/pomodoro-bg.webp')",
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            >
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
@@ -80,7 +88,7 @@ const MusicModal = ({
                   <p className="mt-1 truncate text-sm font-semibold leading-tight">
                     {activeTrack.title}
                   </p>
-                  <p className="truncate text-xs text-muted-foreground">{activeTrack.artist}</p>
+                  <p className="truncate text-xs text-base-800">{activeTrack.artist}</p>
                 </div>
 
                 <Button size="icon-sm" onClick={onTogglePlay}>
@@ -97,11 +105,11 @@ const MusicModal = ({
                   step={0.1}
                   value={safeCurrentTime}
                   onChange={(event) => onSeek(Number(event.target.value))}
-                  className="h-1.5 w-full cursor-pointer accent-primary"
+                  className="h-1.5 w-full cursor-pointer accent-yellow-800"
                   aria-label="Track progress"
                   disabled={safeDuration <= 0}
                 />
-                <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                <div className="flex items-center justify-between text-[11px] text-white/90">
                   <span>{formatAudioTime(safeCurrentTime)}</span>
                   <span>-{formatAudioTime(remainingSeconds)}</span>
                 </div>
@@ -119,10 +127,10 @@ const MusicModal = ({
                   step={0.01}
                   value={isMuted ? 0 : volume}
                   onChange={(event) => onChangeVolume(Number(event.target.value))}
-                  className="h-1.5 w-full cursor-pointer accent-primary"
+                  className="h-1.5 w-full cursor-pointer accent-neutral-700 opacity-60"
                   aria-label="Music volume"
                 />
-                <span className="w-9 text-right text-[11px] text-muted-foreground">
+                <span className="w-9 text-right text-[11px] text-base-800">
                   {Math.round((isMuted ? 0 : volume) * 100)}%
                 </span>
               </div>
@@ -134,9 +142,8 @@ const MusicModal = ({
               const isActive = track.id === activeTrackId;
 
               return (
-                <button
+                <div
                   key={track.id}
-                  type="button"
                   className="w-full rounded-xl border border-border/60 bg-background px-3 py-2.5 text-left transition hover:bg-muted/40 shadow-sm"
                   onClick={() => onSelectTrack(track.id)}
                 >
@@ -163,7 +170,7 @@ const MusicModal = ({
                       <span className="sr-only">Play track</span>
                     </Button>
                   </div>
-                </button>
+                </div>
               );
             })}
           </div>

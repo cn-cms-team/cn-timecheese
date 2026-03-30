@@ -7,8 +7,18 @@ export async function GET() {
     if (!session) {
       return Response.json({ message: 'Unauthorized' }, { status: 401 });
     }
+    // check is team leader
+    const teamLeader = await prisma.teamLeader.findFirst({
+      where: { team_id: session.user.team_id, user_id: session.user.id },
+    });
+    const isTeamLeader = !!teamLeader;
+
     const result = await prisma.user.findMany({
-      where: { is_enabled: true, is_active: true, team_id: session.user.team_id },
+      where: {
+        is_enabled: true,
+        is_active: true,
+        ...(isTeamLeader ? { team_id: session.user.team_id } : { id: session.user.id }),
+      },
       select: {
         id: true,
         first_name: true,
