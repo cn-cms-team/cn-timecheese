@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 
 import { FEELING_OPTIONS, toneClasses } from '@/lib/constants/timesheet';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import type { TimelineItem } from '@/types/timesheet';
 import { Feeling } from '@generated/prisma/enums';
 
@@ -194,16 +195,23 @@ const TimelineList = ({
                   {startTime} - {endTime}
                 </span>
 
-                <span
-                  className={cn(
-                    'inline-flex items-center gap-1 rounded-lg px-2 py-1 sm:gap-2 sm:px-3',
-                    tone.badge
-                  )}
-                  title={feelingMeta.tooltip}
-                >
-                  <span aria-hidden>{feelingMeta.emoji}</span>
-                  {feelingMeta.label}
-                </span>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span
+                      className={cn(
+                        'inline-flex cursor-help items-center gap-1 rounded-lg px-2 py-1 sm:gap-2 sm:px-3',
+                        tone.badge
+                      )}
+                      tabIndex={0}
+                    >
+                      <span aria-hidden>{feelingMeta.emoji}</span>
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent side="top" sideOffset={8} className="max-w-64 text-center">
+                    {'ความรู้สึกต่องาน: '}
+                    {feelingMeta.tooltip}
+                  </TooltipContent>
+                </Tooltip>
 
                 {item.isWorkFromHome ? (
                   <span
