@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -29,17 +28,40 @@ export default function TimeInput({
   onChange = () => {},
 }: IProps) {
   const [isOpen, setIsOpen] = React.useState(false);
+  const selectedHourButtonRef = React.useRef<HTMLButtonElement | null>(null);
+  const selectedMinuteButtonRef = React.useRef<HTMLButtonElement | null>(null);
 
   const hours = Array.from({ length: 24 }, (_, i) => i);
   const minutes = Array.from({ length: 60 }, (_, i) => i);
+
+  React.useEffect(() => {
+    if (!isOpen || !value) {
+      return;
+    }
+
+    const animationFrame = window.requestAnimationFrame(() => {
+      selectedHourButtonRef.current?.scrollIntoView({
+        block: 'center',
+        inline: 'center',
+      });
+      selectedMinuteButtonRef.current?.scrollIntoView({
+        block: 'center',
+        inline: 'center',
+      });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+    };
+  }, [isOpen, value]);
 
   const handleTimeChange = (type: 'hour' | 'minute', selectedValue: string) => {
     if (value) {
       const newDate = new Date(value);
       if (type === 'hour') {
-        newDate.setHours(parseInt(selectedValue));
+        newDate.setHours(parseInt(selectedValue, 10));
       } else if (type === 'minute') {
-        newDate.setMinutes(parseInt(selectedValue));
+        newDate.setMinutes(parseInt(selectedValue, 10));
       }
       onChange(newDate);
     }
@@ -69,6 +91,7 @@ export default function TimeInput({
                 {hours.map((hour) => (
                   <Button
                     key={hour}
+                    ref={value && value.getHours() === hour ? selectedHourButtonRef : undefined}
                     size="icon"
                     variant={value && value.getHours() === hour ? 'default' : 'ghost'}
                     className="sm:w-full shrink-0 aspect-square font-normal"
@@ -85,6 +108,9 @@ export default function TimeInput({
                 {minutes.map((minute) => (
                   <Button
                     key={minute}
+                    ref={
+                      value && value.getMinutes() === minute ? selectedMinuteButtonRef : undefined
+                    }
                     size="icon"
                     variant={value && value.getMinutes() === minute ? 'default' : 'ghost'}
                     className="sm:w-full shrink-0 aspect-square font-normal"
