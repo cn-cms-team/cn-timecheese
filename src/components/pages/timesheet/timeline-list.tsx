@@ -2,7 +2,7 @@ import { BriefcaseBusiness, Clock3, House, Pencil, Trash2 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
-import { toneClasses } from '@/lib/constants/timesheet';
+import { FEELING_OPTIONS, toneClasses } from '@/lib/constants/timesheet';
 import { Skeleton } from '@/components/ui/skeleton';
 import type { TimelineItem } from '@/types/timesheet';
 
@@ -13,6 +13,8 @@ type TimelineListProps = {
   onDeleteItem?: (item: TimelineItem) => void;
   deletingItemId?: string | null;
 };
+
+const DEFAULT_FEELING = 'NEUTRAL';
 
 const formatTime = (value: string) => {
   const date = new Date(value);
@@ -109,6 +111,13 @@ const TimelineList = ({
         const endTime = formatTime(item.end_date);
         const isDeleting = deletingItemId === item.id;
         const isApproved = item.is_approved;
+        const feelingMeta =
+          FEELING_OPTIONS.find((option) => option.value === (item.feeling ?? DEFAULT_FEELING)) ??
+          FEELING_OPTIONS.find((option) => option.value === DEFAULT_FEELING);
+
+        if (!feelingMeta) {
+          return null;
+        }
 
         return (
           <div
@@ -182,6 +191,17 @@ const TimelineList = ({
                 >
                   <Clock3 className="size-3 sm:size-4" />
                   {startTime} - {endTime}
+                </span>
+
+                <span
+                  className={cn(
+                    'inline-flex items-center gap-1 rounded-lg px-2 py-1 sm:gap-2 sm:px-3',
+                    tone.badge
+                  )}
+                  title={feelingMeta.tooltip}
+                >
+                  <span aria-hidden>{feelingMeta.emoji}</span>
+                  {feelingMeta.label}
                 </span>
 
                 {item.isWorkFromHome ? (

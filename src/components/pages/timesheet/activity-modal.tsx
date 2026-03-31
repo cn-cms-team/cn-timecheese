@@ -31,10 +31,17 @@ import { parseDayId } from '@/lib/functions/timesheet-manage';
 import { TimeSheetCreateEditSchema, timeSheetCreateEditSchema } from './schema';
 import { useTimeSheetMasterContext } from './view/timesheet-master-context';
 import { Required } from '@/components/ui/custom/form';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { toast } from 'sonner';
 import { handleAddTimeSheet, handleEditTimeSheet } from './actions';
 import { getThaiDateString } from '@/lib/functions/date-format';
 import type { TimelineItem } from '@/types/timesheet';
+import {
+  START_TIME_HOUR,
+  END_TIME_HOUR,
+  DEFAULT_END_TIME_HOUR,
+  FEELING_OPTIONS,
+} from '@/lib/constants/timesheet';
 
 interface AddActivityModalProps {
   selectedDayId: string;
@@ -44,10 +51,6 @@ interface AddActivityModalProps {
   onOpenChange: (open: boolean) => void;
   onSaved?: (hourData: Record<string, number>, dayId: string) => void;
 }
-
-const START_TIME_HOUR = 9;
-const END_TIME_HOUR = 18;
-const DEFAULT_END_TIME_HOUR = 10;
 
 const AddActivityModal = ({
   selectedDayId,
@@ -129,6 +132,7 @@ const AddActivityModal = ({
       end_date: defaultEndDate,
       detail: '',
       remark: '',
+      feeling: 'NEUTRAL',
 
       break_time: defaultBreakTime,
       isWorkFromHome: false,
@@ -229,6 +233,7 @@ const AddActivityModal = ({
         end_date: endDate,
         detail: initialItem.detail,
         remark: initialItem.remark ?? '',
+        feeling: initialItem.feeling ?? 'NEUTRAL',
         break_time: breakDate,
         isWorkFromHome: initialItem.isWorkFromHome ?? false,
         is_all_day:
@@ -249,6 +254,7 @@ const AddActivityModal = ({
       end_date: defaultEndDate,
       detail: '',
       remark: '',
+      feeling: 'NEUTRAL',
       break_time: defaultBreakTime,
       isWorkFromHome: false,
       is_all_day: false,
@@ -657,6 +663,58 @@ const AddActivityModal = ({
                           maxLength={255}
                           showMaxLengthCounter
                         />
+                      </FormControl>
+                    </FormGroup>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="feeling"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormGroup>
+                      <FormLabel>ความรู้สึกต่องาน</FormLabel>
+                      <FormControl>
+                        <div className="grid grid-cols-5 gap-2">
+                          {FEELING_OPTIONS.map((option) => {
+                            const isSelected = field.value === option.value;
+
+                            return (
+                              <Tooltip key={option.value}>
+                                <TooltipTrigger asChild>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      field.onChange(option.value);
+                                      form.clearErrors('feeling');
+                                    }}
+                                    disabled={isLoading}
+                                    aria-label={`${option.label} ${option.emoji}`}
+                                    className={`flex min-h-16 flex-col items-center justify-center gap-1 rounded-lg border px-2 py-2 text-center transition-colors cursor-pointer ${
+                                      isSelected
+                                        ? 'border-yellow-500 bg-blue-50 text-yellow-700'
+                                        : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                                    } ${isLoading ? 'cursor-not-allowed opacity-70' : ''}`}
+                                  >
+                                    <span className="text-2xl leading-none">{option.emoji}</span>
+                                    <span className="text-xs font-medium leading-none">
+                                      {option.label}
+                                    </span>
+                                  </button>
+                                </TooltipTrigger>
+                                <TooltipContent
+                                  side="top"
+                                  sideOffset={8}
+                                  className="max-w-64 text-center"
+                                >
+                                  {option.tooltip}
+                                </TooltipContent>
+                              </Tooltip>
+                            );
+                          })}
+                        </div>
                       </FormControl>
                     </FormGroup>
                     <FormMessage />

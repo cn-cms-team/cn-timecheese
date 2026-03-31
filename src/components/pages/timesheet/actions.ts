@@ -4,6 +4,7 @@ import { timeSheetCreateEditSchema, TimeSheetCreateEditSchema } from './schema';
 import { ExecuteAction } from '@/lib/execute-actions';
 import prisma from '@/lib/prisma';
 import { sanitizePlainTextInput } from '@/lib/functions/input-security';
+import { Feeling } from '@generated/prisma/enums';
 
 export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
   const session = await auth();
@@ -65,6 +66,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
           end_date: end,
           detail: safeDetail,
           remark: remarkValue,
+          feeling: (validatedData.feeling ?? Feeling.NEUTRAL) as Feeling,
           exclude_seconds: validatedData.exclude ?? 0,
           is_work_from_home: validatedData.isWorkFromHome ?? false,
           total_seconds: totalSeconds,
@@ -207,6 +209,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
           end_date: end,
           detail: safeDetail,
           remark: remarkValue,
+          feeling: (validatedData.feeling ?? Feeling.NEUTRAL) as Feeling,
           exclude_seconds: validatedData.exclude ?? 0,
           is_work_from_home: validatedData.isWorkFromHome ?? false,
           total_seconds: totalSeconds,

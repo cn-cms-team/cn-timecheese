@@ -1,3 +1,4 @@
+import { TimeSheetCreateEditSchema } from '@/components/pages/timesheet/schema';
 import type { TimelineCardTone } from '@/types/timesheet';
 
 export const DAY_LABELS = ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
@@ -50,3 +51,45 @@ export const TIMELINE_CARD_TONES = [
   'yellow',
   'orange',
 ] as const;
+
+export const START_TIME_HOUR = 9;
+export const END_TIME_HOUR = 18;
+export const DEFAULT_END_TIME_HOUR = 10;
+
+export const FEELING_OPTIONS: Array<{
+  value: NonNullable<TimeSheetCreateEditSchema['feeling']>;
+  label: string;
+  emoji: string;
+  tooltip: string;
+}> = [
+  {
+    value: 'TERRIBLE',
+    label: 'แย่มาก',
+    emoji: '😩',
+    tooltip: 'งานแย่/พัง: รู้สึกแย่กับผลงาน หรือเป็นงานที่ไม่อยากแตะเลย',
+  },
+  {
+    value: 'BAD',
+    label: 'ไม่ค่อยดี',
+    emoji: '🙁',
+    tooltip: 'เหนื่อยใจ/ท้อ: งานมีปัญหาเยอะ ทำแล้วถอนหายใจ ไม่ค่อยโอเค',
+  },
+  {
+    value: 'NEUTRAL',
+    label: 'เฉยๆ',
+    emoji: '😐',
+    tooltip: 'งั้นๆ/เรื่อยๆ: งานเสร็จตามหน้าที่ ไม่ได้รู้สึกตื่นเต้นหรือแย่อะไร',
+  },
+  {
+    value: 'GOOD',
+    label: 'ดี',
+    emoji: '🙂',
+    tooltip: 'ดูดี/น่าพอใจ: งานออกมาสวยงาม ราบรื่น รู้สึกดีที่ได้ทำ',
+  },
+  {
+    value: 'GREAT',
+    label: 'ดีมาก',
+    emoji: '😄',
+    tooltip: 'สุดยอด/ภูมิใจ: งานเทพมาก พลังมาเต็ม หรือเป็นงานระดับ Masterpiece',
+  },
+];

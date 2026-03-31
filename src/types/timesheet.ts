@@ -1,3 +1,5 @@
+import { Feeling } from '@generated/prisma/enums';
+
 export type DayItem = {
   id: string;
   dayLabel: string;
@@ -23,6 +25,7 @@ export type TimelineItem = {
   project_name: string;
   detail: string;
   remark: string | null;
+  feeling: Feeling;
   isWorkFromHome: boolean;
   is_approved: boolean;
   task_type_name: string | null;
