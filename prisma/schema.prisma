@@ -38,22 +38,23 @@ model User {
   is_active  Boolean @default(false)
   is_enabled Boolean @default(true)
 
-  createdByUser             User[]                @relation("UserCreatedBy")
-  updatedByUser             User[]                @relation("UserUpdatedBy")
-  createdByRole             Role[]                @relation("RoleCreatedBy")
-  updatedByRole             Role[]                @relation("RoleUpdatedBy")
-  createdByTeams            Team[]                @relation("TeamCreatedBy")
-  updatedByTeams            Team[]                @relation("TeamUpdatedBy")
-  createdByPosition         Position[]            @relation("PositionCreatedBy")
-  updatedByPosition         Position[]            @relation("PositionUpdatedBy")
-  createdByProjects         Project[]             @relation("ProjectCreatedBy")
-  updatedByProjects         Project[]             @relation("ProjectUpdatedBy")
+  createdByUser             User[]                 @relation("UserCreatedBy")
+  updatedByUser             User[]                 @relation("UserUpdatedBy")
+  createdByRole             Role[]                 @relation("RoleCreatedBy")
+  updatedByRole             Role[]                 @relation("RoleUpdatedBy")
+  createdByTeams            Team[]                 @relation("TeamCreatedBy")
+  updatedByTeams            Team[]                 @relation("TeamUpdatedBy")
+  createdByPosition         Position[]             @relation("PositionCreatedBy")
+  updatedByPosition         Position[]             @relation("PositionUpdatedBy")
+  createdByProjects         Project[]              @relation("ProjectCreatedBy")
+  updatedByProjects         Project[]              @relation("ProjectUpdatedBy")
   projectMembers            ProjectMember[]
   timeSheets                TimeSheet[]
   teamLeaders               TeamLeader[]
   projectReportMembers      ProjectReportMember[]
-  timeSheetsSummaryApproved TimeSheetSummary[]    @relation("TimeSheetSummaryApprovedBy")
+  timeSheetsSummaryApproved TimeSheetSummary[]     @relation("TimeSheetSummaryApprovedBy")
   pushSubscriptions         PushSubscription[]
+  feelingProjectReports     FeelingProjectReport[]
 
   @@map("users")
 }
@@ -263,11 +264,12 @@ model Project {
   createdBy  User      @relation("ProjectCreatedBy", fields: [created_by], references: [id])
   updatedBy  User?     @relation("ProjectUpdatedBy", fields: [updated_by], references: [id])
 
-  is_enabled           Boolean               @default(true)
-  projectMembers       ProjectMember[]
-  projectTaskTypes     ProjectTaskType[]
-  timeSheets           TimeSheet[]
-  projectReportMembers ProjectReportMember[]
+  is_enabled            Boolean                @default(true)
+  projectMembers        ProjectMember[]
+  projectTaskTypes      ProjectTaskType[]
+  timeSheets            TimeSheet[]
+  projectReportMembers  ProjectReportMember[]
+  feelingProjectReports FeelingProjectReport[]
 
   @@map("projects")
 }
@@ -386,4 +388,16 @@ model Holiday {
   is_enabled Boolean @default(true)
 
   @@map("holidays")
+}
+
+model FeelingProjectReport {
+  user_id    String  @db.Uuid
+  user       User    @relation(fields: [user_id], references: [id])
+  project_id String  @db.Uuid
+  project    Project @relation(fields: [project_id], references: [id])
+  feeling    Feeling
+  count      Int     @default(0)
+
+  @@id([user_id, project_id, feeling])
+  @@map("feeling_project_reports")
 }

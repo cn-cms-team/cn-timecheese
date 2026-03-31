@@ -342,6 +342,7 @@ export type ProjectWhereInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeListRelationFilter
   timeSheets?: Prisma.TimeSheetListRelationFilter
   projectReportMembers?: Prisma.ProjectReportMemberListRelationFilter
+  feelingProjectReports?: Prisma.FeelingProjectReportListRelationFilter
 }
 
 export type ProjectOrderByWithRelationInput = {
@@ -370,6 +371,7 @@ export type ProjectOrderByWithRelationInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeOrderByRelationAggregateInput
   timeSheets?: Prisma.TimeSheetOrderByRelationAggregateInput
   projectReportMembers?: Prisma.ProjectReportMemberOrderByRelationAggregateInput
+  feelingProjectReports?: Prisma.FeelingProjectReportOrderByRelationAggregateInput
 }
 
 export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -401,6 +403,7 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   projectTaskTypes?: Prisma.ProjectTaskTypeListRelationFilter
   timeSheets?: Prisma.TimeSheetListRelationFilter
   projectReportMembers?: Prisma.ProjectReportMemberListRelationFilter
+  feelingProjectReports?: Prisma.FeelingProjectReportListRelationFilter
 }, "id">
 
 export type ProjectOrderByWithAggregationInput = {
@@ -479,6 +482,7 @@ export type ProjectCreateInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeCreateNestedManyWithoutProjectInput
   timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutProjectInput
   projectReportMembers?: Prisma.ProjectReportMemberCreateNestedManyWithoutProjectInput
+  feelingProjectReports?: Prisma.FeelingProjectReportCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateInput = {
@@ -505,6 +509,7 @@ export type ProjectUncheckedCreateInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedCreateNestedManyWithoutProjectInput
   timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutProjectInput
   projectReportMembers?: Prisma.ProjectReportMemberUncheckedCreateNestedManyWithoutProjectInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUpdateInput = {
@@ -531,6 +536,7 @@ export type ProjectUpdateInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeUpdateManyWithoutProjectNestedInput
   timeSheets?: Prisma.TimeSheetUpdateManyWithoutProjectNestedInput
   projectReportMembers?: Prisma.ProjectReportMemberUpdateManyWithoutProjectNestedInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateInput = {
@@ -557,6 +563,7 @@ export type ProjectUncheckedUpdateInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedUpdateManyWithoutProjectNestedInput
   timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutProjectNestedInput
   projectReportMembers?: Prisma.ProjectReportMemberUncheckedUpdateManyWithoutProjectNestedInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyInput = {
@@ -868,6 +875,20 @@ export type ProjectUpdateOneRequiredWithoutTimeSheetsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutTimeSheetsInput, Prisma.ProjectUpdateWithoutTimeSheetsInput>, Prisma.ProjectUncheckedUpdateWithoutTimeSheetsInput>
 }
 
+export type ProjectCreateNestedOneWithoutFeelingProjectReportsInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutFeelingProjectReportsInput, Prisma.ProjectUncheckedCreateWithoutFeelingProjectReportsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutFeelingProjectReportsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+}
+
+export type ProjectUpdateOneRequiredWithoutFeelingProjectReportsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutFeelingProjectReportsInput, Prisma.ProjectUncheckedCreateWithoutFeelingProjectReportsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutFeelingProjectReportsInput
+  upsert?: Prisma.ProjectUpsertWithoutFeelingProjectReportsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutFeelingProjectReportsInput, Prisma.ProjectUpdateWithoutFeelingProjectReportsInput>, Prisma.ProjectUncheckedUpdateWithoutFeelingProjectReportsInput>
+}
+
 export type ProjectCreateWithoutCreatedByInput = {
   id?: string
   name: string
@@ -891,6 +912,7 @@ export type ProjectCreateWithoutCreatedByInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeCreateNestedManyWithoutProjectInput
   timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutProjectInput
   projectReportMembers?: Prisma.ProjectReportMemberCreateNestedManyWithoutProjectInput
+  feelingProjectReports?: Prisma.FeelingProjectReportCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutCreatedByInput = {
@@ -916,6 +938,7 @@ export type ProjectUncheckedCreateWithoutCreatedByInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedCreateNestedManyWithoutProjectInput
   timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutProjectInput
   projectReportMembers?: Prisma.ProjectReportMemberUncheckedCreateNestedManyWithoutProjectInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutCreatedByInput = {
@@ -951,6 +974,7 @@ export type ProjectCreateWithoutUpdatedByInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeCreateNestedManyWithoutProjectInput
   timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutProjectInput
   projectReportMembers?: Prisma.ProjectReportMemberCreateNestedManyWithoutProjectInput
+  feelingProjectReports?: Prisma.FeelingProjectReportCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutUpdatedByInput = {
@@ -976,6 +1000,7 @@ export type ProjectUncheckedCreateWithoutUpdatedByInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedCreateNestedManyWithoutProjectInput
   timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutProjectInput
   projectReportMembers?: Prisma.ProjectReportMemberUncheckedCreateNestedManyWithoutProjectInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutUpdatedByInput = {
@@ -1068,6 +1093,7 @@ export type ProjectCreateWithoutProjectMembersInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeCreateNestedManyWithoutProjectInput
   timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutProjectInput
   projectReportMembers?: Prisma.ProjectReportMemberCreateNestedManyWithoutProjectInput
+  feelingProjectReports?: Prisma.FeelingProjectReportCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutProjectMembersInput = {
@@ -1093,6 +1119,7 @@ export type ProjectUncheckedCreateWithoutProjectMembersInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedCreateNestedManyWithoutProjectInput
   timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutProjectInput
   projectReportMembers?: Prisma.ProjectReportMemberUncheckedCreateNestedManyWithoutProjectInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutProjectMembersInput = {
@@ -1134,6 +1161,7 @@ export type ProjectUpdateWithoutProjectMembersInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeUpdateManyWithoutProjectNestedInput
   timeSheets?: Prisma.TimeSheetUpdateManyWithoutProjectNestedInput
   projectReportMembers?: Prisma.ProjectReportMemberUpdateManyWithoutProjectNestedInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutProjectMembersInput = {
@@ -1159,6 +1187,7 @@ export type ProjectUncheckedUpdateWithoutProjectMembersInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedUpdateManyWithoutProjectNestedInput
   timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutProjectNestedInput
   projectReportMembers?: Prisma.ProjectReportMemberUncheckedUpdateManyWithoutProjectNestedInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutProjectTaskTypesInput = {
@@ -1184,6 +1213,7 @@ export type ProjectCreateWithoutProjectTaskTypesInput = {
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
   timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutProjectInput
   projectReportMembers?: Prisma.ProjectReportMemberCreateNestedManyWithoutProjectInput
+  feelingProjectReports?: Prisma.FeelingProjectReportCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutProjectTaskTypesInput = {
@@ -1209,6 +1239,7 @@ export type ProjectUncheckedCreateWithoutProjectTaskTypesInput = {
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
   timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutProjectInput
   projectReportMembers?: Prisma.ProjectReportMemberUncheckedCreateNestedManyWithoutProjectInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutProjectTaskTypesInput = {
@@ -1250,6 +1281,7 @@ export type ProjectUpdateWithoutProjectTaskTypesInput = {
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
   timeSheets?: Prisma.TimeSheetUpdateManyWithoutProjectNestedInput
   projectReportMembers?: Prisma.ProjectReportMemberUpdateManyWithoutProjectNestedInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutProjectTaskTypesInput = {
@@ -1275,6 +1307,7 @@ export type ProjectUncheckedUpdateWithoutProjectTaskTypesInput = {
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
   timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutProjectNestedInput
   projectReportMembers?: Prisma.ProjectReportMemberUncheckedUpdateManyWithoutProjectNestedInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutProjectReportMembersInput = {
@@ -1300,6 +1333,7 @@ export type ProjectCreateWithoutProjectReportMembersInput = {
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
   projectTaskTypes?: Prisma.ProjectTaskTypeCreateNestedManyWithoutProjectInput
   timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutProjectInput
+  feelingProjectReports?: Prisma.FeelingProjectReportCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutProjectReportMembersInput = {
@@ -1325,6 +1359,7 @@ export type ProjectUncheckedCreateWithoutProjectReportMembersInput = {
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedCreateNestedManyWithoutProjectInput
   timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutProjectInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutProjectReportMembersInput = {
@@ -1366,6 +1401,7 @@ export type ProjectUpdateWithoutProjectReportMembersInput = {
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
   projectTaskTypes?: Prisma.ProjectTaskTypeUpdateManyWithoutProjectNestedInput
   timeSheets?: Prisma.TimeSheetUpdateManyWithoutProjectNestedInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutProjectReportMembersInput = {
@@ -1391,6 +1427,7 @@ export type ProjectUncheckedUpdateWithoutProjectReportMembersInput = {
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedUpdateManyWithoutProjectNestedInput
   timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutProjectNestedInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutTimeSheetsInput = {
@@ -1416,6 +1453,7 @@ export type ProjectCreateWithoutTimeSheetsInput = {
   projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
   projectTaskTypes?: Prisma.ProjectTaskTypeCreateNestedManyWithoutProjectInput
   projectReportMembers?: Prisma.ProjectReportMemberCreateNestedManyWithoutProjectInput
+  feelingProjectReports?: Prisma.FeelingProjectReportCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutTimeSheetsInput = {
@@ -1441,6 +1479,7 @@ export type ProjectUncheckedCreateWithoutTimeSheetsInput = {
   projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedCreateNestedManyWithoutProjectInput
   projectReportMembers?: Prisma.ProjectReportMemberUncheckedCreateNestedManyWithoutProjectInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutTimeSheetsInput = {
@@ -1482,6 +1521,7 @@ export type ProjectUpdateWithoutTimeSheetsInput = {
   projectMembers?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
   projectTaskTypes?: Prisma.ProjectTaskTypeUpdateManyWithoutProjectNestedInput
   projectReportMembers?: Prisma.ProjectReportMemberUpdateManyWithoutProjectNestedInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutTimeSheetsInput = {
@@ -1506,6 +1546,127 @@ export type ProjectUncheckedUpdateWithoutTimeSheetsInput = {
   is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedUpdateManyWithoutProjectNestedInput
+  projectReportMembers?: Prisma.ProjectReportMemberUncheckedUpdateManyWithoutProjectNestedInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUncheckedUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectCreateWithoutFeelingProjectReportsInput = {
+  id?: string
+  name: string
+  code?: string | null
+  pre_sale_code?: string | null
+  description?: string | null
+  value?: number | null
+  people_cost_percent?: number | null
+  people_cost?: number | null
+  start_date?: Date | string | null
+  end_date?: Date | string | null
+  status?: $Enums.ProjectStatus
+  is_company_project?: boolean
+  maintenance_start_date?: Date | string | null
+  maintenance_end_date?: Date | string | null
+  created_at?: Date | string
+  updated_at?: Date | string | null
+  is_enabled?: boolean
+  createdBy: Prisma.UserCreateNestedOneWithoutCreatedByProjectsInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedByProjectsInput
+  projectMembers?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
+  projectTaskTypes?: Prisma.ProjectTaskTypeCreateNestedManyWithoutProjectInput
+  timeSheets?: Prisma.TimeSheetCreateNestedManyWithoutProjectInput
+  projectReportMembers?: Prisma.ProjectReportMemberCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectUncheckedCreateWithoutFeelingProjectReportsInput = {
+  id?: string
+  name: string
+  code?: string | null
+  pre_sale_code?: string | null
+  description?: string | null
+  value?: number | null
+  people_cost_percent?: number | null
+  people_cost?: number | null
+  start_date?: Date | string | null
+  end_date?: Date | string | null
+  status?: $Enums.ProjectStatus
+  is_company_project?: boolean
+  maintenance_start_date?: Date | string | null
+  maintenance_end_date?: Date | string | null
+  created_at?: Date | string
+  created_by: string
+  updated_at?: Date | string | null
+  updated_by?: string | null
+  is_enabled?: boolean
+  projectMembers?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+  projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedCreateNestedManyWithoutProjectInput
+  timeSheets?: Prisma.TimeSheetUncheckedCreateNestedManyWithoutProjectInput
+  projectReportMembers?: Prisma.ProjectReportMemberUncheckedCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectCreateOrConnectWithoutFeelingProjectReportsInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutFeelingProjectReportsInput, Prisma.ProjectUncheckedCreateWithoutFeelingProjectReportsInput>
+}
+
+export type ProjectUpsertWithoutFeelingProjectReportsInput = {
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutFeelingProjectReportsInput, Prisma.ProjectUncheckedUpdateWithoutFeelingProjectReportsInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutFeelingProjectReportsInput, Prisma.ProjectUncheckedCreateWithoutFeelingProjectReportsInput>
+  where?: Prisma.ProjectWhereInput
+}
+
+export type ProjectUpdateToOneWithWhereWithoutFeelingProjectReportsInput = {
+  where?: Prisma.ProjectWhereInput
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutFeelingProjectReportsInput, Prisma.ProjectUncheckedUpdateWithoutFeelingProjectReportsInput>
+}
+
+export type ProjectUpdateWithoutFeelingProjectReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pre_sale_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  people_cost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maintenance_start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maintenance_end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdBy?: Prisma.UserUpdateOneRequiredWithoutCreatedByProjectsNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedByProjectsNestedInput
+  projectMembers?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
+  projectTaskTypes?: Prisma.ProjectTaskTypeUpdateManyWithoutProjectNestedInput
+  timeSheets?: Prisma.TimeSheetUpdateManyWithoutProjectNestedInput
+  projectReportMembers?: Prisma.ProjectReportMemberUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateWithoutFeelingProjectReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pre_sale_code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  value?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  people_cost_percent?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  people_cost?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  is_company_project?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  maintenance_start_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  maintenance_end_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  created_by?: Prisma.StringFieldUpdateOperationsInput | string
+  updated_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  is_enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  projectMembers?: Prisma.ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+  projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedUpdateManyWithoutProjectNestedInput
+  timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutProjectNestedInput
   projectReportMembers?: Prisma.ProjectReportMemberUncheckedUpdateManyWithoutProjectNestedInput
 }
 
@@ -1574,6 +1735,7 @@ export type ProjectUpdateWithoutCreatedByInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeUpdateManyWithoutProjectNestedInput
   timeSheets?: Prisma.TimeSheetUpdateManyWithoutProjectNestedInput
   projectReportMembers?: Prisma.ProjectReportMemberUpdateManyWithoutProjectNestedInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutCreatedByInput = {
@@ -1599,6 +1761,7 @@ export type ProjectUncheckedUpdateWithoutCreatedByInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedUpdateManyWithoutProjectNestedInput
   timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutProjectNestedInput
   projectReportMembers?: Prisma.ProjectReportMemberUncheckedUpdateManyWithoutProjectNestedInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutCreatedByInput = {
@@ -1645,6 +1808,7 @@ export type ProjectUpdateWithoutUpdatedByInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeUpdateManyWithoutProjectNestedInput
   timeSheets?: Prisma.TimeSheetUpdateManyWithoutProjectNestedInput
   projectReportMembers?: Prisma.ProjectReportMemberUpdateManyWithoutProjectNestedInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutUpdatedByInput = {
@@ -1670,6 +1834,7 @@ export type ProjectUncheckedUpdateWithoutUpdatedByInput = {
   projectTaskTypes?: Prisma.ProjectTaskTypeUncheckedUpdateManyWithoutProjectNestedInput
   timeSheets?: Prisma.TimeSheetUncheckedUpdateManyWithoutProjectNestedInput
   projectReportMembers?: Prisma.ProjectReportMemberUncheckedUpdateManyWithoutProjectNestedInput
+  feelingProjectReports?: Prisma.FeelingProjectReportUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutUpdatedByInput = {
@@ -1703,6 +1868,7 @@ export type ProjectCountOutputType = {
   projectTaskTypes: number
   timeSheets: number
   projectReportMembers: number
+  feelingProjectReports: number
 }
 
 export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1710,6 +1876,7 @@ export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   projectTaskTypes?: boolean | ProjectCountOutputTypeCountProjectTaskTypesArgs
   timeSheets?: boolean | ProjectCountOutputTypeCountTimeSheetsArgs
   projectReportMembers?: boolean | ProjectCountOutputTypeCountProjectReportMembersArgs
+  feelingProjectReports?: boolean | ProjectCountOutputTypeCountFeelingProjectReportsArgs
 }
 
 /**
@@ -1750,6 +1917,13 @@ export type ProjectCountOutputTypeCountProjectReportMembersArgs<ExtArgs extends 
   where?: Prisma.ProjectReportMemberWhereInput
 }
 
+/**
+ * ProjectCountOutputType without action
+ */
+export type ProjectCountOutputTypeCountFeelingProjectReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FeelingProjectReportWhereInput
+}
+
 
 export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1777,6 +1951,7 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   projectTaskTypes?: boolean | Prisma.Project$projectTaskTypesArgs<ExtArgs>
   timeSheets?: boolean | Prisma.Project$timeSheetsArgs<ExtArgs>
   projectReportMembers?: boolean | Prisma.Project$projectReportMembersArgs<ExtArgs>
+  feelingProjectReports?: boolean | Prisma.Project$feelingProjectReportsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
@@ -1858,6 +2033,7 @@ export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   projectTaskTypes?: boolean | Prisma.Project$projectTaskTypesArgs<ExtArgs>
   timeSheets?: boolean | Prisma.Project$timeSheetsArgs<ExtArgs>
   projectReportMembers?: boolean | Prisma.Project$projectReportMembersArgs<ExtArgs>
+  feelingProjectReports?: boolean | Prisma.Project$feelingProjectReportsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1878,6 +2054,7 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     projectTaskTypes: Prisma.$ProjectTaskTypePayload<ExtArgs>[]
     timeSheets: Prisma.$TimeSheetPayload<ExtArgs>[]
     projectReportMembers: Prisma.$ProjectReportMemberPayload<ExtArgs>[]
+    feelingProjectReports: Prisma.$FeelingProjectReportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2299,6 +2476,7 @@ export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.
   projectTaskTypes<T extends Prisma.Project$projectTaskTypesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$projectTaskTypesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectTaskTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   timeSheets<T extends Prisma.Project$timeSheetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$timeSheetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeSheetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   projectReportMembers<T extends Prisma.Project$projectReportMembersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$projectReportMembersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectReportMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  feelingProjectReports<T extends Prisma.Project$feelingProjectReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$feelingProjectReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FeelingProjectReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2855,6 +3033,30 @@ export type Project$projectReportMembersArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.ProjectReportMemberScalarFieldEnum | Prisma.ProjectReportMemberScalarFieldEnum[]
+}
+
+/**
+ * Project.feelingProjectReports
+ */
+export type Project$feelingProjectReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FeelingProjectReport
+   */
+  select?: Prisma.FeelingProjectReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FeelingProjectReport
+   */
+  omit?: Prisma.FeelingProjectReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FeelingProjectReportInclude<ExtArgs> | null
+  where?: Prisma.FeelingProjectReportWhereInput
+  orderBy?: Prisma.FeelingProjectReportOrderByWithRelationInput | Prisma.FeelingProjectReportOrderByWithRelationInput[]
+  cursor?: Prisma.FeelingProjectReportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FeelingProjectReportScalarFieldEnum | Prisma.FeelingProjectReportScalarFieldEnum[]
 }
 
 /**
