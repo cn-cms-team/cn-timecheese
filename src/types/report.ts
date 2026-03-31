@@ -1,6 +1,10 @@
 import { IPositionLevel } from '@/types/setting/position';
+import { Feeling } from '@generated/prisma/enums';
 export interface IDashboard extends IProjectReportBase {}
 export interface IReportProject extends IProjectReportBase {}
+
+export type IProjectFeelingSummary = Partial<Record<Feeling, number>>;
+
 export interface IReportTeam {
   user: IReportUserInfo;
   projects: IProjectInfoByUser[];
@@ -54,6 +58,7 @@ export interface IProjectInfoByUser {
   day_price?: number | null;
   spent_times: number;
   spent_times_ma_period: number;
+  feeling_summary?: IProjectFeelingSummary;
   last_tracked_at?: string | null;
 }
 
@@ -78,6 +83,7 @@ export interface ITimeSheetTable {
   remark: string | null;
   is_work_from_home: boolean;
   is_approved: boolean;
+  feeling: Feeling;
 }
 
 export interface IReportProjectMonthly {

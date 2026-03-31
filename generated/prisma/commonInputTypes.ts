@@ -344,6 +344,23 @@ export type EnumProjectStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumProjectStatusFilter<$PrismaModel>
 }
 
+export type EnumFeelingFilter<$PrismaModel = never> = {
+  equals?: $Enums.Feeling | Prisma.EnumFeelingFieldRefInput<$PrismaModel>
+  in?: $Enums.Feeling[] | Prisma.ListEnumFeelingFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Feeling[] | Prisma.ListEnumFeelingFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFeelingFilter<$PrismaModel> | $Enums.Feeling
+}
+
+export type EnumFeelingWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Feeling | Prisma.EnumFeelingFieldRefInput<$PrismaModel>
+  in?: $Enums.Feeling[] | Prisma.ListEnumFeelingFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Feeling[] | Prisma.ListEnumFeelingFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFeelingWithAggregatesFilter<$PrismaModel> | $Enums.Feeling
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFeelingFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFeelingFilter<$PrismaModel>
+}
+
 export type NestedUuidFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -670,6 +687,23 @@ export type NestedEnumProjectStatusWithAggregatesFilter<$PrismaModel = never> = 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumProjectStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumProjectStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumFeelingFilter<$PrismaModel = never> = {
+  equals?: $Enums.Feeling | Prisma.EnumFeelingFieldRefInput<$PrismaModel>
+  in?: $Enums.Feeling[] | Prisma.ListEnumFeelingFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Feeling[] | Prisma.ListEnumFeelingFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFeelingFilter<$PrismaModel> | $Enums.Feeling
+}
+
+export type NestedEnumFeelingWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Feeling | Prisma.EnumFeelingFieldRefInput<$PrismaModel>
+  in?: $Enums.Feeling[] | Prisma.ListEnumFeelingFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Feeling[] | Prisma.ListEnumFeelingFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFeelingWithAggregatesFilter<$PrismaModel> | $Enums.Feeling
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFeelingFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFeelingFilter<$PrismaModel>
 }
 
 

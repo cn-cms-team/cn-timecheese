@@ -402,7 +402,8 @@ export const ModelName = {
   ProjectReportMember: 'ProjectReportMember',
   TimeSheet: 'TimeSheet',
   TimeSheetSummary: 'TimeSheetSummary',
-  Holiday: 'Holiday'
+  Holiday: 'Holiday',
+  FeelingProjectReport: 'FeelingProjectReport'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -418,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "pushSubscription" | "role" | "rolePermission" | "permission" | "module" | "modulePermission" | "team" | "teamLeader" | "position" | "positionLevel" | "taskType" | "project" | "projectMember" | "projectTaskType" | "projectReportMember" | "timeSheet" | "timeSheetSummary" | "holiday"
+    modelProps: "user" | "pushSubscription" | "role" | "rolePermission" | "permission" | "module" | "modulePermission" | "team" | "teamLeader" | "position" | "positionLevel" | "taskType" | "project" | "projectMember" | "projectTaskType" | "projectReportMember" | "timeSheet" | "timeSheetSummary" | "holiday" | "feelingProjectReport"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1828,6 +1829,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FeelingProjectReport: {
+      payload: Prisma.$FeelingProjectReportPayload<ExtArgs>
+      fields: Prisma.FeelingProjectReportFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FeelingProjectReportFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeelingProjectReportPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FeelingProjectReportFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeelingProjectReportPayload>
+        }
+        findFirst: {
+          args: Prisma.FeelingProjectReportFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeelingProjectReportPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FeelingProjectReportFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeelingProjectReportPayload>
+        }
+        findMany: {
+          args: Prisma.FeelingProjectReportFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeelingProjectReportPayload>[]
+        }
+        create: {
+          args: Prisma.FeelingProjectReportCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeelingProjectReportPayload>
+        }
+        createMany: {
+          args: Prisma.FeelingProjectReportCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FeelingProjectReportCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeelingProjectReportPayload>[]
+        }
+        delete: {
+          args: Prisma.FeelingProjectReportDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeelingProjectReportPayload>
+        }
+        update: {
+          args: Prisma.FeelingProjectReportUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeelingProjectReportPayload>
+        }
+        deleteMany: {
+          args: Prisma.FeelingProjectReportDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FeelingProjectReportUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FeelingProjectReportUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeelingProjectReportPayload>[]
+        }
+        upsert: {
+          args: Prisma.FeelingProjectReportUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FeelingProjectReportPayload>
+        }
+        aggregate: {
+          args: Prisma.FeelingProjectReportAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFeelingProjectReport>
+        }
+        groupBy: {
+          args: Prisma.FeelingProjectReportGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FeelingProjectReportGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FeelingProjectReportCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FeelingProjectReportCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2058,7 +2133,8 @@ export const ProjectMemberScalarFieldEnum = {
   work_hours: 'work_hours',
   start_date: 'start_date',
   end_date: 'end_date',
-  is_using: 'is_using'
+  is_using: 'is_using',
+  man_hours: 'man_hours'
 } as const
 
 export type ProjectMemberScalarFieldEnum = (typeof ProjectMemberScalarFieldEnum)[keyof typeof ProjectMemberScalarFieldEnum]
@@ -2099,6 +2175,7 @@ export const TimeSheetScalarFieldEnum = {
   remark: 'remark',
   is_work_from_home: 'is_work_from_home',
   is_approved: 'is_approved',
+  feeling: 'feeling',
   created_at: 'created_at'
 } as const
 
@@ -2129,6 +2206,16 @@ export const HolidayScalarFieldEnum = {
 } as const
 
 export type HolidayScalarFieldEnum = (typeof HolidayScalarFieldEnum)[keyof typeof HolidayScalarFieldEnum]
+
+
+export const FeelingProjectReportScalarFieldEnum = {
+  user_id: 'user_id',
+  project_id: 'project_id',
+  feeling: 'feeling',
+  count: 'count'
+} as const
+
+export type FeelingProjectReportScalarFieldEnum = (typeof FeelingProjectReportScalarFieldEnum)[keyof typeof FeelingProjectReportScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -2265,6 +2352,20 @@ export type EnumProjectStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
 export type ListEnumProjectStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectStatus[]'>
     
 
+
+/**
+ * Reference to a field of type 'Feeling'
+ */
+export type EnumFeelingFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Feeling'>
+    
+
+
+/**
+ * Reference to a field of type 'Feeling[]'
+ */
+export type ListEnumFeelingFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Feeling[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -2379,6 +2480,7 @@ export type GlobalOmitConfig = {
   timeSheet?: Prisma.TimeSheetOmit
   timeSheetSummary?: Prisma.TimeSheetSummaryOmit
   holiday?: Prisma.HolidayOmit
+  feelingProjectReport?: Prisma.FeelingProjectReportOmit
 }
 
 /* Types for Logging */

@@ -128,6 +128,7 @@ export async function GET(_request: Request, { params }: RouteContext) {
               detail: true,
               remark: true,
               is_work_from_home: true,
+              feeling: true,
               project_task_type: {
                 select: {
                   name: true,
@@ -198,6 +199,7 @@ export async function GET(_request: Request, { params }: RouteContext) {
           detail: item.detail || '',
           remark: item.remark || '',
           is_work_from_home: item.is_work_from_home,
+          feeling: item.feeling,
           task_type_name: item.project_task_type?.name || '-',
           tone_color: (item.project_task_type?.task_type?.tone_color ||
             'slate') as TimelineCardTone,

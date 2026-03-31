@@ -69,7 +69,8 @@ export const ModelName = {
   ProjectReportMember: 'ProjectReportMember',
   TimeSheet: 'TimeSheet',
   TimeSheetSummary: 'TimeSheetSummary',
-  Holiday: 'Holiday'
+  Holiday: 'Holiday',
+  FeelingProjectReport: 'FeelingProjectReport'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -279,7 +280,8 @@ export const ProjectMemberScalarFieldEnum = {
   work_hours: 'work_hours',
   start_date: 'start_date',
   end_date: 'end_date',
-  is_using: 'is_using'
+  is_using: 'is_using',
+  man_hours: 'man_hours'
 } as const
 
 export type ProjectMemberScalarFieldEnum = (typeof ProjectMemberScalarFieldEnum)[keyof typeof ProjectMemberScalarFieldEnum]
@@ -320,6 +322,7 @@ export const TimeSheetScalarFieldEnum = {
   remark: 'remark',
   is_work_from_home: 'is_work_from_home',
   is_approved: 'is_approved',
+  feeling: 'feeling',
   created_at: 'created_at'
 } as const
 
@@ -350,6 +353,16 @@ export const HolidayScalarFieldEnum = {
 } as const
 
 export type HolidayScalarFieldEnum = (typeof HolidayScalarFieldEnum)[keyof typeof HolidayScalarFieldEnum]
+
+
+export const FeelingProjectReportScalarFieldEnum = {
+  user_id: 'user_id',
+  project_id: 'project_id',
+  feeling: 'feeling',
+  count: 'count'
+} as const
+
+export type FeelingProjectReportScalarFieldEnum = (typeof FeelingProjectReportScalarFieldEnum)[keyof typeof FeelingProjectReportScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma';
 import { IProjectInfoByUser } from '@/types/report';
+import { Feeling } from '@generated/prisma/enums';
 
 export async function getReportUserInfo(memberId: string) {
   const user = await prisma.user.findUnique({
@@ -113,6 +114,27 @@ async function getProjectInfoWithMember(
   const spentTimes = timeSheetSummary.length > 0 ? timeSheetSummary[0]._sum.total_seconds : 0;
   const spentTimesMAPeriod =
     timeSheetSummaryMAPeriod.length > 0 ? timeSheetSummaryMAPeriod[0]._sum.total_seconds : 0;
+  const feelingSummaryRows = await prisma.feelingProjectReport.findMany({
+    where: {
+      project_id: projectId,
+      user_id: memberId,
+    },
+    select: {
+      feeling: true,
+      count: true,
+    },
+  });
+  const feelingSummary = Object.values(Feeling).reduce(
+    (summary, feeling) => {
+      summary[feeling] = 0;
+      return summary;
+    },
+    {} as Record<Feeling, number>
+  );
+
+  for (const row of feelingSummaryRows) {
+    feelingSummary[row.feeling] = row.count || 0;
+  }
 
   if (currentProject.is_company_project) {
     const projectCompany = await prisma.project.findUnique({
@@ -145,6 +167,7 @@ async function getProjectInfoWithMember(
       day_price: 0,
       spent_times: spentTimes || 0,
       spent_times_ma_period: spentTimesMAPeriod || 0,
+      feeling_summary: feelingSummary,
       last_tracked_at: null,
     };
   } else {
@@ -185,6 +208,7 @@ async function getProjectInfoWithMember(
       day_price: project.day_price,
       spent_times: spentTimes || 0,
       spent_times_ma_period: spentTimesMAPeriod || 0,
+      feeling_summary: feelingSummary,
       last_tracked_at: null,
     };
   }
@@ -238,6 +262,26 @@ export async function getProjectInfo(projectId: string): Promise<IProjectInfoByU
   const spentTimes = timeSheetSummary.length > 0 ? timeSheetSummary[0]._sum.total_seconds : 0;
   const spentTimesMAPeriod =
     timeSheetSummaryMAPeriod.length > 0 ? timeSheetSummaryMAPeriod[0]._sum.total_seconds : 0;
+  const feelingSummaryRows = await prisma.feelingProjectReport.groupBy({
+    where: {
+      project_id: projectId,
+    },
+    by: ['feeling'],
+    _sum: {
+      count: true,
+    },
+  });
+  const feelingSummary = Object.values(Feeling).reduce(
+    (summary, feeling) => {
+      summary[feeling] = 0;
+      return summary;
+    },
+    {} as Record<Feeling, number>
+  );
+
+  for (const row of feelingSummaryRows) {
+    feelingSummary[row.feeling] = row._sum.count || 0;
+  }
 
   return {
     id: projectId,
@@ -251,6 +295,7 @@ export async function getProjectInfo(projectId: string): Promise<IProjectInfoByU
     day_price: 0,
     spent_times: spentTimes || 0,
     spent_times_ma_period: spentTimesMAPeriod || 0,
+    feeling_summary: feelingSummary,
     last_tracked_at: null,
   };
 }

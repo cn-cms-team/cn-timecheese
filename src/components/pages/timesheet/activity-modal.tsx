@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, ChevronDown } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
   Dialog,
   DialogContent,
@@ -31,10 +32,18 @@ import { parseDayId } from '@/lib/functions/timesheet-manage';
 import { TimeSheetCreateEditSchema, timeSheetCreateEditSchema } from './schema';
 import { useTimeSheetMasterContext } from './view/timesheet-master-context';
 import { Required } from '@/components/ui/custom/form';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { toast } from 'sonner';
 import { handleAddTimeSheet, handleEditTimeSheet } from './actions';
 import { getThaiDateString } from '@/lib/functions/date-format';
 import type { TimelineItem } from '@/types/timesheet';
+import {
+  START_TIME_HOUR,
+  END_TIME_HOUR,
+  DEFAULT_END_TIME_HOUR,
+  FEELING_OPTIONS,
+} from '@/lib/constants/timesheet';
+import { Feeling } from '@generated/prisma/enums';
 
 interface AddActivityModalProps {
   selectedDayId: string;
@@ -45,10 +54,6 @@ interface AddActivityModalProps {
   onSaved?: (hourData: Record<string, number>, dayId: string) => void;
 }
 
-const START_TIME_HOUR = 9;
-const END_TIME_HOUR = 18;
-const DEFAULT_END_TIME_HOUR = 10;
-
 const AddActivityModal = ({
   selectedDayId,
   open,
@@ -58,6 +63,7 @@ const AddActivityModal = ({
   onSaved,
 }: AddActivityModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isRemarkOpen, setIsRemarkOpen] = useState(false);
   const { isProjectOptionsLoading, projectOptions, getTaskTypeOptionsByProjectId } =
     useTimeSheetMasterContext();
 
@@ -129,6 +135,7 @@ const AddActivityModal = ({
       end_date: defaultEndDate,
       detail: '',
       remark: '',
+      feeling: Feeling.NEUTRAL,
 
       break_time: defaultBreakTime,
       isWorkFromHome: false,
@@ -201,6 +208,8 @@ const AddActivityModal = ({
       return;
     }
 
+    setIsRemarkOpen(Boolean(initialItem?.remark?.trim()));
+
     if (initialItem) {
       const startDate = new Date(initialItem.start_date);
       const endDate = new Date(initialItem.end_date);
@@ -229,6 +238,7 @@ const AddActivityModal = ({
         end_date: endDate,
         detail: initialItem.detail,
         remark: initialItem.remark ?? '',
+        feeling: initialItem.feeling ?? Feeling.NEUTRAL,
         break_time: breakDate,
         isWorkFromHome: initialItem.isWorkFromHome ?? false,
         is_all_day:
@@ -249,6 +259,7 @@ const AddActivityModal = ({
       end_date: defaultEndDate,
       detail: '',
       remark: '',
+      feeling: Feeling.NEUTRAL,
       break_time: defaultBreakTime,
       isWorkFromHome: false,
       is_all_day: false,
@@ -409,30 +420,56 @@ const AddActivityModal = ({
                   <span>{selectedDateLabel}</span>
                 </div>
 
-                <FormField
-                  control={form.control}
-                  name="is_all_day"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <div className="flex items-center gap-2">
-                          <Checkbox
-                            checked={field.value}
-                            id="is-all-day"
-                            onCheckedChange={(checked) => handleAllDayChange(Boolean(checked))}
-                            disabled={isLoading}
-                          />
-                          <Label
-                            className="cursor-pointer text-lg font-medium text-slate-800"
-                            htmlFor="is-all-day"
-                          >
-                            ทั้งวัน
-                          </Label>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
+                <div className="flex flex-col gap-3 md:flex-row">
+                  <FormField
+                    control={form.control}
+                    name="isWorkFromHome"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              checked={field.value}
+                              id="is-work-from-home"
+                              onCheckedChange={(checked) => field.onChange(Boolean(checked))}
+                              disabled={isLoading}
+                            />
+                            <Label
+                              className="cursor-pointer text-lg font-medium text-slate-800"
+                              htmlFor="is-work-from-home"
+                            >
+                              WFH
+                            </Label>
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="is_all_day"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              checked={field.value}
+                              id="is-all-day"
+                              onCheckedChange={(checked) => handleAllDayChange(Boolean(checked))}
+                              disabled={isLoading}
+                            />
+                            <Label
+                              className="cursor-pointer text-lg font-medium text-slate-800"
+                              htmlFor="is-all-day"
+                            >
+                              ทั้งวัน
+                            </Label>
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -518,30 +555,6 @@ const AddActivityModal = ({
                 />
               </div>
 
-              <FormField
-                control={form.control}
-                name="isWorkFromHome"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="flex items-center gap-2">
-                        <Checkbox
-                          checked={field.value}
-                          id="is-work-from-home"
-                          onCheckedChange={(checked) => field.onChange(Boolean(checked))}
-                          disabled={isLoading}
-                        />
-                        <Label
-                          className="cursor-pointer text-lg font-medium text-slate-800"
-                          htmlFor="is-work-from-home"
-                        >
-                          ทำงานที่บ้าน
-                        </Label>
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
               <hr className="border-slate-200" />
               <FormField
                 control={form.control}
@@ -641,20 +654,91 @@ const AddActivityModal = ({
                 control={form.control}
                 name="remark"
                 render={({ field }) => (
+                  <FormItem className="space-y-1">
+                    <Collapsible open={isRemarkOpen} onOpenChange={setIsRemarkOpen}>
+                      <FormGroup>
+                        <CollapsibleTrigger asChild>
+                          <button
+                            type="button"
+                            className="flex w-full items-center justify-between rounded-md border border-slate-200 px-3 py-1.5 text-left transition-colors hover:bg-slate-50"
+                            disabled={isLoading}
+                          >
+                            <FormLabel className="cursor-pointer text-sm text-slate-900">
+                              ปัญหาและข้อเสนอแนะ
+                            </FormLabel>
+                            <ChevronDown
+                              className={`size-4 text-slate-500 transition-transform ${
+                                isRemarkOpen ? 'rotate-180' : ''
+                              }`}
+                            />
+                          </button>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="pt-2">
+                          <FormControl>
+                            <Textarea
+                              className="min-h-16 field-sizing-fixed resize-none overflow-y-auto rounded-lg border-slate-200 px-3 text-base"
+                              isError={Boolean(form.formState.errors.remark)}
+                              onChange={(event) => field.onChange(event.target.value)}
+                              placeholder="กรอกปัญหาและข้อเสนอแนะ"
+                              value={field.value ?? ''}
+                              disabled={isLoading}
+                              maxLength={255}
+                              showMaxLengthCounter
+                            />
+                          </FormControl>
+                        </CollapsibleContent>
+                      </FormGroup>
+                    </Collapsible>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="feeling"
+                render={({ field }) => (
                   <FormItem>
                     <FormGroup>
-                      <FormLabel>ปัญหาและข้อเสนอแนะ</FormLabel>
+                      <FormLabel>ความรู้สึกต่องาน</FormLabel>
                       <FormControl>
-                        <Textarea
-                          className="min-h-20 field-sizing-fixed resize-none overflow-y-auto rounded-lg border-slate-200 px-3 text-base"
-                          isError={Boolean(form.formState.errors.remark)}
-                          onChange={(event) => field.onChange(event.target.value)}
-                          placeholder="กรอกปัญหาและข้อเสนอแนะ"
-                          value={field.value ?? ''}
-                          disabled={isLoading}
-                          maxLength={255}
-                          showMaxLengthCounter
-                        />
+                        <div className="grid grid-cols-5 gap-2">
+                          {FEELING_OPTIONS.map((option) => {
+                            const isSelected = field.value === option.value;
+
+                            return (
+                              <Tooltip key={option.value}>
+                                <TooltipTrigger asChild>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      field.onChange(option.value);
+                                      form.clearErrors('feeling');
+                                    }}
+                                    disabled={isLoading}
+                                    aria-label={`${option.label} ${option.emoji}`}
+                                    className={`flex min-h-16 flex-col items-center justify-center gap-1 rounded-lg border px-2 py-2 text-center transition-colors cursor-pointer ${
+                                      isSelected
+                                        ? 'border-yellow-500 bg-blue-50 text-yellow-700'
+                                        : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'
+                                    } ${isLoading ? 'cursor-not-allowed opacity-70' : ''}`}
+                                  >
+                                    <span className="text-2xl leading-none">{option.emoji}</span>
+                                    <span className="text-xs font-medium leading-none">
+                                      {option.label}
+                                    </span>
+                                  </button>
+                                </TooltipTrigger>
+                                <TooltipContent
+                                  side="top"
+                                  sideOffset={8}
+                                  className="max-w-64 text-center"
+                                >
+                                  {option.tooltip}
+                                </TooltipContent>
+                              </Tooltip>
+                            );
+                          })}
+                        </div>
                       </FormControl>
                     </FormGroup>
                     <FormMessage />

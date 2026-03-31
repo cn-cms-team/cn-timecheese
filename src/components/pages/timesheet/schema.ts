@@ -1,5 +1,6 @@
 import z from 'zod';
 import { hasUnsafeRichTextContent, sanitizePlainTextInput } from '@/lib/functions/input-security';
+import { Feeling } from '@generated/prisma/enums';
 
 const schema = z
   .object({
@@ -43,6 +44,7 @@ const schema = z
         message: 'ไม่อนุญาตให้กรอก HTML หรือ Script ที่อาจไม่ปลอดภัย',
       })
       .optional(),
+    feeling: z.enum(Feeling).optional(),
     break_time: z.date().optional(),
     is_all_day: z.boolean().optional(),
     isWorkFromHome: z.boolean().optional(),

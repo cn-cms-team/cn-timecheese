@@ -5,12 +5,15 @@ import { Check, ChevronDown } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { toneClasses } from '@/lib/constants/timesheet';
+import { FEELING_OPTIONS, toneClasses } from '@/lib/constants/timesheet';
 import { formatHours } from '@/lib/functions/date-format';
 import { cn } from '@/lib/utils';
 import { IApprovalPendingResponse, IApprovalPendingSummary } from '@/types/report/approval';
+import { Feeling } from '@generated/prisma/enums';
 
 type ApprovalMember = IApprovalPendingResponse['members'][number];
+
+const DEFAULT_FEELING = Feeling.NEUTRAL;
 
 type ApprovalDetailSectionProps = {
   selectedMemberId: string | null;
@@ -103,6 +106,10 @@ const ApprovalDetailSection = ({
                       <div className="space-y-2">
                         {item.time_sheets.map((timeSheet) => {
                           const taskTone = toneClasses[timeSheet.tone_color ?? 'slate'];
+                          const feelingMeta =
+                            FEELING_OPTIONS.find(
+                              (option) => option.value === (timeSheet.feeling ?? DEFAULT_FEELING)
+                            ) ?? FEELING_OPTIONS.find((option) => option.value === DEFAULT_FEELING);
 
                           return (
                             <div key={timeSheet.id} className="rounded-md border bg-white p-3">
@@ -123,6 +130,17 @@ const ApprovalDetailSection = ({
                               </div>
                               <div className="text-sm text-foreground/80">
                                 รายละเอียด: {timeSheet.detail || '-'}
+                              </div>
+                              <div className="mt-1 flex items-center gap-2 text-sm text-foreground/80">
+                                <span>ความรู้สึกต่องาน:</span>
+                                <Badge
+                                  variant="outline"
+                                  title={feelingMeta?.tooltip}
+                                  className="rounded-md"
+                                >
+                                  <span aria-hidden>{feelingMeta?.emoji}</span>{' '}
+                                  {feelingMeta?.label || '-'}
+                                </Badge>
                               </div>
                               {timeSheet.remark && (
                                 <div className="mt-1 text-sm text-foreground/80">

@@ -112,3 +112,8 @@ export type TimeSheetSummary = Prisma.TimeSheetSummaryModel
  * 
  */
 export type Holiday = Prisma.HolidayModel
+/**
+ * Model FeelingProjectReport
+ * 
+ */
+export type FeelingProjectReport = Prisma.FeelingProjectReportModel
