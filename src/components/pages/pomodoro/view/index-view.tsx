@@ -532,7 +532,7 @@ const PomodoroView = () => {
               step={0.01}
               value={isMusicMuted ? 0 : musicVolume}
               onChange={(event) => handleChangeMusicVolume(Number(event.target.value))}
-              className="h-2 w-full cursor-pointer accent-white"
+              className="h-2 w-full cursor-pointer accent-white opacity-20"
               aria-label="Mini player volume"
             />
             <span className="w-10 text-right text-xs text-white/80">
