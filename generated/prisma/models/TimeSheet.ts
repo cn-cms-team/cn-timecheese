@@ -50,6 +50,7 @@ export type TimeSheetMinAggregateOutputType = {
   remark: string | null
   is_work_from_home: boolean | null
   is_approved: boolean | null
+  feeling: $Enums.Feeling | null
   created_at: Date | null
 }
 
@@ -67,6 +68,7 @@ export type TimeSheetMaxAggregateOutputType = {
   remark: string | null
   is_work_from_home: boolean | null
   is_approved: boolean | null
+  feeling: $Enums.Feeling | null
   created_at: Date | null
 }
 
@@ -84,6 +86,7 @@ export type TimeSheetCountAggregateOutputType = {
   remark: number
   is_work_from_home: number
   is_approved: number
+  feeling: number
   created_at: number
   _all: number
 }
@@ -113,6 +116,7 @@ export type TimeSheetMinAggregateInputType = {
   remark?: true
   is_work_from_home?: true
   is_approved?: true
+  feeling?: true
   created_at?: true
 }
 
@@ -130,6 +134,7 @@ export type TimeSheetMaxAggregateInputType = {
   remark?: true
   is_work_from_home?: true
   is_approved?: true
+  feeling?: true
   created_at?: true
 }
 
@@ -147,6 +152,7 @@ export type TimeSheetCountAggregateInputType = {
   remark?: true
   is_work_from_home?: true
   is_approved?: true
+  feeling?: true
   created_at?: true
   _all?: true
 }
@@ -251,6 +257,7 @@ export type TimeSheetGroupByOutputType = {
   remark: string | null
   is_work_from_home: boolean
   is_approved: boolean
+  feeling: $Enums.Feeling
   created_at: Date
   _count: TimeSheetCountAggregateOutputType | null
   _avg: TimeSheetAvgAggregateOutputType | null
@@ -291,6 +298,7 @@ export type TimeSheetWhereInput = {
   remark?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
   is_work_from_home?: Prisma.BoolFilter<"TimeSheet"> | boolean
   is_approved?: Prisma.BoolFilter<"TimeSheet"> | boolean
+  feeling?: Prisma.EnumFeelingFilter<"TimeSheet"> | $Enums.Feeling
   created_at?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
@@ -311,6 +319,7 @@ export type TimeSheetOrderByWithRelationInput = {
   remark?: Prisma.SortOrderInput | Prisma.SortOrder
   is_work_from_home?: Prisma.SortOrder
   is_approved?: Prisma.SortOrder
+  feeling?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   project?: Prisma.ProjectOrderByWithRelationInput
@@ -334,6 +343,7 @@ export type TimeSheetWhereUniqueInput = Prisma.AtLeast<{
   remark?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
   is_work_from_home?: Prisma.BoolFilter<"TimeSheet"> | boolean
   is_approved?: Prisma.BoolFilter<"TimeSheet"> | boolean
+  feeling?: Prisma.EnumFeelingFilter<"TimeSheet"> | $Enums.Feeling
   created_at?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
@@ -354,6 +364,7 @@ export type TimeSheetOrderByWithAggregationInput = {
   remark?: Prisma.SortOrderInput | Prisma.SortOrder
   is_work_from_home?: Prisma.SortOrder
   is_approved?: Prisma.SortOrder
+  feeling?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   _count?: Prisma.TimeSheetCountOrderByAggregateInput
   _avg?: Prisma.TimeSheetAvgOrderByAggregateInput
@@ -379,6 +390,7 @@ export type TimeSheetScalarWhereWithAggregatesInput = {
   remark?: Prisma.StringNullableWithAggregatesFilter<"TimeSheet"> | string | null
   is_work_from_home?: Prisma.BoolWithAggregatesFilter<"TimeSheet"> | boolean
   is_approved?: Prisma.BoolWithAggregatesFilter<"TimeSheet"> | boolean
+  feeling?: Prisma.EnumFeelingWithAggregatesFilter<"TimeSheet"> | $Enums.Feeling
   created_at?: Prisma.DateTimeWithAggregatesFilter<"TimeSheet"> | Date | string
 }
 
@@ -393,6 +405,7 @@ export type TimeSheetCreateInput = {
   remark?: string | null
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: $Enums.Feeling
   created_at?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTimeSheetsInput
   project: Prisma.ProjectCreateNestedOneWithoutTimeSheetsInput
@@ -413,6 +426,7 @@ export type TimeSheetUncheckedCreateInput = {
   remark?: string | null
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: $Enums.Feeling
   created_at?: Date | string
 }
 
@@ -427,6 +441,7 @@ export type TimeSheetUpdateInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  feeling?: Prisma.EnumFeelingFieldUpdateOperationsInput | $Enums.Feeling
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTimeSheetsNestedInput
   project?: Prisma.ProjectUpdateOneRequiredWithoutTimeSheetsNestedInput
@@ -447,6 +462,7 @@ export type TimeSheetUncheckedUpdateInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  feeling?: Prisma.EnumFeelingFieldUpdateOperationsInput | $Enums.Feeling
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -464,6 +480,7 @@ export type TimeSheetCreateManyInput = {
   remark?: string | null
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: $Enums.Feeling
   created_at?: Date | string
 }
 
@@ -478,6 +495,7 @@ export type TimeSheetUpdateManyMutationInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  feeling?: Prisma.EnumFeelingFieldUpdateOperationsInput | $Enums.Feeling
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -495,6 +513,7 @@ export type TimeSheetUncheckedUpdateManyInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  feeling?: Prisma.EnumFeelingFieldUpdateOperationsInput | $Enums.Feeling
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -522,6 +541,7 @@ export type TimeSheetCountOrderByAggregateInput = {
   remark?: Prisma.SortOrder
   is_work_from_home?: Prisma.SortOrder
   is_approved?: Prisma.SortOrder
+  feeling?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
@@ -544,6 +564,7 @@ export type TimeSheetMaxOrderByAggregateInput = {
   remark?: Prisma.SortOrder
   is_work_from_home?: Prisma.SortOrder
   is_approved?: Prisma.SortOrder
+  feeling?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
@@ -561,6 +582,7 @@ export type TimeSheetMinOrderByAggregateInput = {
   remark?: Prisma.SortOrder
   is_work_from_home?: Prisma.SortOrder
   is_approved?: Prisma.SortOrder
+  feeling?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
 }
 
@@ -695,6 +717,10 @@ export type TimeSheetUncheckedUpdateManyWithoutProject_task_typeNestedInput = {
   deleteMany?: Prisma.TimeSheetScalarWhereInput | Prisma.TimeSheetScalarWhereInput[]
 }
 
+export type EnumFeelingFieldUpdateOperationsInput = {
+  set?: $Enums.Feeling
+}
+
 export type TimeSheetCreateWithoutUserInput = {
   id?: string
   stamp_date: Date | string
@@ -706,6 +732,7 @@ export type TimeSheetCreateWithoutUserInput = {
   remark?: string | null
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: $Enums.Feeling
   created_at?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutTimeSheetsInput
   project_task_type?: Prisma.ProjectTaskTypeCreateNestedOneWithoutTimeSheetsInput
@@ -724,6 +751,7 @@ export type TimeSheetUncheckedCreateWithoutUserInput = {
   remark?: string | null
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: $Enums.Feeling
   created_at?: Date | string
 }
 
@@ -770,6 +798,7 @@ export type TimeSheetScalarWhereInput = {
   remark?: Prisma.StringNullableFilter<"TimeSheet"> | string | null
   is_work_from_home?: Prisma.BoolFilter<"TimeSheet"> | boolean
   is_approved?: Prisma.BoolFilter<"TimeSheet"> | boolean
+  feeling?: Prisma.EnumFeelingFilter<"TimeSheet"> | $Enums.Feeling
   created_at?: Prisma.DateTimeFilter<"TimeSheet"> | Date | string
 }
 
@@ -784,6 +813,7 @@ export type TimeSheetCreateWithoutProjectInput = {
   remark?: string | null
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: $Enums.Feeling
   created_at?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTimeSheetsInput
   project_task_type?: Prisma.ProjectTaskTypeCreateNestedOneWithoutTimeSheetsInput
@@ -802,6 +832,7 @@ export type TimeSheetUncheckedCreateWithoutProjectInput = {
   remark?: string | null
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: $Enums.Feeling
   created_at?: Date | string
 }
 
@@ -842,6 +873,7 @@ export type TimeSheetCreateWithoutProject_task_typeInput = {
   remark?: string | null
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: $Enums.Feeling
   created_at?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTimeSheetsInput
   project: Prisma.ProjectCreateNestedOneWithoutTimeSheetsInput
@@ -860,6 +892,7 @@ export type TimeSheetUncheckedCreateWithoutProject_task_typeInput = {
   remark?: string | null
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: $Enums.Feeling
   created_at?: Date | string
 }
 
@@ -902,6 +935,7 @@ export type TimeSheetCreateManyUserInput = {
   remark?: string | null
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: $Enums.Feeling
   created_at?: Date | string
 }
 
@@ -916,6 +950,7 @@ export type TimeSheetUpdateWithoutUserInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  feeling?: Prisma.EnumFeelingFieldUpdateOperationsInput | $Enums.Feeling
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutTimeSheetsNestedInput
   project_task_type?: Prisma.ProjectTaskTypeUpdateOneWithoutTimeSheetsNestedInput
@@ -934,6 +969,7 @@ export type TimeSheetUncheckedUpdateWithoutUserInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  feeling?: Prisma.EnumFeelingFieldUpdateOperationsInput | $Enums.Feeling
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -950,6 +986,7 @@ export type TimeSheetUncheckedUpdateManyWithoutUserInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  feeling?: Prisma.EnumFeelingFieldUpdateOperationsInput | $Enums.Feeling
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -966,6 +1003,7 @@ export type TimeSheetCreateManyProjectInput = {
   remark?: string | null
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: $Enums.Feeling
   created_at?: Date | string
 }
 
@@ -980,6 +1018,7 @@ export type TimeSheetUpdateWithoutProjectInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  feeling?: Prisma.EnumFeelingFieldUpdateOperationsInput | $Enums.Feeling
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTimeSheetsNestedInput
   project_task_type?: Prisma.ProjectTaskTypeUpdateOneWithoutTimeSheetsNestedInput
@@ -998,6 +1037,7 @@ export type TimeSheetUncheckedUpdateWithoutProjectInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  feeling?: Prisma.EnumFeelingFieldUpdateOperationsInput | $Enums.Feeling
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1014,6 +1054,7 @@ export type TimeSheetUncheckedUpdateManyWithoutProjectInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  feeling?: Prisma.EnumFeelingFieldUpdateOperationsInput | $Enums.Feeling
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1030,6 +1071,7 @@ export type TimeSheetCreateManyProject_task_typeInput = {
   remark?: string | null
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: $Enums.Feeling
   created_at?: Date | string
 }
 
@@ -1044,6 +1086,7 @@ export type TimeSheetUpdateWithoutProject_task_typeInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  feeling?: Prisma.EnumFeelingFieldUpdateOperationsInput | $Enums.Feeling
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTimeSheetsNestedInput
   project?: Prisma.ProjectUpdateOneRequiredWithoutTimeSheetsNestedInput
@@ -1062,6 +1105,7 @@ export type TimeSheetUncheckedUpdateWithoutProject_task_typeInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  feeling?: Prisma.EnumFeelingFieldUpdateOperationsInput | $Enums.Feeling
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1078,6 +1122,7 @@ export type TimeSheetUncheckedUpdateManyWithoutProject_task_typeInput = {
   remark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_work_from_home?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  feeling?: Prisma.EnumFeelingFieldUpdateOperationsInput | $Enums.Feeling
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1097,6 +1142,7 @@ export type TimeSheetSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   remark?: boolean
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: boolean
   created_at?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -1117,6 +1163,7 @@ export type TimeSheetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   remark?: boolean
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: boolean
   created_at?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -1137,6 +1184,7 @@ export type TimeSheetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   remark?: boolean
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: boolean
   created_at?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -1157,10 +1205,11 @@ export type TimeSheetSelectScalar = {
   remark?: boolean
   is_work_from_home?: boolean
   is_approved?: boolean
+  feeling?: boolean
   created_at?: boolean
 }
 
-export type TimeSheetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "project_id" | "project_task_type_id" | "stamp_date" | "start_date" | "end_date" | "exclude_seconds" | "total_seconds" | "detail" | "remark" | "is_work_from_home" | "is_approved" | "created_at", ExtArgs["result"]["timeSheet"]>
+export type TimeSheetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "user_id" | "project_id" | "project_task_type_id" | "stamp_date" | "start_date" | "end_date" | "exclude_seconds" | "total_seconds" | "detail" | "remark" | "is_work_from_home" | "is_approved" | "feeling" | "created_at", ExtArgs["result"]["timeSheet"]>
 export type TimeSheetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -1198,6 +1247,7 @@ export type $TimeSheetPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     remark: string | null
     is_work_from_home: boolean
     is_approved: boolean
+    feeling: $Enums.Feeling
     created_at: Date
   }, ExtArgs["result"]["timeSheet"]>
   composites: {}
@@ -1638,6 +1688,7 @@ export interface TimeSheetFieldRefs {
   readonly remark: Prisma.FieldRef<"TimeSheet", 'String'>
   readonly is_work_from_home: Prisma.FieldRef<"TimeSheet", 'Boolean'>
   readonly is_approved: Prisma.FieldRef<"TimeSheet", 'Boolean'>
+  readonly feeling: Prisma.FieldRef<"TimeSheet", 'Feeling'>
   readonly created_at: Prisma.FieldRef<"TimeSheet", 'DateTime'>
 }
     

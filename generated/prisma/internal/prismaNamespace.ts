@@ -2058,7 +2058,8 @@ export const ProjectMemberScalarFieldEnum = {
   work_hours: 'work_hours',
   start_date: 'start_date',
   end_date: 'end_date',
-  is_using: 'is_using'
+  is_using: 'is_using',
+  man_hours: 'man_hours'
 } as const
 
 export type ProjectMemberScalarFieldEnum = (typeof ProjectMemberScalarFieldEnum)[keyof typeof ProjectMemberScalarFieldEnum]
@@ -2099,6 +2100,7 @@ export const TimeSheetScalarFieldEnum = {
   remark: 'remark',
   is_work_from_home: 'is_work_from_home',
   is_approved: 'is_approved',
+  feeling: 'feeling',
   created_at: 'created_at'
 } as const
 
@@ -2263,6 +2265,20 @@ export type EnumProjectStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
  * Reference to a field of type 'ProjectStatus[]'
  */
 export type ListEnumProjectStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Feeling'
+ */
+export type EnumFeelingFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Feeling'>
+    
+
+
+/**
+ * Reference to a field of type 'Feeling[]'
+ */
+export type ListEnumFeelingFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Feeling[]'>
     
 
 /**

@@ -292,6 +292,7 @@ model ProjectMember {
   start_date DateTime? @db.Date
   end_date   DateTime? @db.Date
   is_using   Boolean   @default(false)
+  man_hours  Int       @default(0)
 
   project Project @relation(fields: [project_id], references: [id])
   user    User    @relation(fields: [user_id], references: [id])
@@ -344,10 +345,19 @@ model TimeSheet {
   remark               String?          @db.VarChar(255)
   is_work_from_home    Boolean          @default(false)
   is_approved          Boolean          @default(false)
+  feeling              Feeling          @default(NEUTRAL)
 
   created_at DateTime @default(now())
 
   @@map("time_sheets")
+}
+
+enum Feeling {
+  TERRIBLE
+  BAD
+  NEUTRAL
+  GOOD
+  GREAT
 }
 
 model TimeSheetSummary {

@@ -39,3 +39,14 @@ export const ProjectStatus = {
 } as const
 
 export type ProjectStatus = (typeof ProjectStatus)[keyof typeof ProjectStatus]
+
+
+export const Feeling = {
+  TERRIBLE: 'TERRIBLE',
+  BAD: 'BAD',
+  NEUTRAL: 'NEUTRAL',
+  GOOD: 'GOOD',
+  GREAT: 'GREAT'
+} as const
+
+export type Feeling = (typeof Feeling)[keyof typeof Feeling]
