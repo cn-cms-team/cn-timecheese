@@ -409,30 +409,56 @@ const AddActivityModal = ({
                   <span>{selectedDateLabel}</span>
                 </div>
 
-                <FormField
-                  control={form.control}
-                  name="is_all_day"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <div className="flex items-center gap-2">
-                          <Checkbox
-                            checked={field.value}
-                            id="is-all-day"
-                            onCheckedChange={(checked) => handleAllDayChange(Boolean(checked))}
-                            disabled={isLoading}
-                          />
-                          <Label
-                            className="cursor-pointer text-lg font-medium text-slate-800"
-                            htmlFor="is-all-day"
-                          >
-                            ทั้งวัน
-                          </Label>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
+                <div className="flex flex-col gap-3 md:flex-row">
+                  <FormField
+                    control={form.control}
+                    name="isWorkFromHome"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              checked={field.value}
+                              id="is-work-from-home"
+                              onCheckedChange={(checked) => field.onChange(Boolean(checked))}
+                              disabled={isLoading}
+                            />
+                            <Label
+                              className="cursor-pointer text-lg font-medium text-slate-800"
+                              htmlFor="is-work-from-home"
+                            >
+                              WFH
+                            </Label>
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="is_all_day"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              checked={field.value}
+                              id="is-all-day"
+                              onCheckedChange={(checked) => handleAllDayChange(Boolean(checked))}
+                              disabled={isLoading}
+                            />
+                            <Label
+                              className="cursor-pointer text-lg font-medium text-slate-800"
+                              htmlFor="is-all-day"
+                            >
+                              ทั้งวัน
+                            </Label>
+                          </div>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -518,30 +544,6 @@ const AddActivityModal = ({
                 />
               </div>
 
-              <FormField
-                control={form.control}
-                name="isWorkFromHome"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="flex items-center gap-2">
-                        <Checkbox
-                          checked={field.value}
-                          id="is-work-from-home"
-                          onCheckedChange={(checked) => field.onChange(Boolean(checked))}
-                          disabled={isLoading}
-                        />
-                        <Label
-                          className="cursor-pointer text-lg font-medium text-slate-800"
-                          htmlFor="is-work-from-home"
-                        >
-                          ทำงานที่บ้าน
-                        </Label>
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
               <hr className="border-slate-200" />
               <FormField
                 control={form.control}
