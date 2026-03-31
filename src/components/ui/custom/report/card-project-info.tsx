@@ -1,4 +1,5 @@
 import { formatDate, secondsToDuration } from '@/lib/functions/date-format';
+import { FEELING_OPTIONS } from '@/lib/constants/timesheet';
 import { IProjectInfoByUser } from '@/types/report';
 import { Skeleton } from '../../skeleton';
 import { useEffect, useState } from 'react';
@@ -48,6 +49,10 @@ const CardProjectInfo = ({
   const [workMAPeriodDuration, setWorkMAPeriodDuration] = useState(
     secondsToDuration(project.spent_times_ma_period || 0)
   );
+  const feelingSummary = FEELING_OPTIONS.map((option) => ({
+    ...option,
+    count: project.feeling_summary?.[option.value] ?? 0,
+  }));
 
   useEffect(() => {
     if (setWorkDuration) setWorkDuration(secondsToDuration(project.spent_times || 0));
@@ -61,10 +66,11 @@ const CardProjectInfo = ({
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
             <Skeleton className="col-span-3 h-47 w-full animate-pulse rounded-md bg-gray-200" />
             <Skeleton className="col-span-2 h-47 w-full animate-pulse rounded-md bg-gray-200" />
+            <Skeleton className="col-span-1 md:col-span-5 h-32 w-full animate-pulse rounded-md bg-gray-200" />
           </div>
         </>
       ) : (
-        <>
+        <div className="flex flex-col gap-3">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
             <div className="border rounded-lg col-span-1 md:col-span-3 shadow p-3">
               <div className="text-base font-semibold mb-4">ข้อมูลโครงการ</div>
@@ -160,7 +166,27 @@ const CardProjectInfo = ({
               </div>
             </div>
           </div>
-        </>
+          <div className="border rounded-lg shadow w-full p-3">
+            <div className="text-base font-semibold mb-4">ความรู้สึกที่มีต่องาน</div>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+              {feelingSummary.map((feeling) => (
+                <Tooltip key={feeling.value}>
+                  <TooltipTrigger asChild>
+                    <div className="border rounded-lg px-3 py-4 text-center cursor-default bg-white">
+                      <div className="text-3xl leading-none">{feeling.emoji}</div>
+                      <div className="mt-1 text-2xl font-semibold">
+                        {feeling.count === 0 ? '-' : feeling.count}
+                      </div>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{feeling.tooltip}</p>
+                  </TooltipContent>
+                </Tooltip>
+              ))}
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
