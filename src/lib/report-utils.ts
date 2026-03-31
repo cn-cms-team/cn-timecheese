@@ -165,6 +165,7 @@ async function getProjectInfoWithMember(
       maintenance_end_date: projectCompany.maintenance_end_date,
       position: '-',
       day_price: 0,
+      man_hours: 0,
       spent_times: spentTimes || 0,
       spent_times_ma_period: spentTimesMAPeriod || 0,
       feeling_summary: feelingSummary,
@@ -181,6 +182,7 @@ async function getProjectInfoWithMember(
         end_date: true,
         role: true,
         day_price: true,
+        man_hours: true,
         project: {
           select: {
             name: true,
@@ -206,6 +208,7 @@ async function getProjectInfoWithMember(
       maintenance_end_date: project.project.maintenance_end_date,
       position: project.role,
       day_price: project.day_price,
+      man_hours: project.man_hours,
       spent_times: spentTimes || 0,
       spent_times_ma_period: spentTimesMAPeriod || 0,
       feeling_summary: feelingSummary,
@@ -232,6 +235,15 @@ export async function getProjectInfo(projectId: string): Promise<IProjectInfoByU
   if (!projectCompany) {
     return null;
   }
+
+  const projectMemberSummary = await prisma.projectMember.aggregate({
+    where: {
+      project_id: projectId,
+    },
+    _sum: {
+      man_hours: true,
+    },
+  });
 
   // For spent times
   const timeSheetSummary = await prisma.timeSheetSummary.groupBy({
@@ -293,6 +305,7 @@ export async function getProjectInfo(projectId: string): Promise<IProjectInfoByU
     maintenance_end_date: projectCompany.maintenance_end_date,
     position: '',
     day_price: 0,
+    man_hours: projectMemberSummary._sum.man_hours || 0,
     spent_times: spentTimes || 0,
     spent_times_ma_period: spentTimesMAPeriod || 0,
     feeling_summary: feelingSummary,

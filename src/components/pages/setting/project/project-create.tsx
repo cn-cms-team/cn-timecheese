@@ -111,6 +111,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
             member: projectData.member.map((item) => ({
               ...item,
               project_id: id,
+              man_hours: item.man_hours ?? 0,
               day_price: item.day_price ?? 0,
               start_date: item.start_date ? new Date(item.start_date) : undefined,
               end_date: item.end_date ? new Date(item.end_date) : undefined,
@@ -152,6 +153,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         member: values.member.map((item) => ({
           ...item,
           project_id: id,
+          man_hours: item.man_hours ?? 0,
           day_price: item.day_price ?? 0,
           work_hours: item.work_day ? item.work_day * 8 : 0,
           hour_price: item.day_price ? item.day_price / 8 : 0,
@@ -188,6 +190,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     { label: 'ตำแหน่ง', className: 'text-center min-w-60 max-w-60' },
     { label: 'วันที่เข้าร่วม', className: 'text-center min-w-60 max-w-60' },
     { label: 'วันที่สิ้นสุด', className: 'text-center min-w-60 max-w-60' },
+    { label: 'จำนวนชั่วโมง (ประเมิน)', className: 'text-center min-w-32 max-w-32' },
     { label: '', className: 'text-center' },
   ];
 
@@ -207,6 +210,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
     team_id: '',
     user_id: '',
     role: '',
+    man_hours: 0,
     day_price: 0,
     start_date: null!,
     end_date: null!,

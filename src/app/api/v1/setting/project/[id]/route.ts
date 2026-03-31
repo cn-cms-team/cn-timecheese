@@ -35,6 +35,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
             },
             user_id: true,
             role: true,
+            man_hours: true,
             day_price: true,
             start_date: true,
             end_date: true,
@@ -192,6 +193,7 @@ export async function POST(request: NextRequest) {
               },
               data: {
                 role: member.role,
+                man_hours: member.man_hours,
                 day_price: member.day_price,
                 start_date: member.start_date,
                 end_date: member.end_date,
@@ -209,6 +211,7 @@ export async function POST(request: NextRequest) {
             project_id: result.id,
             user_id: member.user_id,
             role: member.role,
+            man_hours: member.man_hours,
             day_price: member.day_price,
             start_date: member.start_date,
             end_date: member.end_date,

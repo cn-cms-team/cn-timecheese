@@ -39,6 +39,7 @@ export type IProjectMember = {
   project_id: string;
   user_id: string;
   role: string;
+  man_hours: number;
   day_price: number;
   start_date: string;
   end_date: string;

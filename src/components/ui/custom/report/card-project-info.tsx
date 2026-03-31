@@ -49,6 +49,11 @@ const CardProjectInfo = ({
   const [workMAPeriodDuration, setWorkMAPeriodDuration] = useState(
     secondsToDuration(project.spent_times_ma_period || 0)
   );
+  const estimatedDuration = secondsToDuration(project.man_hours ? project.man_hours * 3600 : 0);
+  const estimatedDurationText =
+    estimatedDuration.day === 0 && estimatedDuration.hour === 0
+      ? 'ไม่กำหนด'
+      : `${estimatedDuration.day === 0 ? '' : `${estimatedDuration.day} วัน `}${estimatedDuration.hour === 0 ? '' : `${estimatedDuration.hour} ชั่วโมง`}`;
   const feelingSummary = FEELING_OPTIONS.map((option) => ({
     ...option,
     count: project.feeling_summary?.[option.value] ?? 0,
@@ -121,6 +126,10 @@ const CardProjectInfo = ({
                     <div className="mt-1">{project.position}</div>
                   </div>
                 ) : null}
+                <div>
+                  <label className="text-gray-500 mb-10">เวลาที่ประเมินเข้าร่วมโครงการ</label>
+                  <div className="mt-1">{estimatedDurationText}</div>
+                </div>
               </div>
             </div>
             <div className="border rounded-lg col-span-1 md:col-span-2 p-3 flex flex-col h-full shadow">

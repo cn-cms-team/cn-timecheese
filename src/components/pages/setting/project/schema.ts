@@ -4,6 +4,7 @@ const memberDetailSchema = z.object({
   id: z.string().uuid().optional(),
   user_id: z.string(),
   role: z.string().nonempty('กรุณากรอกตำแหน่ง'),
+  man_hours: z.number().int().min(0).optional(),
   day_price: z.number().optional(),
   start_date: z.date().nullable().optional(),
   end_date: z.date().nullable().optional(),

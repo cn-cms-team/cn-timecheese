@@ -56,6 +56,7 @@ export interface IProjectInfoByUser {
   maintenance_end_date?: Date | null;
   position: string;
   day_price?: number | null;
+  man_hours?: number;
   spent_times: number;
   spent_times_ma_period: number;
   feeling_summary?: IProjectFeelingSummary;
