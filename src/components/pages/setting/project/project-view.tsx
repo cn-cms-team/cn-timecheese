@@ -12,7 +12,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { taskTypeOption } from '@/lib/constants/task';
-import { buddhistFormatDate, calcTotalDays, formatDate } from '@/lib/functions/date-format';
+import { buddhistFormatDate } from '@/lib/functions/date-format';
 import { getIsCompanyProject, getProjectStatus } from '@/lib/functions/enum-mapping';
 import { IProject, IProjectTaskType } from '@/types/setting/project';
 import { useEffect, useState } from 'react';
@@ -140,6 +140,7 @@ const ProjectViewDetail = ({
                   <TableHead className="w-25">ตำแหน่ง</TableHead>
                   <TableHead className="w-25">วันที่เริ่มต้น</TableHead>
                   <TableHead className="w-25">วันที่สิ้นสุด</TableHead>
+                  <TableHead className="w-25">จำนวนชั่วโมง (ประเมิน)</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -151,12 +152,6 @@ const ProjectViewDetail = ({
                   </TableRow>
                 ) : (
                   projectData?.member.map((item) => {
-                    const totalDays =
-                      item.start_date && item.end_date
-                        ? calcTotalDays(item.start_date, item.end_date)
-                        : 0;
-                    const estimatedCost =
-                      item.day_price && totalDays ? item.day_price * totalDays : 0;
                     return (
                       <TableRow key={item.user_id}>
                         <TableCell>{item.name}</TableCell>
@@ -169,6 +164,7 @@ const ProjectViewDetail = ({
                         <TableCell>
                           {item.end_date ? buddhistFormatDate(item.end_date, 'dd mmm yyyy') : '-'}
                         </TableCell>
+                        <TableCell>{item.man_hours ?? 0}</TableCell>
                       </TableRow>
                     );
                   })

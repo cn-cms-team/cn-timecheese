@@ -69,6 +69,7 @@ export async function POST(request: Request) {
         project_id: project.id,
         user_id: item.user_id,
         role: item.role,
+        man_hours: item.man_hours,
         day_price: item.day_price,
         start_date: item.start_date,
         end_date: item.end_date,

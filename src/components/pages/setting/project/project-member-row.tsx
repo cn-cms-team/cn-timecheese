@@ -9,6 +9,7 @@ import { UserInfo } from '@/types/setting/project';
 import { CreateProjectSchemaType, EditProjectSchemaType } from './schema';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
+import { handleInputInteger } from '@/lib/functions/number-format';
 
 export interface ProjectMemberTableProps {
   index: number;
@@ -113,6 +114,28 @@ const ProjectMemberRow = ({ index, form, userOptions, onDelete }: ProjectMemberT
                   placeholder="วันที่สิ้นสุด"
                   onChange={field.onChange}
                   allowClear
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+      </TableCell>
+      <TableCell>
+        <FormField
+          control={form.control}
+          name={`member.${index}.man_hours`}
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  value={field.value ?? 0}
+                  onKeyDown={(e) => handleInputInteger(e)}
+                  onChange={(e) => {
+                    const sanitizedValue = e.target.value.replace(/\D/g, '');
+                    field.onChange(sanitizedValue === '' ? 0 : Number.parseInt(sanitizedValue, 10));
+                  }}
                 />
               </FormControl>
             </FormItem>
