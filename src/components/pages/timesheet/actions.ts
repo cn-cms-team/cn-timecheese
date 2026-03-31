@@ -55,7 +55,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
 
       const totalSeconds =
         Math.floor((end.getTime() - start.getTime()) / 1000) - (validatedData.exclude ?? 0);
-
+      const feeling = (validatedData.feeling ?? Feeling.NEUTRAL) as Feeling;
       const result = await prisma.timeSheet.create({
         data: {
           user_id: session.user.id,
@@ -66,7 +66,7 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
           end_date: end,
           detail: safeDetail,
           remark: remarkValue,
-          feeling: (validatedData.feeling ?? Feeling.NEUTRAL) as Feeling,
+          feeling: feeling,
           exclude_seconds: validatedData.exclude ?? 0,
           is_work_from_home: validatedData.isWorkFromHome ?? false,
           total_seconds: totalSeconds,
@@ -118,6 +118,28 @@ export async function handleAddTimeSheet(formData: TimeSheetCreateEditSchema) {
         },
       });
 
+      // upsert FeelingProjectReport
+      await prisma.feelingProjectReport.upsert({
+        where: {
+          user_id_project_id_feeling: {
+            user_id: session.user.id,
+            project_id: validatedData.project_id,
+            feeling: feeling,
+          },
+        },
+        update: {
+          count: {
+            increment: 1,
+          },
+        },
+        create: {
+          user_id: session.user.id,
+          project_id: validatedData.project_id,
+          feeling: feeling,
+          count: 1,
+        },
+      });
+
       const hourData = await getHourData(session.user.id, stampDate);
       return { id: result.id, hourData };
     },
@@ -147,6 +169,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
           total_seconds: true,
           exclude_seconds: true,
           is_approved: true,
+          feeling: true,
         },
       });
 
@@ -170,6 +193,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
       if (start >= end) {
         throw new Error('Start time must be earlier than end time');
       }
+      const feeling = (validatedData.feeling ?? Feeling.NEUTRAL) as Feeling;
 
       const overlappedTimeSheet = await prisma.timeSheet.findFirst({
         where: {
@@ -209,7 +233,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
           end_date: end,
           detail: safeDetail,
           remark: remarkValue,
-          feeling: (validatedData.feeling ?? Feeling.NEUTRAL) as Feeling,
+          feeling: feeling,
           exclude_seconds: validatedData.exclude ?? 0,
           is_work_from_home: validatedData.isWorkFromHome ?? false,
           total_seconds: totalSeconds,
@@ -257,6 +281,44 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
         },
       });
 
+      // if feeling is changed, upsert FeelingProjectReport
+      if (ts.feeling !== feeling) {
+        await prisma.feelingProjectReport.update({
+          where: {
+            user_id_project_id_feeling: {
+              user_id: session.user.id,
+              project_id: validatedData.project_id,
+              feeling: ts.feeling,
+            },
+          },
+          data: {
+            count: {
+              decrement: 1,
+            },
+          },
+        });
+        await prisma.feelingProjectReport.upsert({
+          where: {
+            user_id_project_id_feeling: {
+              user_id: session.user.id,
+              project_id: validatedData.project_id,
+              feeling: feeling,
+            },
+          },
+          update: {
+            count: {
+              increment: 1,
+            },
+          },
+          create: {
+            user_id: session.user.id,
+            project_id: validatedData.project_id,
+            feeling: feeling,
+            count: 1,
+          },
+        });
+      }
+
       const hourData = getHourData(session.user.id, stampDate);
       return { id: ts.id, hourData };
     },
@@ -280,6 +342,7 @@ export async function handleDeleteTimeSheet(id: string) {
           total_seconds: true,
           exclude_seconds: true,
           is_approved: true,
+          feeling: true,
         },
       });
       if (!ts) {
@@ -310,6 +373,21 @@ export async function handleDeleteTimeSheet(id: string) {
         data: {
           total_seconds: { decrement: ts.total_seconds },
           stamp_at: new Date(),
+        },
+      });
+
+      await prisma.feelingProjectReport.update({
+        where: {
+          user_id_project_id_feeling: {
+            user_id: session.user.id,
+            project_id: ts.project_id,
+            feeling: ts.feeling,
+          },
+        },
+        data: {
+          count: {
+            decrement: 1,
+          },
         },
       });
 
