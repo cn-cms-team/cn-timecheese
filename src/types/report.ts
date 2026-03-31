@@ -1,4 +1,5 @@
 import { IPositionLevel } from '@/types/setting/position';
+import { Feeling } from '@generated/prisma/enums';
 export interface IDashboard extends IProjectReportBase {}
 export interface IReportProject extends IProjectReportBase {}
 export interface IReportTeam {
@@ -78,6 +79,7 @@ export interface ITimeSheetTable {
   remark: string | null;
   is_work_from_home: boolean;
   is_approved: boolean;
+  feeling: Feeling;
 }
 
 export interface IReportProjectMonthly {
