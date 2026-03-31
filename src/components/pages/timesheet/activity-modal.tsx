@@ -1,12 +1,13 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, ChevronDown } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
   Dialog,
   DialogContent,
@@ -62,6 +63,7 @@ const AddActivityModal = ({
   onSaved,
 }: AddActivityModalProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isRemarkOpen, setIsRemarkOpen] = useState(false);
   const { isProjectOptionsLoading, projectOptions, getTaskTypeOptionsByProjectId } =
     useTimeSheetMasterContext();
 
@@ -205,6 +207,8 @@ const AddActivityModal = ({
     if (!open) {
       return;
     }
+
+    setIsRemarkOpen(Boolean(initialItem?.remark?.trim()));
 
     if (initialItem) {
       const startDate = new Date(initialItem.start_date);
@@ -650,22 +654,41 @@ const AddActivityModal = ({
                 control={form.control}
                 name="remark"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormGroup>
-                      <FormLabel>ปัญหาและข้อเสนอแนะ</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          className="min-h-20 field-sizing-fixed resize-none overflow-y-auto rounded-lg border-slate-200 px-3 text-base"
-                          isError={Boolean(form.formState.errors.remark)}
-                          onChange={(event) => field.onChange(event.target.value)}
-                          placeholder="กรอกปัญหาและข้อเสนอแนะ"
-                          value={field.value ?? ''}
-                          disabled={isLoading}
-                          maxLength={255}
-                          showMaxLengthCounter
-                        />
-                      </FormControl>
-                    </FormGroup>
+                  <FormItem className="space-y-1">
+                    <Collapsible open={isRemarkOpen} onOpenChange={setIsRemarkOpen}>
+                      <FormGroup>
+                        <CollapsibleTrigger asChild>
+                          <button
+                            type="button"
+                            className="flex w-full items-center justify-between rounded-md border border-slate-200 px-3 py-1.5 text-left transition-colors hover:bg-slate-50"
+                            disabled={isLoading}
+                          >
+                            <FormLabel className="cursor-pointer text-sm text-slate-900">
+                              ปัญหาและข้อเสนอแนะ
+                            </FormLabel>
+                            <ChevronDown
+                              className={`size-4 text-slate-500 transition-transform ${
+                                isRemarkOpen ? 'rotate-180' : ''
+                              }`}
+                            />
+                          </button>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="pt-2">
+                          <FormControl>
+                            <Textarea
+                              className="min-h-16 field-sizing-fixed resize-none overflow-y-auto rounded-lg border-slate-200 px-3 text-base"
+                              isError={Boolean(form.formState.errors.remark)}
+                              onChange={(event) => field.onChange(event.target.value)}
+                              placeholder="กรอกปัญหาและข้อเสนอแนะ"
+                              value={field.value ?? ''}
+                              disabled={isLoading}
+                              maxLength={255}
+                              showMaxLengthCounter
+                            />
+                          </FormControl>
+                        </CollapsibleContent>
+                      </FormGroup>
+                    </Collapsible>
                     <FormMessage />
                   </FormItem>
                 )}
