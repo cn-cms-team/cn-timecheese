@@ -1,4 +1,5 @@
 import { TimelineCardTone } from '@/types/timesheet';
+import { Feeling } from '@generated/prisma/enums';
 
 export type IApprovalPendingMember = {
   user_id: string;
@@ -20,6 +21,7 @@ export type IApprovalPendingTimeSheet = {
   detail: string;
   remark: string;
   is_work_from_home: boolean;
+  feeling: Feeling;
   task_type_name: string;
   tone_color: TimelineCardTone;
 };

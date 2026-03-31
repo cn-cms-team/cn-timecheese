@@ -1,5 +1,6 @@
 import { TimeSheetCreateEditSchema } from '@/components/pages/timesheet/schema';
 import type { TimelineCardTone } from '@/types/timesheet';
+import { Feeling } from '@generated/prisma/enums';
 
 export const DAY_LABELS = ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
 
@@ -63,31 +64,31 @@ export const FEELING_OPTIONS: Array<{
   tooltip: string;
 }> = [
   {
-    value: 'TERRIBLE',
+    value: Feeling.TERRIBLE,
     label: 'แย่มาก',
     emoji: '😩',
     tooltip: 'งานแย่/พัง: รู้สึกแย่กับผลงาน หรือเป็นงานที่ไม่อยากแตะเลย',
   },
   {
-    value: 'BAD',
+    value: Feeling.BAD,
     label: 'ไม่ค่อยดี',
     emoji: '🙁',
     tooltip: 'เหนื่อยใจ/ท้อ: งานมีปัญหาเยอะ ทำแล้วถอนหายใจ ไม่ค่อยโอเค',
   },
   {
-    value: 'NEUTRAL',
+    value: Feeling.NEUTRAL,
     label: 'เฉยๆ',
     emoji: '😐',
     tooltip: 'งั้นๆ/เรื่อยๆ: งานเสร็จตามหน้าที่ ไม่ได้รู้สึกตื่นเต้นหรือแย่อะไร',
   },
   {
-    value: 'GOOD',
+    value: Feeling.GOOD,
     label: 'ดี',
     emoji: '🙂',
     tooltip: 'ดูดี/น่าพอใจ: งานออกมาสวยงาม ราบรื่น รู้สึกดีที่ได้ทำ',
   },
   {
-    value: 'GREAT',
+    value: Feeling.GREAT,
     label: 'ดีมาก',
     emoji: '😄',
     tooltip: 'สุดยอด/ภูมิใจ: งานเทพมาก พลังมาเต็ม หรือเป็นงานระดับ Masterpiece',

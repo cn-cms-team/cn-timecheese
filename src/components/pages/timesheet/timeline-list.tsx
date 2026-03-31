@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { FEELING_OPTIONS, toneClasses } from '@/lib/constants/timesheet';
 import { Skeleton } from '@/components/ui/skeleton';
 import type { TimelineItem } from '@/types/timesheet';
+import { Feeling } from '@generated/prisma/enums';
 
 type TimelineListProps = {
   timelineItems: TimelineItem[];
@@ -14,7 +15,7 @@ type TimelineListProps = {
   deletingItemId?: string | null;
 };
 
-const DEFAULT_FEELING = 'NEUTRAL';
+const DEFAULT_FEELING = Feeling.NEUTRAL;
 
 const formatTime = (value: string) => {
   const date = new Date(value);

@@ -42,6 +42,7 @@ import {
   DEFAULT_END_TIME_HOUR,
   FEELING_OPTIONS,
 } from '@/lib/constants/timesheet';
+import { Feeling } from '@generated/prisma/enums';
 
 interface AddActivityModalProps {
   selectedDayId: string;
@@ -132,7 +133,7 @@ const AddActivityModal = ({
       end_date: defaultEndDate,
       detail: '',
       remark: '',
-      feeling: 'NEUTRAL',
+      feeling: Feeling.NEUTRAL,
 
       break_time: defaultBreakTime,
       isWorkFromHome: false,
@@ -233,7 +234,7 @@ const AddActivityModal = ({
         end_date: endDate,
         detail: initialItem.detail,
         remark: initialItem.remark ?? '',
-        feeling: initialItem.feeling ?? 'NEUTRAL',
+        feeling: initialItem.feeling ?? Feeling.NEUTRAL,
         break_time: breakDate,
         isWorkFromHome: initialItem.isWorkFromHome ?? false,
         is_all_day:
@@ -254,7 +255,7 @@ const AddActivityModal = ({
       end_date: defaultEndDate,
       detail: '',
       remark: '',
-      feeling: 'NEUTRAL',
+      feeling: Feeling.NEUTRAL,
       break_time: defaultBreakTime,
       isWorkFromHome: false,
       is_all_day: false,
