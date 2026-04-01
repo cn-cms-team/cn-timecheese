@@ -58,12 +58,15 @@ const ReportProjectContent = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+        setIsLoading(true);
         const project = await fetcher<IOptionGroups[]>(
           `${prefix}/api/v1/report/project/project-list`
         );
         setProjectOptions(project);
       } catch (error) {
         console.error('Error fetching project options:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchProjects();
@@ -113,11 +116,12 @@ const ReportProjectContent = () => {
           <ComboboxForm
             value={projectId}
             isGroup={true}
-            placeholder="เลือกโครงการ"
+            placeholder={isLoading ? 'กำลังโหลดโครงการ...' : 'เลือกโครงการ'}
             options={projectOptions}
             onSelect={(value) => {
               onChangeProject(value);
             }}
+            disabled={isLoading}
           />
         </div>
         {projectId && <ReportProjectGenerateDialog projectId={projectId} />}
