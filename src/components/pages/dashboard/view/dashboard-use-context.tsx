@@ -63,6 +63,7 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchProjectsOption = async () => {
     try {
+      setLoading(true);
       const project = await fetcher<IOptionGroups[]>(`${prefix}/api/v1/dashboard/master/project`);
       setProjectOptions(project);
       if (!projectId) {
@@ -72,6 +73,8 @@ const DashboardProvider = ({ children }: { children: React.ReactNode }) => {
       }
     } catch (error) {
       console.error('Error fetching options:', error);
+    } finally {
+      setLoading(false);
     }
   };
 

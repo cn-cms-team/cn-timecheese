@@ -60,11 +60,12 @@ const DashboardContent = () => {
         <ComboboxForm
           value={projectId}
           isGroup={true}
-          placeholder="เลือกโครงการ"
+          placeholder={loading ? 'กำลังโหลดโครงการ...' : 'เลือกโครงการ'}
           options={projectOption}
           onSelect={(value) => {
             setProjectId(value);
           }}
+          disabled={loading}
         />
       </div>
       <CardProjectInfo
