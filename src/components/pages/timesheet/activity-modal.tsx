@@ -642,53 +642,10 @@ const AddActivityModal = ({
                           value={field.value}
                           disabled={isLoading}
                           maxLength={1000}
-                          showMaxLengthCounter
+                          showMaxLengthCounter={false}
                         />
                       </FormControl>
                     </FormGroup>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="remark"
-                render={({ field }) => (
-                  <FormItem className="space-y-1">
-                    <Collapsible open={isRemarkOpen} onOpenChange={setIsRemarkOpen}>
-                      <FormGroup>
-                        <CollapsibleTrigger asChild>
-                          <button
-                            type="button"
-                            className="flex w-full items-center justify-between rounded-md border border-slate-200 px-3 py-1.5 text-left transition-colors hover:bg-slate-50"
-                            disabled={isLoading}
-                          >
-                            <FormLabel className="cursor-pointer text-sm text-slate-900">
-                              ปัญหาและข้อเสนอแนะ
-                            </FormLabel>
-                            <ChevronDown
-                              className={`size-4 text-slate-500 transition-transform ${
-                                isRemarkOpen ? 'rotate-180' : ''
-                              }`}
-                            />
-                          </button>
-                        </CollapsibleTrigger>
-                        <CollapsibleContent className="pt-2">
-                          <FormControl>
-                            <Textarea
-                              className="min-h-16 field-sizing-fixed resize-none overflow-y-auto rounded-lg border-slate-200 px-3 text-base"
-                              isError={Boolean(form.formState.errors.remark)}
-                              onChange={(event) => field.onChange(event.target.value)}
-                              placeholder="กรอกปัญหาและข้อเสนอแนะ"
-                              value={field.value ?? ''}
-                              disabled={isLoading}
-                              maxLength={255}
-                              showMaxLengthCounter
-                            />
-                          </FormControl>
-                        </CollapsibleContent>
-                      </FormGroup>
-                    </Collapsible>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -741,6 +698,49 @@ const AddActivityModal = ({
                         </div>
                       </FormControl>
                     </FormGroup>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="remark"
+                render={({ field }) => (
+                  <FormItem className="space-y-1">
+                    <Collapsible open={isRemarkOpen} onOpenChange={setIsRemarkOpen}>
+                      <FormGroup>
+                        <CollapsibleTrigger asChild>
+                          <button
+                            type="button"
+                            className="flex w-full items-center justify-between rounded-md border border-slate-200 px-3 py-1.5 text-left transition-colors hover:bg-slate-50"
+                            disabled={isLoading}
+                          >
+                            <FormLabel className="cursor-pointer text-sm text-slate-900">
+                              ปัญหาและข้อเสนอแนะ
+                            </FormLabel>
+                            <ChevronDown
+                              className={`size-4 text-slate-500 transition-transform ${
+                                isRemarkOpen ? 'rotate-180' : ''
+                              }`}
+                            />
+                          </button>
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="pt-2">
+                          <FormControl>
+                            <Textarea
+                              className="min-h-16 field-sizing-fixed resize-none overflow-y-auto rounded-lg border-slate-200 px-3 text-base"
+                              isError={Boolean(form.formState.errors.remark)}
+                              onChange={(event) => field.onChange(event.target.value)}
+                              placeholder="กรอกปัญหาและข้อเสนอแนะ"
+                              value={field.value ?? ''}
+                              disabled={isLoading}
+                              maxLength={255}
+                              showMaxLengthCounter
+                            />
+                          </FormControl>
+                        </CollapsibleContent>
+                      </FormGroup>
+                    </Collapsible>
                     <FormMessage />
                   </FormItem>
                 )}
