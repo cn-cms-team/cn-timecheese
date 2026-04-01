@@ -118,7 +118,7 @@ export default function ReportProjectGenerateExcel({
         // Add FORMULA for Column G (Monthly Cost = Hourly Rate * TimeSheets)
         worksheet.getCell(`G${currentRow}`).numFmt = '#,##0.00';
         worksheet.getCell(`G${currentRow}`).value = {
-          formula: `F${currentRow}*D${currentRow}`,
+          formula: `F${currentRow}*C${currentRow}`,
         };
       });
 
