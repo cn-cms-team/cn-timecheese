@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import { handleApproveTimeSheetSummary } from '@/components/pages/approval/actions';
 import ApprovalDetailSection from '@/components/pages/approval/approval-detail-section';
 import { Badge } from '@/components/ui/badge';
-import { ComboboxForm } from '@/components/ui/custom/combobox';
+import { ComboboxFormProject } from '@/components/ui/custom/combobox';
 import EmptyFolderIcon from '@/components/ui/icons/empty-folder';
 import { Label } from '@/components/ui/label';
 import { fetcher } from '@/lib/fetcher';
@@ -155,7 +155,7 @@ const ApprovalContent = () => {
     <div className="flex flex-col gap-4">
       <div className="w-full md:max-w-sm">
         <Label>โครงการ</Label>
-        <ComboboxForm
+        <ComboboxFormProject
           value={projectId}
           isGroup={true}
           placeholder={isProjectLoading ? 'กำลังโหลดโครงการ...' : 'เลือกโครงการ'}
