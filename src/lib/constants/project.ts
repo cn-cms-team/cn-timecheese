@@ -1,5 +1,15 @@
 import { ProjectTone } from '@/types/project';
 
+export const projectTones = [
+  'blue',
+  'violet',
+  'slate',
+  'green',
+  'red',
+  'yellow',
+  'orange',
+] as const;
+
 export const projectToneLabels: Record<ProjectTone, string> = {
   blue: 'น้ำเงิน',
   violet: 'ม่วง',
@@ -29,3 +39,8 @@ export const projectToneTextClasses: Record<ProjectTone, string> = {
   yellow: 'text-yellow-500',
   orange: 'text-orange-500',
 };
+
+export const projectToneOptions = projectTones.map((tone) => ({
+  value: tone,
+  label: projectToneLabels[tone],
+}));

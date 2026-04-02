@@ -1,4 +1,5 @@
 import z from 'zod';
+import { projectTones } from '@/lib/constants/project';
 
 const memberDetailSchema = z.object({
   id: z.string().uuid().optional(),
@@ -35,6 +36,9 @@ const baseSchema = {
   maintenance_end_date: z.date().nullable().optional(),
   status: z.string().nonempty('กรุณากรอกสถานะโครงการ'),
   description: z.string().nullable().optional(),
+  color: z.enum(projectTones, {
+    error: 'กรุณาเลือกสี',
+  }),
   member: z.array(memberDetailSchema),
   main_task_type: z.array(taskTypeSchema),
   optional_task_type: z.array(taskTypeSchema),

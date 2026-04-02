@@ -15,6 +15,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         code: true,
         pre_sale_code: true,
         name: true,
+        color: true,
         start_date: true,
         end_date: true,
         maintenance_start_date: true,
@@ -91,6 +92,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       code: project.code,
       pre_sale_code: project.pre_sale_code,
       name: project.name,
+      color: project.color,
       start_date: project.start_date,
       end_date: project.end_date,
       maintenance_start_date: project.maintenance_start_date,
@@ -150,6 +152,7 @@ export async function POST(request: NextRequest) {
         maintenance_end_date: data.maintenance_end_date,
         description: data.description,
         status: data.status,
+        color: data.color,
         updated_by: data.updated_by,
       },
     });
