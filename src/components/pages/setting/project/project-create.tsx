@@ -18,6 +18,7 @@ import {
   EditProjectSchemaType,
 } from './schema';
 import { ComboboxForm } from '@/components/ui/custom/combobox';
+import Dropdown from '@/components/ui/custom/input/dropdown';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { fetcher } from '@/lib/fetcher';
@@ -41,6 +42,7 @@ import { useLoading } from '@/components/context/app-context';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { getIsCompanyProject } from '@/lib/functions/enum-mapping';
+import { projectToneOptions } from '@/lib/constants/project';
 
 const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
   const router = useRouter();
@@ -63,6 +65,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
       name: '',
       status: '',
       description: '',
+      color: 'slate',
       member: [],
       main_task_type: [],
       optional_task_type: [],
@@ -100,6 +103,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
           form.reset({
             ...projectData,
             pre_sale_code: projectData.pre_sale_code ?? '',
+            color: projectData.color ?? 'slate',
             start_date: new Date(projectData.start_date),
             end_date: projectData.end_date ? new Date(projectData.end_date) : undefined,
             maintenance_start_date: projectData.maintenance_start_date
@@ -148,6 +152,7 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
         maintenance_end_date: values.maintenance_end_date,
         status: values.status,
         description: values.description,
+        color: values.color,
         created_by: session?.user?.id,
         is_company_project: values.is_company_project,
         member: values.member.map((item) => ({
@@ -434,6 +439,30 @@ const ProjectCreate = ({ id }: { id?: string }): React.ReactNode => {
                           field={field}
                           isError={form.formState.errors.status ? true : false}
                           onSelect={(value) => field.onChange(value)}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="color"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        สีโครงการ
+                        <Required />
+                      </FormLabel>
+                      <FormControl>
+                        <Dropdown
+                          className="w-full"
+                          options={projectToneOptions}
+                          value={field.value}
+                          placeholder="เลือกสีโครงการ"
+                          isAllPlaceHolder={false}
+                          canSearch={false}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />

@@ -11,9 +11,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { projectToneLabels, projectToneSwatchClasses } from '@/lib/constants/project';
 import { taskTypeOption } from '@/lib/constants/task';
 import { buddhistFormatDate } from '@/lib/functions/date-format';
 import { getIsCompanyProject, getProjectStatus } from '@/lib/functions/enum-mapping';
+import { cn } from '@/lib/utils';
 import { IProject, IProjectTaskType } from '@/types/setting/project';
 import { useEffect, useState } from 'react';
 
@@ -126,6 +128,21 @@ const ProjectViewDetail = ({
                 label="สถานะโครงการ"
                 value={getProjectStatus(projectData?.status!) || '-'}
               />
+              <LabelGroup label="สีโครงการ">
+                {projectData?.color ? (
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={cn(
+                        'inline-block size-4 rounded-full border border-slate-200',
+                        projectToneSwatchClasses[projectData.color]
+                      )}
+                    />
+                    <span>{projectToneLabels[projectData.color]}</span>
+                  </div>
+                ) : (
+                  <span>-</span>
+                )}
+              </LabelGroup>
               <LabelGroup label="คำอธิบาย" value={projectData?.description} />
             </div>
           </div>

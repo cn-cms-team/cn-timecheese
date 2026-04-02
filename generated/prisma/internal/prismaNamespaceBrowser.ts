@@ -259,6 +259,7 @@ export const ProjectScalarFieldEnum = {
   end_date: 'end_date',
   status: 'status',
   is_company_project: 'is_company_project',
+  color: 'color',
   maintenance_start_date: 'maintenance_start_date',
   maintenance_end_date: 'maintenance_end_date',
   created_at: 'created_at',

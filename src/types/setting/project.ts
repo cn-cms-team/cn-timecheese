@@ -1,5 +1,6 @@
 import { ProjectStatus, TaskTypeCode } from '@generated/prisma/client';
 import { IOptions } from '../dropdown';
+import { ProjectTone } from '../project';
 
 export type IProject = {
   id: string;
@@ -11,6 +12,7 @@ export type IProject = {
   maintenance_start_date?: string;
   maintenance_end_date?: string;
   status: ProjectStatus;
+  color: ProjectTone;
   value: number;
   description: string;
   people_cost: number;

@@ -3,8 +3,10 @@ import { useRef, useState } from 'react';
 import { ControllerRenderProps, FieldValues } from 'react-hook-form';
 import { ChevronDownIcon } from 'lucide-react';
 
+import { projectToneSwatchClasses } from '@/lib/constants/project';
 import { cn } from '@/lib/utils';
 import { IOptionGroups, IOptions } from '@/types/dropdown';
+import { ProjectTone } from '@/types/project';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -18,7 +20,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { X } from 'lucide-react';
 import { CommandEmpty } from 'cmdk';
 
-type ComboboxFormProps<TFieldValues extends FieldValues> = {
+type ComboboxFormProjectProps<TFieldValues extends FieldValues> = {
   options: IOptions[] | IOptionGroups[] | undefined;
   placeholder: string;
   field?: ControllerRenderProps<TFieldValues>;
@@ -30,7 +32,52 @@ type ComboboxFormProps<TFieldValues extends FieldValues> = {
   value?: any;
   isModal?: boolean;
 };
-const ComboboxForm = <TFieldValues extends FieldValues>({
+
+const isProjectTone = (tone: unknown): tone is ProjectTone =>
+  typeof tone === 'string' && tone in projectToneSwatchClasses;
+
+const getOptionSearchValue = (option: IOptions) =>
+  option.code ? `${option.code} ${option.label}` : option.label;
+
+const getProjectCodeTagClasses = (tone: unknown) => {
+  if (!isProjectTone(tone)) {
+    return 'bg-muted text-foreground';
+  }
+
+  return cn(projectToneSwatchClasses[tone], tone === 'yellow' ? 'text-slate-900' : 'text-white');
+};
+
+const renderOptionLabel = (option?: IOptions, showInactive = false) => {
+  if (!option) {
+    return null;
+  }
+
+  const code = typeof option.code === 'string' && option.code.trim() ? option.code.trim() : null;
+  const inactiveLabel = showInactive && option.is_active === false ? ' (ไม่ใช้งาน)' : '';
+
+  if (!code) {
+    return `${option.label}${inactiveLabel}`;
+  }
+
+  return (
+    <div className="flex min-w-0 items-center gap-1.5">
+      <span
+        className={cn(
+          'inline-flex shrink-0 items-center rounded-md px-1.5 py-0.5 text-xs font-semibold',
+          getProjectCodeTagClasses(option.color)
+        )}
+      >
+        {code}
+      </span>
+      <span className="truncate text-foreground">: {option.label}</span>
+      {showInactive && option.is_active === false ? (
+        <span className="shrink-0">(ไม่ใช้งาน)</span>
+      ) : null}
+    </div>
+  );
+};
+
+const ComboboxFormProject = <TFieldValues extends FieldValues>({
   options,
   placeholder,
   field,
@@ -41,9 +88,21 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
   isGroup = false,
   value,
   isModal = false,
-}: ComboboxFormProps<TFieldValues>) => {
+}: ComboboxFormProjectProps<TFieldValues>) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
+  const selectedValue = field?.value || value;
+  const normalizedOptions = isGroup
+    ? options?.flatMap((item) => {
+        if ('options' in item && item.options.length > 0) {
+          return item.options;
+        }
+
+        return [];
+      })
+    : ((options as IOptions[] | undefined) ?? []);
+  const selectedOption = normalizedOptions?.find((option) => option.value === selectedValue);
+
   const handleOptionClick = (optionValue: string) => {
     onSelect?.(optionValue);
     buttonRef.current?.blur();
@@ -67,26 +126,13 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
             disabled={disabled}
           >
             <div className="truncate text-sm font-medium">
-              {(field?.value || value) && isGroup
-                ? options
-                    ?.flatMap((item) => {
-                      if (item.options && item.options.length > 0) {
-                        return item.options;
-                      }
-                      return item;
-                    })
-                    .find((language) => language.value === (field?.value || value))?.label
-                : field?.value || value
-                  ? (options as IOptions[])?.find(
-                      (language) => language.value === (field?.value || value)
-                    )?.label
-                  : placeholder}
+              {selectedValue ? (renderOptionLabel(selectedOption) ?? placeholder) : placeholder}
             </div>
             <div className={`ms-auto ${open ? 'rotate-180' : ''}`}>
               <ChevronDownIcon />
             </div>
           </Button>
-          {canEmpty && (field?.value || value) && (
+          {canEmpty && selectedValue && (
             <X
               className="absolute right-9 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 cursor-pointer hover:text-black z-10"
               onClick={(e) => {
@@ -110,18 +156,16 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                 <CommandGroup heading={groupItem.label} key={`${groupItem.label}-${gIndex}`}>
                   {groupItem.options?.map((item: IOptions, index: number) => (
                     <CommandItem
-                      value={item.label}
+                      value={getOptionSearchValue(item)}
                       key={`${item.value}-${index}`}
-                      className={`ps-5 mt-1 ${
-                        item.value === (field?.value || value) ? 'active' : ''
-                      }`}
+                      className={`ps-5 mt-1 ${item.value === selectedValue ? 'active' : ''}`}
                       onSelect={() => {
                         onSelect(item.value as string);
                         setOpen(false);
                       }}
                       disabled={item.is_active != null && item.is_active === false}
                     >
-                      {item.label} {item.is_active === false && '(ไม่ใช้งาน)'}
+                      {renderOptionLabel(item, true)}
                     </CommandItem>
                   ))}
                 </CommandGroup>
@@ -131,16 +175,16 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
                 {options && options.length > 0 ? (
                   (options as IOptions[])?.map((item, index) => (
                     <CommandItem
-                      value={item.label}
+                      value={getOptionSearchValue(item)}
                       key={`${item.value}-${index}`}
-                      className={`mt-1 ${item.value === (field?.value || value) ? 'active' : ''}`}
+                      className={`mt-1 ${item.value === selectedValue ? 'active' : ''}`}
                       disabled={item.is_active != null && item.is_active === false}
                       onSelect={() => {
                         onSelect(item.value as string);
                         setOpen(false);
                       }}
                     >
-                      {item.label}
+                      {renderOptionLabel(item, true)}
                     </CommandItem>
                   ))
                 ) : (
@@ -155,4 +199,4 @@ const ComboboxForm = <TFieldValues extends FieldValues>({
   );
 };
 
-export default ComboboxForm;
+export default ComboboxFormProject;

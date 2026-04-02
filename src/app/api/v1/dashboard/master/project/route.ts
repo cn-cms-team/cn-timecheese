@@ -1,16 +1,21 @@
 import { auth } from '@/auth';
 import { DD_INTERNAL_LABEL, DD_PROJECT_LABEL } from '@/lib/constants/dropdown';
 import prisma from '@/lib/prisma';
+import { ProjectTone } from '@/types/project';
 
 type Option = { label: string; value: string };
 type OptionGroup = { label: string; options: Option[] };
 
-const toOptions = <T extends { id: number | string; name: string; code: string | null }>(
+const toOptions = <
+  T extends { id: number | string; name: string; code: string | null; color?: string | null },
+>(
   items: T[]
 ): Option[] =>
-  items.map(({ id, name, code }) => ({
-    label: code ? `[${code}] ${name}` : name,
+  items.map(({ id, name, code, color }) => ({
+    label: name,
     value: String(id),
+    code: code,
+    color: color as ProjectTone,
   }));
 
 export async function GET() {
@@ -30,6 +35,7 @@ export async function GET() {
           id: true,
           code: true,
           name: true,
+          color: true,
         },
         orderBy: { name: 'asc' },
       }),
@@ -44,6 +50,7 @@ export async function GET() {
             select: {
               code: true,
               name: true,
+              color: true,
             },
           },
         },
@@ -53,8 +60,10 @@ export async function GET() {
 
     const internalProject = toOptions(companyProjects);
     const customerProject = memberProjects.map((item) => ({
-      label: item.project.code ? `[${item.project.code}] ${item.project.name}` : item.project.name,
+      label: item.project.name,
       value: String(item.project_id),
+      code: item.project.code,
+      color: item.project.color as ProjectTone,
     }));
     const optionGroup: OptionGroup[] = [
       internalProject.length > 0 && {

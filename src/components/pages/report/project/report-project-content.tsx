@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { fetcher } from '@/lib/fetcher';
 import EmptyFolderIcon from '@/components/ui/icons/empty-folder';
 import { Label } from '@/components/ui/label';
-import { ComboboxForm } from '@/components/ui/custom/combobox';
+import { ComboboxFormProject } from '@/components/ui/custom/combobox';
 import { IOptionGroups } from '@/types/dropdown';
 import ReportProjectBarChart from './report-project-bar-chart';
 import { IReportProjectMember } from '@/types/report/project';
@@ -113,7 +113,7 @@ const ReportProjectContent = () => {
       <div className="flex md:flex-row flex-col gap-3 justify-between content-center items-end">
         <div className="w-full md:max-w-sm">
           <Label>โครงการ</Label>
-          <ComboboxForm
+          <ComboboxFormProject
             value={projectId}
             isGroup={true}
             placeholder={isLoading ? 'กำลังโหลดโครงการ...' : 'เลือกโครงการ'}

@@ -9,7 +9,7 @@ import AvatarDetail from '@/components/ui/custom/avatar/user-detail';
 import CardProjectInfo from '@/components/ui/custom/report/card-project-info';
 import TableListTimeSheet from '@/components/ui/custom/report/table-list-timesheet';
 import DonutChartTimeSheet from '@/components/ui/custom/report/donut-chart-timesheet';
-import { ComboboxForm } from '@/components/ui/custom/combobox';
+import { ComboboxFormProject } from '@/components/ui/custom/combobox';
 
 const DashboardContent = () => {
   const { data: session } = useSession();
@@ -57,7 +57,7 @@ const DashboardContent = () => {
       <DashboardBarChart userId={userInfo?.id || ''} />
       <div className="space-y-1 max-w-sm">
         <Label>โครงการ</Label>
-        <ComboboxForm
+        <ComboboxFormProject
           value={projectId}
           isGroup={true}
           placeholder={loading ? 'กำลังโหลดโครงการ...' : 'เลือกโครงการ'}
