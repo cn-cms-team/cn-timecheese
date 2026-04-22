@@ -29,6 +29,7 @@ export async function GET() {
         start_date: true,
         end_date: true,
         maintenance_end_date: true,
+        color: true,
         projectMembers: {
           select: {
             start_date: true,
@@ -49,7 +50,7 @@ export async function GET() {
     });
 
     const options = result.map((item) => ({
-      label: item.code ? `[${item.code}] ${item.name}` : item.name,
+      label: item.name,
       value: String(item.id),
       isCompanyProject: item.is_company_project,
       taskTypes: Object.entries(
@@ -64,6 +65,8 @@ export async function GET() {
       })),
       startDate: item.projectMembers[0]?.start_date || item.start_date,
       endDate: item.projectMembers[0]?.end_date || item.maintenance_end_date || item.end_date,
+      color: item.color,
+      code: item.code,
     }));
 
     const optionGroup = [
@@ -77,6 +80,8 @@ export async function GET() {
             taskTypes: option.taskTypes,
             startDate: option.startDate,
             endDate: option.endDate,
+            color: option.color,
+            code: option.code,
           })),
       },
       {
@@ -89,6 +94,8 @@ export async function GET() {
             taskTypes: option.taskTypes,
             startDate: option.startDate,
             endDate: option.endDate,
+            color: option.color,
+            code: option.code,
           })),
       },
     ];

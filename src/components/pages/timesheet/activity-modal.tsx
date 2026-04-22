@@ -16,7 +16,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
-import { ComboboxForm } from '@/components/ui/custom/combobox';
+import { ComboboxForm, ComboboxFormProject } from '@/components/ui/custom/combobox';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Form,
@@ -420,7 +420,10 @@ const AddActivityModal = ({
                   <span>{selectedDateLabel}</span>
                 </div>
 
-                <div className="flex flex-col gap-3 md:flex-row">
+                <div
+                  className="flex flex-col gap-3 md:flex-row"
+                  data-timesheet-tour="activity-work-options"
+                >
                   <FormField
                     control={form.control}
                     name="isWorkFromHome"
@@ -472,7 +475,7 @@ const AddActivityModal = ({
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-3" data-timesheet-tour="activity-time-range">
                 <FormField
                   control={form.control}
                   name="start_date"
@@ -510,7 +513,10 @@ const AddActivityModal = ({
                 />
               </div>
 
-              <div className="grid grid-cols-2 items-center gap-3">
+              <div
+                className="grid grid-cols-2 items-center gap-3"
+                data-timesheet-tour="activity-break-time"
+              >
                 <FormField
                   control={form.control}
                   name="is_include_breaking_time"
@@ -560,14 +566,14 @@ const AddActivityModal = ({
                 control={form.control}
                 name="project_id"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem data-timesheet-tour="activity-project-field">
                     <FormGroup>
                       <FormLabel>
                         โครงการ
                         <Required />
                       </FormLabel>
                       <FormControl>
-                        <ComboboxForm
+                        <ComboboxFormProject
                           disabled={isProjectOptionsLoading || isLoading}
                           field={field}
                           options={filteredProjectOptions}
@@ -594,7 +600,7 @@ const AddActivityModal = ({
                 control={form.control}
                 name="project_task_type_id"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem data-timesheet-tour="activity-task-type-field">
                     <FormGroup>
                       <FormLabel>
                         ประเภทงาน
@@ -627,7 +633,7 @@ const AddActivityModal = ({
                 control={form.control}
                 name="detail"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem data-timesheet-tour="activity-detail-field">
                     <FormGroup>
                       <FormLabel>
                         รายละเอียดการทำงาน
@@ -654,7 +660,7 @@ const AddActivityModal = ({
                 control={form.control}
                 name="feeling"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem data-timesheet-tour="activity-feeling-field">
                     <FormGroup>
                       <FormLabel>ความรู้สึกต่องาน</FormLabel>
                       <FormControl>
@@ -706,7 +712,7 @@ const AddActivityModal = ({
                 control={form.control}
                 name="remark"
                 render={({ field }) => (
-                  <FormItem className="space-y-1">
+                  <FormItem className="space-y-1" data-timesheet-tour="activity-remark-field">
                     <Collapsible open={isRemarkOpen} onOpenChange={setIsRemarkOpen}>
                       <FormGroup>
                         <CollapsibleTrigger asChild>
@@ -758,7 +764,7 @@ const AddActivityModal = ({
               >
                 ยกเลิก
               </Button>
-              <Button type="submit" disabled={isLoading}>
+              <Button data-timesheet-tour="activity-save-button" type="submit" disabled={isLoading}>
                 บันทึก ({formattedCalculatedHours} ชม)
               </Button>
             </DialogFooter>
