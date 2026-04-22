@@ -16,7 +16,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
-import { ComboboxForm } from '@/components/ui/custom/combobox';
+import { ComboboxForm, ComboboxFormProject } from '@/components/ui/custom/combobox';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Form,
@@ -567,7 +567,7 @@ const AddActivityModal = ({
                         <Required />
                       </FormLabel>
                       <FormControl>
-                        <ComboboxForm
+                        <ComboboxFormProject
                           disabled={isProjectOptionsLoading || isLoading}
                           field={field}
                           options={filteredProjectOptions}
