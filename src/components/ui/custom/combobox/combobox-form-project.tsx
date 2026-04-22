@@ -69,7 +69,7 @@ const renderOptionLabel = (option?: IOptions, showInactive = false) => {
       >
         {code}
       </span>
-      <span className="truncate text-foreground">: {option.label}</span>
+      <span className="truncate text-foreground"> {option.label}</span>
       {showInactive && option.is_active === false ? (
         <span className="shrink-0">(ไม่ใช้งาน)</span>
       ) : null}
