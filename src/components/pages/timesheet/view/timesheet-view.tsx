@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { CalendarDays, ChevronLeft, ChevronRight, Clock3, Plus, Timer } from 'lucide-react';
+import type { DriveStep, Driver } from 'driver.js';
 
 import { Button } from '@/components/ui/button';
 import DaySelector from '../day-selector';
@@ -26,6 +27,9 @@ import Link from 'next/link';
 const today = new Date();
 const DEFAULT_MONTH_DATE = new Date(today.getFullYear(), today.getMonth(), 1);
 const DEFAULT_SELECTED_DAY_ID = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+const TIMESHEET_TOUR_STORAGE_KEY = 'timesheet-tour-completed:v1';
+const TIMESHEET_TOUR_DESKTOP_MEDIA_QUERY = '(min-width: 1280px)';
+const TIMESHEET_TOUR_MODAL_FIRST_STEP_INDEX = 2;
 
 const TimeSheetViewContent = () => {
   const [currentMonth, setCurrentMonth] = useState(DEFAULT_MONTH_DATE);
@@ -47,8 +51,23 @@ const TimeSheetViewContent = () => {
     message: '',
     confirmType: ConfirmType.DELETE,
   });
+  const [hasCompletedTour, setHasCompletedTour] = useState(true);
+  const [isDesktopViewport, setIsDesktopViewport] = useState(false);
+  const [skipTourForSession, setSkipTourForSession] = useState(false);
   const [getConfirmation, Confirmation] = useDialogConfirm();
-  // const [timelineRefreshToken, setTimelineRefreshToken] = useState(0);
+  const driverRef = useRef<Driver | null>(null);
+  const hasCompletedTourRef = useRef(true);
+
+  const markTourAsCompleted = () => {
+    if (hasCompletedTourRef.current || typeof window === 'undefined') {
+      return;
+    }
+
+    hasCompletedTourRef.current = true;
+    setHasCompletedTour(true);
+    setSkipTourForSession(true);
+    window.localStorage.setItem(TIMESHEET_TOUR_STORAGE_KEY, 'true');
+  };
 
   const days = useMemo(
     () =>
@@ -71,6 +90,28 @@ const TimeSheetViewContent = () => {
       setSelectedDayId(days[0].id);
     }
   }, [days, selectedDayId]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const mediaQueryList = window.matchMedia(TIMESHEET_TOUR_DESKTOP_MEDIA_QUERY);
+    const syncViewport = () => {
+      setIsDesktopViewport(mediaQueryList.matches);
+    };
+
+    hasCompletedTourRef.current =
+      window.localStorage.getItem(TIMESHEET_TOUR_STORAGE_KEY) === 'true';
+    setHasCompletedTour(hasCompletedTourRef.current);
+    syncViewport();
+
+    mediaQueryList.addEventListener('change', syncViewport);
+
+    return () => {
+      mediaQueryList.removeEventListener('change', syncViewport);
+    };
+  }, []);
 
   useEffect(() => {
     let isActive = true;
@@ -113,6 +154,202 @@ const TimeSheetViewContent = () => {
       isActive = false;
     };
   }, [currentMonth]);
+
+  useEffect(() => {
+    if (isDesktopViewport) {
+      return;
+    }
+
+    if (driverRef.current?.isActive()) {
+      driverRef.current.destroy();
+      driverRef.current = null;
+    }
+  }, [isDesktopViewport]);
+
+  useEffect(() => {
+    if (hasCompletedTour || skipTourForSession || !isDesktopViewport || isAddActivityOpen) {
+      return;
+    }
+
+    if (driverRef.current) {
+      return;
+    }
+
+    let isCancelled = false;
+    const timeoutId = window.setTimeout(async () => {
+      const dateSelector = document.querySelector('[data-timesheet-tour="date-selector"]');
+      const addActivityButton = document.querySelector(
+        '[data-timesheet-tour="add-activity-button"]'
+      );
+
+      if (!dateSelector || !addActivityButton || isCancelled) {
+        return;
+      }
+
+      const { driver } = await import('driver.js');
+
+      if (isCancelled) {
+        return;
+      }
+
+      const steps: DriveStep[] = [
+        {
+          element: '[data-timesheet-tour="date-selector"]',
+          popover: {
+            title: 'เลือกวันที่',
+            description: 'เลือกวันที่จากแถบด้านซ้ายเพื่อดูชั่วโมงรวมและรายการกิจกรรมของวันนั้น',
+            side: 'right',
+            align: 'start',
+          },
+        },
+        {
+          element: '[data-timesheet-tour="add-activity-button"]',
+          popover: {
+            title: 'เพิ่มกิจกรรม',
+            description: 'กดปุ่มนี้เพื่อเปิดฟอร์มเพิ่มกิจกรรมของวันที่เลือกไว้',
+            side: 'bottom',
+            align: 'end',
+            onNextClick: (_element, _step, options) => {
+              setEditingItem(null);
+              setIsAddActivityOpen(true);
+
+              window.setTimeout(() => {
+                options.driver.moveNext();
+              }, 250);
+            },
+          },
+        },
+        {
+          element: '[data-timesheet-tour="activity-work-options"]',
+          popover: {
+            title: 'รูปแบบการทำงาน',
+            description:
+              'เลือกว่าทำงานที่บ้านหรือทั้งวัน เพื่อให้ฟอร์มตั้งค่าเวลาให้เหมาะกับกิจกรรมนี้',
+            side: 'bottom',
+            align: 'start',
+            onPrevClick: (_element, _step, options) => {
+              setIsAddActivityOpen(false);
+
+              window.setTimeout(() => {
+                options.driver.movePrevious();
+              }, 150);
+            },
+          },
+        },
+        {
+          element: '[data-timesheet-tour="activity-time-range"]',
+          popover: {
+            title: 'เวลาเริ่มต้น สิ้นสุด',
+            description:
+              'กำหนดช่วงเวลาที่ทำงานในวันนั้น ถ้าทำงานทั้งวันสามารถใช้ตัวเลือกทั้งวันได้',
+            side: 'bottom',
+            align: 'start',
+          },
+        },
+        {
+          element: '[data-timesheet-tour="activity-break-time"]',
+          popover: {
+            title: 'เวลาพัก',
+            description:
+              'ถ้ามีเวลาพัก ให้เปิดตัวเลือกนี้แล้วระบุช่วงเวลาพัก เพื่อให้ระบบหักออกจากชั่วโมงทำงานสุทธิ',
+            side: 'bottom',
+            align: 'start',
+          },
+        },
+        {
+          element: '[data-timesheet-tour="activity-project-field"]',
+          popover: {
+            title: 'เลือกโครงการ',
+            description: 'เลือกโครงการที่เกี่ยวข้องกับงานที่กำลังบันทึก',
+            side: 'right',
+            align: 'start',
+          },
+        },
+        {
+          element: '[data-timesheet-tour="activity-task-type-field"]',
+          popover: {
+            title: 'เลือกประเภทงาน',
+            description: 'หลังเลือกโครงการแล้ว ให้ระบุประเภทงานเพื่อแยกหมวดหมู่กิจกรรม',
+            side: 'right',
+            align: 'start',
+          },
+        },
+        {
+          element: '[data-timesheet-tour="activity-detail-field"]',
+          popover: {
+            title: 'กรอกรายละเอียดงาน',
+            description: 'สรุปสิ่งที่ทำให้ชัดเจน กระชับ และตรวจสอบย้อนหลังได้ง่าย',
+            side: 'top',
+            align: 'start',
+          },
+        },
+        {
+          element: '[data-timesheet-tour="activity-feeling-field"]',
+          popover: {
+            title: 'บันทึกความรู้สึกต่องาน',
+            description: 'เลือกความรู้สึกของงานชิ้นนี้เพื่อใช้ดูแนวโน้มในการทำงานภายหลัง',
+            side: 'top',
+            align: 'center',
+          },
+        },
+        {
+          element: '[data-timesheet-tour="activity-remark-field"]',
+          popover: {
+            title: 'ปัญหาและข้อเสนอแนะ',
+            description: 'ถ้ามีประเด็นหรือข้อเสนอแนะเพิ่มเติม สามารถกรอกในส่วนนี้ได้',
+            side: 'top',
+            align: 'start',
+          },
+        },
+        {
+          element: '[data-timesheet-tour="activity-save-button"]',
+          popover: {
+            title: 'บันทึกกิจกรรม',
+            description:
+              'เมื่อกรอกครบแล้วให้กดบันทึก ระบบจะจำว่าคุณดูคำแนะนำครบแล้วและจะไม่แสดงซ้ำอีก',
+            side: 'top',
+            align: 'center',
+            onNextClick: (_element, _step, options) => {
+              markTourAsCompleted();
+              options.driver.destroy();
+            },
+          },
+        },
+      ];
+
+      const driverInstance = driver({
+        allowClose: false,
+        allowKeyboardControl: true,
+        animate: true,
+        doneBtnText: 'เสร็จแล้ว',
+        nextBtnText: 'ถัดไป',
+        overlayOpacity: 0.72,
+        popoverClass: 'timesheet-tour-popover',
+        prevBtnText: 'ย้อนกลับ',
+        showButtons: ['previous', 'next'],
+        showProgress: true,
+        smoothScroll: true,
+        stagePadding: 12,
+        stageRadius: 16,
+        steps,
+        onDestroyed: () => {
+          driverRef.current = null;
+
+          if (!hasCompletedTourRef.current) {
+            setSkipTourForSession(true);
+          }
+        },
+      });
+
+      driverRef.current = driverInstance;
+      driverInstance.drive();
+    }, 400);
+
+    return () => {
+      isCancelled = true;
+      window.clearTimeout(timeoutId);
+    };
+  }, [hasCompletedTour, isAddActivityOpen, isDesktopViewport, skipTourForSession]);
 
   const monthLabel = useMemo(() => formatMonthLabel(currentMonth), [currentMonth]);
 
@@ -224,6 +461,17 @@ const TimeSheetViewContent = () => {
   };
 
   const handleActivityModalOpenChange = (open: boolean) => {
+    if (
+      !open &&
+      driverRef.current?.isActive() &&
+      !hasCompletedTourRef.current &&
+      (driverRef.current.getActiveIndex() ?? -1) >= TIMESHEET_TOUR_MODAL_FIRST_STEP_INDEX
+    ) {
+      setSkipTourForSession(true);
+      driverRef.current.destroy();
+      driverRef.current = null;
+    }
+
     setIsAddActivityOpen(open);
 
     if (!open) {
@@ -236,6 +484,15 @@ const TimeSheetViewContent = () => {
       ...prev,
       ...savedHourData,
     }));
+
+    if (!hasCompletedTourRef.current) {
+      markTourAsCompleted();
+
+      if (driverRef.current?.isActive()) {
+        driverRef.current.destroy();
+        driverRef.current = null;
+      }
+    }
 
     if (savedDayId !== selectedDayId) {
       const savedDate = parseDayId(savedDayId);
@@ -377,7 +634,10 @@ const TimeSheetViewContent = () => {
             </div>
           </div>
 
-          <div className="min-h-0 space-y-2 overflow-y-auto p-4">
+          <div
+            className="min-h-0 space-y-2 overflow-y-auto p-4"
+            data-timesheet-tour="date-selector"
+          >
             <DaySelector
               days={days}
               selectedDayId={selectedDayId}
@@ -410,6 +670,7 @@ const TimeSheetViewContent = () => {
                       </Button>
                     </Link>
                     <Button
+                      data-timesheet-tour="add-activity-button"
                       className="rounded-2xl bg-black px-5 py-6 text-base font-semibold text-white hover:bg-black/90"
                       onClick={handleAddActivityOpen}
                     >
