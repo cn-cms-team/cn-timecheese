@@ -26,7 +26,6 @@ const ApprovalContent = () => {
     summaries: [],
   });
   const [isProjectLoading, setIsProjectLoading] = useState(false);
-  const [isPendingLoading, setIsPendingLoading] = useState(false);
   const [approvingKey, setApprovingKey] = useState<string | null>(null);
 
   const loadProjectOptions = useCallback(async () => {
@@ -58,7 +57,6 @@ const ApprovalContent = () => {
     }
 
     try {
-      setIsPendingLoading(true);
       const result = await fetcher<IApprovalPendingResponse>(
         `/api/v1/report/project/${selectedProjectId}/pending-approvals`
       );
@@ -67,8 +65,6 @@ const ApprovalContent = () => {
       console.error('Error fetching pending approvals:', error);
       toast.error('Loading pending approvals failed');
       setPendingData({ members: [], summaries: [] });
-    } finally {
-      setIsPendingLoading(false);
     }
   }, []);
 
@@ -171,10 +167,6 @@ const ApprovalContent = () => {
         <div className="flex flex-col items-center w-full justify-center p-10 gap-5 border rounded-lg shadow-sm bg-white">
           <EmptyFolderIcon />
           <div className="text-xl font-semibold">กรุณาเลือกโครงการ</div>
-        </div>
-      ) : isPendingLoading ? (
-        <div className="flex items-center justify-center rounded-lg border bg-white p-10 text-muted-foreground">
-          กำลังโหลดข้อมูลรออนุมัติ...
         </div>
       ) : (
         <div className="flex flex-col md:flex-row gap-2">
