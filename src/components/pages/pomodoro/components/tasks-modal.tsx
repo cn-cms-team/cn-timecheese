@@ -84,7 +84,7 @@ const TasksModal = ({
           </p>
         </DialogHeader>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2" data-pomodoro-tour="tasks-input">
           <Input
             value={newTaskTitle}
             onChange={(event) => setNewTaskTitle(event.target.value)}
@@ -102,7 +102,7 @@ const TasksModal = ({
           </Button>
         </div>
 
-        <div className="max-h-90 space-y-2 overflow-auto pr-1">
+        <div className="max-h-90 space-y-2 overflow-auto pr-1" data-pomodoro-tour="tasks-list">
           {tasks.length === 0 && (
             <div className="rounded-lg border border-dashed p-6 text-center text-sm text-muted-foreground">
               No tasks yet. Add your first task to begin.

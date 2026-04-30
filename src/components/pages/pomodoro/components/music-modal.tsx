@@ -66,6 +66,7 @@ const MusicModal = ({
           {activeTrack && (
             <div
               className="space-y-3 rounded-2xl border border-border/60 bg-muted/20 p-3 shadow-sm"
+              data-pomodoro-tour="music-player"
               style={{
                 backgroundImage: "url('/img/general/pomodoro-bg.webp')",
                 backgroundSize: 'cover',
@@ -137,7 +138,10 @@ const MusicModal = ({
             </div>
           )}
 
-          <div className="max-h-72 space-y-1.5 overflow-y-auto pr-1 pb-2">
+          <div
+            className="max-h-72 space-y-1.5 overflow-y-auto pr-1 pb-2"
+            data-pomodoro-tour="music-playlist"
+          >
             {playlist.map((track) => {
               const isActive = track.id === activeTrackId;
 

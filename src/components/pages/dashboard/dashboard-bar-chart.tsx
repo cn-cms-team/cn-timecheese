@@ -10,6 +10,7 @@ import { formatTotalHours } from '@/lib/functions/timesheet-manage';
 import Dropdown from '@/components/ui/custom/input/dropdown';
 import ApexChart from '@/components/ui/custom/chart/apex-chart';
 import { Label } from '@/components/ui/label';
+import { colors } from '@/lib/constants/apex-chart';
 
 const DashboardBarChart = ({ userId }: { userId: string }) => {
   const prefix = process.env.NEXT_PUBLIC_APP_URL;
@@ -134,6 +135,7 @@ const DashboardBarChart = ({ userId }: { userId: string }) => {
         },
       },
     },
+    colors: colors,
   };
 
   return (

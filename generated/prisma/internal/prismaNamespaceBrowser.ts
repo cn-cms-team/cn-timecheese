@@ -70,7 +70,9 @@ export const ModelName = {
   TimeSheet: 'TimeSheet',
   TimeSheetSummary: 'TimeSheetSummary',
   Holiday: 'Holiday',
-  FeelingProjectReport: 'FeelingProjectReport'
+  FeelingProjectReport: 'FeelingProjectReport',
+  OkrObjective: 'OkrObjective',
+  OkrKeyResult: 'OkrKeyResult'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -364,6 +366,35 @@ export const FeelingProjectReportScalarFieldEnum = {
 } as const
 
 export type FeelingProjectReportScalarFieldEnum = (typeof FeelingProjectReportScalarFieldEnum)[keyof typeof FeelingProjectReportScalarFieldEnum]
+
+
+export const OkrObjectiveScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  owner_id: 'owner_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_enabled: 'is_enabled'
+} as const
+
+export type OkrObjectiveScalarFieldEnum = (typeof OkrObjectiveScalarFieldEnum)[keyof typeof OkrObjectiveScalarFieldEnum]
+
+
+export const OkrKeyResultScalarFieldEnum = {
+  id: 'id',
+  objective_id: 'objective_id',
+  title: 'title',
+  start_date: 'start_date',
+  end_date: 'end_date',
+  target: 'target',
+  progress: 'progress',
+  unit: 'unit',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_enabled: 'is_enabled'
+} as const
+
+export type OkrKeyResultScalarFieldEnum = (typeof OkrKeyResultScalarFieldEnum)[keyof typeof OkrKeyResultScalarFieldEnum]
 
 
 export const SortOrder = {

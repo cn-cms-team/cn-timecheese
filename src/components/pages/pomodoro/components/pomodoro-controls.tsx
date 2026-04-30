@@ -22,6 +22,7 @@ const PomodoroControls = ({
         variant="secondary"
         className="bg-white/15 text-white hover:bg-white/25"
         onClick={onOpenTasks}
+        data-pomodoro-tour="tasks-button"
       >
         <ListTodo />
         Tasks
@@ -29,6 +30,7 @@ const PomodoroControls = ({
       <Button
         className="h-48 w-48 rounded-2xl bg-primary p-0 text-slate-800 sm:h-28 sm:w-28"
         onClick={onToggleTimer}
+        data-pomodoro-tour="timer-button"
       >
         {isRunning ? (
           <RotateCcw className="h-12! w-12! sm:h-10! sm:w-10!" />
@@ -41,6 +43,7 @@ const PomodoroControls = ({
         variant="secondary"
         className="bg-white/15 text-white hover:bg-white/25"
         onClick={onOpenMusic}
+        data-pomodoro-tour="music-button"
       >
         <Music2 />
         Music

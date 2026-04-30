@@ -46,7 +46,7 @@ export async function GET() {
           orderBy: { name: 'asc' },
         },
       },
-      orderBy: { code: 'asc' },
+      orderBy: { name: 'asc' },
     });
 
     const options = result.map((item) => ({

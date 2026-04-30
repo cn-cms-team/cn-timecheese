@@ -55,6 +55,7 @@ model User {
   timeSheetsSummaryApproved TimeSheetSummary[]     @relation("TimeSheetSummaryApprovedBy")
   pushSubscriptions         PushSubscription[]
   feelingProjectReports     FeelingProjectReport[]
+  okrObjectives             OkrObjective[]
 
   @@map("users")
 }
@@ -401,4 +402,39 @@ model FeelingProjectReport {
 
   @@id([user_id, project_id, feeling])
   @@map("feeling_project_reports")
+}
+
+model OkrObjective {
+  id       String @id @default(uuid(7)) @db.Uuid
+  title    String @db.VarChar(255)
+  owner_id String @db.Uuid
+  owner    User   @relation(fields: [owner_id], references: [id])
+
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+
+  is_enabled Boolean @default(true)
+
+  keyResults OkrKeyResult[]
+
+  @@map("okr_objectives")
+}
+
+model OkrKeyResult {
+  id           String       @id @default(uuid(7)) @db.Uuid
+  objective_id String       @db.Uuid
+  objective    OkrObjective @relation(fields: [objective_id], references: [id])
+  title        String       @db.VarChar(255)
+  start_date   DateTime
+  end_date     DateTime
+  target       Float        @default(0)
+  progress     Float        @default(0)
+  unit         String?      @db.VarChar(50)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+
+  is_enabled Boolean @default(true)
+
+  @@map("okr_key_results")
 }

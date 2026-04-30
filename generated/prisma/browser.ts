@@ -117,3 +117,13 @@ export type Holiday = Prisma.HolidayModel
  * 
  */
 export type FeelingProjectReport = Prisma.FeelingProjectReportModel
+/**
+ * Model OkrObjective
+ * 
+ */
+export type OkrObjective = Prisma.OkrObjectiveModel
+/**
+ * Model OkrKeyResult
+ * 
+ */
+export type OkrKeyResult = Prisma.OkrKeyResultModel

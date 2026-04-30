@@ -95,7 +95,7 @@ export const getDayStatusBadge = (hours: number) => {
   if (status === 'under') {
     return {
       icon: AlertTriangle,
-      value: `${formatHourValue(hours)} Hrs`,
+      value: `${formatHourValue(hours)} ชม.`,
       className: 'bg-amber-100 text-amber-700',
       activeClassName: 'bg-amber-400/25 text-white',
       ariaLabel: `ลงเวลา ${hours} ชั่วโมง ยังไม่ครบ`,
@@ -105,16 +105,16 @@ export const getDayStatusBadge = (hours: number) => {
   if (status === 'exact') {
     return {
       icon: Check,
-      value: `${formatHourValue(hours)} Hrs`,
-      className: 'bg-emerald-100 text-emerald-700',
-      activeClassName: 'bg-emerald-400/25 text-white',
+      value: `${formatHourValue(hours)} ชม.`,
+      className: 'bg-teal-100 text-teal-700',
+      activeClassName: 'bg-teal-400/25 text-white',
       ariaLabel: 'ลงเวลาครบ 8 ชั่วโมง',
     };
   }
 
   return {
     icon: ArrowUp,
-    value: `${formatHourValue(hours)} Hrs`,
+    value: `${formatHourValue(hours)} ชม.`,
     className: 'bg-sky-100 text-sky-700',
     activeClassName: 'bg-sky-400/25 text-white',
     ariaLabel: `ลงเวลาเกิน 8 ชั่วโมง ${hours} ชั่วโมง`,

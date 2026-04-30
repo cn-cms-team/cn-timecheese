@@ -1,7 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Pause, Play, SkipBack, SkipForward, Volume2, VolumeX } from 'lucide-react';
+import { CircleHelp, Pause, Play, SkipBack, SkipForward, Volume2, VolumeX } from 'lucide-react';
+import type { DriveStep, Driver } from 'driver.js';
 
 import ModuleLayout from '@/components/layouts/ModuleLayout';
 import { Button } from '@/components/ui/button';
@@ -21,6 +22,7 @@ const INITIAL_COUNTERS: PomodoroCounters = {
 };
 
 const POMODOROS_PER_LONG_BREAK = 4;
+const POMODORO_TOUR_STORAGE_KEY = 'pomodoro-tour-completed:v1';
 
 const PomodoroView = () => {
   const [currentPeriod, setCurrentPeriod] = useState<PomodoroPeriod>('pomodoro');
@@ -36,11 +38,16 @@ const PomodoroView = () => {
   const [isMusicMuted, setIsMusicMuted] = useState(false);
   const [musicCurrentTime, setMusicCurrentTime] = useState(0);
   const [musicDuration, setMusicDuration] = useState(0);
+  const [isTourMiniPlayerVisible, setIsTourMiniPlayerVisible] = useState(false);
+  const [hasCompletedTour, setHasCompletedTour] = useState(true);
+  const [skipTourForSession, setSkipTourForSession] = useState(false);
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const musicAudioRef = useRef<HTMLAudioElement | null>(null);
   const lastVolumeRef = useRef(0.6);
+  const driverRef = useRef<Driver | null>(null);
+  const hasCompletedTourRef = useRef(true);
 
   const formattedTime = useMemo(() => formatSecondsToClock(secondsLeft), [secondsLeft]);
   const activeTrack = useMemo(
@@ -50,6 +57,17 @@ const PomodoroView = () => {
   const safeMusicDuration = Number.isFinite(musicDuration) ? musicDuration : 0;
   const safeMusicCurrentTime = Math.min(Math.max(musicCurrentTime, 0), safeMusicDuration || 0);
   const remainingMusicSeconds = Math.max(safeMusicDuration - safeMusicCurrentTime, 0);
+
+  const markTourAsCompleted = useCallback(() => {
+    if (hasCompletedTourRef.current || typeof window === 'undefined') {
+      return;
+    }
+
+    hasCompletedTourRef.current = true;
+    setHasCompletedTour(true);
+    setSkipTourForSession(true);
+    window.localStorage.setItem(POMODORO_TOUR_STORAGE_KEY, 'true');
+  }, []);
 
   const formatAudioTime = useCallback((seconds: number) => {
     const normalizedSeconds = Number.isFinite(seconds) ? Math.max(0, Math.floor(seconds)) : 0;
@@ -278,6 +296,280 @@ const PomodoroView = () => {
     setMusicCurrentTime(safeValue);
   }, []);
 
+  const startPomodoroTour = useCallback(
+    async (force = false) => {
+      if (typeof window === 'undefined' || driverRef.current) {
+        return;
+      }
+
+      const overview = document.querySelector('[data-pomodoro-tour="overview"]');
+      const periodSelector = document.querySelector('[data-pomodoro-tour="period-selector"]');
+      const timerDisplay = document.querySelector('[data-pomodoro-tour="timer-display"]');
+      const timerButton = document.querySelector('[data-pomodoro-tour="timer-button"]');
+      const tasksButton = document.querySelector('[data-pomodoro-tour="tasks-button"]');
+      const musicButton = document.querySelector('[data-pomodoro-tour="music-button"]');
+      const guideButton = document.querySelector('[data-pomodoro-tour="guide-button"]');
+
+      if (
+        !overview ||
+        !periodSelector ||
+        !timerDisplay ||
+        !timerButton ||
+        !tasksButton ||
+        !musicButton ||
+        !guideButton
+      ) {
+        return;
+      }
+
+      const { driver } = await import('driver.js');
+      const defaultTrackId = activeTrackId || LOFI_PLAYLIST[0]?.id || '';
+
+      const steps: DriveStep[] = [
+        {
+          element: '[data-pomodoro-tour="overview"]',
+          popover: {
+            title: 'Pomodoro คืออะไร',
+            description:
+              'Pomodoro คือเทคนิคแบ่งงานเป็นรอบสั้น เช่น 25 นาที แล้วพักสั้น ๆ เพื่อรักษาสมาธิ ลดความล้า และทำให้เห็นความคืบหน้าของงานชัดขึ้นในแต่ละรอบ',
+            side: 'bottom',
+            align: 'center',
+          },
+        },
+        {
+          element: '[data-pomodoro-tour="period-selector"]',
+          popover: {
+            title: 'รอบการทำงานและตัวนับ',
+            description:
+              'แถวนี้ใช้สลับระหว่างช่วงทำงาน พักสั้น และพักยาว พร้อมนับจำนวนรอบที่ทำสำเร็จแล้ว เพื่อให้คุณวางจังหวะการทำงานได้เป็นระบบ',
+            side: 'bottom',
+            align: 'center',
+          },
+        },
+        {
+          element: '[data-pomodoro-tour="timer-display"]',
+          popover: {
+            title: 'ตัวจับเวลาหลัก',
+            description:
+              'เวลาตรงกลางคือเวลาคงเหลือของรอบปัจจุบัน ระหว่างที่กำลังนับ หน้าเว็บจะเปลี่ยน title ของแท็บตามเวลาเพื่อให้มองเห็นได้แม้สลับไปทำงานอย่างอื่น',
+            side: 'bottom',
+            align: 'center',
+          },
+        },
+        {
+          element: '[data-pomodoro-tour="timer-button"]',
+          popover: {
+            title: 'เริ่มหรือรีเซ็ตรอบ',
+            description:
+              'ปุ่มใหญ่ตรงกลางใช้เริ่มจับเวลา เมื่อรอบกำลังทำงานอยู่ ปุ่มนี้จะกลายเป็นการรีเซ็ตกลับไปยังค่าเริ่มต้นของช่วงนั้นทันที',
+            side: 'top',
+            align: 'center',
+          },
+        },
+        {
+          element: '[data-pomodoro-tour="tasks-button"]',
+          popover: {
+            title: 'จัดการงานที่จะโฟกัส',
+            description:
+              'ปุ่ม Tasks ใช้เปิดรายการงานที่อยากโฟกัสในรอบนี้ การกำหนดงานให้ชัดจะช่วยให้แต่ละ pomodoro มีเป้าหมายที่วัดผลได้',
+            side: 'top',
+            align: 'center',
+            onNextClick: (_element, _step, options) => {
+              setIsTasksModalOpen(true);
+
+              window.setTimeout(() => {
+                options.driver.moveNext();
+              }, 250);
+            },
+          },
+        },
+        {
+          element: '[data-pomodoro-tour="tasks-input"]',
+          popover: {
+            title: 'เพิ่มงานใหม่',
+            description:
+              'พิมพ์ชื่องานแล้วกด Add หรือ Enter เพื่อเพิ่มรายการใหม่ แนะนำให้แตกงานให้เล็กพอที่จะทำจบได้ใน 1 ถึง 2 รอบ',
+            side: 'bottom',
+            align: 'center',
+            onPrevClick: (_element, _step, options) => {
+              setIsTasksModalOpen(false);
+
+              window.setTimeout(() => {
+                options.driver.movePrevious();
+              }, 150);
+            },
+          },
+        },
+        {
+          element: '[data-pomodoro-tour="tasks-list"]',
+          popover: {
+            title: 'เช็กเสร็จ แก้ไข และลบงาน',
+            description:
+              'ในรายการนี้คุณสามารถติ๊กงานที่เสร็จ แก้ชื่อ หรือเอางานที่ไม่จำเป็นออกได้ เพื่อให้รายการสะอาดและสะท้อนสิ่งที่กำลังทำจริง',
+            side: 'top',
+            align: 'center',
+            onNextClick: (_element, _step, options) => {
+              setIsTasksModalOpen(false);
+
+              window.setTimeout(() => {
+                options.driver.moveNext();
+              }, 150);
+            },
+          },
+        },
+        {
+          element: '[data-pomodoro-tour="music-button"]',
+          popover: {
+            title: 'เปิดเพลงช่วยโฟกัส',
+            description:
+              'ปุ่ม Music จะเปิดคลังเพลง lofi สำหรับสร้างบรรยากาศที่นิ่งและต่อเนื่องระหว่างทำงาน',
+            side: 'top',
+            align: 'center',
+            onPrevClick: (_element, _step, options) => {
+              setIsTasksModalOpen(true);
+
+              window.setTimeout(() => {
+                options.driver.movePrevious();
+              }, 250);
+            },
+            onNextClick: (_element, _step, options) => {
+              setIsMusicModalOpen(true);
+
+              window.setTimeout(() => {
+                options.driver.moveNext();
+              }, 250);
+            },
+          },
+        },
+        {
+          element: '[data-pomodoro-tour="music-player"]',
+          popover: {
+            title: 'ตัวเล่นเพลงหลัก',
+            description:
+              'ส่วนบนของ modal ใช้เล่นหรือหยุดเพลง ปรับตำแหน่งเวลา และปรับระดับเสียงหรือ mute ได้ทันที',
+            side: 'left',
+            align: 'start',
+            onPrevClick: (_element, _step, options) => {
+              setIsMusicModalOpen(false);
+
+              window.setTimeout(() => {
+                options.driver.movePrevious();
+              }, 150);
+            },
+          },
+        },
+        {
+          element: '[data-pomodoro-tour="music-playlist"]',
+          popover: {
+            title: 'เลือกเพลงจากเพลย์ลิสต์',
+            description:
+              'ด้านล่างคือรายการเพลงทั้งหมด เลือกเพลงที่ต้องการแล้วกดเล่นได้ทันที ระบบจะจำ track ที่กำลัง active ไว้ให้',
+            side: 'left',
+            align: 'start',
+            onNextClick: (_element, _step, options) => {
+              if (defaultTrackId) {
+                handlePlayTrack(defaultTrackId);
+              }
+
+              setIsTourMiniPlayerVisible(true);
+              setIsMusicModalOpen(false);
+
+              window.setTimeout(() => {
+                options.driver.moveNext();
+              }, 200);
+            },
+          },
+        },
+        {
+          element: '[data-pomodoro-tour="mini-player"]',
+          popover: {
+            title: 'มินิเพลเยอร์มุมจอ',
+            description:
+              'เมื่อเพลงกำลังเล่น จะมีมินิเพลเยอร์ลอยขึ้นมาให้ควบคุม mute ย้อนเพลง ข้ามเพลง ปรับตำแหน่ง และดูเวลาที่เหลือได้โดยไม่ต้องเปิด modal อีกครั้ง',
+            side: 'left',
+            align: 'end',
+          },
+        },
+        {
+          element: '[data-pomodoro-tour="guide-button"]',
+          popover: {
+            title: 'ดูคำแนะนำอีกครั้ง',
+            description:
+              'หากต้องการทบทวนวิธีใช้งานทั้งหมด ให้กดปุ่ม Guide ด้านบนได้ทุกเมื่อ เมื่อจบทัวร์ครั้งนี้ ระบบจะจำว่าคุณดูครบแล้วและจะไม่เด้งอัตโนมัติซ้ำ',
+            side: 'bottom',
+            align: 'end',
+            onNextClick: (_element, _step, options) => {
+              markTourAsCompleted();
+              options.driver.destroy();
+            },
+          },
+        },
+      ];
+
+      const driverInstance = driver({
+        allowClose: false,
+        allowKeyboardControl: true,
+        animate: true,
+        doneBtnText: 'เสร็จแล้ว',
+        nextBtnText: 'ถัดไป',
+        overlayOpacity: 0.72,
+        popoverClass: 'timesheet-tour-popover',
+        prevBtnText: 'ย้อนกลับ',
+        showButtons: ['previous', 'next'],
+        showProgress: true,
+        smoothScroll: true,
+        stagePadding: 12,
+        stageRadius: 16,
+        steps,
+        onDestroyed: () => {
+          driverRef.current = null;
+          setIsTourMiniPlayerVisible(false);
+
+          if (!hasCompletedTourRef.current && !force) {
+            setSkipTourForSession(true);
+          }
+        },
+      });
+
+      if (force) {
+        setSkipTourForSession(true);
+      }
+
+      driverRef.current = driverInstance;
+      driverInstance.drive();
+    },
+    [activeTrackId, handlePlayTrack, markTourAsCompleted]
+  );
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    hasCompletedTourRef.current = window.localStorage.getItem(POMODORO_TOUR_STORAGE_KEY) === 'true';
+    setHasCompletedTour(hasCompletedTourRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (hasCompletedTour || skipTourForSession || isTasksModalOpen || isMusicModalOpen) {
+      return;
+    }
+
+    let isCancelled = false;
+    const timeoutId = window.setTimeout(() => {
+      if (isCancelled) {
+        return;
+      }
+
+      void startPomodoroTour();
+    }, 400);
+
+    return () => {
+      isCancelled = true;
+      window.clearTimeout(timeoutId);
+    };
+  }, [hasCompletedTour, isMusicModalOpen, isTasksModalOpen, skipTourForSession, startPomodoroTour]);
+
   useEffect(() => {
     if (!isRunning) {
       clearTimer();
@@ -367,6 +659,9 @@ const PomodoroView = () => {
     return () => {
       clearTimer();
       document.title = DEFAULT_POMODORO_TITLE;
+      if (driverRef.current?.isActive()) {
+        driverRef.current.destroy();
+      }
       if (audioContextRef.current) {
         void audioContextRef.current.close();
       }
@@ -377,10 +672,30 @@ const PomodoroView = () => {
     <>
       <ModuleLayout
         headerTitle="Pomodoro"
+        headerButton={
+          <Button
+            variant="secondary"
+            className="gap-2"
+            data-pomodoro-tour="guide-button"
+            onClick={() => {
+              if (driverRef.current?.isActive()) {
+                return;
+              }
+
+              setIsTasksModalOpen(false);
+              setIsMusicModalOpen(false);
+              void startPomodoroTour(true);
+            }}
+          >
+            <CircleHelp />
+            Guide
+          </Button>
+        }
         content={
           <section
             className="relative overflow-hidden rounded-xl p-4 sm:p-6 md:p-8 lg:p-10"
             style={{ minHeight: 'calc(100dvh - 9.5rem)' }}
+            data-pomodoro-tour="overview"
           >
             <div
               className="absolute inset-0"
@@ -401,7 +716,10 @@ const PomodoroView = () => {
                 disabled={isRunning}
               />
 
-              <p className="font-black tracking-tight text-white text-7xl sm:text-8xl md:text-9xl lg:text-[13rem]">
+              <p
+                className="font-black tracking-tight text-white text-7xl sm:text-8xl md:text-9xl lg:text-[13rem]"
+                data-pomodoro-tour="timer-display"
+              >
                 {formattedTime}
               </p>
 
@@ -463,8 +781,11 @@ const PomodoroView = () => {
         />
       )}
 
-      {isMusicPlaying && activeTrack && (
-        <div className="fixed right-4 bottom-4 z-50 w-[calc(100%-2rem)] max-w-sm rounded-2xl border border-white/20 bg-black/75 p-4 text-white shadow-2xl backdrop-blur-md">
+      {(isMusicPlaying || isTourMiniPlayerVisible) && activeTrack && (
+        <div
+          className="fixed right-4 bottom-4 z-50 w-[calc(100%-2rem)] max-w-sm rounded-2xl border border-white/20 bg-black/75 p-4 text-white shadow-2xl backdrop-blur-md"
+          data-pomodoro-tour="mini-player"
+        >
           <p className="truncate text-sm font-semibold">{activeTrack.title}</p>
           <p className="truncate text-xs text-white/75">{activeTrack.artist}</p>
 

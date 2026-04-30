@@ -22,6 +22,7 @@ import { fetcher } from '@/lib/fetcher';
 import { handleDeleteTimeSheet } from '../actions';
 import { toast } from 'sonner';
 import useDialogConfirm, { ConfirmType } from '@/hooks/use-dialog-confirm';
+import Image from 'next/image';
 import Link from 'next/link';
 
 const today = new Date();
@@ -482,6 +483,7 @@ const TimeSheetViewContent = () => {
   const handleActivitySaved = (savedHourData: Record<string, number>, savedDayId: string) => {
     setHourByDate((prev) => ({
       ...prev,
+      [savedDayId]: savedHourData[savedDayId] ?? 0,
       ...savedHourData,
     }));
 
@@ -647,7 +649,7 @@ const TimeSheetViewContent = () => {
           </div>
         </aside>
 
-        <section className="flex min-h-0 min-w-0 flex-1 flex-col">
+        <section className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
           <div className="border-b border-slate-200 px-4 py-4 sm:px-6 sm:py-6">
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -700,10 +702,22 @@ const TimeSheetViewContent = () => {
             </div>
           </div>
 
+          <div className="pointer-events-none absolute right-2 bottom-2 z-0 opacity-20 sm:right-4 sm:bottom-4 sm:opacity-25 xl:right-6 xl:bottom-6">
+            <Image
+              src="/img/timesheet/bg-timesheet-hamster.webp"
+              alt=""
+              aria-hidden="true"
+              width={320}
+              height={320}
+              priority={false}
+              className="h-auto w-36 select-none sm:w-44 md:w-56 xl:w-64 2xl:w-72"
+            />
+          </div>
+
           <div className="relative min-h-0 flex-1 overflow-y-auto px-3 py-4 sm:px-6 sm:py-6">
             <div className="absolute top-0 bottom-0 left-18.75 w-px bg-slate-200 sm:left-24" />
 
-            <div className="space-y-4 pb-6">
+            <div className="relative z-10 space-y-4 pb-36 sm:pb-44 xl:pb-56">
               <TimelineList
                 timelineItems={timelineItems}
                 isLoading={isTimelineLoading}

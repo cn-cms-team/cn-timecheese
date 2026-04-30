@@ -18,7 +18,10 @@ const PomodoroCounterRow = ({
   disabled = false,
 }: PomodoroCounterRowProps) => {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+    <div
+      className="flex flex-wrap items-center justify-center gap-2 sm:gap-3"
+      data-pomodoro-tour="period-selector"
+    >
       {PERIOD_ORDER.map((period) => (
         <button
           type="button"

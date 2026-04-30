@@ -170,6 +170,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
           exclude_seconds: true,
           is_approved: true,
           feeling: true,
+          project_id: true,
         },
       });
 
@@ -244,42 +245,71 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
       const currentTotalSecond = totalSeconds;
       const oldTotalSecond = ts.total_seconds;
 
-      switch (true) {
-        case oldTotalSecond > currentTotalSecond:
-          isIncrement = false;
-          break;
-        case oldTotalSecond < currentTotalSecond:
-          isIncrement = true;
-          break;
-        default:
-          isIncrement = null;
-          break;
-      }
+      if (ts.project_id === validatedData.project_id) {
+        switch (true) {
+          case oldTotalSecond > currentTotalSecond:
+            isIncrement = false;
+            break;
+          case oldTotalSecond < currentTotalSecond:
+            isIncrement = true;
+            break;
+          default:
+            isIncrement = null;
+            break;
+        }
 
-      const diffSeconds = Math.abs(currentTotalSecond - oldTotalSecond);
-
-      await prisma.timeSheetSummary.upsert({
-        where: {
-          user_id_project_id_sum_date: {
+        const diffSeconds = Math.abs(currentTotalSecond - oldTotalSecond);
+        await prisma.timeSheetSummary.update({
+          where: {
+            user_id_project_id_sum_date: {
+              user_id: session.user.id,
+              project_id: validatedData.project_id,
+              sum_date: stampDate,
+            },
+          },
+          data: {
+            ...(diffSeconds !== 0 && {
+              total_seconds: isIncrement ? { increment: diffSeconds } : { decrement: diffSeconds },
+            }),
+            stamp_at: new Date(),
+          },
+        });
+      } else {
+        // If project is changed, decrement old project and increment new project
+        await prisma.timeSheetSummary.update({
+          where: {
+            user_id_project_id_sum_date: {
+              user_id: session.user.id,
+              project_id: ts.project_id,
+              sum_date: stampDate,
+            },
+          },
+          data: {
+            total_seconds: { decrement: ts.total_seconds },
+            stamp_at: new Date(),
+          },
+        });
+        await prisma.timeSheetSummary.upsert({
+          where: {
+            user_id_project_id_sum_date: {
+              user_id: session.user.id,
+              project_id: validatedData.project_id,
+              sum_date: stampDate,
+            },
+          },
+          create: {
             user_id: session.user.id,
             project_id: validatedData.project_id,
             sum_date: stampDate,
+            total_seconds: currentTotalSecond,
+            stamp_at: new Date(),
           },
-        },
-        create: {
-          user_id: session.user.id,
-          project_id: validatedData.project_id,
-          sum_date: stampDate,
-          total_seconds: currentTotalSecond,
-          stamp_at: new Date(),
-        },
-        update: {
-          ...(diffSeconds !== 0 && {
-            total_seconds: isIncrement ? { increment: diffSeconds } : { decrement: diffSeconds },
-          }),
-          stamp_at: new Date(),
-        },
-      });
+          update: {
+            total_seconds: { increment: currentTotalSecond },
+            stamp_at: new Date(),
+          },
+        });
+      }
 
       // if feeling is changed, upsert FeelingProjectReport
       if (ts.feeling !== feeling) {
@@ -287,7 +317,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
           where: {
             user_id_project_id_feeling: {
               user_id: session.user.id,
-              project_id: validatedData.project_id,
+              project_id: ts.project_id,
               feeling: ts.feeling,
             },
           },
@@ -319,7 +349,7 @@ export async function handleEditTimeSheet(id: string, formData: TimeSheetCreateE
         });
       }
 
-      const hourData = getHourData(session.user.id, stampDate);
+      const hourData = await getHourData(session.user.id, stampDate);
       return { id: ts.id, hourData };
     },
     successMessage: 'Updated successfully',
@@ -391,7 +421,7 @@ export async function handleDeleteTimeSheet(id: string) {
         },
       });
 
-      const hourData = getHourData(session.user.id, ts.stamp_date);
+      const hourData = await getHourData(session.user.id, ts.stamp_date);
       return { id: ts.id, hourData };
     },
     successMessage: 'Deleted successfully',

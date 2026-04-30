@@ -403,7 +403,9 @@ export const ModelName = {
   TimeSheet: 'TimeSheet',
   TimeSheetSummary: 'TimeSheetSummary',
   Holiday: 'Holiday',
-  FeelingProjectReport: 'FeelingProjectReport'
+  FeelingProjectReport: 'FeelingProjectReport',
+  OkrObjective: 'OkrObjective',
+  OkrKeyResult: 'OkrKeyResult'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -419,7 +421,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "pushSubscription" | "role" | "rolePermission" | "permission" | "module" | "modulePermission" | "team" | "teamLeader" | "position" | "positionLevel" | "taskType" | "project" | "projectMember" | "projectTaskType" | "projectReportMember" | "timeSheet" | "timeSheetSummary" | "holiday" | "feelingProjectReport"
+    modelProps: "user" | "pushSubscription" | "role" | "rolePermission" | "permission" | "module" | "modulePermission" | "team" | "teamLeader" | "position" | "positionLevel" | "taskType" | "project" | "projectMember" | "projectTaskType" | "projectReportMember" | "timeSheet" | "timeSheetSummary" | "holiday" | "feelingProjectReport" | "okrObjective" | "okrKeyResult"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1903,6 +1905,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    OkrObjective: {
+      payload: Prisma.$OkrObjectivePayload<ExtArgs>
+      fields: Prisma.OkrObjectiveFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OkrObjectiveFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrObjectivePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OkrObjectiveFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrObjectivePayload>
+        }
+        findFirst: {
+          args: Prisma.OkrObjectiveFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrObjectivePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OkrObjectiveFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrObjectivePayload>
+        }
+        findMany: {
+          args: Prisma.OkrObjectiveFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrObjectivePayload>[]
+        }
+        create: {
+          args: Prisma.OkrObjectiveCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrObjectivePayload>
+        }
+        createMany: {
+          args: Prisma.OkrObjectiveCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OkrObjectiveCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrObjectivePayload>[]
+        }
+        delete: {
+          args: Prisma.OkrObjectiveDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrObjectivePayload>
+        }
+        update: {
+          args: Prisma.OkrObjectiveUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrObjectivePayload>
+        }
+        deleteMany: {
+          args: Prisma.OkrObjectiveDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OkrObjectiveUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OkrObjectiveUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrObjectivePayload>[]
+        }
+        upsert: {
+          args: Prisma.OkrObjectiveUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrObjectivePayload>
+        }
+        aggregate: {
+          args: Prisma.OkrObjectiveAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOkrObjective>
+        }
+        groupBy: {
+          args: Prisma.OkrObjectiveGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OkrObjectiveGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OkrObjectiveCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OkrObjectiveCountAggregateOutputType> | number
+        }
+      }
+    }
+    OkrKeyResult: {
+      payload: Prisma.$OkrKeyResultPayload<ExtArgs>
+      fields: Prisma.OkrKeyResultFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OkrKeyResultFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrKeyResultPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OkrKeyResultFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrKeyResultPayload>
+        }
+        findFirst: {
+          args: Prisma.OkrKeyResultFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrKeyResultPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OkrKeyResultFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrKeyResultPayload>
+        }
+        findMany: {
+          args: Prisma.OkrKeyResultFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrKeyResultPayload>[]
+        }
+        create: {
+          args: Prisma.OkrKeyResultCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrKeyResultPayload>
+        }
+        createMany: {
+          args: Prisma.OkrKeyResultCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OkrKeyResultCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrKeyResultPayload>[]
+        }
+        delete: {
+          args: Prisma.OkrKeyResultDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrKeyResultPayload>
+        }
+        update: {
+          args: Prisma.OkrKeyResultUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrKeyResultPayload>
+        }
+        deleteMany: {
+          args: Prisma.OkrKeyResultDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OkrKeyResultUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OkrKeyResultUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrKeyResultPayload>[]
+        }
+        upsert: {
+          args: Prisma.OkrKeyResultUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OkrKeyResultPayload>
+        }
+        aggregate: {
+          args: Prisma.OkrKeyResultAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOkrKeyResult>
+        }
+        groupBy: {
+          args: Prisma.OkrKeyResultGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OkrKeyResultGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OkrKeyResultCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OkrKeyResultCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2219,6 +2369,35 @@ export const FeelingProjectReportScalarFieldEnum = {
 export type FeelingProjectReportScalarFieldEnum = (typeof FeelingProjectReportScalarFieldEnum)[keyof typeof FeelingProjectReportScalarFieldEnum]
 
 
+export const OkrObjectiveScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  owner_id: 'owner_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_enabled: 'is_enabled'
+} as const
+
+export type OkrObjectiveScalarFieldEnum = (typeof OkrObjectiveScalarFieldEnum)[keyof typeof OkrObjectiveScalarFieldEnum]
+
+
+export const OkrKeyResultScalarFieldEnum = {
+  id: 'id',
+  objective_id: 'objective_id',
+  title: 'title',
+  start_date: 'start_date',
+  end_date: 'end_date',
+  target: 'target',
+  progress: 'progress',
+  unit: 'unit',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  is_enabled: 'is_enabled'
+} as const
+
+export type OkrKeyResultScalarFieldEnum = (typeof OkrKeyResultScalarFieldEnum)[keyof typeof OkrKeyResultScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2482,6 +2661,8 @@ export type GlobalOmitConfig = {
   timeSheetSummary?: Prisma.TimeSheetSummaryOmit
   holiday?: Prisma.HolidayOmit
   feelingProjectReport?: Prisma.FeelingProjectReportOmit
+  okrObjective?: Prisma.OkrObjectiveOmit
+  okrKeyResult?: Prisma.OkrKeyResultOmit
 }
 
 /* Types for Logging */

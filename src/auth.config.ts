@@ -10,6 +10,10 @@ export const authConfig: NextAuthConfig = {
       const isLoggedIn = !!auth?.user;
       const { href, pathname } = nextUrl;
 
+      if (pathname.startsWith('/api/health')) {
+        return true;
+      }
+
       // Allow cron callback endpoint to run without browser session.
       if (pathname.startsWith('/api/v1/notifications/timesheet-reminder')) {
         return true;

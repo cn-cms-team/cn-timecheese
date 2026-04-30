@@ -77,7 +77,7 @@ const DaySelector = ({ days, selectedDayId, onSelectDay, isLoading = false }: Da
                   : isHoliday
                     ? 'bg-amber-50 text-amber-800 ring-1 ring-amber-200 hover:bg-amber-100'
                     : isWeekend
-                      ? 'bg-rose-50/70 text-rose-700 hover:bg-rose-100'
+                      ? 'bg-pink-50/70 text-rose-700 hover:bg-pink-100'
                       : 'bg-white text-slate-700 hover:bg-slate-100'
             )}
             onClick={() => onSelectDay(day.id)}
