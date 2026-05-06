@@ -4,6 +4,7 @@ export interface FetcherOptions<T = unknown> {
   method?: HttpMethod;
   body?: T;
   headers?: Record<string, string>;
+  mockLoadingTime?: number;
 }
 
 export interface ApiResponse<T = unknown> {
@@ -22,7 +23,7 @@ export async function fetcher<TResponse, TBody = unknown>(
   url: string,
   options: FetcherOptions<TBody> = {}
 ): Promise<TResponse> {
-  const { method = 'GET', body, headers = {} } = options;
+  const { method = 'GET', body, headers = {}, mockLoadingTime = 0 } = options;
 
   const config: RequestInit = {
     method,
@@ -34,6 +35,10 @@ export async function fetcher<TResponse, TBody = unknown>(
 
   if (body) {
     config.body = JSON.stringify(body);
+  }
+
+  if (mockLoadingTime > 0) {
+    await new Promise((resolve) => setTimeout(resolve, mockLoadingTime));
   }
 
   const response = await fetch(url, config);

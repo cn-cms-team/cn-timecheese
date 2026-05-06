@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowDown, ArrowUp, Plus, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Resolver, useFieldArray, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -25,6 +25,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MAX_LENGTH_255, MAX_LENGTH_50 } from '@/lib/constants/validation';
 import { IOkrObjectiveDetail } from '@/types/okr';
 
+import OkrFormSkeleton from './okr-form-skeleton';
+
 const createDefaultKeyResult = (): OkrObjectiveSchemaType['keyResults'][number] => ({
   title: '',
   start_date: new Date(),
@@ -37,6 +39,7 @@ const createDefaultKeyResult = (): OkrObjectiveSchemaType['keyResults'][number] 
 const OkrForm = ({ id }: { id?: string }) => {
   const router = useRouter();
   const { setIsLoading } = useLoading();
+  const [isInitialLoading, setIsInitialLoading] = useState(Boolean(id));
 
   const form = useForm<OkrObjectiveSchemaType>({
     resolver: zodResolver(okrObjectiveSchema) as Resolver<OkrObjectiveSchemaType>,
@@ -56,10 +59,12 @@ const OkrForm = ({ id }: { id?: string }) => {
   useEffect(() => {
     const fetchObjective = async () => {
       if (!id) {
+        setIsInitialLoading(false);
         return;
       }
 
       try {
+        setIsInitialLoading(true);
         setIsLoading(true);
         const response = await fetch(`/api/v1/okrs/${id}`, { method: 'GET' });
         const result = await response.json();
@@ -93,6 +98,7 @@ const OkrForm = ({ id }: { id?: string }) => {
         toast.error('เกิดข้อผิดพลาดที่ไม่คาดคิด กรุณาลองใหม่อีกครั้ง');
         router.push('/okrs');
       } finally {
+        setIsInitialLoading(false);
         setIsLoading(false);
       }
     };
@@ -128,6 +134,10 @@ const OkrForm = ({ id }: { id?: string }) => {
       setIsLoading(false);
     }
   };
+
+  if (isInitialLoading) {
+    return <OkrFormSkeleton />;
+  }
 
   return (
     <Form {...form}>

@@ -16,6 +16,8 @@ import { buddhistFormatDate } from '@/lib/functions/date-format';
 import { fetcher } from '@/lib/fetcher';
 import { IOkrObjectiveListItem } from '@/types/okr';
 
+import OKRsViewSkeleton from '../okrs-view-skeleton';
+
 const OKRsView = () => {
   const { setIsLoading } = useLoading();
   const [confirmState, setConfirmState] = useState<{
@@ -85,7 +87,9 @@ const OKRsView = () => {
           </Button>
         }
         content={
-          data && data.length > 0 ? (
+          isLoading ? (
+            <OKRsViewSkeleton />
+          ) : data && data.length > 0 ? (
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
               {data.map((item) => (
                 <Card key={item.id} className="gap-4 py-4">
