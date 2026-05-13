@@ -353,6 +353,7 @@ const TimeSheetViewContent = () => {
   }, [hasCompletedTour, isAddActivityOpen, isDesktopViewport, skipTourForSession]);
 
   const monthLabel = useMemo(() => formatMonthLabel(currentMonth), [currentMonth]);
+  const backgroundImageSrc = `/img/timesheet/bg-timesheet-hamster-${currentMonth.getMonth() + 1}.webp`;
 
   const setCurrentMonthIfDifferent = (date: Date) => {
     setCurrentMonth((prev) => {
@@ -704,7 +705,7 @@ const TimeSheetViewContent = () => {
 
           <div className="pointer-events-none absolute right-2 bottom-2 z-0 opacity-20 sm:right-4 sm:bottom-4 sm:opacity-25 xl:right-6 xl:bottom-6">
             <Image
-              src="/img/timesheet/bg-timesheet-hamster.webp"
+              src={backgroundImageSrc}
               alt=""
               aria-hidden="true"
               width={320}
